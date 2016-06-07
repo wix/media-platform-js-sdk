@@ -2,6 +2,10 @@
 logs
 *.log
 npm-debug.log*
+*.iml
+.idea
+dist
+jsdoc
 
 # Runtime data
 pids
