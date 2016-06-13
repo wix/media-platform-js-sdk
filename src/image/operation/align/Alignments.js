@@ -1,9 +1,8 @@
 /**
- * Created by elad on 07/06/2016.
+ * Created by elad on 13/06/2016.
  */
-var util = require('util');
 
-var BaseOperation = require('./BaseOperation');
+
 
 /**
  * @summary Alignments for use with image manipulations
@@ -59,30 +58,4 @@ var Alignments = {
     ALL_FACES: "fs"
 };
 
-function AlignedBaseOperation(name, transformations) {
-    BaseOperation.call(this, name, transformations);
-}
-util.inherits(AlignedBaseOperation, BaseOperation);
-
-/**
- * @summary Sets the alignment value for this operation
- * @param {Alignments} a the alignment value
- * @returns {AlignedBaseOperation} the operation
- */
-AlignedBaseOperation.prototype.alignment = function (a) {
-    this.transformations.al = a;
-    return this;
-};
-
-/**
- * @summary An alias for `alignment`
- * @name al
- * @function
- * @returns {AlignedBaseOperation} the operation
- */
-AlignedBaseOperation.prototype.al = AlignedBaseOperation.prototype.alignment;
-
-/**
- * @type {AlignedBaseOperation}
- */
-module.exports = AlignedBaseOperation;
+module.exports = Alignments;

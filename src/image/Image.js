@@ -1,14 +1,14 @@
-var parser = require('./parser');
 var Canvas = require('./operation/Canvas');
 var Crop = require('./operation/Crop');
 var Fill = require('./operation/Fill');
 var Fit = require('./operation/Fit');
+var imageUrlParser = require('./parser/ImageURLParser');
 
 /**
  * @summary a Image is a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
- * @param {String?} baseUrl the base URL where the image is hosted
- * @param {String?} imageId the id of the image to manipulate
- * @param {String?} name the name of the image to manipulate
+ * @param {string} baseUrl the base URL where the image is hosted
+ * @param {string} imageId the id of the image to manipulate
+ * @param {string} imageName the name of the image to manipulate
  * @constructor Image
  */
 function Image(baseUrl, imageId, imageName) {
@@ -16,10 +16,17 @@ function Image(baseUrl, imageId, imageName) {
      * @type {string}
      */
     this.endpoint = baseUrl.trim();
+
     /**
      * @type {string}
      */
     this.imageId = imageId.trim();
+
+    /**
+     * @type {string}
+     */
+    this.imageName = imageName.trim();
+
     /**
      * @type {string}
      */
@@ -29,11 +36,6 @@ function Image(baseUrl, imageId, imageName) {
      * @type {BaseOperation}
      */
     this.operation = null;
-
-    /**
-     * @type {string}
-     */
-    this.imageName = imageName;
 }
 
 /**
@@ -113,7 +115,7 @@ Image.prototype.toUrl = function () {
 };
 
 Image.prototype.fromUrl = function (url) {
-    var data = parser.parse(url);
+    var data = imageUrlParser.parse(url);
     var image = null, filter = null, adjust = null;
     if (data.api) {
         if (data.api.hasOwnProperty('fit')) {

@@ -1,5 +1,5 @@
 var fs = require('fs');
-var AuthClient = require('./authentication/AuthClient.js');
+var authenticationFacade = require('../authentication/AuthenticationFacade.js');
 
 /**
  * @summary Data returned from uploading media
@@ -123,10 +123,10 @@ var AudioMode = {
  * @constructor
  */
 function UploadClient(config) {
-	AuthClient.call(this, config);
+	authenticationFacade.call(this, config);
 }
 
-UploadClient.prototype = AuthClient.prototype;
+UploadClient.prototype = authenticationFacade.prototype;
 
 UploadClient.prototype.getUploadUrl = function(mode) {
 	var that = this;

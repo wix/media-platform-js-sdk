@@ -1,4 +1,4 @@
-var ProviderConfiguration = require('./provider/ProviderConfiguration');
+var ProviderConfiguration = require('./configuration/ProviderConfiguration');
 
 /**
  * Convenience method
