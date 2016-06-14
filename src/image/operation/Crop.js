@@ -1,6 +1,6 @@
 var util = require('util');
 var BaseOperation = require('./BaseOperation');
-var Cropping = require('./crop/Cropping');
+var Cropping = require('./crop/ali-croppter');
 
 /**
  * @summary Crops the image based on the supplied coordinates.
@@ -10,10 +10,16 @@ var Cropping = require('./crop/Cropping');
  */
 function Crop(baseUrl, imageId, imageName, version) {
     BaseOperation.call(this, 'crop', baseUrl, imageId, imageName, version);
+
+    /**
+     * @type {Cropping}
+     */
+    var cropping = new Cropping(this);
+    this.dimensions = (function () {
+        return cropping.dimensions;
+    })();
     
-    this.cropping = new Cropping(this);
-    
-    this.serializationOrder.push(this.cropping);
+    this.serializationOrder.push(cropping);
 }
 util.inherits(Crop, BaseOperation);
 

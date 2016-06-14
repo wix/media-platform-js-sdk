@@ -1,11 +1,11 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param operation
  * @constructor
  */
-function Cropping() {
+function Cropping(operation) {
+
+    this.operation = operation;
+
     this.settings = {
         /**
          * @type {number|null}
@@ -19,36 +19,23 @@ function Cropping() {
          * @type {number|null}
          */
         scaleFactor: null
-    }
+    };
+
+    this.dimensions = this.dimensions.bind(this);
 }
 
 /**
  * @summary The `x` value of the crop
  * @param {number} x the x value
- * @returns {Cropping} the operation
- */
-Cropping.prototype.x = function (x) {
-    this.settings.x = x;
-    return this;
-};
-
-/**
- * @summary The `y` value of the crop
  * @param {number} y the y value
- * @returns {Cropping} the operation
+ * @param {number?} scaleFactor The Scale factor. Scale cannot be 0. Valid values: (0:100.0].
+ * @returns {Crop} the operation
  */
-Cropping.prototype.y = function (y) {
+Cropping.prototype.dimensions = function (x, y, scaleFactor) {
+    this.settings.x = x;
     this.settings.y = y;
-    return this;
-};
-
-/**
- * @param {number} scaleFactor The Scale factor. Scale cannot be 0. Valid values: (0:100.0].
- * @returns {Cropping} the operation
- */
-Cropping.prototype.scaleFactor = function (scaleFactor) {
-    this.settings.scaleFactor = scaleFactor;
-    return this;
+    this.settings.scaleFactor = scaleFactor || null;
+    return this.operation;
 };
 
 /**
@@ -79,3 +66,5 @@ Cropping.prototype.serialize = function () {
     }
     return out;
 };
+
+module.exports = Cropping;

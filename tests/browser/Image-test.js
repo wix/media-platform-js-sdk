@@ -44,6 +44,27 @@ describe('test image url construction', function () {
 
         expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
     });
+    it('test crop operation construction', function () {
+        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').crop()
+            .size(100, 100)
+            .jpeg(100, true)
+            .unsharpMask(10, 10, 10)
+            .sharpen(10)
+            .removeRedEye()
+            .pixelateFaces(3)
+            .pixelate(3)
+            .oil()
+            .negative()
+            .blur(10)
+            .saturation(-70)
+            .hue(60)
+            .contrast(12)
+            .brightness(99)
+            .dimensions(100, 100, 0.7)
+            .toUrl();
+
+        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
+    });
     // it('Test fill construction, w, h, al', function () {
     // var i = new WixImage("https://test.wix.com", "12345");
     // var url = i.fill().size(100, 300).alignment(wms.Defaults.Alignment.LEFT).name("cat.jpg").toUrl();
