@@ -2,26 +2,6 @@ var Image = require('../../src/image/Image');
 var expect = require('expect.js');
 
 describe('test image url construction', function () {
-    it('test fill operation construction', function () {
-        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').fill()
-            .size(100, 100)
-            .jpeg(100, true)
-            .unsharpMask(10, 10, 10)
-            .sharpen(10)
-            .removeRedEye()
-            .pixelateFaces(3)
-            .pixelate(3)
-            .oil()
-            .negative()
-            .blur(10)
-            .saturation(-70)
-            .hue(60)
-            .contrast(12)
-            .brightness(99)
-            .toUrl();
-        
-        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
-    });
     it('test canvas operation construction', function () {
         var url = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
             .size(100, 100)
@@ -65,6 +45,50 @@ describe('test image url construction', function () {
 
         expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
     });
+    it('test fill operation construction', function () {
+        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').fill()
+            .size(100, 100)
+            .jpeg(100, true)
+            .unsharpMask(10, 10, 10)
+            .sharpen(10)
+            .removeRedEye()
+            .pixelateFaces(3)
+            .pixelate(3)
+            .oil()
+            .negative()
+            .blur(10)
+            .saturation(-70)
+            .hue(60)
+            .contrast(12)
+            .brightness(99)
+            .alignment('l')
+            .configuration(2, true)
+            .toUrl();
+        
+        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
+    });
+    it('test fit operation construction', function () {
+        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').fit()
+            .size(100, 100)
+            .jpeg(100, true)
+            .unsharpMask(10, 10, 10)
+            .sharpen(10)
+            .removeRedEye()
+            .pixelateFaces(3)
+            .pixelate(3)
+            .oil()
+            .negative()
+            .blur(10)
+            .saturation(-70)
+            .hue(60)
+            .contrast(12)
+            .brightness(99)
+            .configuration(2, true)
+            .toUrl();
+
+        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
+    });
+    
     // it('Test fill construction, w, h, al', function () {
     // var i = new WixImage("https://test.wix.com", "12345");
     // var url = i.fill().size(100, 300).alignment(wms.Defaults.Alignment.LEFT).name("cat.jpg").toUrl();

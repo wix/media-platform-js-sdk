@@ -1,5 +1,5 @@
 var util = require('util');
-var BaseOperation = require('./BaseOperation');
+var BaseOperation = require('./base-operation');
 var Align = require('./align/Align');
 var Resize = require('./resize/Resize');
 
@@ -13,11 +13,23 @@ var Resize = require('./resize/Resize');
 function Fill(baseUrl, imageId, imageName, version) {
     BaseOperation.call(this, 'fill', baseUrl, imageId, imageName, version);
 
-    this.align = new Align(this);
+    /**
+     * @type {Align}
+     */
+    var align = new Align(this);
+    this.alignment = (function () {
+        return align.alignment;
+    })();
+
+    /**
+     * @type {Resize}
+     */
+    var resize = new Resize(this);
+    this.configuration = (function () {
+        return resize.configuration;
+    })();
     
-    this.resize = new Resize(this);
-    
-    this.serializationOrder.push(this.align, this.resize);
+    this.serializationOrder.push(align, resize);
 }
 util.inherits(Fill, BaseOperation);
 

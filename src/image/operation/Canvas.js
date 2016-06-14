@@ -1,5 +1,5 @@
 var util = require('util');
-var BaseOperation = require('./BaseOperation');
+var BaseOperation = require('./base-operation');
 var Align = require('./align/Align');
 var Background = require('./background/background-color');
 

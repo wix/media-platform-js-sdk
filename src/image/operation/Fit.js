@@ -1,5 +1,5 @@
 var util = require('util');
-var BaseOperation = require('./BaseOperation');
+var BaseOperation = require('./base-operation');
 var Resize = require('./resize/Resize');
 
 /**
@@ -11,9 +11,15 @@ var Resize = require('./resize/Resize');
 function Fit(baseUrl, imageId, imageName, version) {
     BaseOperation.call(this, 'fit', baseUrl, imageId, imageName, version);
 
-    this.resize = new Resize(this);
+    /**
+     * @type {Resize}
+     */
+    var resize = new Resize(this);
+    this.configuration = (function () {
+        return resize.configuration;
+    })();
 
-    this.serializationOrder.push(this.resize);
+    this.serializationOrder.push(resize);
 }
 util.inherits(Fit, BaseOperation);
 

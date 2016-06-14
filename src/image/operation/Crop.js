@@ -1,5 +1,5 @@
 var util = require('util');
-var BaseOperation = require('./BaseOperation');
+var BaseOperation = require('./base-operation');
 var Cropping = require('./crop/ali-croppter');
 
 /**
