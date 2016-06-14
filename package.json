@@ -19,6 +19,12 @@
     "wix-auth-hmac": "^1.0.0"
   },
   "devDependencies": {
+    "grunt": "latest",
+    "grunt-browserify": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-mocha": "latest",
+    "grunt-gh-pages": "latest",
     "mocha": "latest",
     "expect.js": "latest",
     "uglifyify": "latest"

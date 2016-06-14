@@ -3,10 +3,12 @@
  */
 
 /**
- * @summary Provides methods used for operation APIs. It's not meant to be used directly.
- * @mixin
+ * @param operation
+ * @constructor
  */
-function Resize() {
+function Resize(operation) {
+    
+    this.operation = operation;
     
     this.settings = {
         /**
@@ -28,7 +30,7 @@ function Resize() {
  */
 Resize.prototype.resizeFilter = function (rf) {
     this.settings.filter = !!rf ? rf : null;
-    return this;
+    return this.operation;
 };
 
 /**
@@ -37,7 +39,7 @@ Resize.prototype.resizeFilter = function (rf) {
  */
 Resize.prototype.enableUpscaling = function () {
     this.settings.upscale = true;
-    return this;
+    return this.operation;
 };
 
 /**
@@ -46,7 +48,7 @@ Resize.prototype.enableUpscaling = function () {
  */
 Resize.prototype.disableUpscaling = function () {
     this.settings.upscale = null;
-    return this;
+    return this.operation;
 };
 
 Resize.prototype.serialize = function () {

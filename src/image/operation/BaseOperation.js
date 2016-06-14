@@ -1,9 +1,4 @@
-/**
- * Created by elad on 06/06/2016.
- */
-
 var Size = require('./size/Size');
-var Chromaticity = require('./chromaticity/Chromaticity');
 var Sharpen = require('./effect/Sharpen');
 var UnsharpMask = require('./effect/UnsharpMask');
 var RedEyeRemover = require('./effect/RedEyeRemover');
@@ -13,32 +8,162 @@ var PixelateFaces = require('./effect/PixelateFaces');
 var Negative = require('./effect/Negative');
 var Blur = require('./effect/Blur');
 var JPEG = require('./jpeg/JPEG');
+var Brightness = require('./chromaticity/Brightness');
+var Contrast = require('./chromaticity/Contrast');
+var Hue = require('./chromaticity/Hue');
+var Saturation = require('./chromaticity/Saturation');
 
+var imageUrl = require('../url/ImageURL');
 
 /**
- * @param {string} name
+ * @param name
+ * @param baseUrl
+ * @param imageId
+ * @param imageName
+ * @param version
  * @constructor
  */
-function BaseOperation(name) {
+function BaseOperation(name, baseUrl, imageId, imageName, version) {
+
     /**
      * @type {string}
      */
     this.name = name;
-
-    this.size = new Size();
-    this.chromaticity = new Chromaticity();
-    this.sharpen = new Sharpen();
-    this.unsharpMask = new UnsharpMask();
-    this.redEyeRemover = new RedEyeRemover();
-    this.oil = new Oil();
-    this.pixelate = new Pixelate();
-    this.pixelateFaces = new PixelateFaces();
-    this.negative = new Negative();
-    this.blur = new Blur();
-    this.jpeg = new JPEG();
     
-    this.serializationOrder = [this.size, this.chromaticity, this.sharpen, this.unsharpMask,
-        this.redEyeRemover, this.oil, this.pixelate, this.pixelateFaces, this.negative, this.blur, this.jpeg];
+    /**
+     * @type {string}
+     */
+    this.baseUrl = baseUrl;
+
+    /**
+     * @type {string}
+     */
+    this.imageId = imageId;
+
+    /**
+     * @type {string}
+     */
+    this.imageName = imageName;
+    
+    /**
+     * @type {string}
+     */
+    this.version = version;
+
+    /**
+     * @type {Brightness}
+     */
+    var brightness = new Brightness(this);
+    this.brightness = (function () {
+        return brightness.brightness;
+    })();
+
+    /**
+     * @type {Contrast}
+     */
+    var contrast = new Contrast(this);
+    this.contrast = (function () {
+        return contrast.contrast;
+    })();
+    
+    /**
+     * @type {Hue}
+     */
+    var hue = new Hue(this);
+    this.hue = (function () {
+        return hue.hue;
+    })();
+    
+    /**
+     * @type {Saturation}
+     */
+    var saturation = new Saturation(this);
+    this.saturation = (function () {
+        return saturation.saturation;
+    })();
+    
+    /**
+     * @type {Blur}
+     */
+    var blur = new Blur(this);
+    this.blur = (function () {
+        return blur.percentage;
+    })();
+
+    /**
+     * @type {Negative}
+     */
+    var negative = new Negative(this);
+    this.negative = (function () {
+        return negative.activate;
+    })();
+
+    /**
+     * @type {Oil}
+     */
+    var oil = new Oil(this);
+    this.oil = (function () {
+        return oil.activate;
+    })();
+
+    /**
+     * @type {Pixelate}
+     */
+    var pixelate = new Pixelate(this);
+    this.pixelate = (function () {
+        return pixelate.pixels;
+    })();
+
+    /**
+     * @type {PixelateFaces}
+     */
+    var pixelateFaces = new PixelateFaces(this);
+    this.pixelateFaces = (function () {
+        return pixelateFaces.pixels;
+    })();
+    
+    /**
+     * @type {RedEyeRemover}
+     */
+    var redEyeRemover = new RedEyeRemover(this);
+    this.removeRedEye = (function () {
+        return redEyeRemover.activate;
+    })();
+    
+    /**
+     * @type {Sharpen}
+     */
+    var sharpen = new Sharpen(this);
+    this.sharpen = (function () {
+        return sharpen.sharpen;
+    })();
+    
+    /**
+     * @type {UnsharpMask}
+     */
+    var unsharpMask = new UnsharpMask(this);
+    this.unsharpMask = (function () {
+        return unsharpMask.configuration;
+    })();
+    
+    /**
+     * @type {JPEG}
+     */
+    var jpeg = new JPEG(this);
+    this.jpeg = (function () {
+        return jpeg.compression;
+    })();
+
+    /**
+     * @type {Size}
+     */
+    var size = new Size(this);
+    this.size = (function () {
+        return size.size;
+    })();
+
+    this.serializationOrder = [brightness, contrast, hue, saturation,
+        blur, negative, oil, pixelate, pixelateFaces, redEyeRemover, sharpen, unsharpMask, jpeg, size];
 }
 
 /**
@@ -55,6 +180,13 @@ BaseOperation.prototype.serialize = function () {
         out += part;
     });
     return out;
+};
+
+/**
+ * @returns {string}
+ */
+BaseOperation.prototype.toUrl = function () {
+    return imageUrl.toUrl(this);   
 };
 
 /**

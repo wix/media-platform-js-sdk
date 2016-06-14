@@ -1,36 +1,29 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param operation
  * @constructor
  */
-function Blur() {
+function Blur(operation) {
+    
+    this.operation = operation;
     
     this.settings = {
         /**
          * @type {number|null}
          */
         percentage: null
-    } 
+    };
+
+    this.percentage = this.percentage.bind(this);
 }
 
 /**
  * @summary Applies a blur effect to the image.
- * @param {number} percentage percent to blur the image
+ * @param {number?} percentage percent to blur the image
  * @returns {Blur} the operation
  */
-Blur.prototype.blur = function (percentage) {
-    this.settings.percentage = percentage;
-    return this;
-};
-/**
- * @summary Applies an oil paint effect to the image.
- * @returns {Blur} the operation
- */
-Blur.prototype.deactivate = function () {
-    this.settings.percentage = null;
-    return this;
+Blur.prototype.percentage = function (percentage) {
+    this.settings.percentage = percentage || null;
+    return this.operation;
 };
 
 /**

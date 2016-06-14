@@ -1,37 +1,28 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param operation
  * @constructor
  */
-function RedEyeRemover() {
+function RedEyeRemover(operation) {
   
+    this.operation = operation;
+    
     this.settings = {
         /**
          * @type {boolean|null}
          */
         active: null
-    }
-    
+    };
+
+    this.activate = this.activate.bind(this);
 }
 
 /**
  * @summary Red eye removal
  * @returns {RedEyeRemover} the operation
  */
-RedEyeRemover.prototype.activate = function () {
-    this.settings.active = true;
-    return this;
-};
-
-/**
- * @summary Red eye removal
- * @returns {RedEyeRemover} the operation
- */
-RedEyeRemover.prototype.deactivate = function () {
-    this.settings.active = null;
-    return this;
+RedEyeRemover.prototype.activate = function (active) {
+    this.settings.active = (active === undefined) ? true : !!active;
+    return this.operation;
 };
 
 /**

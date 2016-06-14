@@ -3,9 +3,13 @@
  */
 
 /**
+ * @param {BaseOperation} operation
  * @constructor
  */
-function Align() {
+function Align(operation) {
+    
+    this.operation = operation;
+    
     this.settings = {
         /**
          * @type {string|null}
@@ -17,11 +21,11 @@ function Align() {
 /**
  * @summary Sets the alignment value for this operation
  * @param {Alignments} a the alignment value
- * @returns {Align} the operation
+ * @returns {BaseOperation} the operation
  */
 Align.prototype.alignment = function (a) {
     this.settings.alignment = !!a ? a : null;
-    return this;
+    return this.operation;
 };
 
 /**

@@ -5,7 +5,10 @@
 /**
  * @constructor
  */
-function Background() {
+function Background(operation) {
+
+    this.operation = operation;
+    
     this.settings = {
         /**
          * @type {string|null}
@@ -20,7 +23,7 @@ function Background() {
  */
 Background.prototype.color = function (color) {
     this.settings.c = color;
-    return this;
+    return this.operation;
 };
 
 /**

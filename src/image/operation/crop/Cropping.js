@@ -54,7 +54,7 @@ Cropping.prototype.scaleFactor = function (scaleFactor) {
 /**
  * @returns {string}
  */
-Chromaticity.prototype.serialize = function () {
+Cropping.prototype.serialize = function () {
 
     var out = '';
 

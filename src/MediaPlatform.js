@@ -1,23 +1,12 @@
 var ProviderConfiguration = require('./configuration/ProviderConfiguration');
 
-/**
- * Convenience method
- * @param host
- * @param apiKey
- * @param sharedSecret
- * @returns {MediaPlatform}
- */
-function mediaPlatform(host, apiKey, sharedSecret) {
-    var providerConfiguration = new ProviderConfiguration(host, apiKey, sharedSecret);
-
-    return new MediaPlatform(providerConfiguration);
-}
+var Image = require('./image/Image');
 
 /**
- * @param providerConfiguration
+ * @param configuration
  * @constructor
  */
-function MediaPlatform(providerConfiguration) {
+function MediaPlatform(configuration) {
 
     /**
      * @type {ProviderConfiguration}
@@ -27,13 +16,14 @@ function MediaPlatform(providerConfiguration) {
 
 module.exports = {
     /**
-     * @type {mediaPlatform}
-     */
-    mediaPlatform: MediaPlatform,
-    /**
      * @type {MediaPlatform}
      */
-    MediaPlatform: MediaPlatform
+    MediaPlatform: MediaPlatform,
+    /**
+     * @type {Image}
+     */
+    Image: Image
+    
 };
 
 

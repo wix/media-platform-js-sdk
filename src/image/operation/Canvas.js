@@ -1,6 +1,3 @@
-/**
- * Created by elad on 06/06/2016.
- */
 var util = require('util');
 var BaseOperation = require('./BaseOperation');
 var Align = require('./align/Align');
@@ -13,11 +10,11 @@ var Background = require('./background/Background');
  * @constructor Canvas
  * @extends BaseOperation
  */
-function Canvas() {
-    BaseOperation.call(this, 'canvas');
+function Canvas(baseUrl, imageId, imageName, version) {
+    BaseOperation.call(this, 'canvas', baseUrl, imageId, imageName, version);
     
-    this.background = new Background();
-    this.align = new Align();
+    this.background = new Background(this);
+    this.align = new Align(this);
     
     this.serializationOrder.push(this.align, this.background);
 }

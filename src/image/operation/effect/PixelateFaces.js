@@ -1,18 +1,19 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param operation
  * @constructor
  */
-function PixelateFaces() {
-    
+function PixelateFaces(operation) {
+
+    this.operation = operation;
+
     this.settings = {
         /**
          * @type {number|null}
          */
         size: null
-    } 
+    };
+
+    this.pixels = this.pixels.bind(this);
 }
 
 /**
@@ -20,18 +21,9 @@ function PixelateFaces() {
  * @param {number} pixels the width of pixelation squares, in pixels
  * @returns {PixelateFaces} the operation
  */
-PixelateFaces.prototype.pixelateFaces = function (pixels) {
-    this.settings.size = pixels;
-    return this;
-};
-
-/**
- * @summary Applies an oil paint effect to the image.
- * @returns {PixelateFaces} the operation
- */
-PixelateFaces.prototype.deactivate = function () {
-    this.settings.size = null;
-    return this;
+PixelateFaces.prototype.pixels = function (pixels) {
+    this.settings.size = pixels || null;
+    return this.operation;
 };
 
 /**
@@ -42,7 +34,7 @@ PixelateFaces.prototype.serialize = function () {
     var out = '';
 
     if (this.settings.size) {
-        out += 'pix_' + this.settings.size;
+        out += 'pixfs_' + this.settings.size;
     }
 
     return out;

@@ -1,37 +1,29 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param operation
  * @constructor
  */
-function Pixelate() {
+function Pixelate(operation) {
+    
+    this.operation = operation;
     
     this.settings = {
         /**
          * @type {number|null}
          */
         size: null
-    } 
+    };
+
+    this.pixels = this.pixels.bind(this);
 }
 
 /**
  * @summary Applies a pixelate effect to the image.
- * @param {number} pixels the width of pixelation squares, in pixels
+ * @param {number?} pixels the width of pixelation squares, in pixels
  * @returns {Pixelate} the operation
  */
-Pixelate.prototype.pixelate = function (pixels) {
-    this.settings.size = pixels;
-    return this;
-};
-
-/**
- * @summary Applies an oil paint effect to the image.
- * @returns {Pixelate} the operation
- */
-Pixelate.prototype.deactivate = function () {
-    this.settings.size = null;
-    return this;
+Pixelate.prototype.pixels = function (pixels) {
+    this.settings.size = pixels || null;
+    return this.operation;
 };
 
 /**

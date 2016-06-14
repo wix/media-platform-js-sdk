@@ -1,18 +1,19 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param operation
  * @constructor
  */
-function Sharpen() {
+function Sharpen(operation) {
+    
+    this.operation = operation;
     
     this.settings = {
         /**
          * @type {number|null}
          */
         radius: null
-    } 
+    };
+
+    this.sharpen = this.sharpen.bind(this);
 }
 
 /**
@@ -20,9 +21,9 @@ function Sharpen() {
  * @param {number} radius sharpening mask radius, `0` to `1`
  * @returns {Sharpen} the operation
  */
-Sharpen.prototype.sharpen =  function (radius) {
+Sharpen.prototype.sharpen = function (radius) {
     this.settings.radius = radius;
-    return this;
+    return this.operation;
 };
 
 /**

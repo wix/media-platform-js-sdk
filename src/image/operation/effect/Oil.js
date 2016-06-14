@@ -1,36 +1,29 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param operation
  * @constructor
  */
-function Oil() {
-    
+function Oil(operation) {
+
+    this.operation = operation;
+
     this.settings = {
         /**
-         * @type {number|null}
+         * @type {boolean|null}
          */
         active: null
-    } 
+    };
+
+    this.activate = this.activate.bind(this);
 }
 
 /**
  * @summary Applies an oil paint effect to the image.
+ * @param {boolean?} active
  * @returns {Oil} the operation
  */
-Oil.prototype.oil = function () {
-    this.settings.active = true;
-    return this;
-};
-
-/**
- * @summary Applies an oil paint effect to the image.
- * @returns {Oil} the operation
- */
-Oil.prototype.deactivate = function () {
-    this.settings.active = null;
-    return this;
+Oil.prototype.activate = function (active) {
+    this.settings.active = (active === undefined) ? true : !!active;
+    return this.operation;
 };
 
 /**

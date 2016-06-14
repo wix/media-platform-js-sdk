@@ -1,8 +1,10 @@
 /**
- * Created by elad on 13/06/2016.
+ * @param operation
+ * @constructor
  */
-
-function JPEG() {
+function JPEG(operation) {
+    
+    this.operation = operation;
 
     this.settings = {
         /**
@@ -14,40 +16,27 @@ function JPEG() {
          * @type {boolean|null}
          */
         baseline: null
-    }
+    };
 
+    this.compression = this.compression.bind(this);
 }
 
 /**
  * @summary The quality constraint, if the image is a jpg
- * @param {number} [q=75] a number from `1` to `100`
+ * @param {number} [quality=75] a number from `1` to `100`
+ * @param {boolean?} baseline 
  * @returns {JPEG} the operation
  */
-JPEG.prototype.quality = function (q) {
-    if (q === 75) {
+JPEG.prototype.compression = function (quality, baseline) {
+    if (quality === 75) {
         this.settings.quality = null;
     } else {
-        this.settings.quality = q || null;
+        this.settings.quality = quality || null;
     }
-    return this;
-};
 
-/**
- * @summary Applies baseline encoding on a jpg, instead of progressive encoding.
- * @returns {JPEG} the operation
- */
-JPEG.prototype.baseline = function () {
-    this.settings.baseline = true;
-    return this;
-};
-
-/**
- * @summary Applies progressive encoding on a jpg.
- * @returns {JPEG} the operation
- */
-JPEG.prototype.progressive = function () {
-    this.settings.baseline = null;
-    return this;
+    this.settings.baseline = !!baseline;
+    
+    return this.operation;
 };
 
 /**

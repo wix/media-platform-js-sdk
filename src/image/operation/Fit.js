@@ -1,6 +1,3 @@
-/**
- * Created by elad on 06/06/2016.
- */
 var util = require('util');
 var BaseOperation = require('./BaseOperation');
 var Resize = require('./resize/Resize');
@@ -11,10 +8,10 @@ var Resize = require('./resize/Resize');
  * @constructor Fit
  * @extends BaseOperation
  */
-function Fit() {
-    BaseOperation.call(this, 'fit');
+function Fit(baseUrl, imageId, imageName, version) {
+    BaseOperation.call(this, 'fit', baseUrl, imageId, imageName, version);
 
-    this.resize = new Resize();
+    this.resize = new Resize(this);
 
     this.serializationOrder.push(this.resize);
 }

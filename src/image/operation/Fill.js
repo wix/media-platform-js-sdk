@@ -1,6 +1,3 @@
-/**
- * Created by elad on 06/06/2016.
- */
 var util = require('util');
 var BaseOperation = require('./BaseOperation');
 var Align = require('./align/Align');
@@ -13,11 +10,12 @@ var Resize = require('./resize/Resize');
  * @constructor Fill
  * @extends BaseOperation
  */
-function Fill() {
-    BaseOperation.call(this, 'fill');
+function Fill(baseUrl, imageId, imageName, version) {
+    BaseOperation.call(this, 'fill', baseUrl, imageId, imageName, version);
 
-    this.align = new Align();
-    this.resize = new Resize();
+    this.align = new Align(this);
+    
+    this.resize = new Resize(this);
     
     this.serializationOrder.push(this.align, this.resize);
 }

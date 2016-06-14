@@ -1,59 +1,41 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param operation
  * @constructor
  */
-function UnsharpMask() {
+function UnsharpMask(operation) {
+    
+    this.operation = operation;
+    
     this.settings = {
-        active: null,
-        radius: 0.5,
-        amount: 0.2,
-        threshold: 0
-    }
+        /**
+         * @type {number|null}
+         */
+        radius: null,
+        /**
+         * @type {number|null}
+         */
+        amount: null,
+        /**
+         * @type {number|null}
+         */
+        threshold: null
+    };
+
+    this.configuration = this.configuration.bind(this);
 }
 
 /**
  * @summary Sharpens the image using radius, amount & threshold parameters
  * @param {number} radius the unsharp mask radius. default value: `0.50`
- * @returns {UnsharpMask} the operation
- */
-UnsharpMask.prototype.radius = function (radius) {
-    this.settings.radius = radius;
-    this.settings.active = true;
-    return this;
-};
-
-/**
- * @summary Sharpens the image using radius, amount & threshold parameters
  * @param {number} amount the unsharp mask amount. default value: `0.20`
- * @returns {UnsharpMask} the operation
- */
-UnsharpMask.prototype.amount = function (amount) {
-    this.settings.amount = amount;
-    this.settings.active = true;
-    return this;
-};
-
-/**
- * @summary Sharpens the image using radius, amount & threshold parameters
  * @param {number} threshold the unsharp mask threshold. default value: `0.00`
  * @returns {UnsharpMask} the operation
  */
-UnsharpMask.prototype.threshold = function (threshold) {
+UnsharpMask.prototype.configuration = function (radius, amount, threshold) {
+    this.settings.radius = radius;
+    this.settings.amount = amount;
     this.settings.threshold = threshold;
-    this.settings.active = true;
-    return this;
-};
-
-/**
- * @summary Sharpens the image using radius, amount & threshold parameters
- * @returns {UnsharpMask} the operation
- */
-UnsharpMask.prototype.deactivate = function () {
-    this.settings.active = null;
-    return this;
+    return this.operation;
 };
 
 /**
@@ -63,7 +45,7 @@ UnsharpMask.prototype.serialize = function () {
 
     var out = '';
 
-    if (this.settings.active) {
+    if (this.settings.radius && this.settings.amount && this.settings.threshold) {
         out += 'usm_' + this.settings.radius + "_" + this.settings.amount + "_" + this.settings.threshold;
     }
 

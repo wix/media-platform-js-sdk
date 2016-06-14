@@ -1,6 +1,3 @@
-/**
- * Created by elad on 06/06/2016.
- */
 var util = require('util');
 var BaseOperation = require('./BaseOperation');
 var Cropping = require('./crop/Cropping');
@@ -11,10 +8,10 @@ var Cropping = require('./crop/Cropping');
  * @constructor Crop
  * @extends BaseOperation
  */
-function Crop() {
-    BaseOperation.call(this, 'crop');
+function Crop(baseUrl, imageId, imageName, version) {
+    BaseOperation.call(this, 'crop', baseUrl, imageId, imageName, version);
     
-    this.cropping = new Cropping();
+    this.cropping = new Cropping(this);
     
     this.serializationOrder.push(this.cropping);
 }

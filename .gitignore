@@ -5,6 +5,7 @@ npm-debug.log*
 *.iml
 .idea
 dist
+build
 jsdoc
 
 # Runtime data
