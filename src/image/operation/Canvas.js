@@ -1,7 +1,7 @@
 var util = require('util');
 var BaseOperation = require('./BaseOperation');
 var Align = require('./align/Align');
-var Background = require('./background/Background');
+var Background = require('./background/background-color');
 
 /**
  * @summary Resizes the image canvas.
@@ -12,11 +12,24 @@ var Background = require('./background/Background');
  */
 function Canvas(baseUrl, imageId, imageName, version) {
     BaseOperation.call(this, 'canvas', baseUrl, imageId, imageName, version);
+
+    /**
+     * @type {Align}
+     */
+    var align = new Align(this);
+    this.alignment = (function () {
+        return align.alignment;
+    })();
     
-    this.background = new Background(this);
-    this.align = new Align(this);
+    /**
+     * @type {Background}
+     */
+    var background = new Background(this);
+    this.background = (function () {
+        return background.color;
+    })();
     
-    this.serializationOrder.push(this.align, this.background);
+    this.serializationOrder.push(align, background);
 }
 util.inherits(Canvas, BaseOperation);
 

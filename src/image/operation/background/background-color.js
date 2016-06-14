@@ -1,8 +1,5 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
+ * @param {BaseOperation} operation
  * @constructor
  */
 function Background(operation) {
@@ -14,7 +11,9 @@ function Background(operation) {
          * @type {string|null}
          */
         color: null
-    }
+    };
+
+    this.color = this.color.bind(this);
 }
 /**
  * @summary The background color, in case the canvas size is larger than the image itself.
@@ -22,7 +21,7 @@ function Background(operation) {
  * @returns {Background} the operation
  */
 Background.prototype.color = function (color) {
-    this.settings.c = color;
+    this.settings.color = color;
     return this.operation;
 };
 

@@ -2,7 +2,7 @@ var Image = require('../../src/image/Image');
 var expect = require('expect.js');
 
 describe('test image url construction', function () {
-    it('test fill operation construction, w, h, al', function () {
+    it('test fill operation construction', function () {
         var url = new Image('//test.wix.com', '12345', 'fish.jpeg').fill()
             .size(100, 100)
             .jpeg(100, true)
@@ -20,6 +20,28 @@ describe('test image url construction', function () {
             .brightness(99)
             .toUrl();
         
+        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
+    });
+    it('test canvas operation construction', function () {
+        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
+            .size(100, 100)
+            .jpeg(100, true)
+            .unsharpMask(10, 10, 10)
+            .sharpen(10)
+            .removeRedEye()
+            .pixelateFaces(3)
+            .pixelate(3)
+            .oil()
+            .negative()
+            .blur(10)
+            .saturation(-70)
+            .hue(60)
+            .contrast(12)
+            .brightness(99)
+            .alignment('l')
+            .background('aabbcc')
+            .toUrl();
+
         expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
     });
     // it('Test fill construction, w, h, al', function () {

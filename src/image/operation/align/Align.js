@@ -1,8 +1,4 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
  * @param {BaseOperation} operation
  * @constructor
  */
@@ -15,7 +11,9 @@ function Align(operation) {
          * @type {string|null}
          */
         alignment: null
-    }
+    };
+
+    this.alignment = this.alignment.bind(this);
 }
 
 /**
