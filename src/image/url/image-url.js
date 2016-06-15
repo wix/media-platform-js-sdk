@@ -4,13 +4,20 @@
  */
 function toUrl(operation) {
     var prefix = '';
-    if (operation.baseUrl !== null && operation.baseUrl.length > 4 && operation.baseUrl.substring(0, 4) !== "http") {
-        if (operation.baseUrl.substring(0, 2) !== '//') {
-            prefix = '//';
+    var baseUrl = operation.baseUrl;
+    if (baseUrl !== null) {
+        if (baseUrl.length > 4 && baseUrl.substring(0, 4) !== "http") {
+            if (baseUrl.substring(0, 2) !== '//') {
+                prefix = '//';
+            }
+        }
+
+        if (baseUrl.slice(-1) === '/') {
+            baseUrl = baseUrl.slice(0, -1);
         }
     }
 
-    var out = prefix + operation.baseUrl + "/" + operation.imageId + "/" + operation.version + '/';
+    var out = prefix + baseUrl + "/" + operation.imageId + "/" + operation.version + '/';
 
     var params = operation.serialize();
 

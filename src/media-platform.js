@@ -11,7 +11,7 @@ function MediaPlatform(configuration) {
     /**
      * @type {ProviderConfiguration}
      */
-    this.providerConfiguration = providerConfiguration;
+    this.providerConfiguration = new ProviderConfiguration();
 }
 
 module.exports = {
