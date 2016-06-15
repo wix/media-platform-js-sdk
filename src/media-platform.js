@@ -1,6 +1,6 @@
-var ProviderConfiguration = require('./configuration/ProviderConfiguration');
+var ProviderConfiguration = require('./configuration/provider-configuration');
 
-var Image = require('./image/Image');
+var Image = require('./image/image');
 
 /**
  * @param configuration

@@ -39,4 +39,7 @@ Background.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Background}
+ */
 module.exports = Background;

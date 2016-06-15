@@ -61,4 +61,7 @@ JPEG.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {JPEG}
+ */
 module.exports = JPEG;

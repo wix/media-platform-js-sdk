@@ -1,8 +1,4 @@
 /**
- * Created by elad on 13/06/2016.
- */
-
-/**
  * @type {{UNDERSCORE: number, KEYWORD: number, VALUE: number, AUTO_VALUE: number, EOF: number, PARAM: number}}
  * @enum
  */

@@ -39,4 +39,7 @@ Saturation.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Saturation}
+ */
 module.exports = Saturation;

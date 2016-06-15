@@ -32,6 +32,9 @@ Resize.prototype.configuration = function (filter, enableUpscaling) {
     return this.operation;
 };
 
+/**
+ * @returns {string}
+ */
 Resize.prototype.serialize = function () {
 
     var out = '';
@@ -51,4 +54,7 @@ Resize.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Resize}
+ */
 module.exports = Resize;

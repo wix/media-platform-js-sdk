@@ -52,4 +52,7 @@ var Alignments = {
     ALL_FACES: 'fs'
 };
 
+/**
+ * @type {{CENTER: string, TOP: string, TOP_LEFT: string, TOP_RIGHT: string, BOTTOM: string, BOTTOM_LEFT: string, BOTTOM_RIGHT: string, LEFT: string, RIGHT: string, FACE_RECOGNITION: string, ALL_FACES: string}}
+ */
 module.exports = Alignments;

@@ -52,4 +52,7 @@ UnsharpMask.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {UnsharpMask}
+ */
 module.exports = UnsharpMask;

@@ -1,1 +1,1 @@
-var Image = require('../src/image/Image');
+var Image = require('../src/image/image');

@@ -40,4 +40,7 @@ Oil.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Oil}
+ */
 module.exports = Oil;

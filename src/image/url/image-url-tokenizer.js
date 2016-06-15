@@ -1,8 +1,4 @@
-/**
- * Created by elad on 13/06/2016.
- */
-
-var TokenType = require('./TokenType');
+var TokenType = require('./token-type');
 
 /**
  * @type {{INITIAL: number, AFTER_KEYWORD: number, BEFORE_PARAM: number, BEFORE_VALUE: number, VALUE: number}}

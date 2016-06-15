@@ -40,4 +40,7 @@ Pixelate.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Pixelate}
+ */
 module.exports = Pixelate;

@@ -40,4 +40,7 @@ Blur.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Blur}
+ */
 module.exports = Blur;

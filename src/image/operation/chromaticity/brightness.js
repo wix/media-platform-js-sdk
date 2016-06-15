@@ -43,4 +43,7 @@ Brightness.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Brightness}
+ */
 module.exports = Brightness;

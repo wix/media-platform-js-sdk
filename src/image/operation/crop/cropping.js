@@ -67,4 +67,7 @@ Cropping.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Cropping}
+ */
 module.exports = Cropping;

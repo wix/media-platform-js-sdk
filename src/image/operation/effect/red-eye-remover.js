@@ -39,4 +39,7 @@ RedEyeRemover.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {RedEyeRemover}
+ */
 module.exports = RedEyeRemover;

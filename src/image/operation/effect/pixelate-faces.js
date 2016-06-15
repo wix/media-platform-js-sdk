@@ -40,4 +40,7 @@ PixelateFaces.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {PixelateFaces}
+ */
 module.exports = PixelateFaces;

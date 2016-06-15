@@ -1,6 +1,6 @@
 var util = require('util');
 var BaseOperation = require('./base-operation');
-var Resize = require('./resize/Resize');
+var Resize = require('./resize/resize-settings');
 
 /**
  * @summary Resizes the image to fit to the specified width and height while retaining original image proportion.

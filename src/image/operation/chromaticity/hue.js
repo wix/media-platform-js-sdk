@@ -40,4 +40,7 @@ Hue.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Hue}
+ */
 module.exports = Hue;

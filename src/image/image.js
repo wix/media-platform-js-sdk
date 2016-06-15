@@ -1,7 +1,7 @@
-var Canvas = require('./operation/Canvas');
-var Crop = require('./operation/Crop');
-var Fill = require('./operation/Fill');
-var Fit = require('./operation/Fit');
+var Canvas = require('./operation/canvas');
+var Crop = require('./operation/crop');
+var Fill = require('./operation/fill');
+var Fit = require('./operation/fit');
 // var imageUrlParser = require('./parser/ImageURLParser');
 
 /**
@@ -66,4 +66,7 @@ Image.prototype.crop = function () {
     return new Crop(this.baseUrl, this.imageId, this.imageName, this.version);
 };
 
+/**
+ * @type {Image}
+ */
 module.exports = Image;

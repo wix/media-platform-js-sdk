@@ -40,4 +40,7 @@ Sharpen.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Sharpen}
+ */
 module.exports = Sharpen;

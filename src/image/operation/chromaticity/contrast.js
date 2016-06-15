@@ -43,4 +43,7 @@ Contrast.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Contrast}
+ */
 module.exports = Contrast;

@@ -1,4 +1,4 @@
-var Image = require('../../src/image/Image');
+var Image = require('../../src/image/image');
 var expect = require('expect.js');
 
 describe('test image url construction', function () {

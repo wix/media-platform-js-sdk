@@ -26,6 +26,9 @@ Size.prototype.size = function (width, height) {
     return this.operation;
 };
 
+/**
+ * @returns {string}
+ */
 Size.prototype.serialize = function () {
     var out = '';
 
@@ -44,4 +47,7 @@ Size.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Size}
+ */
 module.exports = Size;

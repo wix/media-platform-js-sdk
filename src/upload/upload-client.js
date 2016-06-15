@@ -1,5 +1,5 @@
 var fs = require('fs');
-var authenticationFacade = require('../authentication/AuthenticationFacade.js');
+var authenticationFacade = require('../authentication/authentication-facade');
 
 /**
  * @summary Data returned from uploading media

@@ -38,4 +38,7 @@ var ResizeFilters = {
     COSINE: 28
 };
 
+/**
+ * @type {{POINT: number, BOX: number, TRIANGLE: number, HERMITE: number, HANNING: number, HAMMING: number, BLACKMAN: number, GAUSSIAN: number, QUADRATIC: number, CUBIC: number, CATROM: number, MITCHELL: number, JINC: number, SINC: number, SINC_FAST: number, KAISER: number, WELCH: number, PARZEN: number, BOHMAN: number, BARTLETT: number, LAGRANGE: number, LANCZOS: number, LANCZOS_SHARP: number, LANCZOS2: number, LANCZOS2_SHARP: number, ROBIDOUX: number, ROBIDOUX_SHARP: number, COSINE: number}}
+ */
 module.exports = ResizeFilters;

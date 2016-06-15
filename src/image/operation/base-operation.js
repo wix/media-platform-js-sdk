@@ -1,19 +1,19 @@
-var Size = require('./size/Size');
-var Sharpen = require('./effect/Sharpen');
-var UnsharpMask = require('./effect/UnsharpMask');
-var RedEyeRemover = require('./effect/RedEyeRemover');
-var Oil = require('./effect/Oil');
-var Pixelate = require('./effect/Pixelate');
-var PixelateFaces = require('./effect/PixelateFaces');
-var Negative = require('./effect/Negative');
-var Blur = require('./effect/Blur');
-var JPEG = require('./jpeg/JPEG');
-var Brightness = require('./chromaticity/Brightness');
-var Contrast = require('./chromaticity/Contrast');
-var Hue = require('./chromaticity/Hue');
-var Saturation = require('./chromaticity/Saturation');
+var Size = require('./size/size');
+var Sharpen = require('./effect/sharpen');
+var UnsharpMask = require('./effect/unsharp-mask');
+var RedEyeRemover = require('./effect/red-eye-remover');
+var Oil = require('./effect/oil');
+var Pixelate = require('./effect/pixelate');
+var PixelateFaces = require('./effect/pixelate-faces');
+var Negative = require('./effect/negative');
+var Blur = require('./effect/blur');
+var JPEG = require('./jpeg/jpeg-settings');
+var Brightness = require('./chromaticity/brightness');
+var Contrast = require('./chromaticity/contrast');
+var Hue = require('./chromaticity/hue');
+var Saturation = require('./chromaticity/saturation');
 
-var imageUrl = require('../url/ImageURL');
+var imageUrl = require('../url/image-url');
 
 /**
  * @param name
@@ -162,8 +162,8 @@ function BaseOperation(name, baseUrl, imageId, imageName, version) {
         return size.size;
     })();
 
-    this.serializationOrder = [brightness, contrast, hue, saturation,
-        blur, negative, oil, pixelate, pixelateFaces, redEyeRemover, sharpen, unsharpMask, jpeg, size];
+    this.serializationOrder = [brightness, contrast, hue, saturation, blur, negative, oil, pixelate, pixelateFaces,
+        redEyeRemover, sharpen, unsharpMask, jpeg, size];
 }
 
 /**

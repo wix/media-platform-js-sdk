@@ -39,4 +39,7 @@ Negative.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Negative}
+ */
 module.exports = Negative;

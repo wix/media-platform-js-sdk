@@ -40,4 +40,7 @@ Align.prototype.serialize = function () {
     return out;
 };
 
+/**
+ * @type {Align}
+ */
 module.exports = Align;

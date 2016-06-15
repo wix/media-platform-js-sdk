@@ -1,7 +1,7 @@
 var util = require('util');
 var BaseOperation = require('./base-operation');
-var Align = require('./align/Align');
-var Background = require('./background/background-color');
+var Align = require('./align/align');
+var Background = require('./background/background');
 
 /**
  * @summary Resizes the image canvas.

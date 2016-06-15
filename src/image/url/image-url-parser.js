@@ -1,8 +1,8 @@
 //TODO: return Image instance...
 
 var extend = require('underscore').extend;
-var ImageURLTokenizer = require('./ImageURLTokenizer');
-var TokenType = require('./TokenType');
+var ImageURLTokenizer = require('./image-url-tokenizer');
+var TokenType = require('./token-type');
 
 var adjustMap = {
     "br" : {auto : true, params: 1, adjust : true},
