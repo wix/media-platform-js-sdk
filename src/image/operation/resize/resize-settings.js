@@ -8,10 +8,6 @@ function Resize(operation) {
     
     this.settings = {
         /**
-         * @type {number|null}
-         */
-        filter: null,
-        /**
          * @type {boolean|null}
          */
         upscale: null
@@ -22,13 +18,11 @@ function Resize(operation) {
 
 /**
  * @summary The resize filter
- * @param {ResizeFilters?} filter the filter to use, from {@link ResizeFilters}
- * @param {boolean?} enableUpscaling Enable image proportional upscaling.
+ * @param {boolean?} enableUpscale Enable image proportional upscaling.
  * @returns {Resize} the operation
  */
-Resize.prototype.configuration = function (filter, enableUpscaling) {
-    this.settings.filter = !!filter ? filter : null;
-    this.settings.upscale = !!enableUpscaling;
+Resize.prototype.configuration = function (enableUpscale) {
+    this.settings.upscale = !!enableUpscale;
     return this.operation;
 };
 
@@ -39,15 +33,7 @@ Resize.prototype.serialize = function () {
 
     var out = '';
 
-    if (this.settings.filter) {
-        out += 'rf_' + this.settings.filter;
-    }
-
     if (this.settings.upscale) {
-        if (out.length > 0) {
-            out += ',';
-        }
-
         out += 'lg'
     }
 

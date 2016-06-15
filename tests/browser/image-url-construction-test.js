@@ -2,8 +2,14 @@ var Image = require('../../src/image/image');
 var expect = require('expect.js');
 
 describe('test image url construction', function () {
+
+    var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
+
     it('test canvas operation construction', function () {
-        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
+
+        var Alignments = require('../../src/image/operation/align/alignments');
+
+        var url = image.canvas()
             .size(100, 100)
             .jpeg(100, true)
             .unsharpMask(10, 10, 10)
@@ -18,14 +24,14 @@ describe('test image url construction', function () {
             .hue(60)
             .contrast(12)
             .brightness(99)
-            .alignment('l')
+            .alignment(Alignments.BOTTOM)
             .background('aabbcc')
             .toUrl();
 
-        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
+        expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_10,usm_10_10_10,q_100,bl,w_100,h_100,al_b,c_aabbcc/fish.jpeg');
     });
     it('test crop operation construction', function () {
-        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').crop()
+        var url = image.crop()
             .size(100, 100)
             .jpeg(100, true)
             .unsharpMask(10, 10, 10)
@@ -43,10 +49,10 @@ describe('test image url construction', function () {
             .dimensions(100, 100, 0.7)
             .toUrl();
 
-        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
+        expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_10,usm_10_10_10,q_100,bl,w_100,h_100,x_100,y_100,scl_0.7/fish.jpeg');
     });
     it('test fill operation construction', function () {
-        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').fill()
+        var url = image.fill()
             .size(100, 100)
             .jpeg(100, true)
             .unsharpMask(10, 10, 10)
@@ -62,13 +68,13 @@ describe('test image url construction', function () {
             .contrast(12)
             .brightness(99)
             .alignment('l')
-            .configuration(2, true)
+            .configuration(true)
             .toUrl();
         
-        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
+        expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_10,usm_10_10_10,q_100,bl,w_100,h_100,al_l,lg/fish.jpeg');
     });
     it('test fit operation construction', function () {
-        var url = new Image('//test.wix.com', '12345', 'fish.jpeg').fit()
+        var url = image.fit()
             .size(100, 100)
             .jpeg(100, true)
             .unsharpMask(10, 10, 10)
@@ -83,10 +89,10 @@ describe('test image url construction', function () {
             .hue(60)
             .contrast(12)
             .brightness(99)
-            .configuration(2, true)
+            .configuration(true)
             .toUrl();
 
-        expect(url).to.be('http://test.wix.com/12345/v1/fill/w_100,h_300,al_l/cat.jpg');
+        expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_10,usm_10_10_10,q_100,bl,w_100,h_100,lg/fish.jpeg');
     });
     
     // it('Test fill construction, w, h, al', function () {
