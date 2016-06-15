@@ -1,9 +1,6 @@
-/**
- * Created by elad on 31/05/2016.
- */
 var util = require('util');
-var BaseAuthenticationConfiguration = require('./BaseAuthenticationConfiguration');
-var ServiceMode = require('../ServiceMode');
+var BaseAuthenticationConfiguration = require('./base-authentication-configuration');
+var ServiceMode = require('../service-mode');
 
 /**
  * @param {ProviderConfiguration} providerConfiguration

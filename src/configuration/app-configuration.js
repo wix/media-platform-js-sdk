@@ -1,9 +1,6 @@
-/**
- * Created by elad on 07/06/2016.
- */
-var utils = require('utils');
+var util = require('util');
 
-var ProviderConfiguration = require('./ProviderConfiguration');
+var ProviderConfiguration = require('./provider-configuration');
 /**
  * @param {string} domain
  * @param {string} apiKey

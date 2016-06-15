@@ -1,7 +1,4 @@
 /**
- * Created by elad on 31/05/2016.
- */
-/**
  * @enum {String}
  * @readonly
  */
@@ -23,4 +20,4 @@ var ServiceMode = {
 /**
  * @type {{PROVIDER: string, APP: string}}
  */
-exports.ServiceMode = ServiceMode;
+module.exports = ServiceMode;

@@ -1,9 +1,6 @@
-/**
- * Created by elad on 31/05/2016.
- */
 var util = require('util');
 var crypto = require('crypto');
-var WixAuth = require("wix-auth-hmac");
+var WixAuth = require('wix-auth-hmac');
 
 var WIX_NONCE = 'x-wix-auth-nonce';
 var WIX_TS = 'x-wix-auth-ts';

@@ -9,13 +9,13 @@ module.exports = function(grunt) {
             dropConsole: true
         }]],
         browserifyOptions: {
-            standalone: 'MediaPlatform'
+            standalone: 'media-platform'
         }
     };
 	var buildOptions = {
 		debug: false,
         browserifyOptions: {
-            standalone: 'MediaPlatform'
+            standalone: 'media-platform'
 		}
 	};
 
@@ -46,13 +46,13 @@ module.exports = function(grunt) {
             },
             dist: {
                 options: distOptions,
-                src: ['public/MediaPlatform.js'],
-                dest: 'dist/MediaPlatform.min.js'
+                src: ['public/media-platform.js'],
+                dest: 'dist/media-platform.min.js'
             },
             build: {
 				options: buildOptions,
-                src: ['public/MediaPlatform.js'],
-                dest: 'build/MediaPlatform.min.js'
+                src: ['public/media-platform.js'],
+                dest: 'build/media-platform.min.js'
             },
             tests: {
                 src: ['tests/browser/**/*-test.js'],
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
         },
         mocha: {
             test: {
-                src: ['tests/browser/MochaRunner.html'],
+                src: ['tests/browser/mocha-runner.html'],
                 options: {
                     run: true
                 }

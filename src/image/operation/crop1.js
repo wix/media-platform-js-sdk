@@ -1,6 +1,6 @@
 var util = require('util');
 var BaseOperation = require('./base-operation');
-var Cropping = require('./crop/ali-croppter');
+var Cropping = require('./crop/cropper');
 
 /**
  * @summary Crops the image based on the supplied coordinates.

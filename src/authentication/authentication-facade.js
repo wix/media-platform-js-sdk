@@ -1,5 +1,5 @@
 var needle = require('needle');
-var SignedRequest = require('./http/SigendRequest');
+var SignedRequest = require('./http/sigend-request');
 
 var AUTHORIZATION_HEADER = 'Authorization';
 
