@@ -19,7 +19,7 @@ function Resize(operation) {
 /**
  * @summary The resize filter
  * @param {boolean?} enableUpscale Enable image proportional upscaling.
- * @returns {Resize} the operation
+ * @returns {*} the operation
  */
 Resize.prototype.configuration = function (enableUpscale) {
     this.settings.upscale = !!enableUpscale;

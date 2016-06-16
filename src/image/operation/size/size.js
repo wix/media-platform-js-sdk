@@ -18,7 +18,7 @@ function Size(operation) {
  * @summary The width constraint
  * @param {Number} width a number greater than `0`
  * @param {Number} height a number greater than `0`
- * @returns {Size} the operation
+ * @returns {*} the operation
  */
 Size.prototype.size = function (width, height) {
     this.settings.width = width;

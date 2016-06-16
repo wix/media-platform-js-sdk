@@ -18,7 +18,7 @@ function RedEyeRemover(operation) {
 
 /**
  * @summary Red eye removal
- * @returns {RedEyeRemover} the operation
+ * @returns {*} the operation
  */
 RedEyeRemover.prototype.activate = function (active) {
     this.settings.active = (active === undefined) ? true : !!active;

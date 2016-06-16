@@ -1,3 +1,5 @@
+var validator = require('../validation/validator');
+
 /**
  * @param operation
  * @constructor
@@ -25,16 +27,37 @@ function Cropping(operation) {
 }
 
 /**
- * @summary The `x` value of the crop
- * @param {number} x the x value
- * @param {number} y the y value
- * @param {number?} scaleFactor The Scale factor. Scale cannot be 0. Valid values: (0:100.0].
- * @returns {Crop} the operation
+ * @param {number?} x the x value
+ * @param {number?} y the y value
+ * @param {number?} scaleFactor The Scale factor. Valid values: (0:100].
+ * @returns {*} the operation
  */
 Cropping.prototype.dimensions = function (x, y, scaleFactor) {
+
+    if (arguments.length === 0) {
+        this.settings.x = null;
+        this.settings.y = null;
+        this.settings.scaleFactor = null;
+        return this.operation;
+    }
+
+    if (!validator.numberInRange('crop scale factor', scaleFactor, 0, 100)) {
+        return this.operation;
+    }
+
+    x = Math.round(x);
+    if (!validator.numberIsGreaterThan('crop x', x, 1)) {
+        return this.operation;
+    }
+
+    y = Math.round(y);
+    if (!validator.numberIsGreaterThan('crop y', y, 1)) {
+        return this.operation;
+    }
+
     this.settings.x = x;
     this.settings.y = y;
-    this.settings.scaleFactor = scaleFactor || null;
+    this.settings.scaleFactor = (!scaleFactor || scaleFactor == 1) ? null : scaleFactor;
     return this.operation;
 };
 

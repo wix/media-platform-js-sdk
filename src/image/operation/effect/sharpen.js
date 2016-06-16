@@ -1,3 +1,5 @@
+var validator = require('../validation/validator');
+
 /**
  * @param operation
  * @constructor
@@ -19,9 +21,14 @@ function Sharpen(operation) {
 /**
  * @summary Sharpens the image using radius
  * @param {number} radius sharpening mask radius, `0` to `1`
- * @returns {Sharpen} the operation
+ * @returns {*} the operation
  */
 Sharpen.prototype.sharpen = function (radius) {
+
+    if (!validator.numberInRange('sharpen radius', radius, 0, 1)) {
+        return this.operation;
+    }
+
     this.settings.radius = radius;
     return this.operation;
 };

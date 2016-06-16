@@ -1,5 +1,5 @@
 /**
- * @param {BaseOperation} operation
+ * @param {*} operation
  * @constructor
  */
 function Background(operation) {
@@ -18,9 +18,15 @@ function Background(operation) {
 /**
  * @summary The background color, in case the canvas size is larger than the image itself.
  * @param {string} color an RGB value, of form `rrggbb`
- * @returns {Background} the operation
+ * @returns {*} the operation
  */
 Background.prototype.color = function (color) {
+
+    if (!!color && !color.match(/[0-9a-f]{6}/)) {
+        console.error('background: ' + color + ' is not a valid 6 digit hex color');
+        return this.operation;
+    }
+
     this.settings.color = color;
     return this.operation;
 };

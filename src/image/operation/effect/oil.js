@@ -19,7 +19,7 @@ function Oil(operation) {
 /**
  * @summary Applies an oil paint effect to the image.
  * @param {boolean?} active
- * @returns {Oil} the operation
+ * @returns {*} the operation
  */
 Oil.prototype.activate = function (active) {
     this.settings.active = (active === undefined) ? true : !!active;

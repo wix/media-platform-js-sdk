@@ -1,5 +1,7 @@
 var _ = require('underscore');
 
+var validator = require('../validation/validator');
+
 /**
  * @param operation
  * @constructor
@@ -18,9 +20,14 @@ function Saturation(operation) {
 /**
  * @summary saturation of the image.
  * @param {number?} saturation a Number between `-100` and `100`
- * @returns {Saturation} the operation
+ * @returns {*} the operation
  */
 Saturation.prototype.saturation = function (saturation) {
+
+    if (!validator.numberInRange('saturation', saturation, -100, 100)) {
+        return this.operation;
+    }
+
     this.settings.saturation = _.isUndefined(saturation) ? null : saturation;
     return this.operation;
 };

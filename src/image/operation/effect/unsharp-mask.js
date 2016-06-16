@@ -1,3 +1,5 @@
+var validator = require('../validation/validator');
+
 /**
  * @param operation
  * @constructor
@@ -29,9 +31,29 @@ function UnsharpMask(operation) {
  * @param {number} radius the unsharp mask radius. default value: `0.50`
  * @param {number} amount the unsharp mask amount. default value: `0.20`
  * @param {number} threshold the unsharp mask threshold. default value: `0.00`
- * @returns {UnsharpMask} the operation
+ * @returns {*} the operation
  */
 UnsharpMask.prototype.configuration = function (radius, amount, threshold) {
+
+    if (arguments.length === 0) {
+        this.settings.radius= null;
+        this.settings.amount = null;
+        this.settings.threshold = null;
+        return this.operation;
+    }
+
+    if (!validator.numberInRange('unsharp mask radius', radius, 0.1, 500)) {
+        return this.operation;
+    }
+
+    if (!validator.numberInRange('unsharp mask amount', amount, 0, 10)) {
+        return this.operation;
+    }
+
+    if (!validator.numberInRange('unsharp mask threshold', threshold, 0, 255)) {
+        return this.operation;
+    }
+
     this.settings.radius = radius;
     this.settings.amount = amount;
     this.settings.threshold = threshold;

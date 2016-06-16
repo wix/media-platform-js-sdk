@@ -1,3 +1,5 @@
+var validator = require('../validation/validator');
+
 /**
  * @param operation
  * @constructor
@@ -19,9 +21,15 @@ function Pixelate(operation) {
 /**
  * @summary Applies a pixelate effect to the image.
  * @param {number?} pixels the width of pixelation squares, in pixels
- * @returns {Pixelate} the operation
+ * @returns {*} the operation
  */
 Pixelate.prototype.pixels = function (pixels) {
+
+    pixels = Math.round(pixels);
+    if (!validator.numberIsGreaterThan('pixelate', pixels, 0)) {
+        return this.operation;
+    }
+
     this.settings.size = pixels || null;
     return this.operation;
 };

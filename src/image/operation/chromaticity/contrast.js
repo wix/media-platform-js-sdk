@@ -1,5 +1,7 @@
 var _ = require('underscore');
 
+var validator = require('../validation/validator');
+
 /**
  * @param operation
  * @constructor
@@ -22,9 +24,14 @@ function Contrast(operation) {
  * @summary contrast of the image.
  * @description supports a numeric value between `-100` and `100`
  * @param {string|number} contrast a number between `-100` and `100`
- * @returns {Contrast} the operation
+ * @returns {*} the operation
  */
 Contrast.prototype.contrast = function (contrast) {
+
+    if (!validator.numberInRange('contrast', contrast, -100, 100)) {
+        return this.operation;
+    }
+    
     this.settings.contrast = _.isUndefined(contrast) ? null : contrast;
     return this.operation;
 };

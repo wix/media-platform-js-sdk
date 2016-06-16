@@ -25,7 +25,7 @@ function JPEG(operation) {
  * @summary The quality constraint, if the image is a jpg
  * @param {number} [quality=75] a number from `1` to `100`
  * @param {boolean?} baseline 
- * @returns {JPEG} the operation
+ * @returns {*} the operation
  */
 JPEG.prototype.compression = function (quality, baseline) {
     if (quality === 75) {

@@ -6,7 +6,7 @@ module.exports = function(grunt) {
             global: true,
             preserveComments: false,
             dropDebugger: true,
-            dropConsole: true
+            dropConsole: false
         }]],
         browserifyOptions: {
             standalone: 'media-platform'

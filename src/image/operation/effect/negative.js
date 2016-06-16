@@ -18,7 +18,7 @@ function Negative(operation) {
 
 /**
  * @summary Applies an oil paint effect to the image.
- * @returns {Negative} the operation
+ * @returns {*} the operation
  */
 Negative.prototype.activate = function (active) {
     this.settings.active = (active === undefined) ? true : !!active;

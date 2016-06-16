@@ -1,11 +1,14 @@
+var _ = require('underscore');
+var Alignments = require('./alignments');
+
 /**
- * @param {BaseOperation} operation
+ * @param {*} operation
  * @constructor
  */
 function Align(operation) {
-    
+
     this.operation = operation;
-    
+
     this.settings = {
         /**
          * @type {string|null}
@@ -19,9 +22,17 @@ function Align(operation) {
 /**
  * @summary Sets the alignment value for this operation
  * @param {Alignments} a the alignment value
- * @returns {BaseOperation} the operation
+ * @returns {*} the operation
  */
 Align.prototype.alignment = function (a) {
+
+    if (!!a && !_.findKey(Alignments, function(value) {
+            return value === a;
+        })) {
+        console.error('align: ' + a + ' is not a valid alignment value - see alignments.js for valid values');
+        return this.operation;
+    }
+
     this.settings.alignment = !!a ? a : null;
     return this.operation;
 };
