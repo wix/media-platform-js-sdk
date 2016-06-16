@@ -26,7 +26,7 @@ function PixelateFaces(operation) {
 PixelateFaces.prototype.pixels = function (pixels) {
 
     pixels = Math.round(pixels);
-    if (!validator.numberIsGreaterThan('pixelate', pixels, 0)) {
+    if (!validator.numberIsGreaterThan(this.operation, 'pixelate', pixels, 0)) {
         return this.operation;
     }
 

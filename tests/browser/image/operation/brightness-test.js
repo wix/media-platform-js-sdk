@@ -10,10 +10,17 @@ describe('brightness', function () {
         expect(brightness.serialize()).to.be('br_-100');
     });
 
-    it('reject values greater than 100', function () {
-        var brightness = new Brightness({});
+    it('reject values greater than 100 and calls back with error', function () {
+        var calledBack = false;
+        var brightness = new Brightness({
+            callback: function (error) {
+                calledBack = true;
+                expect(error).to.be.an(Error);
+            }
+        });
         brightness.brightness(101);
 
+        expect(calledBack).to.be.ok();
         expect(brightness.serialize()).to.be('');
     });
 

@@ -25,7 +25,7 @@ function Blur(operation) {
  */
 Blur.prototype.percentage = function (percentage) {
 
-    if (!validator.numberInRange('blur', percentage, 0, 100)) {
+    if (!validator.numberInRange(this.operation, 'blur', percentage, 0, 100)) {
         return this.operation;
     }
 

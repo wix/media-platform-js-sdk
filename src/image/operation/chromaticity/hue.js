@@ -28,7 +28,7 @@ function Hue(operation) {
  */
 Hue.prototype.hue = function (hue) {
 
-    if (!validator.numberInRange('hue', hue, -100, 100)) {
+    if (!validator.numberInRange(this.operation, 'hue', hue, -100, 100)) {
         return this.operation;
     }
     

@@ -25,7 +25,7 @@ function Sharpen(operation) {
  */
 Sharpen.prototype.sharpen = function (radius) {
 
-    if (!validator.numberInRange('sharpen radius', radius, 0, 1)) {
+    if (!validator.numberInRange(this.operation, 'sharpen radius', radius, 0, 1)) {
         return this.operation;
     }
 

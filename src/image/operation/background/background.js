@@ -1,3 +1,5 @@
+var errorHandler = require('../handler/error-handler');
+
 /**
  * @param {*} operation
  * @constructor
@@ -23,7 +25,7 @@ function Background(operation) {
 Background.prototype.color = function (color) {
 
     if (!!color && !color.match(/[0-9a-f]{6}/)) {
-        console.error('background: ' + color + ' is not a valid 6 digit hex color');
+        errorHandler.onError(this.operation, 'background: ' + color + ' is not a valid 6 digit hex color');
         return this.operation;
     }
 

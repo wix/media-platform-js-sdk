@@ -16,9 +16,10 @@ var Fit = require('./operation/fit');
  * @param {string} baseUrl the base URL where the image is hosted
  * @param {string} imageId the id of the image to manipulate
  * @param {string} imageName the name of the image to manipulate
+ * @param {function(Error?)?} callback
  * @constructor Image
  */
-function Image(baseUrl, imageId, imageName) {
+function Image(baseUrl, imageId, imageName, callback) {
     /**
      * @type {string}
      */
@@ -38,6 +39,11 @@ function Image(baseUrl, imageId, imageName) {
      * @type {string}
      */
     this.version = 'v1';
+
+    /**
+     * @type {function(Error=)|undefined}
+     */
+    this.callback = callback;
 }
 
 /**
@@ -46,7 +52,7 @@ function Image(baseUrl, imageId, imageName) {
  * @method
  */
 Image.prototype.canvas = function () {
-    return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version);
+    return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, this.callback);
 };
 /**
  * @summary Configures this image using the 'fill' operation.
@@ -54,7 +60,7 @@ Image.prototype.canvas = function () {
  * @method
  */
 Image.prototype.fill = function () {
-    return new Fill(this.baseUrl, this.imageId, this.imageName, this.version);
+    return new Fill(this.baseUrl, this.imageId, this.imageName, this.version, this.callback);
 };
 /**
  * @summary Configures this image using the 'fit' operation.
@@ -62,7 +68,7 @@ Image.prototype.fill = function () {
  * @method
  */
 Image.prototype.fit = function () {
-    return new Fit(this.baseUrl, this.imageId, this.imageName, this.version);
+    return new Fit(this.baseUrl, this.imageId, this.imageName, this.version, this.callback);
 };
 /**
  * @summary Configures this image using the 'crop' operation.
@@ -70,7 +76,7 @@ Image.prototype.fit = function () {
  * @method
  */
 Image.prototype.crop = function () {
-    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version);
+    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, this.callback);
 };
 
 /**

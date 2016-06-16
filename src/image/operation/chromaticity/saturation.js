@@ -24,7 +24,7 @@ function Saturation(operation) {
  */
 Saturation.prototype.saturation = function (saturation) {
 
-    if (!validator.numberInRange('saturation', saturation, -100, 100)) {
+    if (!validator.numberInRange(this.operation, 'saturation', saturation, -100, 100)) {
         return this.operation;
     }
 

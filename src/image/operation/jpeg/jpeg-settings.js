@@ -33,7 +33,7 @@ JPEGSettings.prototype.compression = function (quality, baseline) {
 
     quality = Math.round(quality);
 
-    if (!validator.numberInRange('jpeg compression quality', quality, 0, 100)) {
+    if (!validator.numberInRange(this.operation, 'jpeg compression quality', quality, 0, 100)) {
         return this.operation;
     }
 

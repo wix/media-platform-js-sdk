@@ -42,15 +42,15 @@ UnsharpMask.prototype.configuration = function (radius, amount, threshold) {
         return this.operation;
     }
 
-    if (!validator.numberInRange('unsharp mask radius', radius, 0.1, 500)) {
+    if (!validator.numberInRange(this.operation, 'unsharp mask radius', radius, 0.1, 500)) {
         return this.operation;
     }
 
-    if (!validator.numberInRange('unsharp mask amount', amount, 0, 10)) {
+    if (!validator.numberInRange(this.operation, 'unsharp mask amount', amount, 0, 10)) {
         return this.operation;
     }
 
-    if (!validator.numberInRange('unsharp mask threshold', threshold, 0, 255)) {
+    if (!validator.numberInRange(this.operation, 'unsharp mask threshold', threshold, 0, 255)) {
         return this.operation;
     }
 

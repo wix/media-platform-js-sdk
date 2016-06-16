@@ -28,7 +28,7 @@ function Brightness(operation) {
  */
 Brightness.prototype.brightness = function (brightness) {
 
-    if (!validator.numberInRange('brightness', brightness, -100, 100)) {
+    if (!validator.numberInRange(this.operation, 'brightness', brightness, -100, 100)) {
         return this.operation;
     }
 

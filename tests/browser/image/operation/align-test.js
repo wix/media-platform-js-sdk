@@ -42,4 +42,18 @@ describe('align', function () {
 
         expect(align.serialize()).to.be('');
     });
+
+    it('reject invalid values and calls callback with error', function () {
+        var calledBack = false;
+        var align = new Align({
+            callback: function (error) {
+                calledBack = true;
+                expect(error).to.be.an(Error);
+            }
+        });
+        align.alignment('cccc');
+
+        expect(calledBack).to.be.ok();
+        expect(align.serialize()).to.be('');
+    });
 });

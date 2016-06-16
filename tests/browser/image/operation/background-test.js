@@ -39,4 +39,18 @@ describe('background', function () {
 
         expect(background.serialize()).to.be('');
     });
+
+    it('reject invalid values and calls back with error', function () {
+        var calledBack = false;
+        var background = new Background({
+            callback: function (error) {
+                calledBack = true;
+                expect(error).to.be.an(Error);
+            }
+        });
+        background.color('cccc');
+
+        expect(calledBack).to.be.ok();
+        expect(background.serialize()).to.be('');
+    });
 });

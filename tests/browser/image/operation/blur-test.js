@@ -10,10 +10,17 @@ describe('blur', function () {
         expect(blur.serialize()).to.be('blur_100');
     });
 
-    it('reject values greater than 100', function () {
-        var blur = new Blur({});
+    it('reject values greater than 100 and calls back with error', function () {
+        var calledBack = false;
+        var blur = new Blur({
+            callback: function (error) {
+                calledBack = true;
+                expect(error).to.be.an(Error);
+            }
+        });
         blur.percentage(101);
 
+        expect(calledBack).to.be.ok();
         expect(blur.serialize()).to.be('');
     });
 

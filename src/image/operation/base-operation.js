@@ -16,14 +16,15 @@ var Saturation = require('./chromaticity/saturation');
 var imageUrl = require('../url/image-url');
 
 /**
- * @param name
- * @param baseUrl
- * @param imageId
- * @param imageName
- * @param version
+ * @param {string} name
+ * @param {string} baseUrl
+ * @param {string} imageId
+ * @param {string} imageName
+ * @param {string} version
+ * @param {function(Error?)?} callback
  * @constructor
  */
-function BaseOperation(name, baseUrl, imageId, imageName, version) {
+function BaseOperation(name, baseUrl, imageId, imageName, version, callback) {
 
     /**
      * @type {string}
@@ -50,6 +51,11 @@ function BaseOperation(name, baseUrl, imageId, imageName, version) {
      */
     this.version = version;
 
+    /**
+     * @type {function(Error?)|null}
+     */
+    this.callback = callback || null; 
+    
     /**
      * @type {Brightness}
      */

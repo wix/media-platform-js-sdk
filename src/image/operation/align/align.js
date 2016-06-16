@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var Alignments = require('./alignments');
+var errorHandler = require('../handler/error-handler');
 
 /**
  * @param {*} operation
@@ -29,7 +30,7 @@ Align.prototype.alignment = function (a) {
     if (!!a && !_.findKey(Alignments, function(value) {
             return value === a;
         })) {
-        console.error('align: ' + a + ' is not a valid alignment value - see alignments.js for valid values');
+        errorHandler.onError(this.operation, 'align: ' + a + ' is not a valid alignment value - see alignments.js for valid values');
         return this.operation;
     }
 

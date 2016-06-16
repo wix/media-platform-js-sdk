@@ -41,17 +41,17 @@ Cropping.prototype.dimensions = function (x, y, scaleFactor) {
         return this.operation;
     }
 
-    if (!validator.numberInRange('crop scale factor', scaleFactor, 0, 100)) {
+    if (!validator.numberInRange(this.operation, 'crop scale factor', scaleFactor, 0, 100)) {
         return this.operation;
     }
 
     x = Math.round(x);
-    if (!validator.numberIsGreaterThan('crop x', x, 1)) {
+    if (!validator.numberIsGreaterThan(this.operation, 'crop x', x, 1)) {
         return this.operation;
     }
 
     y = Math.round(y);
-    if (!validator.numberIsGreaterThan('crop y', y, 1)) {
+    if (!validator.numberIsGreaterThan(this.operation, 'crop y', y, 1)) {
         return this.operation;
     }
 

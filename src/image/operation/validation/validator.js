@@ -1,13 +1,16 @@
+var errorHandler = require('../handler/error-handler');
+
 /**
- * @param name
- * @param value
- * @param lowerBound
- * @param upperBound
+ * @param {BaseOperation} operation
+ * @param {string} name
+ * @param {number} value
+ * @param {number} lowerBound
+ * @param {number} upperBound
  * @returns {boolean}
  */
-function numberInRange(name, value, lowerBound, upperBound) {
+function numberInRange(operation, name, value, lowerBound, upperBound) {
     if (value > upperBound || value < lowerBound) {
-        console.error(name + ': ' + value + ' is not a number between ' + lowerBound +  ' to ' + upperBound);
+        errorHandler.onError(operation, name + ': ' + value + ' is not a number between ' + lowerBound +  ' to ' + upperBound);
         return false;
     }
     
@@ -15,14 +18,15 @@ function numberInRange(name, value, lowerBound, upperBound) {
 }
 
 /**
- * @param name
- * @param value
- * @param lowerBound
+ * @param {BaseOperation} operation
+ * @param {string} name
+ * @param {number} value
+ * @param {number} lowerBound
  * @returns {boolean}
  */
-function numberIsGreaterThan(name, value, lowerBound) {
+function numberIsGreaterThan(operation, name, value, lowerBound) {
     if (value < lowerBound) {
-        console.error(name + ': ' + value + ' is not a number greater than ' + lowerBound);
+        errorHandler.onError(operation, name + ': ' + value + ' is not a number greater than ' + lowerBound);
         return false;
     }
 

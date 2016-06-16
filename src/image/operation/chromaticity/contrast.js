@@ -28,7 +28,7 @@ function Contrast(operation) {
  */
 Contrast.prototype.contrast = function (contrast) {
 
-    if (!validator.numberInRange('contrast', contrast, -100, 100)) {
+    if (!validator.numberInRange(this.operation, 'contrast', contrast, -100, 100)) {
         return this.operation;
     }
     

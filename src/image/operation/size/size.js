@@ -1,4 +1,5 @@
 var validator = require('../validation/validator');
+var errorHandler = require('../handler/error-handler');
 
 /**
  * @param operation
@@ -31,12 +32,12 @@ function Size(operation) {
 Size.prototype.size = function (width, height) {
 
     width = Math.round(width);
-    if (!validator.numberIsGreaterThan('width', width, 1)) {
+    if (!validator.numberIsGreaterThan(this.operation, 'width', width, 1)) {
         return this.operation;
     }
 
     height = Math.round(height);
-    if (!validator.numberIsGreaterThan('height', height, 1)) {
+    if (!validator.numberIsGreaterThan(this.operation, 'height', height, 1)) {
         return this.operation;
     }
 
@@ -51,7 +52,7 @@ Size.prototype.size = function (width, height) {
 Size.prototype.serialize = function () {
 
     if (!this.settings.width || !this.settings.height) {
-        console.error('size: width and height are mandatory');
+        errorHandler.onError(this.operation, 'size: width and height are mandatory');
         return '';
     }
 
