@@ -5,7 +5,6 @@ var Fit = require('./operation/fit');
 // var imageUrlParser = require('./parser/ImageURLParser');
 
 /**
- * TODO: return null on invalid options
  * TODO: global operations to upper scope
  * TODO: operation chaining and transformation arithmetic
  */

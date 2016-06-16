@@ -212,7 +212,7 @@ BaseOperation.prototype.collect = function () {
         if (part.error) {
             errors.push(part.error);
         }
-        if (out.length > 0 && part.params.length > 0) {
+        if (out.length > 0 && part.params && part.params.length > 0) {
             out += ',';
         }
         out += part.params;
