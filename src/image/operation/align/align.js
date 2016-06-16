@@ -1,6 +1,5 @@
 var _ = require('underscore');
 var Alignments = require('./alignments');
-var errorHandler = require('../handler/error-handler');
 
 /**
  * @param {*} operation
@@ -9,6 +8,11 @@ var errorHandler = require('../handler/error-handler');
 function Align(operation) {
 
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
 
     this.settings = {
         /**
@@ -30,16 +34,17 @@ Align.prototype.alignment = function (a) {
     if (!!a && !_.findKey(Alignments, function(value) {
             return value === a;
         })) {
-        errorHandler.onError(this.operation, 'align: ' + a + ' is not a valid alignment value - see alignments.js for valid values');
+        this.error = 'align: ' + a + ' is not a valid alignment value - see alignments.js for valid values';
         return this.operation;
     }
 
+    this.error = null;
     this.settings.alignment = !!a ? a : null;
     return this.operation;
 };
 
 /**
- * @returns {string}
+ * @returns {{params: string, error: *}}
  */
 Align.prototype.serialize = function () {
 
@@ -49,7 +54,10 @@ Align.prototype.serialize = function () {
         out += 'al_' + this.settings.alignment;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

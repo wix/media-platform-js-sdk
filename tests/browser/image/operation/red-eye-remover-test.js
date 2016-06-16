@@ -7,7 +7,7 @@ describe('red eye remover', function () {
         var redEyeRemover = new RedEyeRemover({});
         redEyeRemover.activate();
 
-        expect(redEyeRemover.serialize()).to.be('eye');
+        expect(redEyeRemover.serialize()).to.eql({ params: 'eye', error: null });
     });
 
     it('can be reset by false', function () {
@@ -15,6 +15,6 @@ describe('red eye remover', function () {
         redEyeRemover.activate();
         redEyeRemover.activate(false);
 
-        expect(redEyeRemover.serialize()).to.be('');
+        expect(redEyeRemover.serialize()).to.eql({ params: '', error: null });
     });
 });

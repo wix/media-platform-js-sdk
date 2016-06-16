@@ -7,7 +7,7 @@ describe('negative', function () {
         var negative = new Negative({});
         negative.activate();
 
-        expect(negative.serialize()).to.be('neg');
+        expect(negative.serialize()).to.eql({ params: 'neg', error: null });
     });
 
     it('can be reset by false', function () {
@@ -15,6 +15,6 @@ describe('negative', function () {
         negative.activate();
         negative.activate(false);
 
-        expect(negative.serialize()).to.be('');
+        expect(negative.serialize()).to.eql({ params: '', error: null });
     });
 });

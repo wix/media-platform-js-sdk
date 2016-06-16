@@ -10,6 +10,11 @@ function Contrast(operation) {
     
     this.operation = operation;
 
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+
     this.settings = {
         /**
          * @type {number|null}
@@ -28,10 +33,11 @@ function Contrast(operation) {
  */
 Contrast.prototype.contrast = function (contrast) {
 
-    if (!validator.numberInRange(this.operation, 'contrast', contrast, -100, 100)) {
+    this.error = validator.numberNotInRange('contrast', contrast, -100, 100);
+    if (this.error) {
         return this.operation;
     }
-    
+
     this.settings.contrast = _.isUndefined(contrast) ? null : contrast;
     return this.operation;
 };
@@ -47,7 +53,10 @@ Contrast.prototype.serialize = function () {
         out += 'con_' + this.settings.contrast;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

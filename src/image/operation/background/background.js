@@ -1,5 +1,3 @@
-var errorHandler = require('../handler/error-handler');
-
 /**
  * @param {*} operation
  * @constructor
@@ -7,6 +5,11 @@ var errorHandler = require('../handler/error-handler');
 function Background(operation) {
 
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
         /**
@@ -25,10 +28,11 @@ function Background(operation) {
 Background.prototype.color = function (color) {
 
     if (!!color && !color.match(/[0-9a-f]{6}/)) {
-        errorHandler.onError(this.operation, 'background: ' + color + ' is not a valid 6 digit hex color');
+        this.error = 'background: ' + color + ' is not a valid 6 digit hex color';
         return this.operation;
     }
 
+    this.error = null;
     this.settings.color = color;
     return this.operation;
 };
@@ -44,7 +48,10 @@ Background.prototype.serialize = function () {
         out += 'c_' + this.settings.color;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

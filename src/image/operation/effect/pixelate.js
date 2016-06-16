@@ -7,6 +7,11 @@ var validator = require('../validation/validator');
 function Pixelate(operation) {
     
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
         /**
@@ -26,10 +31,11 @@ function Pixelate(operation) {
 Pixelate.prototype.pixels = function (pixels) {
 
     pixels = Math.round(pixels);
-    if (!validator.numberIsGreaterThan(this.operation, 'pixelate', pixels, 0)) {
+    this.error = validator.numberIsNotGreaterThan('pixelate', pixels, 0);
+    if (this.error) {
         return this.operation;
     }
-
+    
     this.settings.size = pixels || null;
     return this.operation;
 };
@@ -45,7 +51,10 @@ Pixelate.prototype.serialize = function () {
         out += 'pix_' + this.settings.size;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

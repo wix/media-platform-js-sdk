@@ -6,7 +6,6 @@ var Fit = require('./operation/fit');
 
 /**
  * TODO: return null on invalid options
- * TODO: optional error callback
  * TODO: global operations to upper scope
  * TODO: operation chaining and transformation arithmetic
  */

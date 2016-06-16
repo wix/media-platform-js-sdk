@@ -9,8 +9,16 @@ var validator = require('../validation/validator');
 function Saturation(operation) {
 
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
+        /**
+         * @type {number|null}
+         */
         saturation: null
     };
 
@@ -24,10 +32,11 @@ function Saturation(operation) {
  */
 Saturation.prototype.saturation = function (saturation) {
 
-    if (!validator.numberInRange(this.operation, 'saturation', saturation, -100, 100)) {
+    this.error = validator.numberNotInRange('saturation', saturation, -100, 100);
+    if (this.error) {
         return this.operation;
     }
-
+    
     this.settings.saturation = _.isUndefined(saturation) ? null : saturation;
     return this.operation;
 };
@@ -43,7 +52,10 @@ Saturation.prototype.serialize = function () {
         out += 'sat_' + this.settings.saturation;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

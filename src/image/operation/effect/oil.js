@@ -6,6 +6,11 @@ function Oil(operation) {
 
     this.operation = operation;
 
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+
     this.settings = {
         /**
          * @type {boolean|null}
@@ -37,7 +42,10 @@ Oil.prototype.serialize = function () {
         out += 'oil';
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

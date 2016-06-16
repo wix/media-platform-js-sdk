@@ -7,6 +7,11 @@ var validator = require('../validation/validator');
 function Sharpen(operation) {
     
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
         /**
@@ -25,10 +30,11 @@ function Sharpen(operation) {
  */
 Sharpen.prototype.sharpen = function (radius) {
 
-    if (!validator.numberInRange(this.operation, 'sharpen radius', radius, 0, 1)) {
+    this.error = validator.numberNotInRange('sharpen radius', radius, 0, 1);
+    if (this.error) {
         return this.operation;
     }
-
+    
     this.settings.radius = radius;
     return this.operation;
 };
@@ -44,7 +50,10 @@ Sharpen.prototype.serialize = function () {
         out += 'shrp_' + this.settings.radius;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

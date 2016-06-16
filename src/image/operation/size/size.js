@@ -1,5 +1,4 @@
 var validator = require('../validation/validator');
-var errorHandler = require('../handler/error-handler');
 
 /**
  * @param operation
@@ -8,6 +7,11 @@ var errorHandler = require('../handler/error-handler');
 function Size(operation) {
     
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
         /**
@@ -32,12 +36,14 @@ function Size(operation) {
 Size.prototype.size = function (width, height) {
 
     width = Math.round(width);
-    if (!validator.numberIsGreaterThan(this.operation, 'width', width, 1)) {
+    this.error = validator.numberIsNotGreaterThan('width', width, 1);
+    if (this.error) {
         return this.operation;
     }
 
     height = Math.round(height);
-    if (!validator.numberIsGreaterThan(this.operation, 'height', height, 1)) {
+    this.error = validator.numberIsNotGreaterThan('height', height, 1);
+    if (this.error) {
         return this.operation;
     }
 
@@ -47,16 +53,28 @@ Size.prototype.size = function (width, height) {
 };
 
 /**
- * @returns {string}
+ * @returns {*}
  */
 Size.prototype.serialize = function () {
 
-    if (!this.settings.width || !this.settings.height) {
-        errorHandler.onError(this.operation, 'size: width and height are mandatory');
-        return '';
+    if (this.error) {
+        return {
+            params: null,
+            error: this.error
+        };
     }
 
-    return 'w_' + this.settings.width + ',h_' + this.settings.height;
+    if (!this.settings.width || !this.settings.height) {
+        return {
+            params: null,
+            error: 'size: width and height are mandatory'
+        };
+    }
+
+    return {
+        params: 'w_' + this.settings.width + ',h_' + this.settings.height,
+        error: null
+    };
 };
 
 /**

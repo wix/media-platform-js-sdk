@@ -8,6 +8,11 @@ function PixelateFaces(operation) {
 
     this.operation = operation;
 
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+
     this.settings = {
         /**
          * @type {number|null}
@@ -26,7 +31,8 @@ function PixelateFaces(operation) {
 PixelateFaces.prototype.pixels = function (pixels) {
 
     pixels = Math.round(pixels);
-    if (!validator.numberIsGreaterThan(this.operation, 'pixelate', pixels, 0)) {
+    this.error = validator.numberIsNotGreaterThan('pixelate', pixels, 0);
+    if (this.error) {
         return this.operation;
     }
 
@@ -45,7 +51,10 @@ PixelateFaces.prototype.serialize = function () {
         out += 'pixfs_' + this.settings.size;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

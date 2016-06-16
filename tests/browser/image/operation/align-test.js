@@ -7,7 +7,8 @@ describe('align', function () {
         var align = new Align({});
         align.alignment('l');
 
-        expect(align.serialize()).to.be('al_l');
+        var result = align.serialize();
+        expect(result.params).to.be('al_l');
     });
 
     it('accepts value from alignments enum', function () {
@@ -15,45 +16,34 @@ describe('align', function () {
         var Alignments = require('../../../../src/image/operation/align/alignments');
         align.alignment(Alignments.ALL_FACES);
 
-        expect(align.serialize()).to.be('al_fs');
+        var result = align.serialize();
+        expect(result.params).to.be('al_fs');
     });
 
     it('can be reset by null value', function () {
         var align = new Align({});
         align.alignment('l');
-
         align.alignment(null);
 
-        expect(align.serialize()).to.be('');
+        var result = align.serialize();
+        expect(result.params).to.be('');
     });
 
     it('can be reset by undefined value', function () {
         var align = new Align({});
         align.alignment('l');
-
         align.alignment();
 
-        expect(align.serialize()).to.be('');
+        var result = align.serialize();
+        expect(result.params).to.be('');
     });
 
     it('reject invalid values', function () {
         var align = new Align({});
         align.alignment('cccc');
 
-        expect(align.serialize()).to.be('');
+        var result = align.serialize();
+        expect(result.error).to.be('align: cccc is not a valid alignment value - see alignments.js for valid values');
     });
 
-    it('reject invalid values and calls callback with error', function () {
-        var calledBack = false;
-        var align = new Align({
-            callback: function (error) {
-                calledBack = true;
-                expect(error).to.be.an(Error);
-            }
-        });
-        align.alignment('cccc');
-
-        expect(calledBack).to.be.ok();
-        expect(align.serialize()).to.be('');
-    });
 });

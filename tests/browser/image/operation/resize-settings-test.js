@@ -7,7 +7,7 @@ describe('resize settings', function () {
         var resizeSettings = new ResizeSettings({});
         resizeSettings.enableUpscale();
 
-        expect(resizeSettings.serialize()).to.be('lg');
+        expect(resizeSettings.serialize()).to.eql({ params: 'lg', error: null });
     });
 
     it('can be reset by false', function () {
@@ -15,6 +15,6 @@ describe('resize settings', function () {
         resizeSettings.enableUpscale();
         resizeSettings.enableUpscale(false);
 
-        expect(resizeSettings.serialize()).to.be('');
+        expect(resizeSettings.serialize()).to.eql({ params: '', error: null });
     });
 });

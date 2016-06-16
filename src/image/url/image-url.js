@@ -1,28 +1,3 @@
-/**
- * @param operation
- * @returns {string}
- */
-function toUrl(operation) {
-    var prefix = '';
-    var baseUrl = operation.baseUrl;
-    if (baseUrl !== null) {
-        if (baseUrl.length > 4 && baseUrl.substring(0, 4) !== "http") {
-            if (baseUrl.substring(0, 2) !== '//') {
-                prefix = '//';
-            }
-        }
-
-        if (baseUrl.slice(-1) === '/') {
-            baseUrl = baseUrl.slice(0, -1);
-        }
-    }
-
-    var out = prefix + baseUrl + "/" + operation.imageId + "/" + operation.version + '/';
-
-    var params = operation.serialize();
-
-    return out + params + "/" + operation.imageName;
-}
 //
 // function fromUrl(url) {
 //     var data = imageUrlParser.parse(url);
@@ -45,5 +20,4 @@ function toUrl(operation) {
 // }
 
 module.exports = {
-    toUrl: toUrl
 };

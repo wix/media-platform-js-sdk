@@ -5,6 +5,11 @@
 function Negative(operation) {
     
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
         /**
@@ -36,7 +41,10 @@ Negative.prototype.serialize = function () {
         out += 'neg';
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

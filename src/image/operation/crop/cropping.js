@@ -8,6 +8,11 @@ function Cropping(operation) {
 
     this.operation = operation;
 
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+
     this.settings = {
         /**
          * @type {number|null}
@@ -38,20 +43,24 @@ Cropping.prototype.dimensions = function (x, y, scaleFactor) {
         this.settings.x = null;
         this.settings.y = null;
         this.settings.scaleFactor = null;
+        this.error = null;
         return this.operation;
     }
 
-    if (!validator.numberInRange(this.operation, 'crop scale factor', scaleFactor, 0, 100)) {
+    this.error = validator.numberNotInRange('crop scale factor', scaleFactor, 0, 100);
+    if (this.error) {
         return this.operation;
     }
 
     x = Math.round(x);
-    if (!validator.numberIsGreaterThan(this.operation, 'crop x', x, 1)) {
+    this.error = validator.numberIsNotGreaterThan('crop x', x, 1);
+    if (this.error) {
         return this.operation;
     }
 
     y = Math.round(y);
-    if (!validator.numberIsGreaterThan(this.operation, 'crop y', y, 1)) {
+    this.error = validator.numberIsNotGreaterThan('crop y', y, 1);
+    if (this.error) {
         return this.operation;
     }
 
@@ -87,7 +96,11 @@ Cropping.prototype.serialize = function () {
 
         out += 'scl_' + this.settings.scaleFactor;
     }
-    return out;
+
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

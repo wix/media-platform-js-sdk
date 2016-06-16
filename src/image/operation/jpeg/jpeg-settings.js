@@ -8,6 +8,11 @@ function JPEGSettings(operation) {
     
     this.operation = operation;
 
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+
     this.settings = {
         /**
          * @type {number|null}
@@ -32,8 +37,8 @@ function JPEGSettings(operation) {
 JPEGSettings.prototype.compression = function (quality, baseline) {
 
     quality = Math.round(quality);
-
-    if (!validator.numberInRange(this.operation, 'jpeg compression quality', quality, 0, 100)) {
+    this.error = validator.numberNotInRange('jpeg compression quality', quality, 0, 100);
+    if (this.error) {
         return this.operation;
     }
 
@@ -42,9 +47,8 @@ JPEGSettings.prototype.compression = function (quality, baseline) {
     } else {
         this.settings.quality = quality || null;
     }
-
-    this.settings.baseline = !!baseline;
     
+    this.settings.baseline = !!baseline;
     return this.operation;
 };
 
@@ -67,7 +71,10 @@ JPEGSettings.prototype.serialize = function () {
         out += 'bl'
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

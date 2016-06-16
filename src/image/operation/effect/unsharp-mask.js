@@ -8,6 +8,11 @@ function UnsharpMask(operation) {
     
     this.operation = operation;
     
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+    
     this.settings = {
         /**
          * @type {number|null}
@@ -39,18 +44,22 @@ UnsharpMask.prototype.configuration = function (radius, amount, threshold) {
         this.settings.radius= null;
         this.settings.amount = null;
         this.settings.threshold = null;
+        this.error = null;
         return this.operation;
     }
 
-    if (!validator.numberInRange(this.operation, 'unsharp mask radius', radius, 0.1, 500)) {
+    this.error = validator.numberNotInRange('unsharp mask radius', radius, 0.1, 500);
+    if (this.error) {
         return this.operation;
     }
 
-    if (!validator.numberInRange(this.operation, 'unsharp mask amount', amount, 0, 10)) {
+    this.error = validator.numberNotInRange('unsharp mask amount', amount, 0, 10);
+    if (this.error) {
         return this.operation;
     }
 
-    if (!validator.numberInRange(this.operation, 'unsharp mask threshold', threshold, 0, 255)) {
+    this.error = validator.numberNotInRange('unsharp mask threshold', threshold, 0, 255);
+    if (this.error) {
         return this.operation;
     }
 
@@ -71,7 +80,10 @@ UnsharpMask.prototype.serialize = function () {
         out += 'usm_' + this.settings.radius + "_" + this.settings.amount + "_" + this.settings.threshold;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

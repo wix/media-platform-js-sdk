@@ -10,6 +10,11 @@ function Hue(operation) {
 
     this.operation = operation;
 
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+    
     this.settings = {
         /**
          * @type {number|null}
@@ -28,10 +33,11 @@ function Hue(operation) {
  */
 Hue.prototype.hue = function (hue) {
 
-    if (!validator.numberInRange(this.operation, 'hue', hue, -100, 100)) {
+    this.error = validator.numberNotInRange('hue', hue, -100, 100);
+    if (this.error) {
         return this.operation;
     }
-    
+
     this.settings.hue = _.isUndefined(hue) ? null : hue;
     return this.operation;
 };
@@ -47,7 +53,10 @@ Hue.prototype.serialize = function () {
         out += 'hue_' + this.settings.hue;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

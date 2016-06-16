@@ -7,7 +7,7 @@ describe('oil', function () {
         var oil = new Oil({});
         oil.activate();
 
-        expect(oil.serialize()).to.be('oil');
+        expect(oil.serialize()).to.eql({ params: 'oil', error: null });
     });
 
     it('can be reset by false', function () {
@@ -15,6 +15,6 @@ describe('oil', function () {
         oil.activate();
         oil.activate(false);
 
-        expect(oil.serialize()).to.be('');
+        expect(oil.serialize()).to.eql({ params: '', error: null });
     });
 });

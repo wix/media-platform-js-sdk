@@ -13,18 +13,15 @@ var Contrast = require('./chromaticity/contrast');
 var Hue = require('./chromaticity/hue');
 var Saturation = require('./chromaticity/saturation');
 
-var imageUrl = require('../url/image-url');
-
 /**
  * @param {string} name
  * @param {string} baseUrl
  * @param {string} imageId
  * @param {string} imageName
  * @param {string} version
- * @param {function(Error?)?} callback
  * @constructor
  */
-function BaseOperation(name, baseUrl, imageId, imageName, version, callback) {
+function BaseOperation(name, baseUrl, imageId, imageName, version) {
 
     /**
      * @type {string}
@@ -50,11 +47,6 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, callback) {
      * @type {string}
      */
     this.version = version;
-
-    /**
-     * @type {function(Error?)|null}
-     */
-    this.callback = callback || null; 
     
     /**
      * @type {Brightness}
@@ -173,26 +165,62 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, callback) {
 }
 
 /**
- * @returns {string}
+ * @returns {{url: string|null, error: Error|null}}
  */
-BaseOperation.prototype.serialize = function () {
-    var out = '';
-    var part = '';
-    this.serializationOrder.forEach(function concat(op) {
-        part = op.serialize();
-        if (out.length > 0 && part.length > 0) {
-            out += ',';    
+BaseOperation.prototype.toUrl = function () {
+
+    var prefix = '';
+    var baseUrl = this.baseUrl;
+    if (baseUrl !== null) {
+        if (baseUrl.length > 4 && baseUrl.substring(0, 4) !== "http") {
+            if (baseUrl.substring(0, 2) !== '//') {
+                prefix = '//';
+            }
         }
-        out += part;
-    });
-    return out;
+
+        if (baseUrl.slice(-1) === '/') {
+            baseUrl = baseUrl.slice(0, -1);
+        }
+    }
+
+    var out = prefix + baseUrl + "/" + this.imageId + "/" + this.version + '/';
+
+    var result = this.collect();
+
+    if (result.errors.length > 0) {
+        return {
+            url: null,
+            error: new Error(result.errors)
+        }
+    }
+
+    return {
+        url: out + result.params + "/" + this.imageName,
+        error: null
+    }
 };
 
 /**
- * @returns {string}
+ * @returns {{params: string, errors: Array<string>}}
  */
-BaseOperation.prototype.toUrl = function () {
-    return imageUrl.toUrl(this);   
+BaseOperation.prototype.collect = function () {
+    var out = '';
+    var part = '';
+    var errors = [];
+    this.serializationOrder.forEach(function concat(op) {
+        part = op.serialize();
+        if (part.error) {
+            errors.push(part.error);
+        }
+        if (out.length > 0 && part.params.length > 0) {
+            out += ',';
+        }
+        out += part.params;
+    });
+    return {
+        params: out,
+        errors: errors
+    };
 };
 
 /**

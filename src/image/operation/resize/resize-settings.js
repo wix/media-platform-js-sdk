@@ -5,6 +5,11 @@
 function ResizeSettings(operation) {
     
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
         /**
@@ -37,7 +42,10 @@ ResizeSettings.prototype.serialize = function () {
         out += 'lg'
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

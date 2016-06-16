@@ -6,51 +6,51 @@ describe('image url construction', function () {
     describe('protocol prefixing', function () {
 
         it('prefixes "//" if scheme is not defined', function () {
-            var url = new Image('test.wix.com', '12345', 'fish.jpeg').canvas()
+            var result = new Image('test.wix.com', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
-            expect(url).to.be('//test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
         });
 
         it('accepts "https"', function () {
-            var url = new Image('https://test.wix.com', '12345', 'fish.jpeg').canvas()
+            var result = new Image('https://test.wix.com', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
-            expect(url).to.be('https://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('https://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
         });
 
         it('accepts "http"', function () {
-            var url = new Image('http://test.wix.com', '12345', 'fish.jpeg').canvas()
+            var result = new Image('http://test.wix.com', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
-            expect(url).to.be('http://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('http://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
         });
 
         it('accepts "//"', function () {
-            var url = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
+            var result = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
-            expect(url).to.be('//test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
         });
 
         it('strips trailing "/"s from base url', function () {
-            var url = new Image('http://test.wix.com/', '12345', 'fish.jpeg').canvas()
+            var result = new Image('http://test.wix.com/', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
-            expect(url).to.be('http://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('http://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
         });
 
         it('ignores base URL if omitted', function () {
-            var url = new Image('', '12345', 'fish.jpeg').canvas()
+            var result = new Image('', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
-            expect(url).to.be('/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('/12345/v1/w_100,h_100/fish.jpeg');
         });
     });
 
@@ -62,7 +62,7 @@ describe('image url construction', function () {
 
             var Alignments = require('../../../src/image/operation/align/alignments');
 
-            var url = image.canvas()
+            var result = image.canvas()
                 .size(100, 100)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
@@ -81,10 +81,11 @@ describe('image url construction', function () {
                 .background('aabbcc')
                 .toUrl();
 
-            expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_b,c_aabbcc/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_b,c_aabbcc/fish.jpeg');
+            expect(result.error).to.be(null);
         });
         it('crop operation', function () {
-            var url = image.crop()
+            var result = image.crop()
                 .size(100, 100)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
@@ -102,10 +103,11 @@ describe('image url construction', function () {
                 .dimensions(100, 100, 0.7)
                 .toUrl();
 
-            expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,x_100,y_100,scl_0.7/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,x_100,y_100,scl_0.7/fish.jpeg');
+            expect(result.error).to.be(null);
         });
         it('fill operation', function () {
-            var url = image.fill()
+            var result = image.fill()
                 .size(100, 100)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
@@ -124,10 +126,11 @@ describe('image url construction', function () {
                 .enableUpscale()
                 .toUrl();
 
-            expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_l,lg/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_l,lg/fish.jpeg');
+            expect(result.error).to.be(null);
         });
         it('fit operation', function () {
-            var url = image.fit()
+            var result = image.fit()
                 .size(100, 100)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
@@ -145,11 +148,12 @@ describe('image url construction', function () {
                 .enableUpscale()
                 .toUrl();
 
-            expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,lg/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,lg/fish.jpeg');
+            expect(result.error).to.be(null);
         });
 
         it('preserves parameter order', function () {
-            var url1 = image.fit()
+            var result1 = image.fit()
                 .size(100, 100)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
@@ -162,12 +166,12 @@ describe('image url construction', function () {
                 .blur(10)
                 .saturation(-70)
                 .hue(60)
-                .contrast(12)
+                .contrast(90)
                 .brightness(99)
                 .enableUpscale(true)
                 .toUrl();
 
-            var url2 = image.fit()
+            var result2 = image.fit()
                 .negative()
                 .size(100, 100)
                 .jpeg(100, true)
@@ -177,7 +181,7 @@ describe('image url construction', function () {
                 .enableUpscale()
                 .pixelateFaces(3)
                 .pixelate(3)
-                .contrast(12)
+                .contrast(90)
                 .oil()
                 .blur(10)
                 .saturation(-70)
@@ -185,7 +189,7 @@ describe('image url construction', function () {
                 .brightness(99)
                 .toUrl();
 
-            expect(url1).to.be(url2);
+            expect(result1.url).to.be(result2.url);
         });
     });
 });

@@ -10,6 +10,11 @@ function Brightness(operation) {
     
     this.operation = operation;
 
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+
     this.settings = {
         /**
          * @type {number|null}
@@ -28,7 +33,8 @@ function Brightness(operation) {
  */
 Brightness.prototype.brightness = function (brightness) {
 
-    if (!validator.numberInRange(this.operation, 'brightness', brightness, -100, 100)) {
+    this.error = validator.numberNotInRange('brightness', brightness, -100, 100);
+    if (this.error) {
         return this.operation;
     }
 
@@ -46,8 +52,11 @@ Brightness.prototype.serialize = function () {
     if (this.settings.brightness) {
         out += 'br_' + this.settings.brightness;
     }
-    
-    return out;
+
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

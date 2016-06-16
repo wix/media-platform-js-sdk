@@ -7,6 +7,11 @@ var validator = require('../validation/validator');
 function Blur(operation) {
     
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
         /**
@@ -25,7 +30,8 @@ function Blur(operation) {
  */
 Blur.prototype.percentage = function (percentage) {
 
-    if (!validator.numberInRange(this.operation, 'blur', percentage, 0, 100)) {
+    this.error = validator.numberNotInRange('blur', percentage, 0, 100);
+    if (this.error) {
         return this.operation;
     }
 
@@ -44,7 +50,10 @@ Blur.prototype.serialize = function () {
         out += 'blur_' + this.settings.percentage;
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**

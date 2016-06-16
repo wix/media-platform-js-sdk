@@ -5,6 +5,11 @@
 function RedEyeRemover(operation) {
   
     this.operation = operation;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
     
     this.settings = {
         /**
@@ -36,7 +41,10 @@ RedEyeRemover.prototype.serialize = function () {
         out += 'eye';
     }
 
-    return out;
+    return {
+        params: out,
+        error: this.error
+    };
 };
 
 /**
