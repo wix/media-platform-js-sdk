@@ -5,6 +5,13 @@ var Fit = require('./operation/fit');
 // var imageUrlParser = require('./parser/ImageURLParser');
 
 /**
+ * TODO: return null on invalid options
+ * TODO: optional error callback
+ * TODO: global operations to upper scope
+ * TODO: operation chaining and transformation arithmetic
+ */
+
+/**
  * @summary a Image is a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
  * @param {string} baseUrl the base URL where the image is hosted
  * @param {string} imageId the id of the image to manipulate

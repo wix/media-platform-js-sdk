@@ -7,7 +7,7 @@ var Pixelate = require('./effect/pixelate');
 var PixelateFaces = require('./effect/pixelate-faces');
 var Negative = require('./effect/negative');
 var Blur = require('./effect/blur');
-var JPEG = require('./jpeg/jpeg-settings');
+var JPEGSettings = require('./jpeg/jpeg-settings');
 var Brightness = require('./chromaticity/brightness');
 var Contrast = require('./chromaticity/contrast');
 var Hue = require('./chromaticity/hue');
@@ -147,9 +147,9 @@ function BaseOperation(name, baseUrl, imageId, imageName, version) {
     })();
     
     /**
-     * @type {JPEG}
+     * @type {JPEGSettings}
      */
-    var jpeg = new JPEG(this);
+    var jpeg = new JPEGSettings(this);
     this.jpeg = (function () {
         return jpeg.compression;
     })();

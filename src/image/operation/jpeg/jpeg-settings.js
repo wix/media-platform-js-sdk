@@ -1,8 +1,10 @@
+var validator = require('../validation/validator');
+
 /**
  * @param operation
  * @constructor
  */
-function JPEG(operation) {
+function JPEGSettings(operation) {
     
     this.operation = operation;
 
@@ -23,11 +25,18 @@ function JPEG(operation) {
 
 /**
  * @summary The quality constraint, if the image is a jpg
- * @param {number} [quality=75] a number from `1` to `100`
+ * @param {number?} quality a number from `0` to `100`
  * @param {boolean?} baseline 
  * @returns {*} the operation
  */
-JPEG.prototype.compression = function (quality, baseline) {
+JPEGSettings.prototype.compression = function (quality, baseline) {
+
+    quality = Math.round(quality);
+
+    if (!validator.numberInRange('jpeg compression quality', quality, 0, 100)) {
+        return this.operation;
+    }
+
     if (quality === 75) {
         this.settings.quality = null;
     } else {
@@ -42,7 +51,7 @@ JPEG.prototype.compression = function (quality, baseline) {
 /**
  * @returns {string}
  */
-JPEG.prototype.serialize = function () {
+JPEGSettings.prototype.serialize = function () {
 
     var out = '';
 
@@ -62,6 +71,6 @@ JPEG.prototype.serialize = function () {
 };
 
 /**
- * @type {JPEG}
+ * @type {JPEGSettings}
  */
-module.exports = JPEG;
+module.exports = JPEGSettings;

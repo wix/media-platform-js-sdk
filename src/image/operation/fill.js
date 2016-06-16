@@ -1,7 +1,7 @@
 var util = require('util');
 var BaseOperation = require('./base-operation');
 var Align = require('./align/align');
-var Resize = require('./resize/resize-settings');
+var ResizeSettings = require('./resize/resize-settings');
 
 /**
  * @summary Create an image with the exact given width and height while retaining original proportions.
@@ -22,11 +22,11 @@ function Fill(baseUrl, imageId, imageName, version) {
     })();
 
     /**
-     * @type {Resize}
+     * @type {ResizeSettings}
      */
-    var resize = new Resize(this);
-    this.configuration = (function () {
-        return resize.configuration;
+    var resize = new ResizeSettings(this);
+    this.enableUpscale = (function () {
+        return resize.enableUpscale;
     })();
     
     this.serializationOrder.push(align, resize);

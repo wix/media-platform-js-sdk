@@ -121,7 +121,7 @@ describe('image url construction', function () {
                 .contrast(12)
                 .brightness(99)
                 .alignment('l')
-                .configuration(true)
+                .enableUpscale()
                 .toUrl();
 
             expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_l,lg/fish.jpeg');
@@ -142,7 +142,7 @@ describe('image url construction', function () {
                 .hue(60)
                 .contrast(12)
                 .brightness(99)
-                .configuration(true)
+                .enableUpscale()
                 .toUrl();
 
             expect(url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,lg/fish.jpeg');
@@ -164,7 +164,7 @@ describe('image url construction', function () {
                 .hue(60)
                 .contrast(12)
                 .brightness(99)
-                .configuration(true)
+                .enableUpscale(true)
                 .toUrl();
 
             var url2 = image.fit()
@@ -174,7 +174,7 @@ describe('image url construction', function () {
                 .unsharpMask(10, 10, 10)
                 .sharpen(0.7)
                 .removeRedEye()
-                .configuration(true)
+                .enableUpscale()
                 .pixelateFaces(3)
                 .pixelate(3)
                 .contrast(12)

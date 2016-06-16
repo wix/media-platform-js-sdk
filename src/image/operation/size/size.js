@@ -1,3 +1,5 @@
+var validator = require('../validation/validator');
+
 /**
  * @param operation
  * @constructor
@@ -7,7 +9,13 @@ function Size(operation) {
     this.operation = operation;
     
     this.settings = {
+        /**
+         * @type {number|null}
+         */
         width: null,
+        /**
+         * @type {number|null}
+         */
         height: null
     };
     
@@ -16,11 +24,22 @@ function Size(operation) {
 
 /**
  * @summary The width constraint
- * @param {Number} width a number greater than `0`
- * @param {Number} height a number greater than `0`
+ * @param {number} width a number greater than `0`
+ * @param {number} height a number greater than `0`
  * @returns {*} the operation
  */
 Size.prototype.size = function (width, height) {
+
+    width = Math.round(width);
+    if (!validator.numberIsGreaterThan('width', width, 1)) {
+        return this.operation;
+    }
+
+    height = Math.round(height);
+    if (!validator.numberIsGreaterThan('height', height, 1)) {
+        return this.operation;
+    }
+
     this.settings.width = width;
     this.settings.height = height;
     return this.operation;
@@ -30,21 +49,13 @@ Size.prototype.size = function (width, height) {
  * @returns {string}
  */
 Size.prototype.serialize = function () {
-    var out = '';
 
-    if (this.settings.width) {
-        out += 'w_' + this.settings.width;
+    if (!this.settings.width || !this.settings.height) {
+        console.error('size: width and height are mandatory');
+        return '';
     }
 
-    if (this.settings.height) {
-        if (out.length > 0) {
-            out += ',';
-        }
-
-        out += 'h_' + this.settings.height;
-    }
-
-    return out;
+    return 'w_' + this.settings.width + ',h_' + this.settings.height;
 };
 
 /**

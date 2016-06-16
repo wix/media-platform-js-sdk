@@ -2,7 +2,7 @@
  * @param operation
  * @constructor
  */
-function Resize(operation) {
+function ResizeSettings(operation) {
     
     this.operation = operation;
     
@@ -13,7 +13,7 @@ function Resize(operation) {
         upscale: null
     };
 
-    this.configuration = this.configuration.bind(this);
+    this.enableUpscale = this.enableUpscale.bind(this);
 }
 
 /**
@@ -21,15 +21,15 @@ function Resize(operation) {
  * @param {boolean?} enableUpscale Enable image proportional upscaling.
  * @returns {*} the operation
  */
-Resize.prototype.configuration = function (enableUpscale) {
-    this.settings.upscale = !!enableUpscale;
+ResizeSettings.prototype.enableUpscale = function (enableUpscale) {
+    this.settings.upscale = (enableUpscale === undefined) ? true : !!enableUpscale;
     return this.operation;
 };
 
 /**
  * @returns {string}
  */
-Resize.prototype.serialize = function () {
+ResizeSettings.prototype.serialize = function () {
 
     var out = '';
 
@@ -41,6 +41,6 @@ Resize.prototype.serialize = function () {
 };
 
 /**
- * @type {Resize}
+ * @type {ResizeSettings}
  */
-module.exports = Resize;
+module.exports = ResizeSettings;
