@@ -55,27 +55,29 @@ describe('image url construction', function () {
     });
 
     describe('handles input errors', function () {
-        var result = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
-            .size(10, 10)
-            .jpeg(200, true)
-            .unsharpMask(-1, 10, 10)
-            .sharpen(-10)
-            .removeRedEye()
-            .pixelateFaces(3)
-            .pixelate(3)
-            .oil()
-            .negative()
-            .blur(10)
-            .saturation(500)
-            .hue(60)
-            .contrast(12)
-            .brightness(99)
-            .alignment('some crap')
-            .background('aabbcc')
-            .toUrl();
+        it('collects errors into a single Error instance', function () {
+            var result = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
+                .size(10, 10)
+                .jpeg(200, true)
+                .unsharpMask(-1, 10, 10)
+                .sharpen(-10)
+                .removeRedEye()
+                .pixelateFaces(3)
+                .pixelate(3)
+                .oil()
+                .negative()
+                .blur(10)
+                .saturation(500)
+                .hue(60)
+                .contrast(12)
+                .brightness(99)
+                .alignment('some crap')
+                .background('aabbcc')
+                .toUrl();
 
-        expect(result.url).to.be(null);
-        expect(result.error.message).to.be('saturation: 500 is not a number between -100 to 100,sharpen radius: -10 is not a number between 0 to 1,unsharp mask radius: -1 is not a number between 0.1 to 500,jpeg compression quality: 200 is not a number between 0 to 100,align: some crap is not a valid alignment value - see alignments.js for valid values');
+            expect(result.url).to.be(null);
+            expect(result.error.message).to.be('saturation: 500 is not a number between -100 to 100,sharpen radius: -10 is not a number between 0 to 1,unsharp mask radius: -1 is not a number between 0.1 to 500,jpeg compression quality: 200 is not a number between 0 to 100,align: some crap is not a valid alignment value - see alignments.js for valid values');
+        })
     });
 
     describe('by operation, including image instance reuse', function () {
