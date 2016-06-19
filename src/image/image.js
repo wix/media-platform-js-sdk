@@ -72,11 +72,14 @@ Image.prototype.fit = function (width, height) {
  * @summary Configures this image using the 'crop' operation.
  * @param {number} width
  * @param {number} height
+ * @param {number} x
+ * @param {number} y
+ * @param {number?} upscaleFactor
  * @returns {Crop}
  * @method
  */
-Image.prototype.crop = function (width, height) {
-    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
+Image.prototype.crop = function (width, height, x, y, upscaleFactor) {
+    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height, x, y, upscaleFactor);
 };
 
 /**

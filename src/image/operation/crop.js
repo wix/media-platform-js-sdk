@@ -8,19 +8,16 @@ var Cropping = require('./crop/cropping');
  * @constructor Crop
  * @extends BaseOperation
  */
-function Crop(baseUrl, imageId, imageName, version, width, height) {
+function Crop(baseUrl, imageId, imageName, version, width, height, x, y, upscaleFactor) {
     BaseOperation.call(this, 'crop', baseUrl, imageId, imageName, version, width, height);
 
     /**
      * @type {Cropping}
      */
     var cropping = new Cropping(this);
+    cropping.coordinates(x, y, upscaleFactor);
     this.coordinates = (function () {
         return cropping.coordinates;
-    })();
-
-    this.scaleFactor = (function () {
-        return cropping.scaleFactor;
     })();
     
     this.serializationOrder.push(cropping);
