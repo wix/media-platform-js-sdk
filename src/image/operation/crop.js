@@ -3,20 +3,24 @@ var BaseOperation = require('./base-operation');
 var Cropping = require('./crop/cropping');
 
 /**
- * @summary Crops the image based on the supplied coordinates.
- * @description Starts at the `x`, `y` pixel coordinates along with the width and height parameters.
+ * @summary Crops the image starting at the x, y pixel coordinates, along with the width and height options.
+ * The image is scaled according to the scale factor parameter before crop.
  * @constructor Crop
  * @extends BaseOperation
  */
-function Crop(baseUrl, imageId, imageName, version) {
-    BaseOperation.call(this, 'crop', baseUrl, imageId, imageName, version);
+function Crop(baseUrl, imageId, imageName, version, width, height) {
+    BaseOperation.call(this, 'crop', baseUrl, imageId, imageName, version, width, height);
 
     /**
      * @type {Cropping}
      */
     var cropping = new Cropping(this);
-    this.dimensions = (function () {
-        return cropping.dimensions;
+    this.coordinates = (function () {
+        return cropping.coordinates;
+    })();
+
+    this.scaleFactor = (function () {
+        return cropping.scaleFactor;
     })();
     
     this.serializationOrder.push(cropping);

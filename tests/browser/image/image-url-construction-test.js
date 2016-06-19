@@ -6,24 +6,22 @@ describe('image url construction', function () {
     describe('protocol prefixing', function () {
 
         it('prefixes "//" if scheme is not defined', function () {
-            var result = new Image('test.wix.com', '12345', 'fish.jpeg').canvas()
-                .size(100, 100)
+            var result = new Image('test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
-            expect(result.url).to.be('//test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result).to.eql({ url: '//test.wix.com/12345/v1/w_100,h_100/fish.jpeg',
+                error: null });
         });
 
         it('accepts "https"', function () {
-            var result = new Image('https://test.wix.com', '12345', 'fish.jpeg').canvas()
-                .size(100, 100)
+            var result = new Image('https://test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
             expect(result.url).to.be('https://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
         });
 
         it('accepts "http"', function () {
-            var result = new Image('http://test.wix.com', '12345', 'fish.jpeg').canvas()
-                .size(100, 100)
+            var result = new Image('http://test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
             expect(result.url).to.be('http://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
@@ -111,8 +109,7 @@ describe('image url construction', function () {
             expect(result.error).to.be(null);
         });
         it('crop operation', function () {
-            var result = image.crop()
-                .size(100, 100)
+            var result = image.crop(100, 100)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
                 .sharpen(0.7)
@@ -126,14 +123,14 @@ describe('image url construction', function () {
                 .hue(60)
                 .contrast(12)
                 .brightness(99)
-                .dimensions(100, 100, 0.7)
+                .coordinates(100, 100, 0.7)
                 .toUrl();
 
             expect(result.url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,x_100,y_100,scl_0.7/fish.jpeg');
             expect(result.error).to.be(null);
         });
         it('fill operation', function () {
-            var result = image.fill()
+            var result = image.fill(50, 50)
                 .size(100, 100)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)

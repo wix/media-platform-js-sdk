@@ -10,8 +10,8 @@ var Background = require('./background/background');
  * @constructor Canvas
  * @extends BaseOperation
  */
-function Canvas(baseUrl, imageId, imageName, version) {
-    BaseOperation.call(this, 'canvas', baseUrl, imageId, imageName, version);
+function Canvas(baseUrl, imageId, imageName, version, width, height) {
+    BaseOperation.call(this, 'canvas', baseUrl, imageId, imageName, version, width, height);
 
     /**
      * @type {Align}

@@ -40,35 +40,43 @@ function Image(baseUrl, imageId, imageName) {
 
 /**
  * @summary Configures this image using the 'canvas' operation.
+ * @param {number} width
+ * @param {number} height
  * @returns {Canvas}
  * @method
  */
-Image.prototype.canvas = function () {
-    return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version);
+Image.prototype.canvas = function (width, height) {
+    return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
 };
 /**
  * @summary Configures this image using the 'fill' operation.
+ * @param {number} width
+ * @param {number} height
  * @returns {Fill}
  * @method
  */
-Image.prototype.fill = function () {
-    return new Fill(this.baseUrl, this.imageId, this.imageName, this.version);
+Image.prototype.fill = function (width, height) {
+    return new Fill(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
 };
 /**
  * @summary Configures this image using the 'fit' operation.
+ * @param {number} width
+ * @param {number} height
  * @returns {Fit}
  * @method
  */
-Image.prototype.fit = function () {
-    return new Fit(this.baseUrl, this.imageId, this.imageName, this.version);
+Image.prototype.fit = function (width, height) {
+    return new Fit(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
 };
 /**
  * @summary Configures this image using the 'crop' operation.
+ * @param {number} width
+ * @param {number} height
  * @returns {Crop}
  * @method
  */
-Image.prototype.crop = function () {
-    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version);
+Image.prototype.crop = function (width, height) {
+    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
 };
 
 /**

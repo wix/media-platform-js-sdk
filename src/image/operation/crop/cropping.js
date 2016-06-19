@@ -28,7 +28,7 @@ function Cropping(operation) {
         scaleFactor: null
     };
 
-    this.dimensions = this.dimensions.bind(this);
+    this.coordinates = this.coordinates.bind(this);
 }
 
 /**
@@ -37,7 +37,7 @@ function Cropping(operation) {
  * @param {number?} scaleFactor The Scale factor. Valid values: (0:100].
  * @returns {*} the operation
  */
-Cropping.prototype.dimensions = function (x, y, scaleFactor) {
+Cropping.prototype.coordinates = function (x, y, scaleFactor) {
 
     if (arguments.length === 0) {
         this.settings.x = null;

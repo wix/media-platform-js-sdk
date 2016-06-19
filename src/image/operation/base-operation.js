@@ -21,7 +21,7 @@ var Saturation = require('./chromaticity/saturation');
  * @param {string} version
  * @constructor
  */
-function BaseOperation(name, baseUrl, imageId, imageName, version) {
+function BaseOperation(name, baseUrl, imageId, imageName, version, width, height) {
 
     /**
      * @type {string}
@@ -47,6 +47,15 @@ function BaseOperation(name, baseUrl, imageId, imageName, version) {
      * @type {string}
      */
     this.version = version;
+
+    /**
+     * @type {Size}
+     */
+    var size = new Size(this);
+    size.size(width, height);
+    this.size = (function () {
+        return size.size;
+    })();
     
     /**
      * @type {Brightness}
@@ -150,14 +159,6 @@ function BaseOperation(name, baseUrl, imageId, imageName, version) {
     var jpeg = new JPEGSettings(this);
     this.jpeg = (function () {
         return jpeg.compression;
-    })();
-
-    /**
-     * @type {Size}
-     */
-    var size = new Size(this);
-    this.size = (function () {
-        return size.size;
     })();
 
     this.serializationOrder = [brightness, contrast, hue, saturation, blur, negative, oil, pixelate, pixelateFaces,
