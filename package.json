@@ -15,18 +15,20 @@
   },
   "dependencies": {
     "needle": "^1.0.0",
+    "request": "^2.72.0",
     "underscore": "^1.8.3",
     "wix-auth-hmac": "^1.0.0"
   },
   "devDependencies": {
+    "expect.js": "latest",
     "grunt": "latest",
     "grunt-browserify": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-jshint": "latest",
-    "grunt-mocha": "latest",
     "grunt-gh-pages": "latest",
+    "grunt-mocha": "latest",
     "mocha": "latest",
-    "expect.js": "latest",
+    "nock": "^8.0.0",
     "uglifyify": "latest"
   }
 }

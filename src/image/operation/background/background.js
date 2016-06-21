@@ -33,7 +33,7 @@ Background.prototype.color = function (color) {
     }
 
     this.error = null;
-    this.settings.color = color;
+    this.settings.color = color ? color.toLowerCase() : null;
     return this.operation;
 };
 

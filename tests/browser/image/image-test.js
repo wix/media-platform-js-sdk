@@ -78,11 +78,11 @@ describe('image url construction', function () {
         })
     });
 
-    describe('crop', function () {
+    describe('crop operation', function () {
 
         var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
 
-        it('crop operation', function () {
+        it('all options', function () {
             var result = image.crop(100, 100, 80, 80, 1.2)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
@@ -103,7 +103,7 @@ describe('image url construction', function () {
                 error: null });
         });
 
-        it('crop operation - optional params', function () {
+        it('optional options', function () {
             var result = image.crop(100, 100, 80, 80)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
@@ -126,16 +126,15 @@ describe('image url construction', function () {
 
     });
 
-    describe('canvas', function () {
+    describe('canvas operation', function () {
 
         var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
 
-        it('canvas operation', function () {
+        it('all options', function () {
 
             var Alignments = require('../../../src/image/operation/align/alignments');
 
-            var result = image.canvas()
-                .size(100, 100)
+            var result = image.canvas(100, 100)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
                 .sharpen(0.7)
@@ -159,11 +158,11 @@ describe('image url construction', function () {
 
     });
 
-    describe('fill', function () {
+    describe('fill operation', function () {
 
         var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
 
-        it('fill operation', function () {
+        it('all options', function () {
             var result = image.fill(50, 50)
                 .size(100, 100)
                 .jpeg(100, true)
@@ -189,11 +188,11 @@ describe('image url construction', function () {
 
     });
 
-    describe('fit', function () {
+    describe('fit operation', function () {
 
         var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
 
-        it('fit operation', function () {
+        it('all options', function () {
             var result = image.fit()
                 .size(100, 100)
                 .jpeg(100, true)

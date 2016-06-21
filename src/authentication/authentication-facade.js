@@ -32,16 +32,14 @@ AuthenticationFacade.prototype.getToken = function(id, callback) {
     var url = 'https://' + host + path;
     var headers = signedRequest.toHttpsOptions(AUTHORIZATION_HEADER).headers;
 
-    needle.get(url, {
-        headers: headers
-    }, function (error, response) {
-
+    needle.get(url, { headers: headers }, function (error, response, body) {
+    
         if (error) {
             callback(error, null);
             return;
         }
-
-        callback(null, response.data.token);
+        
+        callback(null, body.token);
     });
 };
 
@@ -49,7 +47,7 @@ AuthenticationFacade.prototype.getToken = function(id, callback) {
  * @param {string} id
  * @param {function(Error, *)} callback
  */
-AuthenticationFacade.prototype.getHeaders = function(id, callback) {
+AuthenticationFacade.prototype.getHeader = function(id, callback) {
 
     this.getToken(id, function(error, token) {
 
