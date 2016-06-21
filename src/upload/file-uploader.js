@@ -108,7 +108,7 @@ FileUploader.prototype.uploadDocument = function (source, callback) {
  * @param {string} userId
  * @param {string} type
  * @param {string|Buffer|Stream} source
- * @param {function(Error, data)} callback
+ * @param {function(Error, *)} callback
  * @private
  */
 FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
@@ -118,11 +118,13 @@ FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
         stream = source;
     } else if (typeof source === 'string') {
         stream = fs.createReadStream(source);
+        stream.on('error', callback);
     } else if (source instanceof Buffer) {
         stream = new Stream.PassThrough();
         stream.end(source);
     } else {
         callback(new Error('unsupported source type: ' + typeof source), null);
+        return;
     }
 
     this.getUploadUrl(userId, function (error, url) {

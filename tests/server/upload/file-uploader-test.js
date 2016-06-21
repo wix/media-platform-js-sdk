@@ -28,9 +28,19 @@ describe('file uploader', function() {
         var fileUploader = new FileUploader(appConfig, authenticationFacade);
 
         it('accepts path (string) as source', function (done) {
+
             //noinspection JSAccessibilityCheck
             fileUploader.uploadFile('userId', 'type', __dirname + '/../../source/image.jpg', function (error, data) {
                 done(error);
+            });
+        });
+
+        it('handles path (string) errors', function (done) {
+
+            //noinspection JSAccessibilityCheck
+            fileUploader.uploadFile('userId', 'type', 'fish', function (error, data) {
+                expect(error).to.be.a(Error);
+                done();
             });
         });
 
@@ -45,6 +55,7 @@ describe('file uploader', function() {
         });
 
         it('accepts buffer as source', function (done) {
+
             var buffer = fs.readFileSync(__dirname + '/../../source/document.xlsx');
 
             //noinspection JSAccessibilityCheck
@@ -53,11 +64,11 @@ describe('file uploader', function() {
             });
         });
 
-        it('reject unsupported type', function (done) {
+        it('reject unsupported source', function (done) {
+
             //noinspection JSAccessibilityCheck
             fileUploader.uploadFile('userId', 'type', 1000, function (error, data) {
                 expect(error).to.be.a(Error);
-
                 done();
             });
         });
