@@ -1,6 +1,5 @@
 var fs = require('fs');
 var Stream = require('stream');
-var needle = require('needle');
 var request = require('request');
 var MediaType = require('./media-type');
 var ImageUploadResponse = require('./dto/image/image-upload-response');
@@ -37,13 +36,13 @@ FileUploader.prototype.getUploadUrl = function (userId, callback) {
             return;
         }
 
-        request({url: this.uploadUrlEndpoint, headers: authHeader, json: true }, function (error, response, body) {
+        request.get({url: this.uploadUrlEndpoint, headers: authHeader, json: true }, function (error, response, body) {
 
             if (error) {
                 callback(error, null);
                 return;
             }
-            
+
             callback(null, body.upload_url)
         })
     }.bind(this))
@@ -120,7 +119,8 @@ FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
     } else if (typeof source === 'string') {
         stream = fs.createReadStream(source);
     } else if (source instanceof Buffer) {
-        stream = new Stream.PassThrough().end(source);
+        stream = new Stream.PassThrough();
+        stream.end(source);
     } else {
         callback(new Error('unsupported source type: ' + typeof source), null);
     }
