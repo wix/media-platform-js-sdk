@@ -1,17 +1,66 @@
+var util = require('util');
+var BaseUploadResponse = require('../base-upload-response');
 
-function ImageUploadResponse() {
+/**
+ * @typedef {{x: number, y: number, width: number, height: number}}
+ */
+var Square = {
+    x: null,
+    y: null,
+    width: null,
+    height: null
+};
 
+/**
+ * @param {Object} data
+ * @constructor
+ */
+function ImageUploadResponse(data) {
+    BaseUploadResponse.call(this);
+
+    /**
+     * @type {number}
+     */
     this.height = null;
 
+    /**
+     * @type {number}
+     */
     this.width = null;
 
+    /**
+     * @type {string}
+     */
     this.iconUrl = null;
 
+    /**
+     * @type {string}
+     */
     this.mimeType = null;
 
+    /**
+     * @type {Array<Square>|null}
+     */
     this.faces = null; //'face' in response object
 
+    if (data) {
+        this.deserialize(data);
+    }
 }
+util.inherits(ImageUploadResponse, BaseUploadResponse);
+
+ImageUploadResponse.prototype.deserialize = function (data) {
+    ImageUploadResponse.super_.prototype.deserialize.call(this, data);
+
+    this.width = data.width;
+    this.height = data.height;
+    this.faces = data.face || [];
+};
+
+/**
+ * @type {ImageUploadResponse}
+ */
+module.exports = ImageUploadResponse;
 // [
 //     {
 //         "parent_folder_id": "dc933247458b41792a0fb9d2f2296bb5",

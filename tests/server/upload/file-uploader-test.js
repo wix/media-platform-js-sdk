@@ -9,23 +9,22 @@ var AuthenticationFacade = require('../../../src/authentication/authentication-f
 
 describe('file uploader', function() {
 
-    var authServer = nock('https://users.fish.com/').get('/auth/app/token').times(100).reply(200, {
-        token: 'token'
-    });
-
-    var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').times(100).reply(200, {
-        upload_url: 'https://fish.cat.com/'
-    });
-
-    var fileServer = nock('https://fish.cat.com/').post('/').times(100).reply(200, {});
-
     var appConfig = new AppConfiguration('test.com', 'key', 'secret');
     var appAuthenticationConfiguration = new AppAuthenticationConfiguration(appConfig);
     var authenticationFacade = new AuthenticationFacade(appAuthenticationConfiguration);
+    var fileUploader = new FileUploader(appConfig, authenticationFacade);
 
     describe('upload file', function() {
 
-        var fileUploader = new FileUploader(appConfig, authenticationFacade);
+        var authServer = nock('https://users.fish.com/').get('/auth/app/token').times(4).reply(200, {
+            token: 'token'
+        });
+
+        var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').times(4).reply(200, {
+            upload_url: 'https://fish.cat.com/'
+        });
+
+        var fileServer = nock('https://fish.cat.com/').post('/').times(4).reply(200, {});
 
         it('accepts path (string) as source', function (done) {
 
@@ -76,15 +75,211 @@ describe('file uploader', function() {
 
     describe('upload image', function() {
 
+        var authServer = nock('https://users.fish.com/').get('/auth/app/token').reply(200, {
+            token: 'token'
+        });
+
+        var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').reply(200, {
+            upload_url: 'https://fish.cat.com/image'
+        });
+
+        it('returns a proper response object', function (done) {
+
+            var fileServer = nock('https://fish.cat.com/').post('/image').reply(200,
+                [
+                    {
+                        parent_folder_id: 'dc933247458b41792a0fb9d2f2296bb5',
+                        created_ts: 1466345821,
+                        hash: '0a9371085075b9fed4c29b9418804840',
+                        tags: [],
+                        file_name: '10a917_d723da13c9e44213924b582e1d641aaa~mv2.png',
+                        labels: [],
+                        file_url: 'media/10a917_d723da13c9e44213924b582e1d641aaa~mv2.png',
+                        height: 17,
+                        width: 17,
+                        original_file_name: 'included-icon.png',
+                        modified_ts: 1466345821,
+                        file_size: 842,
+                        media_type: 'picture',
+                        icon_url: 'media/10a917_d723da13c9e44213924b582e1d641aaa~mv2.png',
+                        mime_type: 'image/png'
+                    }
+                ]
+            );
+
+            fileUploader.uploadImage('userId', __dirname + '/../../source/image.jpg', function (error, data) {
+                //TODO: assert props
+                done(error);
+            });
+        });
     });
 
     describe('upload audio', function() {
 
+        var authServer = nock('https://users.fish.com/').get('/auth/app/token').reply(200, {
+            token: 'token'
+        });
+
+        var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').reply(200, {
+            upload_url: 'https://fish.cat.com/audio'
+        });
+
+        it('returns a proper response object', function (done) {
+
+            var fileServer = nock('https://fish.cat.com/').post('/audio').reply(200,
+                [
+                    {
+                        "parent_folder_id": "1b98ddebaa447184cd90f33753e6c474",
+                        "created_ts": 1466413719,
+                        "hash": "35df225c1634042f59e85aad37bae506",
+                        "tags": [],
+                        "file_name": "af63a5d465ce48a998297684f3246df6",
+                        "labels": [],
+                        "file_url": "ggl-109789773458215503884/audio/af63a5d465ce48a998297684f3246df6/file.mp3",
+                        "original_file_name": "YEXuWYCjGR.mp3",
+                        "modified_ts": 1466413719,
+                        "file_size": 3528120,
+                        "media_type": "music",
+                        "icon_url": "wixmedia-public/images/b0068f926fc542fbb1f3653df8ce5099/music_note.png",
+                        "mime_type": "audio/mp3",
+                        "file_input": {
+                            "format": "mp3",
+                            "channels": 2,
+                            "sample_size": 16,
+                            "sample_rate": 44100,
+                            "duration": 215883,
+                            "bitrate": 128000
+                        }
+                    }
+                ]
+            );
+
+            fileUploader.uploadAudio('userId', __dirname + '/../../source/audio.mp3', function (error, data) {
+                //TODO: assert props
+                done(error);
+            });
+        });
     });
 
     describe('upload video', function() {
+        var authServer = nock('https://users.fish.com/').get('/auth/app/token').reply(200, {
+            token: 'token'
+        });
 
+        var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').reply(200, {
+            upload_url: 'https://fish.cat.com/video'
+        });
 
+        it('returns a proper response object', function (done) {
+
+            var fileServer = nock('https://fish.cat.com/').post('/video').reply(200,
+                [
+                    {
+                        "parent_folder_id": "dbbbc0fd90024aab84a7a7653c803659",
+                        "created_ts": 1466344754,
+                        "hash": "d55bddf8d62910879ed9f605522149a8",
+                        "tags": [],
+                        "file_name": "e66d82_ca6c7b4fc81f45c9bcf219d81395d3ec",
+                        "labels": [],
+                        "file_url": "video/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ec/file",
+                        "height": 720,
+                        "width": 1280,
+                        "original_file_name": "SampleVideo_1080x720_1mb copy 2.mp4",
+                        "modified_ts": 1466344753,
+                        "file_size": 1055736,
+                        "media_type": "video",
+                        "op_status": "IN-QUEUE",
+                        "icon_url": "media/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ecf002.jpg",
+                        "mime_type": "video/mp4",
+                        "file_input": {
+                            "fps": 25.0,
+                            "video_bitrate": 1205959,
+                            "height": 720,
+                            "width": 1280,
+                            "audio_bitrate": 384828,
+                            "sample_aspect_ratio": "1:1",
+                            "duration": 5280,
+                            "rotation": 0,
+                            "type": "video",
+                            "display_aspect_ratio": "16:9"
+                        },
+                        "file_output": {
+                            "image": [
+                                {
+                                    "status": "READY",
+                                    "secure": false,
+                                    "format": "jpg",
+                                    "url": "media/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ecf000.jpg",
+                                    "height": 720,
+                                    "width": 1280
+                                },
+                                {
+                                    "status": "READY",
+                                    "secure": false,
+                                    "format": "jpg",
+                                    "url": "media/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ecf001.jpg",
+                                    "height": 720,
+                                    "width": 1280
+                                },
+                                {
+                                    "status": "READY",
+                                    "secure": false,
+                                    "format": "jpg",
+                                    "url": "media/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ecf002.jpg",
+                                    "height": 720,
+                                    "width": 1280
+                                },
+                                {
+                                    "status": "READY",
+                                    "secure": false,
+                                    "format": "jpg",
+                                    "url": "media/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ecf003.jpg",
+                                    "height": 720,
+                                    "width": 1280
+                                }
+                            ],
+                            "video": [
+                                {
+                                    "status": "INPROGRESS",
+                                    "secure": false,
+                                    "fps": 25.0,
+                                    "format": "mp4",
+                                    "url": "video/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ec/480p/mp4/file.mp4",
+                                    "video_bitrate": 1200000,
+                                    "height": 480,
+                                    "width": 854,
+                                    "tag": "High",
+                                    "audio_bitrate": 196000,
+                                    "duration": 5280,
+                                    "quality": "480p",
+                                    "display_aspect_ratio": "16:9"
+                                },
+                                {
+                                    "status": "INPROGRESS",
+                                    "secure": false,
+                                    "fps": 25.0,
+                                    "format": "mp4",
+                                    "url": "video/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ec/720p/mp4/file.mp4",
+                                    "video_bitrate": 1205959,
+                                    "height": 720,
+                                    "width": 1280,
+                                    "tag": "HD",
+                                    "audio_bitrate": 196000,
+                                    "duration": 5280,
+                                    "quality": "720p",
+                                    "display_aspect_ratio": "16:9"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            );
+
+            fileUploader.uploadVideo('userId', __dirname + '/../../source/audio.mp3', function (error, data) {
+                //TODO: assert props
+                done(error);
+            });
+        });
     });
 
     describe('upload document', function() {

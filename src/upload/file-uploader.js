@@ -25,7 +25,7 @@ function FileUploader(configuration, authenticationFacade) {
 /**
  * retrieve a pre signed URL to which the file is uploaded
  * @param {string} userId
- * @param {function(Error, string|null)} callback
+ * @param {function(Error, {uploadUrl: string}|null)} callback
  */
 FileUploader.prototype.getUploadUrl = function (userId, callback) {
 
@@ -43,16 +43,18 @@ FileUploader.prototype.getUploadUrl = function (userId, callback) {
                 return;
             }
 
-            callback(null, body.upload_url)
+            //TODO: does this require the token as well?
+            callback(null, { uploadUrl: body.upload_url })
         })
     }.bind(this))
 };
 
 /**
+ * @param {string} userId
  * @param source
- * @param callback
+ * @param {function(Error, ImageUploadResponse)} callback
  */
-FileUploader.prototype.uploadImage = function (source, callback) {
+FileUploader.prototype.uploadImage = function (userId, source, callback) {
 
     this.uploadFile(userId, MediaType.IMAGE, source, function (error, body) {
 
@@ -65,7 +67,7 @@ FileUploader.prototype.uploadImage = function (source, callback) {
     })
 };
 
-FileUploader.prototype.uploadAudio = function (source, callback) {
+FileUploader.prototype.uploadAudio = function (userId, source, callback) {
 
     this.uploadFile(userId, MediaType.AUDIO, source, function (error, body) {
 
@@ -78,7 +80,7 @@ FileUploader.prototype.uploadAudio = function (source, callback) {
     })
 };
 
-FileUploader.prototype.uploadVideo = function (source, callback) {
+FileUploader.prototype.uploadVideo = function (userId, source, callback) {
 
     this.uploadFile(userId, MediaType.VIDEO, source, function (error, body) {
 
@@ -91,7 +93,7 @@ FileUploader.prototype.uploadVideo = function (source, callback) {
     })
 };
 
-FileUploader.prototype.uploadDocument = function (source, callback) {
+FileUploader.prototype.uploadDocument = function (userId, source, callback) {
 
     this.uploadFile(userId, MediaType.DOCUMENT, source, function (error, body) {
 
@@ -109,7 +111,7 @@ FileUploader.prototype.uploadDocument = function (source, callback) {
  * @param {string} type
  * @param {string|Buffer|Stream} source
  * @param {function(Error, *)} callback
- * @private
+ * @protected
  */
 FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
 
@@ -118,7 +120,6 @@ FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
         stream = source;
     } else if (typeof source === 'string') {
         stream = fs.createReadStream(source);
-        stream.on('error', callback);
     } else if (source instanceof Buffer) {
         stream = new Stream.PassThrough();
         stream.end(source);
@@ -126,8 +127,9 @@ FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
         callback(new Error('unsupported source type: ' + typeof source), null);
         return;
     }
+    stream.on('error', callback);
 
-    this.getUploadUrl(userId, function (error, url) {
+    this.getUploadUrl(userId, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -139,7 +141,7 @@ FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
             file: stream
         };
 
-        request.post({url: url, formData: form, json: true }, function(error, response, body) {
+        request.post({url: response.uploadUrl, formData: form, json: true }, function(error, response, body) {
 
             if (error) {
                 callback(error, null);

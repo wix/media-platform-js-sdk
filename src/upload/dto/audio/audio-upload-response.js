@@ -1,19 +1,39 @@
 var util = require('util');
 var BaseUploadResponse = require('../base-upload-response');
+var AudioFile = require('./audio-file');
 
 /**
+ * @param {Object?} data
  * @constructor
  */
-function AudioUploadResponse() {
+function AudioUploadResponse(data) {
+    BaseUploadResponse.call(this);
 
     /**
      * @type {AudioFile|null}
      */
     this.inputFile = null;
+
+    if (data) {
+        this.deserialize(data);
+    }
 }
 util.inherits(AudioUploadResponse, BaseUploadResponse);
 
+/**
+ * @param {Object} data
+ * @private
+ */
+AudioUploadResponse.prototype.deserialize = function (data) {
+    AudioUploadResponse.super_.prototype.deserialize.call(this, data);
 
+    this.inputFile = new AudioFile(data.file_input);
+};
+
+/**
+ * @type {AudioUploadResponse}
+ */
+module.exports = AudioUploadResponse;
 // [
 //     {
 //         "parent_folder_id": "1b98ddebaa447184cd90f33753e6c474",

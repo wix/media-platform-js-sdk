@@ -1,29 +1,72 @@
 var util = require('util');
+var _ = require('underscore');
 var BaseUploadResponse = require('../base-upload-response');
+var VideoFile = require('./video-file');
+var ImageFile = require('./image-file');
 
 /**
+ * @param {Object?} data
  * @constructor
  */
-function VideoUploadResponse() {
+function VideoUploadResponse(data) {
+    BaseUploadResponse.call(this);
 
+    /**
+     * @type {number}
+     */
     this.height = null;
 
+    /**
+     * @type {number}
+     */
     this.width = null;
+
+    /**
+     * @type {string}
+     */
+    this.iconUrl = null;
 
     /**
      * @type {VideoFile|null}
      */
     this.inputFile = null;
 
-    this.iconUrl = null;
-
     /**
      * @type {{image: Array<ImageFile>, video: Array<VideoFile>}|null}
      */
     this.outputFiles = null;
 
+    if (data) {
+        this.deserialize(data);
+    }
+
 }
 util.inherits(VideoUploadResponse, BaseUploadResponse);
+
+/**
+ * @param {Object} data
+ * @protected
+ */
+VideoUploadResponse.prototype.deserialize = function (data) {
+    VideoUploadResponse.super_.prototype.deserialize.call(this, data);
+
+    this.height = data.height;
+    this.width = data.width;
+    this.iconUrl = data.icon_url;
+    this.inputFile = new VideoFile(data.file_input);
+
+    var images = _.map(data.file_output.image, function toImage(item) {
+        return new ImageFile(item);
+    });
+    var videos = _.map(data.file_output.video, function toVideo(item) {
+        return new VideoFile(item);
+    });
+
+    this.outputFiles = {
+        images: images,
+        videos: videos
+    };
+};
 
 /**
  * @type {VideoUploadResponse}

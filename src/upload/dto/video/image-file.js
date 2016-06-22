@@ -2,13 +2,26 @@ var util = require('util');
 var BaseFile = require('./base-file');
 
 /**
+ * @param {Object?} data
  * @constructor
  */
-function ImageFile() {
+function ImageFile(data) {
+    BaseFile.call(this);
     
+    if (data) {
+        this.deserialize(data);
+    }
 
 }
-util.inspect(ImageFile, BaseFile);
+util.inherits(ImageFile, BaseFile);
+
+/**
+ * @param {Object} data
+ * @protected
+ */
+ImageFile.prototype.deserialize = function (data) {
+    ImageFile.super_.prototype.deserialize.call(this, data);
+};
 
 /**
  * @type {ImageFile}
