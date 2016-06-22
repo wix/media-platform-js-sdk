@@ -1,5 +1,6 @@
 var fs = require('fs');
 var Stream = require('stream');
+var _ = require('underscore');
 var request = require('request');
 var MediaType = require('./media-type');
 var ImageUploadResponse = require('./dto/image/image-upload-response');
@@ -51,12 +52,12 @@ FileUploader.prototype.getUploadUrl = function (userId, callback) {
 
 /**
  * @param {string} userId
- * @param source
+ * @param {string|Buffer|Stream} source
  * @param {function(Error, ImageUploadResponse)} callback
  */
 FileUploader.prototype.uploadImage = function (userId, source, callback) {
 
-    this.uploadFile(userId, MediaType.IMAGE, source, function (error, body) {
+    this.uploadFile(userId, MediaType.IMAGE, source, {}, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -67,9 +68,14 @@ FileUploader.prototype.uploadImage = function (userId, source, callback) {
     })
 };
 
+/**
+ * @param {string} userId
+ * @param {string|Buffer|Stream} source
+ * @param {function(Error, AudioUploadResponse)} callback
+ */
 FileUploader.prototype.uploadAudio = function (userId, source, callback) {
 
-    this.uploadFile(userId, MediaType.AUDIO, source, function (error, body) {
+    this.uploadFile(userId, MediaType.AUDIO, source, {}, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -80,9 +86,20 @@ FileUploader.prototype.uploadAudio = function (userId, source, callback) {
     })
 };
 
-FileUploader.prototype.uploadVideo = function (userId, source, callback) {
+/**
+ * @param {string} userId
+ * @param {string|Buffer|Stream} source
+ * @param {EncodingOptions?} encodingOptions
+ * @param {function(Error, VideoUploadResponse)} callback
+ */
+FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, callback) {
 
-    this.uploadFile(userId, MediaType.VIDEO, source, function (error, body) {
+    var params = {};
+    if (encodingOptions) {
+        params = {encoding_options: JSON.stringify(encodingOptions)}
+    }
+
+    this.uploadFile(userId, MediaType.VIDEO, source, params, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -95,7 +112,7 @@ FileUploader.prototype.uploadVideo = function (userId, source, callback) {
 
 FileUploader.prototype.uploadDocument = function (userId, source, callback) {
 
-    this.uploadFile(userId, MediaType.DOCUMENT, source, function (error, body) {
+    this.uploadFile(userId, MediaType.DOCUMENT, source, {}, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -110,10 +127,11 @@ FileUploader.prototype.uploadDocument = function (userId, source, callback) {
  * @param {string} userId
  * @param {string} type
  * @param {string|Buffer|Stream} source
+ * @param {Object} params
  * @param {function(Error, *)} callback
  * @protected
  */
-FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
+FileUploader.prototype.uploadFile = function (userId, type, source, params, callback) {
 
     var stream = null;
     if (typeof source.pipe === 'function') {
@@ -140,6 +158,8 @@ FileUploader.prototype.uploadFile = function (userId, type, source, callback) {
             media_type: type,
             file: stream
         };
+
+        _.extendOwn(form, params);
 
         request.post({url: response.uploadUrl, formData: form, json: true }, function(error, response, body) {
 
