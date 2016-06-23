@@ -21,8 +21,9 @@ html()
             document.getElementById('error').innerHTML = error.message;
 
         #upload
-            form(enctype="multipart/form-data" action="/upload/image" method="post")
-                input(id="file" type="file")
+            form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
+                input(id='file' name='file' type='file')
+                input(id='media-type' name='media_type' type='text' value='picture' hidden)
 
             button(id='upload-button').
                 Upload
@@ -30,7 +31,14 @@ html()
         script.
             var button = document.getElementById('upload-button');
             button.addEventListener('click', function (event) {
-                fetch('http://localhost:3000/upload/url').then()
+                fetch('http://localhost:3000/upload/url').then(function (response) {
+                    response.text().then(function (url) {
+                        var form = document.getElementById('upload-form');
+                        form.setAttribute('action', url);
+                        form.submit()
+                    })
+                })
             })
 
 
+        iframe(id='upload-result' name='upload-result')
