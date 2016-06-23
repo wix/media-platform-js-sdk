@@ -7,7 +7,7 @@ function BaseAuthenticationConfiguration(configuration, serviceMode, path) {
     /**
      * @type {string}
      */
-    this.host = 'users.' + configuration.domain;
+    this.host = configuration.domain;
 
     /**
      * @type {string}

@@ -19,7 +19,7 @@ function FileUploader(configuration, authenticationFacade) {
 
     this.configuration = configuration;
 
-    this.uploadUrlEndpoint = 'https://upload.' + this.configuration.domain + '/files/upload/url';
+    this.uploadUrlEndpoint = 'https://' + this.configuration.domain + '/files/upload/url';
 
 }
 
@@ -41,6 +41,11 @@ FileUploader.prototype.getUploadUrl = function (userId, callback) {
 
             if (error) {
                 callback(error, null);
+                return;
+            }
+
+            if (response.statusCode !== 200) {
+                callback(new Error(response.body), null);
                 return;
             }
 

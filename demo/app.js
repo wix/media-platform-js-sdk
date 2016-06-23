@@ -15,26 +15,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/../dist')));
 
 require('./src/routes/index')(app);
+require('./src/routes/upload-url')(app);
 
-
-/**
- * Start: Tachles
- */
-
-var Image = require('../src/index').Image;
-
-var MediaPlatform = require('../src/index').MediaPlatform;
-
-var mediaPlatform = new MediaPlatform({
-    domain: 'media.wixapps.net',
-    apiKey: 'ggl-109789773458215503884',
-    sharedSecret: '6c736264899646d3b370a409bb6a840c'
-});
-
-
-/**
- * End: Tachles
- */
 
 /**
  *  error handlers

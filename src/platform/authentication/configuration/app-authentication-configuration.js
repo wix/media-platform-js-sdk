@@ -8,7 +8,8 @@ var ServiceMode = require('../service-mode');
  * @constructor
  */
 function AppAuthenticationConfiguration(appConfiguration) {
-    BaseAuthenticationConfiguration.call(this, appConfiguration, ServiceMode.APP, '/auth/app/token');
+    //TODO: '/auth/token' -> '/auth/app/token'
+    BaseAuthenticationConfiguration.call(this, appConfiguration, ServiceMode.APP, '/auth/token');
 }
 util.inherits(AppAuthenticationConfiguration, BaseAuthenticationConfiguration);
 

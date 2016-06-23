@@ -33,6 +33,7 @@
     "mocha": "latest",
     "nock": "^8.0.0",
     "pug": "^2.0.0-beta3",
+    "request-debug": "^0.2.0",
     "uglifyify": "latest"
   }
 }

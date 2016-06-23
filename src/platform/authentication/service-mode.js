@@ -13,8 +13,9 @@ var ServiceMode = {
     PROVIDER: 'PROVIDER',
     /**
      * @type {string}
+     * TODO: WIX -> APP
      */
-    APP: 'APP'
+    APP: 'WIX'
 };
 
 /**
