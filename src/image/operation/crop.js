@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('util').inherits;
 var BaseOperation = require('./base-operation');
 var Cropping = require('./crop/cropping');
 
@@ -22,7 +22,7 @@ function Crop(baseUrl, imageId, imageName, version, width, height, x, y, upscale
     
     this.serializationOrder.push(cropping);
 }
-util.inherits(Crop, BaseOperation);
+inherits(Crop, BaseOperation);
 
 /**
  * @type {Crop}

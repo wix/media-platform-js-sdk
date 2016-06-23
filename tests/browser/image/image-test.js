@@ -9,7 +9,7 @@ describe('image url construction', function () {
             var result = new Image('test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
-            expect(result).to.eql({ url: '//test.wix.com/12345/v1/w_100,h_100/fish.jpeg',
+            expect(result).to.eql({ url: '//test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg',
                 error: null });
         });
 
@@ -17,14 +17,14 @@ describe('image url construction', function () {
             var result = new Image('https://test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
-            expect(result.url).to.be('https://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('https://test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg');
         });
 
         it('accepts "http"', function () {
             var result = new Image('http://test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
-            expect(result.url).to.be('http://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('http://test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg');
         });
 
         it('accepts "//"', function () {
@@ -32,7 +32,7 @@ describe('image url construction', function () {
                 .size(100, 100)
                 .toUrl();
 
-            expect(result.url).to.be('//test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg');
         });
 
         it('strips trailing "/"s from base url', function () {
@@ -40,7 +40,7 @@ describe('image url construction', function () {
                 .size(100, 100)
                 .toUrl();
 
-            expect(result.url).to.be('http://test.wix.com/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('http://test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg');
         });
 
         it('ignores base URL if omitted', function () {
@@ -48,7 +48,7 @@ describe('image url construction', function () {
                 .size(100, 100)
                 .toUrl();
 
-            expect(result.url).to.be('/12345/v1/w_100,h_100/fish.jpeg');
+            expect(result.url).to.be('/12345/v1/canvas/w_100,h_100/fish.jpeg');
         });
     });
 
@@ -99,7 +99,7 @@ describe('image url construction', function () {
                 .brightness(99)
                 .toUrl();
 
-            expect(result).to.eql({ url: '//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,x_80,y_80,scl_1.2/fish.jpeg',
+            expect(result).to.eql({ url: '//test.wix.com/12345/v1/crop/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,x_80,y_80,scl_1.2/fish.jpeg',
                 error: null });
         });
 
@@ -120,7 +120,7 @@ describe('image url construction', function () {
                 .brightness(99)
                 .toUrl();
 
-            expect(result).to.eql({ url: '//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,x_80,y_80/fish.jpeg',
+            expect(result).to.eql({ url: '//test.wix.com/12345/v1/crop/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,x_80,y_80/fish.jpeg',
                 error: null });
         });
 
@@ -152,7 +152,7 @@ describe('image url construction', function () {
                 .background('aabbcc')
                 .toUrl();
 
-            expect(result.url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_b,c_aabbcc/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/canvas/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_b,c_aabbcc/fish.jpeg');
             expect(result.error).to.be(null);
         });
 
@@ -182,7 +182,7 @@ describe('image url construction', function () {
                 .enableUpscale()
                 .toUrl();
 
-            expect(result.url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_l,lg/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/fill/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,al_l,lg/fish.jpeg');
             expect(result.error).to.be(null);
         });
 
@@ -211,7 +211,7 @@ describe('image url construction', function () {
                 .enableUpscale()
                 .toUrl();
 
-            expect(result.url).to.be('//test.wix.com/12345/v1/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,lg/fish.jpeg');
+            expect(result.url).to.be('//test.wix.com/12345/v1/fit/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,lg/fish.jpeg');
             expect(result.error).to.be(null);
         });
 

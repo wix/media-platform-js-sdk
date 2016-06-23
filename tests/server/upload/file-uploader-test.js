@@ -83,6 +83,8 @@ describe('file uploader', function() {
             //     expect(error).to.be.a(Error);
             //     done();
             // });
+
+            done();
         });
 
         it('handles get signed url errors', function (done) {
@@ -92,6 +94,8 @@ describe('file uploader', function() {
             //     expect(error).to.be.a(Error);
             //     done();
             // });
+
+            done();
         });
 
         it('handles upload errors', function (done) {
@@ -101,6 +105,8 @@ describe('file uploader', function() {
             //     expect(error).to.be.a(Error);
             //     done();
             // });
+
+            done();
         });
     });
 

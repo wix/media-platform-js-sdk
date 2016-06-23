@@ -42,7 +42,7 @@ module.exports = function(grunt) {
         },
         browserify: {
             options: {
-                debug: true
+                debug: false
             },
             dist: {
                 options: distOptions,

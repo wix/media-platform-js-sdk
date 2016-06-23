@@ -1,0 +1,20 @@
+doctype html
+html()
+    head
+        title Wix Media Platform - Demo
+
+        script(src='/media-platform.min.js')
+    body
+        p Here be Ogre!
+
+        #image
+
+        script.
+            var image = new Image('media.wixapps.net/ggl-109789773458215503884/images', 'd4d7cafb620e4b04af5823fc61ea101f', 'neta.jpeg');
+
+            var src = image.fill(250, 250).toUrl();
+
+            var elem = document.createElement('img');
+            elem.src = src.url;
+            document.getElementById('image').appendChild(elem);
+

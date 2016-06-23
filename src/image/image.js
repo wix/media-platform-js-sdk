@@ -2,7 +2,6 @@ var Canvas = require('./operation/canvas');
 var Crop = require('./operation/crop');
 var Fill = require('./operation/fill');
 var Fit = require('./operation/fit');
-// var imageUrlParser = require('./parser/ImageURLParser');
 
 /**
  * TODO: global operations to upper scope
@@ -17,10 +16,21 @@ var Fit = require('./operation/fit');
  * @constructor Image
  */
 function Image(baseUrl, imageId, imageName) {
+
+    if (!imageId) {
+        console.error('imageId is mandatory');
+        return;
+    }
+
+    if (!imageName) {
+        console.error('imageName is mandatory');
+        return;
+    }
+    
     /**
      * @type {string}
      */
-    this.baseUrl = baseUrl.trim();
+    this.baseUrl = !baseUrl ? '' : baseUrl.trim();
 
     /**
      * @type {string}

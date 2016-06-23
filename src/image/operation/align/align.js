@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var findKey = require('underscore').findKey;
 var Alignments = require('./alignments');
 
 /**
@@ -31,7 +31,7 @@ function Align(operation) {
  */
 Align.prototype.alignment = function (a) {
 
-    if (!!a && !_.findKey(Alignments, function(value) {
+    if (!!a && !findKey(Alignments, function(value) {
             return value === a;
         })) {
         this.error = 'align: ' + a + ' is not a valid alignment value - see alignments.js for valid values';

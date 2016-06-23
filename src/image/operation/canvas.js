@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('util').inherits;
 var BaseOperation = require('./base-operation');
 var Align = require('./align/align');
 var Background = require('./background/background');
@@ -31,7 +31,7 @@ function Canvas(baseUrl, imageId, imageName, version, width, height) {
     
     this.serializationOrder.push(align, background);
 }
-util.inherits(Canvas, BaseOperation);
+inherits(Canvas, BaseOperation);
 
 /**
  * @type {Canvas}

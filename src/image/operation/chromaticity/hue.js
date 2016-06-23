@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var validator = require('../validation/validator');
 
 /**
@@ -38,7 +36,7 @@ Hue.prototype.hue = function (hue) {
         return this.operation;
     }
 
-    this.settings.hue = _.isUndefined(hue) ? null : hue;
+    this.settings.hue = hue === void 0 ? null : hue;
     return this.operation;
 };
 

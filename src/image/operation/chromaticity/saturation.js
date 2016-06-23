@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var validator = require('../validation/validator');
 
 /**
@@ -37,7 +35,7 @@ Saturation.prototype.saturation = function (saturation) {
         return this.operation;
     }
     
-    this.settings.saturation = _.isUndefined(saturation) ? null : saturation;
+    this.settings.saturation = saturation === void 0 ? null : saturation;
     return this.operation;
 };
 

@@ -38,7 +38,7 @@ Contrast.prototype.contrast = function (contrast) {
         return this.operation;
     }
 
-    this.settings.contrast = _.isUndefined(contrast) ? null : contrast;
+    this.settings.contrast = contrast === void 0 ? null : contrast;
     return this.operation;
 };
 

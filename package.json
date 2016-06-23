@@ -1,10 +1,10 @@
 {
-  "name": "wix-media-platform-nodejs-sdk",
+  "name": "media-platform-js-sdk",
   "version": "1.0.0",
   "description": "An SDK to access Wix Media Platform image manipulation APIs and upload capabilities",
   "license": "Apache License 2.0",
   "private": true,
-  "main": "./src/MediaPlatform.js",
+  "main": "./src/media-platform.js",
   "engines": {
     "node": ">= 4.0.0"
   },
@@ -20,7 +20,10 @@
     "wix-auth-hmac": "^1.0.0"
   },
   "devDependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
     "expect.js": "latest",
+    "express": "^4.14.0",
     "grunt": "latest",
     "grunt-browserify": "latest",
     "grunt-contrib-clean": "latest",
@@ -29,6 +32,7 @@
     "grunt-mocha": "latest",
     "mocha": "latest",
     "nock": "^8.0.0",
+    "pug": "^2.0.0-beta3",
     "uglifyify": "latest"
   }
 }

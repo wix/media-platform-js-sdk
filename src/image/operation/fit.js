@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('util').inherits;
 var BaseOperation = require('./base-operation');
 var ResizeSettings = require('./resize/resize-settings');
 
@@ -21,7 +21,7 @@ function Fit(baseUrl, imageId, imageName, version, width, height) {
 
     this.serializationOrder.push(resize);
 }
-util.inherits(Fit, BaseOperation);
+inherits(Fit, BaseOperation);
 
 /**
  * @type {Fit}

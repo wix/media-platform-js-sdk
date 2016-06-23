@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('util').inherits;
 var BaseOperation = require('./base-operation');
 var Align = require('./align/align');
 var ResizeSettings = require('./resize/resize-settings');
@@ -31,7 +31,7 @@ function Fill(baseUrl, imageId, imageName, version, width, height) {
     
     this.serializationOrder.push(align, resize);
 }
-util.inherits(Fill, BaseOperation);
+inherits(Fill, BaseOperation);
 
 /**
  * @type {Fill}

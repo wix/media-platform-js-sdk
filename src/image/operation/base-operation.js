@@ -184,7 +184,7 @@ BaseOperation.prototype.toUrl = function () {
         }
     }
 
-    var out = prefix + baseUrl + "/" + this.imageId + "/" + this.version + '/';
+    var out = prefix + baseUrl + "/" + this.imageId + "/" + this.version + '/' + this.name + '/';
 
     var result = this.collect();
 

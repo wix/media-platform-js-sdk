@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var validator = require('../validation/validator');
 
 /**
@@ -38,7 +36,7 @@ Brightness.prototype.brightness = function (brightness) {
         return this.operation;
     }
 
-    this.settings.brightness = _.isUndefined(brightness) ? null : brightness;
+    this.settings.brightness = brightness === void 0 ? null : brightness;
     return this.operation;
 };
 

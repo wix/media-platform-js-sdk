@@ -110,6 +110,11 @@ FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, 
     })
 };
 
+/**
+ * @param {string} userId
+ * @param {string|Buffer|Stream} source
+ * @param {function(Error, DocumentUploadResponse)} callback
+ */
 FileUploader.prototype.uploadDocument = function (userId, source, callback) {
 
     this.uploadFile(userId, MediaType.DOCUMENT, source, {}, function (error, body) {
@@ -173,4 +178,7 @@ FileUploader.prototype.uploadFile = function (userId, type, source, params, call
     });
 };
 
+/**
+ * @type {FileUploader}
+ */
 module.exports = FileUploader;
