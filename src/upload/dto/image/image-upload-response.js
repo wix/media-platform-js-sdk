@@ -29,16 +29,6 @@ function ImageUploadResponse(data) {
     this.width = null;
 
     /**
-     * @type {string}
-     */
-    this.iconUrl = null;
-
-    /**
-     * @type {string}
-     */
-    this.mimeType = null;
-
-    /**
      * @type {Array<Square>|null}
      */
     this.faces = null; //'face' in response object

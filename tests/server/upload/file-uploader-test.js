@@ -14,17 +14,21 @@ describe('file uploader', function() {
     var authenticationFacade = new AuthenticationFacade(appAuthenticationConfiguration);
     var fileUploader = new FileUploader(appConfig, authenticationFacade);
 
+    var authServer = nock('https://users.fish.com/').get('/auth/app/token').times(100).reply(200, {
+        token: 'token'
+    });
+
+    var uploadServer = nock('https://upload.test.com/');
+
+    var fileServer = nock('https://fish.cat.com/');
+
     describe('upload file', function() {
 
-        var authServer = nock('https://users.fish.com/').get('/auth/app/token').times(4).reply(200, {
-            token: 'token'
-        });
-
-        var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').times(4).reply(200, {
+        uploadServer.get('/files/upload/url').times(4).reply(200, {
             upload_url: 'https://fish.cat.com/'
         });
 
-        var fileServer = nock('https://fish.cat.com/').post('/').times(4).reply(200, {});
+        fileServer.post('/').times(4).reply(200, {});
 
         it('accepts path (string) as source', function (done) {
 
@@ -71,21 +75,44 @@ describe('file uploader', function() {
                 done();
             });
         });
+
+        it('handles auth errors', function (done) {
+            //TODO
+            // //noinspection JSAccessibilityCheck
+            // fileUploader.uploadFile('userId', 'type', 1000, {}, function (error, data) {
+            //     expect(error).to.be.a(Error);
+            //     done();
+            // });
+        });
+
+        it('handles get signed url errors', function (done) {
+            //TODO
+            // //noinspection JSAccessibilityCheck
+            // fileUploader.uploadFile('userId', 'type', 1000, {}, function (error, data) {
+            //     expect(error).to.be.a(Error);
+            //     done();
+            // });
+        });
+
+        it('handles upload errors', function (done) {
+            //TODO
+            // //noinspection JSAccessibilityCheck
+            // fileUploader.uploadFile('userId', 'type', 1000, {}, function (error, data) {
+            //     expect(error).to.be.a(Error);
+            //     done();
+            // });
+        });
     });
 
     describe('upload image', function() {
 
-        var authServer = nock('https://users.fish.com/').get('/auth/app/token').reply(200, {
-            token: 'token'
-        });
-
-        var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').reply(200, {
+        uploadServer.get('/files/upload/url').reply(200, {
             upload_url: 'https://fish.cat.com/image'
         });
 
         it('returns a proper response object', function (done) {
 
-            var fileServer = nock('https://fish.cat.com/').post('/image').reply(200,
+            fileServer.post('/image').reply(200,
                 [
                     {
                         parent_folder_id: 'dc933247458b41792a0fb9d2f2296bb5',
@@ -116,17 +143,14 @@ describe('file uploader', function() {
 
     describe('upload audio', function() {
 
-        var authServer = nock('https://users.fish.com/').get('/auth/app/token').reply(200, {
-            token: 'token'
-        });
 
-        var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').reply(200, {
+        uploadServer.get('/files/upload/url').reply(200, {
             upload_url: 'https://fish.cat.com/audio'
         });
 
         it('returns a proper response object', function (done) {
 
-            var fileServer = nock('https://fish.cat.com/').post('/audio').reply(200,
+            fileServer.post('/audio').reply(200,
                 [
                     {
                         "parent_folder_id": "1b98ddebaa447184cd90f33753e6c474",
@@ -163,17 +187,13 @@ describe('file uploader', function() {
 
     describe('upload video', function() {
 
-        var authServer = nock('https://users.fish.com/').get('/auth/app/token').times(2).reply(200, {
-            token: 'token'
-        });
-
-        var uploadServer = nock('https://upload.test.com/').get('/files/upload/url').times(2).reply(200, {
+        uploadServer.get('/files/upload/url').times(2).reply(200, {
             upload_url: 'https://fish.cat.com/video'
         });
 
         it('default options', function (done) {
 
-            var fileServer = nock('https://fish.cat.com/').post('/video').reply(200,
+            fileServer.post('/video').reply(200,
                 [
                     {
                         "parent_folder_id": "dbbbc0fd90024aab84a7a7653c803659",
@@ -286,7 +306,7 @@ describe('file uploader', function() {
 
             var EncodingOptions = require('../../../src/upload/dto/video/encoding-options');
 
-            var fileServer = nock('https://fish.cat.com/').post('/video').reply(200,
+            fileServer.post('/video').reply(200,
                 [
                     {
                         "parent_folder_id": "dbbbc0fd90024aab84a7a7653c803659",
@@ -404,5 +424,37 @@ describe('file uploader', function() {
 
     describe('upload document', function() {
 
+        uploadServer.get('/files/upload/url').times(2).reply(200, {
+            upload_url: 'https://fish.cat.com/document'
+        });
+
+        it('default options', function (done) {
+
+            fileServer.post('/document').reply(200,
+                [
+                    {
+                        "parent_folder_id": "1b98ddebaa447184cd90f33753e6c474",
+                        "created_ts": 1466413719,
+                        "hash": "35df225c1634042f59e85aad37bae506",
+                        "tags": [],
+                        "file_name": "af63a5d465ce48a998297684f3246df6",
+                        "labels": [],
+                        "file_url": "ggl-109789773458215503884/audio/af63a5d465ce48a998297684f3246df6/file.mp3",
+                        "original_file_name": "YEXuWYCjGR.mp3",
+                        "modified_ts": 1466413719,
+                        "file_size": 3528120,
+                        "media_type": "music",
+                        "icon_url": "wixmedia-public/images/b0068f926fc542fbb1f3653df8ce5099/music_note.png",
+                        "mime_type": "audio/mp3"
+                    }
+                ]
+            );
+
+            var buffer = fs.readFileSync(__dirname + '/../../source/document.xlsx');
+            fileUploader.uploadDocument('userId', buffer, function (error, data) {
+                //TODO: assert props
+                done(error);
+            });
+        });
     });
 });
