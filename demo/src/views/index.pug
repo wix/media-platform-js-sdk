@@ -5,24 +5,27 @@ html()
 
         script(src='/media-platform.min.js')
     body
+        h2 Image
         #image
 
         script.
-            var image = new Image('media.wixapps.net/ggl-109789773458215503884/images', 'd4d7cafb620e4b04af5823fc61ea101f', 'neta.jpeg');
+            var image = new Image('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
             var elem = document.createElement('img');
-            elem.src = image.fill(250, 250).toUrl().url;
+            elem.src = image.fit(300, 500).toUrl().url;
             document.getElementById('image').appendChild(elem);
 
         #error
 
         script.
-            var image = new Image('media.wixapps.net/ggl-109789773458215503884/images', 'd4d7cafb620e4b04af5823fc61ea101f', 'neta.jpeg');
+            var image = new Image('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
             var error = image.fill(250, 250).contrast(-200).toUrl().error;
             document.getElementById('error').innerHTML = error.message;
 
+        h2 Upload
         #upload
+
             form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
-                input(id='file' name='file' type='file')
+                input(id='file' name='file' type='file' accept='image/*')
                 input(id='media-type' name='media_type' type='text' value='picture' hidden)
 
             button(id='upload-button').
@@ -40,5 +43,5 @@ html()
                 })
             })
 
-
-        iframe(id='upload-result' name='upload-result')
+        br
+        iframe(id='upload-result' name='upload-result' width='800')
