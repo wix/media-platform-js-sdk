@@ -16,9 +16,19 @@ Video files uploaded to Wix Media Platform are automatically transcoded into add
 
 For video playback see [Vidi](https://github.com/wix/vidi) - Adaptive video playback library.
 
-## JavaScript SDK
+# JavaScript SDK
 
 This package is an isomorphic JavaScript library (works in Node and in the browser) that provides a convenient API to access Wix Media Platform file upload service and image manipulation API.
+
+## Including the SDK
+
+$ npm install media-platform-js-sdk --save
+
+## File Upload
+
+### Browser
+
+### Server
 
 ## Documentation
 
