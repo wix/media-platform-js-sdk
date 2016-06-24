@@ -24,7 +24,9 @@ This package is an isomorphic JavaScript library (works in Node and in the brows
 
 ## Installation
 
-  $ npm install media-platform-js-sdk --save
+```bash
+npm install media-platform-js-sdk --save
+```
 
 ## File Upload
 
