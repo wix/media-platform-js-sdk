@@ -14,7 +14,7 @@ Wix Media Platform provides storage for professional, high-quality audio files t
 
 Video files uploaded to Wix Media Platform are automatically transcoded into additional formats of various qualities, enabling video playback on any browser or Internet-connected device.
 
-For video playback see [Vidi](https://github.com/wix/vidi)
+For video playback see [Vidi](https://github.com/wix/vidi) - Adaptive video playback library.
 
 ## JavaScript SDK
 
