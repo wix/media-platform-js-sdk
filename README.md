@@ -1,6 +1,6 @@
-# Wix Media Platform
+# [Wix Media Platform](https://www.wixmp.com/)
 
-Wix Media Platform is a collection of services for storing, serving, uploading, and managing image, audio, and video files.
+[Wix Media Platform](https://www.wixmp.com/) is a collection of services for storing, serving, uploading, and managing image, audio, and video files.
 
 ## Image
 
