@@ -14,7 +14,7 @@ describe('file uploader', function() {
     var authenticationFacade = new AuthenticationFacade(appAuthenticationConfiguration);
     var fileUploader = new FileUploader(appConfig, authenticationFacade);
 
-    var authServer = nock('https://test.com/').get('/auth/token').times(100).reply(200, {
+    nock('https://test.com/').get('/auth/token').times(100).reply(200, {
         token: 'token'
     });
 

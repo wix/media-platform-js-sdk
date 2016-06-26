@@ -6,18 +6,12 @@ module.exports = function(grunt) {
             global: true,
             preserveComments: false,
             dropDebugger: true,
-            dropConsole: false
+            dropConsole: true
         }]],
         browserifyOptions: {
             standalone: 'media-platform'
         }
     };
-	var buildOptions = {
-		debug: false,
-        browserifyOptions: {
-            standalone: 'media-platform'
-		}
-	};
 
     grunt.initConfig({
         clean : {
@@ -49,22 +43,22 @@ module.exports = function(grunt) {
                 src: ['public/media-platform.js'],
                 dest: 'dist/media-platform.min.js'
             },
-            build: {
-				options: buildOptions,
-                src: ['public/media-platform.js'],
-                dest: 'build/media-platform.min.js'
-            },
             tests: {
                 src: ['tests/browser/**/*-test.js'],
                 dest: 'build/tests.js'
             }
         },
         mocha: {
-            test: {
+            browserTest: {
                 src: ['tests/browser/mocha-runner.html'],
                 options: {
                     run: true
                 }
+            }
+        },
+        mochaTest: {
+            serverTest: {
+                src: ['tests/server/**/*-test.js']
             }
         }
     });
@@ -72,7 +66,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-mocha');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.registerTask('browser', ['clean:dist', 'browserify:dist']);
+
+    //TODO: run tests against the minified JS
     grunt.registerTask('browser-tests', ['clean:build', 'browserify:tests', 'mocha']);
+    grunt.registerTask('server-tests', ['mochaTest']);
+
+    grunt.registerTask('test', ['server-tests', 'browser-tests']);
 };

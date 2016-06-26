@@ -1,39 +1,46 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha1",
   "description": "An SDK to access Wix Media Platform image manipulation APIs and upload capabilities",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/wix/media-platform-js-sdk/issues"
+  },
   "private": true,
-  "main": "./src/media-platform.js",
+  "main": "./src/index.js",
   "engines": {
     "node": ">= 4.0.0"
   },
   "scripts": {
-    "build": ":",
-    "test": ":",
-    "release": "wnpm-release"
+    "build": "grunt browser",
+    "test": "grunt test",
+    "release": "wnpm-release --publish-to-wix-registry",
+    "demo": ":"
   },
   "dependencies": {
-    "needle": "^1.0.0",
     "request": "^2.72.0",
     "underscore": "^1.8.3",
     "wix-auth-hmac": "^1.0.0"
   },
   "devDependencies": {
-    "body-parser": "^1.15.2",
-    "cookie-parser": "^1.4.3",
+    "body-parser": "latest",
+    "cookie-parser": "latest",
     "expect.js": "latest",
-    "express": "^4.14.0",
+    "express": "latest",
     "grunt": "latest",
     "grunt-browserify": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-jshint": "latest",
     "grunt-gh-pages": "latest",
     "grunt-mocha": "latest",
+    "grunt-mocha-test": "latest",
     "mocha": "latest",
-    "nock": "^8.0.0",
-    "pug": "^2.0.0-beta3",
-    "request-debug": "^0.2.0",
+    "nock": "latest",
+    "pug": "latest",
+    "request-debug": "latest",
     "uglifyify": "latest"
   }
 }

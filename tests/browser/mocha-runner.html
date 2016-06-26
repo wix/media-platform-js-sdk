@@ -8,12 +8,13 @@
     <script src="../../node_modules/mocha/mocha.js"></script>
     <script>
         mocha.setup('bdd');
-        mocha.reporter('html');
     </script>
     <script src="../../build/tests.js"></script>
     <script>
         window.onload = function() {
-            mocha.run()
+            if (navigator.userAgent.indexOf('PhantomJS') === -1) {
+                mocha.run();
+            }
         };
     </script>
 </head>
