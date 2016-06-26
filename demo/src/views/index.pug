@@ -39,7 +39,7 @@ html()
         script.
             var button = document.getElementById('upload-button');
             button.addEventListener('click', function () {
-                fetch('http://localhost:3000/upload/credentials').then(function (response) {
+                fetch('http://localhost:3000/upload/picture/credentials').then(function (response) {
                     response.json().then(function (uploadCredentials) {
                         var form = document.getElementById('upload-form');
                         form.getElementsByTagName('upload_token').value = uploadCredentials.uploadToken;

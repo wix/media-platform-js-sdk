@@ -27,9 +27,10 @@ function FileUploader(configuration, authenticationFacade) {
 /**
  * retrieve a pre signed URL to which the file is uploaded
  * @param {string} userId
+ * @param {string} mediaType
  * @param {function(Error, {uploadUrl: string}|null)} callback
  */
-FileUploader.prototype.getUploadUrl = function (userId, callback) {
+FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
 
     this.authenticationFacade.getHeader(userId, function(error, authHeader) {
 
@@ -38,7 +39,7 @@ FileUploader.prototype.getUploadUrl = function (userId, callback) {
             return;
         }
 
-        request.get({url: this.uploadUrlEndpoint, headers: authHeader, json: true }, function (error, response, body) {
+        request.get({url: this.uploadUrlEndpoint, qs: {media_type: mediaType}, headers: authHeader, json: true }, function (error, response, body) {
 
             if (error) {
                 callback(error, null);
@@ -135,13 +136,13 @@ FileUploader.prototype.uploadDocument = function (userId, source, callback) {
 
 /**
  * @param {string} userId
- * @param {string} type
+ * @param {string} mediaType
  * @param {string|Buffer|Stream} source
  * @param {Object} params
  * @param {function(Error, *)} callback
  * @protected
  */
-FileUploader.prototype.uploadFile = function (userId, type, source, params, callback) {
+FileUploader.prototype.uploadFile = function (userId, mediaType, source, params, callback) {
 
     var stream = null;
     if (typeof source.pipe === 'function') {
@@ -157,7 +158,7 @@ FileUploader.prototype.uploadFile = function (userId, type, source, params, call
     }
     stream.on('error', callback);
 
-    this.getUploadUrl(userId, function (error, response) {
+    this.getUploadUrl(userId, mediaType, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -165,7 +166,8 @@ FileUploader.prototype.uploadFile = function (userId, type, source, params, call
         }
 
         var form = {
-            media_type: type,
+            media_type: mediaType,
+            upload_token: response.uploadToken,
             file: stream
         };
 

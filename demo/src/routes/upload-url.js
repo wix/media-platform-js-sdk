@@ -9,9 +9,11 @@ var mediaPlatform = new MediaPlatform({
 
 module.exports = function(app) {
 
-    app.get('/upload/credentials', function(req, res, next) {
+    app.get('/upload/:mediaType/credentials', function(req, res, next) {
 
-        mediaPlatform.fileUploader.getUploadUrl(apiKey, function (error, uploadCredentials) {
+        var mediaType = req.params.mediaType;
+        
+        mediaPlatform.fileUploader.getUploadUrl(apiKey, mediaType,  function (error, uploadCredentials) {
 
             if (error) {
                 res.status(500).send(error.message);
