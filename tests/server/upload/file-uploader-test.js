@@ -2,10 +2,10 @@ var stream = require('stream');
 var fs = require('fs');
 var nock = require('nock');
 var expect = require('expect.js');
-var FileUploader = require('../../../src/upload/file-uploader');
-var AppConfiguration = require('../../../src/configuration/app-configuration');
-var AppAuthenticationConfiguration = require('../../../src/authentication/configuration/app-authentication-configuration');
-var AuthenticationFacade = require('../../../src/authentication/authentication-facade');
+var FileUploader = require('../../../src/platform/upload/file-uploader');
+var AppConfiguration = require('../../../src/platform/configuration/app-configuration');
+var AppAuthenticationConfiguration = require('../../../src/platform/authentication/configuration/app-authentication-configuration');
+var AuthenticationFacade = require('../../../src/platform/authentication/authentication-facade');
 
 describe('file uploader', function() {
 
@@ -14,21 +14,22 @@ describe('file uploader', function() {
     var authenticationFacade = new AuthenticationFacade(appAuthenticationConfiguration);
     var fileUploader = new FileUploader(appConfig, authenticationFacade);
 
-    var authServer = nock('https://users.fish.com/').get('/auth/app/token').times(100).reply(200, {
+    var authServer = nock('https://test.com/').get('/auth/token').times(100).reply(200, {
         token: 'token'
     });
 
-    var uploadServer = nock('https://upload.test.com/');
+    var uploadCredentialsServer = nock('https://test.com/');
 
     var fileServer = nock('https://fish.cat.com/');
 
     describe('upload file', function() {
 
-        uploadServer.get('/files/upload/url').times(4).reply(200, {
-            upload_url: 'https://fish.cat.com/'
+        uploadCredentialsServer.get('/files/upload/url').query(true).times(4).reply(200, {
+            upload_url: 'https://fish.cat.com/',
+            upload_token: 'token'
         });
 
-        fileServer.post('/').times(4).reply(200, {});
+        fileServer.post('/').query(true).times(4).reply(200, {});
 
         it('accepts path (string) as source', function (done) {
 
@@ -112,8 +113,9 @@ describe('file uploader', function() {
 
     describe('upload image', function() {
 
-        uploadServer.get('/files/upload/url').reply(200, {
-            upload_url: 'https://fish.cat.com/image'
+        uploadCredentialsServer.get('/files/upload/url').query(true).reply(200, {
+            upload_url: 'https://fish.cat.com/image',
+            upload_token: 'token'
         });
 
         it('returns a proper response object', function (done) {
@@ -150,8 +152,9 @@ describe('file uploader', function() {
     describe('upload audio', function() {
 
 
-        uploadServer.get('/files/upload/url').reply(200, {
-            upload_url: 'https://fish.cat.com/audio'
+        uploadCredentialsServer.get('/files/upload/url').query(true).reply(200, {
+            upload_url: 'https://fish.cat.com/audio',
+            upload_token: 'token'
         });
 
         it('returns a proper response object', function (done) {
@@ -193,8 +196,9 @@ describe('file uploader', function() {
 
     describe('upload video', function() {
 
-        uploadServer.get('/files/upload/url').times(2).reply(200, {
-            upload_url: 'https://fish.cat.com/video'
+        uploadCredentialsServer.get('/files/upload/url').query(true).times(2).reply(200, {
+            upload_url: 'https://fish.cat.com/video',
+            upload_token: 'token'
         });
 
         it('default options', function (done) {
@@ -310,7 +314,7 @@ describe('file uploader', function() {
 
         it('custom options', function (done) {
 
-            var EncodingOptions = require('../../../src/upload/dto/video/encoding-options');
+            var EncodingOptions = require('../../../src/platform/upload/dto/video/encoding-options');
 
             fileServer.post('/video').reply(200,
                 [
@@ -430,8 +434,9 @@ describe('file uploader', function() {
 
     describe('upload document', function() {
 
-        uploadServer.get('/files/upload/url').times(2).reply(200, {
-            upload_url: 'https://fish.cat.com/document'
+        uploadCredentialsServer.get('/files/upload/url').query(true).times(2).reply(200, {
+            upload_url: 'https://fish.cat.com/document',
+            upload_token: 'token'
         });
 
         it('default options', function (done) {
