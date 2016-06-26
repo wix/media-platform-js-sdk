@@ -1,5 +1,4 @@
 var request = require('request');
-// require('request-debug')(request);
 var SignedRequest = require('./http/sigend-request');
 
 /**
@@ -18,7 +17,7 @@ function AuthenticationFacade(authenticationConfiguration) {
 /**
  * @summary Retrieves a token for use authentication against REST APIs for WixMP services
  * @param {string} id
- * @param {function} callback The callback to accept the auth token, or an error
+ * @param {function(Error, string|null)} callback The callback to accept the auth token, or an error
  */
 AuthenticationFacade.prototype.getToken = function(id, callback) {
 

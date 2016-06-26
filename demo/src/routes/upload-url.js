@@ -9,17 +9,16 @@ var mediaPlatform = new MediaPlatform({
 
 module.exports = function(app) {
 
-    app.get('/upload/url', function(req, res, next) {
+    app.get('/upload/credentials', function(req, res, next) {
 
-        mediaPlatform.fileUploader.getUploadUrl(apiKey, function (error, uploadUrl) {
+        mediaPlatform.fileUploader.getUploadUrl(apiKey, function (error, uploadCredentials) {
 
             if (error) {
-                console.error(error);
-                res.status(500).send(error);
+                res.status(500).send(error.message);
                 return;
             }
 
-            res.send(uploadUrl.uploadUrl);
+            res.send(uploadCredentials);
         });
     });
 };

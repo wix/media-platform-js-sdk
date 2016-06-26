@@ -2,6 +2,7 @@ var fs = require('fs');
 var Stream = require('stream');
 var _ = require('underscore');
 var request = require('request');
+// require('request-debug')(request);
 var MediaType = require('./media-type');
 var ImageUploadResponse = require('./dto/image/image-upload-response');
 var AudioUploadResponse = require('./dto/audio/audio-upload-response');
@@ -48,9 +49,8 @@ FileUploader.prototype.getUploadUrl = function (userId, callback) {
                 callback(new Error(response.body), null);
                 return;
             }
-
-            //TODO: does this require the token as well?
-            callback(null, { uploadUrl: body.upload_url })
+            
+            callback(null, { uploadUrl: body.upload_url, uploadToken: body.upload_token })
         })
     }.bind(this))
 };
@@ -171,10 +171,15 @@ FileUploader.prototype.uploadFile = function (userId, type, source, params, call
 
         _.extendOwn(form, params);
 
-        request.post({url: response.uploadUrl, formData: form, json: true }, function(error, response, body) {
+        request.post({url: response.uploadUrl, formData: form, json: true }, function (error, response, body) {
 
             if (error) {
                 callback(error, null);
+                return;
+            }
+
+            if (response.statusCode !== 200) {
+                callback(new Error(JSON.stringify(body)), null);
                 return;
             }
 

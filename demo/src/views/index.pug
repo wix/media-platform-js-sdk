@@ -5,7 +5,9 @@ html()
 
         script(src='/media-platform.min.js')
     body
-        h2 Image - Success
+        h2 Image
+
+        h3 Success
         #image
 
         script.
@@ -16,7 +18,7 @@ html()
             elem.src = image.fit(500, 500).negative().saturation(-90).toUrl().url;
             document.getElementById('image').appendChild(elem);
 
-        h2 Image - Error
+        h3 Error
         #error
 
         script.
@@ -29,6 +31,7 @@ html()
             form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
                 input(id='file' name='file' type='file' accept='image/*')
                 input(id='media-type' name='media_type' type='text' value='picture' hidden)
+                input(id='upload-token' name='upload_token' type='text' hidden)
 
             button(id='upload-button').
                 Upload
@@ -36,10 +39,11 @@ html()
         script.
             var button = document.getElementById('upload-button');
             button.addEventListener('click', function () {
-                fetch('http://localhost:3000/upload/url').then(function (response) {
-                    response.text().then(function (url) {
+                fetch('http://localhost:3000/upload/credentials').then(function (response) {
+                    response.json().then(function (uploadCredentials) {
                         var form = document.getElementById('upload-form');
-                        form.setAttribute('action', url);
+                        form.getElementsByTagName('upload_token').value = uploadCredentials.uploadToken;
+                        form.setAttribute('action', uploadCredentials.uploadUrl);
                         form.submit();
                     })
                 })
@@ -47,5 +51,5 @@ html()
 
         br
 
-        h2 Upload Result
+        h3 Upload Result
         iframe(id='upload-result' name='upload-result' width='800')
