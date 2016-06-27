@@ -37,31 +37,81 @@ npm start
 ```
 and goto http://localhost:3333/
 
+## Instantiating the Media Platform in the Server
+
+```javascript
+var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
+
+var mediaPlatform = new MediaPlatform({
+  domain: <as appears in the Dashboard>,
+  apiKey: <as appears in the Dashboard>,
+  sharedSecret: <as appears in the Dashboard>
+});
+```
+
 ## File Upload
 
 ### Server
 
 ```javascript
-var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
-
-var fileUploader = new MediaPlatform({
-  domain: <as appears in the Dashboard>,
-  apiKey: <as appears in the Dashboard>,
-  sharedSecret: <as appears in the Dashboard>
-}).fileUploader;
-
-fileUploader.uploadImage(apiKey, <ReadStream or Buffer or Path to file>, function (error, response) {
+mediaPlatform.fileUploader.uploadImage(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
 
     if (error) {
-      ... handle error ...
+      console.error('upload failed: ' + error.message);
       return;
     }
 
-    ... response ...
+    console.log('upload successful: ' + response);
 });
 ```
 
 ### Browser
+
+File upload from the browser is a 2 step operation, first the signed URL and the upload token is retrieved from the server
+and then a multipart/form-data request is made to the URL.
+
+In the server expose a route that returns the signed URL and upload token:
+
+```javascript
+app.get('/upload/:mediaType/credentials', function(req, res, next) {
+
+    mediaPlatform.fileUploader.getUploadUrl(apiKey, req.params.mediaType,  function (error, urlAndToken) {
+
+        if (error) {
+            res.status(500).send(error.message);
+            return;
+        }
+
+        res.send(urlAndToken);
+    });
+    
+});
+```
+
+From the browser get the URL and POST the form to it 
+
+```html
+<form id="upload-form" enctype="multipart/form-data" action="" method="post" target="upload-result">
+    <input id="file" name="file" type="file" accept="image/*">
+    <input id="media-type" name="media_type" type="text" value="picture" hidden>
+    <input id="upload-token" name="upload_token" type="text" hidden>
+</form>
+<button id="upload-button">Upload</button>
+
+<script>
+    var button = document.getElementById('upload-button');
+    button.addEventListener('click', function () {
+        fetch('http://localhost:3000/upload/picture/credentials').then(function (response) {
+            response.json().then(function (uploadCredentials) {
+                var form = document.getElementById('upload-form');
+                form.getElementsByTagName('upload_token').value = uploadCredentials.uploadToken;
+                form.setAttribute('action', uploadCredentials.uploadUrl);
+                form.submit();
+        })
+    })
+})
+</script>
+```
 
 ## Image Consumption
 
