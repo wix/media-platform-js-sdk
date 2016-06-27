@@ -48,5 +48,8 @@
     "pug": "latest",
     "request-debug": "latest",
     "uglifyify": "latest"
+  },
+  "optionalDependencies": {
+    "@wix/wnpm-ci": "*"
   }
 }
