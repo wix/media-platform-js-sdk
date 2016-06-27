@@ -30,6 +30,14 @@ This package is an isomorphic JavaScript library (works in Node and in the brows
 npm install media-platform-js-sdk --save
 ```
 
+## Running the Demo
+
+```bash
+npm start
+```
+
+and goto http://localhost:3333/
+
 ## File Upload
 
 ### Server
