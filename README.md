@@ -35,22 +35,47 @@ npm install media-platform-js-sdk --save
 ```bash
 npm start
 ```
-
 and goto http://localhost:3333/
 
 ## File Upload
 
 ### Server
 
+```javascript
+var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
+
+var fileUploader = new MediaPlatform({
+  domain: <as appears in the Dashboard>,
+  apiKey: <as appears in the Dashboard>,
+  sharedSecret: <as appears in the Dashboard>
+}).fileUploader;
+
+fileUploader.uploadImage(apiKey, <ReadStream or Buffer or Path to file>, function (error, response) {
+
+    if (error) {
+      ... handle error ...
+      return;
+    }
+
+    ... response ...
+});
+```
+
 ### Browser
 
 ## Image Consumption
 
+### Server
+
 ```javascript
+var Image = require('media-platform-js-sdk').Image;
+
 var image = new Image('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
 
 var url = image.fit(500, 500).negative().saturation(-90).toUrl().url;
 ```
+
+### Browser
 
 ## Documentation
 
