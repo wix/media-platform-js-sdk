@@ -1,7 +1,9 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "1.0.0-alpha1",
+  "version": "0.0.1-alpha1",
   "description": "An SDK to access Wix Media Platform image manipulation APIs and upload capabilities",
+  "author": "Wix Media Platform",
+  "homepage": "https://github.com/wix/media-platform-js-sdk",
   "license": "Apache-2.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -10,7 +12,10 @@
   "bugs": {
     "url": "https://github.com/wix/media-platform-js-sdk/issues"
   },
-  "private": true,
+  "keywords": [
+    "wix", "media", "platform", "image", "video", "audio", "file", "upload", "resize", "crop", "transcoding", "streaming"
+  ],
+  "private": false,
   "main": "./src/index.js",
   "engines": {
     "node": ">= 4.0.0"
