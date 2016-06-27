@@ -1,7 +1,7 @@
 /**
  * @constructor
  */
-function BaseUploadResponse() {
+function BaseDTO() {
 
     /**
      * @type {string}
@@ -68,7 +68,7 @@ function BaseUploadResponse() {
  * @param {Object} data
  * @protected
  */
-BaseUploadResponse.prototype.deserialize = function (data) {
+BaseDTO.prototype.deserialize = function (data) {
     this.parentFolderId = data.parent_folder_id;
     this.hash = data.hash;
     this.originalFileName = data.original_file_name;
@@ -84,7 +84,7 @@ BaseUploadResponse.prototype.deserialize = function (data) {
     this.dateModified = data.modified_ts;
 };
 
-module.exports = BaseUploadResponse;
+module.exports = BaseDTO;
 
 // [
 //     {

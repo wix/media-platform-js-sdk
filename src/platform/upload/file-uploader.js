@@ -4,10 +4,10 @@ var _ = require('underscore');
 var request = require('request');
 // require('request-debug')(request);
 var MediaType = require('./media-type');
-var ImageUploadResponse = require('./dto/image/image-upload-response');
-var AudioUploadResponse = require('./dto/audio/audio-upload-response');
-var VideoUploadResponse = require('./dto/video/video-upload-response');
-var DocumentUploadResponse = require('./dto/document/document-upload-response');
+var ImageDTO = require('../../dto/image/image-dto');
+var AudioDTO = require('../../dto/audio/audio-dto');
+var VideoDTO = require('../../dto/video/video-dto');
+var DocumentDTO = require('../../dto/document/document-dto');
 
 /**
  * @param {ProviderConfiguration} configuration
@@ -59,7 +59,7 @@ FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
- * @param {function(Error, ImageUploadResponse)} callback
+ * @param {function(Error, ImageDTO)} callback
  */
 FileUploader.prototype.uploadImage = function (userId, source, callback) {
 
@@ -70,14 +70,14 @@ FileUploader.prototype.uploadImage = function (userId, source, callback) {
             return;
         }
 
-        callback(null, new ImageUploadResponse(body[0]));
+        callback(null, new ImageDTO(body[0]));
     })
 };
 
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
- * @param {function(Error, AudioUploadResponse)} callback
+ * @param {function(Error, AudioDTO)} callback
  */
 FileUploader.prototype.uploadAudio = function (userId, source, callback) {
 
@@ -88,7 +88,7 @@ FileUploader.prototype.uploadAudio = function (userId, source, callback) {
             return;
         }
 
-        callback(null, new AudioUploadResponse(body[0]));
+        callback(null, new AudioDTO(body[0]));
     })
 };
 
@@ -96,7 +96,7 @@ FileUploader.prototype.uploadAudio = function (userId, source, callback) {
  * @param {string} userId
  * @param {string|Buffer|Stream} source
  * @param {EncodingOptions?} encodingOptions
- * @param {function(Error, VideoUploadResponse)} callback
+ * @param {function(Error, VideoDTO)} callback
  */
 FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, callback) {
 
@@ -112,14 +112,14 @@ FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, 
             return;
         }
 
-        callback(null, new VideoUploadResponse(body[0]));
+        callback(null, new VideoDTO(body[0]));
     })
 };
 
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
- * @param {function(Error, DocumentUploadResponse)} callback
+ * @param {function(Error, DocumentDTO)} callback
  */
 FileUploader.prototype.uploadDocument = function (userId, source, callback) {
 
@@ -130,7 +130,7 @@ FileUploader.prototype.uploadDocument = function (userId, source, callback) {
             return;
         }
 
-        callback(null, new DocumentUploadResponse(body[0]));
+        callback(null, new DocumentDTO(body[0]));
     })
 };
 

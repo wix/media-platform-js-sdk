@@ -1,6 +1,6 @@
 var MediaPlatform = require('./platform/media-platform');
-var Image = require('./image/image');
-var EncodingOptions = require('./platform/upload/dto/video/encoding-options');
+var ImageRequest = require('./image/image-request');
+var EncodingOptions = require('./dto/video/encoding-options');
 
 module.exports = {
     
@@ -10,9 +10,9 @@ module.exports = {
     MediaPlatform: MediaPlatform,
     
     /**
-     * @type {Image}
+     * @type {ImageRequest}
      */
-    Image: Image,
+    ImageRequest: ImageRequest,
     
     /**
      * @type {EncodingOptions}

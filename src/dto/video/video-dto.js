@@ -1,6 +1,6 @@
 var util = require('util');
 var _ = require('underscore');
-var BaseUploadResponse = require('../base-upload-response');
+var BaseDTO = require('../base-dto');
 var VideoFile = require('./video-file');
 var ImageFile = require('./image-file');
 
@@ -8,8 +8,8 @@ var ImageFile = require('./image-file');
  * @param {Object?} data
  * @constructor
  */
-function VideoUploadResponse(data) {
-    BaseUploadResponse.call(this);
+function VideoDTO(data) {
+    BaseDTO.call(this);
 
     /**
      * @type {number}
@@ -41,14 +41,14 @@ function VideoUploadResponse(data) {
     }
 
 }
-util.inherits(VideoUploadResponse, BaseUploadResponse);
+util.inherits(VideoDTO, BaseDTO);
 
 /**
  * @param {Object} data
  * @protected
  */
-VideoUploadResponse.prototype.deserialize = function (data) {
-    VideoUploadResponse.super_.prototype.deserialize.call(this, data);
+VideoDTO.prototype.deserialize = function (data) {
+    VideoDTO.super_.prototype.deserialize.call(this, data);
 
     this.height = data.height;
     this.width = data.width;
@@ -69,9 +69,9 @@ VideoUploadResponse.prototype.deserialize = function (data) {
 };
 
 /**
- * @type {VideoUploadResponse}
+ * @type {VideoDTO}
  */
-module.exports = VideoUploadResponse;
+module.exports = VideoDTO;
 
 //
 // [

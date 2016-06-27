@@ -1,4 +1,4 @@
-var Image = require('../../../src/image/image');
+var ImageRequest = require('../../../src/image/image-request');
 var expect = require('expect.js');
 
 describe('image url construction', function () {
@@ -6,7 +6,7 @@ describe('image url construction', function () {
     describe('protocol prefixing', function () {
 
         it('prefixes "//" if scheme is not defined', function () {
-            var result = new Image('test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
+            var result = new ImageRequest('test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
             expect(result).to.eql({ url: '//test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg',
@@ -14,21 +14,21 @@ describe('image url construction', function () {
         });
 
         it('accepts "https"', function () {
-            var result = new Image('https://test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
+            var result = new ImageRequest('https://test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
             expect(result.url).to.be('https://test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg');
         });
 
         it('accepts "http"', function () {
-            var result = new Image('http://test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
+            var result = new ImageRequest('http://test.wix.com', '12345', 'fish.jpeg').canvas(100, 100)
                 .toUrl();
 
             expect(result.url).to.be('http://test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg');
         });
 
         it('accepts "//"', function () {
-            var result = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
+            var result = new ImageRequest('//test.wix.com', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
@@ -36,7 +36,7 @@ describe('image url construction', function () {
         });
 
         it('strips trailing "/"s from base url', function () {
-            var result = new Image('http://test.wix.com/', '12345', 'fish.jpeg').canvas()
+            var result = new ImageRequest('http://test.wix.com/', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
@@ -44,7 +44,7 @@ describe('image url construction', function () {
         });
 
         it('ignores base URL if omitted', function () {
-            var result = new Image('', '12345', 'fish.jpeg').canvas()
+            var result = new ImageRequest('', '12345', 'fish.jpeg').canvas()
                 .size(100, 100)
                 .toUrl();
 
@@ -54,7 +54,7 @@ describe('image url construction', function () {
 
     describe('handles input errors', function () {
         it('collects errors into a single Error instance', function () {
-            var result = new Image('//test.wix.com', '12345', 'fish.jpeg').canvas()
+            var result = new ImageRequest('//test.wix.com', '12345', 'fish.jpeg').canvas()
                 .size(10, 10)
                 .jpeg(200, true)
                 .unsharpMask(-1, 10, 10)
@@ -80,7 +80,7 @@ describe('image url construction', function () {
 
     describe('crop operation', function () {
 
-        var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
+        var image = new ImageRequest('//test.wix.com', '12345', 'fish.jpeg');
 
         it('all options', function () {
             var result = image.crop(100, 100, 80, 80, 1.2)
@@ -128,7 +128,7 @@ describe('image url construction', function () {
 
     describe('canvas operation', function () {
 
-        var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
+        var image = new ImageRequest('//test.wix.com', '12345', 'fish.jpeg');
 
         it('all options', function () {
 
@@ -160,7 +160,7 @@ describe('image url construction', function () {
 
     describe('fill operation', function () {
 
-        var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
+        var image = new ImageRequest('//test.wix.com', '12345', 'fish.jpeg');
 
         it('all options', function () {
             var result = image.fill(50, 50)
@@ -190,7 +190,7 @@ describe('image url construction', function () {
 
     describe('fit operation', function () {
 
-        var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
+        var image = new ImageRequest('//test.wix.com', '12345', 'fish.jpeg');
 
         it('all options', function () {
             var result = image.fit()
@@ -219,7 +219,7 @@ describe('image url construction', function () {
 
     describe('url normalization', function () {
 
-        var image = new Image('//test.wix.com', '12345', 'fish.jpeg');
+        var image = new ImageRequest('//test.wix.com', '12345', 'fish.jpeg');
 
         it('preserves parameter order', function () {
             var result1 = image.fit()

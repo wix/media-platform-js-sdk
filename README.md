@@ -40,7 +40,7 @@ and goto http://localhost:3333/
 ## Instantiating the Media Platform in the Server
 
 First, if you haven't done so yet, register at [Wix Media Media Platform](https://app.wixmp.com/dashboard/index.html),
-Once registered you'll be issued with your own key and secret.
+Once registered you'll be issued with your own API Key, API Secret and API Endpoint.
 
 ```javascript
 var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
@@ -58,6 +58,7 @@ var mediaPlatform = new MediaPlatform({
 
 ```javascript
 var fileUploader = mediaPlatform.fileUploader;
+var EncodingOptions = require('media-platform-js-sdk').EncodingOptions;
  
 fileUploader.uploadImage(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
 
@@ -73,7 +74,6 @@ fileUploader.uploadAudio(apiKey, <ReadStream || Buffer || string path to file>, 
     ...
 });
 
-var EncodingOptions = require('media-platform-js-sdk').EncodingOptions;
 var encodingOptions = new EncodingOptions()
         .videoFormats(['mp4', 'webm', 'ogv'])
         .audioFormat('m4a');
@@ -136,11 +136,11 @@ From the browser get the URL and POST the form to it
 ### Server
 
 ```javascript
-var Image = require('media-platform-js-sdk').Image;
+var ImageRequest = require('media-platform-js-sdk').ImageRequest;
 
-var image = new Image('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
+var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
 
-var url = image.fit(500, 500).negative().saturation(-90).toUrl().url;
+var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
 ```
 
 ### Browser
@@ -159,7 +159,7 @@ Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issu
 This library uses the Apache License, version 2.0.
 
 ## About Wix
-[Wix.com](https://www.wix.com) is a leading cloud-based web development platform with 65 million users worldwide.
+[Wix.com](https://www.wix.com) is a leading cloud-based web development platform with more than 86 million registered users worldwide. 
 Our powerful technology makes it simple for everyone to create a beautiful website and grow their business online.
 
 ## About Google Cloud Platform

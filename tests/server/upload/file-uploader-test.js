@@ -314,7 +314,7 @@ describe('file uploader', function() {
 
         it('custom options', function (done) {
 
-            var EncodingOptions = require('../../../src/platform/upload/dto/video/encoding-options');
+            var EncodingOptions = require('../../../src/dto/video/encoding-options');
 
             fileServer.post('/video').reply(200,
                 [

@@ -1,5 +1,5 @@
 var util = require('util');
-var BaseUploadResponse = require('../base-upload-response');
+var BaseDTO = require('../base-dto');
 
 /**
  * @typedef {{x: number, y: number, width: number, height: number}}
@@ -15,8 +15,8 @@ var Square = {
  * @param {Object} data
  * @constructor
  */
-function ImageUploadResponse(data) {
-    BaseUploadResponse.call(this);
+function ImageDTO(data) {
+    BaseDTO.call(this);
 
     /**
      * @type {number}
@@ -37,10 +37,10 @@ function ImageUploadResponse(data) {
         this.deserialize(data);
     }
 }
-util.inherits(ImageUploadResponse, BaseUploadResponse);
+util.inherits(ImageDTO, BaseDTO);
 
-ImageUploadResponse.prototype.deserialize = function (data) {
-    ImageUploadResponse.super_.prototype.deserialize.call(this, data);
+ImageDTO.prototype.deserialize = function (data) {
+    ImageDTO.super_.prototype.deserialize.call(this, data);
 
     this.width = data.width;
     this.height = data.height;
@@ -48,9 +48,9 @@ ImageUploadResponse.prototype.deserialize = function (data) {
 };
 
 /**
- * @type {ImageUploadResponse}
+ * @type {ImageDTO}
  */
-module.exports = ImageUploadResponse;
+module.exports = ImageDTO;
 // [
 //     {
 //         "parent_folder_id": "dc933247458b41792a0fb9d2f2296bb5",

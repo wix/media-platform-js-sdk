@@ -1,13 +1,13 @@
 var util = require('util');
-var BaseUploadResponse = require('../base-upload-response');
+var BaseDTO = require('../base-dto');
 var AudioFile = require('./audio-file');
 
 /**
  * @param {Object?} data
  * @constructor
  */
-function AudioUploadResponse(data) {
-    BaseUploadResponse.call(this);
+function AudioDTO(data) {
+    BaseDTO.call(this);
 
     /**
      * @type {AudioFile|null}
@@ -18,22 +18,22 @@ function AudioUploadResponse(data) {
         this.deserialize(data);
     }
 }
-util.inherits(AudioUploadResponse, BaseUploadResponse);
+util.inherits(AudioDTO, BaseDTO);
 
 /**
  * @param {Object} data
  * @private
  */
-AudioUploadResponse.prototype.deserialize = function (data) {
-    AudioUploadResponse.super_.prototype.deserialize.call(this, data);
+AudioDTO.prototype.deserialize = function (data) {
+    AudioDTO.super_.prototype.deserialize.call(this, data);
 
     this.inputFile = new AudioFile(data.file_input);
 };
 
 /**
- * @type {AudioUploadResponse}
+ * @type {AudioDTO}
  */
-module.exports = AudioUploadResponse;
+module.exports = AudioDTO;
 // [
 //     {
 //         "parent_folder_id": "1b98ddebaa447184cd90f33753e6c474",

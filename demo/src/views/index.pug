@@ -11,18 +11,18 @@ html()
         #image
 
         script.
-            var image = new Image('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
+            var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
 
         script.
             var elem = document.createElement('img');
-            elem.src = image.fit(500, 500).negative().saturation(-90).toUrl().url;
+            elem.src = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
             document.getElementById('image').appendChild(elem);
 
         h3 Error
         #error
 
         script.
-            var error = image.fill(250, 250).contrast(-200).toUrl().error;
+            var error = imageRequest.fill(250, 250).contrast(-200).toUrl().error;
             document.getElementById('error').innerHTML = error.message;
 
         h2 Upload
@@ -39,7 +39,7 @@ html()
         script.
             var button = document.getElementById('upload-button');
             button.addEventListener('click', function () {
-                fetch('http://localhost:3000/upload/picture/credentials').then(function (response) {
+                fetch('http://localhost:3333/upload/picture/credentials').then(function (response) {
                     response.json().then(function (uploadCredentials) {
                         var form = document.getElementById('upload-form');
                         form.getElementsByTagName('upload_token').value = uploadCredentials.uploadToken;

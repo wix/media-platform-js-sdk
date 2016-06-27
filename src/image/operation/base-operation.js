@@ -19,6 +19,8 @@ var Saturation = require('./chromaticity/saturation');
  * @param {string} imageId
  * @param {string} imageName
  * @param {string} version
+ * @param {number} width
+ * @param {number} height
  * @constructor
  */
 function BaseOperation(name, baseUrl, imageId, imageName, version, width, height) {

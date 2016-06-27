@@ -1,27 +1,27 @@
 var util = require('util');
-var BaseUploadResponse = require('../base-upload-response');
+var BaseDTO = require('../base-dto');
 
 /**
  * @param {Object} data
  * @constructor
  */
-function DocumentUploadResponse(data) {
-    BaseUploadResponse.call(this);
+function DocumentDTO(data) {
+    BaseDTO.call(this);
 
     if (data) {
         this.deserialize(data);
     }
 }
-util.inherits(DocumentUploadResponse, BaseUploadResponse);
+util.inherits(DocumentDTO, BaseDTO);
 
-DocumentUploadResponse.prototype.deserialize = function (data) {
-    DocumentUploadResponse.super_.prototype.deserialize.call(this, data);
+DocumentDTO.prototype.deserialize = function (data) {
+    DocumentDTO.super_.prototype.deserialize.call(this, data);
 };
 
 /**
- * @type {DocumentUploadResponse}
+ * @type {DocumentDTO}
  */
-module.exports = DocumentUploadResponse;
+module.exports = DocumentDTO;
 
 // [
 //     {

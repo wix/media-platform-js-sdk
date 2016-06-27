@@ -4,18 +4,13 @@ var Fill = require('./operation/fill');
 var Fit = require('./operation/fit');
 
 /**
- * TODO: global operations to upper scope
- * TODO: operation chaining and transformation arithmetic
- */
-
-/**
- * @summary a Image is a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
+ * @summary a ImageRequest is a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
  * @param {string} baseUrl the base URL where the image is hosted
  * @param {string} imageId the id of the image to manipulate
  * @param {string} imageName the name of the image to manipulate
- * @constructor Image
+ * @constructor ImageRequest
  */
-function Image(baseUrl, imageId, imageName) {
+function ImageRequest(baseUrl, imageId, imageName) {
 
     if (!imageId) {
         console.error('imageId is mandatory');
@@ -55,7 +50,7 @@ function Image(baseUrl, imageId, imageName) {
  * @returns {Canvas}
  * @method
  */
-Image.prototype.canvas = function (width, height) {
+ImageRequest.prototype.canvas = function (width, height) {
     return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
 };
 /**
@@ -65,7 +60,7 @@ Image.prototype.canvas = function (width, height) {
  * @returns {Fill}
  * @method
  */
-Image.prototype.fill = function (width, height) {
+ImageRequest.prototype.fill = function (width, height) {
     return new Fill(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
 };
 /**
@@ -75,7 +70,7 @@ Image.prototype.fill = function (width, height) {
  * @returns {Fit}
  * @method
  */
-Image.prototype.fit = function (width, height) {
+ImageRequest.prototype.fit = function (width, height) {
     return new Fit(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
 };
 /**
@@ -88,11 +83,23 @@ Image.prototype.fit = function (width, height) {
  * @returns {Crop}
  * @method
  */
-Image.prototype.crop = function (width, height, x, y, upscaleFactor) {
+ImageRequest.prototype.crop = function (width, height, x, y, upscaleFactor) {
     return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height, x, y, upscaleFactor);
 };
 
+
 /**
- * @type {Image}
+ * TODO: static method that instantiates ImageRequest from ImageRequestUploadResponse
  */
-module.exports = Image;
+function imageForResponse(host, imageData) {
+    var id = imageData.fileName;
+    var name = imageData.originalFileName;
+    var parts = imageData.fileUrl.split('/');
+    var bucket = parts[0] + '/' + parts[1];
+    var baseUrl = host + bucket;
+}
+
+/**
+ * @type {ImageRequest}
+ */
+module.exports = ImageRequest;
