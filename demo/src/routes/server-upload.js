@@ -1,4 +1,5 @@
 var MediaPlatform = require('../../../src/index').MediaPlatform;
+var EncodingOptions = require('../../../src/index').EncodingOptions;
 
 var apiKey = 'ggl-109789773458215503884';
 var fileUploader = new MediaPlatform({
@@ -37,11 +38,11 @@ module.exports = function(app) {
     });
 
     app.get('/upload/video', function(req, res) {
-        
-        var encodingOptions = new require('../../../src/index').EncodingOptions()
+
+        var encodingOptions = new EncodingOptions()
             .videoFormats(['mp4', 'webm', 'ogv'])
-            .audio('m4a');
-        
+            .audioFormat('m4a');
+
         fileUploader.uploadVideo(apiKey, __dirname + '/../files/video.mp4', encodingOptions, function (error, response) {
 
             if (error) {
@@ -63,7 +64,7 @@ module.exports = function(app) {
                 res.status(500).send(error.message);
                 return;
             }
-            
+
             res.send(response);
         });
     });

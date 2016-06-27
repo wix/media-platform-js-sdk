@@ -73,9 +73,10 @@ fileUploader.uploadAudio(apiKey, <ReadStream || Buffer || string path to file>, 
     ...
 });
 
-var encodingOptions = new require('media-platform-js-sdk').EncodingOptions()
+var EncodingOptions = require('media-platform-js-sdk').EncodingOptions;
+var encodingOptions = new EncodingOptions()
         .videoFormats(['mp4', 'webm', 'ogv'])
-        .audio('m4a');
+        .audioFormat('m4a');
 fileUploader.uploadVideo(apiKey, <ReadStream || Buffer || string path to file>, encodingOptions || null, function (error, response) {
     ...
 });
