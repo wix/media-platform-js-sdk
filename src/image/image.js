@@ -30,17 +30,17 @@ function Image(baseUrl, imageId, imageName) {
     /**
      * @type {string}
      */
-    this.baseUrl = !baseUrl ? '' : baseUrl.trim();
+    this.baseUrl = !baseUrl ? '' : baseUrl;
 
     /**
      * @type {string}
      */
-    this.imageId = imageId.trim();
+    this.imageId = imageId;
 
     /**
      * @type {string}
      */
-    this.imageName = imageName.trim();
+    this.imageName = imageName;
 
     /**
      * @type {string}

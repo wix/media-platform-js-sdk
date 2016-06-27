@@ -8,7 +8,7 @@
 
 Wix Media Platform provides powerful image-processing services that support resizing, cropping, rotating, sharpening, and face-detection, as well as offering a number of filters and adjustments. Images can be easily served with on-the-fly manipulations using the Wix Media Platform SDKs or Image API.
 
-See it in [action](https://app.wixmp.com/dashboard/index.html#/playground/picture)
+See it in [action.](https://app.wixmp.com/dashboard/index.html#/playground/picture){:target="_blank"}
 
 ## Audio
 
