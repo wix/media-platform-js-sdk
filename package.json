@@ -6,6 +6,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
+  "files": ["dist", "src", "README.md"],
   "bugs": {
     "url": "https://github.com/wix/media-platform-js-sdk/issues"
   },
@@ -17,7 +18,7 @@
   "scripts": {
     "build": "grunt browser",
     "test": "grunt test",
-    "release": "wnpm-release --publish-to-wix-registry",
+    "release": "wnpm-release",
     "demo": ":"
   },
   "dependencies": {
