@@ -62,8 +62,6 @@ Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issu
 
 ## Contributing
 
-
-
 ## License
 This library uses the Apache License, version 2.0.
 
