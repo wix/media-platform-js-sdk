@@ -1,5 +1,7 @@
 # Wix Media Platform
 
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url]
+
 [Wix Media Platform](https://www.wixmp.com/) is a collection of services for storing, serving, uploading, and managing image, audio, and video files.
 
 ## Image
@@ -56,3 +58,7 @@ Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issu
 
 ## License
 This library uses the Apache License, version 2.0.
+
+
+[npm-url]: https://npmjs.org/package/media-platform-js-sdk
+[npm-image]: https://img.shields.io/npm/v/media-platform-js-sdk.svg
