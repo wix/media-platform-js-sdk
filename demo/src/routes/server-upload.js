@@ -63,4 +63,18 @@ module.exports = function(app) {
             res.send(response);
         });
     });
+
+    app.get('/upload/error', function(req, res) {
+
+        fileUploader.uploadDocument(apiKey, 'fish', function (error, response) {
+
+            if (error) {
+                console.error(error);
+                res.status(500).send(error.message);
+                return;
+            }
+
+            res.send(response);
+        });
+    });
 };

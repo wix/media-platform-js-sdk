@@ -50,7 +50,7 @@ FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
                 callback(new Error(response.body), null);
                 return;
             }
-            
+
             callback(null, { uploadUrl: body.upload_url, uploadToken: body.upload_token })
         })
     }.bind(this))
@@ -144,6 +144,7 @@ FileUploader.prototype.uploadDocument = function (userId, source, callback) {
  */
 FileUploader.prototype.uploadFile = function (userId, mediaType, source, params, callback) {
 
+    var calledBack = false;
     var stream = null;
     if (typeof source.pipe === 'function') {
         stream = source;
@@ -156,12 +157,12 @@ FileUploader.prototype.uploadFile = function (userId, mediaType, source, params,
         callback(new Error('unsupported source type: ' + typeof source), null);
         return;
     }
-    stream.on('error', callback);
+    stream.on('error', doCallback);
 
     this.getUploadUrl(userId, mediaType, function (error, response) {
 
         if (error) {
-            callback(error, null);
+            doCallback(error, null);
             return;
         }
 
@@ -176,18 +177,25 @@ FileUploader.prototype.uploadFile = function (userId, mediaType, source, params,
         request.post({url: response.uploadUrl, formData: form, json: true }, function (error, response, body) {
 
             if (error) {
-                callback(error, null);
+                doCallback(error, null);
                 return;
             }
 
             if (response.statusCode !== 200) {
-                callback(new Error(JSON.stringify(body)), null);
+                doCallback(new Error(JSON.stringify(body)), null);
                 return;
             }
 
-            callback(null, body);
+            doCallback(null, body);
         });
     });
+
+    function doCallback(error, data) {
+        if (!calledBack) {
+            callback(error, data);
+        }
+        calledBack = true;
+    }
 };
 
 /**
