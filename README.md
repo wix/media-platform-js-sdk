@@ -68,3 +68,4 @@ This library uses the Apache License, version 2.0.
 
 [npm-url]: https://npmjs.org/package/media-platform-js-sdk
 [npm-image]: https://img.shields.io/npm/v/media-platform-js-sdk.svg
+[downloads-image]: https://img.shields.io/npm/dm/media-platform-js-sdk.svg
