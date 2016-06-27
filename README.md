@@ -8,7 +8,7 @@
 
 Wix Media Platform provides powerful image-processing services that support resizing, cropping, rotating, sharpening, and face-detection, as well as offering a number of filters and adjustments. Images can be easily served with on-the-fly manipulations using the Wix Media Platform SDKs or Image API.
 
-See it in [action.](https://app.wixmp.com/dashboard/index.html#/playground/picture){:target="_blank"}
+See it in [action.](https://app.wixmp.com/dashboard/index.html)
 
 ## Audio
 
@@ -39,6 +39,9 @@ and goto http://localhost:3333/
 
 ## Instantiating the Media Platform in the Server
 
+First, if you haven't done so yet, register at [Wix Media Media Platform](https://app.wixmp.com/dashboard/index.html),
+Once registered you'll be issued with your own key and secret.
+
 ```javascript
 var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
 
@@ -54,7 +57,9 @@ var mediaPlatform = new MediaPlatform({
 ### Server
 
 ```javascript
-mediaPlatform.fileUploader.uploadImage(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
+var fileUploader = mediaPlatform.fileUploader;
+ 
+fileUploader.uploadImage(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
 
     if (error) {
       console.error('upload failed: ' + error.message);
@@ -63,12 +68,24 @@ mediaPlatform.fileUploader.uploadImage(apiKey, <ReadStream || Buffer || string p
 
     console.log('upload successful: ' + response);
 });
+
+fileUploader.uploadAudio(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
+    ...
+});
+
+var encodingOptions = new require('media-platform-js-sdk').EncodingOptions()
+        .videoFormats(['mp4', 'webm', 'ogv'])
+        .audio('m4a');
+fileUploader.uploadVideo(apiKey, <ReadStream || Buffer || string path to file>, encodingOptions || null, function (error, response) {
+    ...
+});
 ```
 
 ### Browser
 
-File upload from the browser is a 2 step operation, first the signed URL and the upload token is retrieved from the server
-and then a multipart/form-data request is made to the URL.
+File upload from the browser is a 2 step operation: 
+ 1. First the signed URL and the upload token is retrieved from the server
+ 2. Then a multipart/form-data request is made to the URL
 
 In the server expose a route that returns the signed URL and upload token:
 
@@ -139,6 +156,14 @@ Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issu
 
 ## License
 This library uses the Apache License, version 2.0.
+
+## About Wix
+[Wix.com](https://www.wix.com) is a leading cloud-based web development platform with 65 million users worldwide.
+Our powerful technology makes it simple for everyone to create a beautiful website and grow their business online.
+
+## About Google Cloud Platform
+[Google Cloud Platform](https://cloud.google.com/) enables developers to build, test and deploy applications on Google’s reliable infrastructure.
+It offers computing, storage and application services for web, mobile and backend solutions.
 
 
 [npm-url]: https://npmjs.org/package/media-platform-js-sdk

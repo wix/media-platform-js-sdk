@@ -37,8 +37,12 @@ module.exports = function(app) {
     });
 
     app.get('/upload/video', function(req, res) {
-
-        fileUploader.uploadVideo(apiKey, __dirname + '/../files/video.mp4', null, function (error, response) {
+        
+        var encodingOptions = new require('../../../src/index').EncodingOptions()
+            .videoFormats(['mp4', 'webm', 'ogv'])
+            .audio('m4a');
+        
+        fileUploader.uploadVideo(apiKey, __dirname + '/../files/video.mp4', encodingOptions, function (error, response) {
 
             if (error) {
                 console.error(error);
