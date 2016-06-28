@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var validator = require('../validation/validator');
 
 /**

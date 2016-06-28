@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
 
-    var distOptions = {
+    var minifiedOptions = {
         debug: false,
         transform : [['uglifyify', {
             global: true,
@@ -8,6 +8,18 @@ module.exports = function(grunt) {
             dropDebugger: true,
             dropConsole: true
         }]],
+        browserifyOptions: {
+            standalone: 'media-platform'
+        }
+    };
+    var options = {
+        debug: false,
+        // transform : [['uglifyify', {
+        //     global: true,
+        //     preserveComments: false,
+        //     dropDebugger: true,
+        //     dropConsole: true
+        // }]],
         browserifyOptions: {
             standalone: 'media-platform'
         }
@@ -38,10 +50,15 @@ module.exports = function(grunt) {
             options: {
                 debug: false
             },
-            dist: {
-                options: distOptions,
+            distMinified: {
+                options: minifiedOptions,
                 src: ['public/media-platform.js'],
                 dest: 'dist/media-platform.min.js'
+            },
+            dist: {
+                options: options,
+                src: ['public/media-platform.js'],
+                dest: 'dist/media-platform.js'
             },
             tests: {
                 src: ['tests/browser/**/*-test.js'],
@@ -68,7 +85,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('browser', ['clean:dist', 'browserify:dist']);
+    grunt.registerTask('browser', ['clean:dist', 'browserify:dist', 'browserify:distMinified']);
 
     //TODO: run tests against the minified JS
     grunt.registerTask('browser-tests', ['clean:build', 'browserify:tests', 'mocha']);

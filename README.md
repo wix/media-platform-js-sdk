@@ -114,7 +114,7 @@ app.get('/upload/:mediaType/credentials', function(req, res, next) {
 });
 ```
 
-From the browser get the URL and POST the form to it, including the token in the form body 
+From the browser GET the URL and POST the form to it, including the token in the form body 
 
 ```html
 <form id="upload-form" enctype="multipart/form-data" action="" method="post" target="upload-result">

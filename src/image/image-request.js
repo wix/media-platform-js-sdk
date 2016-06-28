@@ -5,23 +5,13 @@ var Fit = require('./operation/fit');
 
 /**
  * @summary a ImageRequest is a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
- * @param {string} baseUrl the base URL where the image is hosted
- * @param {string} imageId the id of the image to manipulate
- * @param {string} imageName the name of the image to manipulate
+ * @param {string?} baseUrl the base URL where the image is hosted
+ * @param {string?} imageId the id of the image to manipulate
+ * @param {string?} imageName the name of the image to manipulate
  * @constructor ImageRequest
  */
 function ImageRequest(baseUrl, imageId, imageName) {
 
-    // if (!imageId) {
-    //     console.error('imageId is mandatory');
-    //     return;
-    // }
-    //
-    // if (!imageName) {
-    //     console.error('imageName is mandatory');
-    //     return;
-    // }
-    
     /**
      * @type {string}
      */
