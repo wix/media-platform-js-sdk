@@ -29,6 +29,7 @@ function FileUploader(configuration, authenticationFacade) {
  * @param {string} userId
  * @param {string} mediaType
  * @param {function(Error, {uploadUrl: string}|null)} callback
+ * TODO: optional file size for preflight testing
  */
 FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
 
@@ -47,7 +48,7 @@ FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
             }
 
             if (response.statusCode !== 200) {
-                callback(new Error(response.body), null);
+                callback(new Error(JSON.stringify(response.body)), null);
                 return;
             }
 
@@ -59,11 +60,17 @@ FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
+ * @param {MetadataDTO?} metadata
  * @param {function(Error, ImageDTO)} callback
  */
-FileUploader.prototype.uploadImage = function (userId, source, callback) {
-
-    this.uploadFile(userId, MediaType.IMAGE, source, {}, function (error, body) {
+FileUploader.prototype.uploadImage = function (userId, source, metadata, callback) {
+    
+    var params = {};
+    if (metadata) {
+        params = metadata.toFormParams();         
+    }
+    
+    this.uploadFile(userId, MediaType.IMAGE, source, params, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -77,11 +84,17 @@ FileUploader.prototype.uploadImage = function (userId, source, callback) {
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
+ * @param {MetadataDTO?} metadata
  * @param {function(Error, AudioDTO)} callback
  */
-FileUploader.prototype.uploadAudio = function (userId, source, callback) {
+FileUploader.prototype.uploadAudio = function (userId, source, metadata, callback) {
 
-    this.uploadFile(userId, MediaType.AUDIO, source, {}, function (error, body) {
+    var params = {};
+    if (metadata) {
+        params = metadata.toFormParams();
+    }
+    
+    this.uploadFile(userId, MediaType.AUDIO, source, params, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -96,13 +109,18 @@ FileUploader.prototype.uploadAudio = function (userId, source, callback) {
  * @param {string} userId
  * @param {string|Buffer|Stream} source
  * @param {EncodingOptions?} encodingOptions
+ * @param {MetadataDTO?} metadata
  * @param {function(Error, VideoDTO)} callback
  */
-FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, callback) {
+FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, metadata, callback) {
 
     var params = {};
     if (encodingOptions) {
-        params = {encoding_options: JSON.stringify(encodingOptions)}
+        _.extendOwn(params, encodingOptions.toFormParams());
+    }
+
+    if (metadata) {
+        _.extendOwn(params, metadata.toFormParams());
     }
 
     this.uploadFile(userId, MediaType.VIDEO, source, params, function (error, body) {
@@ -119,11 +137,17 @@ FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, 
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
+ * @param {MetadataDTO?} metadata
  * @param {function(Error, DocumentDTO)} callback
  */
-FileUploader.prototype.uploadDocument = function (userId, source, callback) {
+FileUploader.prototype.uploadDocument = function (userId, source, metadata, callback) {
 
-    this.uploadFile(userId, MediaType.DOCUMENT, source, {}, function (error, body) {
+    var params = {};
+    if (metadata) {
+        params = metadata.toFormParams();
+    }
+
+    this.uploadFile(userId, MediaType.DOCUMENT, source, params, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -138,7 +162,7 @@ FileUploader.prototype.uploadDocument = function (userId, source, callback) {
  * @param {string} userId
  * @param {string} mediaType
  * @param {string|Buffer|Stream} source
- * @param {Object} params
+ * @param {{}} params
  * @param {function(Error, *)} callback
  * @protected
  */

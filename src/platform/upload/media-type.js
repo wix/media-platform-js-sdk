@@ -1,6 +1,5 @@
 /**
  * @type {{AUDIO: string, VIDEO: string, IMAGE: string, DOCUMENT: string}}
- * @enum
  */
 var MediaType = {
     AUDIO: 'music',
@@ -9,4 +8,7 @@ var MediaType = {
     DOCUMENT: 'document'
 };
 
+/**
+ * @type {{AUDIO: string, VIDEO: string, IMAGE: string, DOCUMENT: string}}
+ */
 module.exports = MediaType;

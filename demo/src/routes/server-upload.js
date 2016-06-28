@@ -1,5 +1,6 @@
 var MediaPlatform = require('../../../src/index').MediaPlatform;
 var EncodingOptions = require('../../../src/index').EncodingOptions;
+var MetadataDTO = require('../../../src/index').MetadataDTO;
 
 var apiKey = 'ggl-109789773458215503884';
 var fileUploader = new MediaPlatform({
@@ -12,7 +13,8 @@ module.exports = function(app) {
 
     app.get('/upload/image', function(req, res) {
 
-        fileUploader.uploadImage(apiKey, __dirname + '/../files/image.jpg', function (error, response) {
+        var metadata = new MetadataDTO().addTags('cat', 'fish');
+        fileUploader.uploadImage(apiKey, __dirname + '/../files/image.jpg', metadata, function (error, response) {
 
             if (error) {
                 res.status(500).send(error.message);
@@ -25,7 +27,7 @@ module.exports = function(app) {
 
     app.get('/upload/audio', function(req, res) {
 
-        fileUploader.uploadAudio(apiKey, __dirname + '/../files/audio.mp3', function (error, response) {
+        fileUploader.uploadAudio(apiKey, __dirname + '/../files/audio.mp3', null, function (error, response) {
 
             if (error) {
                 console.error(error);
@@ -43,7 +45,7 @@ module.exports = function(app) {
             .videoFormats(['mp4', 'webm', 'ogv'])
             .audioFormat('m4a');
 
-        fileUploader.uploadVideo(apiKey, __dirname + '/../files/video.mp4', encodingOptions, function (error, response) {
+        fileUploader.uploadVideo(apiKey, __dirname + '/../files/video.mp4', encodingOptions, null, function (error, response) {
 
             if (error) {
                 console.error(error);
@@ -57,10 +59,10 @@ module.exports = function(app) {
 
     app.get('/upload/document', function(req, res) {
 
-        fileUploader.uploadDocument(apiKey, __dirname + '/../files/document.xlsx', function (error, response) {
+        fileUploader.uploadDocument(apiKey, __dirname + '/../files/document.xlsx', null, function (error, response) {
 
             if (error) {
-                console.error(error);
+                console.error(error.message);
                 res.status(500).send(error.message);
                 return;
             }
@@ -71,7 +73,7 @@ module.exports = function(app) {
 
     app.get('/upload/error', function(req, res) {
 
-        fileUploader.uploadDocument(apiKey, 'fish', function (error, response) {
+        fileUploader.uploadDocument(apiKey, 'fish', null, function (error, response) {
 
             if (error) {
                 console.error(error);

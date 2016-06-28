@@ -63,8 +63,10 @@ var mediaPlatform = new MediaPlatform({
 ```javascript
 var fileUploader = mediaPlatform.fileUploader;
 var EncodingOptions = require('media-platform-js-sdk').EncodingOptions;
+var MetadataDTO = require('media-platform-js-sdk').MetadataDTO;
  
-fileUploader.uploadImage(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
+var metadata = new MetadataDTO().addTags('cat', 'fish');
+fileUploader.uploadImage(apiKey, <ReadStream || Buffer || string path to file>, metadata || null, function (error, response) {
 
     if (error) {
       console.error('upload failed: ' + error.message);
@@ -74,18 +76,18 @@ fileUploader.uploadImage(apiKey, <ReadStream || Buffer || string path to file>, 
     console.log('upload successful: ' + response);
 });
 
-fileUploader.uploadAudio(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
+fileUploader.uploadAudio(apiKey, <ReadStream || Buffer || string path to file>, metadata || null, function (error, response) {
     ...
 });
 
-fileUploader.uploadDocument(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
+fileUploader.uploadDocument(apiKey, <ReadStream || Buffer || string path to file>, metadata || null, function (error, response) {
     ...
 });
 
 var encodingOptions = new EncodingOptions()
         .videoFormats(['mp4', 'webm', 'ogv'])
         .audioFormat('m4a');
-fileUploader.uploadVideo(apiKey, <ReadStream || Buffer || string path to file>, encodingOptions || null, function (error, response) {
+fileUploader.uploadVideo(apiKey, <ReadStream || Buffer || string path to file>, encodingOptions || null, metadata || null, function (error, response) {
     ...
 });
 ```

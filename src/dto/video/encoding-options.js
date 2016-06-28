@@ -73,6 +73,15 @@ EncodingOptions.prototype.imageFormat = function (format) {
 };
 
 /**
+ * @returns {{}}
+ */
+EncodingOptions.prototype.toFormParams = function () {
+    return  {
+        encoding_options: JSON.stringify(this)
+    };
+};
+
+/**
  * @type {EncodingOptions}
  */
 module.exports = EncodingOptions;

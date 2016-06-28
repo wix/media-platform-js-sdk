@@ -142,7 +142,7 @@ describe('file uploader', function() {
                 ]
             );
 
-            fileUploader.uploadImage('userId', __dirname + '/../../source/image.jpg', function (error, data) {
+            fileUploader.uploadImage('userId', __dirname + '/../../source/image.jpg', null, function (error, data) {
                 //TODO: assert props
                 done(error);
             });
@@ -187,7 +187,9 @@ describe('file uploader', function() {
                 ]
             );
 
-            fileUploader.uploadAudio('userId', __dirname + '/../../source/audio.mp3', function (error, data) {
+            var MetadataDTO = require('../../../src/dto/metadata-dto');
+            var metadata = new MetadataDTO().addTags('cat','fish');
+            fileUploader.uploadAudio('userId', __dirname + '/../../source/audio.mp3', metadata, function (error, data) {
                 //TODO: assert props
                 done(error);
             });
@@ -306,7 +308,7 @@ describe('file uploader', function() {
                 ]
             );
 
-            fileUploader.uploadVideo('userId', __dirname + '/../../source/video.mp4', null, function (error, data) {
+            fileUploader.uploadVideo('userId', __dirname + '/../../source/video.mp4', null, null, function (error, data) {
                 //TODO: assert props
                 done(error);
             });
@@ -425,7 +427,7 @@ describe('file uploader', function() {
                 .extractAudio(true)
                 .skipAudio(true)
                 .imageFormat('png');
-            fileUploader.uploadVideo('userId', __dirname + '/../../source/video.mp4', null, function (error, data) {
+            fileUploader.uploadVideo('userId', __dirname + '/../../source/video.mp4', options, null, function (error, data) {
                 //TODO: assert props
                 done(error);
             });
@@ -462,7 +464,7 @@ describe('file uploader', function() {
             );
 
             var buffer = fs.readFileSync(__dirname + '/../../source/document.xlsx');
-            fileUploader.uploadDocument('userId', buffer, function (error, data) {
+            fileUploader.uploadDocument('userId', buffer, null, function (error, data) {
                 //TODO: assert props
                 done(error);
             });
