@@ -12,15 +12,15 @@ var Fit = require('./operation/fit');
  */
 function ImageRequest(baseUrl, imageId, imageName) {
 
-    if (!imageId) {
-        console.error('imageId is mandatory');
-        return;
-    }
-
-    if (!imageName) {
-        console.error('imageName is mandatory');
-        return;
-    }
+    // if (!imageId) {
+    //     console.error('imageId is mandatory');
+    //     return;
+    // }
+    //
+    // if (!imageName) {
+    //     console.error('imageName is mandatory');
+    //     return;
+    // }
     
     /**
      * @type {string}
@@ -87,17 +87,20 @@ ImageRequest.prototype.crop = function (width, height, x, y, upscaleFactor) {
     return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height, x, y, upscaleFactor);
 };
 
-
 /**
- * TODO: static method that instantiates ImageRequest from ImageRequestUploadResponse
+ * @param {string} host
+ * @param {ImageDTO} imageDto
+ * @returns ImageRequest
  */
-function imageForResponse(host, imageData) {
-    var id = imageData.fileName;
-    var name = imageData.originalFileName;
-    var parts = imageData.fileUrl.split('/');
+ImageRequest.prototype.fromDTO = function (host, imageDto) {
+    var parts = imageDto.fileUrl.split('/');
     var bucket = parts[0] + '/' + parts[1];
-    var baseUrl = host + bucket;
-}
+    this.baseUrl = host + bucket;
+    this.imageId = imageDto.fileName;
+    this.imageName = imageDto.originalFileName;
+    
+    return this;
+};
 
 /**
  * @type {ImageRequest}

@@ -8,12 +8,31 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wix/media-platform-js-sdk.git"
+  },
   "bugs": {
     "url": "https://github.com/wix/media-platform-js-sdk/issues"
   },
   "keywords": [
-    "wix", "media", "platform", "image", "video", "audio", "file", "upload", "resize", "crop", "transcoding", "streaming"
+    "wix",
+    "media",
+    "platform",
+    "image",
+    "video",
+    "audio",
+    "file",
+    "upload",
+    "resize",
+    "crop",
+    "transcoding",
+    "streaming"
   ],
   "private": false,
   "main": "./src/index.js",
@@ -27,6 +46,7 @@
     "start": "node ./demo/bin/www"
   },
   "dependencies": {
+    "inherits": "^2.0.1",
     "request": "^2.72.0",
     "underscore": "^1.8.3",
     "wix-auth-hmac": "^1.0.0"

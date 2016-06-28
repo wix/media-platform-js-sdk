@@ -13,7 +13,7 @@ module.exports = function(app) {
 
         var mediaType = req.params.mediaType;
         
-        mediaPlatform.fileUploader.getUploadUrl(apiKey, mediaType,  function (error, uploadCredentials) {
+        mediaPlatform.fileUploader.getUploadUrl(apiKey, mediaType, function (error, uploadCredentials) {
 
             if (error) {
                 res.status(500).send(error.message);

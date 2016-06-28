@@ -2,8 +2,7 @@ var ImageRequest = require('../src/image/image-request');
 var Alignments = require('../src/image/operation/align/alignments');
 var MediaType = require('../src/platform/upload/media-type');
 var EncodingOptions = require('../src/dto/video/encoding-options');
-
-//TODO: expose MediaType
+var ImageDTO = require('../src/dto/image/image-dto');
 
 var context = window || global || {};
 
@@ -25,4 +24,9 @@ context.MediaType = MediaType;
 /**
  * @type {EncodingOptions}
  */
-context.EncodingOptions = EncodingOptions; 
+context.EncodingOptions = EncodingOptions;
+
+/**
+ * @type {ImageDTO}
+ */
+context.ImageDTO = ImageDTO;

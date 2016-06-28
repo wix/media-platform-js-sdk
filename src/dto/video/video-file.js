@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('inherits');
 var BaseFile = require('./base-file');
 
 /**
@@ -61,7 +61,7 @@ function VideoFile(data) {
         this.deserialize(data);
     }
 }
-util.inherits(VideoFile, BaseFile);
+inherits(VideoFile, BaseFile);
 
 /**
  * @param {Object} data

@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('inherits');
 var BaseDTO = require('../base-dto');
 
 /**
@@ -12,7 +12,7 @@ function DocumentDTO(data) {
         this.deserialize(data);
     }
 }
-util.inherits(DocumentDTO, BaseDTO);
+inherits(DocumentDTO, BaseDTO);
 
 DocumentDTO.prototype.deserialize = function (data) {
     DocumentDTO.super_.prototype.deserialize.call(this, data);

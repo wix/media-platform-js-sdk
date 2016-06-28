@@ -84,6 +84,9 @@ BaseDTO.prototype.deserialize = function (data) {
     this.dateModified = data.modified_ts;
 };
 
+/**
+ * @type {BaseDTO}
+ */
 module.exports = BaseDTO;
 
 // [

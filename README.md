@@ -20,6 +20,10 @@ Video files uploaded to Wix Media Platform are automatically transcoded into add
 
 For video playback see [Vidi](https://github.com/wix/vidi) - Adaptive video playback library.
 
+## Documents
+
+In addition, Wix Media Platform supports uploading and distribution of documents such as Excel and Word.
+
 # JavaScript SDK
 
 This package is an isomorphic JavaScript library (works in Node and in the browser) that provides a convenient API to access Wix Media Platform file upload service and image manipulation API.
@@ -74,6 +78,10 @@ fileUploader.uploadAudio(apiKey, <ReadStream || Buffer || string path to file>, 
     ...
 });
 
+fileUploader.uploadDocument(apiKey, <ReadStream || Buffer || string path to file>, function (error, response) {
+    ...
+});
+
 var encodingOptions = new EncodingOptions()
         .videoFormats(['mp4', 'webm', 'ogv'])
         .audioFormat('m4a');
@@ -106,7 +114,7 @@ app.get('/upload/:mediaType/credentials', function(req, res, next) {
 });
 ```
 
-From the browser get the URL and POST the form to it 
+From the browser get the URL and POST the form to it, including the token in the form body 
 
 ```html
 <form id="upload-form" enctype="multipart/form-data" action="" method="post" target="upload-result">
@@ -133,8 +141,6 @@ From the browser get the URL and POST the form to it
 
 ## Image Consumption
 
-### Server
-
 ```javascript
 var ImageRequest = require('media-platform-js-sdk').ImageRequest;
 
@@ -142,8 +148,6 @@ var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images',
 
 var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
 ```
-
-### Browser
 
 ## Documentation
 
@@ -156,13 +160,16 @@ Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issu
 ## Contributing
 
 ## License
+
 This library uses the Apache License, version 2.0.
 
 ## About Wix
+
 [Wix.com](https://www.wix.com) is a leading cloud-based web development platform with more than 86 million registered users worldwide. 
 Our powerful technology makes it simple for everyone to create a beautiful website and grow their business online.
 
 ## About Google Cloud Platform
+
 [Google Cloud Platform](https://cloud.google.com/) enables developers to build, test and deploy applications on Google’s reliable infrastructure.
 It offers computing, storage and application services for web, mobile and backend solutions.
 

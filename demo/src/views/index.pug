@@ -41,6 +41,16 @@ html()
             button.addEventListener('click', function () {
                 fetch('http://localhost:3333/upload/picture/credentials').then(function (response) {
                     response.json().then(function (uploadCredentials) {
+                        var container = document.getElementById('upload-result-container');
+                        while (container.firstChild) {
+                            container.removeChild(container.firstChild);
+                        }
+                        var frame = document.createElement('iframe');
+                        frame.setAttribute('id', 'upload-result-frame');
+                        frame.setAttribute('name', 'upload-result');
+                        frame.setAttribute('width', '800');
+                        container.appendChild(frame)
+
                         var form = document.getElementById('upload-form');
                         form.getElementsByTagName('upload_token').value = uploadCredentials.uploadToken;
                         form.setAttribute('action', uploadCredentials.uploadUrl);
@@ -49,7 +59,45 @@ html()
                 })
             })
 
-        br
-
         h3 Upload Result
-        iframe(id='upload-result' name='upload-result' width='800')
+        #upload-result-container
+
+        button(id='upload-parse-button').
+            Upload & Parse
+
+        script.
+            var button = document.getElementById('upload-parse-button');
+            button.addEventListener('click', function () {
+                fetch('http://localhost:3333/upload/picture/credentials').then(function (response) {
+                    response.json().then(function (uploadCredentials) {
+                        var form = document.getElementById('upload-form');
+
+                        var formData = new FormData(form);
+                        formData.set('upload_token', uploadCredentials.uploadToken);
+
+                        var request = new XMLHttpRequest();
+                        request.responseType = 'json';
+                        request.addEventListener("load", function (event) {
+
+                            var imageDto = new ImageDTO(event.target.response[0]);
+                            var imageRequest = new ImageRequest().fromDTO('media.wixapps.net/', imageDto);
+                            var imageUrl = imageRequest.crop(800, 200, 1, 1).toUrl();
+
+                            var container = document.getElementById('upload-result-container');
+                            while (container.firstChild) {
+                                container.removeChild(container.firstChild);
+                            }
+                            var img = document.createElement('img');
+                            img.setAttribute('src', imageUrl.url);
+                            container.appendChild(img);
+                        });
+
+                        request.addEventListener("error", function (event) {
+                            alert('Oops! Something goes wrong.');
+                        });
+
+                        request.open("POST", uploadCredentials.uploadUrl);
+                        request.send(formData);
+                    })
+                })
+            })

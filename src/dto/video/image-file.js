@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('inherits');
 var BaseFile = require('./base-file');
 
 /**
@@ -13,7 +13,7 @@ function ImageFile(data) {
     }
 
 }
-util.inherits(ImageFile, BaseFile);
+inherits(ImageFile, BaseFile);
 
 /**
  * @param {Object} data

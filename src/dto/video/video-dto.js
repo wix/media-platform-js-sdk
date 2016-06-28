@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('inherits');
 var _ = require('underscore');
 var BaseDTO = require('../base-dto');
 var VideoFile = require('./video-file');
@@ -41,7 +41,7 @@ function VideoDTO(data) {
     }
 
 }
-util.inherits(VideoDTO, BaseDTO);
+inherits(VideoDTO, BaseDTO);
 
 /**
  * @param {Object} data

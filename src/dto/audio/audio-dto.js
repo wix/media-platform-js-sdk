@@ -1,4 +1,4 @@
-var util = require('util');
+var inherits = require('inherits');
 var BaseDTO = require('../base-dto');
 var AudioFile = require('./audio-file');
 
@@ -18,7 +18,7 @@ function AudioDTO(data) {
         this.deserialize(data);
     }
 }
-util.inherits(AudioDTO, BaseDTO);
+inherits(AudioDTO, BaseDTO);
 
 /**
  * @param {Object} data
