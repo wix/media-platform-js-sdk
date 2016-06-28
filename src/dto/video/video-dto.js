@@ -1,5 +1,4 @@
 var inherits = require('inherits');
-var _ = require('underscore');
 var BaseDTO = require('../base-dto');
 var VideoFile = require('./video-file');
 var ImageFile = require('./image-file');
@@ -55,10 +54,10 @@ VideoDTO.prototype.deserialize = function (data) {
     this.iconUrl = data.icon_url;
     this.inputFile = new VideoFile(data.file_input);
 
-    var images = _.map(data.file_output.image, function toImage(item) {
+    var images = data.file_output.image.map(function toImage(item) {
         return new ImageFile(item);
     });
-    var videos = _.map(data.file_output.video, function toVideo(item) {
+    var videos = data.file_output.video.map(function toVideo(item) {
         return new VideoFile(item);
     });
 

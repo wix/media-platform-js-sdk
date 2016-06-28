@@ -36,37 +36,12 @@ html()
             button(id='upload-button').
                 Upload
 
-        script.
-            var button = document.getElementById('upload-button');
-            button.addEventListener('click', function () {
-                fetch('http://localhost:3333/upload/picture/credentials').then(function (response) {
-                    response.json().then(function (uploadCredentials) {
-                        var container = document.getElementById('upload-result-container');
-                        while (container.firstChild) {
-                            container.removeChild(container.firstChild);
-                        }
-                        var frame = document.createElement('iframe');
-                        frame.setAttribute('id', 'upload-result-frame');
-                        frame.setAttribute('name', 'upload-result');
-                        frame.setAttribute('width', '800');
-                        container.appendChild(frame)
-
-                        var form = document.getElementById('upload-form');
-                        form.getElementsByTagName('upload_token').value = uploadCredentials.uploadToken;
-                        form.setAttribute('action', uploadCredentials.uploadUrl);
-                        form.submit();
-                    })
-                })
-            })
 
         h3 Upload Result
         #upload-result-container
 
-        button(id='upload-parse-button').
-            Upload & Parse
-
         script.
-            var button = document.getElementById('upload-parse-button');
+            var button = document.getElementById('upload-button');
             button.addEventListener('click', function () {
                 fetch('http://localhost:3333/upload/picture/credentials').then(function (response) {
                     response.json().then(function (uploadCredentials) {
@@ -89,7 +64,10 @@ html()
                             }
                             var img = document.createElement('img');
                             img.setAttribute('src', imageUrl.url);
+                            var pre = document.createElement('pre');
+                            pre.innerText = JSON.stringify(event.target.response[0], null, 2);
                             container.appendChild(img);
+                            container.appendChild(pre);
                         });
 
                         request.addEventListener("error", function (event) {

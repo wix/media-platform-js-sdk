@@ -3,6 +3,9 @@ var Alignments = require('../src/image/operation/align/alignments');
 var MediaType = require('../src/platform/upload/media-type');
 var EncodingOptions = require('../src/dto/video/encoding-options');
 var ImageDTO = require('../src/dto/image/image-dto');
+var AudioDTO = require('../src/dto/audio/audio-dto');
+var VideoDTO = require('../src/dto/video/video-dto');
+var DocumentDTO = require('../src/dto/document/document-dto');
 
 var context = window || global || {};
 
@@ -30,3 +33,18 @@ context.EncodingOptions = EncodingOptions;
  * @type {ImageDTO}
  */
 context.ImageDTO = ImageDTO;
+
+/**
+ * @type {ImageDTO}
+ */
+context.AudioDTO = AudioDTO;
+
+/**
+ * @type {ImageDTO}
+ */
+context.VideoDTO = VideoDTO;
+
+/**
+ * @type {ImageDTO}
+ */
+context.DocumentDTO = DocumentDTO;
