@@ -35,16 +35,16 @@ context.EncodingOptions = EncodingOptions;
 context.ImageDTO = ImageDTO;
 
 /**
- * @type {ImageDTO}
+ * @type {AudioDTO}
  */
 context.AudioDTO = AudioDTO;
 
 /**
- * @type {ImageDTO}
+ * @type {VideoDTO}
  */
 context.VideoDTO = VideoDTO;
 
 /**
- * @type {ImageDTO}
+ * @type {DocumentDTO}
  */
 context.DocumentDTO = DocumentDTO;

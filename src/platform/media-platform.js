@@ -4,6 +4,7 @@ var ProviderConfiguration = require('./configuration/provider-configuration');
 var ProviderAuthenticationConfiguration = require('./authentication/configuration/provider-authentication-configuration');
 var AuthenticationFacade = require('./authentication/authentication-facade');
 var FileUploader = require('./upload/file-uploader');
+var AppFileUploader = require('./upload/app-file-uploader');
 
 /**
  * @param {Object} config
@@ -13,20 +14,20 @@ function MediaPlatform(config) {
 
     var configuration = null;
     var authConfiguration = null;
+    var authenticationFacade = null;
     if (config.hasOwnProperty('apiKey')) {
         configuration = new AppConfiguration(config.domain, config.apiKey, config.sharedSecret);
         authConfiguration = new AppAuthenticationConfiguration(configuration);
+        authenticationFacade = new AuthenticationFacade(authConfiguration);
+
+        this.fileUploader = new AppFileUploader(configuration, new FileUploader(configuration, authenticationFacade));
     } else {
         configuration = new ProviderConfiguration(config.domain, config.sharedSecret);
         authConfiguration = new ProviderAuthenticationConfiguration(configuration);
-    }
-    
-    var authenticationFacade = new AuthenticationFacade(authConfiguration);
+        authenticationFacade = new AuthenticationFacade(authConfiguration);
 
-    /**
-     * @type {FileUploader}
-     */
-    this.fileUploader = new FileUploader(configuration, authenticationFacade);
+        this.fileUploader = new FileUploader(configuration, authenticationFacade);
+    }
 }
 
 /**
