@@ -7,7 +7,8 @@ var ServiceMode = require('../service-mode');
  * @constructor
  */
 function ProviderAuthenticationConfiguration(providerConfiguration) {
-    BaseAuthenticationConfiguration.call(this, providerConfiguration, ServiceMode.PROVIDER, '/auth/user/token');
+    //TODO replace 'tenant' -> 'user'
+    BaseAuthenticationConfiguration.call(this, providerConfiguration, ServiceMode.PROVIDER, '/auth/tenant/token');
 }
 util.inherits(ProviderAuthenticationConfiguration, BaseAuthenticationConfiguration);
 
