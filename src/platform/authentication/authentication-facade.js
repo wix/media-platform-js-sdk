@@ -38,7 +38,7 @@ AuthenticationFacade.prototype.getToken = function(id, callback) {
         }
 
         if (response.statusCode !== 200) {
-            callback(new Error(response.body), null);
+            callback(new Error(JSON.stringify(response.body)), null);
             return;
         }
 
