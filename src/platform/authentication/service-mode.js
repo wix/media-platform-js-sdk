@@ -9,8 +9,9 @@ var ServiceMode = {
      * A Provider can provision services to its own tenants
      * 
      * @type {string}
+     * TODO: WIXTENANT -> PROVIDER
      */
-    PROVIDER: 'PROVIDER',
+    PROVIDER: 'WIXTENANT',
     /**
      * @type {string}
      * TODO: WIX -> APP
