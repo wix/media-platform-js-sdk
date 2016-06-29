@@ -42,7 +42,7 @@
   "scripts": {
     "build": "grunt browser",
     "test": "grunt test",
-    "release": "wnpm-release",
+    "release": "wnpm-release --publish-to-wix-registry",
     "start": "node ./demo/bin/www"
   },
   "dependencies": {
