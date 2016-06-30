@@ -1,81 +1,173 @@
 var request = require('request');
+var ListFilesResponse = require('../../dto/management/list-files-response');
+var ListFoldersResponse = require('../../dto/management/list-folders-response');
+var FolderDTO = require('../../dto/folder/folder-dto');
+var toDTO = require('../../dto/file-deserializer').toDTO;
 
 /**
+ * @param {ProviderConfiguration} configuration
  * @param {AuthenticationFacade} authenticationFacade
  * @constructor
  */
-function FileManager(authenticationFacade) {
+function FileManager(configuration, authenticationFacade) {
 
+    /**
+     * @type {AuthenticationFacade}
+     */
     this.authenticationFacade = authenticationFacade;
 
+    this.configuration = configuration;
+
+    this.baseUrl = 'https://' + this.configuration.domain;
 }
 
+/**
+ * @param {string} userId
+ * @param {ListFilesRequest} listFilesRequest
+ * @param {function(Error, ListFilesResponse)} callback
+ */
 FileManager.prototype.listFiles = function (userId, listFilesRequest, callback) {
-    this.doRequest('GET', userId, listFilesRequest.toParams(), callback);
+    this.doRequest('GET', this.baseUrl + '/files/getpage', userId, listFilesRequest.toParams(), function (error, response) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, new ListFilesResponse(response));
+    });
 };
 
-FileManager.prototype.getFile = function () {
+/**
+ * @param {string} userId
+ * @param {string} fileId
+ * @param {function(Error, BaseDTO)} callback
+ */
+FileManager.prototype.getFile = function (userId, fileId, callback) {
+    this.doRequest('GET', this.baseUrl + '/files/' + fileId, userId, {}, function (error, response) {
 
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, toDTO(response));
+    });
 };
 //GET /files/{file_name}
 
-FileManager.prototype.getStreamingMediaData = function () {
-
-};
-// GET /files/{file_name}/info?user_id={api_key}
-
-FileManager.prototype.updateFile = function () {
-
-};
-/*
- PUT /files/{file_name}
- {
- "original_file_name": "string value",
- "parent_folder_id": "string value",
- "tags": [
- {}
- ]
- }
+/**
+ * @param {string} userId
+ * @param {string} fileId
+ * @param {UpdateFileRequest} updateFileRequest
+ * @param {function(Error, BaseDTO)} callback
  */
+FileManager.prototype.updateFile = function (userId, fileId, updateFileRequest, callback) {
+    this.doRequest('PUT', this.baseUrl + '/files/' + fileId, userId, updateFileRequest.toParams(), function (error, response) {
 
+        if (error) {
+            callback(error, null);
+            return;
+        }
 
-FileManager.prototype.deleteFile = function () {
+        callback(null, toDTO(response));
+    });
+};
+// PUT /files/{file_name}
 
+/**
+ * @param {string} userId
+ * @param {string} fileId
+ * @param {function(Error)} callback
+ */
+FileManager.prototype.deleteFile = function (userId, fileId, callback) {
+    this.doRequest('DELETE', this.baseUrl + '/files/' + fileId, userId, {}, function (error, response) {
+
+        if (error) {
+            callback(error);
+            return;
+        }
+
+        callback(null);
+    });
 };
 // DELETE /files/{file_id}
 
-
-FileManager.prototype.listFolders = function () {
-
-};
-// GET /folders
-
-FileManager.prototype.createFolder = function () {
-
-};
-/*
- POST /folders
- {
- "folder_name": "string value",
- "parent_folder_id": "string value"
- }
+/**
+ * @param {string} userId
+ * @param {string?} parentFolderId
+ * @param {function(Error, ListFoldersResponse)} callback
  */
+FileManager.prototype.listFolders = function (userId, parentFolderId, callback) {
+    var url = this.baseUrl + '/folders' + (parentFolderId ? '/' + parentFolderId : '');
+    this.doRequest('GET', url, userId, {}, function (error, response) {
 
-FileManager.prototype.updateFolder = function () {
+        if (error) {
+            callback(error, null);
+            return;
+        }
 
+        callback(null, new ListFoldersResponse(response));
+    });
 };
-/*
- * {
- "folder_name": "string value"
- }
- *
+// GET /folders/:folderId
+
+/**
+ * @param {string} userId
+ * @param {NewFolderRequest} newFolderRequest
+ * @param {function(Error, FolderDTO)} callback
  */
+FileManager.prototype.newFolder = function (userId, newFolderRequest, callback) {
+    this.doRequest('POST', this.baseUrl + '/folders', userId, newFolderRequest.toParams(), function (error, response) {
 
-FileManager.prototype.deleteFolder = function () {
+        if (error) {
+            callback(error, null);
+            return;
+        }
 
+        callback(null, new FolderDTO(response));
+    });
 };
+//POST /folders
 
-FileManager.prototype.doRequest = function (httpMethod, userId, params, callback) {
+/**
+ * @param {string} userId
+ * @param {string} folderId
+ * @param {UpdateFolderRequest} updateFolderRequest
+ * @param {function(Error, FolderDTO)} callback
+ */
+FileManager.prototype.updateFolder = function (userId, folderId, updateFolderRequest, callback) {
+    this.doRequest('PUT', this.baseUrl + '/folders/' + folderId, userId, updateFolderRequest.toParams(), function (error, response) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, new FolderDTO(response));
+    });
+};
+//PUT /folders/{folder_id}
+
+/**
+ * @param {string} userId
+ * @param {string} folderId
+ * @param {function(Error)} callback
+ */
+FileManager.prototype.deleteFolder = function (userId, folderId, callback) {
+    this.doRequest('DELETE', this.baseUrl + '/folders/' + folderId, userId, {}, function (error, response) {
+
+        if (error) {
+            callback(error);
+            return;
+        }
+
+        callback(null);
+    });
+};
+//DELETE /folders/{folder_id}
+
+FileManager.prototype.doRequest = function (httpMethod, url, userId, params, callback) {
 
     this.authenticationFacade.getHeader(userId, function (error, header) {
 
@@ -84,14 +176,25 @@ FileManager.prototype.doRequest = function (httpMethod, userId, params, callback
             return;
         }
 
-        request({ method: httpMethod, headers: header, qs: params, json: true }, function (error, response, body) {
+        var options = { method: httpMethod, url: url, headers: header, json: true };
+
+        switch (httpMethod) {
+            case 'POST':
+            case 'PUT':
+                options.body = params;
+                break;
+            default:
+                options.qs = params;
+        }
+
+        request(options, function (error, response, body) {
 
             if (error) {
                 callback(error, null);
                 return;
             }
 
-            if (response.statusCode !== 200) {
+            if (response.statusCode < 200 || response.statusCode >= 300) {
                 callback(new Error(JSON.stringify(response.body)), null);
                 return;
             }
