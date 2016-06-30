@@ -1,4 +1,5 @@
 var request = require('request');
+var LRU = require('lru-cache');
 var SignedRequest = require('./http/sigend-request');
 
 /**
@@ -12,6 +13,11 @@ function AuthenticationFacade(authenticationConfiguration) {
      * @type {BaseAuthenticationConfiguration}
      */
     this.authenticationConfiguration = authenticationConfiguration;
+
+    this.cache = LRU({
+        maxAge: 1000 * 60 * 20,
+        max: 10000
+    });
 }
 
 /**
@@ -20,6 +26,12 @@ function AuthenticationFacade(authenticationConfiguration) {
  * @param {function(Error, string|null)} callback The callback to accept the auth token, or an error
  */
 AuthenticationFacade.prototype.getToken = function(id, callback) {
+    
+    var token = this.cache.get(id);
+    if (token) {
+        callback(null, token);
+        return;
+    }
 
     var host = this.authenticationConfiguration.host;
     var path = this.authenticationConfiguration.path;
@@ -41,9 +53,10 @@ AuthenticationFacade.prototype.getToken = function(id, callback) {
             callback(new Error(JSON.stringify(response.body)), null);
             return;
         }
-
+        
+        this.cache.set(id, body.token);
         callback(null, body.token);
-    });
+    }.bind(this));
 };
 
 /**
