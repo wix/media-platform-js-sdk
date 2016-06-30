@@ -23,11 +23,11 @@ function FileManager(configuration, authenticationFacade) {
 
 /**
  * @param {string} userId
- * @param {ListFilesRequest} listFilesRequest
+ * @param {ListFilesRequest?} listFilesRequest
  * @param {function(Error, ListFilesResponse)} callback
  */
 FileManager.prototype.listFiles = function (userId, listFilesRequest, callback) {
-    this.doRequest('GET', this.baseUrl + '/files/getpage', userId, listFilesRequest.toParams(), function (error, response) {
+    this.doRequest('GET', this.baseUrl + '/files/getpage', userId, listFilesRequest ? listFilesRequest.toParams() : {}, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -81,7 +81,7 @@ FileManager.prototype.updateFile = function (userId, fileId, updateFileRequest, 
  * @param {function(Error)} callback
  */
 FileManager.prototype.deleteFile = function (userId, fileId, callback) {
-    this.doRequest('DELETE', this.baseUrl + '/files/' + fileId, userId, {}, function (error, response) {
+    this.doRequest('DELETE', this.baseUrl + '/files/' + fileId, userId, {}, function (error) {
 
         if (error) {
             callback(error);
@@ -155,7 +155,7 @@ FileManager.prototype.updateFolder = function (userId, folderId, updateFolderReq
  * @param {function(Error)} callback
  */
 FileManager.prototype.deleteFolder = function (userId, folderId, callback) {
-    this.doRequest('DELETE', this.baseUrl + '/folders/' + folderId, userId, {}, function (error, response) {
+    this.doRequest('DELETE', this.baseUrl + '/folders/' + folderId, userId, {}, function (error) {
 
         if (error) {
             callback(error);
@@ -167,6 +167,13 @@ FileManager.prototype.deleteFolder = function (userId, folderId, callback) {
 };
 //DELETE /folders/{folder_id}
 
+/**
+ * @param {string} httpMethod
+ * @param {string} url
+ * @param {string} userId
+ * @param {{}} params
+ * @param {function(Error, *)} callback
+ */
 FileManager.prototype.doRequest = function (httpMethod, url, userId, params, callback) {
 
     this.authenticationFacade.getHeader(userId, function (error, header) {

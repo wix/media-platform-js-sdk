@@ -10,16 +10,16 @@ var DocumentDTO = require('./document/document-dto');
 function toDTO(data) {
     switch (data.media_type) {
         case 'picture':
-            return new ImageDTO(item);
+            return new ImageDTO(data);
             break;
         case 'audio':
-            return new AudioDTO(item);
+            return new AudioDTO(data);
             break;
         case 'video':
-            return new VideoDTO(item);
+            return new VideoDTO(data);
             break;
         case 'document':
-            return new DocumentDTO(item);
+            return new DocumentDTO(data);
             break;
     }
 }

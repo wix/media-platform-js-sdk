@@ -1,3 +1,5 @@
+//TODO: move to dto folder (or domain?)
+
 /**
  * @type {{AUDIO: string, VIDEO: string, IMAGE: string, DOCUMENT: string}}
  */
