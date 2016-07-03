@@ -16,8 +16,8 @@ app.use(express.static(path.join(__dirname, '/../dist')));
 
 require('./src/routes/index')(app);
 require('./src/routes/upload-url')(app);
-require('./src/routes/server-upload')(app);
-require('./src/routes/server-management')(app);
+require('./src/routes/server-side-upload')(app);
+require('./src/routes/server-side-management')(app);
 
 
 /**

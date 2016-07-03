@@ -21,7 +21,6 @@ function FileUploader(configuration, authenticationFacade) {
     this.configuration = configuration;
 
     this.uploadUrlEndpoint = 'https://' + this.configuration.domain + '/files/upload/url';
-
 }
 
 /**
@@ -47,13 +46,17 @@ FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
                 return;
             }
 
+            if (response.statusCode === 403 || response.statusCode === 401) {
+                this.authenticationFacade.invalidateToken(userId);
+            }
+
             if (response.statusCode !== 200) {
                 callback(new Error(JSON.stringify(response.body)), null);
                 return;
             }
 
             callback(null, { uploadUrl: body.upload_url, uploadToken: body.upload_token })
-        })
+        }.bind(this))
     }.bind(this))
 };
 

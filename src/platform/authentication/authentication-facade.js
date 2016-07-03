@@ -78,4 +78,14 @@ AuthenticationFacade.prototype.getHeader = function(id, callback) {
     });
 };
 
+/**
+ * @param {string} id
+ */
+AuthenticationFacade.prototype.invalidateToken = function (id) {
+    this.cache.del(id);
+};
+
+/**
+ * @type {AuthenticationFacade}
+ */
 module.exports = AuthenticationFacade;
