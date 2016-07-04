@@ -1,5 +1,3 @@
-var stream = require('stream');
-var fs = require('fs');
 var nock = require('nock');
 var expect = require('expect.js');
 var FileManager = require('../../../../src/platform/management/file-manager');

@@ -1,12 +1,7 @@
-var stream = require('stream');
-var fs = require('fs');
 var sinon = require('sinon');
 var expect = require('expect.js');
 var AppFileUploader = require('../../../../src/platform/upload/app-file-uploader');
 var AppConfiguration = require('../../../../src/platform/configuration/app-configuration');
-
-var source = __dirname + '/../../../source/';
-var reply = __dirname + '/replies/';
 
 describe('app file uploader', function() {
 
