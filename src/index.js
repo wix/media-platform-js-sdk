@@ -2,6 +2,10 @@ var MediaPlatform = require('./platform/media-platform');
 var ImageRequest = require('./image/image-request');
 var EncodingOptions = require('./dto/video/encoding-options');
 var MetadataDTO = require('./dto/metadata-dto');
+var ListFilesRequest = require('./dto/management/list-files-request');
+var UpdateFileRequest =  require('./dto/management/update-file-request');
+var NewFolderRequest = require('./dto/management/new-folder-request');
+var UpdateFolderRequest = require('./dto/management/update-folder-request');
 
 module.exports = {
     
@@ -9,19 +13,46 @@ module.exports = {
      * @type {MediaPlatform}
      */
     MediaPlatform: MediaPlatform,
-    
-    /**
-     * @type {ImageRequest}
-     */
-    ImageRequest: ImageRequest,
-    
-    /**
-     * @type {EncodingOptions}
-     */
-    EncodingOptions: EncodingOptions,
 
-    /**
-     * @type {MetadataDTO}
-     */
-    MetadataDTO: MetadataDTO
+    image: {
+        /**
+         * @type {ImageRequest}
+         */
+        ImageRequest: ImageRequest
+    },
+
+    video: {
+        /**
+         * @type {EncodingOptions}
+         */
+        EncodingOptions: EncodingOptions
+    },
+
+    file: {
+        /**
+         * @type {MetadataDTO}
+         */
+        MetadataDTO: MetadataDTO,
+
+        /**
+         * @type {ListFilesRequest}
+         */
+        ListFilesRequest: ListFilesRequest,
+
+        /**
+         * @type {UpdateFileRequest}
+         */
+        UpdateFileRequest: UpdateFileRequest,
+
+        /**
+         * @type {NewFolderRequest}
+         */
+        NewFolderRequest: NewFolderRequest,
+
+        /**
+         * @type {UpdateFolderRequest}
+         */
+        UpdateFolderRequest: UpdateFolderRequest
+    }
+
 };

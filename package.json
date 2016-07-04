@@ -1,6 +1,6 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "0.5.0-alpha5",
+  "version": "0.6.0-alpha6",
   "description": "A SDK to access Wix Media Platform image manipulation API and upload capabilities",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
@@ -66,6 +66,7 @@
     "nock": "latest",
     "pug": "latest",
     "request-debug": "latest",
+    "sinon": "^1.17.4",
     "uglifyify": "latest"
   },
   "optionalDependencies": {

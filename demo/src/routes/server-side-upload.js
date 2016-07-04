@@ -1,6 +1,6 @@
 var MediaPlatform = require('../../../src/index').MediaPlatform;
-var EncodingOptions = require('../../../src/index').EncodingOptions;
-var MetadataDTO = require('../../../src/index').MetadataDTO;
+var EncodingOptions = require('../../../src/index').video.EncodingOptions;
+var MetadataDTO = require('../../../src/index').file.MetadataDTO;
 
 var fileUploader = new MediaPlatform({
     domain: 'app.wixmp.com',
