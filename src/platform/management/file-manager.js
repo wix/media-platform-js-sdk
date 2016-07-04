@@ -98,7 +98,7 @@ FileManager.prototype.deleteFile = function (userId, fileId, callback) {
 
 /**
  * @param {string} userId
- * @param {string?} parentFolderId
+ * @param {string|null} parentFolderId
  * @param {function(Error, ListFoldersResponse)} callback
  */
 FileManager.prototype.listFolders = function (userId, parentFolderId, callback) {

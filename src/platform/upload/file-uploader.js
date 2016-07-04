@@ -3,7 +3,7 @@ var Stream = require('stream');
 var _ = require('underscore');
 var request = require('request');
 // require('request-debug')(request);
-var MediaType = require('./media-type');
+var MediaType = require('../../dto/media-type');
 var ImageDTO = require('../../dto/image/image-dto');
 var AudioDTO = require('../../dto/audio/audio-dto');
 var VideoDTO = require('../../dto/video/video-dto');

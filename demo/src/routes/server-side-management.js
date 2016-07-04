@@ -44,4 +44,16 @@ module.exports = function(app) {
             res.send(response);
         });
     });
+
+    app.get('/folders', function(req, res) {
+        fileManager.listFolders(null, function (error, response) {
+
+            if (error) {
+                res.status(500).send(error.message);
+                return;
+            }
+
+            res.send(response);
+        });
+    });
 };

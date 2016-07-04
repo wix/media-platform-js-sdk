@@ -2,6 +2,7 @@ var MediaPlatform = require('./platform/media-platform');
 var ImageRequest = require('./image/image-request');
 var EncodingOptions = require('./dto/video/encoding-options');
 var MetadataDTO = require('./dto/metadata-dto');
+var MediaType = require('./dto/media-type');
 var ListFilesRequest = require('./dto/management/list-files-request');
 var UpdateFileRequest =  require('./dto/management/update-file-request');
 var NewFolderRequest = require('./dto/management/new-folder-request');
@@ -13,6 +14,11 @@ module.exports = {
      * @type {MediaPlatform}
      */
     MediaPlatform: MediaPlatform,
+
+    /**
+     * @type {{AUDIO: string, VIDEO: string, IMAGE: string, DOCUMENT: string}}
+     */
+    MediaType: MediaType,
 
     image: {
         /**

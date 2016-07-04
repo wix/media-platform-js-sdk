@@ -14,13 +14,13 @@ var reply = __dirname + '/replies/';
 
 describe('file uploader', function() {
 
-    var configuration = new ProviderConfiguration('test.com', 'secret');
+    var configuration = new ProviderConfiguration('upload.com', 'secret');
     var authenticationConfiguration = new ProviderAuthenticationConfiguration(configuration);
     var authenticationFacade = new AuthenticationFacade(authenticationConfiguration);
     var fileUploader = new FileUploader(configuration, authenticationFacade);
 
-    var authServer = nock('https://test.com/').get('/auth/tenant/token');
-    var uploadCredentialsServer = nock('https://test.com/').get('/files/upload/url').query(true);
+    var authServer = nock('https://upload.com/').get('/auth/tenant/token');
+    var uploadCredentialsServer = nock('https://upload.com/').get('/files/upload/url').query(true);
     var fileServer = nock('https://fish.cat.com/').post('/').query(true);
 
     describe('upload file', function() {

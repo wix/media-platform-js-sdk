@@ -62,8 +62,8 @@ var mediaPlatform = new MediaPlatform({
 
 ```javascript
 var fileUploader = mediaPlatform.fileUploader;
-var EncodingOptions = require('media-platform-js-sdk').EncodingOptions;
-var MetadataDTO = require('media-platform-js-sdk').MetadataDTO;
+var EncodingOptions = require('media-platform-js-sdk').video.EncodingOptions;
+var MetadataDTO = require('media-platform-js-sdk').file.MetadataDTO;
  
 var metadata = new MetadataDTO().addTags('cat', 'fish');
 fileUploader.uploadImage(<ReadStream || Buffer || string path to file>, metadata || null, function (error, response) {
@@ -144,7 +144,7 @@ From the browser GET the URL and POST the form to it, including the token in the
 ## Image Consumption
 
 ```javascript
-var ImageRequest = require('media-platform-js-sdk').ImageRequest;
+var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
 
 var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
 
