@@ -85,6 +85,8 @@ ItemDTO.prototype.deserialize = function (data) {
     this.dateUpdated = data.date_updated;
 };
 
+module.exports = ItemDTO;
+
 /*
  {
  "id": "string value",

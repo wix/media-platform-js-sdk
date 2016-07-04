@@ -70,6 +70,7 @@ CollectionDTO.prototype.deserialize = function (data) {
     this.id = data.id;
     this.mediaType = data.type;
     this.title = data.title;
+    this.thumbnailUrl = data.thumbnail_url;
     this.tags = data.tags;
     this.publicProperties = data.public_properties;
     this.privateProperties = data.private_properties;
@@ -78,7 +79,7 @@ CollectionDTO.prototype.deserialize = function (data) {
     
     if (data.items) {
         this.items = data.items.map(function (item) {
-            new ItemDTO(item);                  
+            return new ItemDTO(item);
         });
     }
 };

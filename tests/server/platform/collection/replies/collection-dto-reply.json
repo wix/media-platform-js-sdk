@@ -1,0 +1,36 @@
+{
+  "id": "collectionId",
+  "type": "audio",
+  "title": "title",
+  "tags": ["cat", "fish"],
+  "items": [
+    {
+      "id": "itemId",
+      "type": "audio",
+      "title": "Sir Mix-A-Lot - Baby Got Back",
+      "sort_order": 10,
+      "tags": ["cat", "fish"],
+      "public_properties": {
+        "prop1" : "value1",
+        "prop2" : "value2"
+      },
+      "private_properties": {
+        "private_prop1" : "value1",
+        "private_prop2" : "value2"
+      },
+      "date_created": "2016-02-04T10:24:40.590Z",
+      "date_updated": "2016-02-04T10:24:40.590Z"
+    }
+  ],
+  "thumbnail_url": "http://url.baby",
+  "public_properties": {
+    "prop1" : "value1",
+    "prop2" : "value2"
+  },
+  "private_properties": {
+    "private_prop1" : "value1",
+    "private_prop2" : "value2"
+  },
+  "date_created": "2016-02-04T10:24:40.591Z",
+  "date_updated": "2016-02-04T10:24:40.591Z"
+}

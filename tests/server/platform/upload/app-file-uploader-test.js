@@ -21,28 +21,28 @@ describe('app file uploader', function() {
 
         var callback = function (error, data) {};
 
-        it('getUploadUrl is proxied', function () {
+        it('getUploadUrl', function () {
 
             appFileUploader.getUploadUrl('type', callback);
 
             expect(mockFileUploader.getUploadUrl.calledWith('apiKey', 'type', callback)).to.be(true);
         });
 
-        it('uploadImage is proxied', function () {
+        it('uploadImage', function () {
 
             appFileUploader.uploadImage('source', null, callback);
 
             expect(mockFileUploader.uploadImage.calledWith('apiKey', 'source', null, callback)).to.be(true);
         });
 
-        it('uploadAudio is proxied', function () {
+        it('uploadAudio', function () {
 
             appFileUploader.uploadAudio('source', null, callback);
 
             expect(mockFileUploader.uploadAudio.calledWith('apiKey', 'source', null, callback)).to.be(true);
         });
 
-        it('uploadVideo is proxied', function () {
+        it('uploadVideo', function () {
 
             appFileUploader.uploadVideo('source', null, null, callback);
 
