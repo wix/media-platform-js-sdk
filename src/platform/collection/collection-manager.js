@@ -52,7 +52,7 @@ CollectionManager.prototype.listCollections = function (userId, mediaType, callb
                 return;
             }
             
-            var collections = response.results.map(function (item) {
+            var collections = response.collections.map(function (item) {
                 return new CollectionDTO(item);
             });
 
