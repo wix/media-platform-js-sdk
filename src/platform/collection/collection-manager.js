@@ -33,7 +33,7 @@ CollectionManager.prototype.newCollection = function (userId, newCollectionReque
                 return;
             }
 
-            callback(null, new CollectionDTO(response));
+            callback(null, new CollectionDTO(response.collection));
         });
 };
 //POST /collections
