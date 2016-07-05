@@ -75,7 +75,7 @@ CollectionManager.prototype.getCollection = function (userId, collectionId, call
                 return;
             }
 
-            callback(null, new CollectionDTO(response));
+            callback(null, new CollectionDTO(response.collection));
         });
 };
 //GET /collections/{collectionId}
@@ -95,7 +95,7 @@ CollectionManager.prototype.updateCollection = function (userId, collectionId, u
                 return;
             }
 
-            callback(null, new CollectionDTO(response));
+            callback(null, new CollectionDTO(response.collection));
         });
 };
 //PUT /collections/{collectionId}
