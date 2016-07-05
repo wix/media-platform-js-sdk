@@ -1,0 +1,36 @@
+{
+  "results": [
+    {
+      "id": "string value",
+      "type": "string value",
+      "title": "string value",
+      "tags": ["cat"],
+      "items": [
+        {
+          "id": "string value",
+          "type": "string value",
+          "title": "string value",
+          "sort_order": "string value",
+          "tags": ["cat"],
+          "public_properties": {
+            "prop": "value"
+          },
+          "private_properties": {
+            "prop": "value"
+          },
+          "date_created": "2016-02-04T10:24:40.591Z",
+          "date_updated": "2016-02-04T10:24:40.591Z"
+        }
+      ],
+      "thumbnail_url": "string value",
+      "public_properties": {
+        "prop": "value"
+      },
+      "private_properties": {
+        "prop": "value"
+      },
+      "date_created": "2016-02-04T10:24:40.591Z",
+      "date_updated": "2016-02-04T10:24:40.591Z"
+    }
+  ]
+}

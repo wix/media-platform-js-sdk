@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "type": "string value",
+      "title": "string value",
+      "sort_order": "string value",
+      "tags": ["cat"],
+      "public_properties": {},
+      "private_properties": {}
+    },
+    {
+      "type": "string value",
+      "title": "string value",
+      "sort_order": "string value",
+      "tags": ["dog"],
+      "public_properties": {},
+      "private_properties": {}
+    }
+  ]
+}
