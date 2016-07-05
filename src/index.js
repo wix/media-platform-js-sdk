@@ -7,6 +7,9 @@ var ListFilesRequest = require('./dto/management/list-files-request');
 var UpdateFileRequest =  require('./dto/management/update-file-request');
 var NewFolderRequest = require('./dto/management/new-folder-request');
 var UpdateFolderRequest = require('./dto/management/update-folder-request');
+var NewCollectionRequest = require('./dto/collection/new-collection-request');
+var UpdateCollectionRequest = require('./dto/collection/update-collection-request');
+var NewItemRequest = require('./dto/collection/new-item-request');
 
 module.exports = {
     
@@ -59,6 +62,22 @@ module.exports = {
          * @type {UpdateFolderRequest}
          */
         UpdateFolderRequest: UpdateFolderRequest
-    }
+    },
 
+    collection: {
+        /**
+         * @type {NewCollectionRequest}
+         */
+        NewCollectionRequest: NewCollectionRequest,
+
+        /**
+         * @type {UpdateCollectionRequest}
+         */
+        UpdateCollectionRequest: UpdateCollectionRequest,
+
+        /**
+         * @type {NewItemRequest}
+         */
+        NewItemRequest: NewItemRequest
+    }
 };
