@@ -6,6 +6,11 @@ function NewFolderRequest() {
     /**
      * @type {string}
      */
+    this.mediaType = null;
+
+    /**
+     * @type {string}
+     */
     this.folderName = null;
 
     /**
@@ -13,6 +18,15 @@ function NewFolderRequest() {
      */
     this.parentFolderId = null;
 }
+
+/**
+ * @param {string} mediaType
+ * @returns {NewFolderRequest}
+ */
+NewFolderRequest.prototype.setMediaType = function (mediaType) {
+    this.mediaType = mediaType;
+    return this;
+};
 
 /**
  * @param {string} folderName
@@ -33,10 +47,11 @@ NewFolderRequest.prototype.setParentFolderId = function (parentFolderId) {
 };
 
 /**
- * @returns {{folder_name: string, parent_folder_id: string}}
+ * @returns {{media_type: (string|*), folder_name: (string|*), parent_folder_id: (string|*)}}
  */
 NewFolderRequest.prototype.toParams = function () {
     return {
+        media_type: this.mediaType,
         folder_name: this.folderName,
         parent_folder_id: this.parentFolderId
     }

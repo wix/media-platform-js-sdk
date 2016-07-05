@@ -113,6 +113,7 @@ describe('file manager', function() {
         fileServer.post('/folders').query(true).replyWithFile(200, reply + 'folder-dto-reply.json');
 
         var newFolderRequest = new NewFolderRequest()
+            .setMediaType(MediaType.IMAGE)
             .setFolderName('Doberman Pinscher')
             .setParentFolderId('cat');
         fileManager.newFolder('userId', newFolderRequest, function (error, data) {

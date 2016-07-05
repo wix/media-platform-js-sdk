@@ -74,6 +74,7 @@ describe('app file manager', function() {
 
         it('newFolder', function () {
             var newFolderRequest = new NewFolderRequest()
+                .setMediaType(MediaType.IMAGE)
                 .setFolderName('Doberman Pinscher')
                 .setParentFolderId('cat');
             fileManager.newFolder(newFolderRequest, callback);
