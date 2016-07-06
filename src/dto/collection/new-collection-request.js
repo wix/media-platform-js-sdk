@@ -23,7 +23,7 @@ inherits(NewCollectionRequest, UpdateCollectionRequest);
  * @param {string} type
  * @returns {UpdateCollectionRequest}
  */
-UpdateCollectionRequest.prototype.setType = function (type) {
+NewCollectionRequest.prototype.setType = function (type) {
     this.type = type;
     return this;
 };

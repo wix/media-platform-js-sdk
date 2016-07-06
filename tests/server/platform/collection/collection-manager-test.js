@@ -75,7 +75,6 @@ describe('collection manager', function() {
         collectionsServer.put('/collections/collectionId').query(true).replyWithFile(200, reply + 'collection-dto-reply.json');
 
         var updateCollectionRequest = new UpdateCollectionRequest()
-            .setType('collection type')
             .setPrivateProperties({prop: 'value'})
             .setPublicProperties({prop: 'value'})
             .setTags(['moshe', 'chaim'])
