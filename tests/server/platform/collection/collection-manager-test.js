@@ -38,7 +38,7 @@ describe('collection manager', function() {
             .setTitle('olala')
             .setItems([
                 new NewItemRequest()
-                    .setMediaType(MediaType.AUDIO)
+                    .setType(MediaType.AUDIO)
                     .setPrivateProperties({fish: 'cat'})
                     .setPublicProperties({dog: 'fish'})
                     .setTags(['yap', 'nope'])
@@ -112,13 +112,13 @@ describe('collection manager', function() {
 
         var addItemRequests = [
             new NewItemRequest()
-                .setMediaType(MediaType.AUDIO)
+                .setType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
                 .setTitle('olala'),
             new NewItemRequest()
-                .setMediaType(MediaType.AUDIO)
+                .setType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
@@ -136,13 +136,13 @@ describe('collection manager', function() {
 
         var addItemRequests = [
             new NewItemRequest()
-                .setMediaType(MediaType.AUDIO)
+                .setType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
                 .setTitle('olala'),
             new NewItemRequest()
-                .setMediaType(MediaType.AUDIO)
+                .setType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
@@ -165,14 +165,14 @@ describe('collection manager', function() {
         var updateItemsRequest = [
             new UpdateItemRequest()
                 .setId('id1')
-                .setMediaType(MediaType.AUDIO)
+                .setType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
                 .setTitle('olala'),
             new UpdateItemRequest()
                 .setId('id2')
-                .setMediaType(MediaType.AUDIO)
+                .setType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])

@@ -151,15 +151,9 @@ var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images',
 var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
 ```
 
-## Documentation
-
-For detailed capabilities and APIs go to the full [documentation](http://mediacloud.wix.com/docs/overview.html)
-
 ## Reporting Issues
 
 Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issues) to report issues related to this library, or to the Wix Media Platform API in general.
-
-## Contributing
 
 ## License
 

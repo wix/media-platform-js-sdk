@@ -26,7 +26,7 @@ UpdateItemRequest.prototype.setId = function (id) {
 UpdateItemRequest.prototype.toParams = function () {
     return {
         id: this.id,
-        type: this.mediaType,
+        type: this.type,
         title: this.title,
         tags: this.tags,
         public_properties: this.publicProperties,

@@ -43,7 +43,7 @@ NewCollectionRequest.prototype.setItems = function (items) {
 NewCollectionRequest.prototype.toParams = function () {
 
     var items = this.items.map(function (item) {
-        item.toParams();
+        return item.toParams();
     });
 
     return {

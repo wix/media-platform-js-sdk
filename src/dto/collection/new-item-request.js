@@ -33,7 +33,7 @@ function NewItemRequest() {
  * @param {string} type
  * @returns {NewItemRequest}
  */
-NewItemRequest.prototype.setMediaType = function (type) {
+NewItemRequest.prototype.setType = function (type) {
     this.type = type;
     return this;
 };
