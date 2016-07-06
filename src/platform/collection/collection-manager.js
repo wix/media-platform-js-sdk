@@ -158,7 +158,7 @@ CollectionManager.prototype.prependItems = function (userId, collectionId, newIt
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
@@ -186,7 +186,7 @@ CollectionManager.prototype.appendItems = function (userId, collectionId, newIte
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
@@ -215,7 +215,7 @@ CollectionManager.prototype.insertBefore = function (userId, collectionId, itemI
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
@@ -244,7 +244,7 @@ CollectionManager.prototype.insertAfter = function (userId, collectionId, itemId
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
@@ -298,7 +298,7 @@ CollectionManager.prototype.moveToStart = function (userId, collectionId, itemId
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
@@ -323,7 +323,7 @@ CollectionManager.prototype.moveToEnd = function (userId, collectionId, itemIds,
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
@@ -349,7 +349,7 @@ CollectionManager.prototype.moveBefore = function (userId, collectionId, itemId,
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
@@ -375,7 +375,7 @@ CollectionManager.prototype.moveAfter = function (userId, collectionId, itemId, 
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
@@ -399,7 +399,7 @@ CollectionManager.prototype.deleteItems = function (userId, collectionId, itemId
             }
 
             var items = response.items.map(function (item) {
-                return new ItemDTO(item);
+                return new ItemDTO(item.object);
             });
 
             callback(null, items);
