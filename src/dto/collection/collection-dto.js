@@ -39,12 +39,12 @@ function CollectionDTO(data) {
     /**
      * @type {Object.<string, string>}
      */
-    this.publicProperties = null;
+    this.publicProperties = {};
 
     /**
      * @type {Object.<string, string>}
      */
-    this.privateProperties = null;
+    this.privateProperties = {};
 
     /**
      * @type {string}

@@ -21,12 +21,12 @@ function UpdateCollectionRequest() {
     /**
      * @type {Object.<string, string>}
      */
-    this.publicProperties = null;
+    this.publicProperties = {};
 
     /**
      * @type {Object.<string, string>}
      */
-    this.privateProperties = null;
+    this.privateProperties = {};
 }
 
 /**

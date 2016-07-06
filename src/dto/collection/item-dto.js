@@ -12,7 +12,7 @@ function ItemDTO(data) {
     /**
      * @type {string}
      */
-    this.mediaType = null;
+    this.type = null;
 
     /**
      * @type {title}
@@ -32,12 +32,12 @@ function ItemDTO(data) {
     /**
      * @type {Object.<string, string>}
      */
-    this.publicProperties = null;
+    this.publicProperties = {};
 
     /**
      * @type {Object.<string, string>}
      */
-    this.privateProperties = null;
+    this.privateProperties = {};
 
     /**
      * @type {string}
@@ -60,7 +60,7 @@ function ItemDTO(data) {
 ItemDTO.prototype.toParams = function () {
     return {
         id: this.id,
-        type: this.mediaType,
+        type: this.type,
         title: this.title,
         sort_order: this.ordinal,
         tags: this.tags,
@@ -75,7 +75,7 @@ ItemDTO.prototype.toParams = function () {
  */
 ItemDTO.prototype.deserialize = function (data) {
     this.id = data.id;
-    this.mediaType = data.type;
+    this.type = data.type;
     this.title = data.title;
     this.ordinal = data.sort_order;
     this.tags = data.tags;

@@ -6,7 +6,7 @@ function NewItemRequest() {
     /**
      * @type {string}
      */
-    this.mediaType = null;
+    this.type = null;
 
     /**
      * @type {string}
@@ -21,20 +21,20 @@ function NewItemRequest() {
     /**
      * @type {Object.<string, string>}
      */
-    this.publicProperties = null;
+    this.publicProperties = {};
 
     /**
      * @type {Object.<string, string>}
      */
-    this.privateProperties = null;
+    this.privateProperties = {};
 }
 
 /**
- * @param {string} mediaType
+ * @param {string} type
  * @returns {NewItemRequest}
  */
-NewItemRequest.prototype.setMediaType = function (mediaType) {
-    this.mediaType = mediaType;
+NewItemRequest.prototype.setMediaType = function (type) {
+    this.type = type;
     return this;
 };
 
@@ -79,7 +79,7 @@ NewItemRequest.prototype.setPrivateProperties = function (privateProperties) {
  */
 NewItemRequest.prototype.toParams = function () {
     return {
-        type: this.mediaType,
+        type: this.type,
         title: this.title,
         tags: this.tags,
         public_properties: this.publicProperties,
