@@ -33,6 +33,7 @@ AuthenticatedHTTPClient.prototype.jsonRequest = function (httpMethod, url, userI
 
         switch (httpMethod) {
             case 'POST':
+            case 'DELETE':
             case 'PUT':
                 options.body = params;
                 break;

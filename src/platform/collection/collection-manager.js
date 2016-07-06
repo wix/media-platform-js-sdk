@@ -255,12 +255,12 @@ CollectionManager.prototype.insertAfter = function (userId, collectionId, itemId
 /**
  * @param {string} userId
  * @param {string} collectionId
- * @param {Array<UpdateItemRequest>} newItemRequests
+ * @param {Array<UpdateItemRequest>} updateItemRequests
  * @param {function(Error, Array<ItemDTO>)} callback
  */
-CollectionManager.prototype.updateItems = function (userId, collectionId, newItemRequests, callback) {
+CollectionManager.prototype.updateItems = function (userId, collectionId, updateItemRequests, callback) {
 
-    var params = newItemRequests.map(function (newItemRequest) {
+    var params = updateItemRequests.map(function (newItemRequest) {
         return newItemRequest.toParams();
     });
 
