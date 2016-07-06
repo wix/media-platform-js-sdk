@@ -186,22 +186,9 @@ FileUploader.prototype.uploadFile = function (userId, mediaType, source, params,
         };
 
         _.extendOwn(form, params);
-
-        request.post({url: response.uploadUrl, formData: form, json: true }, function (error, response, body) {
-
-            if (error) {
-                doCallback(error, null);
-                return;
-            }
-
-            if (response.statusCode !== 200) {
-                doCallback(new Error(JSON.stringify(body)), null);
-                return;
-            }
-
-            doCallback(null, body);
-        });
-    });
+        
+        this.authenticatedHttpClient.anonymousFormDataRequest(response.uploadUrl, form, doCallback);
+    }.bind(this));
 
     function doCallback(error, data) {
         if (!calledBack) {

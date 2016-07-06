@@ -62,6 +62,23 @@ AuthenticatedHTTPClient.prototype.jsonRequest = function (httpMethod, url, userI
     }.bind(this))
 };
 
+AuthenticatedHTTPClient.prototype.anonymousFormDataRequest = function (url, form, callback) {
+    request({ method: 'POST', url: url, formData: form, json: true }, function (error, response, body) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+            callback(new Error(JSON.stringify(response.body)), null);
+            return;
+        }
+
+        callback(null, body);
+    });
+};
+
 /**
  * @type {AuthenticatedHTTPClient}
  */
