@@ -106,33 +106,6 @@ describe('collection manager', function() {
         });
     });
 
-    it('updateItems', function (done) {
-
-        authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.put('/collections/collectionId/items').query(true).replyWithFile(200, reply + 'update-items-reply.json');
-
-        var updateItemsRequest = [
-            new UpdateItemRequest()
-                .setId('id1')
-                .setMediaType(MediaType.AUDIO)
-                .setPrivateProperties({prop: 'value'})
-                .setPublicProperties({prop: 'value'})
-                .setTags(['moshe', 'chaim'])
-                .setTitle('olala'),
-            new UpdateItemRequest()
-                .setId('id2')
-                .setMediaType(MediaType.AUDIO)
-                .setPrivateProperties({prop: 'value'})
-                .setPublicProperties({prop: 'value'})
-                .setTags(['moshe', 'chaim'])
-                .setTitle('olala')
-        ];
-        collectionManager.updateItems('userId', 'collectionId', updateItemsRequest, function (error, data) {
-            console.log(JSON.stringify(data, null, 2));
-            done(error);
-        });
-    });
-
     it('prependItems', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
@@ -180,6 +153,46 @@ describe('collection manager', function() {
             done(error);
         });
     });
+
+    //TODO: insertBefore
+
+    //TODO: insertAfter
+
+    it('updateItems', function (done) {
+
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.put('/collections/collectionId/items').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+
+        var updateItemsRequest = [
+            new UpdateItemRequest()
+                .setId('id1')
+                .setMediaType(MediaType.AUDIO)
+                .setPrivateProperties({prop: 'value'})
+                .setPublicProperties({prop: 'value'})
+                .setTags(['moshe', 'chaim'])
+                .setTitle('olala'),
+            new UpdateItemRequest()
+                .setId('id2')
+                .setMediaType(MediaType.AUDIO)
+                .setPrivateProperties({prop: 'value'})
+                .setPublicProperties({prop: 'value'})
+                .setTags(['moshe', 'chaim'])
+                .setTitle('olala')
+        ];
+        collectionManager.updateItems('userId', 'collectionId', updateItemsRequest, function (error, data) {
+            done(error);
+        });
+    });
+
+    //TODO: moveToStart
+
+    //TODO: moveToEnd
+
+    //TODO: moveBefore
+
+    //TODO: moveAfter
+
+    //TODO: deleteItems
 
     it('clearItems', function (done) {
 

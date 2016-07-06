@@ -10,6 +10,7 @@ var UpdateFolderRequest = require('./dto/management/update-folder-request');
 var NewCollectionRequest = require('./dto/collection/new-collection-request');
 var UpdateCollectionRequest = require('./dto/collection/update-collection-request');
 var NewItemRequest = require('./dto/collection/new-item-request');
+var UpdateItemRequest = require('./dto/collection/update-item-request');
 
 module.exports = {
     
@@ -78,6 +79,11 @@ module.exports = {
         /**
          * @type {NewItemRequest}
          */
-        NewItemRequest: NewItemRequest
+        NewItemRequest: NewItemRequest,
+
+        /**
+         * @type {UpdateItemRequest}
+         */
+        UpdateItemRequest: UpdateItemRequest
     }
 };
