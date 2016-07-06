@@ -390,7 +390,7 @@ CollectionManager.prototype.moveAfter = function (userId, collectionId, itemId, 
  * @param {function(Error, Array<ItemDTO>)} callback
  */
 CollectionManager.prototype.deleteItems = function (userId, collectionId, itemIds, callback) {
-    this.authenticatedHttpClient.jsonRequest('DELETE', this.baseUrl + '/collections/' + collectionId + '/items', userId, { item_ids: itemIds },
+    this.authenticatedHttpClient.jsonRequest('POST', this.baseUrl + '/collections/' + collectionId + '/items/delete', userId, { item_ids: itemIds },
         function (error, response) {
 
             if (error) {
@@ -403,25 +403,6 @@ CollectionManager.prototype.deleteItems = function (userId, collectionId, itemId
             });
 
             callback(null, items);
-        });
-};
-//DELETE /collections/{collectionId}/items
-
-/**
- * @param {string} userId
- * @param {string} collectionId
- * @param {function(Error)} callback
- */
-CollectionManager.prototype.clearItems = function (userId, collectionId, callback) {
-    this.authenticatedHttpClient.jsonRequest('DELETE', this.baseUrl + '/collections/' + collectionId + '/items', userId, {},
-        function (error, response) {
-
-            if (error) {
-                callback(error);
-                return;
-            }
-
-            callback(null);
         });
 };
 //DELETE /collections/{collectionId}/items

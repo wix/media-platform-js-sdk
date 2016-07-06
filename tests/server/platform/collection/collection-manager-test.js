@@ -193,16 +193,6 @@ describe('collection manager', function() {
 
     //TODO: deleteItems
 
-    it('clearItems', function (done) {
-
-        authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.delete('/collections/collectionId/items').query(true).reply(200, {});
-
-        collectionManager.clearItems('userId', 'collectionId', function (error, data) {
-            done(error);
-        });
-    });
-
     it('handles auth errors', function (done) {
 
         authServer.times(1).reply(403, {});
