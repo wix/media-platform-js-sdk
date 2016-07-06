@@ -29,7 +29,7 @@ function MediaPlatform(config) {
         authenticationFacade = new AuthenticationFacade(authConfiguration);
         authenticatedHTTPClient = new AuthenticatedHTTPClient(authenticationFacade);
 
-        this.fileUploader = new AppFileUploader(configuration, new FileUploader(configuration, authenticationFacade));
+        this.fileUploader = new AppFileUploader(configuration, new FileUploader(configuration, authenticatedHTTPClient));
         this.fileManager = new AppFileManager(configuration, new FileManager(configuration, authenticatedHTTPClient));
         this.collectionManager = new AppCollectionManager(configuration, new CollectionManager(configuration, authenticatedHTTPClient));
     } else {
@@ -38,7 +38,7 @@ function MediaPlatform(config) {
         authenticationFacade = new AuthenticationFacade(authConfiguration);
         authenticatedHTTPClient = new AuthenticatedHTTPClient(authenticationFacade);
 
-        this.fileUploader = new FileUploader(configuration, authenticationFacade);
+        this.fileUploader = new FileUploader(configuration, authenticatedHTTPClient);
         this.fileManager = new FileManager(configuration, authenticatedHTTPClient);
         this.collectionManager = new CollectionManager(configuration, authenticatedHTTPClient);
     }

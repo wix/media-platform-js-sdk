@@ -2,10 +2,11 @@ var stream = require('stream');
 var fs = require('fs');
 var nock = require('nock');
 var expect = require('expect.js');
-var FileUploader = require('../../../../src/platform/upload/file-uploader');
 var ProviderConfiguration = require('../../../../src/platform/configuration/provider-configuration');
 var ProviderAuthenticationConfiguration = require('../../../../src/platform/authentication/configuration/provider-authentication-configuration');
 var AuthenticationFacade = require('../../../../src/platform/authentication/authentication-facade');
+var AuthenticatedHTTPClient = require('../../../../src/platform/http/authenticated-http-client');
+var FileUploader = require('../../../../src/platform/upload/file-uploader');
 var MetadataDTO = require('../../../../src/dto/metadata-dto');
 var EncodingOptions = require('../../../../src/dto/video/encoding-options');
 
@@ -17,7 +18,8 @@ describe('file uploader', function() {
     var configuration = new ProviderConfiguration('upload.com', 'secret');
     var authenticationConfiguration = new ProviderAuthenticationConfiguration(configuration);
     var authenticationFacade = new AuthenticationFacade(authenticationConfiguration);
-    var fileUploader = new FileUploader(configuration, authenticationFacade);
+    var httpClient = new AuthenticatedHTTPClient(authenticationFacade);
+    var fileUploader = new FileUploader(configuration, httpClient);
 
     var authServer = nock('https://upload.com/').get('/auth/tenant/token');
     var uploadCredentialsServer = nock('https://upload.com/').get('/files/upload/url').query(true);

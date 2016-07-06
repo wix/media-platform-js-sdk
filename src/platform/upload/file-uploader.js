@@ -11,12 +11,15 @@ var DocumentDTO = require('../../dto/document/document-dto');
 
 /**
  * @param {ProviderConfiguration} configuration
- * @param {AuthenticationFacade} authenticationFacade
+ * @param {AuthenticatedHTTPClient} authenticatedHttpClient
  * @constructor
  */
-function FileUploader(configuration, authenticationFacade) {
+function FileUploader(configuration, authenticatedHttpClient) {
 
-    this.authenticationFacade = authenticationFacade;
+    /**
+     * @type {AuthenticatedHTTPClient}
+     */
+    this.authenticatedHttpClient = authenticatedHttpClient;
 
     this.configuration = configuration;
 
@@ -32,32 +35,15 @@ function FileUploader(configuration, authenticationFacade) {
  */
 FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
 
-    this.authenticationFacade.getHeader(userId, function(error, authHeader) {
+    this.authenticatedHttpClient.jsonRequest('GET', this.uploadUrlEndpoint, userId, { media_type: mediaType }, function (error, body) {
 
         if (error) {
             callback(error, null);
             return;
         }
 
-        request.get({url: this.uploadUrlEndpoint, qs: {media_type: mediaType}, headers: authHeader, json: true }, function (error, response, body) {
-
-            if (error) {
-                callback(error, null);
-                return;
-            }
-
-            if (response.statusCode === 403 || response.statusCode === 401) {
-                this.authenticationFacade.invalidateToken(userId);
-            }
-
-            if (response.statusCode !== 200) {
-                callback(new Error(JSON.stringify(response.body)), null);
-                return;
-            }
-
-            callback(null, { uploadUrl: body.upload_url, uploadToken: body.upload_token })
-        }.bind(this))
-    }.bind(this))
+        callback(null, { uploadUrl: body.upload_url, uploadToken: body.upload_token })
+    })
 };
 
 /**
@@ -67,12 +53,12 @@ FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
  * @param {function(Error, ImageDTO)} callback
  */
 FileUploader.prototype.uploadImage = function (userId, source, metadata, callback) {
-    
+
     var params = {};
     if (metadata) {
-        params = metadata.toFormParams();         
+        params = metadata.toFormParams();
     }
-    
+
     this.uploadFile(userId, MediaType.IMAGE, source, params, function (error, body) {
 
         if (error) {
@@ -96,7 +82,7 @@ FileUploader.prototype.uploadAudio = function (userId, source, metadata, callbac
     if (metadata) {
         params = metadata.toFormParams();
     }
-    
+
     this.uploadFile(userId, MediaType.AUDIO, source, params, function (error, body) {
 
         if (error) {
