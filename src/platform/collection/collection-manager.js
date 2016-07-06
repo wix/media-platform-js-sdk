@@ -387,25 +387,21 @@ CollectionManager.prototype.moveAfter = function (userId, collectionId, itemId, 
  * @param {string} userId
  * @param {string} collectionId
  * @param {Array<string>} itemIds
- * @param {function(Error, Array<ItemDTO>)} callback
+ * @param {function(Error)} callback
  */
 CollectionManager.prototype.deleteItems = function (userId, collectionId, itemIds, callback) {
     this.authenticatedHttpClient.jsonRequest('POST', this.baseUrl + '/collections/' + collectionId + '/items/delete', userId, { item_ids: itemIds },
         function (error, response) {
 
             if (error) {
-                callback(error, null);
+                callback(error);
                 return;
             }
 
-            var items = response.items.map(function (item) {
-                return new ItemDTO(item.object);
-            });
-
-            callback(null, items);
+            callback(null);
         });
 };
-//DELETE /collections/{collectionId}/items
+//POST /collections/{collectionId}/items/delete
 
 /**
  * @type {CollectionManager}
