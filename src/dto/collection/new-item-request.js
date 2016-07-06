@@ -14,11 +14,6 @@ function NewItemRequest() {
     this.title = null;
 
     /**
-     * @type {number}
-     */
-    this.ordinal = null;
-
-    /**
      * @type {Array<string>}
      */
     this.tags = [];
@@ -49,15 +44,6 @@ NewItemRequest.prototype.setMediaType = function (mediaType) {
  */
 NewItemRequest.prototype.setTitle = function (title) {
     this.title = title;
-    return this;
-};
-
-/**
- * @param {number} ordinal
- * @returns {NewItemRequest}
- */
-NewItemRequest.prototype.setOrdinal = function (ordinal) {
-    this.ordinal = ordinal;
     return this;
 };
 
@@ -95,7 +81,6 @@ NewItemRequest.prototype.toParams = function () {
     return {
         type: this.mediaType,
         title: this.title,
-        sort_order: this.ordinal,
         tags: this.tags,
         public_properties: this.publicProperties,
         private_properties: this.privateProperties

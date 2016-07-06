@@ -14,7 +14,7 @@ function CollectionDTO(data) {
     /**
      * @type {string}
      */
-    this.mediaType = null;
+    this.type = null;
 
     /**
      * @type {string}
@@ -68,7 +68,7 @@ function CollectionDTO(data) {
  */
 CollectionDTO.prototype.deserialize = function (data) {
     this.id = data.id;
-    this.mediaType = data.type;
+    this.type = data.type;
     this.title = data.title;
     this.thumbnailUrl = data.thumbnail_url;
     this.tags = data.tags;

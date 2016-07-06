@@ -8,6 +8,7 @@ var AuthenticatedHTTPClient = require('../../../../src/platform/http/authenticat
 var NewCollectionRequest = require('../../../../src/dto/collection/new-collection-request');
 var UpdateCollectionRequest = require('../../../../src/dto/collection/update-collection-request');
 var NewItemRequest = require('../../../../src/dto/collection/new-item-request');
+var UpdateItemRequest = require('../../../../src/dto/collection/update-item-request');
 var MediaType = require('../../../../src/dto/media-type');
 
 var reply = __dirname + '/replies/';
@@ -29,7 +30,7 @@ describe('collection manager', function() {
         collectionsServer.post('/collections').query(true).replyWithFile(200, reply + 'collection-dto-reply.json');
 
         var newCollectionRequest = new NewCollectionRequest()
-            .setMediaType(MediaType.AUDIO)
+            .setType('collection type')
             .setPrivateProperties({prop: 'value'})
             .setPublicProperties({prop: 'value'})
             .setTags(['moshe', 'chaim'])
@@ -38,7 +39,6 @@ describe('collection manager', function() {
             .setItems([
                 new NewItemRequest()
                     .setMediaType(MediaType.AUDIO)
-                    .setOrdinal(10)
                     .setPrivateProperties({fish: 'cat'})
                     .setPublicProperties({dog: 'fish'})
                     .setTags(['yap', 'nope'])
@@ -75,13 +75,23 @@ describe('collection manager', function() {
         collectionsServer.put('/collections/collectionId').query(true).replyWithFile(200, reply + 'collection-dto-reply.json');
 
         var updateCollectionRequest = new UpdateCollectionRequest()
-            .setMediaType(MediaType.AUDIO)
+            .setType('collection type')
             .setPrivateProperties({prop: 'value'})
             .setPublicProperties({prop: 'value'})
             .setTags(['moshe', 'chaim'])
             .setThumbnailUrl('http://this.is.the/bomb')
             .setTitle('olala');
         collectionManager.updateCollection('userId', 'collectionId', updateCollectionRequest, function (error, data) {
+            done(error);
+        });
+    });
+
+    it('publishCollection', function (done) {
+
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.post('/collections/collectionId').query(true).replyWithFile(200, reply + 'publish-collection-reply.json');
+
+        collectionManager.publishCollection('userId', 'collectionId', function (error, data) {
             done(error);
         });
     });
@@ -96,28 +106,29 @@ describe('collection manager', function() {
         });
     });
 
-    it('addItems', function (done) {
+    it('updateItems', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.put('/collections/collectionId/items').query(true).replyWithFile(200, reply + 'add-items-reply.json');
+        collectionsServer.put('/collections/collectionId/items').query(true).replyWithFile(200, reply + 'update-items-reply.json');
 
-        var addItemRequests = [
-            new NewItemRequest()
-                .setOrdinal(1)
+        var updateItemsRequest = [
+            new UpdateItemRequest()
+                .setId('id1')
                 .setMediaType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
                 .setTitle('olala'),
-            new NewItemRequest()
-                .setOrdinal(2)
+            new UpdateItemRequest()
+                .setId('id2')
                 .setMediaType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
                 .setTitle('olala')
         ];
-        collectionManager.addItems('userId', 'collectionId', addItemRequests, function (error, data) {
+        collectionManager.updateItems('userId', 'collectionId', updateItemsRequest, function (error, data) {
+            console.log(JSON.stringify(data, null, 2));
             done(error);
         });
     });
@@ -129,14 +140,12 @@ describe('collection manager', function() {
 
         var addItemRequests = [
             new NewItemRequest()
-                .setOrdinal(1)
                 .setMediaType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
                 .setTitle('olala'),
             new NewItemRequest()
-                .setOrdinal(2)
                 .setMediaType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
@@ -155,14 +164,12 @@ describe('collection manager', function() {
 
         var addItemRequests = [
             new NewItemRequest()
-                .setOrdinal(1)
                 .setMediaType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
                 .setTitle('olala'),
             new NewItemRequest()
-                .setOrdinal(2)
                 .setMediaType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})

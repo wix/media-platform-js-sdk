@@ -6,43 +6,27 @@ var UpdateCollectionRequest = require('./update-collection-request');
  */
 function NewCollectionRequest() {
     UpdateCollectionRequest.call(this);
-    
-    /**
-     * @type {string}
-     */
-    this.title = null;
 
     /**
      * @type {string}
      */
-    this.thumbnailUrl = null;
-
-    /**
-     * @type {Array<string>}
-     */
-    this.tags = [];
-
-    /**
-     * @type {string}
-     */
-    this.mediaType = null;
+    this.type = null;
 
     /**
      * @type {Array<NewItemRequest>}
      */
     this.items = [];
-
-    /**
-     * @type {Object.<string, string>}
-     */
-    this.publicProperties = null;
-
-    /**
-     * @type {Object.<string, string>}
-     */
-    this.privateProperties = null;
 }
 inherits(NewCollectionRequest, UpdateCollectionRequest);
+
+/**
+ * @param {string} type
+ * @returns {UpdateCollectionRequest}
+ */
+UpdateCollectionRequest.prototype.setType = function (type) {
+    this.type = type;
+    return this;
+};
 
 /**
  * @param {Array<NewItemRequest>} items
@@ -54,7 +38,7 @@ NewCollectionRequest.prototype.setItems = function (items) {
 };
 
 /**
- * @returns {{title: *, thumbnail_url: string, type: string, tags: *, items: *, public_properties: Object.<string, string>, private_properties: Object.<string, string>}}
+ * @returns {{title: *, thumbnail_url: (*|string), type: *, tags: *, items: Array, public_properties: (Object.<string, string>|*), private_properties: (Object.<string, string>|*)}}
  */
 NewCollectionRequest.prototype.toParams = function () {
 
@@ -65,7 +49,7 @@ NewCollectionRequest.prototype.toParams = function () {
     return {
         title: this.title,
         thumbnail_url: this.thumbnailUrl,
-        type: this.mediaType,
+        type: this.type,
         tags: this.tags,
         items: items,
         public_properties: this.publicProperties,

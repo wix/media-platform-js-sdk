@@ -19,11 +19,6 @@ function UpdateCollectionRequest() {
     this.tags = [];
 
     /**
-     * @type {string}
-     */
-    this.mediaType = null;
-
-    /**
      * @type {Object.<string, string>}
      */
     this.publicProperties = null;
@@ -62,15 +57,6 @@ UpdateCollectionRequest.prototype.setTags = function (tags) {
 };
 
 /**
- * @param {string} mediaType
- * @returns {UpdateCollectionRequest}
- */
-UpdateCollectionRequest.prototype.setMediaType = function (mediaType) {
-    this.mediaType = mediaType;
-    return this;
-};
-
-/**
  * @param {Object.<string, string>} publicProperties
  * @returns {UpdateCollectionRequest}
  */
@@ -89,13 +75,12 @@ UpdateCollectionRequest.prototype.setPrivateProperties = function (privateProper
 };
 
 /**
- * @returns {{title: *, thumbnail_url: (string|*), type: (string|*), tags: *, public_properties: (Object.<string, string>|*), private_properties: (Object.<string, string>|*)}}
+ * @returns {{title: *, thumbnail_url: (string|*), tags: *, public_properties: (Object.<string, string>|*), private_properties: (Object.<string, string>|*)}}
  */
 UpdateCollectionRequest.prototype.toParams = function () {
     return {
         title: this.title,
         thumbnail_url: this.thumbnailUrl,
-        type: this.mediaType,
         tags: this.tags,
         public_properties: this.publicProperties,
         private_properties: this.privateProperties

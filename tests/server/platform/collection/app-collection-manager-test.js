@@ -5,6 +5,7 @@ var AppCollectionManager = require('../../../../src/platform/collection/app-coll
 var NewCollectionRequest = require('../../../../src/dto/collection/new-collection-request');
 var UpdateCollectionRequest = require('../../../../src/dto/collection/update-collection-request');
 var NewItemRequest = require('../../../../src/dto/collection/new-item-request');
+var UpdateItemRequest = require('../../../../src/dto/collection/update-item-request');
 var MediaType = require('../../../../src/dto/media-type');
 
 describe('app collection manager', function() {
@@ -15,10 +16,18 @@ describe('app collection manager', function() {
         listCollections: sinon.spy(),
         getCollection: sinon.spy(),
         updateCollection: sinon.spy(),
+        publishCollection: sinon.spy(),
         deleteCollection: sinon.spy(),
-        addItems: sinon.spy(),
         prependItems: sinon.spy(),
         appendItems: sinon.spy(),
+        insertBefore: sinon.spy(),
+        insertAfter: sinon.spy(),
+        updateItems: sinon.spy(),
+        moveToStart: sinon.spy(),
+        moveToEnd: sinon.spy(),
+        moveBefore: sinon.spy(),
+        moveAfter: sinon.spy(),
+        deleteItems: sinon.spy(),
         clearItems: sinon.spy()
     };
 
@@ -26,12 +35,12 @@ describe('app collection manager', function() {
     var collectionManager = new AppCollectionManager(configuration, mockCollectionManager);
 
     describe('proxies calls to collection manager with apiKey as userId', function () {
-        
+
         var callback = function (error, data) {};
 
         it('newCollection', function () {
             var newCollectionRequest = new NewCollectionRequest()
-                .setMediaType(MediaType.AUDIO)
+                .setType('collection type')
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
@@ -40,7 +49,6 @@ describe('app collection manager', function() {
                 .setItems([
                     new NewItemRequest()
                         .setMediaType(MediaType.AUDIO)
-                        .setOrdinal(10)
                         .setPrivateProperties({fish: 'cat'})
                         .setPublicProperties({dog: 'fish'})
                         .setTags(['yap', 'nope'])
@@ -66,7 +74,6 @@ describe('app collection manager', function() {
         it('updateCollection', function () {
 
             var updateCollectionRequest = new UpdateCollectionRequest()
-                .setMediaType(MediaType.AUDIO)
                 .setPrivateProperties({prop: 'value'})
                 .setPublicProperties({prop: 'value'})
                 .setTags(['moshe', 'chaim'])
@@ -77,47 +84,28 @@ describe('app collection manager', function() {
             expect(mockCollectionManager.updateCollection.calledWith('apiKey', 'collectionId', updateCollectionRequest, callback)).to.be(true);
         });
 
+        it('publishCollection', function () {
+            collectionManager.publishCollection('collectionId', callback);
+
+            expect(mockCollectionManager.publishCollection.calledWith('apiKey', 'collectionId', callback)).to.be(true);
+        });
+
         it('deleteCollection', function () {
             collectionManager.deleteCollection('collectionId', callback);
 
             expect(mockCollectionManager.deleteCollection.calledWith('apiKey', 'collectionId', callback)).to.be(true);
         });
 
-        it('addItems', function () {
-
-            var addItemRequests = [
-                new NewItemRequest()
-                    .setOrdinal(1)
-                    .setMediaType(MediaType.AUDIO)
-                    .setPrivateProperties({prop: 'value'})
-                    .setPublicProperties({prop: 'value'})
-                    .setTags(['moshe', 'chaim'])
-                    .setTitle('olala'),
-                new NewItemRequest()
-                    .setOrdinal(2)
-                    .setMediaType(MediaType.AUDIO)
-                    .setPrivateProperties({prop: 'value'})
-                    .setPublicProperties({prop: 'value'})
-                    .setTags(['moshe', 'chaim'])
-                    .setTitle('olala')
-            ];
-            collectionManager.addItems('collectionId', addItemRequests, callback);
-
-            expect(mockCollectionManager.addItems.calledWith('apiKey', 'collectionId', addItemRequests, callback)).to.be(true);
-        });
-
         it('prependItems', function () {
 
             var addItemRequests = [
                 new NewItemRequest()
-                    .setOrdinal(1)
                     .setMediaType(MediaType.AUDIO)
                     .setPrivateProperties({prop: 'value'})
                     .setPublicProperties({prop: 'value'})
                     .setTags(['moshe', 'chaim'])
                     .setTitle('olala'),
                 new NewItemRequest()
-                    .setOrdinal(2)
                     .setMediaType(MediaType.AUDIO)
                     .setPrivateProperties({prop: 'value'})
                     .setPublicProperties({prop: 'value'})
@@ -133,14 +121,12 @@ describe('app collection manager', function() {
 
             var addItemRequests = [
                 new NewItemRequest()
-                    .setOrdinal(1)
                     .setMediaType(MediaType.AUDIO)
                     .setPrivateProperties({prop: 'value'})
                     .setPublicProperties({prop: 'value'})
                     .setTags(['moshe', 'chaim'])
                     .setTitle('olala'),
                 new NewItemRequest()
-                    .setOrdinal(2)
                     .setMediaType(MediaType.AUDIO)
                     .setPrivateProperties({prop: 'value'})
                     .setPublicProperties({prop: 'value'})
@@ -150,6 +136,103 @@ describe('app collection manager', function() {
             collectionManager.appendItems('collectionId', addItemRequests, callback);
 
             expect(mockCollectionManager.appendItems.calledWith('apiKey', 'collectionId', addItemRequests, callback)).to.be(true);
+        });
+
+        it('insertBefore', function () {
+
+            var addItemRequests = [
+                new NewItemRequest()
+                    .setMediaType(MediaType.AUDIO)
+                    .setPrivateProperties({prop: 'value'})
+                    .setPublicProperties({prop: 'value'})
+                    .setTags(['moshe', 'chaim'])
+                    .setTitle('olala'),
+                new NewItemRequest()
+                    .setMediaType(MediaType.AUDIO)
+                    .setPrivateProperties({prop: 'value'})
+                    .setPublicProperties({prop: 'value'})
+                    .setTags(['moshe', 'chaim'])
+                    .setTitle('olala')
+            ];
+            collectionManager.insertBefore('collectionId', 'itemId', addItemRequests, callback);
+
+            expect(mockCollectionManager.insertBefore.calledWith('apiKey', 'collectionId', 'itemId', addItemRequests, callback)).to.be(true);
+        });
+
+        it('insertAfter', function () {
+
+            var addItemRequests = [
+                new NewItemRequest()
+                    .setMediaType(MediaType.AUDIO)
+                    .setPrivateProperties({prop: 'value'})
+                    .setPublicProperties({prop: 'value'})
+                    .setTags(['moshe', 'chaim'])
+                    .setTitle('olala'),
+                new NewItemRequest()
+                    .setMediaType(MediaType.AUDIO)
+                    .setPrivateProperties({prop: 'value'})
+                    .setPublicProperties({prop: 'value'})
+                    .setTags(['moshe', 'chaim'])
+                    .setTitle('olala')
+            ];
+            collectionManager.insertAfter('collectionId', 'itemId', addItemRequests, callback);
+
+            expect(mockCollectionManager.insertAfter.calledWith('apiKey', 'collectionId', 'itemId', addItemRequests, callback)).to.be(true);
+        });
+
+        it('updateItems', function () {
+
+            var updateItemRequests = [
+                new UpdateItemRequest()
+                    .setId('id1')
+                    .setMediaType(MediaType.AUDIO)
+                    .setPrivateProperties({prop: 'value'})
+                    .setPublicProperties({prop: 'value'})
+                    .setTags(['moshe', 'chaim'])
+                    .setTitle('olala'),
+                new UpdateItemRequest()
+                    .setId('id2')
+                    .setMediaType(MediaType.AUDIO)
+                    .setPrivateProperties({prop: 'value'})
+                    .setPublicProperties({prop: 'value'})
+                    .setTags(['moshe', 'chaim'])
+                    .setTitle('olala')
+            ];
+            collectionManager.updateItems('collectionId', updateItemRequests, callback);
+
+            expect(mockCollectionManager.updateItems.calledWith('apiKey', 'collectionId', updateItemRequests, callback)).to.be(true);
+        });
+
+        it('moveToStart', function () {
+
+            collectionManager.moveToStart('collectionId', ['id1', 'id2'], callback);
+
+            expect(mockCollectionManager.moveToStart.calledWith('apiKey', 'collectionId', ['id1', 'id2'], callback)).to.be(true);
+        });
+
+        it('moveToEnd', function () {
+
+            collectionManager.moveToEnd('collectionId', ['id1', 'id2'], callback);
+
+            expect(mockCollectionManager.moveToEnd.calledWith('apiKey', 'collectionId', ['id1', 'id2'], callback)).to.be(true);
+        });
+
+        it('moveBefore', function () {
+            collectionManager.moveBefore('collectionId', 'itemId', ['id1', 'id2'], callback);
+
+            expect(mockCollectionManager.moveBefore.calledWith('apiKey', 'collectionId', 'itemId', ['id1', 'id2'], callback)).to.be(true);
+        });
+
+        it('moveAfter', function () {
+            collectionManager.moveAfter('collectionId', 'itemId', ['id1', 'id2'], callback);
+
+            expect(mockCollectionManager.moveAfter.calledWith('apiKey', 'collectionId', 'itemId', ['id1', 'id2'], callback)).to.be(true);
+        });
+
+        it('deleteItems', function () {
+            collectionManager.deleteItems('collectionId', ['id1', 'id2'], callback);
+
+            expect(mockCollectionManager.deleteItems.calledWith('apiKey', 'collectionId', ['id1', 'id2'], callback)).to.be(true);
         });
 
         it('clearItems', function () {
