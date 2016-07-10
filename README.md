@@ -61,8 +61,24 @@ var mediaPlatform = new MediaPlatform({
 
 var mediaPlatform = new MP.MediaPlatform({
     domain: <as appears in the Dashboard>,
-    authenticationUrl: <the location of your authentication URL>
+    authenticationUrl: <your authentication url - see example below>
 });
+```
+Authentication URL Node.js (with express) example:
+
+```javascript
+    app.get('/media-platform/auth-header', function (req, res, next) {
+
+        mediaPlatform.getAuthenticationHeader(function (error, header) {
+
+            if (error) {
+                res.status(500).send(error.message);
+                return;
+            }
+
+            res.send(header);
+        });
+    });
 ```
 
 ## File Upload
