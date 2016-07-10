@@ -57,6 +57,8 @@ var mediaPlatform = new MediaPlatform({
 ## Instantiating the Media Platform in the Browser
 
 ```javascript
+<script src="/media-platform.min.js">
+
 var mediaPlatform = new MP.MediaPlatform({
     domain: <as appears in the Dashboard>,
     authenticationUrl: <the location of your authentication URL>
