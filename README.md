@@ -33,7 +33,6 @@ This package is an isomorphic JavaScript library (works in Node and in the brows
 ```bash
 npm install media-platform-js-sdk --save
 ```
-
 ## Running the Demo
 
 ```bash
@@ -149,6 +148,92 @@ var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
 var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
 
 var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
+```
+
+## File Management
+
+Wix Media Platform exposes a comprehensive set of APIs tailored for the management of previously uploaded files.
+
+```javascript
+var fileManager = mediaPlatform.fileManager;
+```
+
+Retrieve a list of uploaded files, supports both paginated and *all (use with caution)* requests 
+
+```javascript
+var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
+
+var listFilesRequest = new ListFilesRequest()
+    .asecending()
+    .setCursor('c')
+    .setMediaType(MediaType.IMAGE)
+    .orderBy('date')
+    .setSize(10)
+    .setTag('dog')
+    .setParentFolderId('parentFolderId');
+fileManager.listFiles(listFilesRequest, callback)
+```
+
+Get an uploaded file metadata (does not return the actual file)
+
+```javascript
+fileManager.getFile('fileId', callback)
+```
+
+Update a file metadata
+
+```javascript
+var UpdateFileRequest = require('media-platform-js-sdk').file.UpdateFileRequest;
+
+var updateFileRequest = new UpdateFileRequest()
+    .setOriginalFileName('dog.jpeg')
+    .setParentFolderId('folderId')
+    .setTags(['dog', 'Schnauzer']);
+fileManager.updateFile('fileId', updateFileRequest, callback);
+```
+
+Delete file *Warning: the file will no longer be reachable*
+
+```javascript
+fileManager.deleteFile('fileId', callback);
+```
+
+### Folder Management
+
+Wix Media Platform supports folders
+ 
+List child folders
+
+```javascript
+fileManager.listFolders('folderId', callback);
+```
+
+Create a new folder
+
+```javascript
+var NewFolderRequest = require('media-platform-js-sdk').file.NewFolderRequest;
+
+var newFolderRequest = new NewFolderRequest()
+    .setMediaType(MediaType.IMAGE)
+    .setFolderName('Doberman Pinscher')
+    .setParentFolderId('folderId');
+fileManager.newFolder(newFolderRequest, callback);
+```
+
+Update a folder
+
+```javascript
+var UpdateFolderRequest = require('media-platform-js-sdk').file.UpdateFolderRequest;
+
+var updateFolderRequest = new UpdateFolderRequest()
+    .setFolderName('Doberman Pinscher');
+fileManager.updateFolder('folderId', updateFolderRequest, callback);
+```
+
+Delete a folder *this will not delete the folder content*
+
+```javascript
+fileManager.deleteFolder('folderId', callback);
 ```
 
 ## Reporting Issues
