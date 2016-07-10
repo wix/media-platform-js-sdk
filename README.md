@@ -36,9 +36,11 @@ npm install media-platform-js-sdk --save
 ## Running the Demo
 
 ```bash
+git clone git@github.com:wix/media-platform-js-sdk.git
+
 npm start
 ```
-and goto http://localhost:3333/
+and open http://localhost:3333/ in the browser
 
 ## Instantiating the Media Platform in the Server
 
