@@ -14,12 +14,6 @@ module.exports = function(grunt) {
     };
     var options = {
         debug: false,
-        // transform : [['uglifyify', {
-        //     global: true,
-        //     preserveComments: false,
-        //     dropDebugger: true,
-        //     dropConsole: true
-        // }]],
         browserifyOptions: {
             standalone: 'media-platform'
         }
@@ -52,12 +46,12 @@ module.exports = function(grunt) {
             },
             distMinified: {
                 options: minifiedOptions,
-                src: ['public/media-platform.js'],
+                src: ['public/index.js'],
                 dest: 'dist/media-platform.min.js'
             },
             dist: {
                 options: options,
-                src: ['public/media-platform.js'],
+                src: ['public/index.js'],
                 dest: 'dist/media-platform.js'
             },
             tests: {

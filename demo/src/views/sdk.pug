@@ -4,28 +4,23 @@ html()
         title Wix Media Platform - Demo
 
         script(src='/media-platform.min.js')
+
+        script.
+            var mediaPlatform = new MP.MediaPlatform({
+                domain: 'app.wixmp.com',
+                authenticationUrl: 'http://localhost:3333/media-platform/auth-header'
+            });
+
+            var ImageRequest = MP.image.ImageRequest;
+            var ImageDTO = MP.image.ImageDTO;
     body
         h2 Image
 
         h3 Success
         #image
 
-        script.
-            var ImageRequest = MP.image.ImageRequest;
-            var ImageDTO = MP.image.ImageDTO;
-            var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
-
-        script.
-            var elem = document.createElement('img');
-            elem.src = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
-            document.getElementById('image').appendChild(elem);
-
         h3 Error
         #error
-
-        script.
-            var error = imageRequest.fill(250, 250).contrast(-200).toUrl().error;
-            document.getElementById('error').innerHTML = error.message;
 
         h2 Upload
         #upload
@@ -43,14 +38,25 @@ html()
         #upload-result-container
 
         script.
+           imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
+
+           var elem = document.createElement('img');
+           elem.src = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
+           document.getElementById('image').appendChild(elem);
+
+           var error = imageRequest.fill(250, 250).contrast(-200).toUrl().error;
+           document.getElementById('error').innerHTML = error.message;
+
+        script.
             var button = document.getElementById('upload-button');
             button.addEventListener('click', function () {
-                fetch('http://localhost:3333/upload/picture/credentials').then(function (response) {
-                    response.json().then(function (uploadCredentials) {
+
+                mediaPlatform.fileUploader.getUploadUrl(MP.MediaType.IMAGE, function(error, response) {
+
                         var form = document.getElementById('upload-form');
 
                         var formData = new FormData(form);
-                        formData.set('upload_token', uploadCredentials.uploadToken);
+                        formData.set('upload_token', response.uploadToken);
 
                         var request = new XMLHttpRequest();
                         request.responseType = 'json';
@@ -76,8 +82,7 @@ html()
                             alert('Oops! Something went wrong.');
                         });
 
-                        request.open('POST', uploadCredentials.uploadUrl);
+                        request.open('POST', response.uploadUrl);
                         request.send(formData);
                     })
-                })
             })

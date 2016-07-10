@@ -1,4 +1,3 @@
-var request = require('request');
 var ListFilesResponse = require('../../dto/management/list-files-response');
 var ListFoldersResponse = require('../../dto/management/list-folders-response');
 var FolderDTO = require('../../dto/folder/folder-dto');
@@ -16,9 +15,7 @@ function FileManager(configuration, authenticatedHttpClient) {
      */
     this.authenticatedHttpClient = authenticatedHttpClient;
 
-    this.configuration = configuration;
-
-    this.baseUrl = 'https://' + this.configuration.domain;
+    this.baseUrl = 'https://' + configuration.domain;
 }
 
 /**

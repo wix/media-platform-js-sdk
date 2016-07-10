@@ -10,7 +10,6 @@ function AuthenticatedHTTPClient(authenticationFacade) {
      * @type {AuthenticationFacade}
      */
     this.authenticationFacade = authenticationFacade;
-
 }
 
 /**
@@ -33,7 +32,6 @@ AuthenticatedHTTPClient.prototype.jsonRequest = function (httpMethod, url, userI
 
         switch (httpMethod) {
             case 'POST':
-            case 'DELETE':
             case 'PUT':
                 options.body = params;
                 break;
@@ -62,6 +60,11 @@ AuthenticatedHTTPClient.prototype.jsonRequest = function (httpMethod, url, userI
     }.bind(this))
 };
 
+/**
+ * @param {string} url
+ * @param {{}} form
+ * @param {function(Error, Object)} callback
+ */
 AuthenticatedHTTPClient.prototype.anonymousFormDataRequest = function (url, form, callback) {
     request({ method: 'POST', url: url, formData: form, json: true }, function (error, response, body) {
 
@@ -77,6 +80,10 @@ AuthenticatedHTTPClient.prototype.anonymousFormDataRequest = function (url, form
 
         callback(null, body);
     });
+};
+
+AuthenticatedHTTPClient.prototype.getAuthenticationHeader = function (userId, callback) {
+    this.authenticationFacade.getHeader(userId, callback);
 };
 
 /**

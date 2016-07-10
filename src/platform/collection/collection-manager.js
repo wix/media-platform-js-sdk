@@ -13,9 +13,7 @@ function CollectionManager(configuration, authenticatedHttpClient) {
      */
     this.authenticatedHttpClient = authenticatedHttpClient;
 
-    this.configuration = configuration;
-
-    this.baseUrl = 'https://' + this.configuration.domain;
+    this.baseUrl = 'https://' + configuration.domain;
 }
 
 /**

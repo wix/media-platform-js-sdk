@@ -21,9 +21,7 @@ function FileUploader(configuration, authenticatedHttpClient) {
      */
     this.authenticatedHttpClient = authenticatedHttpClient;
 
-    this.configuration = configuration;
-
-    this.uploadUrlEndpoint = 'https://' + this.configuration.domain + '/files/upload/url';
+    this.uploadUrlEndpoint = 'https://' + configuration.domain + '/files/upload/url';
 }
 
 /**
@@ -193,8 +191,8 @@ FileUploader.prototype.uploadFile = function (userId, mediaType, source, params,
     function doCallback(error, data) {
         if (!calledBack) {
             callback(error, data);
+            calledBack = true;
         }
-        calledBack = true;
     }
 };
 

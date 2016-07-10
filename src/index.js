@@ -1,5 +1,6 @@
 var MediaPlatform = require('./platform/media-platform');
 var ImageRequest = require('./image/image-request');
+var Alignments = require('./image/operation/align/alignments');
 var EncodingOptions = require('./dto/video/encoding-options');
 var MetadataDTO = require('./dto/metadata-dto');
 var MediaType = require('./dto/media-type');
@@ -28,7 +29,12 @@ module.exports = {
         /**
          * @type {ImageRequest}
          */
-        ImageRequest: ImageRequest
+        ImageRequest: ImageRequest,
+
+        /**
+         * @type {Alignments}
+         */
+        Alignments: Alignments
     },
 
     video: {

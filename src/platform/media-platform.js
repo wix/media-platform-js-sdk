@@ -23,12 +23,15 @@ function MediaPlatform(config) {
     var authConfiguration = null;
     var authenticationFacade = null;
     var authenticatedHTTPClient = null;
-    if (config.hasOwnProperty('apiKey')) {
+    if (config.apiKey) {
         configuration = new AppConfiguration(config.domain, config.apiKey, config.sharedSecret);
         authConfiguration = new AppAuthenticationConfiguration(configuration);
         authenticationFacade = new AuthenticationFacade(authConfiguration);
         authenticatedHTTPClient = new AuthenticatedHTTPClient(authenticationFacade);
 
+        this.getAuthenticationHeader = function (callback) {
+            authenticatedHTTPClient.getAuthenticationHeader(configuration.apiKey, callback);
+        };
         this.fileUploader = new AppFileUploader(configuration, new FileUploader(configuration, authenticatedHTTPClient));
         this.fileManager = new AppFileManager(configuration, new FileManager(configuration, authenticatedHTTPClient));
         this.collectionManager = new AppCollectionManager(configuration, new CollectionManager(configuration, authenticatedHTTPClient));
@@ -38,6 +41,9 @@ function MediaPlatform(config) {
         authenticationFacade = new AuthenticationFacade(authConfiguration);
         authenticatedHTTPClient = new AuthenticatedHTTPClient(authenticationFacade);
 
+        this.getAuthenticationHeader = function (userId, callback) {
+            authenticatedHTTPClient.getAuthenticationHeader(userId, callback);
+        };
         this.fileUploader = new FileUploader(configuration, authenticatedHTTPClient);
         this.fileManager = new FileManager(configuration, authenticatedHTTPClient);
         this.collectionManager = new CollectionManager(configuration, authenticatedHTTPClient);

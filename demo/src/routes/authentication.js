@@ -6,22 +6,18 @@ var mediaPlatform = new MediaPlatform({
     sharedSecret: '6c736264899646d3b370a409bb6a840c'
 });
 
-var fileUploader = mediaPlatform.fileUploader;
-
 module.exports = function(app) {
+    
+    app.get('/media-platform/auth-header', function (req, res, next) {
 
-    app.get('/upload/:mediaType/credentials', function(req, res, next) {
-
-        var mediaType = req.params.mediaType;
-        
-        fileUploader.getUploadUrl(mediaType, function (error, uploadCredentials) {
+        mediaPlatform.getAuthenticationHeader(function (error, header) {
 
             if (error) {
                 res.status(500).send(error.message);
                 return;
             }
 
-            res.send(uploadCredentials);
+            res.send(header);
         });
     });
 };
