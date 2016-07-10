@@ -67,18 +67,15 @@ var mediaPlatform = new MP.MediaPlatform({
 Authentication URL Node.js (with express) example:
 
 ```javascript
-    app.get('/media-platform/auth-header', function (req, res, next) {
-
-        mediaPlatform.getAuthenticationHeader(function (error, header) {
-
-            if (error) {
-                res.status(500).send(error.message);
-                return;
-            }
-
-            res.send(header);
-        });
+app.get('/media-platform/auth-header', function (req, res, next) {
+    mediaPlatform.getAuthenticationHeader(function (error, header) {
+        if (error) {
+            res.status(500).send(error.message);
+            return;
+        }
+        res.send(header);
     });
+});
 ```
 
 ## File Upload
