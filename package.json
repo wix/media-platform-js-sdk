@@ -44,7 +44,7 @@
     "build": "grunt browser",
     "test": "grunt test",
     "release": "wnpm-release",
-    "start": "node ./demo/bin/www"
+    "start": "grunt browser && node ./demo/bin/www"
   },
   "dependencies": {
     "inherits": "^2.0.1",
