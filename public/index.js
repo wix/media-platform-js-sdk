@@ -4,6 +4,15 @@ var ImageDTO = require('../src/dto/image/image-dto');
 var ImageRequest = require('../src/image/image-request');
 var Alignments = require('../src/image/operation/align/alignments');
 var EncodingOptions = require('../src/dto/video/encoding-options');
+var MetadataDTO = require('../src/dto/metadata-dto');
+var ListFilesRequest = require('../src/dto/management/list-files-request');
+var UpdateFileRequest = require('../src/dto/management/update-file-request');
+var NewFolderRequest = require('../src/dto/management/new-folder-request');
+var UpdateFolderRequest = require('../src/dto/management/update-folder-request');
+var NewCollectionRequest = require('../src/dto/collection/new-collection-request');
+var UpdateCollectionRequest = require('../src/dto/collection/update-collection-request');
+var NewItemRequest = require('../src/dto/collection/new-item-request');
+var UpdateItemRequest = require('../src/dto/collection/update-item-request');
 
 var MP = (window || global || {}).MP = {};
 
@@ -27,7 +36,7 @@ MP.image = {
      * @type {Alignments}
      */
     Alignments: Alignments,
-    
+
     /**
      * @type {ImageDTO}
      */
@@ -39,4 +48,53 @@ MP.video = {
      * @type {EncodingOptions}
      */
     EncodingOptions: EncodingOptions
+};
+
+MP.file = {
+    /**
+     * @type {MetadataDTO}
+     */
+    MetadataDTO: MetadataDTO,
+
+    /**
+     * @type {ListFilesRequest}
+     */
+    ListFilesRequest: ListFilesRequest,
+
+    /**
+     * @type {UpdateFileRequest}
+     */
+    UpdateFileRequest: UpdateFileRequest,
+
+    /**
+     * @type {NewFolderRequest}
+     */
+    NewFolderRequest: NewFolderRequest,
+
+    /**
+     * @type {UpdateFolderRequest}
+     */
+    UpdateFolderRequest: UpdateFolderRequest
+};
+
+MP.collection = {
+    /**
+     * @type {NewCollectionRequest}
+     */
+    NewCollectionRequest: NewCollectionRequest,
+
+    /**
+     * @type {UpdateCollectionRequest}
+     */
+    UpdateCollectionRequest: UpdateCollectionRequest,
+
+    /**
+     * @type {NewItemRequest}
+     */
+    NewItemRequest: NewItemRequest,
+
+    /**
+     * @type {UpdateItemRequest}
+     */
+    UpdateItemRequest: UpdateItemRequest
 };

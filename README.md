@@ -158,7 +158,9 @@ Wix Media Platform exposes a comprehensive set of APIs tailored for the manageme
 var fileManager = mediaPlatform.fileManager;
 ```
 
-Retrieve a list of uploaded files, supports both paginated and *all (use with caution)* requests 
+Retrieve a list of uploaded files
+
+supports both paginated and *all (use with caution)* requests 
 
 ```javascript
 var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
@@ -174,7 +176,8 @@ var listFilesRequest = new ListFilesRequest()
 fileManager.listFiles(listFilesRequest, callback)
 ```
 
-Get an uploaded file metadata (does not return the actual file)
+Get an uploaded file metadata
+*does not return the actual file*
 
 ```javascript
 fileManager.getFile('fileId', callback)
@@ -192,7 +195,8 @@ var updateFileRequest = new UpdateFileRequest()
 fileManager.updateFile('fileId', updateFileRequest, callback);
 ```
 
-Delete file *Warning: the file will no longer be reachable*
+Delete file
+*Warning: the file will no longer be reachable*
 
 ```javascript
 fileManager.deleteFile('fileId', callback);
@@ -230,10 +234,205 @@ var updateFolderRequest = new UpdateFolderRequest()
 fileManager.updateFolder('folderId', updateFolderRequest, callback);
 ```
 
-Delete a folder *this will not delete the folder content*
+Delete a folder 
+*this will not delete the folder content*
 
 ```javascript
 fileManager.deleteFolder('folderId', callback);
+```
+
+## Collection Management
+
+The collection service enables the creation, management and publishing of item groups such as curated image galleries, audio playlist etc.
+
+```javascript
+var collectionManager = mediaPlatform.collectionManager;
+```
+
+Create a new collection
+
+```javascript
+var NewCollectionRequest = require('media-platform-js-sdk').collection.NewCollectionRequest;
+var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
+
+var newCollectionRequest = new NewCollectionRequest()
+    .setType('dog')
+    .setPrivateProperties({prop: 'value'})
+    .setPublicProperties({prop: 'value'})
+    .setTags(['Doberman', 'Pinscher'])
+    .setThumbnailUrl('http://this.is.a/collection.jpeg')
+    .setTitle('Dogs Galore')
+    .setItems([
+        new NewItemRequest()
+            .setType(MediaType.AUDIO)
+            .setPrivateProperties({cat: 'fish'})
+            .setPublicProperties({bark: 'loud'})
+            .setTags(['dog', 'bark'])
+            .setTitle('Whof')
+    ]);
+collectionManager.newCollection(newCollectionRequest, callback);
+```
+
+List collections
+
+```javascript
+collectionManager.listCollections('dog', callback);
+```
+
+Get collection
+
+```javascript
+collectionManager.getCollection('collectionId', callback);
+```
+
+Update collection 
+
+```javascript
+var UpdateCollectionRequest = require('media-platform-js-sdk').collection.UpdateCollectionRequest;
+
+var updateCollectionRequest = new UpdateCollectionRequest()
+    .setPrivateProperties({prop: 'value'})
+    .setPublicProperties({prop: 'value'})
+    .setTags(['cats', 'purr'])
+    .setThumbnailUrl('http://this.is.a/collection.jpeg')
+    .setTitle('Cats Galore');
+collectionManager.updateCollection('collectionId', updateCollectionRequest, callback);
+```
+
+Publish collection
+
+```javascript
+collectionManager.publishCollection('collectionId', callback);
+```
+
+Delete collection
+
+```javascript
+collectionManager.deleteCollection('collectionId', callback);
+```
+
+Add items at the beginning of a collection
+
+```javascript
+var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
+
+var addItemRequests = [
+    new NewItemRequest()
+        .setType('dog')
+        .setPrivateProperties({prop: 'value'})
+        .setPublicProperties({prop: 'value'})
+        .setTags(['Doberman', 'Pinscher'])
+        .setTitle('Doberman'),
+    new NewItemRequest()
+        .setType('dog')
+        .setPrivateProperties({prop: 'value'})
+        .setPublicProperties({prop: 'value'})
+        .setTags(['Doberman', 'Pinscher'])
+        .setTitle('Pinscher')
+];
+collectionManager.prependItems('collectionId', addItemRequests, callback);
+```
+
+Add items to the end of a collection
+
+```javascript
+var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
+
+var addItemRequests = [
+    new NewItemRequest()
+        .setType('dog')
+        .setPrivateProperties({prop: 'value'})
+        .setPublicProperties({prop: 'value'})
+        .setTags(['Doberman', 'Pinscher'])
+        .setTitle('Doberman')
+];
+collectionManager.appendItems('collectionId', addItemRequests, callback);
+```
+
+Add items *before* an exiting item in a collection
+
+```javascript
+var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
+
+var addItemRequests = [
+    new NewItemRequest()
+        .setType('dog')
+        .setPrivateProperties({prop: 'value'})
+        .setPublicProperties({prop: 'value'})
+        .setTags(['Doberman', 'Pinscher'])
+        .setTitle('Doberman')
+];
+collectionManager.insertBefore('collectionId', 'itemId', addItemRequests, callback);
+```
+
+Add items *after* an exiting item in a collection
+
+```javascript
+var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
+
+var addItemRequests = [
+    new NewItemRequest()
+        .setType('dog')
+        .setPrivateProperties({prop: 'value'})
+        .setPublicProperties({prop: 'value'})
+        .setTags(['Doberman', 'Pinscher'])
+        .setTitle('Doberman')
+];
+collectionManager.insertAfter('collectionId', 'itemId', addItemRequests, callback);
+```
+
+Update exiting items in a collection
+
+```javascript
+var UpdateItemRequest = require('media-platform-js-sdk').collection.UpdateItemRequest;
+
+var updateItemRequests = [
+    new UpdateItemRequest()
+        .setId('id1')
+        .setType(MediaType.AUDIO)
+        .setPrivateProperties({prop: 'value'})
+        .setPublicProperties({prop: 'value'})
+        .setTags(['moshe', 'chaim'])
+        .setTitle('olala'),
+    new UpdateItemRequest()
+        .setId('id2')
+        .setType(MediaType.AUDIO)
+        .setPrivateProperties({prop: 'value'})
+        .setPublicProperties({prop: 'value'})
+        .setTags(['moshe', 'chaim'])
+        .setTitle('olala')
+];
+collectionManager.updateItems('collectionId', updateItemRequests, callback);
+```
+
+Move items to the *start* of the collection
+
+```javascript
+collectionManager.moveToStart('collectionId', ['id1', 'id2'], callback);
+```
+
+Move items to the *end* of the collection
+
+```javascript
+collectionManager.moveToEnd('collectionId', ['id1', 'id2'], callback);
+```
+
+Move items *before* another item
+
+```javascript
+collectionManager.moveBefore('collectionId', 'itemId', ['id1', 'id2'], callback);
+```
+
+Move items *after* another item
+
+```javascript
+collectionManager.moveAfter('collectionId', 'itemId', ['id1', 'id2'], callback);
+```
+
+Delete items from a collection
+
+```javascript
+collectionManager.deleteItems('collectionId', ['id1', 'id2'], callback);
 ```
 
 ## Reporting Issues
