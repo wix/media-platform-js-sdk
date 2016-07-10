@@ -54,6 +54,14 @@ var mediaPlatform = new MediaPlatform({
   sharedSecret: <as appears in the Dashboard>
 });
 ```
+## Instantiating the Media Platform in the Browser
+
+```javascript
+var mediaPlatform = new MP.MediaPlatform({
+    domain: <as appears in the Dashboard>,
+    authenticationUrl: <the location of your authentication URL>
+});
+```
 
 ## File Upload
 
