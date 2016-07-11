@@ -4,35 +4,37 @@
 function EncodingOptions () {
 
     /**
-     * @type {{format: Array<string>, skipAudio: boolean, extractAudio: boolean}}
+     * @type {Array<string>}
      */
-    this.video = {
-        format: [], //'mp4', 'webm', 'ogv'
-        skipAudio: null,
-        extractAudio: null
-    };
+    this.videoFormats = []; //'mp4', 'webm', 'ogv'
 
     /**
-     * @type {{format: string}}
+     * @type {boolean}
      */
-    this.audio = {
-        format: '' //'mp3', 'm4a', 'ogg'
-    };
+    this.skipAudio = null;
 
     /**
-     * @type {{format: string}}
+     * @type {boolean}
      */
-    this.image = {
-        format: '' //'jpg', 'png'
-    }
+    this.extractAudio = null;
+
+    /**
+     * @type {string}
+     */
+    this.audioFormat = null; //'mp3', 'm4a', 'ogg'
+
+    /**
+     * @type {string}
+     */
+    this.imageFormat = null; //'jpg', 'png'
 }
 
 /**
  * @param {Array<string>} formats
  * @returns {EncodingOptions}
  */
-EncodingOptions.prototype.videoFormats = function (formats) {
-    this.video.format = formats;
+EncodingOptions.prototype.setVideoFormats = function (formats) {
+    this.videoFormats = formats;
     return this;
 };
 
@@ -40,8 +42,8 @@ EncodingOptions.prototype.videoFormats = function (formats) {
  * @param {boolean} skipAudio
  * @returns {EncodingOptions}
  */
-EncodingOptions.prototype.skipAudio = function (skipAudio) {
-    this.video.skipAudio = skipAudio;
+EncodingOptions.prototype.setSkipAudio = function (skipAudio) {
+    this.skipAudio = skipAudio;
     return this;
 };
 
@@ -49,8 +51,8 @@ EncodingOptions.prototype.skipAudio = function (skipAudio) {
  * @param {boolean} extractAudio
  * @returns {EncodingOptions}
  */
-EncodingOptions.prototype.extractAudio = function (extractAudio) {
-    this.video.extractAudio = extractAudio;
+EncodingOptions.prototype.setExtractAudio = function (extractAudio) {
+    this.extractAudio = extractAudio;
     return this;
 };
 
@@ -58,8 +60,8 @@ EncodingOptions.prototype.extractAudio = function (extractAudio) {
  * @param {string} format
  * @returns {EncodingOptions}
  */
-EncodingOptions.prototype.audioFormat = function (format) {
-    this.audio.format = format;
+EncodingOptions.prototype.setAudioFormat = function (format) {
+    this.audioFormat = format;
     return this;
 };
 
@@ -67,8 +69,8 @@ EncodingOptions.prototype.audioFormat = function (format) {
  * @param {string} format
  * @returns {EncodingOptions}
  */
-EncodingOptions.prototype.imageFormat = function (format) {
-    this.image.format = format;
+EncodingOptions.prototype.setImageFormat = function (format) {
+    this.imageFormat = format;
     return this;
 };
 
@@ -76,9 +78,57 @@ EncodingOptions.prototype.imageFormat = function (format) {
  * @returns {{}}
  */
 EncodingOptions.prototype.toFormParams = function () {
-    return  {
-        encoding_options: JSON.stringify(this)
-    };
+
+    var params = {};
+
+    if (this.videoFormats && this.videoFormats.length > 0) {
+
+        if (!params.video) {
+            params.video = {};
+        }
+
+        params.video.format = this.videoFormats;
+    }
+
+    if (this.skipAudio) {
+
+        if (!params.video) {
+            params.video = {};
+        }
+
+        params.video.skip_audio = this.skipAudio;
+    }
+
+    if (this.extractAudio) {
+
+        if (!params.video) {
+            params.video = {};
+        }
+
+        params.video.extract_audio = this.extractAudio;
+    }
+
+    if (this.audioFormat) {
+
+        if (!params.audio) {
+            params.audio = {};
+        }
+
+        params.audio.format = this.audioFormat;
+    }
+
+    if (this.imageFormat) {
+
+        if (!params.image) {
+            params.image = {};
+        }
+
+        params.image.format = this.imageFormat;
+    }
+
+    return {
+        encoding_options: JSON.stringify({file_output: params})
+    }
 };
 
 /**

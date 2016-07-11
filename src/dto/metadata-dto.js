@@ -12,6 +12,10 @@ function MetadataDTO() {
      * @type {string|null}
      */
     this.parentFolderId = null;
+
+    //TODO: fileName
+
+    //TODO: mimeType
 }
 
 /**

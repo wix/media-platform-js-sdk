@@ -54,12 +54,18 @@ VideoDTO.prototype.deserialize = function (data) {
     this.iconUrl = data.icon_url;
     this.inputFile = new VideoFile(data.file_input);
 
-    var images = data.file_output.image.map(function toImage(item) {
-        return new ImageFile(item);
-    });
-    var videos = data.file_output.video.map(function toVideo(item) {
-        return new VideoFile(item);
-    });
+    var images = [];
+    if (data.file_output) {
+        images = data.file_output.image.map(function toImage(item) {
+            return new ImageFile(item);
+        });
+    }
+    var videos = [];
+    if (data.file_output) {
+        videos = data.file_output.video.map(function toVideo(item) {
+            return new VideoFile(item);
+        });
+    }
 
     this.outputFiles = {
         images: images,

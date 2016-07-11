@@ -1,3 +1,4 @@
+var fs = require('fs');
 var MediaPlatform = require('../../../src/index').MediaPlatform;
 var EncodingOptions = require('../../../src/index').video.EncodingOptions;
 var MetadataDTO = require('../../../src/index').file.MetadataDTO;
@@ -14,6 +15,38 @@ module.exports = function(app) {
 
         var metadata = new MetadataDTO().addTags('cat', 'fish');
         fileUploader.uploadImage(__dirname + '/../files/image.jpg', metadata, function (error, response) {
+
+            if (error) {
+                res.status(500).send(error.message);
+                return;
+            }
+
+            res.send(response);
+        });
+
+    });
+
+    app.get('/upload/image/buffer', function(req, res) {
+
+        var metadata = new MetadataDTO().addTags('cat', 'fish');
+        var buf = fs.readFileSync(__dirname + '/../files/image.jpg');
+        fileUploader.uploadImage(buf, metadata, function (error, response) {
+
+            if (error) {
+                res.status(500).send(error.message);
+                return;
+            }
+
+            res.send(response);
+        });
+
+    });
+
+    app.get('/upload/image/stream', function(req, res) {
+
+        var metadata = new MetadataDTO().addTags('cat', 'fish');
+        var stream = fs.createReadStream(__dirname + '/../files/image.jpg');
+        fileUploader.uploadImage(stream, metadata, function (error, response) {
 
             if (error) {
                 res.status(500).send(error.message);
@@ -42,10 +75,28 @@ module.exports = function(app) {
     app.get('/upload/video', function(req, res) {
 
         var encodingOptions = new EncodingOptions()
-            .videoFormats(['mp4', 'webm', 'ogv'])
-            .audioFormat('m4a');
+            .setVideoFormats(['mp4']);
 
         fileUploader.uploadVideo(__dirname + '/../files/video.mp4', encodingOptions, null, function (error, response) {
+
+            if (error) {
+                console.error(error);
+                res.status(500).send(error.message);
+                return;
+            }
+
+            res.send(response);
+        });
+    });
+
+    app.get('/upload/video/buffer', function(req, res) {
+
+        var encodingOptions = new EncodingOptions()
+            .setVideoFormats(['mp4', 'webm', 'ogv'])
+            .setAudioFormat('m4a');
+
+        var buf = fs.readFileSync(__dirname + '/../files/image.jpg');
+        fileUploader.uploadVideo(buf, encodingOptions, null, function (error, response) {
 
             if (error) {
                 console.error(error);

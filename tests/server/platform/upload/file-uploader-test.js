@@ -178,11 +178,11 @@ describe('file uploader', function() {
             fileServer.replyWithFile(200, reply + 'video-upload-reply.json');
 
             var options = new EncodingOptions()
-                .videoFormats(['mp4', 'webm', 'ogv'])
-                .audioFormat('m4a')
-                .extractAudio(true)
-                .skipAudio(true)
-                .imageFormat('png');
+                .setVideoFormats(['mp4', 'webm', 'ogv'])
+                .setAudioFormat('m4a')
+                .setExtractAudio(true)
+                .setSkipAudio(true)
+                .setImageFormat('png');
             fileUploader.uploadVideo('userId', source + 'video.mp4', options, null, function (error, data) {
                 //TODO: assert props
                 done(error);
