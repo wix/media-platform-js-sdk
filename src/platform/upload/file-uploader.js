@@ -1,8 +1,6 @@
 var fs = require('fs');
-var Stream = require('stream');
 var _ = require('underscore');
 var request = require('request');
-// require('request-debug')(request);
 var MediaType = require('../../dto/media-type');
 var ImageDTO = require('../../dto/image/image-dto');
 var AudioDTO = require('../../dto/audio/audio-dto');
@@ -47,17 +45,11 @@ FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
- * @param {MetadataDTO?} metadata
+ * @param {UploadRequest?} uploadRequest
  * @param {function(Error, ImageDTO)} callback
  */
-FileUploader.prototype.uploadImage = function (userId, source, metadata, callback) {
-
-    var params = {};
-    if (metadata) {
-        params = metadata.toFormParams();
-    }
-
-    this.uploadFile(userId, MediaType.IMAGE, source, params, function (error, body) {
+FileUploader.prototype.uploadImage = function (userId, source, uploadRequest, callback) {
+    this.uploadFile(userId, MediaType.IMAGE, source, uploadRequest, {}, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -71,17 +63,12 @@ FileUploader.prototype.uploadImage = function (userId, source, metadata, callbac
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
- * @param {MetadataDTO?} metadata
+ * @param {UploadRequest?} uploadRequest
  * @param {function(Error, AudioDTO)} callback
  */
-FileUploader.prototype.uploadAudio = function (userId, source, metadata, callback) {
+FileUploader.prototype.uploadAudio = function (userId, source, uploadRequest, callback) {
 
-    var params = {};
-    if (metadata) {
-        params = metadata.toFormParams();
-    }
-
-    this.uploadFile(userId, MediaType.AUDIO, source, params, function (error, body) {
+    this.uploadFile(userId, MediaType.AUDIO, source, uploadRequest, {}, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -96,21 +83,17 @@ FileUploader.prototype.uploadAudio = function (userId, source, metadata, callbac
  * @param {string} userId
  * @param {string|Buffer|Stream} source
  * @param {EncodingOptions?} encodingOptions
- * @param {MetadataDTO?} metadata
+ * @param {UploadRequest?} uploadRequest
  * @param {function(Error, VideoDTO)} callback
  */
-FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, metadata, callback) {
+FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, uploadRequest, callback) {
 
-    var params = {};
+    var additionalParams = {};
     if (encodingOptions) {
-        _.extendOwn(params, encodingOptions.toFormParams());
+        _.extendOwn(additionalParams, encodingOptions.toFormParams());
     }
 
-    if (metadata) {
-        _.extendOwn(params, metadata.toFormParams());
-    }
-
-    this.uploadFile(userId, MediaType.VIDEO, source, params, function (error, body) {
+    this.uploadFile(userId, MediaType.VIDEO, source, uploadRequest, additionalParams, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -124,17 +107,12 @@ FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, 
 /**
  * @param {string} userId
  * @param {string|Buffer|Stream} source
- * @param {MetadataDTO?} metadata
+ * @param {UploadRequest?} uploadRequest
  * @param {function(Error, DocumentDTO)} callback
  */
-FileUploader.prototype.uploadDocument = function (userId, source, metadata, callback) {
+FileUploader.prototype.uploadDocument = function (userId, source, uploadRequest, callback) {
 
-    var params = {};
-    if (metadata) {
-        params = metadata.toFormParams();
-    }
-
-    this.uploadFile(userId, MediaType.DOCUMENT, source, params, function (error, body) {
+    this.uploadFile(userId, MediaType.DOCUMENT, source, uploadRequest, {}, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -149,26 +127,30 @@ FileUploader.prototype.uploadDocument = function (userId, source, metadata, call
  * @param {string} userId
  * @param {string} mediaType
  * @param {string|Buffer|Stream} source
- * @param {{}} params
+ * @param {UploadRequest} uploadRequest
+ * @param {{}} additionalParams
  * @param {function(Error, *)} callback
  * @protected
  */
-FileUploader.prototype.uploadFile = function (userId, mediaType, source, params, callback) {
+FileUploader.prototype.uploadFile = function (userId, mediaType, source, uploadRequest, additionalParams, callback) {
 
     var calledBack = false;
     var stream = null;
     if (typeof source.pipe === 'function') {
         stream = source;
+        stream.on('error', doCallback);
     } else if (typeof source === 'string') {
         stream = fs.createReadStream(source);
+        stream.on('error', doCallback);
     } else if (source instanceof Buffer) {
-        stream = new Stream.PassThrough();
-        stream.end(source);
+        // TODO: solve missing boundary issue (content length?)
+        // stream = new Stream.PassThrough();
+        // stream.end(source);
+        stream = source;
     } else {
         callback(new Error('unsupported source type: ' + typeof source), null);
         return;
     }
-    stream.on('error', doCallback);
 
     this.getUploadUrl(userId, mediaType, function (error, response) {
 
@@ -179,12 +161,24 @@ FileUploader.prototype.uploadFile = function (userId, mediaType, source, params,
 
         var form = {
             media_type: mediaType,
-            upload_token: response.uploadToken,
-            file: stream
+            upload_token: response.uploadToken
         };
+        _.extendOwn(form, additionalParams);
 
-        _.extendOwn(form, params);
-        
+        var fileOptions = {};
+        if (uploadRequest) {
+            _.extendOwn(form, uploadRequest.toFormParams());
+            fileOptions = uploadRequest.toFileOptions();
+        }
+        if (!_.isEmpty(fileOptions)) {
+            form.file = {
+                value: stream,
+                options: fileOptions
+            }
+        } else {
+            form.file = stream
+        }
+
         this.authenticatedHttpClient.anonymousFormDataRequest(response.uploadUrl, form, doCallback);
     }.bind(this));
 

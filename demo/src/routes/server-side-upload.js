@@ -1,7 +1,7 @@
 var fs = require('fs');
 var MediaPlatform = require('../../../src/index').MediaPlatform;
 var EncodingOptions = require('../../../src/index').video.EncodingOptions;
-var MetadataDTO = require('../../../src/index').file.MetadataDTO;
+var UploadRequest = require('../../../src/index').file.UploadRequest;
 
 var fileUploader = new MediaPlatform({
     domain: 'app.wixmp.com',
@@ -13,8 +13,8 @@ module.exports = function(app) {
 
     app.get('/upload/image', function(req, res) {
 
-        var metadata = new MetadataDTO().addTags('cat', 'fish');
-        fileUploader.uploadImage(__dirname + '/../files/image.jpg', metadata, function (error, response) {
+        var uploadRequest = new UploadRequest().addTags('cat', 'fish');
+        fileUploader.uploadImage(__dirname + '/../files/image.jpg', uploadRequest, function (error, response) {
 
             if (error) {
                 res.status(500).send(error.message);
@@ -28,9 +28,11 @@ module.exports = function(app) {
 
     app.get('/upload/image/buffer', function(req, res) {
 
-        var metadata = new MetadataDTO().addTags('cat', 'fish');
+        var uploadRequest = new UploadRequest()
+            .setFileName('buf-image.jpg')
+            .addTags('cat', 'fish');
         var buf = fs.readFileSync(__dirname + '/../files/image.jpg');
-        fileUploader.uploadImage(buf, metadata, function (error, response) {
+        fileUploader.uploadImage(buf, uploadRequest, function (error, response) {
 
             if (error) {
                 res.status(500).send(error.message);
@@ -44,9 +46,12 @@ module.exports = function(app) {
 
     app.get('/upload/image/stream', function(req, res) {
 
-        var metadata = new MetadataDTO().addTags('cat', 'fish');
+        var uploadRequest = new UploadRequest()
+            .setFileName('str-image.jpg')
+            .setContentType('image/jpeg')
+            .addTags('cat', 'fish');
         var stream = fs.createReadStream(__dirname + '/../files/image.jpg');
-        fileUploader.uploadImage(stream, metadata, function (error, response) {
+        fileUploader.uploadImage(stream, uploadRequest, function (error, response) {
 
             if (error) {
                 res.status(500).send(error.message);
@@ -92,11 +97,36 @@ module.exports = function(app) {
     app.get('/upload/video/buffer', function(req, res) {
 
         var encodingOptions = new EncodingOptions()
-            .setVideoFormats(['mp4', 'webm', 'ogv'])
-            .setAudioFormat('m4a');
+            .setVideoFormats(['mp4']);
+            // .setAudioFormat('m4a');
+        var uploadRequest = new UploadRequest()
+            .setFileName('buf-video.mp4')
+            .setContentType('video/mp4');
 
-        var buf = fs.readFileSync(__dirname + '/../files/image.jpg');
-        fileUploader.uploadVideo(buf, encodingOptions, null, function (error, response) {
+        var buf = fs.readFileSync(__dirname + '/../files/video.mp4');
+        fileUploader.uploadVideo(buf, encodingOptions, uploadRequest, function (error, response) {
+
+            if (error) {
+                console.error(error);
+                res.status(500).send(error.message);
+                return;
+            }
+
+            res.send(response);
+        });
+    });
+
+    app.get('/upload/video/stream', function(req, res) {
+
+        var encodingOptions = new EncodingOptions()
+            .setVideoFormats(['mp4']);
+        // .setAudioFormat('m4a');
+        var uploadRequest = new UploadRequest()
+            .setFileName('str-video.mp4')
+            .setContentType('video/mp4');
+
+        var str = fs.createReadStream(__dirname + '/../files/video.mp4');
+        fileUploader.uploadVideo(str, encodingOptions, uploadRequest, function (error, response) {
 
             if (error) {
                 console.error(error);

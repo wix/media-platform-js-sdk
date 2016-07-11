@@ -4,7 +4,7 @@ var ImageDTO = require('../src/dto/image/image-dto');
 var ImageRequest = require('../src/image/image-request');
 var Alignments = require('../src/image/operation/align/alignments');
 var EncodingOptions = require('../src/dto/video/encoding-options');
-var MetadataDTO = require('../src/dto/metadata-dto');
+var UploadRequest = require('../src/dto/upload/upload-request');
 var ListFilesRequest = require('../src/dto/management/list-files-request');
 var UpdateFileRequest = require('../src/dto/management/update-file-request');
 var NewFolderRequest = require('../src/dto/management/new-folder-request');
@@ -52,9 +52,9 @@ MP.video = {
 
 MP.file = {
     /**
-     * @type {MetadataDTO}
+     * @type {UploadRequest}
      */
-    MetadataDTO: MetadataDTO,
+    UploadRequest: UploadRequest,
 
     /**
      * @type {ListFilesRequest}

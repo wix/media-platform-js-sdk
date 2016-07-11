@@ -2,7 +2,7 @@ var MediaPlatform = require('./platform/media-platform');
 var ImageRequest = require('./image/image-request');
 var Alignments = require('./image/operation/align/alignments');
 var EncodingOptions = require('./dto/video/encoding-options');
-var MetadataDTO = require('./dto/metadata-dto');
+var UploadRequest = require('./dto/upload/upload-request');
 var MediaType = require('./dto/media-type');
 var ListFilesRequest = require('./dto/management/list-files-request');
 var UpdateFileRequest =  require('./dto/management/update-file-request');
@@ -46,9 +46,9 @@ module.exports = {
 
     file: {
         /**
-         * @type {MetadataDTO}
+         * @type {UploadRequest}
          */
-        MetadataDTO: MetadataDTO,
+        UploadRequest: UploadRequest,
 
         /**
          * @type {ListFilesRequest}

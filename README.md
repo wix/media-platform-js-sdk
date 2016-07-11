@@ -87,10 +87,10 @@ app.get('/media-platform/auth-header', function (req, res, next) {
 ```javascript
 var fileUploader = mediaPlatform.fileUploader;
 var EncodingOptions = require('media-platform-js-sdk').video.EncodingOptions;
-var MetadataDTO = require('media-platform-js-sdk').file.MetadataDTO;
+var UploadRequest = require('media-platform-js-sdk').file.UploadRequest;
  
-var metadata = new MetadataDTO().addTags('cat', 'fish');
-fileUploader.uploadImage(<ReadStream || Buffer || string path to file>, metadata || null, function (error, response) {
+var uploadRequest = new UploadRequest().addTags('cat', 'fish');
+fileUploader.uploadImage(<ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
 
     if (error) {
       console.error('upload failed: ' + error.message);
@@ -100,18 +100,18 @@ fileUploader.uploadImage(<ReadStream || Buffer || string path to file>, metadata
     console.log('upload successful: ' + response);
 });
 
-fileUploader.uploadAudio(<ReadStream || Buffer || string path to file>, metadata || null, function (error, response) {
+fileUploader.uploadAudio(<ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
     ...
 });
 
-fileUploader.uploadDocument(<ReadStream || Buffer || string path to file>, metadata || null, function (error, response) {
+fileUploader.uploadDocument(<ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
     ...
 });
 
 var encodingOptions = new EncodingOptions()
         .videoFormats(['mp4', 'webm', 'ogv'])
         .audioFormat('m4a');
-fileUploader.uploadVideo(<ReadStream || Buffer || string path to file>, encodingOptions || null, metadata || null, function (error, response) {
+fileUploader.uploadVideo(<ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, function (error, response) {
     ...
 });
 ```

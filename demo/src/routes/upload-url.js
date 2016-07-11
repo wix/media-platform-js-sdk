@@ -10,7 +10,7 @@ var fileUploader = mediaPlatform.fileUploader;
 
 module.exports = function(app) {
 
-    app.get('/upload/:mediaType/credentials', function(req, res, next) {
+    app.get('/upload/:mediaType/credentials', function(req, res) {
 
         var mediaType = req.params.mediaType;
         

@@ -27,39 +27,39 @@ AppFileUploader.prototype.getUploadUrl = function (mediaType, callback) {
 
 /**
  * @param {string|Buffer|Stream} source
- * @param {MetadataDTO?} metadata
+ * @param {UploadRequest?} uploadRequest
  * @param {function(Error, ImageDTO)} callback
  */
-AppFileUploader.prototype.uploadImage = function (source, metadata, callback) {
-    this.fileUploader.uploadImage(this.userId, source, metadata, callback);
+AppFileUploader.prototype.uploadImage = function (source, uploadRequest, callback) {
+    this.fileUploader.uploadImage(this.userId, source, uploadRequest, callback);
 };
 
 /**
  * @param {string|Buffer|Stream} source
- * @param {MetadataDTO?} metadata
+ * @param {UploadRequest?} uploadRequest
  * @param {function(Error, AudioDTO)} callback
  */
-AppFileUploader.prototype.uploadAudio = function (source, metadata, callback) {
-    this.fileUploader.uploadAudio(this.userId, source, metadata, callback);
+AppFileUploader.prototype.uploadAudio = function (source, uploadRequest, callback) {
+    this.fileUploader.uploadAudio(this.userId, source, uploadRequest, callback);
 };
 
 /**
  * @param {string|Buffer|Stream} source
  * @param {EncodingOptions?} encodingOptions
- * @param {MetadataDTO?} metadata
+ * @param {UploadRequest?} uploadRequest
  * @param {function(Error, VideoDTO)} callback
  */
-AppFileUploader.prototype.uploadVideo = function (source, encodingOptions, metadata, callback) {
-    this.fileUploader.uploadVideo(this.userId, source, encodingOptions, metadata, callback);
+AppFileUploader.prototype.uploadVideo = function (source, encodingOptions, uploadRequest, callback) {
+    this.fileUploader.uploadVideo(this.userId, source, encodingOptions, uploadRequest, callback);
 };
 
 /**
  * @param {string|Buffer|Stream} source
- * @param {MetadataDTO?} metadata
+ * @param {UploadRequest?} uploadRequest
  * @param {function(Error, DocumentDTO)} callback
  */
-AppFileUploader.prototype.uploadDocument = function (source, metadata, callback) {
-    this.fileUploader.uploadDocument(this.userId, source, metadata, callback);
+AppFileUploader.prototype.uploadDocument = function (source, uploadRequest, callback) {
+    this.fileUploader.uploadDocument(this.userId, source, uploadRequest, callback);
 };
 
 /**

@@ -7,7 +7,7 @@ var ProviderAuthenticationConfiguration = require('../../../../src/platform/auth
 var AuthenticationFacade = require('../../../../src/platform/authentication/authentication-facade');
 var AuthenticatedHTTPClient = require('../../../../src/platform/http/authenticated-http-client');
 var FileUploader = require('../../../../src/platform/upload/file-uploader');
-var MetadataDTO = require('../../../../src/dto/metadata-dto');
+var UploadRequest = require('../../../../src/dto/upload/upload-request');
 var EncodingOptions = require('../../../../src/dto/video/encoding-options');
 
 var source = __dirname + '/../../../source/';
@@ -34,7 +34,7 @@ describe('file uploader', function() {
             fileServer.times(1).reply(200, {});
 
             //noinspection JSAccessibilityCheck
-            fileUploader.uploadFile('userId', 'type', source + 'image.jpg', {}, function (error, data) {
+            fileUploader.uploadFile('userId', 'type', source + 'image.jpg', null, {}, function (error, data) {
                 done(error);
             });
         });
@@ -45,7 +45,7 @@ describe('file uploader', function() {
             uploadCredentialsServer.times(1).reply(200, { upload_url: 'https://fish.cat.com/', upload_token: 'token' });
 
             //noinspection JSAccessibilityCheck
-            fileUploader.uploadFile('userId', 'type', 'fish', {}, function (error, data) {
+            fileUploader.uploadFile('userId', 'type', 'fish', null, {}, function (error, data) {
                 expect(error).to.be.a(Error);
                 done();
             });
@@ -60,7 +60,7 @@ describe('file uploader', function() {
             var stream = fs.createReadStream(source + 'audio.mp3');
 
             //noinspection JSAccessibilityCheck
-            fileUploader.uploadFile('userId', 'type', stream, {}, function (error, data) {
+            fileUploader.uploadFile('userId', 'type', stream, null, {}, function (error, data) {
                 done(error);
             });
         });
@@ -74,7 +74,7 @@ describe('file uploader', function() {
             var buffer = fs.readFileSync(source + 'document.xlsx');
 
             //noinspection JSAccessibilityCheck
-            fileUploader.uploadFile('userId', 'type', buffer, {}, function (error, data) {
+            fileUploader.uploadFile('userId', 'type', buffer, null, {}, function (error, data) {
                 done(error);
             });
         });
@@ -85,7 +85,7 @@ describe('file uploader', function() {
             uploadCredentialsServer.times(1).reply(200, { upload_url: 'https://fish.cat.com/', upload_token: 'token' });
 
             //noinspection JSAccessibilityCheck
-            fileUploader.uploadFile('userId', 'type', 1000, {}, function (error, data) {
+            fileUploader.uploadFile('userId', 'type', 1000, null, {}, function (error, data) {
                 expect(error).to.be.a(Error);
                 done();
             });
@@ -96,7 +96,7 @@ describe('file uploader', function() {
             authServer.times(1).reply(403, {});
 
             //noinspection JSAccessibilityCheck
-            fileUploader.uploadFile('fish', 'type', source + 'image.jpg', {}, function (error, data) {
+            fileUploader.uploadFile('fish', 'type', source + 'image.jpg', null, {}, function (error, data) {
                 expect(error).to.be.a(Error);
                 done();
             });
@@ -108,7 +108,7 @@ describe('file uploader', function() {
             uploadCredentialsServer.times(1).reply(403, {});
 
             //noinspection JSAccessibilityCheck
-            fileUploader.uploadFile('userId', 'type', source + 'image.jpg', {}, function (error, data) {
+            fileUploader.uploadFile('userId', 'type', source + 'image.jpg', null, {}, function (error, data) {
                 expect(error).to.be.a(Error);
                 done();
             });
@@ -122,7 +122,7 @@ describe('file uploader', function() {
             fileServer.times(1).reply(500, {});
 
             //noinspection JSAccessibilityCheck
-            fileUploader.uploadFile('userId', 'type', source + 'image.jpg', {}, function (error, data) {
+            fileUploader.uploadFile('userId', 'type', source + 'image.jpg', null, {}, function (error, data) {
                 expect(error).to.be.a(Error);
                 done();
             });
@@ -151,7 +151,7 @@ describe('file uploader', function() {
 
             fileServer.replyWithFile(200, reply + 'audio-upload-reply.json');
             
-            var metadata = new MetadataDTO().addTags('cat','fish');
+            var metadata = new UploadRequest().addTags('cat','fish');
             fileUploader.uploadAudio('userId', source + 'audio.mp3', metadata, function (error, data) {
                 //TODO: assert props
                 done(error);
