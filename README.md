@@ -146,23 +146,42 @@ From the browser GET the URL and POST the form to it, including the token in the
 <form id="upload-form" enctype="multipart/form-data" action="" method="post" target="upload-result">
     <input id="file" name="file" type="file" accept="image/*">
     <input id="media-type" name="media_type" type="text" value="picture" hidden>
-    <input id="upload-token" name="upload_token" type="text" hidden>
 </form>
 <button id="upload-button">Upload</button>
 
 <script>
     var button = document.getElementById('upload-button');
+    var form = document.getElementById('upload-form');
+    
     button.addEventListener('click', function () {
-        fetch('http://localhost:3000/upload/picture/credentials').then(function (response) {
-            response.json().then(function (uploadCredentials) {
-                var form = document.getElementById('upload-form');
-                form.getElementsByTagName('upload_token').value = uploadCredentials.uploadToken;
-                form.setAttribute('action', uploadCredentials.uploadUrl);
-                form.submit();
+
+        mediaPlatform.fileUploader.getUploadUrl(MP.MediaType.IMAGE, function(error, response) {
+            
+            if (error) {
+                alert('Oops! Something went wrong.');
+                return;
+            }
+            
+            var formData = new FormData(form);
+            formData.append('upload_token', response.uploadToken);
+
+            var request = new XMLHttpRequest();
+            request.responseType = 'json';
+            request.addEventListener('load', function (event) {
+                var imageDto = new ImageDTO(event.target.response[0]);
+                var imageRequest = new ImageRequest().fromDTO('media.wixapps.net/', imageDto);
+                var imageUrl = imageRequest.crop(800, 200, 1, 1).toUrl();
+                var img = document.createElement('img');
+                img.setAttribute('src', imageUrl.url);
+            });
+            request.addEventListener('error', function (event) {
+                alert('Oops! Something went wrong.');
+            });
+
+            request.open('POST', response.uploadUrl);
+            request.send(formData);
         })
-    })
-})
-</script>
+})</script>
 ```
 
 ## Image Consumption
