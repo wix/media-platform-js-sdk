@@ -38,7 +38,7 @@ html()
         #upload-result-container
 
         script.
-           imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
+           imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
 
            var elem = document.createElement('img');
            elem.src = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;

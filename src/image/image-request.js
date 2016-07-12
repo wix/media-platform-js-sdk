@@ -25,7 +25,7 @@ function ImageRequest(baseUrl, imageId, imageName) {
     /**
      * @type {string}
      */
-    this.imageName = imageName;
+    this.imageName = imageName || 'file.jpg';
 
     /**
      * @type {string}
