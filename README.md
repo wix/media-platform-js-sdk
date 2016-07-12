@@ -201,10 +201,6 @@ var fileManager = mediaPlatform.fileManager;
 
 Retrieve a list of uploaded files
 
-Supports pagination
-
-and *all (use with caution)* requests 
-
 ```javascript
 var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
 
@@ -277,7 +273,8 @@ var updateFolderRequest = new UpdateFolderRequest()
 fileManager.updateFolder('folderId', updateFolderRequest, callback);
 ```
 
-Delete a folder 
+Delete a folder
+
 *this will not delete the folder content*
 
 ```javascript
