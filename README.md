@@ -186,7 +186,7 @@ From the browser GET the URL and POST the form to it, including the token in the
 ```javascript
 var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
 
-var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8', 'wow.jpeg');
+var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
 
 var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
 ```
