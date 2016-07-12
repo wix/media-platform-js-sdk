@@ -89,7 +89,10 @@ var fileUploader = mediaPlatform.fileUploader;
 var EncodingOptions = require('media-platform-js-sdk').video.EncodingOptions;
 var UploadRequest = require('media-platform-js-sdk').file.UploadRequest;
  
-var uploadRequest = new UploadRequest().addTags('cat', 'fish');
+var uploadRequest = new UploadRequest()
+    .setFileName('str-image.jpg') // if the source is a stream or buffer, providing the file name is mandatory
+    .setContentType('image/jpeg')
+    .addTags('cat', 'fish');
 fileUploader.uploadImage(<ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
 
     if (error) {
@@ -100,20 +103,14 @@ fileUploader.uploadImage(<ReadStream || Buffer || string path to file>, uploadRe
     console.log('upload successful: ' + response);
 });
 
-fileUploader.uploadAudio(<ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
-    ...
-});
+fileUploader.uploadAudio(<ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
 
-fileUploader.uploadDocument(<ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
-    ...
-});
+fileUploader.uploadDocument(<ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
 
 var encodingOptions = new EncodingOptions()
-        .videoFormats(['mp4', 'webm', 'ogv'])
-        .audioFormat('m4a');
-fileUploader.uploadVideo(<ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, function (error, response) {
-    ...
-});
+        .setVideoFormats(['mp4', 'webm', 'ogv'])
+        .setAudioFormat('m4a');
+fileUploader.uploadVideo(<ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, callback);
 ```
 
 ### Browser
@@ -204,13 +201,15 @@ var fileManager = mediaPlatform.fileManager;
 
 Retrieve a list of uploaded files
 
-supports both paginated and *all (use with caution)* requests 
+Supports pagination
+
+and *all (use with caution)* requests 
 
 ```javascript
 var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
 
 var listFilesRequest = new ListFilesRequest()
-    .asecending()
+    .ascending()
     .setCursor('c')
     .setMediaType(MediaType.IMAGE)
     .orderBy('date')
@@ -220,8 +219,7 @@ var listFilesRequest = new ListFilesRequest()
 fileManager.listFiles(listFilesRequest, callback)
 ```
 
-Get an uploaded file metadata
-*does not return the actual file*
+Get an uploaded file metadata (*does not return the actual file*)
 
 ```javascript
 fileManager.getFile('fileId', callback)
@@ -240,7 +238,8 @@ fileManager.updateFile('fileId', updateFileRequest, callback);
 ```
 
 Delete file
-*Warning: the file will no longer be reachable*
+
+*Warning: The file will no longer be reachable*
 
 ```javascript
 fileManager.deleteFile('fileId', callback);

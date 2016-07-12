@@ -69,7 +69,7 @@ ListFilesRequest.prototype.orderBy = function (order) {
 /**
  * @returns {ListFilesRequest}
  */
-ListFilesRequest.prototype.asecending = function () {
+ListFilesRequest.prototype.ascending = function () {
     this.orderDirection = null;
     return this;
 };

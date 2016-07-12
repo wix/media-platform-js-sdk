@@ -40,7 +40,7 @@ describe('file manager', function() {
         fileServer.get('/files/getpage').query(true).replyWithFile(200, reply + 'list-files-reply.json');
 
         var listFilesRequest = new ListFilesRequest()
-            .asecending()
+            .ascending()
             .setCursor('c')
             .setMediaType(MediaType.IMAGE)
             .orderBy('date')

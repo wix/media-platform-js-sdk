@@ -31,7 +31,7 @@ describe('app file manager', function() {
 
         it('listFiles', function () {
             var listFilesRequest = new ListFilesRequest()
-                .asecending()
+                .ascending()
                 .setCursor('c')
                 .setMediaType(MediaType.IMAGE)
                 .orderBy('date')
