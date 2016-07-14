@@ -4,7 +4,7 @@ var expect = require('expect.js');
 describe('image url parsing', function () {
 
     it('fit', function () {
-        toImageRequest('http://media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/sat_-90,neg,w_500,h_500/file.jpg');
+        toImageRequest('//test.wix.com/user/bucket/12345/v1/fit/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,lg/fish.jpeg');
     });
 
     it('crop', function () {

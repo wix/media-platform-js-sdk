@@ -1,5 +1,25 @@
 var ImageRequest = require('./image-request');
 
+//maps the URL transformation name to the operation function name. Replace with handler registrar?
+//TODO: add support for JPEG settings
+var handlers = {
+    br: 'brightness',
+    al: 'alignment',
+    c: 'color',
+    con: 'contrast',
+    hue: 'hue',
+    sat: 'saturation',
+    blur: 'blur',
+    neg: 'negative',
+    oil: 'oil',
+    pix: 'pixelate',
+    pixfs: 'pixelateFaces',
+    eye: 'removeRedEye',
+    shrp : 'sharpen',
+    usm: 'unsharpMask',
+    lg: 'enableUpscale'
+};
+
 function toImageRequest(url) {
 
     var explodedUrl = explodeUrl(url);
@@ -7,7 +27,7 @@ function toImageRequest(url) {
 
     var imageRequest = new ImageRequest(toBaseUrl(explodedUrl), explodedUrl.imageId, explodedUrl.fileName);
     var operation = applyOperation(imageRequest, explodedUrl.operation, explodedTransformations);
-    // operation = applyTransformations(operation, explodedTransformations);
+    applyTransformations(operation, explodedTransformations);
 
     var res = operation.toUrl();
     console.log(JSON.stringify(res, null, 2));
@@ -108,9 +128,14 @@ function applyOperation(imageRequest, operation, explodedTransformations) {
 
 function applyTransformations(operation, explodedTransformations) {
 
-
-
-    return operation;
+    for (var key in explodedTransformations) {
+        if (explodedTransformations.hasOwnProperty(key)) {
+            var handler = handlers[key];
+            if (handler) {
+                operation[handler].apply(this, explodedTransformations[key]);
+            }
+        }
+    }
 }
 
 function toBaseUrl(explodedUrl) {
