@@ -52,20 +52,20 @@ describe('cropping', function () {
         expect(cropping.serialize()).to.eql({ params: 'x_100,y_100', error: null });
     });
 
-    it('reject x values smaller than 1', function () {
+    it('reject x values smaller than 0', function () {
         var cropping = new Cropping({});
-        cropping.coordinates(0.4, 100);
+        cropping.coordinates(-0.6, 100);
 
         expect(cropping.serialize()).to.eql({ params: '',
-            error: 'crop x: 0 is not a number greater than 1' });
+            error: 'crop x: -1 is not a number greater than 0' });
     });
 
-    it('reject y values smaller than 1', function () {
+    it('reject y values smaller than 0', function () {
         var cropping = new Cropping({});
         cropping.coordinates(100, -1);
 
         expect(cropping.serialize()).to.eql({ params: '',
-            error: 'crop y: -1 is not a number greater than 1' });
+            error: 'crop y: -1 is not a number greater than 0' });
     });
 
     it('resets for undefined', function () {

@@ -53,13 +53,13 @@ Cropping.prototype.coordinates = function (x, y, scaleFactor) {
     }
 
     x = Math.round(x);
-    this.error = validator.numberIsNotGreaterThan('crop x', x, 1);
+    this.error = validator.numberIsNotGreaterThan('crop x', x, 0);
     if (this.error) {
         return this.operation;
     }
 
     y = Math.round(y);
-    this.error = validator.numberIsNotGreaterThan('crop y', y, 1);
+    this.error = validator.numberIsNotGreaterThan('crop y', y, 0);
     if (this.error) {
         return this.operation;
     }
