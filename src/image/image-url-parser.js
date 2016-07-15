@@ -5,7 +5,7 @@ var ImageRequest = require('./image-request');
 var handlers = {
     br: 'brightness',
     al: 'alignment',
-    c: 'color',
+    c: 'background',
     con: 'contrast',
     hue: 'hue',
     sat: 'saturation',
@@ -20,6 +20,10 @@ var handlers = {
     lg: 'enableUpscale'
 };
 
+/**
+ * @param url
+ * @returns {BaseOperation}
+ */
 function toImageRequest(url) {
 
     var explodedUrl = explodeUrl(url);
@@ -29,12 +33,13 @@ function toImageRequest(url) {
     var operation = applyOperation(imageRequest, explodedUrl.operation, explodedTransformations);
     applyTransformations(operation, explodedTransformations);
 
-    var res = operation.toUrl();
-    console.log(JSON.stringify(res, null, 2));
+    return operation;
 }
 
 /**
- * @param {string} url
+ * @param url
+ * @returns {{scheme: *, host: *, port: *, bucket: *, folder: *, imageId: *, version: *, operation: *, transformations: *, fileName: *, query: *, fragment: *}}
+ * @private
  */
 function explodeUrl(url) {
 
@@ -101,6 +106,11 @@ function explodeUrl(url) {
     }
 }
 
+/**
+ * @param transformations
+ * @returns {{h: number, w: number, x: number|null, y: number|null, scl: number|null}}
+ * @private
+ */
 function explodeTransformations(transformations) {
     var parts = transformations.split(',');
     var exploded  = {};
@@ -112,6 +122,13 @@ function explodeTransformations(transformations) {
     return exploded;
 }
 
+/**
+ * @param imageRequest
+ * @param operation
+ * @param {{h: number, w: number, x: number|null, y: number|null, scl: number|null}} explodedTransformations
+ * @returns {*}
+ * @private
+ */
 function applyOperation(imageRequest, operation, explodedTransformations) {
 
     //mandatory params for all operations
@@ -126,6 +143,11 @@ function applyOperation(imageRequest, operation, explodedTransformations) {
     return imageRequest[operation](h[0], w[0], x ? x[0] : undefined, y ? y[0] : undefined, scl ? scl[0] : undefined);
 }
 
+/**
+ * @param {BaseOperation} operation
+ * @param {{h: number, w: number, x: number|null, y: number|null, scl: number|null}} explodedTransformations
+ * @private
+ */
 function applyTransformations(operation, explodedTransformations) {
 
     for (var key in explodedTransformations) {
@@ -138,9 +160,14 @@ function applyTransformations(operation, explodedTransformations) {
     }
 }
 
+/**
+ * @param {{scheme: *, host: *, port: *, bucket: *, folder: *, imageId: *, version: *, operation: *, transformations: *, fileName: *, query: *, fragment: *}} explodedUrl
+ * @returns {string}
+ * @private
+ */
 function toBaseUrl(explodedUrl) {
     return (explodedUrl.scheme ? explodedUrl.scheme + '://' : '//') +
-        explodedUrl.host + (explodedUrl.port ? ':' + explodedUrl.port : '') +
+        explodedUrl.host + (explodedUrl.port ? ':' + explodedUrl.port : '') + '/' +
         explodedUrl.bucket + '/' +
         explodedUrl.folder + '/'
 }
