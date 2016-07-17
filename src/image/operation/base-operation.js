@@ -174,6 +174,13 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
 }
 
 /**
+ * @returns {OriginalFileData|null}
+ */
+BaseOperation.prototype.getOriginalFileData = function () {
+    return this.originalFileData;
+};
+
+/**
  * @returns {{url: string|null, error: Error|null}}
  */
 BaseOperation.prototype.toUrl = function () {

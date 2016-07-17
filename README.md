@@ -186,9 +186,19 @@ From the browser GET the URL and POST the form to it, including the token in the
 ```javascript
 var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
 
+/**
+* A new request from the base url and and the file id
+*/
 var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
 
 var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
+
+/**
+* A pre-configured operation from a previously generated url
+*/
+var imageOperation = new MP.image.fromUrl('//media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/w_300,h_200/image.jpg#w_600,h_400,mt_image%252Fjpeg');
+
+var url = imageOperation.negative().saturation(-90).toUrl().url;
 ```
 
 ## File Management

@@ -44,8 +44,8 @@ html()
            elem.src = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
            document.getElementById('image').appendChild(elem);
 
-           var imageOperation = MP.image.fromUrl('http://media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/sat_-90,neg,w_500,h_500/file.jpg');
-           imageOperation.negative(false);
+           var imageOperation = MP.image.fromUrl(elem.src);
+           imageOperation.negative(false).size(400, 400);
 
            elem = document.createElement('img');
            elem.src = imageOperation.toUrl().url;
