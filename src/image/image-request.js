@@ -8,9 +8,10 @@ var Fit = require('./operation/fit');
  * @param {string?} baseUrl the base URL where the image is hosted
  * @param {string?} imageId the id of the image to manipulate
  * @param {string?} imageName the name of the image to manipulate
+ * @param {OriginalFileData?} originalFileData
  * @constructor ImageRequest
  */
-function ImageRequest(baseUrl, imageId, imageName) {
+function ImageRequest(baseUrl, imageId, imageName, originalFileData) {
 
     /**
      * @type {string}
@@ -28,6 +29,11 @@ function ImageRequest(baseUrl, imageId, imageName) {
     this.imageName = imageName || 'file.jpg';
 
     /**
+     * @type {OriginalFileData}
+     */
+    this.originalFileData = originalFileData || null;
+
+    /**
      * @type {string}
      */
     this.version = 'v1';
@@ -41,7 +47,7 @@ function ImageRequest(baseUrl, imageId, imageName) {
  * @method
  */
 ImageRequest.prototype.canvas = function (width, height) {
-    return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
+    return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.originalFileData);
 };
 /**
  * @summary Configures this image using the 'fill' operation.
@@ -51,7 +57,7 @@ ImageRequest.prototype.canvas = function (width, height) {
  * @method
  */
 ImageRequest.prototype.fill = function (width, height) {
-    return new Fill(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
+    return new Fill(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.originalFileData);
 };
 /**
  * @summary Configures this image using the 'fit' operation.
@@ -61,7 +67,7 @@ ImageRequest.prototype.fill = function (width, height) {
  * @method
  */
 ImageRequest.prototype.fit = function (width, height) {
-    return new Fit(this.baseUrl, this.imageId, this.imageName, this.version, width, height);
+    return new Fit(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.originalFileData);
 };
 /**
  * @summary Configures this image using the 'crop' operation.
@@ -74,37 +80,10 @@ ImageRequest.prototype.fit = function (width, height) {
  * @method
  */
 ImageRequest.prototype.crop = function (width, height, x, y, upscaleFactor) {
-    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height, x, y, upscaleFactor);
+    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height, x, y, upscaleFactor, this.originalFileData);
 };
 
-/**
- * @param {string} host
- * @param {ImageDTO} imageDto
- * @returns ImageRequest
- */
-fromDTO = function (host, imageDto) {
-    var parts = imageDto.fileUrl.split('/');
-    var bucket = parts[0] + '/' + parts[1];
-    this.baseUrl = host + bucket;
-    this.imageId = imageDto.fileName;
-    this.imageName = imageDto.originalFileName;
-    
-    return this;
-};
-
-/**
- * @param {string} url
- * @returns ImageRequest
- */
-fromUrl = function (url) {
-    var parts = imageDto.fileUrl.split('/');
-    var bucket = parts[0] + '/' + parts[1];
-    this.baseUrl = host + bucket;
-    this.imageId = imageDto.fileName;
-    this.imageName = imageDto.originalFileName;
-
-    return this;
-};
+//TODO: support operation switching
 
 /**
  * @type {ImageRequest}

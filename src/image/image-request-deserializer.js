@@ -1,5 +1,6 @@
 var ImageRequest = require('./image-request');
 var urlParser = require('./image-url-parser');
+var OriginalFileData = require('./operation/technical/original-file-data');
 
 /**
  * @param {string} host
@@ -12,8 +13,9 @@ function fromDto (host, imageDto) {
     var baseUrl = host + bucket;
     var imageId = imageDto.fileName;
     var imageName = imageDto.originalFileName;
+    var fileData = new OriginalFileData(imageDto.width, imageDto.height, imageDto.mimeType);
 
-    return new ImageRequest(baseUrl, imageId, imageName);
+    return new ImageRequest(baseUrl, imageId, imageName, fileData);
 }
 
 /**

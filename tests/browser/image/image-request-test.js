@@ -1,4 +1,5 @@
 var ImageRequest = require('../../../src/image/image-request');
+var OriginalFileData = require('../../../src/image/operation/technical/original-file-data');
 var expect = require('expect.js');
 
 describe('image url construction', function () {
@@ -49,6 +50,29 @@ describe('image url construction', function () {
                 .toUrl();
 
             expect(result.url).to.be('/12345/v1/canvas/w_100,h_100/fish.jpeg');
+        });
+    });
+
+    describe('supports user input', function () {
+
+        it('encodes file name', function () {
+            var result = new ImageRequest('test.wix.com', '12345', 'fish/דג.jpeg').canvas(100, 100)
+                .toUrl();
+
+            expect(result).to.eql({ url: '//test.wix.com/12345/v1/canvas/w_100,h_100/fish%2F%D7%93%D7%92.jpeg',
+                error: null });
+        });
+    });
+
+    describe('attaches original file data', function () {
+
+        it('adds original file data fragment to URL', function () {
+            var fileData = new OriginalFileData(2048, 4096, 'image/jpeg');
+            var result = new ImageRequest('test.wix.com', '12345', 'fish.jpeg', fileData).canvas(100, 100)
+                .toUrl();
+
+            expect(result).to.eql({ url: '//test.wix.com/12345/v1/canvas/w_100,h_100/fish.jpeg#w_2048,h_4096,mt_image%2Fjpeg',
+                error: null });
         });
     });
 

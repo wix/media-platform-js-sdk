@@ -21,9 +21,10 @@ var Saturation = require('./chromaticity/saturation');
  * @param {string} version
  * @param {number} width
  * @param {number} height
+ * @param {OriginalFileData?} originalFileData
  * @constructor
  */
-function BaseOperation(name, baseUrl, imageId, imageName, version, width, height) {
+function BaseOperation(name, baseUrl, imageId, imageName, version, width, height, originalFileData) {
 
     /**
      * @type {string}
@@ -49,6 +50,11 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
      * @type {string}
      */
     this.version = version;
+
+    /**
+     * @type {OriginalFileData}
+     */
+    this.originalFileData = originalFileData;
 
     /**
      * @type {Size}
@@ -198,7 +204,7 @@ BaseOperation.prototype.toUrl = function () {
     }
 
     return {
-        url: out + result.params + "/" + this.imageName,
+        url: out + result.params + "/" + encodeURIComponent(this.imageName) + (this.originalFileData ? '#' + this.originalFileData.serialize() : ''),
         error: null
     }
 };

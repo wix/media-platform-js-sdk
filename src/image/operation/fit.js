@@ -8,8 +8,8 @@ var ResizeSettings = require('./resize/resize-settings');
  * @constructor Fit
  * @extends BaseOperation
  */
-function Fit(baseUrl, imageId, imageName, version, width, height) {
-    BaseOperation.call(this, 'fit', baseUrl, imageId, imageName, version, width, height);
+function Fit(baseUrl, imageId, imageName, version, width, height, originalFileData) {
+    BaseOperation.call(this, 'fit', baseUrl, imageId, imageName, version, width, height, originalFileData);
 
     /**
      * @type {ResizeSettings}

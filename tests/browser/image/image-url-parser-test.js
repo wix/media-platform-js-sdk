@@ -70,6 +70,36 @@ describe('image url parsing', function () {
         });
     });
 
+    describe('extract original file data', function () {
+
+        it('handles mimeType that were not encoded', function () {
+            var operation = toImageRequest('http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#w_100,h_200,mt_video/mp4');
+
+            expect(operation.toUrl()).to.eql({
+                url: 'http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#w_100,h_200,mt_video%2Fmp4',
+                error: null
+            });
+        });
+
+        it('decodes mimeType', function () {
+            var operation = toImageRequest('http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#w_100,h_200,mt_video%2Fmp4');
+
+            expect(operation.toUrl()).to.eql({
+                url: 'http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#w_100,h_200,mt_video%2Fmp4',
+                error: null
+            });
+        });
+
+        it('ignores empty fragment', function () {
+            var operation = toImageRequest('http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#');
+
+            expect(operation.toUrl()).to.eql({
+                url: 'http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg',
+                error: null
+            });
+        });
+    });
+
     describe('correctly handles ports', function () {
         it('http', function () {
             var operation = toImageRequest('http://test.wix.com:8080/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg');

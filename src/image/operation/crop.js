@@ -8,8 +8,8 @@ var Cropping = require('./crop/cropping');
  * @constructor Crop
  * @extends BaseOperation
  */
-function Crop(baseUrl, imageId, imageName, version, width, height, x, y, upscaleFactor) {
-    BaseOperation.call(this, 'crop', baseUrl, imageId, imageName, version, width, height);
+function Crop(baseUrl, imageId, imageName, version, width, height, x, y, upscaleFactor, originalFileData) {
+    BaseOperation.call(this, 'crop', baseUrl, imageId, imageName, version, width, height, originalFileData);
 
     /**
      * @type {Cropping}

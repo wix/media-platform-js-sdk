@@ -10,8 +10,8 @@ var ResizeSettings = require('./resize/resize-settings');
  * @constructor Fill
  * @extends BaseOperation
  */
-function Fill(baseUrl, imageId, imageName, version, width, height) {
-    BaseOperation.call(this, 'fill', baseUrl, imageId, imageName, version, width, height);
+function Fill(baseUrl, imageId, imageName, version, width, height, originalFileData) {
+    BaseOperation.call(this, 'fill', baseUrl, imageId, imageName, version, width, height, originalFileData);
 
     /**
      * @type {Align}
