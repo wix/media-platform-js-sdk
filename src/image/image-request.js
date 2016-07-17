@@ -82,13 +82,27 @@ ImageRequest.prototype.crop = function (width, height, x, y, upscaleFactor) {
  * @param {ImageDTO} imageDto
  * @returns ImageRequest
  */
-ImageRequest.prototype.fromDTO = function (host, imageDto) {
+fromDTO = function (host, imageDto) {
     var parts = imageDto.fileUrl.split('/');
     var bucket = parts[0] + '/' + parts[1];
     this.baseUrl = host + bucket;
     this.imageId = imageDto.fileName;
     this.imageName = imageDto.originalFileName;
     
+    return this;
+};
+
+/**
+ * @param {string} url
+ * @returns ImageRequest
+ */
+fromUrl = function (url) {
+    var parts = imageDto.fileUrl.split('/');
+    var bucket = parts[0] + '/' + parts[1];
+    this.baseUrl = host + bucket;
+    this.imageId = imageDto.fileName;
+    this.imageName = imageDto.originalFileName;
+
     return this;
 };
 

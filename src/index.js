@@ -1,5 +1,6 @@
 var MediaPlatform = require('./platform/media-platform');
 var ImageRequest = require('./image/image-request');
+var imageRequestDeserializers = require('./image/image-request-deserializer');
 var Alignments = require('./image/operation/align/alignments');
 var EncodingOptions = require('./dto/video/encoding-options');
 var UploadRequest = require('./dto/upload/upload-request');
@@ -30,6 +31,16 @@ module.exports = {
          * @type {ImageRequest}
          */
         ImageRequest: ImageRequest,
+
+        /**
+         * @type {fromDto}
+         */
+        fromDto: imageRequestDeserializers.fromDto,
+
+        /**
+         * @type {fromUrl}
+         */
+        fromUrl: imageRequestDeserializers.fromUrl,
 
         /**
          * @type {Alignments}

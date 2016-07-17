@@ -63,7 +63,7 @@ html()
                         request.addEventListener('load', function (event) {
 
                             var imageDto = new ImageDTO(event.target.response[0]);
-                            var imageRequest = new ImageRequest().fromDTO('media.wixapps.net/', imageDto);
+                            var imageRequest = MP.image.fromDto('media.wixapps.net/', imageDto);
                             var imageUrl = imageRequest.crop(800, 200, 1, 1).negative().toUrl();
 
                             var container = document.getElementById('upload-result-container');

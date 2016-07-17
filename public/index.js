@@ -2,6 +2,7 @@ var MediaPlatform = require('./platform/media-platform');
 var MediaType = require('../src/dto/media-type');
 var ImageDTO = require('../src/dto/image/image-dto');
 var ImageRequest = require('../src/image/image-request');
+var imageRequestDeserializers = require('../src/image/image-request-deserializer');
 var Alignments = require('../src/image/operation/align/alignments');
 var EncodingOptions = require('../src/dto/video/encoding-options');
 var UploadRequest = require('../src/dto/upload/upload-request');
@@ -31,6 +32,16 @@ MP.image = {
      * @type {ImageRequest}
      */
     ImageRequest: ImageRequest,
+
+    /**
+     * @type {fromDto}
+     */
+    fromDto: imageRequestDeserializers.fromDto,
+
+    /**
+     * @type {fromUrl}
+     */
+    fromUrl: imageRequestDeserializers.fromUrl,
 
     /**
      * @type {Alignments}
