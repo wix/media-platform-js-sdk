@@ -493,7 +493,7 @@ Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issu
 
 ## License
 
-This library uses the Apache License, version 2.0.
+This library uses the BSD-3-Clause License.
 
 ## About Wix
 
