@@ -2,7 +2,7 @@ var CollectionDTO = require('../../dto/collection/collection-dto');
 var ItemDTO = require('../../dto/collection/item-dto');
 
 /**
- * @param {ProviderConfiguration} configuration
+ * @param {Configuration} configuration
  * @param {AuthenticatedHTTPClient} authenticatedHttpClient
  * @constructor
  */

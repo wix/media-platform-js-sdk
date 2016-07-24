@@ -1,10 +1,11 @@
 /**
  * @param {string} domain
  * @param {string?} sharedSecret
+ * @param {string} appId
  * @abstract
  * @constructor
  */
-function ProviderConfiguration(domain, sharedSecret) {
+function Configuration(domain, sharedSecret, appId) {
 
     /**
      * @type {string}
@@ -15,9 +16,14 @@ function ProviderConfiguration(domain, sharedSecret) {
      * @type {string}
      */
     this.sharedSecret = sharedSecret;
+
+    /**
+     * @type {string}
+     */
+    this.appId = appId;
 }
 
 /**
- * @type {ProviderConfiguration}
+ * @type {Configuration}
  */
-module.exports = ProviderConfiguration;
+module.exports = Configuration;

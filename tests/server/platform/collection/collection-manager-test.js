@@ -1,8 +1,8 @@
 var nock = require('nock');
 var expect = require('expect.js');
 var CollectionManager = require('../../../../src/platform/collection/collection-manager');
-var ProviderConfiguration = require('../../../../src/platform/configuration/provider-configuration');
-var ProviderAuthenticationConfiguration = require('../../../../src/platform/authentication/configuration/provider-authentication-configuration');
+var Configuration = require('../../../../src/platform/configuration/configuration');
+var AuthenticationConfiguration = require('../../../../src/platform/authentication/configuration/authentication-configuration');
 var AuthenticationFacade = require('../../../../src/platform/authentication/authentication-facade');
 var AuthenticatedHTTPClient = require('../../../../src/platform/http/authenticated-http-client');
 var NewCollectionRequest = require('../../../../src/dto/collection/new-collection-request');
@@ -15,13 +15,13 @@ var reply = __dirname + '/replies/';
 
 describe('collection manager', function() {
 
-    var configuration = new ProviderConfiguration('collection.com', 'secret');
-    var authenticationConfiguration = new ProviderAuthenticationConfiguration(configuration);
+    var configuration = new Configuration('collection.com', 'secret');
+    var authenticationConfiguration = new AuthenticationConfiguration(configuration);
     var authenticationFacade = new AuthenticationFacade(authenticationConfiguration);
     var httpClient = new AuthenticatedHTTPClient(authenticationFacade);
     var collectionManager = new CollectionManager(configuration, httpClient);
 
-    var authServer = nock('https://collection.com/').get('/auth/tenant/token');
+    var authServer = nock('https://collection.com/').get('/apps/auth/token');
     var collectionsServer = nock('https://collection.com/');
 
     it('newCollection', function (done) {

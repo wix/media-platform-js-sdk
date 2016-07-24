@@ -1,16 +1,17 @@
 var request = require('request');
 var LRU = require('lru-cache');
-var SignedRequest = require('./http/sigend-request');
+var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
 
 /**
  * @summary Creates a client that can authenticate against WixMP
- * @param {BaseAuthenticationConfiguration} authenticationConfiguration
+ * @param {AuthenticationConfiguration} authenticationConfiguration
  * @constructor
  */
 function AuthenticationFacade(authenticationConfiguration) {
 
     /**
-     * @type {BaseAuthenticationConfiguration}
+     * @type {AuthenticationConfiguration}
      */
     this.authenticationConfiguration = authenticationConfiguration;
 
@@ -22,26 +23,27 @@ function AuthenticationFacade(authenticationConfiguration) {
 
 /**
  * @summary Retrieves a token for use authentication against REST APIs for WixMP services
- * @param {string} id
+ * @param {string} userId
  * @param {function(Error, string|null)} callback The callback to accept the auth token, or an error
  */
-AuthenticationFacade.prototype.getToken = function(id, callback) {
-    
-    var token = this.cache.get(id);
+AuthenticationFacade.prototype.getToken = function(userId, callback) {
+
+    var token = this.cache.get(userId);
     if (token) {
         callback(null, token);
         return;
     }
 
-    var host = this.authenticationConfiguration.host;
-    var path = this.authenticationConfiguration.path;
-    var serviceMode = this.authenticationConfiguration.serviceMode;
-    var sharedSecret = this.authenticationConfiguration.sharedSecret;
+    var headers = {
+            Authorization: 'APP ' + jwt.sign({
+                sub: 'user:' + userId,
+                iss: 'app:' + this.authenticationConfiguration.appId,
+                jti: crypto.randomBytes(6).toString('hex'),
+                exp: Math.round(new Date().getTime()/1000) + 60
+            }, this.authenticationConfiguration.sharedSecret)
+    };
 
-    var signedRequest = new SignedRequest('GET', host, path, serviceMode, id, sharedSecret);
-    var url = 'https://' + host + path;
-    var headers = signedRequest.toHttpsOptions('Authorization').headers;
-
+    var url = 'https://' + this.authenticationConfiguration.host + this.authenticationConfiguration.path;
     request.get({ url: url, headers: headers, json: true }, function (error, response, body) {
 
         if (error) {
@@ -53,8 +55,8 @@ AuthenticationFacade.prototype.getToken = function(id, callback) {
             callback(new Error(JSON.stringify(response.body)), null);
             return;
         }
-        
-        this.cache.set(id, body.token);
+
+        this.cache.set(userId, body.token);
         callback(null, body.token);
     }.bind(this));
 };
@@ -79,10 +81,10 @@ AuthenticationFacade.prototype.getHeader = function(id, callback) {
 };
 
 /**
- * @param {string} id
+ * @param {string} userId
  */
-AuthenticationFacade.prototype.invalidateToken = function (id) {
-    this.cache.del(id);
+AuthenticationFacade.prototype.invalidateToken = function (userId) {
+    this.cache.del(userId);
 };
 
 /**

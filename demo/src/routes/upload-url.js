@@ -1,12 +1,7 @@
-var MediaPlatform = require('../../../src/index').MediaPlatform;
-
-var mediaPlatform = new MediaPlatform({
-    domain: 'app.wixmp.com',
-    apiKey: 'ggl-109789773458215503884',
-    sharedSecret: '6c736264899646d3b370a409bb6a840c'
-});
+var mediaPlatform = require('../facades/media-platform-facade').mediaPlatform;
 
 var fileUploader = mediaPlatform.fileUploader;
+var userId = 'userId';
 
 module.exports = function(app) {
 
@@ -14,7 +9,7 @@ module.exports = function(app) {
 
         var mediaType = req.params.mediaType;
         
-        fileUploader.getUploadUrl(mediaType, function (error, uploadCredentials) {
+        fileUploader.getUploadUrl(userId, mediaType, function (error, uploadCredentials) {
 
             if (error) {
                 res.status(500).send(error.message);

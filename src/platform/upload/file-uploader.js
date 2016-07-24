@@ -8,7 +8,7 @@ var VideoDTO = require('../../dto/video/video-dto');
 var DocumentDTO = require('../../dto/document/document-dto');
 
 /**
- * @param {ProviderConfiguration} configuration
+ * @param {Configuration} configuration
  * @param {AuthenticatedHTTPClient} authenticatedHttpClient
  * @constructor
  */

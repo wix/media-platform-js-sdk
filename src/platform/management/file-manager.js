@@ -4,7 +4,7 @@ var FolderDTO = require('../../dto/folder/folder-dto');
 var toDTO = require('../../dto/file-deserializer').toDTO;
 
 /**
- * @param {ProviderConfiguration} configuration
+ * @param {Configuration} configuration
  * @param {AuthenticatedHTTPClient} authenticatedHttpClient
  * @constructor
  */

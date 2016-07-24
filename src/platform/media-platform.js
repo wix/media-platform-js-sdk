@@ -1,53 +1,29 @@
-var AppConfiguration = require('./configuration/app-configuration');
-var AppAuthenticationConfiguration = require('./authentication/configuration/app-authentication-configuration');
-var ProviderConfiguration = require('./configuration/provider-configuration');
-var ProviderAuthenticationConfiguration = require('./authentication/configuration/provider-authentication-configuration');
+var Configuration = require('./configuration/configuration');
+var AuthenticationConfiguration = require('./authentication/configuration/authentication-configuration');
 var AuthenticationFacade = require('./authentication/authentication-facade');
 var AuthenticatedHTTPClient = require('./http/authenticated-http-client');
 var FileUploader = require('./upload/file-uploader');
-var AppFileUploader = require('./upload/app-file-uploader');
 var FileManager = require('./management/file-manager');
-var AppFileManager = require('./management/app-file-manager');
 var CollectionManager = require('./collection/collection-manager');
-var AppCollectionManager = require('./collection/app-collection-manager');
 
 /**
  * @param {Object} config
  * @constructor
  */
 function MediaPlatform(config) {
-    
+
     //TODO: validate config
 
-    var configuration = null;
-    var authConfiguration = null;
-    var authenticationFacade = null;
-    var authenticatedHTTPClient = null;
-    if (config.apiKey) {
-        configuration = new AppConfiguration(config.domain, config.apiKey, config.sharedSecret);
-        authConfiguration = new AppAuthenticationConfiguration(configuration);
-        authenticationFacade = new AuthenticationFacade(authConfiguration);
-        authenticatedHTTPClient = new AuthenticatedHTTPClient(authenticationFacade);
-
-        this.getAuthenticationHeader = function (callback) {
-            authenticatedHTTPClient.getAuthenticationHeader(configuration.apiKey, callback);
-        };
-        this.fileUploader = new AppFileUploader(configuration, new FileUploader(configuration, authenticatedHTTPClient));
-        this.fileManager = new AppFileManager(configuration, new FileManager(configuration, authenticatedHTTPClient));
-        this.collectionManager = new AppCollectionManager(configuration, new CollectionManager(configuration, authenticatedHTTPClient));
-    } else {
-        configuration = new ProviderConfiguration(config.domain, config.sharedSecret);
-        authConfiguration = new ProviderAuthenticationConfiguration(configuration);
-        authenticationFacade = new AuthenticationFacade(authConfiguration);
-        authenticatedHTTPClient = new AuthenticatedHTTPClient(authenticationFacade);
-
-        this.getAuthenticationHeader = function (userId, callback) {
-            authenticatedHTTPClient.getAuthenticationHeader(userId, callback);
-        };
-        this.fileUploader = new FileUploader(configuration, authenticatedHTTPClient);
-        this.fileManager = new FileManager(configuration, authenticatedHTTPClient);
-        this.collectionManager = new CollectionManager(configuration, authenticatedHTTPClient);
-    }
+    var configuration = new Configuration(config.domain, config.sharedSecret, config.appId);
+    var authConfiguration = new AuthenticationConfiguration(configuration);
+    var authenticationFacade = new AuthenticationFacade(authConfiguration);
+    var authenticatedHTTPClient = new AuthenticatedHTTPClient(authenticationFacade);
+    this.getAuthenticationHeader = function (userId, callback) {
+        authenticatedHTTPClient.getAuthenticationHeader(userId, callback);
+    };
+    this.fileUploader = new FileUploader(configuration, authenticatedHTTPClient);
+    this.fileManager = new FileManager(configuration, authenticatedHTTPClient);
+    this.collectionManager = new CollectionManager(configuration, authenticatedHTTPClient);
 }
 
 /**

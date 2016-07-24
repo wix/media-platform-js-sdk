@@ -2,8 +2,8 @@ var stream = require('stream');
 var fs = require('fs');
 var nock = require('nock');
 var expect = require('expect.js');
-var ProviderConfiguration = require('../../../../src/platform/configuration/provider-configuration');
-var ProviderAuthenticationConfiguration = require('../../../../src/platform/authentication/configuration/provider-authentication-configuration');
+var Configuration = require('../../../../src/platform/configuration/configuration');
+var AuthenticationConfiguration = require('../../../../src/platform/authentication/configuration/authentication-configuration');
 var AuthenticationFacade = require('../../../../src/platform/authentication/authentication-facade');
 var AuthenticatedHTTPClient = require('../../../../src/platform/http/authenticated-http-client');
 var FileUploader = require('../../../../src/platform/upload/file-uploader');
@@ -15,13 +15,13 @@ var reply = __dirname + '/replies/';
 
 describe('file uploader', function() {
 
-    var configuration = new ProviderConfiguration('upload.com', 'secret');
-    var authenticationConfiguration = new ProviderAuthenticationConfiguration(configuration);
+    var configuration = new Configuration('upload.com', 'secret', 'appId');
+    var authenticationConfiguration = new AuthenticationConfiguration(configuration);
     var authenticationFacade = new AuthenticationFacade(authenticationConfiguration);
     var httpClient = new AuthenticatedHTTPClient(authenticationFacade);
     var fileUploader = new FileUploader(configuration, httpClient);
 
-    var authServer = nock('https://upload.com/').get('/auth/tenant/token');
+    var authServer = nock('https://upload.com/').get('/apps/auth/token');
     var uploadCredentialsServer = nock('https://upload.com/').get('/files/upload/url').query(true);
     var fileServer = nock('https://fish.cat.com/').post('/').query(true);
 

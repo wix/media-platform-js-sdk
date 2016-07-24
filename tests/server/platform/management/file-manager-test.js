@@ -1,8 +1,8 @@
 var nock = require('nock');
 var expect = require('expect.js');
 var FileManager = require('../../../../src/platform/management/file-manager');
-var ProviderConfiguration = require('../../../../src/platform/configuration/provider-configuration');
-var ProviderAuthenticationConfiguration = require('../../../../src/platform/authentication/configuration/provider-authentication-configuration');
+var Configuration = require('../../../../src/platform/configuration/configuration');
+var AuthenticationConfiguration = require('../../../../src/platform/authentication/configuration/authentication-configuration');
 var AuthenticationFacade = require('../../../../src/platform/authentication/authentication-facade');
 var AuthenticatedHTTPClient = require('../../../../src/platform/http/authenticated-http-client');
 var ListFilesRequest = require('../../../../src/dto/management/list-files-request');
@@ -15,13 +15,13 @@ var reply = __dirname + '/replies/';
 
 describe('file manager', function() {
 
-    var configuration = new ProviderConfiguration('manager.com', 'secret');
-    var authenticationConfiguration = new ProviderAuthenticationConfiguration(configuration);
+    var configuration = new Configuration('manager.com', 'secret');
+    var authenticationConfiguration = new AuthenticationConfiguration(configuration);
     var authenticationFacade = new AuthenticationFacade(authenticationConfiguration);
     var httpClient = new AuthenticatedHTTPClient(authenticationFacade);
     var fileManager = new FileManager(configuration, httpClient);
 
-    var authServer = nock('https://manager.com/').get('/auth/tenant/token');
+    var authServer = nock('https://manager.com/').get('/apps/auth/token');
     var fileServer = nock('https://manager.com/');
 
     it('listFiles - default', function (done) {

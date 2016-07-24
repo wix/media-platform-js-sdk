@@ -1,10 +1,10 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "1.0.0-beta",
+  "version": "1.1.0-beta",
   "description": "A SDK to access Wix Media Platform image manipulation API and upload capabilities",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
-  "license": "Apache-2.0",
+  "license": "BSD-3-Clause",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -34,7 +34,7 @@
     "transcoding",
     "streaming"
   ],
-  "private": false,
+  "private": true,
   "main": "./src/index.js",
   "browser": "./dist/media-platform.min.js",
   "engines": {
@@ -48,10 +48,10 @@
   },
   "dependencies": {
     "inherits": "^2.0.1",
+    "jsonwebtoken": "^7.1.6",
     "lru-cache": "^4.0.1",
     "request": "^2.72.0",
-    "underscore": "^1.8.3",
-    "wix-auth-hmac": "^1.0.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "body-parser": "latest",
@@ -67,7 +67,7 @@
     "nock": "latest",
     "pug": "latest",
     "request-debug": "latest",
-    "sinon": "^1.17.4",
+    "sinon": "latest",
     "uglifyify": "latest"
   },
   "optionalDependencies": {
