@@ -70,7 +70,7 @@ Authentication URL Node.js (with express) example:
 
 ```javascript
 app.get('/media-platform/auth-header', function (req, res, next) {
-    mediaPlatform.getAuthenticationHeader(userId, function (error, header) {
+    mediaPlatform.getAuthenticationHeader('userId', function (error, header) {
         if (error) {
             res.status(500).send(error.message);
             return;
@@ -93,7 +93,7 @@ var uploadRequest = new UploadRequest()
     .setFileName('str-image.jpg') // if the source is a stream or buffer, providing the file name is mandatory
     .setContentType('image/jpeg')
     .addTags('cat', 'fish');
-fileUploader.uploadImage(userId, <ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
+fileUploader.uploadImage('userId', <ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
 
     if (error) {
       console.error('upload failed: ' + error.message);
@@ -103,14 +103,14 @@ fileUploader.uploadImage(userId, <ReadStream || Buffer || string path to file>, 
     console.log('upload successful: ' + response);
 });
 
-fileUploader.uploadAudio(userId, <ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
+fileUploader.uploadAudio('userId', <ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
 
-fileUploader.uploadDocument(userId, <ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
+fileUploader.uploadDocument('userId', <ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
 
 var encodingOptions = new EncodingOptions()
         .setVideoFormats(['mp4', 'webm', 'ogv'])
         .setAudioFormat('m4a');
-fileUploader.uploadVideo(userId, <ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, callback);
+fileUploader.uploadVideo('userId', <ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, callback);
 ```
 
 ### Browser
@@ -124,7 +124,7 @@ In the server expose a route that returns the signed URL and upload token:
 ```javascript
 app.get('/upload/:mediaType/credentials', function(req, res, next) {
 
-    mediaPlatform.fileUploader.getUploadUrl(userId, req.params.mediaType,  function (error, urlAndToken) {
+    mediaPlatform.fileUploader.getUploadUrl('userId', req.params.mediaType,  function (error, urlAndToken) {
 
         if (error) {
             res.status(500).send(error.message);
@@ -222,7 +222,7 @@ var listFilesRequest = new ListFilesRequest()
     .setSize(10)
     .setTag('dog')
     .setParentFolderId('parentFolderId');
-fileManager.listFiles(userId, listFilesRequest, callback)
+fileManager.listFiles('userId', listFilesRequest, callback)
 ```
 
 Get an uploaded file metadata 
@@ -242,7 +242,7 @@ var updateFileRequest = new UpdateFileRequest()
     .setOriginalFileName('dog.jpeg')
     .setParentFolderId('folderId')
     .setTags(['dog', 'Schnauzer']);
-fileManager.updateFile(userId, 'fileId', updateFileRequest, callback);
+fileManager.updateFile('userId', 'fileId', updateFileRequest, callback);
 ```
 
 Delete file
@@ -250,7 +250,7 @@ Delete file
 *Warning: The file will no longer be reachable*
 
 ```javascript
-fileManager.deleteFile(userId, 'fileId', callback);
+fileManager.deleteFile('userId', 'fileId', callback);
 ```
 
 ### Folder Management
@@ -272,7 +272,7 @@ var newFolderRequest = new NewFolderRequest()
     .setMediaType(MediaType.IMAGE)
     .setFolderName('Doberman Pinscher')
     .setParentFolderId('folderId');
-fileManager.newFolder(userId, newFolderRequest, callback);
+fileManager.newFolder('userId', newFolderRequest, callback);
 ```
 
 Update a folder
@@ -282,7 +282,7 @@ var UpdateFolderRequest = require('media-platform-js-sdk').file.UpdateFolderRequ
 
 var updateFolderRequest = new UpdateFolderRequest()
     .setFolderName('Doberman Pinscher');
-fileManager.updateFolder(userId, 'folderId', updateFolderRequest, callback);
+fileManager.updateFolder('userId', 'folderId', updateFolderRequest, callback);
 ```
 
 Delete a folder
@@ -322,19 +322,19 @@ var newCollectionRequest = new NewCollectionRequest()
             .setTags(['dog', 'bark'])
             .setTitle('Whof')
     ]);
-collectionManager.newCollection(userId, newCollectionRequest, callback);
+collectionManager.newCollection('userId', newCollectionRequest, callback);
 ```
 
 List collections
 
 ```javascript
-collectionManager.listCollections(userId, 'dog', callback);
+collectionManager.listCollections('userId', 'dog', callback);
 ```
 
 Get collection
 
 ```javascript
-collectionManager.getCollection(userId, 'collectionId', callback);
+collectionManager.getCollection('userId', 'collectionId', callback);
 ```
 
 Update collection 
@@ -348,19 +348,19 @@ var updateCollectionRequest = new UpdateCollectionRequest()
     .setTags(['cats', 'purr'])
     .setThumbnailUrl('http://this.is.a/collection.jpeg')
     .setTitle('Cats Galore');
-collectionManager.updateCollection(userId, 'collectionId', updateCollectionRequest, callback);
+collectionManager.updateCollection('userId', 'collectionId', updateCollectionRequest, callback);
 ```
 
 Publish collection
 
 ```javascript
-collectionManager.publishCollection(userId, 'collectionId', callback);
+collectionManager.publishCollection('userId', 'collectionId', callback);
 ```
 
 Delete collection
 
 ```javascript
-collectionManager.deleteCollection(userId, 'collectionId', callback);
+collectionManager.deleteCollection('userId', 'collectionId', callback);
 ```
 
 Add items at the beginning of a collection
@@ -382,7 +382,7 @@ var addItemRequests = [
         .setTags(['Doberman', 'Pinscher'])
         .setTitle('Pinscher')
 ];
-collectionManager.prependItems(userId, 'collectionId', addItemRequests, callback);
+collectionManager.prependItems('userId', 'collectionId', addItemRequests, callback);
 ```
 
 Add items to the end of a collection
@@ -398,7 +398,7 @@ var addItemRequests = [
         .setTags(['Doberman', 'Pinscher'])
         .setTitle('Doberman')
 ];
-collectionManager.appendItems(userId, 'collectionId', addItemRequests, callback);
+collectionManager.appendItems('userId', 'collectionId', addItemRequests, callback);
 ```
 
 Add items *before* an exiting item in a collection
@@ -414,7 +414,7 @@ var addItemRequests = [
         .setTags(['Doberman', 'Pinscher'])
         .setTitle('Doberman')
 ];
-collectionManager.insertBefore(userId, 'collectionId', 'itemId', addItemRequests, callback);
+collectionManager.insertBefore('userId', 'collectionId', 'itemId', addItemRequests, callback);
 ```
 
 Add items *after* an exiting item in a collection
@@ -430,7 +430,7 @@ var addItemRequests = [
         .setTags(['Doberman', 'Pinscher'])
         .setTitle('Doberman')
 ];
-collectionManager.insertAfter(userId, 'collectionId', 'itemId', addItemRequests, callback);
+collectionManager.insertAfter('userId', 'collectionId', 'itemId', addItemRequests, callback);
 ```
 
 Update exiting items in a collection
@@ -454,37 +454,37 @@ var updateItemRequests = [
         .setTags(['moshe', 'chaim'])
         .setTitle('olala')
 ];
-collectionManager.updateItems(userId, 'collectionId', updateItemRequests, callback);
+collectionManager.updateItems('userId', 'collectionId', updateItemRequests, callback);
 ```
 
 Move items to the *start* of the collection
 
 ```javascript
-collectionManager.moveToStart(userId, 'collectionId', ['id1', 'id2'], callback);
+collectionManager.moveToStart('userId', 'collectionId', ['id1', 'id2'], callback);
 ```
 
 Move items to the *end* of the collection
 
 ```javascript
-collectionManager.moveToEnd(userId, 'collectionId', ['id1', 'id2'], callback);
+collectionManager.moveToEnd('userId', 'collectionId', ['id1', 'id2'], callback);
 ```
 
 Move items *before* another item
 
 ```javascript
-collectionManager.moveBefore(userId, 'collectionId', 'itemId', ['id1', 'id2'], callback);
+collectionManager.moveBefore('userId', 'collectionId', 'itemId', ['id1', 'id2'], callback);
 ```
 
 Move items *after* another item
 
 ```javascript
-collectionManager.moveAfter(userId, 'collectionId', 'itemId', ['id1', 'id2'], callback);
+collectionManager.moveAfter('userId', 'collectionId', 'itemId', ['id1', 'id2'], callback);
 ```
 
 Delete items from a collection
 
 ```javascript
-collectionManager.deleteItems(userId, 'collectionId', ['id1', 'id2'], callback);
+collectionManager.deleteItems('userId', 'collectionId', ['id1', 'id2'], callback);
 ```
 
 ## Reporting Issues
