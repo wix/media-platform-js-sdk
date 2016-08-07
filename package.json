@@ -34,7 +34,7 @@
     "transcoding",
     "streaming"
   ],
-  "private": true,
+  "private": false,
   "main": "./src/index.js",
   "browser": "./dist/media-platform.min.js",
   "engines": {
