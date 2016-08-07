@@ -14,7 +14,9 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '/../dist')));
 
-//replace with your credentials
+/*
+ * replace with your credentials
+ */
 var mediaPlatform = require('./src/facades/media-platform-facade').init(
     'domain',
     'appId',
