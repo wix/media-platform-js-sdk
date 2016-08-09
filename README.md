@@ -191,7 +191,7 @@ The SDK provides a programmatic facility to generate image URLs
 /**
 * A new request from the host and ImageDTO (response from server)
 */
-var fromUrl = require('media-platform-js-sdk').image.fromDto;
+var fromDto = require('media-platform-js-sdk').image.fromDto;
 var imageRequest = fromDto('media.wixapps.net', imageDto);
 
 /**
