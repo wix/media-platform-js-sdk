@@ -21,11 +21,6 @@ function VideoDTO(data) {
     this.width = null;
 
     /**
-     * @type {string}
-     */
-    this.iconUrl = null;
-
-    /**
      * @type {VideoFile|null}
      */
     this.inputFile = null;
@@ -51,7 +46,6 @@ VideoDTO.prototype.deserialize = function (data) {
 
     this.height = data.height;
     this.width = data.width;
-    this.iconUrl = data.icon_url;
     this.inputFile = new VideoFile(data.file_input);
 
     var images = [];

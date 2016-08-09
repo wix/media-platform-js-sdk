@@ -41,6 +41,11 @@ function BaseDTO() {
     /**
      * @type {string}
      */
+    this.iconUrl = null;
+
+    /**
+     * @type {string}
+     */
     this.mediaType = null;
 
     /**
