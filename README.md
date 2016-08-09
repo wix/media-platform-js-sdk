@@ -26,7 +26,7 @@ In addition, Wix Media Platform supports uploading and distribution of documents
 
 # JavaScript SDK
 
-This package is an isomorphic JavaScript library (works in Node and in the browser) that provides a convenient API to access Wix Media Platform file upload service and image manipulation API.
+This package is an isomorphic JavaScript library (works both in Node JS and in the browser) that provides a convenient API to access Wix Media Platform services.
 
 ## Installation
 
@@ -58,7 +58,7 @@ var mediaPlatform = new MediaPlatform({
 ```
 ## Instantiating the Media Platform in the Browser
 
-```javascript
+```html
 <script src="/media-platform.min.js">
 
 var mediaPlatform = new MP.MediaPlatform({
@@ -198,6 +198,7 @@ var url = imageOperation.negative().saturation(-90).toUrl().url;
 
 
 var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
+
 /**
 * A new request from the base url and the file id
 */
