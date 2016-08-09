@@ -38,7 +38,7 @@ AuthenticationFacade.prototype.getToken = function(userId, callback) {
             Authorization: 'APP ' + jwt.sign({
                 sub: 'user:' + userId,
                 iss: 'app:' + this.authenticationConfiguration.appId,
-                iat: Math.floor(new Date().getTime()/1000),
+                iat: Math.floor(new Date().getTime()/1000) - 10,
                 jti: crypto.randomBytes(6).toString('hex'),
                 exp: Math.round(new Date().getTime()/1000) + 60
             }, this.authenticationConfiguration.sharedSecret)
