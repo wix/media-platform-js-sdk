@@ -84,7 +84,6 @@ BaseDTO.prototype.deserialize = function (data) {
     this.originalFileName = data.original_file_name;
     this.fileName = data.file_name;
     this.fileUrl = data.file_url;
-    this.baseUrl = this.fileUrl.substr(0, this.fileUrl.lastIndexOf("/"));
     this.iconUrl = data.icon_url;
     this.fileSize = data.file_size;
     this.mediaType = data.media_type;
@@ -93,6 +92,9 @@ BaseDTO.prototype.deserialize = function (data) {
     this.tags = data.tags || [];
     this.dateCreated = data.created_ts;
     this.dateModified = data.modified_ts;
+
+    var parts = this.fileUrl.split("/");
+    this.baseUrl = parts[0] + "/" + parts[1];
 };
 
 /**

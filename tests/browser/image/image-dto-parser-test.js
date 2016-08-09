@@ -24,6 +24,8 @@ describe('image dto parsing', function () {
                 modified_ts: 1467294551
             }));
 
-            expect(imageRequest.baseUrl).to.eql('www.domain.com/ggl-109789773458215503884/images/dbb3e157ff7041c9ad3e13ce263146a9');
+            expect(imageRequest.baseUrl).to.eql('www.domain.com/ggl-109789773458215503884/images');
+
+            // console.log(imageRequest.fit(500, 500).toUrl().url)
     });
 });
