@@ -166,7 +166,7 @@ From the browser GET the URL and POST the form to it, including the token in the
             request.responseType = 'json';
             request.addEventListener('load', function (event) {
                 var imageDto = new ImageDTO(event.target.response[0]);
-                var imageRequest = MP.image.fromDto('media.wixapps.net/', imageDto);
+                var imageRequest = MP.image.fromDto('media.wixapps.net', imageDto);
                 var imageUrl = imageRequest.crop(800, 200, 1, 1).toUrl();
                 var img = document.createElement('img');
                 img.setAttribute('src', imageUrl.url);
