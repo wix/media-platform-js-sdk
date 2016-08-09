@@ -183,6 +183,36 @@ From the browser GET the URL and POST the form to it, including the token in the
 
 ## Image Consumption
 
+The SDK provides a programmatic facility to generate image URLs 
+
+### From the Server
+
+```javascript
+/**
+* A new request from the host and ImageDTO (response from server)
+*/
+var fromUrl = require('media-platform-js-sdk').image.fromDto;
+var imageRequest = fromDto('media.wixapps.net', imageDto);
+
+/**
+* A pre-configured operation from a previously generated url
+*/
+var fromUrl = require('media-platform-js-sdk').image.fromUrl;
+var imageOperation = fromUrl('//media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/w_300,h_200/image.jpg#w_600,h_400,mt_image%2Fjpeg');
+
+var url = imageOperation.negative().saturation(-90).toUrl().url;
+
+/**
+* A new request from the base url and the file id
+*/
+var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
+var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
+
+var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
+```
+
+### From the Browser
+
 ```javascript
 /**
 * A new request from the host and ImageDTO (response from server)
@@ -196,13 +226,10 @@ var imageOperation = MP.image.fromUrl('//media.wixapps.net/wixmedia-samples/imag
 
 var url = imageOperation.negative().saturation(-90).toUrl().url;
 
-
-var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
-
 /**
 * A new request from the base url and the file id
 */
-var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
+var imageRequest = new MP.image.ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
 
 var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
 ```
