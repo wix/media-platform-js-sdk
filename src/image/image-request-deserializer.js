@@ -18,7 +18,7 @@ function fromDto(host, imageDto) {
 
 /**
  * @param {string} url
- * @returns ImageRequest
+ * @returns BaseOperation
  */
 function fromUrl(url) {
     return urlParser.toImageRequest(url);

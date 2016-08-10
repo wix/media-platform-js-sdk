@@ -3,6 +3,14 @@ var BaseOperation = require('./base-operation');
 var ResizeSettings = require('./resize/resize-settings');
 
 /**
+ * @param baseUrl
+ * @param imageId
+ * @param imageName
+ * @param version
+ * @param width
+ * @param height
+ * @param originalFileData
+ * @constructor
  * @summary Resizes the image to fit to the specified width and height while retaining original image proportion.
  * @description The entire image will be visible but not necessarily fill the area specified by the width and height.
  * @constructor Fit

@@ -4,9 +4,15 @@ var Align = require('./align/align');
 var Background = require('./background/background');
 
 /**
+ * @param baseUrl
+ * @param imageId
+ * @param imageName
+ * @param version
+ * @param width
+ * @param height
+ * @param originalFileData
  * @summary Resizes the image canvas.
- * @description Fills the width and height boundaries and crops any excess image data.
- * The resulting image will match the width and height constraints without scaling the image.
+ * @description Fills the width and height boundaries and crops any excess image data. The resulting image will match the width and height constraints without scaling the image.
  * @constructor Canvas
  * @extends BaseOperation
  */
