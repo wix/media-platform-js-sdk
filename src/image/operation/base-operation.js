@@ -30,7 +30,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
      * @type {string}
      */
     this.name = name;
-    
+
     /**
      * @type {string}
      */
@@ -45,7 +45,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
      * @type {string}
      */
     this.imageName = imageName;
-    
+
     /**
      * @type {string}
      */
@@ -64,7 +64,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.size = (function () {
         return size.size;
     })();
-    
+
     /**
      * @type {Brightness}
      */
@@ -80,7 +80,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.contrast = (function () {
         return contrast.contrast;
     })();
-    
+
     /**
      * @type {Hue}
      */
@@ -88,7 +88,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.hue = (function () {
         return hue.hue;
     })();
-    
+
     /**
      * @type {Saturation}
      */
@@ -96,7 +96,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.saturation = (function () {
         return saturation.saturation;
     })();
-    
+
     /**
      * @type {Blur}
      */
@@ -136,7 +136,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.pixelateFaces = (function () {
         return pixelateFaces.pixels;
     })();
-    
+
     /**
      * @type {RedEyeRemover}
      */
@@ -144,7 +144,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.removeRedEye = (function () {
         return redEyeRemover.activate;
     })();
-    
+
     /**
      * @type {Sharpen}
      */
@@ -152,7 +152,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.sharpen = (function () {
         return sharpen.sharpen;
     })();
-    
+
     /**
      * @type {UnsharpMask}
      */
@@ -160,7 +160,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.unsharpMask = (function () {
         return unsharpMask.configuration;
     })();
-    
+
     /**
      * @type {JPEGSettings}
      */
@@ -185,21 +185,19 @@ BaseOperation.prototype.getOriginalFileData = function () {
  */
 BaseOperation.prototype.toUrl = function () {
 
-    var prefix = '';
+    var out = '';
     var baseUrl = this.baseUrl;
-    if (baseUrl !== null) {
-        if (baseUrl.length > 4 && baseUrl.substring(0, 4) !== "http") {
-            if (baseUrl.substring(0, 2) !== '//') {
-                prefix = '//';
-            }
+    if (baseUrl !== null && baseUrl !== '') {
+        if (baseUrl.indexOf('http') != 0 && baseUrl.indexOf('//') != 0) {
+            out += '//';
         }
 
-        if (baseUrl.slice(-1) === '/') {
+        if (baseUrl.lastIndexOf('/') == (baseUrl.length - 1)) {
             baseUrl = baseUrl.slice(0, -1);
         }
     }
 
-    var out = prefix + baseUrl + "/" + this.imageId + "/" + this.version + '/' + this.name + '/';
+    out += baseUrl + '/' + this.imageId + '/' + this.version + '/' + this.name + '/';
 
     var result = this.collect();
 
@@ -211,7 +209,7 @@ BaseOperation.prototype.toUrl = function () {
     }
 
     return {
-        url: out + result.params + "/" + encodeURIComponent(this.imageName) + (this.originalFileData ? '#' + this.originalFileData.serialize() : ''),
+        url: out + result.params + '/' + encodeURIComponent(this.imageName) + (this.originalFileData ? '#' + this.originalFileData.serialize() : ''),
         error: null
     }
 };
@@ -221,7 +219,7 @@ BaseOperation.prototype.toUrl = function () {
  */
 BaseOperation.prototype.collect = function () {
     var out = '';
-    var part = '';
+    var part;
     var errors = [];
     this.serializationOrder.forEach(function concat(op) {
         part = op.serialize();
