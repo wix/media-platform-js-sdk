@@ -5,7 +5,8 @@ var expect = require('expect.js');
 describe('image dto parsing', function () {
 
         it('creates a new ImageRequest from a DTO', function () {
-            var imageRequest = fromDto('www.domain.com', new ImageDTO({
+
+            var dto = new ImageDTO({
                 width: 115,
                 height: 35,
                 parent_folder_id: 'd23b196fa41a47043ae3908ca467cbe9',
@@ -22,10 +23,14 @@ describe('image dto parsing', function () {
                 mime_type: 'image/jpeg',
                 created_ts: 1467294551,
                 modified_ts: 1467294551
-            }));
+            });
 
-            expect(imageRequest.baseUrl).to.eql('www.domain.com/ggl-109789773458215503884/images');
+            var imageRequest = fromDto('www.domain.com', dto);
 
-            // console.log(imageRequest.fit(500, 500).toUrl().url)
+            expect(imageRequest.baseUrl)
+                .to.eql('www.domain.com/ggl-109789773458215503884/images');
+
+            expect(imageRequest.fit(500, 500).toUrl().url)
+                .to.eql('//www.domain.com/ggl-109789773458215503884/images/dbb3e157ff7041c9ad3e13ce263146a9/v1/fit/w_500,h_500/image.jpg#w_115,h_35,mt_image%2Fjpeg');
     });
 });
