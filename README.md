@@ -197,7 +197,7 @@ var imageRequest = fromDto('media.wixapps.net', imageDto);
 /**
 * A new image request from a previously generated url
 */
-var fromUrlToImageRequest = require('media-platform-js-sdk').image.urlToImageRequest;
+var urlToImageRequest = require('media-platform-js-sdk').image.urlToImageRequest;
 var imageRequest = urlToImageRequest('//media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/w_300,h_200/image.jpg#w_600,h_400,mt_image%2Fjpeg');
 
 /**
