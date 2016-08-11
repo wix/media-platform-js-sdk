@@ -43,6 +43,11 @@ module.exports = {
         fromUrl: imageRequestDeserializers.fromUrl,
 
         /**
+         * @type {fromUrlToImageRequest}
+         */
+        urlToImageRequest: imageRequestDeserializers.fromUrlToImageRequest,
+
+        /**
          * @type {Alignments}
          */
         Alignments: Alignments

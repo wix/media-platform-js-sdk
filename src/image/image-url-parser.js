@@ -194,6 +194,8 @@ function toBaseUrl(explodedUrl) {
 }
 
 /**
- * @type {toImageRequest}
+ * @type {{toImageRequest: toImageRequest}}
  */
-exports.toImageRequest = toImageRequest;
+module.exports = {
+    toImageRequest: toImageRequest
+};

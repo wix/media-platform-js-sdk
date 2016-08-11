@@ -24,12 +24,23 @@ function fromUrl(url) {
     return urlParser.toImageRequest(url);
 }
 
+/**
+ * @param {string} url
+ * @returns ImageRequest
+ */
+function fromUrlToImageRequest(url) {
+    var operation = fromUrl(url);
+
+    return new ImageRequest(operation.baseUrl, operation.imageId, operation.imageName, operation.originalFileData);
+}
+
 //TODO: add fromUploadResponse
 
 /**
- * @type {{fromDto: fromDto, fromUrl: fromUrl}}
+ * @type {{fromDto: fromDto, fromUrl: fromUrl, fromUrlToImageRequest: fromUrlToImageRequest}}
  */
 module.exports = {
     fromDto: fromDto,
-    fromUrl: fromUrl
+    fromUrl: fromUrl,
+    fromUrlToImageRequest: fromUrlToImageRequest
 };

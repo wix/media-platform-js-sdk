@@ -185,14 +185,28 @@ From the browser GET the URL and POST the form to it, including the token in the
 
 The SDK provides a programmatic facility to generate image URLs 
 
-### From the Server
+### Server
 
 ```javascript
 /**
-* A new request from the host and ImageDTO (response from server)
+* A new image request from the host and ImageDTO (response from server)
 */
 var fromDto = require('media-platform-js-sdk').image.fromDto;
 var imageRequest = fromDto('media.wixapps.net', imageDto);
+
+/**
+* A new image request from a previously generated url
+*/
+var fromUrlToImageRequest = require('media-platform-js-sdk').image.urlToImageRequest;
+var imageRequest = urlToImageRequest('//media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/w_300,h_200/image.jpg#w_600,h_400,mt_image%2Fjpeg');
+
+/**
+* A new image request from the base url and the file id
+*/
+var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
+var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
+
+var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
 
 /**
 * A pre-configured operation from a previously generated url
@@ -202,16 +216,9 @@ var imageOperation = fromUrl('//media.wixapps.net/wixmedia-samples/images/000c45
 
 var url = imageOperation.negative().saturation(-90).toUrl().url;
 
-/**
-* A new request from the base url and the file id
-*/
-var ImageRequest = require('media-platform-js-sdk').image.ImageRequest;
-var imageRequest = new ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
-
-var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
 ```
 
-### From the Browser
+### Browser
 
 ```javascript
 /**
@@ -219,12 +226,11 @@ var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
 */
 var imageRequest = MP.image.fromDto('media.wixapps.net', imageDto);
 
-/**
-* A pre-configured operation from a previously generated url
-*/
-var imageOperation = MP.image.fromUrl('//media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/w_300,h_200/image.jpg#w_600,h_400,mt_image%2Fjpeg');
 
-var url = imageOperation.negative().saturation(-90).toUrl().url;
+/**
+* A new image request from a previously generated url
+*/
+var imageRequest = MP.image.urlToImageRequest('//media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/w_300,h_200/image.jpg#w_600,h_400,mt_image%2Fjpeg');
 
 /**
 * A new request from the base url and the file id
@@ -232,6 +238,13 @@ var url = imageOperation.negative().saturation(-90).toUrl().url;
 var imageRequest = new MP.image.ImageRequest('media.wixapps.net/wixmedia-samples/images', '000c45e21f8a433cb3b2483dfbb659d8');
 
 var url = imageRequest.fit(500, 500).negative().saturation(-90).toUrl().url;
+
+/**
+* A pre-configured operation from a previously generated url
+*/
+var imageOperation = MP.image.fromUrl('//media.wixapps.net/wixmedia-samples/images/000c45e21f8a433cb3b2483dfbb659d8/v1/fit/w_300,h_200/image.jpg#w_600,h_400,mt_image%2Fjpeg');
+
+var url = imageOperation.negative().saturation(-90).toUrl().url;
 ```
 
 ## File Management

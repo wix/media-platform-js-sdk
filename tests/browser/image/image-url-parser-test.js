@@ -1,4 +1,5 @@
 var fromUrl = require('../../../src/image/image-request-deserializer').fromUrl;
+var fromUrlToImageRequest = require('../../../src/image/image-request-deserializer').fromUrlToImageRequest;
 var expect = require('expect.js');
 
 describe('image url parsing', function () {
@@ -106,6 +107,17 @@ describe('image url parsing', function () {
 
             expect(operation.toUrl()).to.eql({
                 url: 'http://test.wix.com:8080/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg',
+                error: null
+            });
+        });
+    });
+
+    describe('can escape back to a new ImageRequest', function () {
+        it('escapes', function () {
+            var imageRequest = fromUrlToImageRequest('http://test.wix.com:8080/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#w_10,h_10,mt_image%2Fjpeg');
+
+            expect(imageRequest.fit(100, 100).toUrl()).to.eql({
+                url: 'http://test.wix.com:8080/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#w_10,h_10,mt_image%2Fjpeg',
                 error: null
             });
         });
