@@ -93,8 +93,16 @@ BaseDTO.prototype.deserialize = function (data) {
     this.dateCreated = data.created_ts;
     this.dateModified = data.modified_ts;
 
-    var parts = this.fileUrl.split("/");
-    this.baseUrl = parts[0] + "/" + parts[1];
+    if (this.fileUrl) {
+        var parts = this.fileUrl.split("/");
+        if (parts.length >= 2) {
+            this.baseUrl = parts[0] + "/" + parts[1];
+        } else {
+            this.baseUrl = parts[0];
+        }
+    } else {
+        this.baseUrl = null;
+    }
 };
 
 /**

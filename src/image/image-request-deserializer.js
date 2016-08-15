@@ -8,7 +8,7 @@ var OriginalFileData = require('./operation/technical/original-file-data');
  * @returns ImageRequest
  */
 function fromDto(host, imageDto) {
-    var baseUrl = host + "/" + imageDto.baseUrl;
+    var baseUrl = host + (imageDto.baseUrl ? "/" + imageDto.baseUrl : '');
     var imageId = imageDto.fileName;
     var imageName = imageDto.originalFileName;
     var fileData = new OriginalFileData(imageDto.width, imageDto.height, imageDto.mimeType);
