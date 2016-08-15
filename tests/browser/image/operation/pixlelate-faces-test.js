@@ -22,7 +22,7 @@ describe('pixelate faces', function () {
         pixelateFaces.pixels(-1);
 
         expect(pixelateFaces.serialize()).to.eql({ params: '',
-            error: 'pixelate: -1 is not a number greater than 0' });
+            error: 'pixelateFaces: -1 is not a number greater than 0' });
     });
 
     it('resets for null', function () {
