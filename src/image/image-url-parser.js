@@ -135,17 +135,14 @@ function extractOriginalFileData(fragment) {
 
     var parts = fragment.split(',');
     var exploded  = {};
-    var error = false;
     parts.forEach(function (part) {
         var params = part.split('_');
         if (params.length >= 2 && params[1] != '') {
             exploded[params[0]] = params.slice(1);
-        } else {
-            error = true;
         }
     });
 
-    if (error || !exploded.w || !exploded.h || !exploded.mt) {
+    if (!exploded.w || !exploded.h || !exploded.mt) {
         return null;
     }
 
