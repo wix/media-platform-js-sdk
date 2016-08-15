@@ -169,6 +169,7 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
         return jpeg.compression;
     })();
 
+    //TODO: replace with sorted Set (lexical sort by key)
     this.serializationOrder = [brightness, contrast, hue, saturation, blur, negative, oil, pixelate, pixelateFaces,
         redEyeRemover, sharpen, unsharpMask, jpeg, size];
 }

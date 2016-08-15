@@ -125,7 +125,7 @@ function explodeTransformations(transformations) {
 
 /**
  * @param {string} fragment
- * @returns {OriginalFileData}
+ * @returns {OriginalFileData|null}
  * @private
  */
 function extractOriginalFileData(fragment) {
@@ -135,10 +135,19 @@ function extractOriginalFileData(fragment) {
 
     var parts = fragment.split(',');
     var exploded  = {};
+    var error = false;
     parts.forEach(function (part) {
         var params = part.split('_');
-        exploded[params[0]] = params.slice(1);
+        if (params.length >= 2 && params[1] != '') {
+            exploded[params[0]] = params.slice(1);
+        } else {
+            error = true;
+        }
     });
+
+    if (error || !exploded.w || !exploded.h || !exploded.mt) {
+        return null;
+    }
 
     return new OriginalFileData(exploded.w, exploded.h, decodeURIComponent(exploded.mt));
 }

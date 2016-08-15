@@ -99,6 +99,33 @@ describe('image url parsing', function () {
                 error: null
             });
         });
+
+        it('ignores malformed fragment - without separator', function () {
+            var operation = fromUrl('http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#w,h_200,mt_video%2Fmp4');
+
+            expect(operation.toUrl()).to.eql({
+                url: 'http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg',
+                error: null
+            });
+        });
+
+        it('ignores malformed fragment - with separator', function () {
+            var operation = fromUrl('http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#w_,h_200,mt_video%2Fmp4');
+
+            expect(operation.toUrl()).to.eql({
+                url: 'http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg',
+                error: null
+            });
+        });
+
+        it('ignores malformed fragment - missing param', function () {
+            var operation = fromUrl('http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg#h_200,mt_video%2Fmp4');
+
+            expect(operation.toUrl()).to.eql({
+                url: 'http://test.wix.com/user/bucket/imageId/v1/fit/w_100,h_100/fish.jpeg',
+                error: null
+            });
+        });
     });
 
     describe('correctly handles ports', function () {
