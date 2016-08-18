@@ -1,17 +1,106 @@
 {
   "parent_folder_id": "d23b196fa41a47043ae3908ca467cbe9",
-  "created_ts": 1467294551,
-  "hash": "9eea21221c9abe895eac99a54f058d2a",
-  "tags": ["cat", "fish"],
-  "file_name": "bad8d4bb80144f5ebaa2f4a590a50d80",
-  "labels": ["hunting knife", "Wix.com"],
-  "file_url": "ggl-109789773458215503884/images/bad8d4bb80144f5ebaa2f4a590a50d80/file.jpg",
-  "height": 35,
-  "width": 115,
-  "original_file_name": "dog.jpg",
-  "modified_ts": 1467295162,
-  "file_size": 12958,
+  "created_ts": 1471508651,
+  "hash": "541f2e240ec95eea4c42d494d35dfe25",
+  "tags": [],
+  "file_name": "8cdd7a4f6eee439ba209adc00830bb08",
+  "refs": [],
+  "labels": [
+    "clothing",
+    "hair",
+    "person",
+    "little black dress",
+    "model"
+  ],
+  "file_url": "ggl-109789773458215503884/images/8cdd7a4f6eee439ba209adc00830bb08/file.jpeg",
+  "height": 602,
+  "width": 400,
+  "original_file_name": "neta.jpeg",
+  "modified_ts": 1471508677,
+  "file_size": 65096,
   "media_type": "picture",
-  "icon_url": "ggl-109789773458215503884/images/bad8d4bb80144f5ebaa2f4a590a50d80/file.jpg",
-  "mime_type": "image/jpeg"
+  "icon_url": "ggl-109789773458215503884/images/8cdd7a4f6eee439ba209adc00830bb08/file.jpeg",
+  "mime_type": "image/jpeg",
+  "file_input": {
+    "dominant_color": [
+      {
+        "b": 19,
+        "score": 0.15334882999999999,
+        "g": 20,
+        "r": 22,
+        "pixel_fraction": 0.20032921000000001
+      },
+      {
+        "b": 124,
+        "score": 0.10288954,
+        "g": 150,
+        "r": 160,
+        "pixel_fraction": 0.055390947000000003
+      },
+      {
+        "b": 245,
+        "score": 0.090043776000000006,
+        "g": 247,
+        "r": 245,
+        "pixel_fraction": 0.12765430999999999
+      },
+      {
+        "b": 97,
+        "score": 0.086522318000000001,
+        "g": 121,
+        "r": 130,
+        "pixel_fraction": 0.048230453999999999
+      },
+      {
+        "b": 151,
+        "score": 0.051310264000000001,
+        "g": 155,
+        "r": 150,
+        "pixel_fraction": 0.042962964999999999
+      },
+      {
+        "b": 116,
+        "score": 0.049586035000000001,
+        "g": 121,
+        "r": 121,
+        "pixel_fraction": 0.045432100000000003
+      },
+      {
+        "b": 64,
+        "score": 0.049040515,
+        "g": 83,
+        "r": 96,
+        "pixel_fraction": 0.027325103
+      },
+      {
+        "b": 191,
+        "score": 0.046205357000000002,
+        "g": 195,
+        "r": 185,
+        "pixel_fraction": 0.038106996999999997
+      },
+      {
+        "b": 80,
+        "score": 0.039215114000000002,
+        "g": 83,
+        "r": 89,
+        "pixel_fraction": 0.039341565000000002
+      },
+      {
+        "b": 43,
+        "score": 0.036870371999999998,
+        "g": 47,
+        "r": 53,
+        "pixel_fraction": 0.030781893000000001
+      }
+    ],
+    "face": [
+      {
+        "height": 207,
+        "width": 178,
+        "y": 29,
+        "x": 157
+      }
+    ]
+  }
 }

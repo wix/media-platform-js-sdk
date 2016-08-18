@@ -31,7 +31,7 @@ function ImageDTO(data) {
     /**
      * @type {Array<Square>|null}
      */
-    this.faces = null; //'face' in response object
+    this.faces = null;
 
     if (data) {
         this.deserialize(data);
@@ -47,7 +47,9 @@ ImageDTO.prototype.deserialize = function (data) {
 
     this.width = data.width;
     this.height = data.height;
-    this.faces = data.face || [];
+    if (data.file_input) {
+        this.faces = data.file_input.face || [];
+    }
 };
 
 /**
