@@ -25,11 +25,6 @@ function FolderDTO(data) {
     this.mediaType = null;
 
     /**
-     * @type {Array<string>}
-     */
-    this.tags = [];
-
-    /**
      * @type {number}
      */
     this.dateCreated = null;
@@ -52,7 +47,6 @@ FolderDTO.prototype.deserialize = function (data) {
     this.parentFolderId = data.parent_folder_id;
     this.folderName = data.folder_name;
     this.mediaType = data.media_type; 
-    this.tags = data.tags ? data.tags : [];
     this.dateCreated = data.created_ts;
     this.dateModified = data.modified_ts;
 };
