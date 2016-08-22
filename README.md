@@ -303,10 +303,10 @@ fileManager.deleteFile('userId', 'fileId', callback);
 
 Wix Media Platform supports folders
  
-List child folders
+List folders
 
 ```javascript
-fileManager.listFolders('folderId', callback);
+fileManager.listFolders('userId', 'folderId' || null, callback);
 ```
 
 Create a new folder
@@ -479,7 +479,7 @@ var addItemRequests = [
 collectionManager.insertAfter('userId', 'collectionId', 'itemId', addItemRequests, callback);
 ```
 
-Update exiting items in a collection
+Update existing items in a collection
 
 ```javascript
 var UpdateItemRequest = require('media-platform-js-sdk').collection.UpdateItemRequest;
