@@ -13,7 +13,7 @@ function VideoFile(data) {
     this.tag = null;
 
     /**
-     * @type {number}
+     * @type {string}
      */
     this.fps = null;
 
@@ -85,18 +85,19 @@ VideoFile.prototype.deserialize = function (data) {
  */
 module.exports = VideoFile;
 
-//                 {
-//                     "status": "INPROGRESS",
-//                     "secure": false,
-//                     "fps": 25.0,
-//                     "format": "mp4",
-//                     "url": "video/e66d82_ca6c7b4fc81f45c9bcf219d81395d3ec/720p/mp4/file.mp4",
-//                     "video_bitrate": 1205959,
-//                     "height": 720,
-//                     "width": 1280,
-//                     "tag": "HD",
-//                     "audio_bitrate": 196000,
-//                     "duration": 5280,
-//                     "quality": "720p",
-//                     "display_aspect_ratio": "16:9"
-//                 }
+// {
+//     "status": "INPROGRESS",
+//     "secure": false,
+//     "fps": "25/1",
+//     "format": "mp4",
+//     "url": "ggl-109789773458215503884/video/2e44912c30e44beca4c623035b4418de/480p/mp4/file.mp4",
+//     "video_bitrate": 1200000,
+//     "height": 480,
+//     "width": 768,
+//     "tag": "High",
+//     "audio_bitrate": 3112,
+//     "key": "480p.mp4",
+//     "duration": 12000,
+//     "quality": "480p",
+//     "display_aspect_ratio": "8:5"
+// }
