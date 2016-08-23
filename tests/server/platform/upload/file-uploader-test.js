@@ -134,7 +134,7 @@ describe('file uploader', function() {
         it('returns a proper response object', function (done) {
 
             uploadCredentialsServer.reply(200, { upload_url: 'https://fish.cat.com/',  upload_token: 'token' });
-            fileServer.replyWithFile(200, reply + 'image-upload-reply.json');
+            fileServer.replyWithFile(200, reply + 'upload-image-response.json');
 
             fileUploader.uploadImage('userId', source + 'image.jpg', null, function (error, data) {
                 //TODO: assert props
@@ -149,7 +149,7 @@ describe('file uploader', function() {
 
         it('returns a proper response object', function (done) {
 
-            fileServer.replyWithFile(200, reply + 'audio-upload-reply.json');
+            fileServer.replyWithFile(200, reply + 'upload-audio-response.json');
             
             var metadata = new UploadRequest().addTags('cat','fish');
             fileUploader.uploadAudio('userId', source + 'audio.mp3', metadata, function (error, data) {
@@ -165,7 +165,7 @@ describe('file uploader', function() {
 
         it('default options', function (done) {
 
-            fileServer.replyWithFile(200, reply + 'video-upload-reply.json');
+            fileServer.replyWithFile(200, reply + 'upload-video-response.json');
 
             fileUploader.uploadVideo('userId', source + 'video.mp4', null, null, function (error, data) {
                 //TODO: assert props
@@ -175,7 +175,7 @@ describe('file uploader', function() {
 
         it('custom options', function (done) {
 
-            fileServer.replyWithFile(200, reply + 'video-upload-reply.json');
+            fileServer.replyWithFile(200, reply + 'upload-video-response.json');
 
             var options = new EncodingOptions()
                 .setVideoFormats(['mp4', 'webm', 'ogv'])
@@ -196,7 +196,7 @@ describe('file uploader', function() {
 
         it('default options', function (done) {
 
-            fileServer.replyWithFile(200, reply + 'upload-document-reply.json');
+            fileServer.replyWithFile(200, reply + 'upload-document-response.json');
 
             var buffer = fs.readFileSync(source + 'document.xlsx');
             fileUploader.uploadDocument('userId', buffer, null, function (error, data) {
