@@ -153,9 +153,53 @@ describe('collection manager', function() {
         });
     });
 
-    //TODO: insertBefore
+    it('insertBefore', function (done) {
 
-    //TODO: insertAfter
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.post('/collections/collectionId/items/insert-before/itemId').query(true).replyWithFile(200, reply + 'add-items-reply.json');
+
+        var addItemRequests = [
+            new NewItemRequest()
+                .setType(MediaType.AUDIO)
+                .setPrivateProperties({prop: 'value'})
+                .setPublicProperties({prop: 'value'})
+                .setTags(['moshe', 'chaim'])
+                .setTitle('olala'),
+            new NewItemRequest()
+                .setType(MediaType.AUDIO)
+                .setPrivateProperties({prop: 'value'})
+                .setPublicProperties({prop: 'value'})
+                .setTags(['moshe', 'chaim'])
+                .setTitle('olala')
+        ];
+        collectionManager.insertBefore('userId', 'collectionId', 'itemId', addItemRequests, function (error, data) {
+            done(error);
+        });
+    });
+
+    it('insertAfter', function (done) {
+
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.post('/collections/collectionId/items/insert-after/itemId').query(true).replyWithFile(200, reply + 'add-items-reply.json');
+
+        var addItemRequests = [
+            new NewItemRequest()
+                .setType(MediaType.AUDIO)
+                .setPrivateProperties({prop: 'value'})
+                .setPublicProperties({prop: 'value'})
+                .setTags(['moshe', 'chaim'])
+                .setTitle('olala'),
+            new NewItemRequest()
+                .setType(MediaType.AUDIO)
+                .setPrivateProperties({prop: 'value'})
+                .setPublicProperties({prop: 'value'})
+                .setTags(['moshe', 'chaim'])
+                .setTitle('olala')
+        ];
+        collectionManager.insertAfter('userId', 'collectionId', 'itemId', addItemRequests, function (error, data) {
+            done(error);
+        });
+    });
 
     it('updateItems', function (done) {
 
@@ -183,15 +227,55 @@ describe('collection manager', function() {
         });
     });
 
-    //TODO: moveToStart
+    it('moveToStart', function (done) {
 
-    //TODO: moveToEnd
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.post('/collections/collectionId/items/move-first').query(true).replyWithFile(200, reply + 'update-items-reply.json');
 
-    //TODO: moveBefore
+        collectionManager.moveToStart('userId', 'collectionId', ['itemId1', 'itemId2'], function (error, data) {
+            done(error);
+        });
+    });
 
-    //TODO: moveAfter
+    it('moveToEnd', function (done) {
 
-    //TODO: deleteItems
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.post('/collections/collectionId/items/move-last').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+
+        collectionManager.moveToEnd('userId', 'collectionId', ['itemId1', 'itemId2'], function (error, data) {
+            done(error);
+        });
+    });
+
+    it('moveBefore', function (done) {
+
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.post('/collections/collectionId/items/move-before/itemId').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+
+        collectionManager.moveBefore('userId', 'collectionId', 'itemId', ['itemId1', 'itemId2'], function (error, data) {
+            done(error);
+        });
+    });
+
+    it('moveAfter', function (done) {
+
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.post('/collections/collectionId/items/move-after/itemId').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+
+        collectionManager.moveAfter('userId', 'collectionId', 'itemId', ['itemId1', 'itemId2'], function (error, data) {
+            done(error);
+        });
+    });
+
+    it('deleteItems', function (done) {
+
+        authServer.times(1).reply(200, { token: 'token' });
+        collectionsServer.post('/collections/collectionId/items/delete').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+
+        collectionManager.deleteItems('userId', 'collectionId', ['itemId1', 'itemId2'], function (error) {
+            done(error);
+        });
+    });
 
     it('handles auth errors', function (done) {
 
