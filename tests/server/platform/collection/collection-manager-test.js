@@ -27,7 +27,7 @@ describe('collection manager', function() {
     it('newCollection', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections').query(true).replyWithFile(200, reply + 'collection-dto-reply.json');
+        collectionsServer.post('/collections').query(true).replyWithFile(200, reply + 'collection-dto-response.json');
 
         var newCollectionRequest = new NewCollectionRequest()
             .setType('collection type')
@@ -52,7 +52,7 @@ describe('collection manager', function() {
     it('listCollection', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.get('/collections').query(true).replyWithFile(200, reply + 'list-collections-reply.json');
+        collectionsServer.get('/collections').query(true).replyWithFile(200, reply + 'list-collections-response.json');
 
         collectionManager.listCollections('userId', MediaType.AUDIO, function (error, data) {
             done(error);
@@ -62,7 +62,7 @@ describe('collection manager', function() {
     it('getCollection', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.get('/collections/collectionId').query(true).replyWithFile(200, reply + 'collection-dto-reply.json');
+        collectionsServer.get('/collections/collectionId').query(true).replyWithFile(200, reply + 'collection-dto-response.json');
 
         collectionManager.getCollection('userId', 'collectionId', function (error, data) {
             done(error);
@@ -72,7 +72,7 @@ describe('collection manager', function() {
     it('updateCollection', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.put('/collections/collectionId').query(true).replyWithFile(200, reply + 'collection-dto-reply.json');
+        collectionsServer.put('/collections/collectionId').query(true).replyWithFile(200, reply + 'collection-dto-response.json');
 
         var updateCollectionRequest = new UpdateCollectionRequest()
             .setPrivateProperties({prop: 'value'})
@@ -88,7 +88,7 @@ describe('collection manager', function() {
     it('publishCollection', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId').query(true).replyWithFile(200, reply + 'publish-collection-reply.json');
+        collectionsServer.post('/collections/collectionId').query(true).replyWithFile(200, reply + 'publish-collection-response.json');
 
         collectionManager.publishCollection('userId', 'collectionId', function (error, data) {
             done(error);
@@ -108,7 +108,7 @@ describe('collection manager', function() {
     it('prependItems', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/prepend').query(true).replyWithFile(200, reply + 'add-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/prepend').query(true).replyWithFile(200, reply + 'add-items-response.json');
 
         var addItemRequests = [
             new NewItemRequest()
@@ -132,7 +132,7 @@ describe('collection manager', function() {
     it('appendItems', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/append').query(true).replyWithFile(200, reply + 'add-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/append').query(true).replyWithFile(200, reply + 'add-items-response.json');
 
         var addItemRequests = [
             new NewItemRequest()
@@ -156,7 +156,7 @@ describe('collection manager', function() {
     it('insertBefore', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/insert-before/itemId').query(true).replyWithFile(200, reply + 'add-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/insert-before/itemId').query(true).replyWithFile(200, reply + 'add-items-response.json');
 
         var addItemRequests = [
             new NewItemRequest()
@@ -180,7 +180,7 @@ describe('collection manager', function() {
     it('insertAfter', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/insert-after/itemId').query(true).replyWithFile(200, reply + 'add-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/insert-after/itemId').query(true).replyWithFile(200, reply + 'add-items-response.json');
 
         var addItemRequests = [
             new NewItemRequest()
@@ -204,7 +204,7 @@ describe('collection manager', function() {
     it('updateItems', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.put('/collections/collectionId/items').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+        collectionsServer.put('/collections/collectionId/items').query(true).replyWithFile(200, reply + 'update-items-response.json');
 
         var updateItemsRequest = [
             new UpdateItemRequest()
@@ -230,7 +230,7 @@ describe('collection manager', function() {
     it('moveToStart', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/move-first').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/move-first').query(true).replyWithFile(200, reply + 'update-items-response.json');
 
         collectionManager.moveToStart('userId', 'collectionId', ['itemId1', 'itemId2'], function (error, data) {
             done(error);
@@ -240,7 +240,7 @@ describe('collection manager', function() {
     it('moveToEnd', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/move-last').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/move-last').query(true).replyWithFile(200, reply + 'update-items-response.json');
 
         collectionManager.moveToEnd('userId', 'collectionId', ['itemId1', 'itemId2'], function (error, data) {
             done(error);
@@ -250,7 +250,7 @@ describe('collection manager', function() {
     it('moveBefore', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/move-before/itemId').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/move-before/itemId').query(true).replyWithFile(200, reply + 'update-items-response.json');
 
         collectionManager.moveBefore('userId', 'collectionId', 'itemId', ['itemId1', 'itemId2'], function (error, data) {
             done(error);
@@ -260,7 +260,7 @@ describe('collection manager', function() {
     it('moveAfter', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/move-after/itemId').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/move-after/itemId').query(true).replyWithFile(200, reply + 'update-items-response.json');
 
         collectionManager.moveAfter('userId', 'collectionId', 'itemId', ['itemId1', 'itemId2'], function (error, data) {
             done(error);
@@ -270,7 +270,7 @@ describe('collection manager', function() {
     it('deleteItems', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/delete').query(true).replyWithFile(200, reply + 'update-items-reply.json');
+        collectionsServer.post('/collections/collectionId/items/delete').query(true).replyWithFile(200, reply + 'update-items-response.json');
 
         collectionManager.deleteItems('userId', 'collectionId', ['itemId1', 'itemId2'], function (error) {
             done(error);
