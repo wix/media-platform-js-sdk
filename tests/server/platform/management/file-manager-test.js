@@ -27,7 +27,7 @@ describe('file manager', function() {
     it('listFiles - default', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        fileServer.get('/files/getpage').query(true).replyWithFile(200, reply + 'list-files-reply.json');
+        fileServer.get('/files/getpage').query(true).replyWithFile(200, reply + 'list-files-response.json');
 
         fileManager.listFiles('userId', null, function (error, data) {
             done(error);
@@ -37,7 +37,7 @@ describe('file manager', function() {
     it('listFiles - page', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        fileServer.get('/files/getpage').query(true).replyWithFile(200, reply + 'list-files-reply.json');
+        fileServer.get('/files/getpage').query(true).replyWithFile(200, reply + 'list-files-response.json');
 
         var listFilesRequest = new ListFilesRequest()
             .ascending()
@@ -56,7 +56,7 @@ describe('file manager', function() {
     it('getFile', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        fileServer.get('/files/fileId').query(true).replyWithFile(200, reply + 'get-file-image-reply.json');
+        fileServer.get('/files/fileId').query(true).replyWithFile(200, reply + 'get-file-image-response.json');
 
         fileManager.getFile('userId', 'fileId', function (error, data) {
             done(error);
@@ -66,7 +66,7 @@ describe('file manager', function() {
     it('updateFile', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        fileServer.put('/files/fileId').query(true).replyWithFile(200, reply + 'update-file-reply.json');
+        fileServer.put('/files/fileId').query(true).replyWithFile(200, reply + 'update-file-response.json');
 
         var updateFileRequest = new UpdateFileRequest()
             .setOriginalFileName('cat.jpeg')
@@ -90,7 +90,7 @@ describe('file manager', function() {
     it('listFolders', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        fileServer.get('/folders').query(true).replyWithFile(200, reply + 'list-folders-reply.json');
+        fileServer.get('/folders').query(true).replyWithFile(200, reply + 'list-folders-response.json');
 
         fileManager.listFolders('userId', null, function (error, data) {
             done(error);
@@ -100,7 +100,7 @@ describe('file manager', function() {
     it('listFolders - sub folder', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        fileServer.get('/folders/folderId').query(true).replyWithFile(200, reply + 'list-folders-reply.json');
+        fileServer.get('/folders/folderId').query(true).replyWithFile(200, reply + 'list-folders-response.json');
 
         fileManager.listFolders('userId', 'folderId', function (error, data) {
             done(error);
@@ -110,7 +110,7 @@ describe('file manager', function() {
     it('newFolder', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        fileServer.post('/folders').query(true).replyWithFile(200, reply + 'folder-dto-reply.json');
+        fileServer.post('/folders').query(true).replyWithFile(200, reply + 'folder-dto-response.json');
 
         var newFolderRequest = new NewFolderRequest()
             .setMediaType(MediaType.IMAGE)
@@ -124,7 +124,7 @@ describe('file manager', function() {
     it('updateFolder', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        fileServer.put('/folders/folderId').query(true).replyWithFile(200, reply + 'folder-dto-reply.json');
+        fileServer.put('/folders/folderId').query(true).replyWithFile(200, reply + 'folder-dto-response.json');
 
         var updateFolderRequest = new UpdateFolderRequest()
             .setFolderName('Doberman Pinscher');
