@@ -45,6 +45,24 @@ describe('collection manager', function() {
                     .setTitle('well well')
             ]);
         collectionManager.newCollection('userId', newCollectionRequest, function (error, data) {
+            expect(data).to.eql({
+                "id": "4525a349-cfe5-4dbb-ab98-3067d2e5c1b2",
+                "type": "document",
+                "title": "collection",
+                "tags": [
+                    "fish"
+                ],
+                "items": [],
+                "thumbnailUrl": "",
+                "publicProperties": {
+                    "prop": "value"
+                },
+                "privateProperties": {
+                    "prop": "value"
+                },
+                "dateCreated": "2016-07-05T15:36:12.464650",
+                "dateUpdated": "2016-07-05T15:36:12.464660"
+            });
             done(error);
         });
     });
@@ -91,6 +109,7 @@ describe('collection manager', function() {
         collectionsServer.post('/collections/collectionId').query(true).replyWithFile(200, reply + 'publish-collection-response.json');
 
         collectionManager.publishCollection('userId', 'collectionId', function (error, data) {
+            expect(data).to.eql('/collections/109789773458215503884-650f-43a5-bda7-4cd83dcf73fb.json');
             done(error);
         });
     });
@@ -98,9 +117,9 @@ describe('collection manager', function() {
     it('deleteCollection', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.delete('/collections/collectionId').query(true).reply(200, {});
+        collectionsServer.delete('/collections/collectionId').query(true).replyWithFile(200, reply + 'delete-collection-response.json');
 
-        collectionManager.deleteCollection('userId', 'collectionId', function (error, data) {
+        collectionManager.deleteCollection('userId', 'collectionId', function (error) {
             done(error);
         });
     });
@@ -125,6 +144,19 @@ describe('collection manager', function() {
                 .setTitle('olala')
         ];
         collectionManager.prependItems('userId', 'collectionId', addItemRequests, function (error, data) {
+            expect(data).to.eql([
+                {
+                    "id": 5629499534213120,
+                    "type": "fish",
+                    "title": "fish",
+                    "ordinal": 0,
+                    "tags": [],
+                    "publicProperties": {},
+                    "privateProperties": {},
+                    "dateCreated": "2016-08-24T09:46:20.204160",
+                    "dateUpdated": "2016-08-24T09:46:20.204170"
+                }
+            ]);
             done(error);
         });
     });
@@ -260,9 +292,22 @@ describe('collection manager', function() {
     it('moveAfter', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/move-after/itemId').query(true).replyWithFile(200, reply + 'update-items-response.json');
+        collectionsServer.post('/collections/collectionId/items/move-after/itemId').query(true).replyWithFile(200, reply + 'move-items-response.json');
 
         collectionManager.moveAfter('userId', 'collectionId', 'itemId', ['itemId1', 'itemId2'], function (error, data) {
+            expect(data).to.eql([
+                {
+                    "id": 5707702298738688,
+                    "type": "sdfsdf",
+                    "title": "aadf",
+                    "ordinal": -25,
+                    "tags": [],
+                    "publicProperties": {},
+                    "privateProperties": {},
+                    "dateCreated": "2016-08-24T09:53:25.621660",
+                    "dateUpdated": "2016-08-24T10:00:33.952940"
+                }
+            ]);
             done(error);
         });
     });
@@ -270,7 +315,7 @@ describe('collection manager', function() {
     it('deleteItems', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
-        collectionsServer.post('/collections/collectionId/items/delete').query(true).replyWithFile(200, reply + 'update-items-response.json');
+        collectionsServer.post('/collections/collectionId/items/delete').query(true).replyWithFile(200, reply + 'delete-items-response.json');
 
         collectionManager.deleteItems('userId', 'collectionId', ['itemId1', 'itemId2'], function (error) {
             done(error);
@@ -283,6 +328,7 @@ describe('collection manager', function() {
 
         collectionManager.listCollections('moshe', MediaType.AUDIO, function (error, data) {
             expect(error).to.be.a(Error);
+            expect(data).to.be(null);
             done();
         });
     });
