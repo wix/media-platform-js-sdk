@@ -12,7 +12,7 @@ function toDTO(data) {
         case 'picture':
             return new ImageDTO(data);
             break;
-        case 'audio':
+        case 'music':
             return new AudioDTO(data);
             break;
         case 'video':
