@@ -184,7 +184,7 @@ FileUploader.prototype.uploadFile = function (userId, mediaType, source, uploadR
 
     function doCallback(error, data) {
         if (!calledBack) {
-            callback(error, data);
+            callback(error, data || null);
             calledBack = true;
         }
     }

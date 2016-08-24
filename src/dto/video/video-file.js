@@ -74,10 +74,10 @@ VideoFile.prototype.deserialize = function (data) {
     this.audioBitrate = data.audio_bitrate;
     this.duration = data.duration;
     this.quality = data.quality || null;
-    this.displayAspectRatio = data.display_aspect_ratio;
-    this.sampleAspectRatio = data.sample_aspect_ratio;
-    this.rotation = data.rotation;
-    this.type = data.type;  
+    this.displayAspectRatio = data.display_aspect_ratio || null;
+    this.sampleAspectRatio = data.sample_aspect_ratio || null;
+    this.rotation = data.rotation === undefined ? null : data.rotation;
+    this.type = data.type || null;
 };
 
 /**

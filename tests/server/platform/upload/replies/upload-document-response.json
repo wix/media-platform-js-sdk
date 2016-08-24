@@ -1,17 +1,17 @@
 [
   {
-    "parent_folder_id": "1b98ddebaa447184cd90f33753e6c474",
-    "created_ts": 1466413719,
-    "hash": "35df225c1634042f59e85aad37bae506",
+    "parent_folder_id": "5d899584b15b2691bd0100d322ea201d",
+    "created_ts": 1472025868,
+    "hash": "b9376c800ea7ab681da23ee6c18c0e69",
     "tags": [],
-    "file_name": "af63a5d465ce48a998297684f3246df6",
+    "file_name": "10a917_28919fe96f4846219334fe80dc73b8fa.xlsx",
     "labels": [],
-    "file_url": "ggl-109789773458215503884/audio/af63a5d465ce48a998297684f3246df6/file.mp3",
-    "original_file_name": "YEXuWYCjGR.mp3",
-    "modified_ts": 1466413719,
-    "file_size": 3528120,
-    "media_type": "music",
-    "icon_url": "wixmedia-public/images/b0068f926fc542fbb1f3653df8ce5099/music_note.png",
-    "mime_type": "audio/mp3"
+    "file_url": "ggl-109789773458215503884/document/10a917_28919fe96f4846219334fe80dc73b8fa.xlsx",
+    "original_file_name": "document.xlsx",
+    "modified_ts": 1472025868,
+    "file_size": 21034,
+    "media_type": "document",
+    "icon_url": "media/6167099680654d6a026118a70f4c8715.png",
+    "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   }
 ]
