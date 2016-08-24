@@ -30,7 +30,6 @@ describe('file manager', function() {
         fileServer.get('/files/getpage').query(true).replyWithFile(200, reply + 'list-files-response.json');
 
         fileManager.listFiles('userId', null, function (error, data) {
-            console.log(JSON.stringify(data, null, 2));
             expect(data).to.eql({
                 "timeStamp": 1467295051,
                 "count": 3,
@@ -214,12 +213,192 @@ describe('file manager', function() {
         });
     });
 
-    it('getFile', function (done) {
+    it('getFile - image', function (done) {
 
         authServer.times(1).reply(200, { token: 'token' });
         fileServer.get('/files/fileId').query(true).replyWithFile(200, reply + 'get-file-image-response.json');
 
         fileManager.getFile('userId', 'fileId', function (error, data) {
+            expect(data).to.eql({
+                "parentFolderId": "d23b196fa41a47043ae3908ca467cbe9",
+                "hash": "541f2e240ec95eea4c42d494d35dfe25",
+                "originalFileName": "neta.jpeg",
+                "fileName": "8cdd7a4f6eee439ba209adc00830bb08",
+                "fileUrl": "ggl-109789773458215503884/images/8cdd7a4f6eee439ba209adc00830bb08/file.jpeg",
+                "baseUrl": "ggl-109789773458215503884/images",
+                "fileSize": 65096,
+                "iconUrl": "ggl-109789773458215503884/images/8cdd7a4f6eee439ba209adc00830bb08/file.jpeg",
+                "mediaType": "picture",
+                "mimeType": "image/jpeg",
+                "lables": [
+                    "clothing",
+                    "hair",
+                    "person",
+                    "little black dress",
+                    "model"
+                ],
+                "tags": [],
+                "dateCreated": 1471508651,
+                "dateModified": 1471508677,
+                "height": 602,
+                "width": 400,
+                "faces": [
+                    {
+                        "height": 207,
+                        "width": 178,
+                        "y": 29,
+                        "x": 157
+                    }
+                ]
+            });
+            done(error);
+        });
+    });
+
+    it('getFile - audio', function (done) {
+
+        authServer.times(1).reply(200, { token: 'token' });
+        fileServer.get('/files/fileId').query(true).replyWithFile(200, reply + 'get-file-audio-response.json');
+
+        fileManager.getFile('userId', 'fileId', function (error, data) {
+            expect(data).to.eql({
+                "parentFolderId": "1b98ddebaa447184cd90f33753e6c474",
+                "hash": "687ec4539601f9e85f09d8dffd51264f",
+                "originalFileName": "cat.mp3",
+                "fileName": "c179afe7100a4c0085e743d887d545a3",
+                "fileUrl": "ggl-109789773458215503884/audio/c179afe7100a4c0085e743d887d545a3/file.mp3",
+                "baseUrl": "ggl-109789773458215503884/audio",
+                "fileSize": 30439,
+                "iconUrl": "wixmedia-public/images/b0068f926fc542fbb1f3653df8ce5099/music_note.png",
+                "mediaType": "music",
+                "mimeType": "audio/mpeg",
+                "lables": [],
+                "tags": [],
+                "dateCreated": 1467273852,
+                "dateModified": 1471511997,
+                "inputFile": {
+                    "format": "mp3",
+                    "channels": 1,
+                    "sampleSize": 16,
+                    "sampleRate": 44100,
+                    "duration": 5093,
+                    "bitrate": 48000
+                }
+            });
+            done(error);
+        });
+    });
+
+    it('getFile - video', function (done) {
+
+        authServer.times(1).reply(200, { token: 'token' });
+        fileServer.get('/files/fileId').query(true).replyWithFile(200, reply + 'get-file-video-response.json');
+
+        fileManager.getFile('userId', 'fileId', function (error, data) {
+            expect(data).to.eql({
+                "parentFolderId": "40700af2c4d942a9f77c157baee95fd9",
+                "hash": "f5ea6d9e1de2ae552f4dbedcbcf9bb94",
+                "originalFileName": "video.mp4",
+                "fileName": "2e44912c30e44beca4c623035b4418de",
+                "fileUrl": "ggl-109789773458215503884/video/2e44912c30e44beca4c623035b4418de/file.mp4",
+                "baseUrl": "ggl-109789773458215503884/video",
+                "fileSize": 4151438,
+                "iconUrl": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def002/file.jpg",
+                "mediaType": "video",
+                "mimeType": "video/mp4",
+                "lables": [],
+                "tags": [],
+                "dateCreated": 1471955310,
+                "dateModified": 1471955330,
+                "height": 1080,
+                "width": 1728,
+                "inputFile": {
+                    "tag": null,
+                    "fps": "25/1",
+                    "videoBitrate": 2757180,
+                    "audioBitrate": 3112,
+                    "duration": 12000,
+                    "quality": null,
+                    "displayAspectRatio": "8:5",
+                    "sampleAspectRatio": "1:1",
+                    "rotation": 0,
+                    "type": "video"
+                },
+                "outputFiles": {
+                    "images": [
+                        {
+                            "status": "READY",
+                            "secure": false,
+                            "url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def000/file.jpg",
+                            "format": "jpg",
+                            "width": 1728,
+                            "height": 1080
+                        },
+                        {
+                            "status": "READY",
+                            "secure": false,
+                            "url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def001/file.jpg",
+                            "format": "jpg",
+                            "width": 1728,
+                            "height": 1080
+                        },
+                        {
+                            "status": "READY",
+                            "secure": false,
+                            "url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def002/file.jpg",
+                            "format": "jpg",
+                            "width": 1728,
+                            "height": 1080
+                        },
+                        {
+                            "status": "READY",
+                            "secure": false,
+                            "url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def003/file.jpg",
+                            "format": "jpg",
+                            "width": 1728,
+                            "height": 1080
+                        }
+                    ],
+                    "videos": [
+                        {
+                            "tag": "High",
+                            "fps": "25/1",
+                            "videoBitrate": 914383,
+                            "audioBitrate": 3112,
+                            "duration": 12040,
+                            "quality": "480p",
+                            "displayAspectRatio": "8:5",
+                            "sampleAspectRatio": null,
+                            "rotation": null,
+                            "type": null
+                        },
+                        {
+                            "tag": "HD",
+                            "fps": "25/1",
+                            "videoBitrate": 1878247,
+                            "audioBitrate": 3112,
+                            "duration": 12040,
+                            "quality": "720p",
+                            "displayAspectRatio": "8:5",
+                            "sampleAspectRatio": null,
+                            "rotation": null,
+                            "type": null
+                        },
+                        {
+                            "tag": "HD",
+                            "fps": "25/1",
+                            "videoBitrate": 2771464,
+                            "audioBitrate": 3112,
+                            "duration": 12040,
+                            "quality": "1080p",
+                            "displayAspectRatio": "8:5",
+                            "sampleAspectRatio": null,
+                            "rotation": null,
+                            "type": null
+                        }
+                    ]
+                }
+            });
             done(error);
         });
     });
@@ -234,6 +413,28 @@ describe('file manager', function() {
             .setParentFolderId('folderId')
             .setTags(['dog', 'Schnauzer']);
         fileManager.updateFile('userId', 'fileId', updateFileRequest, function (error, data) {
+            expect(data).to.eql({
+                "parentFolderId": "d23b196fa41a47043ae3908ca467cbe9",
+                "hash": "9eea21221c9abe895eac99a54f058d2a",
+                "originalFileName": "dog.jpg",
+                "fileName": "71f2336ac3bf456fafb1bba0f9179290",
+                "fileUrl": "ggl-109789773458215503884/images/71f2336ac3bf456fafb1bba0f9179290/file.jpg",
+                "baseUrl": "ggl-109789773458215503884/images",
+                "fileSize": 12958,
+                "iconUrl": "ggl-109789773458215503884/images/71f2336ac3bf456fafb1bba0f9179290/file.jpg",
+                "mediaType": "picture",
+                "mimeType": "image/jpeg",
+                "lables": [
+                    "hunting knife",
+                    "Wix.com"
+                ],
+                "tags": [],
+                "dateCreated": 1467632026,
+                "dateModified": 1467637885,
+                "height": 35,
+                "width": 115,
+                "faces": null
+            });
             done(error);
         });
     });
@@ -254,6 +455,35 @@ describe('file manager', function() {
         fileServer.get('/folders').query(true).replyWithFile(200, reply + 'list-folders-response.json');
 
         fileManager.listFolders('userId', null, function (error, data) {
+            expect(data).to.eql({
+                "timeStamp": 1467638915,
+                "folders": [
+                    {
+                        "folderId": "aa8b1df4f8a94264a2e93507d92dd550",
+                        "parentFolderId": "d23b196fa41a47043ae3908ca467cbe9",
+                        "folderName": "fish",
+                        "mediaType": "picture",
+                        "dateCreated": 1467638621,
+                        "dateModified": 1467638621
+                    },
+                    {
+                        "folderId": "d23b196fa41a47043ae3908ca467cbe9",
+                        "parentFolderId": null,
+                        "folderName": "/",
+                        "mediaType": "video",
+                        "dateCreated": 1462351444,
+                        "dateModified": 1467632026
+                    },
+                    {
+                        "folderId": "dd364ced517c4845affd32a0edb3e6e6",
+                        "parentFolderId": "d23b196fa41a47043ae3908ca467cbe9",
+                        "folderName": "cat",
+                        "mediaType": "music",
+                        "dateCreated": 1467638771,
+                        "dateModified": 1467638771
+                    }
+                ]
+            });
             done(error);
         });
     });
@@ -278,6 +508,14 @@ describe('file manager', function() {
             .setFolderName('Doberman Pinscher')
             .setParentFolderId('cat');
         fileManager.newFolder('userId', newFolderRequest, function (error, data) {
+            expect(data).to.eql({
+                "folderId": "dd364ced517c4845affd32a0edb3e6e6",
+                "parentFolderId": "d23b196fa41a47043ae3908ca467cbe9",
+                "folderName": "cat",
+                "mediaType": "picture",
+                "dateCreated": 1467638771,
+                "dateModified": 1467638771
+            });
             done(error);
         });
     });
@@ -290,6 +528,14 @@ describe('file manager', function() {
         var updateFolderRequest = new UpdateFolderRequest()
             .setFolderName('Doberman Pinscher');
         fileManager.updateFolder('userId', 'folderId', updateFolderRequest, function (error, data) {
+            expect(data).to.eql({
+                "folderId": "dd364ced517c4845affd32a0edb3e6e6",
+                "parentFolderId": "d23b196fa41a47043ae3908ca467cbe9",
+                "folderName": "cat",
+                "mediaType": "picture",
+                "dateCreated": 1467638771,
+                "dateModified": 1467638771
+            });
             done(error);
         });
     });
@@ -311,6 +557,7 @@ describe('file manager', function() {
         //noinspection JSAccessibilityCheck
         fileManager.listFiles('moshe', null, function (error, data) {
             expect(error).to.be.a(Error);
+            expect(data).to.be(null);
             done();
         });
     });

@@ -1,0 +1,24 @@
+{
+  "parent_folder_id": "1b98ddebaa447184cd90f33753e6c474",
+  "created_ts": 1467273852,
+  "hash": "687ec4539601f9e85f09d8dffd51264f",
+  "tags": [],
+  "file_name": "c179afe7100a4c0085e743d887d545a3",
+  "refs": [],
+  "labels": [],
+  "file_url": "ggl-109789773458215503884/audio/c179afe7100a4c0085e743d887d545a3/file.mp3",
+  "original_file_name": "cat.mp3",
+  "modified_ts": 1471511997,
+  "file_size": 30439,
+  "media_type": "music",
+  "icon_url": "wixmedia-public/images/b0068f926fc542fbb1f3653df8ce5099/music_note.png",
+  "mime_type": "audio/mpeg",
+  "file_input": {
+    "format": "mp3",
+    "channels": 1,
+    "sample_size": 16,
+    "sample_rate": 44100,
+    "duration": 5093,
+    "bitrate": 48000
+  }
+}

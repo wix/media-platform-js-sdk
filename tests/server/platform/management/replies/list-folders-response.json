@@ -12,14 +12,14 @@
     "created_ts": 1462351444,
     "modified_ts": 1467632026,
     "folder_name": "/",
-    "media_type": "picture",
+    "media_type": "video",
     "folder_id": "d23b196fa41a47043ae3908ca467cbe9"
   }, {
     "parent_folder_id": "d23b196fa41a47043ae3908ca467cbe9",
     "created_ts": 1467638771,
     "modified_ts": 1467638771,
     "folder_name": "cat",
-    "media_type": "picture",
+    "media_type": "music",
     "folder_id": "dd364ced517c4845affd32a0edb3e6e6"
   }]
 }

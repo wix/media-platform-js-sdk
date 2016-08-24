@@ -2,6 +2,7 @@ var ImageDTO = require('./image/image-dto');
 var AudioDTO = require('./audio/audio-dto');
 var VideoDTO = require('./video/video-dto');
 var DocumentDTO = require('./document/document-dto');
+var MediaType = require('./media-type');
 
 /**
  * @param {{}} data
@@ -9,16 +10,16 @@ var DocumentDTO = require('./document/document-dto');
  */
 function toDTO(data) {
     switch (data.media_type) {
-        case 'picture':
+        case MediaType.IMAGE:
             return new ImageDTO(data);
             break;
-        case 'music':
+        case MediaType.AUDIO:
             return new AudioDTO(data);
             break;
-        case 'video':
+        case MediaType.VIDEO:
             return new VideoDTO(data);
             break;
-        case 'document':
+        case MediaType.DOCUMENT:
             return new DocumentDTO(data);
             break;
     }
