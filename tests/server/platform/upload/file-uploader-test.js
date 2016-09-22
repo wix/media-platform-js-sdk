@@ -145,7 +145,6 @@ describe('file uploader', function() {
             //noinspection JSAccessibilityCheck
             fileUploader.importFile('userId', new ImportRequest().setFileName('file.jpg').setUrl('http://this.is/a/url').setMediaType('picture'), function (error, data) {
                 done(error);
-                console.log(data);
             });
         });
     });

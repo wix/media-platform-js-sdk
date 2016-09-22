@@ -88,6 +88,7 @@ app.get('/media-platform/auth-header', function (req, res, next) {
 var fileUploader = mediaPlatform.fileUploader;
 var EncodingOptions = require('media-platform-js-sdk').video.EncodingOptions;
 var UploadRequest = require('media-platform-js-sdk').file.UploadRequest;
+var ImportRequest = require('media-platform-js-sdk').file.ImportRequest;
  
 var uploadRequest = new UploadRequest()
     .setFileName('str-image.jpg') // if the source is a stream or buffer, providing the file name is mandatory
@@ -111,6 +112,15 @@ var encodingOptions = new EncodingOptions()
         .setVideoFormats(['mp4', 'webm', 'ogv'])
         .setAudioFormat('m4a');
 fileUploader.uploadVideo('userId', <ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, callback);
+
+/**
+* Import a file from a remote source
+*/
+var importRequest = new ImportRequest()
+    .setFileName('file.jpg')
+    .setUrl('http://this.is/a/url')
+    .setMediaType('picture');
+fileUploader.importFile('userId', importRequest, callback);
 ```
 
 ### Browser

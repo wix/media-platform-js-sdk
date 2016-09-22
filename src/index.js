@@ -4,6 +4,7 @@ var imageRequestDeserializers = require('./image/image-request-deserializer');
 var Alignments = require('./image/operation/align/alignments');
 var EncodingOptions = require('./dto/video/encoding-options');
 var UploadRequest = require('./dto/upload/upload-request');
+var ImportRequest = require('./dto/upload/import-request');
 var MediaType = require('./dto/media-type');
 var ListFilesRequest = require('./dto/management/list-files-request');
 var UpdateFileRequest =  require('./dto/management/update-file-request');
@@ -65,6 +66,11 @@ module.exports = {
          * @type {UploadRequest}
          */
         UploadRequest: UploadRequest,
+
+        /**
+         * @type {ImportRequest}
+         */
+        ImportRequest: ImportRequest,
 
         /**
          * @type {ListFilesRequest}
