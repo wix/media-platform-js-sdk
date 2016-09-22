@@ -138,10 +138,10 @@ FileUploader.prototype.uploadFile = function (userId, mediaType, source, uploadR
     var stream = null;
     if (typeof source.pipe === 'function') {
         stream = source;
-        stream.on('error', doCallback);
+        stream.once('error', doCallback);
     } else if (typeof source === 'string') {
         stream = fs.createReadStream(source);
-        stream.on('error', doCallback);
+        stream.once('error', doCallback);
     } else if (source instanceof Buffer) {
         // TODO: solve missing boundary issue (content length?)
         // stream = new Stream.PassThrough();
