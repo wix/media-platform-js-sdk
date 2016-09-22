@@ -86,6 +86,7 @@ app.get('/media-platform/auth-header', function (req, res, next) {
 
 ```javascript
 var fileUploader = mediaPlatform.fileUploader;
+var MediaType = require('media-platform-js-sdk').MediaType;
 var EncodingOptions = require('media-platform-js-sdk').video.EncodingOptions;
 var UploadRequest = require('media-platform-js-sdk').file.UploadRequest;
 var ImportRequest = require('media-platform-js-sdk').file.ImportRequest;
@@ -119,7 +120,7 @@ fileUploader.uploadVideo('userId', <ReadStream || Buffer || string path to file>
 var importRequest = new ImportRequest()
     .setFileName('file.jpg')
     .setUrl('http://this.is/a/url')
-    .setMediaType('picture');
+    .setMediaType(MediaType.IMAGE);
 fileUploader.importFile('userId', importRequest, callback);
 ```
 
