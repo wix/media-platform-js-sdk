@@ -8,6 +8,7 @@ var AuthenticationFacade = require('../../../../src/platform/authentication/auth
 var AuthenticatedHTTPClient = require('../../../../src/platform/http/authenticated-http-client');
 var FileUploader = require('../../../../src/platform/upload/file-uploader');
 var UploadRequest = require('../../../../src/dto/upload/upload-request');
+var ImportRequest = require('../../../../src/dto/upload/import-request');
 var EncodingOptions = require('../../../../src/dto/video/encoding-options');
 
 var source = __dirname + '/../../../source/';
@@ -133,6 +134,22 @@ describe('file uploader', function() {
         });
     });
 
+    describe('import file', function() {
+
+        it('commit a URL to import', function (done) {
+
+            authServer.times(1).reply(200, {token: 'token'});
+            var server = nock('https://upload.com/').post('/files/upload/external/async').query(true);
+            server.replyWithFile(200, reply + 'import-response.json');
+
+            //noinspection JSAccessibilityCheck
+            fileUploader.importFile('userId', new ImportRequest().setFileName('file.jpg').setUrl('http://this.is/a/url').setMediaType('picture'), function (error, data) {
+                done(error);
+                console.log(data);
+            });
+        });
+    });
+
     describe('upload image', function() {
 
         it('returns a proper response object', function (done) {
@@ -158,7 +175,8 @@ describe('file uploader', function() {
                     "dateModified": 1466345821,
                     "height": 17,
                     "width": 17,
-                    "faces": null
+                    "faces": null,
+                    "status": null
                 });
                 done(error);
             });
@@ -190,6 +208,7 @@ describe('file uploader', function() {
                     "tags": [],
                     "dateCreated": 1466413719,
                     "dateModified": 1466413719,
+                    "status": null,
                     "inputFile": {
                         "format": "mp3",
                         "channels": 2,
@@ -230,6 +249,7 @@ describe('file uploader', function() {
                     "dateModified": 1471955309,
                     "height": 1080,
                     "width": 1728,
+                    "status": "IN-QUEUE",
                     "inputFile": {
                         "tag": null,
                         "fps": "25/1",
@@ -345,6 +365,7 @@ describe('file uploader', function() {
                     "mimeType": "video/mp4",
                     "lables": [],
                     "tags": [],
+                    "status": "IN-QUEUE",
                     "dateCreated": 1471955310,
                     "dateModified": 1471955309,
                     "height": 1080,
@@ -463,6 +484,7 @@ describe('file uploader', function() {
                     "mediaType": "document",
                     "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     "lables": [],
+                    "status": null,
                     "tags": [],
                     "dateCreated": 1472025868,
                     "dateModified": 1472025868

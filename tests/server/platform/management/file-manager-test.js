@@ -58,7 +58,8 @@ describe('file manager', function() {
                         "dateModified": 1467294551,
                         "height": 35,
                         "width": 115,
-                        "faces": null
+                        "faces": null,
+                        "status": null
                     },
                     {
                         "parentFolderId": "1b98ddebaa447184cd90f33753e6c474",
@@ -82,7 +83,8 @@ describe('file manager', function() {
                             "sampleRate": 44100,
                             "duration": 5093,
                             "bitrate": 48000
-                        }
+                        },
+                        "status": null
                     },
                     {
                         "parentFolderId": "40700af2c4d942a9f77c157baee95fd9",
@@ -101,6 +103,7 @@ describe('file manager', function() {
                         "dateModified": 1471955330,
                         "height": 1080,
                         "width": 1728,
+                        "status": "READY",
                         "inputFile": {
                             "tag": null,
                             "fps": "25/1",
@@ -238,6 +241,7 @@ describe('file manager', function() {
                     "model"
                 ],
                 "tags": [],
+                "status": null,
                 "dateCreated": 1471508651,
                 "dateModified": 1471508677,
                 "height": 602,
@@ -273,6 +277,7 @@ describe('file manager', function() {
                 "mediaType": "music",
                 "mimeType": "audio/mpeg",
                 "lables": [],
+                "status": null,
                 "tags": [],
                 "dateCreated": 1467273852,
                 "dateModified": 1471511997,
@@ -308,6 +313,7 @@ describe('file manager', function() {
                 "mimeType": "video/mp4",
                 "lables": [],
                 "tags": [],
+                "status": "READY",
                 "dateCreated": 1471955310,
                 "dateModified": 1471955330,
                 "height": 1080,
@@ -424,6 +430,7 @@ describe('file manager', function() {
                 "iconUrl": "ggl-109789773458215503884/images/71f2336ac3bf456fafb1bba0f9179290/file.jpg",
                 "mediaType": "picture",
                 "mimeType": "image/jpeg",
+                "status": null,
                 "lables": [
                     "hunting knife",
                     "Wix.com"

@@ -1,6 +1,7 @@
 var fs = require('fs');
 var _ = require('underscore');
 var request = require('request');
+var BaseDTO = require('../../dto/base-dto');
 var MediaType = require('../../dto/media-type');
 var ImageDTO = require('../../dto/image/image-dto');
 var AudioDTO = require('../../dto/audio/audio-dto');
@@ -20,6 +21,8 @@ function FileUploader(configuration, authenticatedHttpClient) {
     this.authenticatedHttpClient = authenticatedHttpClient;
 
     this.uploadUrlEndpoint = 'https://' + configuration.domain + '/files/upload/url';
+
+    this.baseUrl = 'https://' + configuration.domain + '/files/upload';
 }
 
 /**
@@ -30,7 +33,6 @@ function FileUploader(configuration, authenticatedHttpClient) {
  * TODO: optional file size for preflight testing
  */
 FileUploader.prototype.getUploadUrl = function (userId, mediaType, callback) {
-
     this.authenticatedHttpClient.jsonRequest('GET', this.uploadUrlEndpoint, userId, { media_type: mediaType }, function (error, body) {
 
         if (error) {
@@ -67,7 +69,6 @@ FileUploader.prototype.uploadImage = function (userId, source, uploadRequest, ca
  * @param {function(Error, AudioDTO)} callback
  */
 FileUploader.prototype.uploadAudio = function (userId, source, uploadRequest, callback) {
-
     this.uploadFile(userId, MediaType.AUDIO, source, uploadRequest, {}, function (error, body) {
 
         if (error) {
@@ -87,7 +88,6 @@ FileUploader.prototype.uploadAudio = function (userId, source, uploadRequest, ca
  * @param {function(Error, VideoDTO)} callback
  */
 FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, uploadRequest, callback) {
-
     var additionalParams = {};
     if (encodingOptions) {
         _.extendOwn(additionalParams, encodingOptions.toFormParams());
@@ -111,7 +111,6 @@ FileUploader.prototype.uploadVideo = function (userId, source, encodingOptions, 
  * @param {function(Error, DocumentDTO)} callback
  */
 FileUploader.prototype.uploadDocument = function (userId, source, uploadRequest, callback) {
-
     this.uploadFile(userId, MediaType.DOCUMENT, source, uploadRequest, {}, function (error, body) {
 
         if (error) {
@@ -121,6 +120,25 @@ FileUploader.prototype.uploadDocument = function (userId, source, uploadRequest,
 
         callback(null, new DocumentDTO(body[0]));
     })
+};
+
+/**
+ * Commit a URL to a remote file, which will be uploaded
+ * @param {string} userId
+ * @param {ImportRequest} importRequest
+ * @param {function(Error, BaseDTO)} callback
+ */
+FileUploader.prototype.importFile = function (userId, importRequest, callback) {
+    this.authenticatedHttpClient.jsonRequest('POST', this.baseUrl + '/external/async', userId, importRequest.toParams(),
+        function (error, response) {
+
+            if (error) {
+                callback(error, null);
+                return;
+            }
+
+            callback(null, new BaseDTO().deserialize(response.payload));
+        });
 };
 
 /**

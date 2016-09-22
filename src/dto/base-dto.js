@@ -64,6 +64,11 @@ function BaseDTO() {
     this.tags = [];
 
     /**
+     * @type {string}
+     */
+    this.status = null;
+
+    /**
      * @type {number}
      */
     this.dateCreated = null;
@@ -75,8 +80,8 @@ function BaseDTO() {
 }
 
 /**
- * @param {Object} data
- * @protected
+ * @param {{}} data
+ * @returns {BaseDTO}
  */
 BaseDTO.prototype.deserialize = function (data) {
     this.parentFolderId = data.parent_folder_id;
@@ -90,6 +95,7 @@ BaseDTO.prototype.deserialize = function (data) {
     this.mimeType = data.mime_type;
     this.lables = data.labels || [];
     this.tags = data.tags || [];
+    this.status  = data.op_status || null;
     this.dateCreated = data.created_ts;
     this.dateModified = data.modified_ts;
 
@@ -103,6 +109,8 @@ BaseDTO.prototype.deserialize = function (data) {
     } else {
         this.baseUrl = null;
     }
+
+    return this;
 };
 
 /**
