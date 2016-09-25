@@ -1,0 +1,17 @@
+[
+  {
+    "url_path": "/path_1",
+    "reference_id": "057c37952653",
+    "encoding": "128kbs.mp3"
+  },
+  {
+    "url_path": "/path_2",
+    "reference_id": "ba4172afbc37",
+    "encoding": "320kbs.mp3"
+  },
+  {
+    "url_path": "/path_3",
+    "reference_id": "ad7cc4d755a7",
+    "encoding": "flac"
+  }
+]

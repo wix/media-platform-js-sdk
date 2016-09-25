@@ -3,6 +3,7 @@ var AuthenticationConfiguration = require('./authentication/configuration/authen
 var AuthenticationFacade = require('./authentication/authentication-facade');
 var AuthenticatedHTTPClient = require('./http/authenticated-http-client');
 var FileUploader = require('./upload/file-uploader');
+var FileDownloader = require('./download/file-downloader');
 var FileManager = require('./management/file-manager');
 var CollectionManager = require('./collection/collection-manager');
 
@@ -22,6 +23,7 @@ function MediaPlatform(config) {
         authenticatedHTTPClient.getAuthenticationHeader(userId, callback);
     };
     this.fileUploader = new FileUploader(configuration, authenticatedHTTPClient);
+    this.fileDownloader = new FileDownloader(configuration, authenticatedHTTPClient);
     this.fileManager = new FileManager(configuration, authenticatedHTTPClient);
     this.collectionManager = new CollectionManager(configuration, authenticatedHTTPClient);
 }

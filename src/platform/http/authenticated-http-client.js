@@ -61,6 +61,46 @@ AuthenticatedHTTPClient.prototype.jsonRequest = function (httpMethod, url, userI
     }.bind(this))
 };
 
+
+/**
+ * @param {string} httpMethod
+ * @param {string} url
+ * @param {string} userId
+ * @param {{}} additionalClaims
+ * @param {{}} params
+ * @param {function(Error, *)} callback
+ */
+AuthenticatedHTTPClient.prototype.selfSignedJsonRequest = function (httpMethod, url, userId, additionalClaims, params, callback) {
+
+    var header = this.getSelfSignedHeader(userId, additionalClaims);
+
+    var options = { method: httpMethod, url: url, headers: header, json: true };
+
+    switch (httpMethod) {
+        case 'POST':
+        case 'PUT':
+            options.body = params;
+            break;
+        default:
+            options.qs = params;
+    }
+
+    request(options, function (error, response, body) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+            callback(new Error(JSON.stringify(response.body)), null);
+            return;
+        }
+
+        callback(null, body);
+    }.bind(this));
+};
+
 /**
  * @param {string} url
  * @param {{}} form
@@ -85,6 +125,10 @@ AuthenticatedHTTPClient.prototype.anonymousFormDataRequest = function (url, form
 
 AuthenticatedHTTPClient.prototype.getAuthenticationHeader = function (userId, callback) {
     this.authenticationFacade.getHeader(userId, callback);
+};
+
+AuthenticatedHTTPClient.prototype.getSelfSignedHeader = function (userId, additionalClaims) {
+    return this.authenticationFacade.getSelfSignedHeader(userId, additionalClaims);
 };
 
 /**

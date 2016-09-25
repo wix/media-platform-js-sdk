@@ -258,6 +258,21 @@ var imageOperation = MP.image.fromUrl('//media.wixapps.net/wixmedia-samples/imag
 var url = imageOperation.negative().saturation(-90).toUrl().url;
 ```
 
+## Secure File URL
+
+Files can be secured, in order to access them a secure URL must be generated
+
+```javascript
+var GetSecureURLRequest = require('media-platform-js-sdk').file.GetSecureURLRequest;
+
+var fileDownloader = mediaPlatform.fileDownloader;
+
+var getSecureUrlRequest = new GetSecureURLRequest()
+    .setFileId('fileId')
+    .addEncoding('src');
+fileDownloader.getSecureUrls('userId', getSecureUrlRequest, callback);
+```
+
 ## File Management
 
 Wix Media Platform exposes a comprehensive set of APIs tailored for the management of previously uploaded files.
