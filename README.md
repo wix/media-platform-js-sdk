@@ -51,9 +51,9 @@ Once registered you'll be issued with your own API Key, API Secret and API Endpo
 var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
 
 var mediaPlatform = new MediaPlatform({
-  domain: <as appears in the Dashboard>,
-  appId: <as appears in the Dashboard>,
-  sharedSecret: <as appears in the Dashboard>
+  domain: 'api.wixmp.com',
+  appId: '<API Key as appears in the Dashboard>',
+  sharedSecret: '<API Secret as appears in the Dashboard>'
 });
 ```
 ## Instantiating the Media Platform in the Browser
@@ -62,8 +62,8 @@ var mediaPlatform = new MediaPlatform({
 <script src="/media-platform.min.js">
 
 var mediaPlatform = new MP.MediaPlatform({
-    domain: <as appears in the Dashboard>,
-    authenticationUrl: <your authentication url - see example below>
+    domain: 'api.wixmp.com',
+    authenticationUrl: '<your authentication url - see example below>'
 });
 ```
 Authentication URL Node.js (with express) example:
