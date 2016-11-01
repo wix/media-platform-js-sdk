@@ -123,6 +123,31 @@ FileUploader.prototype.uploadDocument = function (userId, source, uploadRequest,
 };
 
 /**
+ * NOTE: This function currently only supports .json and .js files
+ * @param {string} userId
+ * @param {string|Buffer|Stream} source
+ * @param {StaticFileOptions?} staticFileOptions
+ * @param {UploadRequest?} uploadRequest
+ * @param {function(Error, BaseDTO)} callback
+ */
+FileUploader.prototype.uploadStatic = function (userId, source, staticFileOptions, uploadRequest, callback) {
+    var additionalParams = {};
+    if (staticFileOptions) {
+        _.extendOwn(additionalParams, staticFileOptions.toFormParams());
+    }
+
+    this.uploadFile(userId, MediaType.STATIC, source, uploadRequest, additionalParams, function (error, body) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, new BaseDTO().deserialize(body[0]));
+    })
+};
+
+/**
  * Commit a URL to a remote file, which will be uploaded
  * @param {string} userId
  * @param {ImportRequest} importRequest

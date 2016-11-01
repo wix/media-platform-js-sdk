@@ -88,6 +88,7 @@ app.get('/media-platform/auth-header', function (req, res, next) {
 var fileUploader = mediaPlatform.fileUploader;
 var MediaType = require('media-platform-js-sdk').MediaType;
 var EncodingOptions = require('media-platform-js-sdk').video.EncodingOptions;
+var StaticFileOptions = require('media-platform-js-sdk').static.StaticFileOptions;
 var UploadRequest = require('media-platform-js-sdk').file.UploadRequest;
 var ImportRequest = require('media-platform-js-sdk').file.ImportRequest;
  
@@ -113,6 +114,13 @@ var encodingOptions = new EncodingOptions()
         .setVideoFormats(['mp4', 'webm', 'ogv'])
         .setAudioFormat('m4a');
 fileUploader.uploadVideo('userId', <ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, callback);
+
+/**
+*   NOTE: This function currently only supports .json and .js files
+*/
+var staticFileOptions = new StaticFileOptions()
+        .setCompress(true);
+fileUploader.uploadStatic('userId', <ReadStream || Buffer || string path to file>, staticFileOptions || null, uploadRequest || null, callback);
 
 /**
 * Import a file from a remote source

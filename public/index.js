@@ -5,6 +5,7 @@ var ImageRequest = require('../src/image/image-request');
 var imageRequestDeserializers = require('../src/image/image-request-deserializer');
 var Alignments = require('../src/image/operation/align/alignments');
 var EncodingOptions = require('../src/dto/video/encoding-options');
+var StaticFileOptions = require('../src/dto/static/static-file-options');
 var UploadRequest = require('../src/dto/upload/upload-request');
 var ListFilesRequest = require('../src/dto/management/list-files-request');
 var UpdateFileRequest = require('../src/dto/management/update-file-request');
@@ -64,6 +65,13 @@ MP.video = {
      * @type {EncodingOptions}
      */
     EncodingOptions: EncodingOptions
+};
+
+MP.static = {
+    /**
+     * @type {StaticFileOptions}
+     */
+    StaticFileOptions: StaticFileOptions
 };
 
 MP.file = {

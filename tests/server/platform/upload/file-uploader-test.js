@@ -10,6 +10,7 @@ var FileUploader = require('../../../../src/platform/upload/file-uploader');
 var UploadRequest = require('../../../../src/dto/upload/upload-request');
 var ImportRequest = require('../../../../src/dto/upload/import-request');
 var EncodingOptions = require('../../../../src/dto/video/encoding-options');
+var StaticFileOptions = require('../../../../src/dto/static/static-file-options');
 
 var source = __dirname + '/../../../source/';
 var reply = __dirname + '/replies/';
@@ -482,6 +483,94 @@ describe('file uploader', function() {
                     "iconUrl": "media/6167099680654d6a026118a70f4c8715.png",
                     "mediaType": "document",
                     "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "lables": [],
+                    "status": null,
+                    "tags": [],
+                    "dateCreated": 1472025868,
+                    "dateModified": 1472025868
+                });
+                done(error);
+            });
+        });
+    });
+
+
+    describe('upload static file', function() {
+
+        it('default options', function (done) {
+
+            uploadCredentialsServer.reply(200, { upload_url: 'https://fish.cat.com/',  upload_token: 'token' });
+            fileServer.replyWithFile(200, reply + 'upload-static-file-response.json');
+
+            var buffer = fs.readFileSync(source + 'file.json');
+            fileUploader.uploadStatic('userId', buffer, null, null, function (error, data) {
+                expect(data).to.eql({
+                    "parentFolderId": "5d899584b15b2691bd0100d322ea201d",
+                    "hash": "b9376c800ea7ab681da23ee6c18c0e69",
+                    "originalFileName": "file.json",
+                    "fileName": "10a917_28919fe96f4846219334fe80dc73b8fa.json",
+                    "fileUrl": "ggl-109789773458215503884/static/10a917_28919fe96f4846219334fe80dc73b8fa.json",
+                    "baseUrl": "ggl-109789773458215503884/static",
+                    "fileSize": 12,
+                    "iconUrl": "media/6167099680654d6a026118a70f4c8715.png",
+                    "mediaType": "static_file",
+                    "mimeType": "application/json",
+                    "lables": [],
+                    "status": null,
+                    "tags": [],
+                    "dateCreated": 1472025868,
+                    "dateModified": 1472025868
+                });
+                done(error);
+            });
+        });
+
+        it('disable compression', function (done) {
+            uploadCredentialsServer.reply(200, { upload_url: 'https://fish.cat.com/',  upload_token: 'token' });
+            fileServer.replyWithFile(200, reply + 'upload-static-file-response.json');
+
+            var buffer = fs.readFileSync(source + 'file.json');
+            var options = new StaticFileOptions().setCompress(false);
+            fileUploader.uploadStatic('userId', buffer, options, null, function (error, data) {
+                expect(data).to.eql({
+                    "parentFolderId": "5d899584b15b2691bd0100d322ea201d",
+                    "hash": "b9376c800ea7ab681da23ee6c18c0e69",
+                    "originalFileName": "file.json",
+                    "fileName": "10a917_28919fe96f4846219334fe80dc73b8fa.json",
+                    "fileUrl": "ggl-109789773458215503884/static/10a917_28919fe96f4846219334fe80dc73b8fa.json",
+                    "baseUrl": "ggl-109789773458215503884/static",
+                    "fileSize": 12,
+                    "iconUrl": "media/6167099680654d6a026118a70f4c8715.png",
+                    "mediaType": "static_file",
+                    "mimeType": "application/json",
+                    "lables": [],
+                    "status": null,
+                    "tags": [],
+                    "dateCreated": 1472025868,
+                    "dateModified": 1472025868
+                });
+                done(error);
+            });
+        });
+
+        it('enable compression', function (done) {
+            uploadCredentialsServer.reply(200, { upload_url: 'https://fish.cat.com/',  upload_token: 'token' });
+            fileServer.replyWithFile(200, reply + 'upload-static-file-response.json');
+
+            var buffer = fs.readFileSync(source + 'file.json');
+            var options = new StaticFileOptions().setCompress(true);
+            fileUploader.uploadStatic('userId', buffer, options, null, function (error, data) {
+                expect(data).to.eql({
+                    "parentFolderId": "5d899584b15b2691bd0100d322ea201d",
+                    "hash": "b9376c800ea7ab681da23ee6c18c0e69",
+                    "originalFileName": "file.json",
+                    "fileName": "10a917_28919fe96f4846219334fe80dc73b8fa.json",
+                    "fileUrl": "ggl-109789773458215503884/static/10a917_28919fe96f4846219334fe80dc73b8fa.json",
+                    "baseUrl": "ggl-109789773458215503884/static",
+                    "fileSize": 12,
+                    "iconUrl": "media/6167099680654d6a026118a70f4c8715.png",
+                    "mediaType": "static_file",
+                    "mimeType": "application/json",
                     "lables": [],
                     "status": null,
                     "tags": [],

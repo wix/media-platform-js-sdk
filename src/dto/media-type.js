@@ -7,7 +7,8 @@ var MediaType = {
     AUDIO: 'music',
     VIDEO: 'video',
     IMAGE: 'picture',
-    DOCUMENT: 'document'
+    DOCUMENT: 'document',
+    STATIC: 'static_file'
 };
 
 /**

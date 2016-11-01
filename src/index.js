@@ -3,6 +3,7 @@ var ImageRequest = require('./image/image-request');
 var imageRequestDeserializers = require('./image/image-request-deserializer');
 var Alignments = require('./image/operation/align/alignments');
 var EncodingOptions = require('./dto/video/encoding-options');
+var StaticFileOptions = require('./dto/static/static-file-options');
 var UploadRequest = require('./dto/upload/upload-request');
 var GetSecureURLRequest = require('./dto/download/get-secure-url-request');
 var ImportRequest = require('./dto/upload/import-request');
@@ -24,7 +25,7 @@ module.exports = {
     MediaPlatform: MediaPlatform,
 
     /**
-     * @type {{AUDIO: string, VIDEO: string, IMAGE: string, DOCUMENT: string}}
+     * @type {{AUDIO: string, VIDEO: string, IMAGE: string, DOCUMENT: string, STATIC: string}}
      */
     MediaType: MediaType,
 
@@ -60,6 +61,13 @@ module.exports = {
          * @type {EncodingOptions}
          */
         EncodingOptions: EncodingOptions
+    },
+
+    static: {
+        /**
+         * @type {StaticFileOptions}
+         */
+        StaticFileOptions: StaticFileOptions
     },
 
     file: {
