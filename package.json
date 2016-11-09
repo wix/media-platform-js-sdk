@@ -11,7 +11,9 @@
   "files": [
     "dist",
     "src",
-    "README.md"
+    "public",
+    "README.md",
+    "LICENSE.md"
   ],
   "repository": {
     "type": "git",
@@ -36,7 +38,7 @@
   ],
   "private": false,
   "main": "./src/index.js",
-  "browser": "./dist/media-platform.min.js",
+  "browser": "./public/index.js",
   "engines": {
     "node": ">= 4.0.0"
   },

@@ -13,12 +13,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 A "Necessary Claim" is a claim of a patent licensable by Wix that is necessarily infringed by the Software standing alone.
 A "Patent Assertion" is any lawsuit or other action alleging direct, indirect, or contributory infringement  or inducement to infringe any patent, including across-claim or counterclaim.
 Subject to the terms and conditions of this License and the BSD-style license that can be found in the LICENSE file in the root of the source tree, Wix hereby grants to you a perpetual, worldwide, non- exclusive, no-charge, royalty-free, irrevocable (except as stated below) license under any Necessary Claims, to make, have made, use, offer to sell, sell, import, and otherwise transfer the Software. If you (or any of your subsidiaries, corporate affiliates or agents) institute (either directly or indirectly), or gain a direct financial interest in, a Patent Assertion against
- - Wix or any of its subsidiaries or corporate  affiliates,
- - any person or entity, to the extent such Patent Assertion arises, in whole or in part, from any software, technology, product or service of Wix or any of its subsidiaries or corporate affiliates, or
- - any person or entity relating to the Software,
+ - Wix or any of its subsidiaries or corporate affiliates,
+ - Any person or entity, to the extent such Patent Assertion arises, in whole or in part, from any software, technology, product or service of Wix or any of its subsidiaries or corporate affiliates, or
+ - Any person or entity relating to the Software,
 
 then the license granted herein shall automatically terminate without any notice, as of the date upon which such Patent Assertion is initiated by you (or any of your subsidiaries, corporate affiliates or agents), or you (or any of your subsidiaries, corporate affiliates or agents) took a financial interest in such Patent Assertion, as the case may be.
 Notwithstanding the foregoing, if Wix or any of its subsidiaries or corporate affiliates files a lawsuit alleging patent infringement against you in the first instance, and you file a patent infringement counterclaim unrelated to the Software, in same lawsuit against that claimant, the license granted hereunder will not terminate merely due to such counterclaim.
 Notwithstanding anything herein to the contrary, no license is granted under Wix’s rights in any patent claims that are infringed by
- - modifications to the Software made by you or any third party or
- - the Software in combination with any software or other technology not provided by Wix.
+ - Modifications to the Software made by you or any third party or
+ - The Software in combination with any software or other technology not provided by Wix.
