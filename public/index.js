@@ -16,7 +16,7 @@ var UpdateCollectionRequest = require('../src/dto/collection/update-collection-r
 var NewItemRequest = require('../src/dto/collection/new-item-request');
 var UpdateItemRequest = require('../src/dto/collection/update-item-request');
 
-var MP = (window || global || {}).MP = {};
+var MP = {};
 
 /**
  * @type {MediaPlatform}
@@ -122,3 +122,5 @@ MP.collection = {
      */
     UpdateItemRequest: UpdateItemRequest
 };
+
+module.exports = MP;

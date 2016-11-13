@@ -9,13 +9,13 @@ module.exports = function(grunt) {
             dropConsole: true
         }]],
         browserifyOptions: {
-            standalone: 'media-platform'
+            standalone: 'MP'
         }
     };
     var options = {
         debug: false,
         browserifyOptions: {
-            standalone: 'media-platform'
+            standalone: 'MP'
         }
     };
 
