@@ -7,6 +7,7 @@ var ImageDTO = require('../../dto/image/image-dto');
 var AudioDTO = require('../../dto/audio/audio-dto');
 var VideoDTO = require('../../dto/video/video-dto');
 var DocumentDTO = require('../../dto/document/document-dto');
+var StaticFileDTO = require('../../dto/static/static-file-dto');
 
 /**
  * @param {Configuration} configuration
@@ -128,7 +129,7 @@ FileUploader.prototype.uploadDocument = function (userId, source, uploadRequest,
  * @param {string|Buffer|Stream} source
  * @param {StaticFileOptions?} staticFileOptions
  * @param {UploadRequest?} uploadRequest
- * @param {function(Error, BaseDTO)} callback
+ * @param {function(Error, StaticFileDTO)} callback
  */
 FileUploader.prototype.uploadStatic = function (userId, source, staticFileOptions, uploadRequest, callback) {
     var additionalParams = {};
@@ -143,7 +144,7 @@ FileUploader.prototype.uploadStatic = function (userId, source, staticFileOption
             return;
         }
 
-        callback(null, new BaseDTO().deserialize(body[0]));
+        callback(null, new StaticFileDTO(body[0]));
     })
 };
 

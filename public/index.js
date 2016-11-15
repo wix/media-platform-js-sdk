@@ -1,6 +1,10 @@
 var MediaPlatform = require('./platform/media-platform');
 var MediaType = require('../src/dto/media-type');
 var ImageDTO = require('../src/dto/image/image-dto');
+var VideoDTO = require('../src/dto/video/video-dto');
+var AudioDTO = require('../src/dto/audio/audio-dto');
+var DocumentDTO = require('../src/dto/document/document-dto');
+var StaticFileDTO = require('../src/dto/static/static-file-dto');
 var ImageRequest = require('../src/image/image-request');
 var imageRequestDeserializers = require('../src/image/image-request-deserializer');
 var Alignments = require('../src/image/operation/align/alignments');
@@ -64,14 +68,38 @@ MP.video = {
     /**
      * @type {EncodingOptions}
      */
-    EncodingOptions: EncodingOptions
+    EncodingOptions: EncodingOptions,
+
+    /**
+     * @type {VideoDTO}
+     */
+    VideoDTO: VideoDTO
+};
+
+MP.audio = {
+    /**
+     * @type {AudioDTO}
+     */
+    AudioDTO: AudioDTO
+};
+
+MP.document = {
+    /**
+     * @type {DocumentDTO}
+     */
+    DocumentDTO: DocumentDTO
 };
 
 MP.static = {
     /**
      * @type {StaticFileOptions}
      */
-    StaticFileOptions: StaticFileOptions
+    StaticFileOptions: StaticFileOptions,
+
+    /**
+     * @type {StaticFileDTO}
+     */
+    StaticFileDTO: StaticFileDTO
 };
 
 MP.file = {
