@@ -5,6 +5,7 @@ var VideoDTO = require('../src/dto/video/video-dto');
 var AudioDTO = require('../src/dto/audio/audio-dto');
 var DocumentDTO = require('../src/dto/document/document-dto');
 var StaticFileDTO = require('../src/dto/static/static-file-dto');
+var toDTO = require('../src/dto/file-deserializer').toDTO;
 var ImageRequest = require('../src/image/image-request');
 var imageRequestDeserializers = require('../src/image/image-request-deserializer');
 var Alignments = require('../src/image/operation/align/alignments');
@@ -126,7 +127,12 @@ MP.file = {
     /**
      * @type {UpdateFolderRequest}
      */
-    UpdateFolderRequest: UpdateFolderRequest
+    UpdateFolderRequest: UpdateFolderRequest,
+
+    /**
+     * @type {toDTO}
+     */
+    toDTO: toDTO
 };
 
 MP.collection = {

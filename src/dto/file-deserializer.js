@@ -1,8 +1,9 @@
+var MediaType = require('./media-type');
 var ImageDTO = require('./image/image-dto');
 var AudioDTO = require('./audio/audio-dto');
 var VideoDTO = require('./video/video-dto');
 var DocumentDTO = require('./document/document-dto');
-var MediaType = require('./media-type');
+var StaticFileDTO = require('./static/static-file-dto');
 
 /**
  * @param {{}} data
@@ -22,6 +23,11 @@ function toDTO(data) {
         case MediaType.DOCUMENT:
             return new DocumentDTO(data);
             break;
+        case MediaType.STATIC:
+            return new StaticFileDTO(data);
+            break;
+        default:
+            return null;
     }
 }
 
