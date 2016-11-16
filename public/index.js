@@ -1,3 +1,4 @@
+var Configuration = require('./platform/configuration/configuration');
 var MediaPlatform = require('./platform/media-platform');
 var MediaType = require('../src/dto/media-type');
 var ImageDTO = require('../src/dto/image/image-dto');
@@ -22,6 +23,11 @@ var NewItemRequest = require('../src/dto/collection/new-item-request');
 var UpdateItemRequest = require('../src/dto/collection/update-item-request');
 
 var MP = {};
+
+/**
+ * @type {Configuration}
+ */
+MP.Configuration = Configuration;
 
 /**
  * @type {MediaPlatform}

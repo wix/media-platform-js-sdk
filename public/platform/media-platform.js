@@ -4,7 +4,7 @@ var CollectionManager = require('../../src/platform/collection/collection-manage
 var FileUploader = require('./upload/file-uploader');
 
 /**
- * @param {{domain: string, authenticationUrl: string}} configuration
+ * @param {Configuration} configuration
  * @constructor
  */
 function MediaPlatform(configuration) {
