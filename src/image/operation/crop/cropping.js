@@ -71,23 +71,26 @@ Cropping.prototype.coordinates = function (x, y, scaleFactor) {
 };
 
 /**
- * @returns {string}
+ * @returns {{params: string, error: *}}
  */
 Cropping.prototype.serialize = function () {
 
+    if (this.error) {
+        return {
+            params: '',
+            error: this.error
+        }
+    }
+
     var out = '';
 
-    if (this.settings.x) {
-        out += 'x_' + this.settings.x;
+    out += 'x_' + (this.settings.x || 0);
+
+    if (out.length > 0) {
+        out += ',';
     }
 
-    if (this.settings.y) {
-        if (out.length > 0) {
-            out += ',';
-        }
-
-        out += 'y_' + this.settings.y;
-    }
+    out += 'y_' + (this.settings.x || 0);
 
     if (this.settings.scaleFactor) {
         if (out.length > 0) {

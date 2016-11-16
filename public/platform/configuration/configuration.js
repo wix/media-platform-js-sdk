@@ -15,3 +15,8 @@ function Configuration(domain, authenticationUrl) {
      */
     this.authenticationUrl = authenticationUrl;
 }
+
+/**
+ * @type {Configuration}
+ */
+module.exports = Configuration;

@@ -73,6 +73,6 @@ describe('cropping', function () {
         cropping.coordinates(70, -70);
         cropping.coordinates();
 
-        expect(cropping.serialize()).to.eql({ params: '', error: null });
+        expect(cropping.serialize()).to.eql({ params: 'x_0,y_0', error: null });
     });
 });
