@@ -90,7 +90,7 @@ Cropping.prototype.serialize = function () {
         out += ',';
     }
 
-    out += 'y_' + (this.settings.x || 0);
+    out += 'y_' + (this.settings.y || 0);
 
     if (this.settings.scaleFactor) {
         if (out.length > 0) {

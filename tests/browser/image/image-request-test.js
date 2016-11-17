@@ -107,7 +107,7 @@ describe('image url construction', function () {
         var image = new ImageRequest('//test.wix.com', '12345', 'fish.jpeg');
 
         it('all options', function () {
-            var result = image.crop(100, 100, 80, 80, 1.2)
+            var result = image.crop(101, 102, 81, 82, 1.2)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
                 .sharpen(0.7)
@@ -123,7 +123,7 @@ describe('image url construction', function () {
                 .brightness(99)
                 .toUrl();
 
-            expect(result).to.eql({ url: '//test.wix.com/12345/v1/crop/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_100,h_100,x_80,y_80,scl_1.2/fish.jpeg',
+            expect(result).to.eql({ url: '//test.wix.com/12345/v1/crop/br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl,w_101,h_102,x_81,y_82,scl_1.2/fish.jpeg',
                 error: null });
         });
 

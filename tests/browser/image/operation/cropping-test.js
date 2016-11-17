@@ -5,9 +5,9 @@ describe('cropping', function () {
 
     it('serializes', function () {
         var cropping = new Cropping({});
-        cropping.coordinates(100, 100, 1.2);
+        cropping.coordinates(100, 101, 1.2);
 
-        expect(cropping.serialize()).to.eql({ params: 'x_100,y_100,scl_1.2', error: null });
+        expect(cropping.serialize()).to.eql({ params: 'x_100,y_101,scl_1.2', error: null });
     });
 
     it('scale is optional', function () {
