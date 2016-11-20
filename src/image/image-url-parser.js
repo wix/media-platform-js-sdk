@@ -138,7 +138,7 @@ function extractOriginalFileData(fragment) {
     parts.forEach(function (part) {
         var params = part.split('_');
         if (params.length >= 2 && params[1] != '') {
-            exploded[params[0]] = params.slice(1);
+            exploded[params[0]] = params.slice(1)[0];
         }
     });
 
@@ -146,7 +146,7 @@ function extractOriginalFileData(fragment) {
         return null;
     }
 
-    return new OriginalFileData(exploded.w, exploded.h, decodeURIComponent(exploded.mt));
+    return new OriginalFileData(parseInt(exploded.w), parseInt(exploded.h), decodeURIComponent(exploded.mt));
 }
 
 /**
