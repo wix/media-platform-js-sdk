@@ -8,7 +8,7 @@ var FileManager = require('./management/file-manager');
 var CollectionManager = require('./collection/collection-manager');
 
 /**
- * @param {Object} config
+ * @param {Configuration} config
  * @constructor
  */
 function MediaPlatform(config) {

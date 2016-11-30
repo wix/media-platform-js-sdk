@@ -1,6 +1,6 @@
 var ImageRequest = require('./image-request');
 var urlParser = require('./image-url-parser');
-var OriginalFileData = require('./operation/technical/original-file-data');
+var OriginalImageData = require('./operation/original-image-data');
 
 /**
  * @param {string} host
@@ -11,9 +11,9 @@ function fromDto(host, imageDto) {
     var baseUrl = host + (imageDto.baseUrl ? "/" + imageDto.baseUrl : '');
     var imageId = imageDto.fileName;
     var imageName = imageDto.originalFileName;
-    var fileData = new OriginalFileData(imageDto.width, imageDto.height, imageDto.mimeType);
+    var originalImageData = new OriginalImageData(imageDto.width, imageDto.height, imageDto.mimeType);
 
-    return new ImageRequest(baseUrl, imageId, imageName, fileData);
+    return new ImageRequest(baseUrl, imageId, imageName, originalImageData);
 }
 
 /**
@@ -31,7 +31,7 @@ function fromUrl(url) {
 function fromUrlToImageRequest(url) {
     var operation = fromUrl(url);
 
-    return new ImageRequest(operation.baseUrl, operation.imageId, operation.imageName, operation.originalFileData);
+    return new ImageRequest(operation.baseUrl, operation.imageId, operation.imageName, operation.originalImageData);
 }
 
 //TODO: add fromUploadResponse

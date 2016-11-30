@@ -30,7 +30,7 @@ function Pixelate(operation) {
  */
 Pixelate.prototype.pixels = function (pixels) {
 
-    pixels = Math.round(pixels);
+    pixels = Math.round(pixels || 0);
     this.error = validator.numberIsNotGreaterThan('pixelate', pixels, 0);
     if (this.error) {
         return this.operation;

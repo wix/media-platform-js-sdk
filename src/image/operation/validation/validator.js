@@ -6,7 +6,7 @@
  * @returns {string|null}
  */
 function numberNotInRange(name, value, lowerBound, upperBound) {
-    if (value > upperBound || value < lowerBound) {
+    if ((typeof value === "number" && isNaN(value)) || value > upperBound || value < lowerBound) {
         return name + ': ' + value + ' is not a number between ' + lowerBound +  ' to ' + upperBound;
     }
     
@@ -20,7 +20,7 @@ function numberNotInRange(name, value, lowerBound, upperBound) {
  * @returns {string|null}
  */
 function numberIsNotGreaterThan(name, value, lowerBound) {
-    if (value < lowerBound) {
+    if ((typeof value === "number" && isNaN(value)) || value < lowerBound) {
         return name + ': ' + value + ' is not a number greater than ' + lowerBound;
     }
 

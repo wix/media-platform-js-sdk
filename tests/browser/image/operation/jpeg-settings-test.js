@@ -43,15 +43,20 @@ describe('jpeg settings', function () {
         var jpegSettings = new JPEGSettings({});
         jpegSettings.compression(-1);
 
-        expect(jpegSettings.serialize()).to.eql({ params: '',
-            error: 'jpeg compression quality: -1 is not a number between 0 to 100' });
+        expect(jpegSettings.serialize()).to.eql({
+            params: '',
+            error: 'jpeg compression quality: -1 is not a number between 0 to 100'
+        });
     });
 
     it('rounds quality values', function () {
         var jpegSettings = new JPEGSettings({});
         jpegSettings.compression(40.67);
 
-        expect(jpegSettings.serialize()).to.eql({ params: 'q_41', error: null });
+        expect(jpegSettings.serialize()).to.eql({
+            params: 'q_41',
+            error: null
+        });
     });
 
     it('resets for undefined', function () {
@@ -59,6 +64,9 @@ describe('jpeg settings', function () {
         jpegSettings.compression(-1, true);
         jpegSettings.compression();
 
-        expect(jpegSettings.serialize()).to.eql({ params: '', error: null });
+        expect(jpegSettings.serialize()).to.eql({
+            params: '',
+            error: null
+        });
     });
 });

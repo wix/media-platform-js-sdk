@@ -36,7 +36,7 @@ function JPEGSettings(operation) {
  */
 JPEGSettings.prototype.compression = function (quality, baseline) {
 
-    quality = Math.round(quality);
+    quality = Math.round(quality || 0);
     this.error = validator.numberNotInRange('jpeg compression quality', quality, 0, 100);
     if (this.error) {
         return this.operation;

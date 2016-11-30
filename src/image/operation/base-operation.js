@@ -1,4 +1,3 @@
-var Size = require('./size/size');
 var Sharpen = require('./effect/sharpen');
 var UnsharpMask = require('./effect/unsharp-mask');
 var RedEyeRemover = require('./effect/red-eye-remover');
@@ -12,6 +11,7 @@ var Brightness = require('./chromaticity/brightness');
 var Contrast = require('./chromaticity/contrast');
 var Hue = require('./chromaticity/hue');
 var Saturation = require('./chromaticity/saturation');
+var validator = require('./validation/validator');
 
 /**
  * @param {string} name
@@ -21,10 +21,10 @@ var Saturation = require('./chromaticity/saturation');
  * @param {string} version
  * @param {number} width
  * @param {number} height
- * @param {OriginalFileData?} originalFileData
+ * @param {OriginalImageData} originalImageData
  * @constructor
  */
-function BaseOperation(name, baseUrl, imageId, imageName, version, width, height, originalFileData) {
+function BaseOperation(name, baseUrl, imageId, imageName, version, width, height, originalImageData) {
 
     /**
      * @type {string}
@@ -52,18 +52,19 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.version = version;
 
     /**
-     * @type {OriginalFileData}
+     * @type {number}
      */
-    this.originalFileData = originalFileData;
+    this.width = Math.round(width);
 
     /**
-     * @type {Size}
+     * @type {number}
      */
-    var size = new Size(this);
-    size.size(width, height);
-    this.size = (function () {
-        return size.size;
-    })();
+    this.height = Math.round(height);
+
+    /**
+     * @type {OriginalImageData}
+     */
+    this.originalImageData = originalImageData;
 
     /**
      * @type {Brightness}
@@ -171,20 +172,66 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
 
     //TODO: replace with sorted Set (lexical sort by key)
     this.serializationOrder = [brightness, contrast, hue, saturation, blur, negative, oil, pixelate, pixelateFaces,
-        redEyeRemover, sharpen, unsharpMask, jpeg, size];
+        redEyeRemover, sharpen, unsharpMask, jpeg];
 }
 
 /**
- * @returns {OriginalFileData|null}
+ * @summary The width constraint
+ * @param {number} width a number greater than `0`
+ * @param {number} height a number greater than `0`
+ * @returns {*} the operation
+ */
+BaseOperation.prototype.size = function (width, height) {
+    this.width = Math.round(width);
+    this.height = Math.round(height);
+    return this;
+};
+
+/**
+ * @returns {OriginalImageData}
+ * @deprecated use getOriginalImageData instead
  */
 BaseOperation.prototype.getOriginalFileData = function () {
-    return this.originalFileData;
+    return this.originalImageData;
+};
+
+/**
+ * @returns {OriginalImageData}
+ */
+BaseOperation.prototype.getOriginalImageData = function () {
+    return this.originalImageData;
+};
+
+/**
+ * @param originalImageData
+ * @returns {BaseOperation}
+ */
+BaseOperation.prototype.setOriginalImageData = function (originalImageData) {
+    this.originalImageData = originalImageData;
+    return this;
 };
 
 /**
  * @returns {{url: string|null, error: Error|null}}
  */
 BaseOperation.prototype.toUrl = function () {
+
+    if (!this.originalImageData) {
+        return {
+            url: null,
+            error: new Error('original image data is mandatory')
+        };
+    }
+
+    var errorMassage = validator.numberIsNotGreaterThan('width', this.width, 1) ||
+        validator.numberIsNotGreaterThan('height', this.height, 1);
+
+    if (errorMassage) {
+        return {
+            url: null,
+            error: new Error(errorMassage)
+        };
+    }
 
     var out = '';
     var baseUrl = this.baseUrl;
@@ -210,7 +257,7 @@ BaseOperation.prototype.toUrl = function () {
     }
 
     return {
-        url: out + result.params + '/' + encodeURIComponent(this.imageName) + (this.originalFileData ? '#' + this.originalFileData.serialize() : ''),
+        url: out + 'w_' + this.width + ',h_' + this.height + result.params + '/' + encodeURIComponent(this.imageName) + '#' + this.originalImageData.serialize(),
         error: null
     }
 };
@@ -232,6 +279,10 @@ BaseOperation.prototype.collect = function () {
         }
         out += part.params;
     });
+
+    if (out.length > 0) {
+        out = ',' + out;
+    }
     return {
         params: out,
         errors: errors
