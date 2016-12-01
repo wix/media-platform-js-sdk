@@ -36,7 +36,7 @@
     "transcoding",
     "streaming"
   ],
-  "private": true,
+  "private": false,
   "main": "./src/index.js",
   "browser": "./public/index.js",
   "engines": {

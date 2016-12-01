@@ -22,7 +22,7 @@ var handlers = {
 };
 
 /**
- * @param url
+ * @param {string} url
  * @returns {BaseOperation}
  */
 function toImageRequest(url) {

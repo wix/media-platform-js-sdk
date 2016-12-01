@@ -28,6 +28,12 @@ In addition, Wix Media Platform supports uploading and distribution of documents
 
 This package is an isomorphic JavaScript library (works both in Node JS and in the browser) that provides a convenient API to access Wix Media Platform services.
 
+## New in Version 2.0.x
+
+* ImageRequest
+  * Breaking Change - original image data (width, height and mime type) is now mandatory
+  * Fit to container, width or height with optional region of interest image request functions   
+
 ## Installation
 
 ```bash

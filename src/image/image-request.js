@@ -50,7 +50,7 @@ function ImageRequest(baseUrl, imageId, imageName, originalImageData) {
 /**
  * @summary fills the given width, the height is derived from the region of interest aspect ratio.
  * @param {number} width
- * @param {ROI?} roi if not provided, the entire image is taken
+ * @param {ROI?} roi Region of interest, if not provided, the entire image is taken
  * @returns {Crop}
  */
 ImageRequest.prototype.scaleToWidth = function (width, roi) {
@@ -62,7 +62,7 @@ ImageRequest.prototype.scaleToWidth = function (width, roi) {
 /**
  * @summary fills the given height, the width is derived from the region of interest aspect ratio.
  * @param {number} height
- * @param {ROI?} roi if not provided, the entire image is taken
+ * @param {ROI?} roi Region of interest, if not provided, the entire image is taken
  * @returns {Crop}
  */
 ImageRequest.prototype.scaleToHeight = function (height, roi) {
@@ -77,15 +77,6 @@ ImageRequest.prototype.scaleToHeight = function (height, roi) {
  * @returns {Crop}
  */
 ImageRequest.prototype.fillContainer = function (container, roi) {
-    // TODO: input validation
-    // if (this.originalImageData.width < (roi.x + roi.width)) {
-    //     return new Error('roi width is out of bound');
-    // }
-    //
-    // if (this.originalImageData.height < (roi.y + roi.height)) {
-    //     return new Error('roi height is out of bound');
-    // }
-
     if (!roi) {
         roi = new ROI(this.originalImageData.width, this.originalImageData.height, 0, 0);
     }
@@ -171,8 +162,6 @@ ImageRequest.prototype.fit = function (width, height) {
 ImageRequest.prototype.canvas = function (width, height) {
     return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.originalImageData);
 };
-
-//TODO: support operation switching
 
 /**
  * @type {ImageRequest}
