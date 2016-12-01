@@ -30,7 +30,7 @@ function PixelateFaces(operation) {
  */
 PixelateFaces.prototype.pixels = function (pixels) {
 
-    pixels = Math.round(pixels);
+    pixels = Math.round(pixels || 0);
     this.error = validator.numberIsNotGreaterThan('pixelateFaces', pixels, 0);
     if (this.error) {
         return this.operation;

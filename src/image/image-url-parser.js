@@ -1,5 +1,5 @@
 var ImageRequest = require('./image-request');
-var OriginalFileData = require('./operation/technical/original-file-data');
+var OriginalImageData = require('./operation/original-image-data');
 
 //maps the URL transformation name to the operation function name. Replace with handler registrar?
 //TODO: add support for JPEG settings
@@ -22,7 +22,7 @@ var handlers = {
 };
 
 /**
- * @param url
+ * @param {string} url
  * @returns {BaseOperation}
  */
 function toImageRequest(url) {
@@ -125,7 +125,7 @@ function explodeTransformations(transformations) {
 
 /**
  * @param {string} fragment
- * @returns {OriginalFileData|null}
+ * @returns {OriginalImageData|null}
  * @private
  */
 function extractOriginalFileData(fragment) {
@@ -146,7 +146,7 @@ function extractOriginalFileData(fragment) {
         return null;
     }
 
-    return new OriginalFileData(parseInt(exploded.w), parseInt(exploded.h), decodeURIComponent(exploded.mt));
+    return new OriginalImageData(parseInt(exploded.w), parseInt(exploded.h), decodeURIComponent(exploded.mt));
 }
 
 /**

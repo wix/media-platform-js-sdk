@@ -4,7 +4,7 @@
  * @param {string} mimeType
  * @constructor
  */
-function OriginalFileData(width, height, mimeType) {
+function OriginalImageData(width, height, mimeType) {
 
     /**
      * @type {number}
@@ -22,13 +22,14 @@ function OriginalFileData(width, height, mimeType) {
     this.mimeType = mimeType;
 }
 
-OriginalFileData.prototype.serialize = function() {
-
+/**
+ * @returns {string}
+ */
+OriginalImageData.prototype.serialize = function() {
     return 'w_' + this.width + ',h_' + this.height + ',mt_' + encodeURIComponent(this.mimeType);
-    
 };
 
 /**
- * @type {OriginalFileData}
+ * @type {OriginalImageData}
  */
-module.exports = OriginalFileData;
+module.exports = OriginalImageData;
