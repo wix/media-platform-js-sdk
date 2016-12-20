@@ -117,8 +117,7 @@ fileUploader.uploadAudio('userId', <ReadStream || Buffer || string path to file>
 fileUploader.uploadDocument('userId', <ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
 
 var encodingOptions = new EncodingOptions()
-        .setVideoFormats(['mp4', 'webm', 'ogv'])
-        .setAudioFormat('m4a');
+        .setVideoFormats(['mp4']);
 fileUploader.uploadVideo('userId', <ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, callback);
 
 /**
