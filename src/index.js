@@ -7,6 +7,7 @@ var StaticFileOptions = require('./dto/static/static-file-options');
 var UploadRequest = require('./dto/upload/upload-request');
 var GetSecureURLRequest = require('./dto/download/get-secure-url-request');
 var ImportRequest = require('./dto/upload/import-request');
+var Authorization = require('./dto/upload/authorization');
 var MediaType = require('./dto/media-type');
 var ListFilesRequest = require('./dto/management/list-files-request');
 var UpdateFileRequest =  require('./dto/management/update-file-request');
@@ -85,6 +86,11 @@ module.exports = {
          * @type {ImportRequest}
          */
         ImportRequest: ImportRequest,
+
+        /**
+         * @type {Authorization}
+         */
+        Authorization: Authorization,
 
         /**
          * @type {ListFilesRequest}
