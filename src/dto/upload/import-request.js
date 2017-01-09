@@ -27,6 +27,11 @@ function ImportRequest() {
      * @type {string|null}
      */
     this.parentFolderId = null;
+
+    /**
+     * @type {Authorization|null}
+     */
+    this.authorization = null;
 }
 
 /**
@@ -84,6 +89,15 @@ ImportRequest.prototype.setParentFolderId = function (parentFolderId) {
 };
 
 /**
+ * @param {Authorization} authorization
+ * @returns {ImportRequest}
+ */
+ImportRequest.prototype.setAuthorization = function (authorization) {
+    this.authorization = authorization;
+    return this;
+};
+
+/**
  * @returns {{}}
  */
 ImportRequest.prototype.toParams = function () {
@@ -92,7 +106,8 @@ ImportRequest.prototype.toParams = function () {
         media_type: this.mediaType,
         name: this.fileName,
         tags: this.tags,
-        parent_folder_id: this.parentFolderId
+        parent_folder_id: this.parentFolderId,
+        authorization: this.authorization
     };
 };
 
