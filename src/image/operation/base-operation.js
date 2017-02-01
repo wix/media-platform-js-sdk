@@ -21,10 +21,10 @@ var validator = require('./validation/validator');
  * @param {string} version
  * @param {number} width
  * @param {number} height
- * @param {OriginalImageData} originalImageData
+ * @param {Metadata} metadata
  * @constructor
  */
-function BaseOperation(name, baseUrl, imageId, imageName, version, width, height, originalImageData) {
+function BaseOperation(name, baseUrl, imageId, imageName, version, width, height, metadata) {
 
     /**
      * @type {string}
@@ -62,9 +62,9 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     this.height = Math.round(height);
 
     /**
-     * @type {OriginalImageData}
+     * @type {Metadata}
      */
-    this.originalImageData = originalImageData;
+    this.metadata = metadata;
 
     /**
      * @type {Brightness}
@@ -188,18 +188,18 @@ BaseOperation.prototype.size = function (width, height) {
 };
 
 /**
- * @returns {OriginalImageData}
+ * @returns {Metadata}
  * @deprecated use getOriginalImageData instead
  */
 BaseOperation.prototype.getOriginalFileData = function () {
-    return this.originalImageData;
+    return this.metadata;
 };
 
 /**
- * @returns {OriginalImageData}
+ * @returns {Metadata}
  */
 BaseOperation.prototype.getOriginalImageData = function () {
-    return this.originalImageData;
+    return this.metadata;
 };
 
 /**
@@ -207,7 +207,7 @@ BaseOperation.prototype.getOriginalImageData = function () {
  * @returns {BaseOperation}
  */
 BaseOperation.prototype.setOriginalImageData = function (originalImageData) {
-    this.originalImageData = originalImageData;
+    this.metadata = originalImageData;
     return this;
 };
 
@@ -216,7 +216,7 @@ BaseOperation.prototype.setOriginalImageData = function (originalImageData) {
  */
 BaseOperation.prototype.toUrl = function () {
 
-    if (!this.originalImageData) {
+    if (!this.metadata) {
         return {
             url: null,
             error: new Error('original image data is mandatory')
@@ -257,7 +257,7 @@ BaseOperation.prototype.toUrl = function () {
     }
 
     return {
-        url: out + 'w_' + this.width + ',h_' + this.height + result.params + '/' + encodeURIComponent(this.imageName) + '#' + this.originalImageData.serialize(),
+        url: out + 'w_' + this.width + ',h_' + this.height + result.params + '/' + encodeURIComponent(this.imageName) + '#' + this.metadata.serialize(),
         error: null
     }
 };

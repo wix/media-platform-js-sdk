@@ -1,5 +1,5 @@
-var ImageRequest = require('./image-request');
-var OriginalImageData = require('./operation/original-image-data');
+var Image = require('../image');
+var Metadata = require('../metadata');
 
 //maps the URL transformation name to the operation function name. Replace with handler registrar?
 //TODO: add support for JPEG settings
@@ -22,19 +22,19 @@ var handlers = {
 };
 
 /**
+ * @param {Image} image
  * @param {string} url
  * @returns {BaseOperation}
  */
-function toImageRequest(url) {
+function parse(image, url) {
 
     var explodedUrl = explodeUrl(url);
+    image.host = explodedUrl.host;
+    image.path = explodedUrl.path;
+    image.metadata = parseFragment(explodedUrl.fragment);
     var explodedTransformations = explodeTransformations(explodedUrl.transformations);
-    var originalFileData = extractOriginalFileData(explodedUrl.fragment);
-    var imageRequest = new ImageRequest(toBaseUrl(explodedUrl), explodedUrl.imageId, decodeURIComponent(explodedUrl.fileName), originalFileData);
-    var operation = applyOperation(imageRequest, explodedUrl.operation, explodedTransformations);
-    applyTransformations(operation, explodedTransformations);
-
-    return operation;
+    applyOperation(image, explodedUrl.operation, explodedTransformations);
+    applyFilters(image.operation, explodedTransformations);
 }
 
 /**
@@ -47,9 +47,7 @@ function explodeUrl(url) {
     var scheme;
     var host;
     var port;
-    var bucket;
-    var folder;
-    var imageId;
+    var path;
     var version;
     var operation;
     var transformations;
@@ -83,21 +81,15 @@ function explodeUrl(url) {
     }
     host = loc[0];
 
-    bucket = parts[1];
-    folder = parts[2];
-    imageId = parts[3];
-    version = parts[4];
-    operation = parts[5];
-    transformations = parts[6];
-    fileName = parts[7];
+    fileName = parts[parts.length - 1];
+    transformations = parts[parts.length - 2];
+    operation = parts[parts.length - 3];
+    version = parts[parts.length - 4];
+    path = parts.splice(1, parts.length - 5).join('/');
 
     return {
-        scheme: scheme,
-        host: host,
-        port: port,
-        bucket: bucket,
-        folder: folder,
-        imageId: imageId,
+        host: (scheme ? scheme + '://' : '//') + host + (port ? ':' + port : '') + '/',
+        path: path,
         version: version,
         operation: operation,
         transformations: transformations,
@@ -125,10 +117,10 @@ function explodeTransformations(transformations) {
 
 /**
  * @param {string} fragment
- * @returns {OriginalImageData|null}
+ * @returns {Metadata|null}
  * @private
  */
-function extractOriginalFileData(fragment) {
+function parseFragment(fragment) {
     if (!fragment) {
         return null;
     }
@@ -146,18 +138,17 @@ function extractOriginalFileData(fragment) {
         return null;
     }
 
-    return new OriginalImageData(parseInt(exploded.w), parseInt(exploded.h), decodeURIComponent(exploded.mt));
+    return new Metadata(parseInt(exploded.w), parseInt(exploded.h), decodeURIComponent(exploded.mt));
 }
 
 /**
- * @param imageRequest
+ * @param image
  * @param operation
  * @param {{h: number, w: number, x: number|null, y: number|null, scl: number|null}} explodedTransformations
  * @returns {*}
  * @private
  */
-function applyOperation(imageRequest, operation, explodedTransformations) {
-
+function applyOperation(image, operation, explodedTransformations) {
     //mandatory params for all operations
     var h = explodedTransformations.h;
     var w = explodedTransformations.w;
@@ -167,7 +158,7 @@ function applyOperation(imageRequest, operation, explodedTransformations) {
     var y = explodedTransformations.y;
     var scl = explodedTransformations.scl;
 
-    return imageRequest[operation](h[0], w[0], x ? x[0] : undefined, y ? y[0] : undefined, scl ? scl[0] : undefined);
+    image[operation](h[0], w[0], x ? x[0] : undefined, y ? y[0] : undefined, scl ? scl[0] : undefined);
 }
 
 /**
@@ -175,8 +166,7 @@ function applyOperation(imageRequest, operation, explodedTransformations) {
  * @param {{h: number, w: number, x: number|null, y: number|null, scl: number|null}} explodedTransformations
  * @private
  */
-function applyTransformations(operation, explodedTransformations) {
-
+function applyFilters(operation, explodedTransformations) {
     for (var key in explodedTransformations) {
         if (explodedTransformations.hasOwnProperty(key)) {
             var handler = handlers[key];
@@ -187,21 +177,8 @@ function applyTransformations(operation, explodedTransformations) {
     }
 }
 
-/**
- * @param {{scheme: *, host: *, port: *, bucket: *, folder: *, imageId: *, version: *, operation: *, transformations: *, fileName: *, query: *, fragment: *}} explodedUrl
- * @returns {string}
- * @private
- */
-function toBaseUrl(explodedUrl) {
-    return (explodedUrl.scheme ? explodedUrl.scheme + '://' : '//') +
-        explodedUrl.host + (explodedUrl.port ? ':' + explodedUrl.port : '') + '/' +
-        explodedUrl.bucket + '/' +
-        explodedUrl.folder + '/'
-}
 
 /**
- * @type {{toImageRequest: toImageRequest}}
+ * @type {parse}
  */
-module.exports = {
-    toImageRequest: toImageRequest
-};
+module.exports = parse;

@@ -1,3 +1,5 @@
+var parseFileDescriptor = require('./parser/file-descriptor-parser');
+var parseUrl = require('./parser/url-parser');
 var Canvas = require('./operation/canvas');
 var Crop = require('./operation/crop');
 var Fill = require('./operation/fill');
@@ -6,54 +8,57 @@ var ROI = require('./region-of-interest');
 var Container = require('./container');
 
 /**
- * @summary a ImageRequest is a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
- * @param {string} baseUrl the base URL where the image is hosted
- * @param {string} imageId the id of the image to manipulate
- * @param {string} imageName the name of the image to manipulate
- * @param {OriginalImageData} originalImageData
- * @constructor ImageRequest
+ * @description a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
+ * @param {FileDescriptor|string} data the file descriptor or a previously generated image url
+ * @constructor Image
  */
-function ImageRequest(baseUrl, imageId, imageName, originalImageData) {
+function Image(data) {
 
     /**
+     * @description where the image is hosted
      * @type {string}
      */
-    this.baseUrl = !baseUrl ? '' : baseUrl;
+    this.host = host;
 
     /**
+     * @description the image location
      * @type {string}
      */
-    this.imageId = imageId;
+    this.path = path;
 
     /**
-     * @type {string}
+     * @description the source image metadata
+     * @type {Metadata}
      */
-    this.imageName = imageName || 'file.jpg';
+    this.metadata = metadata;
 
     /**
-     * @type {OriginalImageData}
-     * @deprecated use originalImageData instead
-     */
-    this.originalFileData = originalImageData;
-
-    /**
-     * @type {OriginalImageData}
-     */
-    this.originalImageData = originalImageData;
-
-    /**
+     * @description the API version
      * @type {string}
      */
     this.version = 'v1';
+
+    /**
+     * @type {null}
+     */
+    this.operation = null;
+
+    if (data) {
+        if (typeof data === 'string') {
+            parseUrl(this, data);
+        } else {
+            parseFileDescriptor(this, data);
+        }
+    }
 }
 
 /**
  * @summary fills the given width, the height is derived from the region of interest aspect ratio.
  * @param {number} width
  * @param {ROI?} roi Region of interest, if not provided, the entire image is taken
- * @returns {Crop}
+ * @returns {Image}
  */
-ImageRequest.prototype.scaleToWidth = function (width, roi) {
+Image.prototype.scaleToWidth = function (width, roi) {
     var container = new Container().setWidth(width);
 
     return this.fillContainer(container, roi);
@@ -63,9 +68,9 @@ ImageRequest.prototype.scaleToWidth = function (width, roi) {
  * @summary fills the given height, the width is derived from the region of interest aspect ratio.
  * @param {number} height
  * @param {ROI?} roi Region of interest, if not provided, the entire image is taken
- * @returns {Crop}
+ * @returns {Image}
  */
-ImageRequest.prototype.scaleToHeight = function (height, roi) {
+Image.prototype.scaleToHeight = function (height, roi) {
     var container = new Container().setHeight(height);
 
     return this.fillContainer(container, roi);
@@ -74,11 +79,11 @@ ImageRequest.prototype.scaleToHeight = function (height, roi) {
 /**
  * @param {Container} container
  * @param {ROI?} roi
- * @returns {Crop}
+ * @returns {Image}
  */
-ImageRequest.prototype.fillContainer = function (container, roi) {
+Image.prototype.fillContainer = function (container, roi) {
     if (!roi) {
-        roi = new ROI(this.originalImageData.width, this.originalImageData.height, 0, 0);
+        roi = new ROI(this.metadata.width, this.metadata.height, 0, 0);
     }
 
     var roiAspectRatio = roi.width / roi.height;
@@ -127,43 +132,47 @@ ImageRequest.prototype.fillContainer = function (container, roi) {
  * @param {number} x
  * @param {number} y
  * @param {number?} upscaleFactor
- * @returns {Crop}
+ * @returns {Image}
  */
-ImageRequest.prototype.crop = function (width, height, x, y, upscaleFactor) {
-    return new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height, x, y, upscaleFactor, this.originalImageData);
+Image.prototype.crop = function (width, height, x, y, upscaleFactor) {
+    this.operation = new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height, x, y, upscaleFactor, this.metadata);
+    return this;
 };
 
 /**
  * @summary Configures this image using the 'fill' operation.
  * @param {number} width
  * @param {number} height
- * @returns {Fill}
+ * @returns {Image}
  */
-ImageRequest.prototype.fill = function (width, height) {
-    return new Fill(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.originalImageData);
+Image.prototype.fill = function (width, height) {
+    this.operation = new Fill(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.metadata);
+    return this;
 };
 
 /**
  * @summary Configures this image using the 'fit' operation.
  * @param {number} width
  * @param {number} height
- * @returns {Fit}
+ * @returns {Image}
  */
-ImageRequest.prototype.fit = function (width, height) {
-    return new Fit(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.originalImageData);
+Image.prototype.fit = function (width, height) {
+    this.operation = new Fit(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.metadata);
+    return this;
 };
 
 /**
  * @summary Configures this image using the 'canvas' operation.
  * @param {number} width
  * @param {number} height
- * @returns {Canvas}
+ * @returns {Image}
  */
-ImageRequest.prototype.canvas = function (width, height) {
-    return new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.originalImageData);
+Image.prototype.canvas = function (width, height) {
+    this.operation = new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.metadata);
+    return this;
 };
 
 /**
- * @type {ImageRequest}
+ * @type {Image}
  */
-module.exports = ImageRequest;
+module.exports = Image;

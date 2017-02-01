@@ -72,11 +72,11 @@ Crop.prototype.serialize = function () {
     validator.numberIsNotGreaterThan('crop x', this.x, 0) ||
     validator.numberIsNotGreaterThan('crop y', this.y, 0);
 
-    if ((this.x + this.width) > (Math.round(this.originalImageData.width * (this.scaleFactor || 1)))) {
+    if ((this.x + this.width) > (Math.round(this.metadata.width * (this.scaleFactor || 1)))) {
         errorMessage = 'crop out off width bound';
     }
 
-    if ((this.y + this.height) > (Math.round(this.originalImageData.height * (this.scaleFactor || 1)))) {
+    if ((this.y + this.height) > (Math.round(this.metadata.height * (this.scaleFactor || 1)))) {
         errorMessage = 'crop out off height bound';
     }
 

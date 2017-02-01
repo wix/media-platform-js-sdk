@@ -47,6 +47,12 @@ function FileDescriptor(data) {
     this.size = null;
 
     /**
+     * @description extracted metadata, contents depends on the file type
+     * @type {{}}
+     */
+    this.metadata = {};
+
+    /**
      * @type {Array<string>}
      */
     this.tags = [];

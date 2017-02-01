@@ -5,7 +5,7 @@
  */
 function FileUploader(configuration, authenticatedHTTPClient) {
 
-    this.uploadUrlEndpoint = 'https://' + configuration.domain + '/files/upload/url';
+    this.uploadUrlEndpoint = 'https://' + configuration.host + '/files/upload/url';
     
     this.authenticatedHTTPClient = authenticatedHTTPClient;
 }

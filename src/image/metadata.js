@@ -4,7 +4,7 @@
  * @param {string} mimeType
  * @constructor
  */
-function OriginalImageData(width, height, mimeType) {
+function Metadata(width, height, mimeType) {
 
     /**
      * @type {number}
@@ -25,11 +25,11 @@ function OriginalImageData(width, height, mimeType) {
 /**
  * @returns {string}
  */
-OriginalImageData.prototype.serialize = function() {
+Metadata.prototype.serialize = function() {
     return 'w_' + this.width + ',h_' + this.height + ',mt_' + encodeURIComponent(this.mimeType);
 };
 
 /**
- * @type {OriginalImageData}
+ * @type {Metadata}
  */
-module.exports = OriginalImageData;
+module.exports = Metadata;

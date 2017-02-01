@@ -11,7 +11,7 @@ var Background = require('./background/background');
  * @param {string} version
  * @param {number} width
  * @param {number} height
- * @param {OriginalImageData} originalImageData
+ * @param {Metadata} originalImageData
  * @constructor Canvas
  * @extends BaseOperation
  */
