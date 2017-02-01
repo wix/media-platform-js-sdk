@@ -18,9 +18,9 @@ app.use(express.static(path.join(__dirname, '/../dist')));
  * replace with your credentials
  */
 var mediaPlatform = require('./src/facades/media-platform-facade').init(
-    'domain',
-    'appId',
-    'secret'
+    'wixmp-sdk-test.appspot.com',
+    '9536393918750265',
+    '797dd51a3b5e4e39b76dbd6baf3cf425'
 ).mediaPlatorm;
 
 require('./src/routes/index')(app);

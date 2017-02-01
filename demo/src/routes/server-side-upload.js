@@ -1,6 +1,7 @@
 var fs = require('fs');
 var EncodingOptions = require('../../../src/index').video.EncodingOptions;
 var UploadRequest = require('../../../src/index').file.UploadRequest;
+var fromDto = require('../../../src/index').image.fromDto;
 var mediaPlatform = require('../facades/media-platform-facade').mediaPlatform;
 
 var fileUploader = mediaPlatform.fileUploader;
@@ -17,6 +18,10 @@ module.exports = function(app) {
                 res.status(500).send(error.message);
                 return;
             }
+
+            imageRequest = fromDto("domain.com", response);
+
+            console.log(imageRequest.fit(500, 500).toUrl().url);
 
             res.send(response);
         });

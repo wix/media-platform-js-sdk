@@ -28,12 +28,6 @@ In addition, Wix Media Platform supports uploading and distribution of documents
 
 This package is an isomorphic JavaScript library (works both in Node JS and in the browser) that provides a convenient API to access Wix Media Platform services.
 
-## New in Version 2.0.x
-
-* ImageRequest
-  * Breaking Change - original image data (width, height and mime type) is now mandatory
-  * Fit to container, width or height with optional region of interest image request functions   
-
 ## Installation
 
 ```bash
@@ -57,7 +51,7 @@ Once registered you'll be issued with your own API Key, API Secret and API Endpo
 var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
 
 var mediaPlatform = new MediaPlatform({
-  domain: 'api.wixmp.com',
+  domain: '<Project domain as appears in the Dashboard>',
   appId: '<API Key as appears in the Dashboard>',
   sharedSecret: '<API Secret as appears in the Dashboard>'
 });
@@ -76,7 +70,7 @@ Authentication URL Node.js (with express) example:
 
 ```javascript
 app.get('/media-platform/auth-header', function (req, res, next) {
-    mediaPlatform.getAuthenticationHeader('userId', function (error, header) {
+    mediaPlatform.getHeader('userId', function (error, header) {
         if (error) {
             res.status(500).send(error.message);
             return;
@@ -91,18 +85,12 @@ app.get('/media-platform/auth-header', function (req, res, next) {
 ### Server
 
 ```javascript
-var fileUploader = mediaPlatform.fileUploader;
-var MediaType = require('media-platform-js-sdk').MediaType;
-var EncodingOptions = require('media-platform-js-sdk').video.EncodingOptions;
-var StaticFileOptions = require('media-platform-js-sdk').static.StaticFileOptions;
 var UploadRequest = require('media-platform-js-sdk').file.UploadRequest;
-var ImportRequest = require('media-platform-js-sdk').file.ImportRequest;
  
 var uploadRequest = new UploadRequest()
-    .setFileName('str-image.jpg') // if the source is a stream or buffer, providing the file name is mandatory
     .setContentType('image/jpeg')
     .addTags('cat', 'fish');
-fileUploader.uploadImage('userId', <ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
+mediaPlatform.uploadFile('path', <ReadStream || Buffer || string path to file>, uploadRequest || null, function (error, response) {
 
     if (error) {
       console.error('upload failed: ' + error.message);
@@ -111,30 +99,6 @@ fileUploader.uploadImage('userId', <ReadStream || Buffer || string path to file>
 
     console.log('upload successful: ' + response);
 });
-
-fileUploader.uploadAudio('userId', <ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
-
-fileUploader.uploadDocument('userId', <ReadStream || Buffer || string path to file>, uploadRequest || null, callback);
-
-var encodingOptions = new EncodingOptions()
-        .setVideoFormats(['mp4']);
-fileUploader.uploadVideo('userId', <ReadStream || Buffer || string path to file>, encodingOptions || null, uploadRequest || null, callback);
-
-/**
-*   NOTE: This function currently only supports .json and .js files
-*/
-var staticFileOptions = new StaticFileOptions()
-        .setCompress(true);
-fileUploader.uploadStatic('userId', <ReadStream || Buffer || string path to file>, staticFileOptions || null, uploadRequest || null, callback);
-
-/**
-* Import a file from a remote source
-*/
-var importRequest = new ImportRequest()
-    .setFileName('file.jpg')
-    .setUrl('http://this.is/a/url')
-    .setMediaType(MediaType.IMAGE);
-fileUploader.importFile('userId', importRequest, callback);
 ```
 
 ### Browser
@@ -271,21 +235,6 @@ var imageOperation = MP.image.fromUrl('//media.wixapps.net/wixmedia-samples/imag
 var url = imageOperation.negative().saturation(-90).toUrl().url;
 ```
 
-## Secure File URL
-
-Files can be secured, in order to access them a secure URL must be generated
-
-```javascript
-var GetSecureURLRequest = require('media-platform-js-sdk').file.GetSecureURLRequest;
-
-var fileDownloader = mediaPlatform.fileDownloader;
-
-var getSecureUrlRequest = new GetSecureURLRequest()
-    .setFileId('fileId')
-    .addEncoding('src');
-fileDownloader.getSecureUrls('userId', getSecureUrlRequest, callback);
-```
-
 ## File Management
 
 Wix Media Platform exposes a comprehensive set of APIs tailored for the management of previously uploaded files.
@@ -336,240 +285,6 @@ Delete file
 
 ```javascript
 fileManager.deleteFile('userId', 'fileId', callback);
-```
-
-### Folder Management
-
-Wix Media Platform supports folders
- 
-List folders
-
-```javascript
-fileManager.listFolders('userId', 'folderId' || null, callback);
-```
-
-Create a new folder
-
-```javascript
-var NewFolderRequest = require('media-platform-js-sdk').file.NewFolderRequest;
-
-var newFolderRequest = new NewFolderRequest()
-    .setMediaType(MediaType.IMAGE)
-    .setFolderName('Doberman Pinscher')
-    .setParentFolderId('folderId');
-fileManager.newFolder('userId', newFolderRequest, callback);
-```
-
-Update a folder
-
-```javascript
-var UpdateFolderRequest = require('media-platform-js-sdk').file.UpdateFolderRequest;
-
-var updateFolderRequest = new UpdateFolderRequest()
-    .setFolderName('Doberman Pinscher');
-fileManager.updateFolder('userId', 'folderId', updateFolderRequest, callback);
-```
-
-Delete a folder
-
-*this will not delete the folder content*
-
-```javascript
-fileManager.deleteFolder('folderId', callback);
-```
-
-## Collection Management
-
-The collection service enables the creation, management and publishing of item groups such as curated image galleries, audio playlist etc.
-
-```javascript
-var collectionManager = mediaPlatform.collectionManager;
-```
-
-Create a new collection
-
-```javascript
-var NewCollectionRequest = require('media-platform-js-sdk').collection.NewCollectionRequest;
-var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
-
-var newCollectionRequest = new NewCollectionRequest()
-    .setType('dog')
-    .setPrivateProperties({prop: 'value'})
-    .setPublicProperties({prop: 'value'})
-    .setTags(['Doberman', 'Pinscher'])
-    .setThumbnailUrl('http://this.is.a/collection.jpeg')
-    .setTitle('Dogs Galore')
-    .setItems([
-        new NewItemRequest()
-            .setType(MediaType.AUDIO)
-            .setPrivateProperties({cat: 'fish'})
-            .setPublicProperties({bark: 'loud'})
-            .setTags(['dog', 'bark'])
-            .setTitle('Whof')
-    ]);
-collectionManager.newCollection('userId', newCollectionRequest, callback);
-```
-
-List collections
-
-```javascript
-collectionManager.listCollections('userId', 'dog', callback);
-```
-
-Get collection
-
-```javascript
-collectionManager.getCollection('userId', 'collectionId', callback);
-```
-
-Update collection 
-
-```javascript
-var UpdateCollectionRequest = require('media-platform-js-sdk').collection.UpdateCollectionRequest;
-
-var updateCollectionRequest = new UpdateCollectionRequest()
-    .setPrivateProperties({prop: 'value'})
-    .setPublicProperties({prop: 'value'})
-    .setTags(['cats', 'purr'])
-    .setThumbnailUrl('http://this.is.a/collection.jpeg')
-    .setTitle('Cats Galore');
-collectionManager.updateCollection('userId', 'collectionId', updateCollectionRequest, callback);
-```
-
-Publish collection
-
-```javascript
-collectionManager.publishCollection('userId', 'collectionId', callback);
-```
-
-Delete collection
-
-```javascript
-collectionManager.deleteCollection('userId', 'collectionId', callback);
-```
-
-Add items at the beginning of a collection
-
-```javascript
-var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
-
-var addItemRequests = [
-    new NewItemRequest()
-        .setType('dog')
-        .setPrivateProperties({prop: 'value'})
-        .setPublicProperties({prop: 'value'})
-        .setTags(['Doberman', 'Pinscher'])
-        .setTitle('Doberman'),
-    new NewItemRequest()
-        .setType('dog')
-        .setPrivateProperties({prop: 'value'})
-        .setPublicProperties({prop: 'value'})
-        .setTags(['Doberman', 'Pinscher'])
-        .setTitle('Pinscher')
-];
-collectionManager.prependItems('userId', 'collectionId', addItemRequests, callback);
-```
-
-Add items to the end of a collection
-
-```javascript
-var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
-
-var addItemRequests = [
-    new NewItemRequest()
-        .setType('dog')
-        .setPrivateProperties({prop: 'value'})
-        .setPublicProperties({prop: 'value'})
-        .setTags(['Doberman', 'Pinscher'])
-        .setTitle('Doberman')
-];
-collectionManager.appendItems('userId', 'collectionId', addItemRequests, callback);
-```
-
-Add items *before* an exiting item in a collection
-
-```javascript
-var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
-
-var addItemRequests = [
-    new NewItemRequest()
-        .setType('dog')
-        .setPrivateProperties({prop: 'value'})
-        .setPublicProperties({prop: 'value'})
-        .setTags(['Doberman', 'Pinscher'])
-        .setTitle('Doberman')
-];
-collectionManager.insertBefore('userId', 'collectionId', 'itemId', addItemRequests, callback);
-```
-
-Add items *after* an exiting item in a collection
-
-```javascript
-var NewItemRequest = require('media-platform-js-sdk').collection.NewItemRequest;
-
-var addItemRequests = [
-    new NewItemRequest()
-        .setType('dog')
-        .setPrivateProperties({prop: 'value'})
-        .setPublicProperties({prop: 'value'})
-        .setTags(['Doberman', 'Pinscher'])
-        .setTitle('Doberman')
-];
-collectionManager.insertAfter('userId', 'collectionId', 'itemId', addItemRequests, callback);
-```
-
-Update existing items in a collection
-
-```javascript
-var UpdateItemRequest = require('media-platform-js-sdk').collection.UpdateItemRequest;
-
-var updateItemRequests = [
-    new UpdateItemRequest()
-        .setId('id1')
-        .setType(MediaType.AUDIO)
-        .setPrivateProperties({prop: 'value'})
-        .setPublicProperties({prop: 'value'})
-        .setTags(['moshe', 'chaim'])
-        .setTitle('olala'),
-    new UpdateItemRequest()
-        .setId('id2')
-        .setType(MediaType.AUDIO)
-        .setPrivateProperties({prop: 'value'})
-        .setPublicProperties({prop: 'value'})
-        .setTags(['moshe', 'chaim'])
-        .setTitle('olala')
-];
-collectionManager.updateItems('userId', 'collectionId', updateItemRequests, callback);
-```
-
-Move items to the *start* of the collection
-
-```javascript
-collectionManager.moveToStart('userId', 'collectionId', ['id1', 'id2'], callback);
-```
-
-Move items to the *end* of the collection
-
-```javascript
-collectionManager.moveToEnd('userId', 'collectionId', ['id1', 'id2'], callback);
-```
-
-Move items *before* another item
-
-```javascript
-collectionManager.moveBefore('userId', 'collectionId', 'itemId', ['id1', 'id2'], callback);
-```
-
-Move items *after* another item
-
-```javascript
-collectionManager.moveAfter('userId', 'collectionId', 'itemId', ['id1', 'id2'], callback);
-```
-
-Delete items from a collection
-
-```javascript
-collectionManager.deleteItems('userId', 'collectionId', ['id1', 'id2'], callback);
 ```
 
 ## Reporting Issues

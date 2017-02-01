@@ -1,8 +1,7 @@
 /**
  * @param {string} domain
- * @param {string?} sharedSecret
+ * @param {string} sharedSecret
  * @param {string} appId
- * @abstract
  * @constructor
  */
 function Configuration(domain, sharedSecret, appId) {

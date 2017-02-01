@@ -111,7 +111,7 @@ MP.static = {
 
 MP.file = {
     /**
-     * @type {UploadRequest}
+     * @type {UploadUrlRequest}
      */
     UploadRequest: UploadRequest,
 

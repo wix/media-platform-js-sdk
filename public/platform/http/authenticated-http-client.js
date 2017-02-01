@@ -116,6 +116,6 @@ AuthenticatedHTTPClient.prototype.deauthorize = function () {
 };
 
 /**
- * @type {AuthenticatedHTTPClient}
+ * @type {HTTPClient}
  */
 module.exports = AuthenticatedHTTPClient;

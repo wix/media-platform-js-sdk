@@ -1,6 +1,6 @@
 /**
  * @param configuration
- * @param {AuthenticatedHTTPClient} authenticatedHTTPClient
+ * @param {HTTPClient} authenticatedHTTPClient
  * @constructor
  */
 function FileUploader(configuration, authenticatedHTTPClient) {
