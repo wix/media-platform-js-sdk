@@ -15,16 +15,16 @@ var validator = require('./validation/validator');
 
 /**
  * @param {string} name
- * @param {string} baseUrl
- * @param {string} imageId
- * @param {string} imageName
+ * @param {string} host
+ * @param {string} path
+ * @param {string} fileName
  * @param {string} version
  * @param {number} width
  * @param {number} height
  * @param {Metadata} metadata
  * @constructor
  */
-function BaseOperation(name, baseUrl, imageId, imageName, version, width, height, metadata) {
+function BaseOperation(name, host, path, fileName, version, width, height, metadata) {
 
     /**
      * @type {string}
@@ -34,17 +34,17 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
     /**
      * @type {string}
      */
-    this.baseUrl = baseUrl;
+    this.host = host;
 
     /**
      * @type {string}
      */
-    this.imageId = imageId;
+    this.path = path;
 
     /**
      * @type {string}
      */
-    this.imageName = imageName;
+    this.fileName = fileName;
 
     /**
      * @type {string}
@@ -60,6 +60,17 @@ function BaseOperation(name, baseUrl, imageId, imageName, version, width, height
      * @type {number}
      */
     this.height = Math.round(height);
+
+    /**
+     * @type {number}
+     */
+    this.x = null;
+
+    /**
+     * @type {number}
+     */
+    this.y = null;
+
 
     /**
      * @type {Metadata}
@@ -188,30 +199,6 @@ BaseOperation.prototype.size = function (width, height) {
 };
 
 /**
- * @returns {Metadata}
- * @deprecated use getOriginalImageData instead
- */
-BaseOperation.prototype.getOriginalFileData = function () {
-    return this.metadata;
-};
-
-/**
- * @returns {Metadata}
- */
-BaseOperation.prototype.getOriginalImageData = function () {
-    return this.metadata;
-};
-
-/**
- * @param originalImageData
- * @returns {BaseOperation}
- */
-BaseOperation.prototype.setOriginalImageData = function (originalImageData) {
-    this.metadata = originalImageData;
-    return this;
-};
-
-/**
  * @returns {{url: string|null, error: Error|null}}
  */
 BaseOperation.prototype.toUrl = function () {
@@ -219,7 +206,7 @@ BaseOperation.prototype.toUrl = function () {
     if (!this.metadata) {
         return {
             url: null,
-            error: new Error('original image data is mandatory')
+            error: new Error('metadata is mandatory')
         };
     }
 
@@ -234,7 +221,7 @@ BaseOperation.prototype.toUrl = function () {
     }
 
     var out = '';
-    var baseUrl = this.baseUrl;
+    var baseUrl = this.host;
     if (baseUrl !== null && baseUrl !== '') {
         if (baseUrl.indexOf('http') != 0 && baseUrl.indexOf('//') != 0) {
             out += '//';
@@ -245,9 +232,9 @@ BaseOperation.prototype.toUrl = function () {
         }
     }
 
-    out += baseUrl + '/' + this.imageId + '/' + this.version + '/' + this.name + '/';
+    out += baseUrl + '/' + this.path + '/' + this.version + '/' + this.name + '/';
 
-    var result = this.collect();
+    var result = this.collectParams();
 
     if (result.errors.length > 0) {
         return {
@@ -257,7 +244,7 @@ BaseOperation.prototype.toUrl = function () {
     }
 
     return {
-        url: out + 'w_' + this.width + ',h_' + this.height + result.params + '/' + encodeURIComponent(this.imageName) + '#' + this.metadata.serialize(),
+        url: out + 'w_' + this.width + ',h_' + this.height + result.params + '/' + encodeURIComponent(this.fileName) + '#' + this.metadata.serialize(),
         error: null
     }
 };
@@ -265,7 +252,7 @@ BaseOperation.prototype.toUrl = function () {
 /**
  * @returns {{params: string, errors: Array<string>}}
  */
-BaseOperation.prototype.collect = function () {
+BaseOperation.prototype.collectParams = function () {
     var out = '';
     var part;
     var errors = [];

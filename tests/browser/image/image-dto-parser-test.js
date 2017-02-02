@@ -27,7 +27,7 @@ describe('image dto parsing', function () {
 
             var imageRequest = fromDto('www.domain.com', dto);
 
-            expect(imageRequest.baseUrl)
+            expect(imageRequest.host)
                 .to.eql('www.domain.com/ggl-109789773458215503884/images');
 
             expect(imageRequest.fit(500, 500).toUrl().url)
@@ -57,7 +57,7 @@ describe('image dto parsing', function () {
 
         var imageRequest = fromDto('www.domain.com', dto);
 
-        expect(imageRequest.baseUrl)
+        expect(imageRequest.host)
             .to.eql('www.domain.com');
     });
 
@@ -84,7 +84,7 @@ describe('image dto parsing', function () {
 
         var imageRequest = fromDto('www.domain.com', dto);
 
-        expect(imageRequest.baseUrl)
+        expect(imageRequest.host)
             .to.eql('www.domain.com');
     });
 
@@ -110,7 +110,7 @@ describe('image dto parsing', function () {
 
         var imageRequest = fromDto('www.domain.com', dto);
 
-        expect(imageRequest.baseUrl)
+        expect(imageRequest.host)
             .to.eql('www.domain.com');
     });
 });

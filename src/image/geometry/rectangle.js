@@ -5,7 +5,7 @@
  * @param {number?} y
  * @constructor
  */
-function ROI(width, height, x, y) {
+function Rectangle(width, height, x, y) {
 
     /**
      * @type {number}
@@ -30,41 +30,41 @@ function ROI(width, height, x, y) {
 
 /**
  * @param {number} x
- * @returns {ROI}
+ * @returns {Rectangle}
  */
-ROI.prototype.setX = function (x) {
+Rectangle.prototype.setX = function (x) {
     this.x = x;
     return this;
 };
 
 /**
  * @param {number} y
- * @returns {ROI}
+ * @returns {Rectangle}
  */
-ROI.prototype.setY = function (y) {
+Rectangle.prototype.setY = function (y) {
     this.y = y;
     return this;
 };
 
 /**
  * @param {number} width
- * @returns {ROI}
+ * @returns {Rectangle}
  */
-ROI.prototype.setWidth = function (width) {
+Rectangle.prototype.setWidth = function (width) {
     this.width = width;
     return this;
 };
 
 /**
  * @param {number} height
- * @returns {ROI}
+ * @returns {Rectangle}
  */
-ROI.prototype.setHeight = function (height) {
+Rectangle.prototype.setHeight = function (height) {
     this.height = height;
     return this;
 };
 
 /**
- * @type {ROI}
+ * @type {Rectangle}
  */
-module.exports = ROI;
+module.exports = Rectangle;

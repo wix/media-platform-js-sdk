@@ -23,7 +23,7 @@ function FileManager(configuration, httpClient) {
     /**
      * @type {string}
      */
-    this.baseUrl = 'https://' + configuration.domain + '/_api/files';
+    this.host = 'https://' + configuration.domain + '/_api/files';
 
 
     /**
@@ -137,7 +137,7 @@ FileManager.prototype.createFile = function (fileDescriptor, callback) {
         .setObject(NS.FILE, fileDescriptor.path)
         .addVerbs(VERB.FILE_CREATE);
 
-    this.httpClient.request('POST', this.baseUrl, fileDescriptor, token, function (error, response) {
+    this.httpClient.request('POST', this.host, fileDescriptor, token, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -163,7 +163,7 @@ FileManager.prototype.getFile = function (path, callback) {
         .setObject(NS.FILE, path)
         .addVerbs(VERB.FILE_GET);
 
-    this.httpClient.request('GET', this.baseUrl, params, token, function (error, response) {
+    this.httpClient.request('GET', this.host, params, token, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -191,7 +191,7 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
         .setObject(NS.FILE, path)
         .addVerbs(VERB.FILE_LIST);
     
-    this.httpClient.request('GET', this.baseUrl + '/ls_dir', params, token, function (error, response) {
+    this.httpClient.request('GET', this.host + '/ls_dir', params, token, function (error, response) {
 
         if (error) {
             callback(error, null);

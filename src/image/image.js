@@ -1,11 +1,16 @@
 var parseFileDescriptor = require('./parser/file-descriptor-parser');
 var parseUrl = require('./parser/url-parser');
-var Canvas = require('./operation/canvas');
-var Crop = require('./operation/crop');
-var Fill = require('./operation/fill');
-var Fit = require('./operation/fit');
-var ROI = require('./region-of-interest');
-var Container = require('./container');
+var Crop = require('./geometry/crop');
+var Rectangle = require('./geometry/rectangle');
+var Dimension = require('./geometry/dimension');
+var UnsharpMask = require('./filter/unsharp-mask');
+var Blur = require('./filter/blur');
+var Brightness = require('./filter/brightness');
+var Contrast = require('./filter/contrast');
+var Hue = require('./filter/hue');
+var Saturation = require('./filter/saturation');
+var JPEG = require('./encoder/jpeg');
+var validator = require('./validation/validator');
 
 /**
  * @description a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
@@ -18,19 +23,24 @@ function Image(data) {
      * @description where the image is hosted
      * @type {string}
      */
-    this.host = host;
+    this.host = null;
 
     /**
      * @description the image location
      * @type {string}
      */
-    this.path = path;
+    this.path = null;
+
+    /**
+     * @type {string}
+     */
+    this.fileName = null;
 
     /**
      * @description the source image metadata
      * @type {Metadata}
      */
-    this.metadata = metadata;
+    this.metadata = null;
 
     /**
      * @description the API version
@@ -43,6 +53,47 @@ function Image(data) {
      */
     this.operation = null;
 
+    /**
+     * unsharp
+     * @type {UnsharpMask}
+     */
+    var unsharpMask = new UnsharpMask(this);
+
+    /**
+     * blur
+     * @type {Blur}
+     */
+    var blur = new Blur(this);
+
+    /**
+     * brightness
+     * @type {Brightness}
+     */
+    var brightness = new Brightness(this);
+
+    /**
+     * contrast
+     * @type {Contrast}
+     */
+    var contrast = new Contrast(this);
+
+    /**
+     * hue
+     * @type {Hue}
+     */
+    var hue = new Hue(this);
+
+    /**
+     * saturation
+     * @type {Saturation}
+     */
+    var saturation = new Saturation(this);
+
+    /**
+     * @type {JPEG}
+     */
+    var jpeg = new JPEG(this);
+
     if (data) {
         if (typeof data === 'string') {
             parseUrl(this, data);
@@ -50,58 +101,60 @@ function Image(data) {
             parseFileDescriptor(this, data);
         }
     }
+
+    this.serializationOrder = [unsharpMask, blur, brightness, contrast, hue, saturation, jpeg];
 }
 
 /**
  * @summary fills the given width, the height is derived from the region of interest aspect ratio.
  * @param {number} width
- * @param {ROI?} roi Region of interest, if not provided, the entire image is taken
+ * @param {Rectangle?} regionOfInterest Region of interest, if not provided, the entire image is taken
  * @returns {Image}
  */
-Image.prototype.scaleToWidth = function (width, roi) {
-    var container = new Container().setWidth(width);
+Image.prototype.scaleToWidth = function (width, regionOfInterest) {
+    var container = new Dimension().setWidth(width);
 
-    return this.fillContainer(container, roi);
+    return this.fillContainer(container, regionOfInterest);
 };
 
 /**
  * @summary fills the given height, the width is derived from the region of interest aspect ratio.
  * @param {number} height
- * @param {ROI?} roi Region of interest, if not provided, the entire image is taken
+ * @param {Rectangle?} regionOfInterest Region of interest, if not provided, the entire image is taken
  * @returns {Image}
  */
-Image.prototype.scaleToHeight = function (height, roi) {
-    var container = new Container().setHeight(height);
+Image.prototype.scaleToHeight = function (height, regionOfInterest) {
+    var container = new Dimension().setHeight(height);
 
-    return this.fillContainer(container, roi);
+    return this.fillContainer(container, regionOfInterest);
 };
 
 /**
- * @param {Container} container
- * @param {ROI?} roi
+ * @param {Dimension} container
+ * @param {Rectangle?} regionOfInterest
  * @returns {Image}
  */
-Image.prototype.fillContainer = function (container, roi) {
-    if (!roi) {
-        roi = new ROI(this.metadata.width, this.metadata.height, 0, 0);
+Image.prototype.fillContainer = function (container, regionOfInterest) {
+    if (!regionOfInterest) {
+        regionOfInterest = new Rectangle(this.metadata.width, this.metadata.height, 0, 0);
     }
 
-    var roiAspectRatio = roi.width / roi.height;
+    var roiAspectRatio = regionOfInterest.width / regionOfInterest.height;
     var containerWidth = Math.round(container.width ? container.width : (container.height * roiAspectRatio));
     var containerHeight = Math.round(container.height ? container.height : (container.width / roiAspectRatio));
     var containerAspectRatio = container.width / container.height;
 
     var scale;
     if (containerAspectRatio <= 1) {                //portrait -> portrait, landscape/square -> portrait/square
-        scale = containerHeight / roi.height;
+        scale = containerHeight / regionOfInterest.height;
     } else {                                        //portrait/square -> landscape/square, //landscape -> landscape
-        scale = containerWidth / roi.width;
+        scale = containerWidth / regionOfInterest.width;
     }
 
-    var x = Math.floor(roi.x * scale);
-    var y = Math.floor(roi.y * scale);
-    var height = Math.floor(roi.height * scale);
-    var width = Math.floor(roi.width * scale);
+    var x = Math.floor(regionOfInterest.x * scale);
+    var y = Math.floor(regionOfInterest.y * scale);
+    var height = Math.floor(regionOfInterest.height * scale);
+    var width = Math.floor(regionOfInterest.width * scale);
 
     //TODO: handle bleeding top, bottom, left, right
     var verticalPadding = containerHeight - height;
@@ -131,45 +184,136 @@ Image.prototype.fillContainer = function (container, roi) {
  * @param {number} height
  * @param {number} x
  * @param {number} y
- * @param {number?} upscaleFactor
+ * @param {number?} scale
  * @returns {Image}
  */
-Image.prototype.crop = function (width, height, x, y, upscaleFactor) {
-    this.operation = new Crop(this.baseUrl, this.imageId, this.imageName, this.version, width, height, x, y, upscaleFactor, this.metadata);
+Image.prototype.crop = function (width, height, x, y, scale) {
+    this.operation = new Crop(width, height, x, y, scale);
     return this;
 };
 
+
+Image.prototype.unsharpMask = (function () {
+    return this.unsharpMask.configuration;
+})();
+
+Image.prototype.brightness = (function () {
+    return this.brightness.brightness;
+})();
+
+Image.prototype.contrast = (function () {
+    return this.contrast.contrast;
+})();
+
+Image.prototype.hue = (function () {
+    return this.hue.hue;
+})();
+
+Image.prototype.saturation = (function () {
+    return this.saturation.saturation;
+})();
+
+Image.prototype.blur = (function () {
+    return this.blur.percentage;
+})();
+
+Image.prototype.jpeg = (function () {
+    return this.jpeg.compression;
+})();
+
+
 /**
- * @summary Configures this image using the 'fill' operation.
- * @param {number} width
- * @param {number} height
- * @returns {Image}
+ * @summary serializes the Image to the URL
+ * @returns {{url: string|null, error: Error|null}}
  */
-Image.prototype.fill = function (width, height) {
-    this.operation = new Fill(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.metadata);
-    return this;
+Image.prototype.toUrl = function () {
+
+    if (!this.operation) {
+        return {
+            url: null,
+            error: new Error('operation not defined')
+        }
+    }
+
+    if (!this.metadata) {
+        return {
+            url: null,
+            error: new Error('metadata is mandatory')
+        };
+    }
+
+    var errorMassage = validator.numberIsNotGreaterThan('width', this.width, 1) ||
+        validator.numberIsNotGreaterThan('height', this.height, 1);
+
+    if (errorMassage) {
+        return {
+            url: null,
+            error: new Error(errorMassage)
+        };
+    }
+
+    var out = '';
+    var baseUrl = this.host;
+    if (baseUrl !== null && baseUrl !== '') {
+        if (baseUrl.indexOf('http') != 0 && baseUrl.indexOf('//') != 0) {
+            out += '//';
+        }
+
+        if (baseUrl.lastIndexOf('/') == (baseUrl.length - 1)) {
+            baseUrl = baseUrl.slice(0, -1);
+        }
+    }
+
+    out += baseUrl + '/' + this.path + '/' + this.version + '/' + this.name + '/';
+
+    var geometryParams = this.operation.serialize(this.metadata);
+    if (geometryParams.errors.length > 0) {
+        return {
+            url: null,
+            error: new Error(geometryParams.errors)
+        }
+    }
+
+    var filtersAndEncoderParams = this.collectParams();
+    if (filtersAndEncoderParams.errors.length > 0) {
+        return {
+            url: null,
+            error: new Error(filtersAndEncoderParams.errors)
+        }
+    }
+
+    return {
+        url: out + geometryParams.params + filtersAndEncoderParams.params + '/' + encodeURIComponent(this.fileName) + '#' + this.metadata.serialize(),
+        error: null
+    }
 };
 
 /**
- * @summary Configures this image using the 'fit' operation.
- * @param {number} width
- * @param {number} height
- * @returns {Image}
+ * @returns {{params: string, errors: Array<string>}}
+ * @private
  */
-Image.prototype.fit = function (width, height) {
-    this.operation = new Fit(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.metadata);
-    return this;
-};
+Image.prototype.collectParams = function () {
+    var out = '';
+    var part;
+    var errors = [];
+    this.serializationOrder.forEach(function concat(op) {
+        part = op.serialize();
+        if (part.error) {
+            errors.push(part.error);
+        }
+        if (out.length > 0 && part.params && part.params.length > 0) {
+            out += ',';
+        }
+        out += part.params;
+    });
 
-/**
- * @summary Configures this image using the 'canvas' operation.
- * @param {number} width
- * @param {number} height
- * @returns {Image}
- */
-Image.prototype.canvas = function (width, height) {
-    this.operation = new Canvas(this.baseUrl, this.imageId, this.imageName, this.version, width, height, this.metadata);
-    return this;
+    if (out.length > 0) {
+        out = ',' + out;
+    }
+    return {
+        params: out,
+        errors: errors
+    };
 };
 
 /**

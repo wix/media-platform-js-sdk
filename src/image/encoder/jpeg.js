@@ -4,7 +4,7 @@ var validator = require('../validation/validator');
  * @param operation
  * @constructor
  */
-function JPEGSettings(operation) {
+function JPEG(operation) {
     
     this.operation = operation;
 
@@ -34,7 +34,7 @@ function JPEGSettings(operation) {
  * @param {boolean?} baseline 
  * @returns {*} the operation
  */
-JPEGSettings.prototype.compression = function (quality, baseline) {
+JPEG.prototype.compression = function (quality, baseline) {
 
     quality = Math.round(quality || 0);
     this.error = validator.numberNotInRange('jpeg compression quality', quality, 0, 100);
@@ -55,7 +55,7 @@ JPEGSettings.prototype.compression = function (quality, baseline) {
 /**
  * @returns {string}
  */
-JPEGSettings.prototype.serialize = function () {
+JPEG.prototype.serialize = function () {
 
     var out = '';
 
@@ -78,6 +78,6 @@ JPEGSettings.prototype.serialize = function () {
 };
 
 /**
- * @type {JPEGSettings}
+ * @type {JPEG}
  */
-module.exports = JPEGSettings;
+module.exports = JPEG;

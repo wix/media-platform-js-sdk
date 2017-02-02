@@ -3,7 +3,7 @@
  * @param {number?} height
  * @constructor
  */
-function Container(width, height) {
+function Dimension(width, height) {
     /**
      * @type {number|null}
      */
@@ -17,23 +17,23 @@ function Container(width, height) {
 
 /**
  * @param {number} width
- * @returns {Container}
+ * @returns {Dimension}
  */
-Container.prototype.setWidth = function (width) {
+Dimension.prototype.setWidth = function (width) {
     this.width = width;
     return this;
 };
 
 /**
  * @param {number} height
- * @returns {Container}
+ * @returns {Dimension}
  */
-Container.prototype.setHeight = function (height) {
+Dimension.prototype.setHeight = function (height) {
     this.height = height;
     return this;
 };
 
 /**
- * @type {Container}
+ * @type {Dimension}
  */
-module.exports = Container;
+module.exports = Dimension;

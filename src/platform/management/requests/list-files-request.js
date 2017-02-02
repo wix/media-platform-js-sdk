@@ -16,7 +16,7 @@ function ListFilesRequest() {
     /**
      * @type {number|null}
      */
-    this.size = 20;
+    this.pageSize = 20;
 
     /**
      * @type {string|null}
@@ -48,11 +48,11 @@ ListFilesRequest.prototype.setCursor = function (cursor) {
 };
 
 /**
- * @param {number} size
+ * @param {number} pageSize
  * @returns {ListFilesRequest}
  */
-ListFilesRequest.prototype.setSize = function (size) {
-    this.size = size;
+ListFilesRequest.prototype.setSize = function (pageSize) {
+    this.pageSize = pageSize;
     return this;
 };
 

@@ -12,6 +12,8 @@ function parse(image, fileDescriptor) {
         fileDescriptor.metadata.height,
         fileDescriptor.mimeType
     );
+    var pathParts = image.path.split('/');
+    image.fileName = pathParts[pathParts.length - 1];
 }
 
 
