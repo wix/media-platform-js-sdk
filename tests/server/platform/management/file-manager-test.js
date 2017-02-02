@@ -21,10 +21,11 @@ describe('file manager', function() {
     var fileManager = new FileManager(configuration, httpClient, fileUploader);
 
     var uploadServer = nock('https://manager.com/');
-    // getUploadUrl - .get('/_api/upload/url');
-    // upload - .post('/_api/upload/file');
     var fileServer = nock('https://manager.com/');
-    // list - .get('/_api/files/ls_dir')
+
+    afterEach(function() {
+        nock.cleanAll();
+    });
 
     it('listFiles - default', function (done) {
         fileServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
