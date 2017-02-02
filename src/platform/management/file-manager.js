@@ -1,19 +1,17 @@
-var fs = require('fs');
 var _ = require('underscore');
-var request = require('request');
 var NS = require('../authentication/NS');
 var VERB = require('../authentication/VERB');
 var Token = require('../authentication/token');
-var UploadUrlRequest = require('./requests/upload-url-request');
 var FileDescriptor = require('./file-descriptor');
 var ListFilesResponse = require('./responses/list-files-response');
 
 /**
  * @param {Configuration} configuration
  * @param {HTTPClient} httpClient
+ * @param {FileUploader} fileUploader
  * @constructor
  */
-function FileManager(configuration, httpClient) {
+function FileManager(configuration, httpClient, fileUploader) {
 
     /**
      * @type {HTTPClient}
@@ -23,107 +21,18 @@ function FileManager(configuration, httpClient) {
     /**
      * @type {string}
      */
-    this.host = 'https://' + configuration.domain + '/_api/files';
+    this.apiUrl = 'https://' + configuration.domain + '/_api/files';
 
 
     /**
-     * @type {string}
+     * @type {FileUploader}
      */
-    this.uploadBaseUrl = 'https://' + configuration.domain + '/_api/upload';
+    this.fileUploader = fileUploader;
+
+    this.getUploadUrl = fileUploader.getUploadUrl;
+
+    this.uploadFile = fileUploader.uploadFile;
 }
-
-/**
- * @description retrieve a signed URL to which the file is uploaded
- * @param {UploadUrlRequest?} uploadUrlRequest
- * @param {function(Error, {uploadUrl: string}|null)} callback
- */
-FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
-
-    var token = new Token()
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, '*')
-        .addVerbs(VERB.FILE_UPLOAD);
-
-    this.httpClient.request('GET', this.uploadBaseUrl + '/url', uploadUrlRequest, token, function (error, response) {
-
-        if (error) {
-            callback(error, null);
-            return;
-        }
-
-        callback(null, response)
-    })
-};
-
-/**
- * @description upload a file
- * @param {string} path the destination to which the file will be uploaded
- * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
- * @param {UploadFileRequest?} uploadRequest
- * @param {function(Error, FileDescriptor|null)} callback
- */
-FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback) {
-
-    var calledBack = false;
-    var stream = null;
-    if (typeof file.pipe === 'function') {
-        stream = file;
-        stream.once('error', doCallback);
-    } else if (typeof file === 'string') {
-        stream = fs.createReadStream(file);
-        stream.once('error', doCallback);
-    } else if (file instanceof Buffer) {
-        // TODO: solve missing boundary issue (content length?)
-        // stream = new Stream.PassThrough();
-        // stream.end(source);
-        stream = file;
-    } else {
-        callback(new Error('unsupported source type: ' + typeof file), null);
-        return;
-    }
-
-    var uploadUrlRequest = null;
-    if (uploadRequest) {
-        uploadUrlRequest = new UploadUrlRequest()
-            .setMimeType(uploadRequest.mimeType)
-            .setMediaType(uploadRequest.mediaType)
-    }
-
-    this.getUploadUrl(uploadUrlRequest, function (error, response) {
-
-        if (error) {
-            doCallback(error, null);
-            return;
-        }
-
-        var form = {
-            file: stream,
-            path: path
-        };
-        if (uploadRequest) {
-            _.extendOwn(form, uploadRequest);
-        }
-
-        var token = new Token()
-            .setSubject(NS.APPLICATION, this.configuration.appId)
-            .setObject(NS.FILE, path)
-            .addVerbs(VERB.FILE_UPLOAD);
-
-        this.httpClient.postForm(response.uploadUrl, form, token, doCallback);
-
-    }.bind(this));
-
-    function doCallback(error, data) {
-        if (!calledBack) {
-            var fileDescriptor = null;
-            if (data) {
-                fileDescriptor = new FileDescriptor(data);
-            }
-            callback(error, fileDescriptor);
-            calledBack = true;
-        }
-    }
-};
 
 /**
  * @description creates a file descriptor, use this to create an empty directory
@@ -137,7 +46,7 @@ FileManager.prototype.createFile = function (fileDescriptor, callback) {
         .setObject(NS.FILE, fileDescriptor.path)
         .addVerbs(VERB.FILE_CREATE);
 
-    this.httpClient.request('POST', this.host, fileDescriptor, token, function (error, response) {
+    this.httpClient.request('POST', this.apiUrl, fileDescriptor, token, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -163,7 +72,7 @@ FileManager.prototype.getFile = function (path, callback) {
         .setObject(NS.FILE, path)
         .addVerbs(VERB.FILE_GET);
 
-    this.httpClient.request('GET', this.host, params, token, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl, params, token, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -191,7 +100,7 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
         .setObject(NS.FILE, path)
         .addVerbs(VERB.FILE_LIST);
     
-    this.httpClient.request('GET', this.host + '/ls_dir', params, token, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, token, function (error, response) {
 
         if (error) {
             callback(error, null);

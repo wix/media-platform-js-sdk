@@ -8,7 +8,7 @@ function Configuration(domain, authenticationUrl) {
     /**
      * @type {string}
      */
-    this.host = domain;
+    this.domain = domain;
 
     /**
      * @type {string}

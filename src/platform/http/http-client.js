@@ -2,15 +2,15 @@ var request = require('request');
 // require('request-debug')(request);
 
 /**
- * @param {Authenticator} authenticationClient
+ * @param {Authenticator} authenticator
  * @constructor
  */
-function HTTPClient(authenticationClient) {
+function HTTPClient(authenticator) {
 
     /**
      * @type {Authenticator}
      */
-    this.authenticationClient = authenticationClient;
+    this.authenticator = authenticator;
 }
 
 /**
@@ -24,7 +24,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
 
     var header = {};
     if (token) {
-        header = this.authenticationClient.getHeader(token);
+        header = this.authenticator.getHeader(token);
     }
 
     var options = { method: httpMethod, url: url, headers: header, json: true };
@@ -64,7 +64,7 @@ HTTPClient.prototype.postForm = function (url, form, token, callback) {
 
     var header = {};
     if (token) {
-        header = this.authenticationClient.getHeader(token);
+        header = this.authenticator.getHeader(token);
     }
 
     var options = { method: 'POST', url: url, formData: form, headers: header, json: true };

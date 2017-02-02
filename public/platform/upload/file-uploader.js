@@ -1,13 +1,13 @@
 /**
  * @param configuration
- * @param {HTTPClient} authenticatedHTTPClient
+ * @param {BrowserHTTPClient} browserHTTPClient
  * @constructor
  */
-function FileUploader(configuration, authenticatedHTTPClient) {
+function FileUploader(configuration, browserHTTPClient) {
 
-    this.uploadUrlEndpoint = 'https://' + configuration.host + '/files/upload/url';
+    this.uploadUrlEndpoint = 'https://' + configuration.domain + '/files/upload/url';
     
-    this.authenticatedHTTPClient = authenticatedHTTPClient;
+    this.browserHTTPClient = browserHTTPClient;
 }
 
 /**
@@ -16,7 +16,7 @@ function FileUploader(configuration, authenticatedHTTPClient) {
  * @param {function(Error, {uploadUrl: string}|null)} callback
  */
 FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
-    this.authenticatedHTTPClient.jsonRequest('GET', this.uploadUrlEndpoint, null, { media_type: mediaType }, function (error, body) {
+    this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, {}, null, function (error, body) {
 
         if (error) {
             callback(error, null);
@@ -26,6 +26,8 @@ FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
         callback(null, { uploadUrl: body.upload_url, uploadToken: body.upload_token })
     })
 };
+
+// TODO: implement: FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callback)
 
 /**
  * @type {FileUploader}

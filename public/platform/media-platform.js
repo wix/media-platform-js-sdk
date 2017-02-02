@@ -1,6 +1,5 @@
-var AuthenticatedHTTPClient = require('./http/authenticated-http-client');
+var BrowserHTTPClient = require('./http/browser-http-client');
 var FileManager = require('../../src/platform/management/file-manager');
-var CollectionManager = require('../../src/platform/collection/collection-manager');
 var FileUploader = require('./upload/file-uploader');
 
 /**
@@ -9,29 +8,26 @@ var FileUploader = require('./upload/file-uploader');
  */
 function MediaPlatform(configuration) {
 
-    var authenticatedHTTPClient = new AuthenticatedHTTPClient(configuration.authenticationUrl);
+    var browserHTTPClient = new BrowserHTTPClient(configuration.authenticationUrl);
+    var fileUploader = new FileUploader(configuration, browserHTTPClient);
 
     /**
      * retrieve the auth header for the currently logged in user
      * @param callback
      */
     this.getAuthenticationHeader = function (callback) {
-        authenticatedHTTPClient.getAuthenticationHeader(callback);
+        browserHTTPClient.getAuthenticationHeader(callback);
     };
 
     /**
      * log out the user
      */
     this.deauthorize = function () {
-        authenticatedHTTPClient.deauthorize();
+        browserHTTPClient.deauthorize();
     };
 
     //noinspection JSCheckFunctionSignatures
-    this.fileManager = new FileManager(configuration, authenticatedHTTPClient);
-    //noinspection JSCheckFunctionSignatures
-    this.collectionManager = new CollectionManager(configuration, authenticatedHTTPClient);
-
-    this.fileUploader = new FileUploader(configuration, authenticatedHTTPClient);
+    this.fileManager = new FileManager(configuration, browserHTTPClient, fileUploader);
 }
 
 /**
