@@ -42,6 +42,13 @@ FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
     this.fileUploader.getUploadUrl(uploadUrlRequest, callback);
 };
 
+/**
+ * @description upload a file
+ * @param {string} path the destination to which the file will be uploaded
+ * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
+ * @param {UploadFileRequest?} uploadRequest
+ * @param {function(Error, FileDescriptor|null)} callback
+ */
 FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback) {
     this.fileUploader.uploadFile(path, file, uploadRequest, callback);
 };

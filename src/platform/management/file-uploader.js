@@ -76,7 +76,7 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
         // stream.end(source);
         stream = file;
     } else {
-        callback(new Error('unsupported source type: ' + typeof file), null);
+        doCallback(new Error('unsupported source type: ' + typeof file), null);
         return;
     }
 

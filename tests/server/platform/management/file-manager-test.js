@@ -27,7 +27,7 @@ describe('file manager', function() {
     // list - .get('/_api/files/ls_dir')
 
     it('listFiles - default', function (done) {
-        fileServer.get('/_api/files/ls_dir').query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
+        fileServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
 
         fileManager.listFiles('path', null, function (error, data) {
             expect(data).to.eql({ pageSize: 20,
@@ -67,7 +67,7 @@ describe('file manager', function() {
     });
 
     it('listFiles - page', function (done) {
-        fileServer.get('/_api/files/ls_dir').query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
+        fileServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
 
         var listFilesRequest = new ListFilesRequest()
             .ascending()
@@ -82,7 +82,7 @@ describe('file manager', function() {
 
     it('getFile', function (done) {
 
-        fileServer.get('/_api/files').query(true).replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        fileServer.get('/_api/files').once().query(true).replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         fileManager.getFile('path/of/file', function (error, data) {
             expect(data).to.eql({
@@ -141,8 +141,8 @@ describe('file manager', function() {
 
     it('file upload accepts path (string) as source', function (done) {
         
-        uploadServer.get('/_api/upload/url').query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         //path, file, uploadRequest, callback
         fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
@@ -152,8 +152,8 @@ describe('file manager', function() {
 
     it('file upload handles path (string) errors', function (done) {
 
-        uploadServer.get('/_api/upload/url').query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         fileManager.uploadFile('upload/to/there/image.jpg', 'nothing here', null, function (error, data) {
             expect(error).to.be.a(Error);
@@ -164,8 +164,8 @@ describe('file manager', function() {
 
     it('file upload accepts stream as source', function (done) {
 
-        uploadServer.get('/_api/upload/url').query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         var stream = fs.createReadStream(sourcesDir + 'audio.mp3');
 
@@ -176,8 +176,8 @@ describe('file manager', function() {
 
     it('file upload accepts buffer as source', function (done) {
 
-        uploadServer.get('/_api/upload/url').query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         var buffer = fs.readFileSync(sourcesDir + 'document.xlsx');
 
@@ -188,8 +188,8 @@ describe('file manager', function() {
 
     it('file upload reject unsupported source', function (done) {
 
-        uploadServer.get('/_api/upload/url').query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         fileManager.uploadFile('upload/to/there/image.jpg', 1111, null, function (error, data) {
             expect(error).to.be.a(Error);
@@ -200,7 +200,7 @@ describe('file manager', function() {
 
     it('file upload handles auth errors', function (done) {
 
-        uploadServer.get('/_api/upload/url').query(true).reply(403, {});
+        uploadServer.get('/_api/upload/url').once().query(true).reply(403, {});
 
         fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
             expect(error).to.be.a(Error);
@@ -211,8 +211,8 @@ describe('file manager', function() {
 
     it('file upload handles upload errors', function (done) {
 
-        uploadServer.get('/_api/upload/url').query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').reply(500, {});
+        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        uploadServer.post('/_api/upload/file').once().reply(500, {});
 
         fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
             expect(error).to.be.a(Error);
