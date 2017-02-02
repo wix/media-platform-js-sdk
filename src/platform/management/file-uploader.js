@@ -4,6 +4,7 @@ var NS = require('../authentication/NS');
 var VERB = require('../authentication/VERB');
 var Token = require('../authentication/token');
 var UploadUrlRequest = require('./requests/upload-url-request');
+var FileDescriptor = require('./file-descriptor');
 
 /**
  * @param {Configuration} configuration
@@ -102,11 +103,12 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
         }
 
         var token = new Token()
+            .setIssuer(NS.APPLICATION, this.configuration.appId)
             .setSubject(NS.APPLICATION, this.configuration.appId)
             .setObject(NS.FILE, path)
             .addVerbs(VERB.FILE_UPLOAD);
 
-        this.httpClient.postForm(response.uploadUrl, form, token, doCallback);
+        this.httpClient.postForm(response.payload.uploadUrl, form, token, doCallback);
 
     }.bind(this));
 

@@ -2,6 +2,6 @@
   "code": 0,
   "message": "OK",
   "payload": {
-    "uploadUrl": "http://upload.com/"
+    "uploadUrl": "https://manager.com/_api/upload/file"
   }
 }

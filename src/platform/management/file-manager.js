@@ -32,11 +32,19 @@ function FileManager(configuration, httpClient, fileUploader) {
      * @type {FileUploader}
      */
     this.fileUploader = fileUploader;
-
-    this.getUploadUrl = fileUploader.getUploadUrl;
-
-    this.uploadFile = fileUploader.uploadFile;
 }
+
+/**
+ * @param {UploadUrlRequest} uploadUrlRequest
+ * @param {function(Error, FileDescriptor)} callback
+ */
+FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
+    this.fileUploader.getUploadUrl(uploadUrlRequest, callback);
+};
+
+FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback) {
+    this.fileUploader.uploadFile(path, file, uploadRequest, callback);
+};
 
 /**
  * @description creates a file descriptor, use this to create an empty directory
