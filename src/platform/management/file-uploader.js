@@ -13,6 +13,11 @@ var UploadUrlRequest = require('./requests/upload-url-request');
 function FileUploader(configuration, httpClient) {
 
     /**
+     * @type {Configuration}
+     */
+    this.configuration = configuration;
+
+    /**
      * @type {HTTPClient}
      */
     this.httpClient = httpClient;
@@ -31,6 +36,7 @@ function FileUploader(configuration, httpClient) {
 FileUploader.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
 
     var token = new Token()
+        .setIssuer(NS.APPLICATION, this.configuration.appId)
         .setSubject(NS.APPLICATION, this.configuration.appId)
         .setObject(NS.FILE, '*')
         .addVerbs(VERB.FILE_UPLOAD);
@@ -115,3 +121,8 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
         }
     }
 };
+
+/**
+ * @type {FileUploader}
+ */
+module.exports = FileUploader;

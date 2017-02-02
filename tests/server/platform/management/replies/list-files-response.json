@@ -1,159 +1,39 @@
 {
-  "ts": 1467295051,
-  "count": 3,
-  "files": [{
-    "width": 115,
-    "height": 35,
-    "parent_folder_id": "d23b196fa41a47043ae3908ca467cbe9",
-    "file_name": "dbb3e157ff7041c9ad3e13ce263146a9",
-    "media_type": "picture",
-    "tags": ["cat", "fish"],
-    "labels": ["hunting knife", "Wix.com"],
-    "hash": "9eea21221c9abe895eac99a54f058d2a",
-    "original_file_name": "image.jpg",
-    "file_size": 12958,
-    "component_type": "",
-    "icon_url": "ggl-109789773458215503884/images/dbb3e157ff7041c9ad3e13ce263146a9/file.jpg",
-    "file_url": "ggl-109789773458215503884/images/dbb3e157ff7041c9ad3e13ce263146a9/file.jpg",
-    "mime_type": "image/jpeg",
-    "created_ts": 1467294551,
-    "modified_ts": 1467294551
-  }, {
-    "width": 0,
-    "height": 0,
-    "parent_folder_id": "1b98ddebaa447184cd90f33753e6c474",
-    "file_name": "c179afe7100a4c0085e743d887d545a3",
-    "media_type": "music",
-    "tags": null,
-    "labels": null,
-    "refs": null,
-    "hash": "687ec4539601f9e85f09d8dffd51264f",
-    "original_file_name": "cat.mp3",
-    "file_size": 30439,
-    "component_type": "",
-    "icon_url": "wixmedia-public/images/b0068f926fc542fbb1f3653df8ce5099/music_note.png",
-    "file_url": "ggl-109789773458215503884/audio/c179afe7100a4c0085e743d887d545a3/file.mp3",
-    "mime_type": "audio/mpeg",
-    "created_ts": 1467273852,
-    "modified_ts": 1471511997,
-    "file_input": {
-      "bitrate": 48000,
-      "channels": 1,
-      "duration": 5093,
-      "format": "mp3",
-      "sample_rate": 44100,
-      "sample_size": 16
-    }
-  }, {
-    "width": 1728,
-    "height": 1080,
-    "parent_folder_id": "40700af2c4d942a9f77c157baee95fd9",
-    "file_name": "2e44912c30e44beca4c623035b4418de",
-    "media_type": "video",
-    "tags": null,
-    "labels": null,
-    "refs": null,
-    "hash": "f5ea6d9e1de2ae552f4dbedcbcf9bb94",
-    "original_file_name": "video.mp4",
-    "file_size": 4151438,
-    "component_type": "",
-    "icon_url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def002/file.jpg",
-    "file_url": "ggl-109789773458215503884/video/2e44912c30e44beca4c623035b4418de/file.mp4",
-    "mime_type": "video/mp4",
-    "created_ts": 1471955310,
-    "modified_ts": 1471955330,
-    "processing_time": 18730,
-    "file_output_size": 7028488,
-    "op_status": "READY",
-    "file_input": {
-      "audio_bitrate": 3112,
-      "display_aspect_ratio": "8:5",
-      "duration": 12000,
-      "fps": "25/1",
-      "height": 1080,
-      "rotation": 0,
-      "sample_aspect_ratio": "1:1",
-      "type": "video",
-      "video_bitrate": 2757180,
-      "width": 1728
-    },
-    "file_output": {
-      "image": [{
-        "format": "jpg",
-        "height": 1080,
-        "secure": false,
-        "status": "READY",
-        "url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def000/file.jpg",
-        "width": 1728
-      }, {
-        "format": "jpg",
-        "height": 1080,
-        "secure": false,
-        "status": "READY",
-        "url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def001/file.jpg",
-        "width": 1728
-      }, {
-        "format": "jpg",
-        "height": 1080,
-        "secure": false,
-        "status": "READY",
-        "url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def002/file.jpg",
-        "width": 1728
-      }, {
-        "format": "jpg",
-        "height": 1080,
-        "secure": false,
-        "status": "READY",
-        "url": "ggl-109789773458215503884/images/2e44912c30e44beca4c623035b4418def003/file.jpg",
-        "width": 1728
-      }],
-      "video": [{
-        "audio_bitrate": 3112,
-        "display_aspect_ratio": "8:5",
-        "duration": 12040,
-        "format": "mp4",
-        "fps": "25/1",
-        "height": 480,
-        "key": "480p.mp4",
-        "quality": "480p",
-        "secure": false,
-        "status": "READY",
-        "tag": "High",
-        "url": "ggl-109789773458215503884/video/2e44912c30e44beca4c623035b4418de/480p/mp4/file.mp4",
-        "video_bitrate": 914383,
-        "width": 768
-      }, {
-        "audio_bitrate": 3112,
-        "display_aspect_ratio": "8:5",
-        "duration": 12040,
-        "format": "mp4",
-        "fps": "25/1",
-        "height": 720,
-        "key": "720p.mp4",
-        "quality": "720p",
-        "secure": false,
-        "status": "READY",
-        "tag": "HD",
-        "url": "ggl-109789773458215503884/video/2e44912c30e44beca4c623035b4418de/720p/mp4/file.mp4",
-        "video_bitrate": 1878247,
-        "width": 1152
-      }, {
-        "audio_bitrate": 3112,
-        "display_aspect_ratio": "8:5",
-        "duration": 12040,
-        "format": "mp4",
-        "fps": "25/1",
-        "height": 1080,
-        "key": "1080p.mp4",
-        "quality": "1080p",
-        "secure": false,
-        "status": "READY",
-        "tag": "HD",
-        "url": "ggl-109789773458215503884/video/2e44912c30e44beca4c623035b4418de/1080p/mp4/file.mp4",
-        "video_bitrate": 2771464,
-        "width": 1728
-      }]
-    }
-  }],
-  "cursor": "Cn8KGQoMZGF0ZV91cGRhdGVkEgkIoOnYxbbKzQISXmoNc353aXhwcm9zcGVyb3JNCxIEVXNlciIZZ2dsLTEwOTc4OTc3MzQ1ODIxNTUwMzg4NAwLEgRGaWxlIiAzODNlMWI5MjQ2M2I0N2E3YWRmZjRjN2YxOWFjNTEyYQwYACAB"
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "nextPageCursor": "next",
+    "pageSize": 20,
+    "total": 50,
+    "files": [
+      {
+        "id": "id",
+        "path": "/here/be/fish/cat.png",
+        "type": "-",
+        "mimeType": "image/png",
+        "mediaType": "image",
+        "size": 1000,
+        "hash": "hash",
+        "tags": ["1", "2"],
+        "originalFileName": "original_file_name",
+        "acl": "TBD",
+        "status": "status",
+        "metadata": {}
+      },
+      {
+        "id": "another id",
+        "path": "/here/be/fish/cat.png",
+        "type": "d",
+        "mimeType": "application/vnd.wix-media.dir",
+        "mediaType": "directory",
+        "size": null,
+        "hash": null,
+        "tags": ["3", "4"],
+        "originalFileName": "original_file_name",
+        "acl": "TBD",
+        "status": "status",
+        "metadata": {}
+      }
+    ]
+  }
 }

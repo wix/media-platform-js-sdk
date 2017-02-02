@@ -1,24 +1,43 @@
+var FileDescriptor = require('../file-descriptor');
+
 /**
  * @constructor
- * TODO: if data - populate properties
  */
 function ListFilesResponse(data) {
 
     /**
      * @type {number}
      */
-    this.count = null;
+    this.pageSize = null;
+
+    /**
+     * @type {number}
+     */
+    this.total = null;
 
     /**
      * @type {string}
      */
-    this.cursor = null;
+    this.nextPageCursor = null;
 
     /**
      * @type {Array<FileDescriptor>}
      */
     this.files = [];
+
+    if (data) {
+        this.deserialize(data);
+    }
 }
+
+ListFilesResponse.prototype.deserialize = function (data) {
+    this.pageSize = data.pageSize;
+    this.nextPageCursor = data.nextPageCursor;
+    this.total = data.total;
+    this.files = data.files.map(function (file) {
+        return new FileDescriptor(file)
+    });
+};
 
 /**
  * @type {ListFilesResponse}

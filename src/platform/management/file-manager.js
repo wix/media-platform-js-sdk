@@ -14,6 +14,11 @@ var ListFilesResponse = require('./responses/list-files-response');
 function FileManager(configuration, httpClient, fileUploader) {
 
     /**
+     * @type {Configuration}
+     */
+    this.configuration = configuration;
+
+    /**
      * @type {HTTPClient}
      */
     this.httpClient = httpClient;
@@ -22,7 +27,6 @@ function FileManager(configuration, httpClient, fileUploader) {
      * @type {string}
      */
     this.apiUrl = 'https://' + configuration.domain + '/_api/files';
-
 
     /**
      * @type {FileUploader}
@@ -42,6 +46,7 @@ function FileManager(configuration, httpClient, fileUploader) {
 FileManager.prototype.createFile = function (fileDescriptor, callback) {
 
     var token = new Token()
+        .setIssuer(NS.APPLICATION, this.configuration.appId)
         .setSubject(NS.APPLICATION, this.configuration.appId)
         .setObject(NS.FILE, fileDescriptor.path)
         .addVerbs(VERB.FILE_CREATE);
@@ -53,7 +58,7 @@ FileManager.prototype.createFile = function (fileDescriptor, callback) {
             return;
         }
 
-        callback(null, new FileDescriptor(response));
+        callback(null, new FileDescriptor(response.payload));
     });
 };
 
@@ -68,6 +73,7 @@ FileManager.prototype.getFile = function (path, callback) {
     };
 
     var token = new Token()
+        .setIssuer(NS.APPLICATION, this.configuration.appId)
         .setSubject(NS.APPLICATION, this.configuration.appId)
         .setObject(NS.FILE, path)
         .addVerbs(VERB.FILE_GET);
@@ -79,7 +85,7 @@ FileManager.prototype.getFile = function (path, callback) {
             return;
         }
 
-        callback(null, new FileDescriptor(response));
+        callback(null, new FileDescriptor(response.payload));
     });
 };
 
@@ -96,6 +102,7 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
     _.extendOwn(params, listFilesRequest);
 
     var token = new Token()
+        .setIssuer(NS.APPLICATION, this.configuration.appId)
         .setSubject(NS.APPLICATION, this.configuration.appId)
         .setObject(NS.FILE, path)
         .addVerbs(VERB.FILE_LIST);
@@ -107,7 +114,7 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
             return;
         }
 
-        callback(null, new ListFilesResponse(response));
+        callback(null, new ListFilesResponse(response.payload));
     });
 };
 

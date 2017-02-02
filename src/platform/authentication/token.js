@@ -7,6 +7,12 @@ var _ = require('underscore');
 function Token() {
 
     /**
+     * @description the issuer of the token
+     * @type {string}
+     */
+    this.issuer = null;
+
+    /**
      * @description the subject of the token, prepended by a URN name space
      * @type {string}
      */
@@ -48,6 +54,17 @@ function Token() {
      */
     this.additionalClaims = {};
 }
+
+/**
+ * @description sets the issuer of the token
+ * @param {string} ns
+ * @param {string} identifier
+ * @returns {Token}
+ */
+Token.prototype.setIssuer = function(ns, identifier) {
+    this.issuer = ns + identifier;
+    return this;
+};
 
 /**
  * @description sets the subject (actor) of the operation
@@ -101,7 +118,7 @@ Token.prototype.toClaims = function() {
         sub: this.subject,
         obj: this.object,
         aud: this.verbs.length > 0 ? this.verbs.join(',') : null,
-        iss: 'urn:app:' + this.configuration.appId,
+        iss: this.issuer,
         iat: this.issuedAt,
         jti: this.tokenId,
         exp: this.expiration

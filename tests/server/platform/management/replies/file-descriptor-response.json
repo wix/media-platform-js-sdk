@@ -1,0 +1,22 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "id": "id",
+    "path": "/here/be/fish/cat.png",
+    "type": "-",
+    "mimeType": "image/png",
+    "mediaType": "image",
+    "size": 1000,
+    "hash": "hash",
+    "tags": ["tags"],
+    "originalFileName": "original_file_name",
+    "acl": "TBD",
+    "status": "status",
+    "metadata": {
+
+    },
+    "dateCreated": "yesterday",
+    "dateUpdated": "a second ago"
+  }
+}

@@ -4,11 +4,6 @@
 function ListFilesRequest() {
 
     /**
-     * @type {string}
-     */
-    this.path = path;
-
-    /**
      * @type {string|null}
      */
     this.cursor = null;
@@ -30,15 +25,6 @@ function ListFilesRequest() {
 }
 
 /**
- * @param {string} path
- * @returns {ListFilesRequest}
- */
-ListFilesRequest.prototype.path = function (path) {
-    this.path = path;
-    return this;
-};
-
-/**
  * @param {string} cursor
  * @returns {ListFilesRequest}
  */
@@ -51,7 +37,7 @@ ListFilesRequest.prototype.setCursor = function (cursor) {
  * @param {number} pageSize
  * @returns {ListFilesRequest}
  */
-ListFilesRequest.prototype.setSize = function (pageSize) {
+ListFilesRequest.prototype.setPageSize = function (pageSize) {
     this.pageSize = pageSize;
     return this;
 };
@@ -60,7 +46,7 @@ ListFilesRequest.prototype.setSize = function (pageSize) {
  * @param {string} orderBy name or date
  * @returns {ListFilesRequest}
  */
-ListFilesRequest.prototype.orderBy = function (orderBy) {
+ListFilesRequest.prototype.setOrderBy = function (orderBy) {
     this.orderBy = orderBy;
     return this;
 };
@@ -80,7 +66,6 @@ ListFilesRequest.prototype.descending = function () {
     this.orderDirection = 'des';
     return this;
 };
-
 
 /**
  * @type {ListFilesRequest}

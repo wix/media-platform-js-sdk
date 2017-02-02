@@ -1,0 +1,7 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "uploadUrl": "http://upload.com/"
+  }
+}
