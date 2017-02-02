@@ -1,5 +1,5 @@
-var UnsharpMask = require('../../../../src/image/operation/effect/unsharp-mask');
 var expect = require('expect.js');
+var UnsharpMask = require('../../../../src/image/filter/unsharp-mask');
 
 describe('unsharp mask', function () {
 

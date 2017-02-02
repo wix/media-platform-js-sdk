@@ -1,12 +1,12 @@
 var validator = require('../validation/validator');
 
 /**
- * @param operation
+ * @param image
  * @constructor
  */
-function Blur(operation) {
+function Blur(image) {
     
-    this.operation = operation;
+    this.image = image;
 
     /**
      * @type {string|null}
@@ -32,11 +32,11 @@ Blur.prototype.percentage = function (percentage) {
 
     this.error = validator.numberNotInRange('blur', percentage, 0, 100);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
 
     this.settings.percentage = percentage || null;
-    return this.operation;
+    return this.image;
 };
 
 /**

@@ -1,12 +1,12 @@
 var validator = require('../validation/validator');
 
 /**
- * @param operation
+ * @param image
  * @constructor
  */
-function Hue(operation) {
+function Hue(image) {
 
-    this.operation = operation;
+    this.image = image;
 
     /**
      * @type {string|null}
@@ -33,11 +33,11 @@ Hue.prototype.hue = function (hue) {
 
     this.error = validator.numberNotInRange('hue', hue, -100, 100);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
 
     this.settings.hue = hue === void 0 ? null : hue;
-    return this.operation;
+    return this.image;
 };
 
 /**

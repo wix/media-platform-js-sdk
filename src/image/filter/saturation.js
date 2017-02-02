@@ -1,12 +1,12 @@
 var validator = require('../validation/validator');
 
 /**
- * @param operation
+ * @param image
  * @constructor
  */
-function Saturation(operation) {
+function Saturation(image) {
 
-    this.operation = operation;
+    this.image = image;
 
     /**
      * @type {string|null}
@@ -32,11 +32,11 @@ Saturation.prototype.saturation = function (saturation) {
 
     this.error = validator.numberNotInRange('saturation', saturation, -100, 100);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
     
     this.settings.saturation = saturation === void 0 ? null : saturation;
-    return this.operation;
+    return this.image;
 };
 
 /**

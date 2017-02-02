@@ -1,5 +1,5 @@
-var Brightness = require('../../../../src/image/operation/chromaticity/brightness');
 var expect = require('expect.js');
+var Brightness = require('../../../../src/image/filter/brightness');
 
 describe('brightness', function () {
 

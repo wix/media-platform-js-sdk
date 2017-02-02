@@ -1,45 +1,36 @@
-var Image = require('../image');
 var Metadata = require('../metadata');
 
-//maps the URL transformation name to the operation function name. Replace with handler registrar?
-//TODO: add support for JPEG settings
 var handlers = {
     br: 'brightness',
-    al: 'alignment',
-    c: 'background',
     con: 'contrast',
     hue: 'hue',
     sat: 'saturation',
     blur: 'blur',
-    neg: 'negative',
-    oil: 'oil',
-    pix: 'pixelate',
-    pixfs: 'pixelateFaces',
-    eye: 'removeRedEye',
-    shrp : 'sharpen',
-    usm: 'unsharpMask',
-    lg: 'enableUpscale'
+    usm: 'unsharpMask'
+    // TODO: add support for JPEG
 };
 
 /**
  * @param {Image} image
  * @param {string} url
- * @returns {BaseOperation}
  */
 function parse(image, url) {
-
     var explodedUrl = explodeUrl(url);
+    var explodedTransformations = explodeTransformations(explodedUrl.transformations);
+
     image.host = explodedUrl.host;
     image.path = explodedUrl.path;
     image.metadata = parseFragment(explodedUrl.fragment);
-    var explodedTransformations = explodeTransformations(explodedUrl.transformations);
-    applyOperation(image, explodedUrl.operation, explodedTransformations);
-    applyFilters(image.operation, explodedTransformations);
+    var pathParts = image.path.split('/');
+    image.fileName = pathParts[pathParts.length - 1];
+
+    applyGeometry(image, explodedUrl.geometry, explodedTransformations);
+    applyFilters(image, explodedTransformations);
 }
 
 /**
  * @param url
- * @returns {{scheme: *, host: *, port: *, bucket: *, folder: *, imageId: *, version: *, operation: *, transformations: *, fileName: *, query: *, fragment: *}}
+ * @returns {{host: string, path: (string|*), version: *, geometry: *, transformations: *, fileName: *, query: *, fragment: *}}
  * @private
  */
 function explodeUrl(url) {
@@ -49,7 +40,7 @@ function explodeUrl(url) {
     var port;
     var path;
     var version;
-    var operation;
+    var geometry;
     var transformations;
     var fileName;
     var query;
@@ -83,7 +74,7 @@ function explodeUrl(url) {
 
     fileName = parts[parts.length - 1];
     transformations = parts[parts.length - 2];
-    operation = parts[parts.length - 3];
+    geometry = parts[parts.length - 3];
     version = parts[parts.length - 4];
     path = parts.splice(1, parts.length - 5).join('/');
 
@@ -91,7 +82,7 @@ function explodeUrl(url) {
         host: (scheme ? scheme + '://' : '//') + host + (port ? ':' + port : '') + '/',
         path: path,
         version: version,
-        operation: operation,
+        geometry: geometry,
         transformations: transformations,
         fileName: fileName,
         query: query,
@@ -143,12 +134,12 @@ function parseFragment(fragment) {
 
 /**
  * @param image
- * @param operation
+ * @param geometry
  * @param {{h: number, w: number, x: number|null, y: number|null, scl: number|null}} explodedTransformations
  * @returns {*}
  * @private
  */
-function applyOperation(image, operation, explodedTransformations) {
+function applyGeometry(image, geometry, explodedTransformations) {
     //mandatory params for all operations
     var h = explodedTransformations.h;
     var w = explodedTransformations.w;
@@ -158,20 +149,20 @@ function applyOperation(image, operation, explodedTransformations) {
     var y = explodedTransformations.y;
     var scl = explodedTransformations.scl;
 
-    image[operation](h[0], w[0], x ? x[0] : undefined, y ? y[0] : undefined, scl ? scl[0] : undefined);
+    image[geometry](h[0], w[0], x ? x[0] : undefined, y ? y[0] : undefined, scl ? scl[0] : undefined);
 }
 
 /**
- * @param {BaseOperation} operation
+ * @param {Image} image
  * @param {{h: number, w: number, x: number|null, y: number|null, scl: number|null}} explodedTransformations
  * @private
  */
-function applyFilters(operation, explodedTransformations) {
+function applyFilters(image, explodedTransformations) {
     for (var key in explodedTransformations) {
         if (explodedTransformations.hasOwnProperty(key)) {
             var handler = handlers[key];
             if (handler) {
-                operation[handler].apply(this, explodedTransformations[key]);
+                image[handler].apply(this, explodedTransformations[key]);
             }
         }
     }

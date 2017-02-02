@@ -1,5 +1,5 @@
-var Contrast = require('../../../../src/image/operation/chromaticity/contrast');
 var expect = require('expect.js');
+var Contrast = require('../../../../src/image/filter/contrast');
 
 describe('contrast', function () {
 

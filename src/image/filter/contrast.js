@@ -1,12 +1,12 @@
 var validator = require('../validation/validator');
 
 /**
- * @param operation
+ * @param image
  * @constructor
  */
-function Contrast(operation) {
+function Contrast(image) {
     
-    this.operation = operation;
+    this.image = image;
 
     /**
      * @type {string|null}
@@ -33,11 +33,11 @@ Contrast.prototype.contrast = function (contrast) {
 
     this.error = validator.numberNotInRange('contrast', contrast, -100, 100);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
 
     this.settings.contrast = contrast === void 0 ? null : contrast;
-    return this.operation;
+    return this.image;
 };
 
 /**

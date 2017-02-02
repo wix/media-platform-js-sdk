@@ -1,5 +1,5 @@
-var Blur = require('../../../../src/image/operation/effect/blur');
 var expect = require('expect.js');
+var Blur = require('../../../../src/image/filter/blur');
 
 describe('blur', function () {
 

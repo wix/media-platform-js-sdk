@@ -46,12 +46,12 @@ MP.image = {
     ImageRequest: ImageRequest,
 
     /**
-     * @type {fromDto}
+     * @type {parse}
      */
     fromDto: imageRequestDeserializers.fromDto,
 
     /**
-     * @type {fromUrl}
+     * @type {parse}
      */
     fromUrl: imageRequestDeserializers.fromUrl,
 

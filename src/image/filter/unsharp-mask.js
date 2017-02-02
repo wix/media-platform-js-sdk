@@ -1,12 +1,12 @@
 var validator = require('../validation/validator');
 
 /**
- * @param operation
+ * @param image
  * @constructor
  */
-function UnsharpMask(operation) {
+function UnsharpMask(image) {
     
-    this.operation = operation;
+    this.image = image;
     
     /**
      * @type {string|null}
@@ -45,28 +45,28 @@ UnsharpMask.prototype.configuration = function (radius, amount, threshold) {
         this.settings.amount = null;
         this.settings.threshold = null;
         this.error = null;
-        return this.operation;
+        return this.image;
     }
 
     this.error = validator.numberNotInRange('unsharp mask radius', radius, 0.1, 500);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
 
     this.error = validator.numberNotInRange('unsharp mask amount', amount, 0, 10);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
 
     this.error = validator.numberNotInRange('unsharp mask threshold', threshold, 0, 255);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
 
     this.settings.radius = radius;
     this.settings.amount = amount;
     this.settings.threshold = threshold;
-    return this.operation;
+    return this.image;
 };
 
 /**

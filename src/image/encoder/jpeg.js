@@ -1,12 +1,12 @@
 var validator = require('../validation/validator');
 
 /**
- * @param operation
+ * @param image
  * @constructor
  */
-function JPEG(operation) {
+function JPEG(image) {
     
-    this.operation = operation;
+    this.image = image;
 
     /**
      * @type {string|null}
@@ -39,7 +39,7 @@ JPEG.prototype.compression = function (quality, baseline) {
     quality = Math.round(quality || 0);
     this.error = validator.numberNotInRange('jpeg compression quality', quality, 0, 100);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
 
     if (quality === 75) {
@@ -49,7 +49,7 @@ JPEG.prototype.compression = function (quality, baseline) {
     }
     
     this.settings.baseline = !!baseline;
-    return this.operation;
+    return this.image;
 };
 
 /**

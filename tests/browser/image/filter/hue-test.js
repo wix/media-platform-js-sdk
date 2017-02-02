@@ -1,5 +1,5 @@
-var Hue = require('../../../../src/image/operation/chromaticity/hue');
 var expect = require('expect.js');
+var Hue = require('../../../../src/image/filter/hue');
 
 describe('hue', function () {
 

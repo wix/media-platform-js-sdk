@@ -23,12 +23,6 @@ function Crop(width, height, x, y, scale) {
      */
     this.y = null;
 
-
-    /**
-     * @type {string}
-     */
-    this.name = name;
-
     /**
      * @type {number}
      */
@@ -102,6 +96,14 @@ Crop.prototype.serialize = function (metadata) {
     validator.numberIsNotGreaterThan('crop x', this.x, 0) ||
     validator.numberIsNotGreaterThan('crop y', this.y, 0);
 
+    if (!this.width) {
+        errorMessage = 'width must be a positive number';
+    }
+
+    if (!this.height) {
+        errorMessage = 'height must be a positive number';
+    }
+
     if ((this.x + this.width) > (Math.round(metadata.width * (this.scaleFactor || 1)))) {
         errorMessage = 'crop out off width bound';
     }
@@ -117,9 +119,9 @@ Crop.prototype.serialize = function (metadata) {
         }
     }
 
-    var out = '';
+    var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
 
-    out += 'x_' + (this.x || 0);
+    out += ',x_' + (this.x || 0);
 
     if (out.length > 0) {
         out += ',';

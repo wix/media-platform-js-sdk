@@ -1,12 +1,12 @@
 var validator = require('../validation/validator');
 
 /**
- * @param operation
+ * @param image
  * @constructor
  */
-function Brightness(operation) {
+function Brightness(image) {
     
-    this.operation = operation;
+    this.image = image;
 
     /**
      * @type {string|null}
@@ -33,11 +33,11 @@ Brightness.prototype.brightness = function (brightness) {
 
     this.error = validator.numberNotInRange('brightness', brightness, -100, 100);
     if (this.error) {
-        return this.operation;
+        return this.image;
     }
 
     this.settings.brightness = brightness === void 0 ? null : brightness;
-    return this.operation;
+    return this.image;
 };
 
 /**

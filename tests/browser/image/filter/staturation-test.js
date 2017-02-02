@@ -1,5 +1,5 @@
-var Saturation = require('../../../../src/image/operation/chromaticity/saturation');
 var expect = require('expect.js');
+var Saturation = require('../../../../src/image/filter/saturation');
 
 describe('saturation', function () {
 

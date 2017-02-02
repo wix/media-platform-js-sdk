@@ -21,7 +21,7 @@ function Image(data) {
 
     /**
      * @description where the image is hosted
-     * @type {string}
+     * @type {null}
      */
     this.host = null;
 
@@ -49,50 +49,68 @@ function Image(data) {
     this.version = 'v1';
 
     /**
-     * @type {null}
+     * @description the selected geometry
+     * @type {Object}
      */
-    this.operation = null;
+    this.geometry = null;
 
     /**
-     * unsharp
      * @type {UnsharpMask}
      */
     var unsharpMask = new UnsharpMask(this);
+    this.unsharpMask = (function () {
+        return unsharpMask.configuration;
+    })();
 
     /**
-     * blur
      * @type {Blur}
      */
     var blur = new Blur(this);
+    this.blur = (function () {
+        return blur.percentage;
+    })();
 
     /**
-     * brightness
      * @type {Brightness}
      */
     var brightness = new Brightness(this);
+    this.brightness = (function () {
+        return brightness.brightness;
+    })();
 
     /**
-     * contrast
      * @type {Contrast}
      */
     var contrast = new Contrast(this);
+    this.contrast = (function () {
+        return contrast.contrast;
+    })();
 
     /**
-     * hue
      * @type {Hue}
      */
     var hue = new Hue(this);
+    this.hue = (function () {
+        return hue.hue;
+    })();
+
 
     /**
-     * saturation
      * @type {Saturation}
      */
     var saturation = new Saturation(this);
+    this.saturation = (function () {
+        return saturation.saturation;
+    })();
 
     /**
      * @type {JPEG}
      */
     var jpeg = new JPEG(this);
+    this.jpeg = (function () {
+        return jpeg.compression;
+    })();
+
 
     if (data) {
         if (typeof data === 'string') {
@@ -182,53 +200,28 @@ Image.prototype.fillContainer = function (container, regionOfInterest) {
  * @summary Configures this image using the 'crop' operation.
  * @param {number} width
  * @param {number} height
- * @param {number} x
- * @param {number} y
+ * @param {number?} x
+ * @param {number?} y
  * @param {number?} scale
  * @returns {Image}
  */
 Image.prototype.crop = function (width, height, x, y, scale) {
-    this.operation = new Crop(width, height, x, y, scale);
+    this.geometry = new Crop(width, height, x ? x : 0, y ? y : 0, scale ? scale : 1);
     return this;
 };
 
-
-Image.prototype.unsharpMask = (function () {
-    return this.unsharpMask.configuration;
-})();
-
-Image.prototype.brightness = (function () {
-    return this.brightness.brightness;
-})();
-
-Image.prototype.contrast = (function () {
-    return this.contrast.contrast;
-})();
-
-Image.prototype.hue = (function () {
-    return this.hue.hue;
-})();
-
-Image.prototype.saturation = (function () {
-    return this.saturation.saturation;
-})();
-
-Image.prototype.blur = (function () {
-    return this.blur.percentage;
-})();
-
-Image.prototype.jpeg = (function () {
-    return this.jpeg.compression;
-})();
-
-
 /**
  * @summary serializes the Image to the URL
+ * @param {string?} host where the image is hosted, default to '//'
  * @returns {{url: string|null, error: Error|null}}
  */
-Image.prototype.toUrl = function () {
+Image.prototype.toUrl = function (host) {
 
-    if (!this.operation) {
+    if (!host) {
+        host = this.host;
+    }
+
+    if (!this.geometry) {
         return {
             url: null,
             error: new Error('operation not defined')
@@ -253,7 +246,7 @@ Image.prototype.toUrl = function () {
     }
 
     var out = '';
-    var baseUrl = this.host;
+    var baseUrl = host;
     if (baseUrl !== null && baseUrl !== '') {
         if (baseUrl.indexOf('http') != 0 && baseUrl.indexOf('//') != 0) {
             out += '//';
@@ -264,13 +257,13 @@ Image.prototype.toUrl = function () {
         }
     }
 
-    out += baseUrl + '/' + this.path + '/' + this.version + '/' + this.name + '/';
+    out += baseUrl + '/' + this.path + '/' + this.version + '/';
 
-    var geometryParams = this.operation.serialize(this.metadata);
-    if (geometryParams.errors.length > 0) {
+    var geometryParams = this.geometry.serialize(this.metadata);
+    if (geometryParams.error) {
         return {
             url: null,
-            error: new Error(geometryParams.errors)
+            error: new Error(geometryParams.error)
         }
     }
 
@@ -283,7 +276,8 @@ Image.prototype.toUrl = function () {
     }
 
     return {
-        url: out + geometryParams.params + filtersAndEncoderParams.params + '/' + encodeURIComponent(this.fileName) + '#' + this.metadata.serialize(),
+        url: out + geometryParams.params + filtersAndEncoderParams.params + '/' + encodeURIComponent(this.fileName)
+        + '#' + this.metadata.serialize(),
         error: null
     }
 };

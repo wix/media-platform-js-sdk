@@ -1,12 +1,12 @@
-var ImageDTO = require('../../../src/dto/image/image-dto');
-var fromDto = require('../../../src/image/image-request-deserializer').fromDto;
+var FileDescriptor = require('../../../../src/platform/management/file-descriptor');
+var parse = require('../../../../src/image/parser/file-descriptor-parser');
 var expect = require('expect.js');
 
 describe('image dto parsing', function () {
 
         it('creates a new ImageRequest from a DTO', function () {
 
-            var dto = new ImageDTO({
+            var dto = new FileDescriptor({
                 width: 115,
                 height: 35,
                 parent_folder_id: 'd23b196fa41a47043ae3908ca467cbe9',
@@ -25,7 +25,7 @@ describe('image dto parsing', function () {
                 modified_ts: 1467294551
             });
 
-            var imageRequest = fromDto('www.domain.com', dto);
+            var imageRequest = parse('www.domain.com', dto);
 
             expect(imageRequest.host)
                 .to.eql('www.domain.com/ggl-109789773458215503884/images');
@@ -36,7 +36,7 @@ describe('image dto parsing', function () {
 
     it('ignores empty fileUrl', function () {
 
-        var dto = new ImageDTO({
+        var dto = new FileDescriptor({
             width: 115,
             height: 35,
             parent_folder_id: 'd23b196fa41a47043ae3908ca467cbe9',
@@ -55,7 +55,7 @@ describe('image dto parsing', function () {
             modified_ts: 1467294551
         });
 
-        var imageRequest = fromDto('www.domain.com', dto);
+        var imageRequest = parse('www.domain.com', dto);
 
         expect(imageRequest.host)
             .to.eql('www.domain.com');
@@ -63,7 +63,7 @@ describe('image dto parsing', function () {
 
     it('ignores null fileUrl', function () {
 
-        var dto = new ImageDTO({
+        var dto = new FileDescriptor({
             width: 115,
             height: 35,
             parent_folder_id: 'd23b196fa41a47043ae3908ca467cbe9',
@@ -82,7 +82,7 @@ describe('image dto parsing', function () {
             modified_ts: 1467294551
         });
 
-        var imageRequest = fromDto('www.domain.com', dto);
+        var imageRequest = parse('www.domain.com', dto);
 
         expect(imageRequest.host)
             .to.eql('www.domain.com');
@@ -90,7 +90,7 @@ describe('image dto parsing', function () {
 
     it('ignores undefined fileUrl', function () {
 
-        var dto = new ImageDTO({
+        var dto = new FileDescriptor({
             width: 115,
             height: 35,
             parent_folder_id: 'd23b196fa41a47043ae3908ca467cbe9',
@@ -108,7 +108,7 @@ describe('image dto parsing', function () {
             modified_ts: 1467294551
         });
 
-        var imageRequest = fromDto('www.domain.com', dto);
+        var imageRequest = parse('www.domain.com', dto);
 
         expect(imageRequest.host)
             .to.eql('www.domain.com');
