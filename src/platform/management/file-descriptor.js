@@ -1,6 +1,5 @@
 /**
  * @constructor
- * TODO: if data - populate properties
  */
 function FileDescriptor(data) {
 
@@ -66,7 +65,25 @@ function FileDescriptor(data) {
      * @type {string}
      */
     this.dateUpdated = null;
+
+    if (data) {
+        this.deserialize(data);
+    }
 }
+
+FileDescriptor.prototype.deserialize = function (data) {
+    this.id = data.id;
+    this.hash = data.hash;
+    this.path = data.path;
+    this.mimeType = data.mimeType;
+    this.mediaType = data.mediaType;
+    this.type = data.type;
+    this.size = data.size;
+    this.metadata = data.metadata;
+    this.tags = data.tags;
+    this.dateCreated = data.dateCreated;
+    this.dateUpdated = data.dateUpdated;
+};
 
 /**
  * @type {FileDescriptor}

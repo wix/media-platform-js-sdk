@@ -6,7 +6,7 @@ var Dimension = require('../../../src/image/geometry/dimension');
 
 describe('image url construction', function () {
 
-    var imageUrl = '//test.com/1111/images/324234/v1/crop/w_709,h_400,x_0,y_0,scl_1,q_75,usm_0.5_0.2_0.0/file.png#w_1000,h_1000,mt_image%2Fpng';
+    var imageUrl = '//test.com/1111/images/324234/v1/crop/w_709,h_400,x_1,y_2,scl_1,q_75,usm_0.5_0.2_0.0/file.png#w_1000,h_2000,mt_image%2Fpng';
 
     describe('handles input errors', function () {
         it('collects errors into a single Error instance', function () {
@@ -27,7 +27,7 @@ describe('image url construction', function () {
         })
     });
 
-    describe('size', function () {
+    describe('geometry', function () {
 
         var image = new Image(imageUrl);
 
@@ -35,7 +35,7 @@ describe('image url construction', function () {
             var result = image.crop(100.4, 200, 0, 0, 1).toUrl();
 
             expect(result).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_100,h_200/fish.jpeg#w_1000,h_2000,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -44,7 +44,7 @@ describe('image url construction', function () {
             var result = image.crop(99.5, 200).toUrl();
 
             expect(result).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_100,h_200/fish.jpeg#w_1000,h_2000,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -53,7 +53,7 @@ describe('image url construction', function () {
             var result = image.crop(100, 200.4).toUrl();
 
             expect(result).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_100,h_200/fish.jpeg#w_1000,h_2000,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -62,7 +62,7 @@ describe('image url construction', function () {
             var result = image.crop(100, 199.5).toUrl();
 
             expect(result).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_100,h_200/fish.jpeg#w_1000,h_2000,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -97,13 +97,13 @@ describe('image url construction', function () {
 
     describe('fills a container with region of interest', function () {
 
-        var image = new Image('http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_709,h_400/file.png#w_1926,h_1086,mt_image/png');
+        var image = new Image('//fish.com/1234/5678/file.png/v1/crop/w_709,h_400/file.png#w_1926,h_1086,mt_image/png');
 
         it('scale to width - without ROI', function () {
             var result = image.scaleToWidth(1000).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_1000,h_564,x_0,y_0,scl_0.5192107995846313/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_1000,h_564,x_0,y_0,scl_0.5192107995846313/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -117,7 +117,7 @@ describe('image url construction', function () {
             var result = image.scaleToWidth(1000, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_1000,h_417,x_1833,y_375,scl_1.6666666666666667/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_1000,h_417,x_1833,y_375,scl_1.6666666666666667/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -135,7 +135,7 @@ describe('image url construction', function () {
             var result = image.scaleToHeight(500).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_887,h_500,x_0,y_0,scl_0.4604051565377532/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_887,h_500,x_0,y_0,scl_0.4604051565377532/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -150,7 +150,7 @@ describe('image url construction', function () {
             var result = image.scaleToHeight(500, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_208,h_500,x_345,y_291,scl_0.8333333333333334/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_208,h_500,x_345,y_291,scl_0.8333333333333334/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -177,7 +177,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_200,h_300,x_1580,y_270,scl_1.2/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_200,h_300,x_1580,y_270,scl_1.2/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -195,7 +195,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_300,h_200,x_550,y_75,scl_0.5/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_300,h_200,x_550,y_75,scl_0.5/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -213,7 +213,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_300,h_200,x_498,y_680,scl_1.2/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_300,h_200,x_498,y_680,scl_1.2/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -231,7 +231,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_400,h_500,x_249,y_291,scl_0.8333333333333334/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_400,h_500,x_249,y_291,scl_0.8333333333333334/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -249,7 +249,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_900,h_1000,x_3150,y_1475,scl_2.5/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_900,h_1000,x_3150,y_1475,scl_2.5/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -267,7 +267,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_1000,h_600,x_3100,y_1675,scl_2.5/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_1000,h_600,x_3100,y_1675,scl_2.5/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -285,7 +285,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_250,h_250,x_775,y_368,scl_0.625/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_250,h_250,x_775,y_368,scl_0.625/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -303,7 +303,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_250,h_250,x_97,y_0,scl_0.2302025782688766/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_250,h_250,x_97,y_0,scl_0.2302025782688766/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -321,7 +321,7 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_200,h_300,x_50,y_2958,scl_3/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_200,h_300,x_50,y_2958,scl_3/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
             });
         });
@@ -339,109 +339,73 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: 'http://media.wixapps.net/ggl-109789773458215503884/images/d4c8f529247e4f2a92740af2fd03791f~mv2/v1/crop/w_200,h_200,x_3652,y_0,scl_2/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_200,h_200,x_3652,y_0,scl_2/file.png#w_1926,h_1086,mt_image%2Fpng',
                 error: null
-            });
-        });
-
-        it('roi - width out of bound', function () {
-            var container = new Dimension()
-                .setWidth(1926)
-                .setHeight(1086);
-            var roi = new Rectangle()
-                .setX(0)
-                .setWidth(1927)
-                .setY(0)
-                .setHeight(1086);
-
-            var result = image.fillContainer(container, roi).toUrl();
-
-            expect(result).to.eql({
-                url: null,
-                error: new Error()
-            });
-        });
-
-        it('roi - height out of bound', function () {
-            var container = new Dimension()
-                .setWidth(1926)
-                .setHeight(1086);
-            var roi = new Rectangle()
-                .setX(0)
-                .setWidth(1926)
-                .setY(0)
-                .setHeight(1087);
-
-            var result = image.fillContainer(container, roi).toUrl();
-
-            expect(result).to.eql({
-                url: null,
-                error: new Error('crop out off height bound')
             });
         });
     });
 
-    describe('crop operation', function () {
+    describe('crop geometry', function () {
 
-        var imageRequest = new Image(imageUrl);
+        var image = new Image(imageUrl);
 
         it('scale is optional', function () {
 
-            var crop = imageRequest.crop(90, 91, 100, 101);
+            var crop = image.crop(90, 91, 100, 101);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_90,h_91,x_100,y_101/fish.jpeg#w_2048,h_4096,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
 
         it('scale default (1) is omitted', function () {
-            var crop = imageRequest.crop(90, 91, 100, 101, 1);
+            var crop = image.crop(90, 91, 100, 101, 1);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_90,h_91,x_100,y_101/fish.jpeg#w_2048,h_4096,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
 
         it('rounds x values down', function () {
-            var crop = imageRequest.crop(90, 91, 100.4, 101);
+            var crop = image.crop(90, 91, 100.4, 101);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_90,h_91,x_100,y_101/fish.jpeg#w_2048,h_4096,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
 
         it('rounds x values up', function () {
-            var crop = imageRequest.crop(90, 91, 99.5, 101);
+            var crop = image.crop(90, 91, 99.5, 101);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_90,h_91,x_100,y_101/fish.jpeg#w_2048,h_4096,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
 
         it('rounds y values down', function () {
-            var crop = imageRequest.crop(90, 91, 100, 101.4);
+            var crop = image.crop(90, 91, 100, 101.4);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_90,h_91,x_100,y_101/fish.jpeg#w_2048,h_4096,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
 
         it('rounds y values up', function () {
-            var crop = imageRequest.crop(90, 91, 100, 100.5);
+            var crop = image.crop(90, 91, 100, 100.5);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_90,h_91,x_100,y_101/fish.jpeg#w_2048,h_4096,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
 
         it('reject x values smaller than 0', function () {
-            var crop = imageRequest.crop(90, 91, -0.6, 101);
+            var crop = image.crop(90, 91, -0.6, 101);
 
             expect(crop.toUrl()).to.eql({
                 url: null,
@@ -450,7 +414,7 @@ describe('image url construction', function () {
         });
 
         it('reject y values smaller than 0', function () {
-            var crop = imageRequest.crop(90, 91, 100, -1);
+            var crop = image.crop(90, 91, 100, -1);
 
             expect(crop.toUrl()).to.eql({
                 url: null,
@@ -459,15 +423,9 @@ describe('image url construction', function () {
         });
 
         it('all options', function () {
-            var result = imageRequest.crop(101, 102, 81, 82, 1.2)
+            var result = image.crop(101, 102, 81, 82, 1.2)
                 .jpeg(100, true)
-                .unsharpMask(10, 10, 10)
-                .sharpen(0.7)
-                .removeRedEye()
-                .pixelateFaces(3)
-                .pixelate(3)
-                .oil()
-                .negative()
+                .unsharpMask(10, 8, 9)
                 .blur(10)
                 .saturation(-70)
                 .hue(60)
@@ -476,7 +434,7 @@ describe('image url construction', function () {
                 .toUrl();
 
             expect(result).to.eql({
-                url: '//test.wix.com/12345/v1/crop/w_101,h_102,x_81,y_82,scl_1.2,br_99,con_12,hue_60,sat_-70,blur_10,neg,oil,pix_3,pixfs_3,eye,shrp_0.7,usm_10_10_10,q_100,bl/fish.jpeg#w_2048,h_4096,mt_image%2Fjpeg',
+                url: '//test.com/1111/images/324234/v1/crop/w_101,h_102,x_81,y_82,scl_1.2,usm_10_8_9,blur_10,br_99,con_12,hue_60,sat_-70,q_100,bl/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -487,40 +445,24 @@ describe('image url construction', function () {
         var image = new Image(imageUrl);
 
         it('preserves parameter order', function () {
-            var result1 = image.crop()
-                .size(100, 100)
+            var result1 = image.crop(100, 200)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
-                .sharpen(0.7)
-                .removeRedEye()
-                .pixelateFaces(3)
-                .pixelate(3)
-                .oil()
-                .negative()
                 .blur(10)
                 .saturation(-70)
                 .hue(60)
                 .contrast(90)
                 .brightness(99)
-                .enableUpscale(true)
                 .toUrl();
 
-            var result2 = image.crop()
-                .negative()
-                .size(100, 100)
+            var result2 = image.crop(100, 200)
                 .jpeg(100, true)
                 .unsharpMask(10, 10, 10)
-                .sharpen(0.7)
-                .removeRedEye()
-                .enableUpscale()
-                .pixelateFaces(3)
-                .pixelate(3)
                 .contrast(90)
-                .oil()
                 .blur(10)
                 .saturation(-70)
-                .hue(60)
                 .brightness(99)
+                .hue(60)
                 .toUrl();
 
             expect(result1.url).to.be(result2.url);

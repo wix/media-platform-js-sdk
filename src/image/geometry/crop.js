@@ -32,21 +32,11 @@ function Crop(width, height, x, y, scale) {
      * @type {number}
      */
     this.height = Math.round(height);
-
-    /**
-     * @type {number}
-     */
-    this.x = null;
-
-    /**
-     * @type {number}
-     */
-    this.y = null;
     
     /**
      * @type {number|null}
      */
-    this.scaleFactor = scale || null;
+    this.scale = scale || null;
 
     this.coordinates(x, y, scale);
 }
@@ -55,21 +45,21 @@ function Crop(width, height, x, y, scale) {
 /**
  * @param {number?} x the x value
  * @param {number?} y the y value
- * @param {number?} scaleFactor The Scale factor. Valid values: (0:100].
+ * @param {number?} scale The Scale factor. Valid values: (0:100].
  * @returns {*} the operation
  */
-Crop.prototype.coordinates = function (x, y, scaleFactor) {
+Crop.prototype.coordinates = function (x, y, scale) {
     if (arguments.length === 0) {
         this.x = null;
         this.y = null;
-        this.scaleFactor = null;
+        this.scale = null;
         this.error = null;
         return this;
     }
 
     this.x = Math.round(x);
     this.y = Math.round(y);
-    this.scaleFactor = (!scaleFactor || scaleFactor == 1) ? null : scaleFactor;
+    this.scale = (!scale || scale == 1) ? null : scale;
     return this;
 };
 
@@ -92,31 +82,17 @@ Crop.prototype.size = function (width, height) {
  */
 Crop.prototype.serialize = function (metadata) {
 
-    var errorMessage = validator.numberNotInRange('crop scale factor', this.scaleFactor, 0, 100) ||
-    validator.numberIsNotGreaterThan('crop x', this.x, 0) ||
-    validator.numberIsNotGreaterThan('crop y', this.y, 0);
+    var badScale = validator.numberNotInRange('crop scale factor', this.scale, 0, 100);
+    var badX = validator.numberIsNotGreaterThan('crop x', this.x, 0);
+    var badY = validator.numberIsNotGreaterThan('crop y', this.y, 0);
+    var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
+    var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
 
-    if (!this.width) {
-        errorMessage = 'width must be a positive number';
-    }
-
-    if (!this.height) {
-        errorMessage = 'height must be a positive number';
-    }
-
-    if ((this.x + this.width) > (Math.round(metadata.width * (this.scaleFactor || 1)))) {
-        errorMessage = 'crop out off width bound';
-    }
-
-    if ((this.y + this.height) > (Math.round(metadata.height * (this.scaleFactor || 1)))) {
-        errorMessage = 'crop out off height bound';
-    }
-
-    if (errorMessage) {
+    if (badScale || badX || badY || badWidth || badHeight) {
         return {
-            params: '',
-            error: errorMessage
-        }
+            params: null,
+            error: new Error([badScale, badX, badY, badWidth, badHeight])
+        };
     }
 
     var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
@@ -129,12 +105,12 @@ Crop.prototype.serialize = function (metadata) {
 
     out += 'y_' + (this.y || 0);
 
-    if (this.scaleFactor && this.scaleFactor != 1) {
+    if (this.scale && this.scale != 1) {
         if (out.length > 0) {
             out += ',';
         }
 
-        out += 'scl_' + this.scaleFactor;
+        out += 'scl_' + this.scale;
     }
 
     return {

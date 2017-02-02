@@ -21,7 +21,7 @@ function Image(data) {
 
     /**
      * @description where the image is hosted
-     * @type {null}
+     * @type {string}
      */
     this.host = null;
 
@@ -217,15 +217,11 @@ Image.prototype.crop = function (width, height, x, y, scale) {
  */
 Image.prototype.toUrl = function (host) {
 
-    if (!host) {
-        host = this.host;
-    }
-
     if (!this.geometry) {
         return {
             url: null,
-            error: new Error('operation not defined')
-        }
+            error: new Error('geometry not defined')
+        };
     }
 
     if (!this.metadata) {
@@ -235,29 +231,23 @@ Image.prototype.toUrl = function (host) {
         };
     }
 
-    var errorMassage = validator.numberIsNotGreaterThan('width', this.width, 1) ||
-        validator.numberIsNotGreaterThan('height', this.height, 1);
-
-    if (errorMassage) {
-        return {
-            url: null,
-            error: new Error(errorMassage)
-        };
-    }
+    var baseUrl = host || this.host || '';
 
     var out = '';
-    var baseUrl = host;
-    if (baseUrl !== null && baseUrl !== '') {
-        if (baseUrl.indexOf('http') != 0 && baseUrl.indexOf('//') != 0) {
-            out += '//';
-        }
-
-        if (baseUrl.lastIndexOf('/') == (baseUrl.length - 1)) {
-            baseUrl = baseUrl.slice(0, -1);
-        }
+    if (baseUrl.length != 0 && baseUrl.indexOf('http') != 0 && baseUrl.indexOf('//') != 0) {
+        out += '//';
     }
 
-    out += baseUrl + '/' + this.path + '/' + this.version + '/';
+    if (baseUrl.lastIndexOf('/') == (baseUrl.length - 1)) {
+        baseUrl = baseUrl.slice(0, -1);
+    }
+
+    var path = this.path;
+    if (path.indexOf('/') == 0) {
+        path = path.slice(1);
+    }
+
+    out += baseUrl + '/' + path + '/' + this.version + '/';
 
     var geometryParams = this.geometry.serialize(this.metadata);
     if (geometryParams.error) {
