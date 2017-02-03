@@ -1,6 +1,6 @@
-var BrowserHTTPClient = require('./http/browser-http-client');
+var HTTPClient = require('./http/browser-http-client');
 var FileManager = require('../../src/platform/management/file-manager');
-var FileUploader = require('./upload/file-uploader');
+var FileUploader = require('./uploader/file-uploader');
 
 /**
  * @param {Configuration} configuration
@@ -8,7 +8,7 @@ var FileUploader = require('./upload/file-uploader');
  */
 function MediaPlatform(configuration) {
 
-    var browserHTTPClient = new BrowserHTTPClient(configuration.authenticationUrl);
+    var browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
     var fileUploader = new FileUploader(configuration, browserHTTPClient);
 
     /**
@@ -26,7 +26,6 @@ function MediaPlatform(configuration) {
         browserHTTPClient.deauthorize();
     };
 
-    //noinspection JSCheckFunctionSignatures
     this.fileManager = new FileManager(configuration, browserHTTPClient, fileUploader);
 }
 

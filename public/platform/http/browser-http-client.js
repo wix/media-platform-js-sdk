@@ -2,7 +2,7 @@
  * @param {string} authenticationUrl
  * @constructor
  */
-function BrowserHTTPClient(authenticationUrl) {
+function HTTPClient(authenticationUrl) {
 
     /**
      * @type {string}
@@ -22,7 +22,7 @@ function BrowserHTTPClient(authenticationUrl) {
  * @param {string?} token
  * @param {function(Error, *)} callback
  */
-BrowserHTTPClient.prototype.request = function (httpMethod, url, params, token, callback) {
+HTTPClient.prototype.request = function (httpMethod, url, params, token, callback) {
 
     this.getAuthenticationHeader(function (error, header) {
 
@@ -81,7 +81,7 @@ BrowserHTTPClient.prototype.request = function (httpMethod, url, params, token, 
 /**
  * @param {function(Error, *)} callback
  */
-BrowserHTTPClient.prototype.getAuthenticationHeader = function (callback) {
+HTTPClient.prototype.getAuthenticationHeader = function (callback) {
 
     if (this.authenticationHeader) {
         callback(null, this.authenticationHeader);
@@ -111,11 +111,11 @@ BrowserHTTPClient.prototype.getAuthenticationHeader = function (callback) {
     request.send();
 };
 
-BrowserHTTPClient.prototype.deauthorize = function () {
+HTTPClient.prototype.deauthorize = function () {
     this.authenticationHeader = null;
 };
 
 /**
- * @type {BrowserHTTPClient}
+ * @type {HTTPClient}
  */
-module.exports = BrowserHTTPClient;
+module.exports = HTTPClient;

@@ -12,12 +12,19 @@ module.exports = function(grunt) {
             standalone: 'MP'
         }
     };
+
     var options = {
         debug: false,
         browserifyOptions: {
             standalone: 'MP'
         }
     };
+
+
+    grunt.initConfig({
+
+
+    });
 
     grunt.initConfig({
         clean : {
@@ -59,12 +66,9 @@ module.exports = function(grunt) {
                 dest: 'build/tests.js'
             }
         },
-        mocha: {
-            browserTest: {
-                src: ['tests/browser/mocha-runner.html'],
-                options: {
-                    run: true
-                }
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
             }
         },
         mochaTest: {
@@ -76,13 +80,14 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.registerTask('browser', ['clean:dist', 'browserify:dist', 'browserify:distMinified']);
 
     //TODO: run tests against the minified JS
-    grunt.registerTask('browser-tests', ['clean:build', 'browserify:tests', 'mocha']);
+    grunt.registerTask('browser-tests', ['clean:build', 'browserify:tests', 'karma']);
     grunt.registerTask('server-tests', ['mochaTest']);
 
     grunt.registerTask('test', ['server-tests', 'browser-tests']);

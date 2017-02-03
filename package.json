@@ -49,12 +49,21 @@
     "start": "grunt browser && node ./demo/bin/www"
   },
   "dependencies": {
+    "async": "^2.1.4",
+    "eventemitter3": "^2.0.2",
     "inherits": "^2.0.3",
     "jsonwebtoken": "^7.2.1",
     "request": "^2.79.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "faux-jax": "latest",
+    "file-api": "latest",
+    "grunt-karma": "latest",
+    "karma": "latest",
+    "karma-chrome-launcher": "latest",
+    "karma-mocha": "latest",
+    "karma-phantomjs-launcher": "latest",
     "body-parser": "latest",
     "cookie-parser": "latest",
     "expect.js": "latest",
@@ -70,6 +79,6 @@
     "request-debug": "latest",
     "sinon": "latest",
     "uglifyify": "latest",
-    "wnpm-ci": "*"
+    "wnpm-ci": "latest"
   }
 }

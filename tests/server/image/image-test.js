@@ -1,6 +1,5 @@
 var expect = require('expect.js');
 var Image = require('../../../src/image/image');
-var Metadata = require('../../../src/image/metadata');
 var Rectangle = require('../../../src/image/geometry/rectangle');
 var Dimension = require('../../../src/image/geometry/dimension');
 

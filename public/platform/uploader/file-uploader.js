@@ -1,6 +1,6 @@
 /**
  * @param configuration
- * @param {BrowserHTTPClient} browserHTTPClient
+ * @param {HTTPClient} browserHTTPClient
  * @constructor
  */
 function FileUploader(configuration, browserHTTPClient) {
@@ -23,7 +23,7 @@ FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
             return;
         }
 
-        callback(null, { uploadUrl: body.upload_url, uploadToken: body.upload_token })
+        callback(null, { uploadUrl: body.uploadUrl})
     })
 };
 
