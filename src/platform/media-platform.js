@@ -16,7 +16,9 @@ function MediaPlatform(config) {
     var authenticator = new Authenticator(configuration);
     var httpClient = new HTTPClient(authenticator);
     var fileUploader = new FileUploader(configuration, httpClient);
-    this.getAuthenticationHeader = authenticator.getHeader;
+    this.getAuthenticationHeader = function (token) {
+        authenticator.getHeader(token);
+    };
     this.fileManager = new FileManager(configuration, httpClient, fileUploader);
 }
 

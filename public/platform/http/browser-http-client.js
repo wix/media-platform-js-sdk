@@ -111,6 +111,9 @@ HTTPClient.prototype.getAuthenticationHeader = function (callback) {
     request.send();
 };
 
+/**
+ * @description deletes the cached authentication header
+ */
 HTTPClient.prototype.deauthorize = function () {
     this.authenticationHeader = null;
 };

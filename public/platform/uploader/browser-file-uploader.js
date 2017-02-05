@@ -5,8 +5,14 @@
  */
 function FileUploader(configuration, browserHTTPClient) {
 
+    /**
+     * @type {string}
+     */
     this.uploadUrlEndpoint = 'https://' + configuration.domain + '/_api/upload/url';
-    
+
+    /**
+     * @type {HTTPClient}
+     */
     this.browserHTTPClient = browserHTTPClient;
 }
 
