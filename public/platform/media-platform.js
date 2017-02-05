@@ -1,6 +1,7 @@
 var HTTPClient = require('./http/browser-http-client');
+var FileUploader = require('./uploader/browser-file-uploader');
 var FileManager = require('../../src/platform/management/file-manager');
-var FileUploader = require('./uploader/file-uploader');
+var QueuedFileUploader = require('./uploader/queued-file-uploader');
 
 /**
  * @param {Configuration} configuration
@@ -27,6 +28,7 @@ function MediaPlatform(configuration) {
     };
 
     this.fileManager = new FileManager(configuration, browserHTTPClient, fileUploader);
+    this.queuedFileUploader = new QueuedFileUploader(fileUploader);
 }
 
 /**

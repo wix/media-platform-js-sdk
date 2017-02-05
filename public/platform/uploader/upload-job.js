@@ -30,6 +30,11 @@ function UploadJob(mediaType, file) {
      * @type {string}
      */
     this.state = 'stopped';
+
+    /**
+     * @type {Array<string>}
+     */
+    this.tags = [];
 }
 inherits(UploadJob, EventEmitter);
 
@@ -52,6 +57,24 @@ UploadJob.prototype.setFile = function (file) {
 };
 
 /**
+ * @param {string} tag
+ * @returns {UploadJob}
+ */
+UploadJob.prototype.addTag = function (tag) {
+    this.tags.push(tag);
+    return this;
+};
+
+/**
+ * @param {Array<string>} tags
+ * @returns {UploadJob}
+ */
+UploadJob.prototype.setTags = function (tags) {
+    this.tags = tags;
+    return this;
+};
+
+/**
  * @param fileUploader
  * @returns {UploadJob}
  */
@@ -68,6 +91,7 @@ UploadJob.prototype.run = function (fileUploader) {
     fileUploader.getUploadUrl(this.mediaType, function (error, uploadUrl) {
 
         if (error) {
+            console.error('get upload url - error');
             var e = new UploadErrorEvent(this);
             this.emit(e.name, e);
             return;
@@ -83,7 +107,7 @@ UploadJob.prototype.run = function (fileUploader) {
             if (event.target.status >= 400) {
                 e = new UploadErrorEvent(this);
             } else {
-                e = new UploadSuccessEvent(this, FileDescriptor(event.target.response[0]));
+                e = new UploadSuccessEvent(this, FileDescriptor(event.target.payload));
             }
             this.emit(e.name, e);
         }.bind(this);
@@ -114,7 +138,7 @@ UploadJob.prototype.run = function (fileUploader) {
 
         var formData = new FormData();
         // formData.set('upload_token', uploadUrl.uploadToken);
-        formData.set('media_type', this.mediaType);
+        // formData.set('media_type', this.mediaType);
         formData.append('file', this.file);
 
         var request = new XMLHttpRequest();

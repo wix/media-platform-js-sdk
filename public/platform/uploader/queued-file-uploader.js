@@ -30,6 +30,7 @@ function QueuedFileUploader(fileUploader, concurrency) {
  * @returns {QueuedFileUploader}
  */
 QueuedFileUploader.prototype.enqueue = function (uploadJob) {
+
     if (this.jobs.indexOf(uploadJob) > -1) {
         console.warn('upload job already queued');
         return this;

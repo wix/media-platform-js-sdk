@@ -84,10 +84,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('browser', ['clean:dist', 'browserify:dist', 'browserify:distMinified']);
+    grunt.registerTask('browser', ['clean:build', 'clean:dist', 'browserify:tests', 'browserify:dist', 'browserify:distMinified']);
 
     //TODO: run tests against the minified JS
-    grunt.registerTask('browser-tests', ['clean:build', 'browserify:tests', 'karma']);
+    grunt.registerTask('browser-tests', ['browser', 'karma']);
     grunt.registerTask('server-tests', ['mochaTest']);
 
     grunt.registerTask('test', ['server-tests', 'browser-tests']);

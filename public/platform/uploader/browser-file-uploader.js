@@ -5,7 +5,7 @@
  */
 function FileUploader(configuration, browserHTTPClient) {
 
-    this.uploadUrlEndpoint = 'https://' + configuration.domain + '/files/upload/url';
+    this.uploadUrlEndpoint = 'https://' + configuration.domain + '/_api/upload/url';
     
     this.browserHTTPClient = browserHTTPClient;
 }
@@ -17,7 +17,6 @@ function FileUploader(configuration, browserHTTPClient) {
  */
 FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
     this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, {}, null, function (error, body) {
-
         if (error) {
             callback(error, null);
             return;
