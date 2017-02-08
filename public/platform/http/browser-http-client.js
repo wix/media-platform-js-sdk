@@ -48,6 +48,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
                 }
         }
         
+        request.withCredentials = true;
         request.addEventListener('load', function (event) {
             var payload = null;
             try {
@@ -90,6 +91,7 @@ HTTPClient.prototype.getAuthenticationHeader = function (callback) {
 
     var request = new XMLHttpRequest();
 
+    request.withCredentials = true;
     request.addEventListener('load', function (event) {
         try {
             this.authenticationHeader = JSON.parse(request.responseText);
