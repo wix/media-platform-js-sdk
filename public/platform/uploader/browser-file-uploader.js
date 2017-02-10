@@ -28,7 +28,10 @@ FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
             return;
         }
 
-        callback(null, { uploadUrl: body.uploadUrl})
+        callback(null, {
+            uploadToken: body.payload.uploadToken,
+            uploadUrl: body.payload.uploadUrl
+        })
     })
 };
 
