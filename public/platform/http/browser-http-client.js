@@ -57,6 +57,12 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
                 callback(error, null);
                 return;
             }
+
+            if (request.status !== 200) {
+                callback(payload, null);
+                return;
+            }
+
             callback(null, payload);
         }.bind(this));
         request.addEventListener('error', function (event) {
