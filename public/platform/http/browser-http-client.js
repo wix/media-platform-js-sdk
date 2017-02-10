@@ -80,7 +80,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
         request.open(httpMethod, urlParams ? url + '?' + urlParams : url);
         request.setRequestHeader('Accept', 'application/json');
         request.setRequestHeader('Content-Type', 'application/json');
-        request.setRequestHeader('Authorization', header.Authorization);
+        request.setRequestHeader('Authorization', header.payload);
         request.send(body);
     }.bind(this))
 };
