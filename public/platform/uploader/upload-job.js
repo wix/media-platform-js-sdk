@@ -142,6 +142,7 @@ UploadJob.prototype.run = function (fileUploader) {
         formData.append('file', this.file);
 
         var request = new XMLHttpRequest();
+        request.withCredentials = true;
         request.addEventListener('progress', onProgress);
         request.addEventListener('load', onLoad);
         request.addEventListener('error', onError);

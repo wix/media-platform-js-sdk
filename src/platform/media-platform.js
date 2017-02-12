@@ -10,7 +10,7 @@ var FileManager = require('./management/file-manager');
  */
 function MediaPlatform(config) {
 
-    //TODO: validate config
+    // TODO: validate config
 
     var configuration = new Configuration(config.domain, config.sharedSecret, config.appId);
     var authenticator = new Authenticator(configuration);
