@@ -133,6 +133,56 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
     });
 };
 
+/**
+ * @param {string} path
+ * @param {function(Error, ListFilesResponse)} callback
+ */
+FileManager.prototype.deleteFileByPath = function (path, callback) {
+
+    var params = {
+        path: path
+    };
+
+    var token = new Token()
+        .setIssuer(NS.APPLICATION, this.configuration.appId)
+        .setSubject(NS.APPLICATION, this.configuration.appId)
+        .setObject(NS.FILE, path)
+        .addVerbs(VERB.FILE_DELETE);
+
+    this.httpClient.request('DELETE', this.apiUrl + '/files', params, token, function (error, response) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, response.payload);
+    });
+};
+
+/**
+ * @param {string} id
+ * @param {function(Error, ListFilesResponse)} callback
+ */
+FileManager.prototype.deleteFileById = function (id, callback) {
+
+    var token = new Token()
+        .setIssuer(NS.APPLICATION, this.configuration.appId)
+        .setSubject(NS.APPLICATION, this.configuration.appId)
+        .setObject(NS.FILE, id)
+        .addVerbs(VERB.FILE_DELETE);
+
+    this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, token, function (error, response) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, response.payload);
+    });
+};
+
 
 /**
  * @type {FileManager}
