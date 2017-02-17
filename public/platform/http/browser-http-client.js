@@ -58,7 +58,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
                 return;
             }
 
-            if (request.status !== 200) {
+            if (!_.includes([200, 201], request.status)) {
                 callback(payload, null);
                 return;
             }
