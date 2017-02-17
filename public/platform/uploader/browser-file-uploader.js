@@ -1,10 +1,13 @@
+var QueuedFileUploader = require('./queued-file-uploader');
+var UploadJob = require('./upload-job');
+
+
 /**
  * @param configuration
  * @param {HTTPClient} browserHTTPClient
  * @constructor
  */
 function FileUploader(configuration, browserHTTPClient) {
-
     /**
      * @type {string}
      */
@@ -35,7 +38,11 @@ FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
     })
 };
 
-// TODO: implement: FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callback)
+FileUploader.prototype.uploadFile = function (file, fileDescriptor, callback) {
+    var upload = new UploadJob(fileDescriptor, file);
+
+    return upload.run(this);
+};
 
 /**
  * @type {FileUploader}

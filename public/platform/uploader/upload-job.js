@@ -8,23 +8,23 @@ var UploadErrorEvent = require('./events/upload-error-event');
 var UploadAbortedEvent = require('./events/upload-aborted-event');
 
 /**
- * @param {string?} mediaType
+ * @param {FileDescriptor} fileDescriptor
  * @param {File?} file
  * @constructor
  * @extends {EventEmitter}
  */
-function UploadJob(mediaType, file) {
+function UploadJob(fileDescriptor, file) {
     EventEmitter.call(this);
-
-    /**
-     * @type {string}
-     */
-    this.mediaType = mediaType;
 
     /**
      * @type {File}
      */
     this.file = file;
+
+    /**
+     * @type {FileDescriptor}
+     */
+    this.fileDescriptor = fileDescriptor;
 
     /**
      * @type {string}
@@ -39,11 +39,11 @@ function UploadJob(mediaType, file) {
 inherits(UploadJob, EventEmitter);
 
 /**
- * @param {string} mediaType
+ * @param {FileDescriptor} fileDescriptor
  * @returns {UploadJob}
  */
-UploadJob.prototype.setMediaType = function (mediaType) {
-    this.mediaType = mediaType;
+UploadJob.prototype.setFileDescriptor = function (fileDescriptor) {
+    this.fileDescriptor = fileDescriptor;
     return this;
 };
 
@@ -88,7 +88,7 @@ UploadJob.prototype.run = function (fileUploader) {
 
     var e = new UploadStartedEvent(this);
     this.emit(e.name, e);
-    fileUploader.getUploadUrl(this.mediaType, function (error, uploadUrl) {
+    fileUploader.getUploadUrl(null, function (error, response) {
 
         if (error) {
             console.error('get upload url - error');
@@ -107,7 +107,7 @@ UploadJob.prototype.run = function (fileUploader) {
             if (event.target.status >= 400) {
                 e = new UploadErrorEvent(this);
             } else {
-                e = new UploadSuccessEvent(this, FileDescriptor(event.target.payload));
+                e = new UploadSuccessEvent(this, new FileDescriptor(event.target.response.payload[0]));
             }
             this.emit(e.name, e);
         }.bind(this);
@@ -128,7 +128,6 @@ UploadJob.prototype.run = function (fileUploader) {
         }.bind(this);
 
         var reset = function () {
-            request.removeEventListener('progress', onProgress);
             request.removeEventListener('load', onLoad);
             request.removeEventListener('error', onError);
             request.removeEventListener('abort', onAbort);
@@ -137,20 +136,24 @@ UploadJob.prototype.run = function (fileUploader) {
         }.bind(this);
 
         var formData = new FormData();
-        // formData.set('upload_token', uploadUrl.uploadToken);
-        // formData.set('media_type', this.mediaType);
+        formData.append('uploadToken', response.uploadToken);
+        formData.append('path', this.fileDescriptor.path);
         formData.append('file', this.file);
+
+        if (this.fileDescriptor.mediaType) {
+            formData.append('mediaType', this.fileDescriptor.mediaType);
+        }
 
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.addEventListener('progress', onProgress);
+        request.upload.onprogress = onProgress;
         request.addEventListener('load', onLoad);
         request.addEventListener('error', onError);
         request.addEventListener('abort', onAbort);
         request.addEventListener('loadend', onLoadEnd);
 
         request.responseType = 'json';
-        request.open('POST', uploadUrl.uploadUrl);
+        request.open('POST', response.uploadUrl);
         request.send(formData);
     }.bind(this));
 

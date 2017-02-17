@@ -22,6 +22,12 @@ function FileDescriptor(data) {
     this.path = null;
 
     /**
+     * @originalFileName the file name
+     * @type {string}
+     */
+    this.originalFileName = null;
+
+    /**
      * @description the file mime type
      * @type {string}
      */
@@ -75,6 +81,7 @@ FileDescriptor.prototype.deserialize = function (data) {
     this.id = data.id;
     this.hash = data.hash;
     this.path = data.path;
+    this.originalFileName = data.originalFileName;
     this.mimeType = data.mimeType;
     this.mediaType = data.mediaType;
     this.type = data.type;

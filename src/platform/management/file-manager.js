@@ -50,7 +50,7 @@ FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
  * @param {function(Error, FileDescriptor|null)} callback
  */
 FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback) {
-    this.fileUploader.uploadFile(path, file, uploadRequest, callback);
+    return this.fileUploader.uploadFile(path, file, uploadRequest, callback);
 };
 
 /**
