@@ -48,7 +48,6 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
                 }
         }
         
-        request.withCredentials = true;
         request.addEventListener('load', function (event) {
             var payload = null;
             try {
@@ -78,6 +77,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
         }.bind(this));
         
         request.open(httpMethod, urlParams ? url + '?' + urlParams : url);
+        request.withCredentials = true;
         request.setRequestHeader('Accept', 'application/json');
         request.setRequestHeader('Content-Type', 'application/json');
         request.setRequestHeader('Authorization', header.payload);
@@ -97,7 +97,6 @@ HTTPClient.prototype.getAuthenticationHeader = function (callback) {
 
     var request = new XMLHttpRequest();
 
-    request.withCredentials = true;
     request.addEventListener('load', function (event) {
         try {
             this.authenticationHeader = JSON.parse(request.responseText);
@@ -115,6 +114,7 @@ HTTPClient.prototype.getAuthenticationHeader = function (callback) {
     }.bind(this));
     
     request.open('GET', this.authenticationUrl);
+    request.withCredentials = true;
     request.setRequestHeader('Accept', 'application/json');
     request.send();
 };

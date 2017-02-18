@@ -26,7 +26,12 @@ function FileManager(configuration, httpClient, fileUploader) {
     /**
      * @type {string}
      */
-    this.apiUrl = 'https://' + configuration.domain + '/_api/files';
+    this.baseUrl = 'https://' + configuration.domain;
+
+    /**
+     * @type {string}
+     */
+    this.apiUrl = this.baseUrl + '/_api/files';
 
     /**
      * @type {FileUploader}
@@ -106,6 +111,33 @@ FileManager.prototype.getFile = function (path, callback) {
 
 /**
  * @param {string} path
+ * @param {function(Error, string)} callback
+ */
+FileManager.prototype.getDownloadUrl = function (path, callback) {
+
+    var params = {
+        path: path
+    };
+
+    var token = new Token()
+        .setIssuer(NS.APPLICATION, this.configuration.appId)
+        .setSubject(NS.APPLICATION, this.configuration.appId)
+        .setObject(NS.FILE, path)
+        .addVerbs(VERB.FILE_DOWNLOAD);
+
+    this.httpClient.request('GET', this.baseUrl + '/_api/storage/files/tickets/create', params, token, function (error, response) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, this.baseUrl + response.payload.url);
+    }.bind(this));
+};
+
+/**
+ * @param {string} path
  * @param {ListFilesRequest?} listFilesRequest
  * @param {function(Error, ListFilesResponse)} callback
  */
@@ -135,7 +167,7 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
 
 /**
  * @param {string} path
- * @param {function(Error, ListFilesResponse)} callback
+ * @param {function(Error)} callback
  */
 FileManager.prototype.deleteFileByPath = function (path, callback) {
 
@@ -149,20 +181,20 @@ FileManager.prototype.deleteFileByPath = function (path, callback) {
         .setObject(NS.FILE, path)
         .addVerbs(VERB.FILE_DELETE);
 
-    this.httpClient.request('DELETE', this.apiUrl + '/files', params, token, function (error, response) {
+    this.httpClient.request('DELETE', this.apiUrl, params, token, function (error, response) {
 
         if (error) {
             callback(error, null);
             return;
         }
 
-        callback(null, response.payload);
+        callback();
     });
 };
 
 /**
  * @param {string} id
- * @param {function(Error, ListFilesResponse)} callback
+ * @param {function(Error)} callback
  */
 FileManager.prototype.deleteFileById = function (id, callback) {
 
@@ -179,7 +211,7 @@ FileManager.prototype.deleteFileById = function (id, callback) {
             return;
         }
 
-        callback(null, response.payload);
+        callback(null);
     });
 };
 
