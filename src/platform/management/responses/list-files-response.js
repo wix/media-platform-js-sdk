@@ -6,19 +6,9 @@ var FileDescriptor = require('../file-descriptor');
 function ListFilesResponse(data) {
 
     /**
-     * @type {number}
-     */
-    this.pageSize = null;
-
-    /**
-     * @type {number}
-     */
-    this.total = null;
-
-    /**
      * @type {string}
      */
-    this.nextPageCursor = null;
+    this.nextPageToken = null;
 
     /**
      * @type {Array<FileDescriptor>}
@@ -31,9 +21,7 @@ function ListFilesResponse(data) {
 }
 
 ListFilesResponse.prototype.deserialize = function (data) {
-    this.pageSize = data.pageSize;
-    this.nextPageCursor = data.nextPageCursor;
-    this.total = data.total;
+    this.nextPageToken = data.nextPageToken;
     this.files = data.files.map(function (file) {
         return new FileDescriptor(file)
     });

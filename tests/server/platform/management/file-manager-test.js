@@ -31,35 +31,30 @@ describe('file manager', function() {
         fileServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
 
         fileManager.listFiles('path', null, function (error, data) {
-            expect(data).to.eql({ pageSize: 20,
-                total: 50,
-                nextPageCursor: 'next',
+            expect(data).to.eql({
+                nextPageToken: 'next',
                 files: [
                     {
-                        id: 'id',
-                        hash: 'hash',
-                        path: '/here/be/fish/cat.png',
-                        mimeType: 'image/png',
-                        mediaType: 'image',
+                        id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+                        hash: 'd41d8cd98f00b204e9800998ecf8427e',
+                        path: '/place-holder.txt',
+                        mimeType: 'text/plain',
                         type: '-',
-                        size: 1000,
-                        metadata: {},
-                        tags: ['1', '2'],
-                        dateCreated: undefined,
-                        dateUpdated: undefined
+                        size: 0,
+                        acl: 'public',
+                        dateCreated: '2017-02-20T14:23:42Z',
+                        dateUpdated: '2017-02-20T14:23:42Z'
                     },
                     {
-                        id: 'another id',
+                        id: 'f65c0c70bec44b86bb543cc166800f03',
                         hash: null,
-                        path: '/here/be/fish/cat.png',
+                        path: '/kb',
                         mimeType: 'application/vnd.wix-media.dir',
-                        mediaType: 'directory',
                         type: 'd',
-                        size: null,
-                        metadata: {},
-                        tags: ['3', '4'],
-                        dateCreated: undefined,
-                        dateUpdated: undefined
+                        size: 0,
+                        acl: 'public',
+                        dateCreated: '2017-02-20T14:22:51Z',
+                        dateUpdated: '2017-02-20T14:22:51Z'
                     }
                 ]
             });
@@ -87,17 +82,15 @@ describe('file manager', function() {
 
         fileManager.getFile('path/of/file', function (error, data) {
             expect(data).to.eql({
-                id: 'id',
-                path: '/here/be/fish/cat.png',
+                id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+                hash: 'd41d8cd98f00b204e9800998ecf8427e',
+                path: '/place-holder.txt',
+                mimeType: 'text/plain',
                 type: '-',
-                mimeType: 'image/png',
-                mediaType: 'image',
-                size: 1000,
-                hash: 'hash',
-                tags: ['tags'],
-                metadata: {},
-                dateCreated: 'yesterday',
-                dateUpdated: 'a second ago'
+                size: 0,
+                acl: 'public',
+                dateCreated: '2017-02-20T14:23:42Z',
+                dateUpdated: '2017-02-20T14:23:42Z'
             });
             done(error);
         });

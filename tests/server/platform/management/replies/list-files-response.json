@@ -2,37 +2,33 @@
   "code": 0,
   "message": "OK",
   "payload": {
-    "nextPageCursor": "next",
-    "pageSize": 20,
-    "total": 50,
+    "nextPageToken": "next",
     "files": [
       {
-        "id": "id",
-        "path": "/here/be/fish/cat.png",
-        "type": "-",
-        "mimeType": "image/png",
-        "mediaType": "image",
-        "size": 1000,
-        "hash": "hash",
-        "tags": ["1", "2"],
-        "originalFileName": "original_file_name",
-        "acl": "TBD",
-        "status": "status",
-        "metadata": {}
+        "mimeType": "text/plain",
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "parent": "/",
+        "dateCreated": "2017-02-20T14:23:42Z",
+        "path": "/place-holder.txt",
+        "id": "d0e18fd468cd4e53bc2bbec3ca4a8676",
+        "size": 0,
+        "ancestors": ["/"],
+        "acl": "public",
+        "dateUpdated": "2017-02-20T14:23:42Z",
+        "type": "-"
       },
       {
-        "id": "another id",
-        "path": "/here/be/fish/cat.png",
-        "type": "d",
         "mimeType": "application/vnd.wix-media.dir",
-        "mediaType": "directory",
-        "size": null,
         "hash": null,
-        "tags": ["3", "4"],
-        "originalFileName": "original_file_name",
-        "acl": "TBD",
-        "status": "status",
-        "metadata": {}
+        "parent": "/",
+        "dateCreated": "2017-02-20T14:22:51Z",
+        "path": "/kb",
+        "id": "f65c0c70bec44b86bb543cc166800f03",
+        "size": 0,
+        "ancestors": ["/"],
+        "acl": "public",
+        "dateUpdated": "2017-02-20T14:22:51Z",
+        "type": "d"
       }
     ]
   }

@@ -75,7 +75,7 @@
     "karma-mocha": "latest",
     "karma-phantomjs-launcher": "latest",
     "mocha": "latest",
-    "nock": "latest",
+    "nock": "9.0.2",
     "pug": "latest",
     "request-debug": "latest",
     "sinon": "latest",

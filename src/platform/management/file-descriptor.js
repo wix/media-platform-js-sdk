@@ -22,22 +22,10 @@ function FileDescriptor(data) {
     this.path = null;
 
     /**
-     * @originalFileName the file name
-     * @type {string}
-     */
-    this.originalFileName = null;
-
-    /**
      * @description the file mime type
      * @type {string}
      */
     this.mimeType = null;
-
-    /**
-     * @description the file type category
-     * @type {string}
-     */
-    this.mediaType = null;
 
     /**
      * @description file or directory
@@ -52,15 +40,10 @@ function FileDescriptor(data) {
     this.size = null;
 
     /**
-     * @description extracted metadata, contents depends on the file type
-     * @type {{}}
+     * @description whether the file has public access or not
+     * @type {string}
      */
-    this.metadata = {};
-
-    /**
-     * @type {Array<string>}
-     */
-    this.tags = [];
+    this.acl = null;
 
     /**
      * @type {string}
@@ -81,16 +64,21 @@ FileDescriptor.prototype.deserialize = function (data) {
     this.id = data.id;
     this.hash = data.hash;
     this.path = data.path;
-    this.originalFileName = data.originalFileName;
     this.mimeType = data.mimeType;
-    this.mediaType = data.mediaType;
     this.type = data.type;
     this.size = data.size;
-    this.metadata = data.metadata;
-    this.tags = data.tags;
+    this.acl = data.acl;
     this.dateCreated = data.dateCreated;
     this.dateUpdated = data.dateUpdated;
 };
+
+/**
+ {
+			"parent": "/",
+			"path": "/kb",
+			"ancestors": ["/"],
+ }
+ */
 
 /**
  * @type {FileDescriptor}
