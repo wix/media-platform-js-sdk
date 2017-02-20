@@ -110,29 +110,25 @@ FileManager.prototype.getFile = function (path, callback) {
 };
 
 /**
- * @param {string} path
+ * @param {Object} params
  * @param {function(Error, string)} callback
  */
-FileManager.prototype.getDownloadUrl = function (path, callback) {
-
-    var params = {
-        path: path
-    };
+FileManager.prototype.getDownloadUrl = function (params, callback) {
 
     var token = new Token()
         .setIssuer(NS.APPLICATION, this.configuration.appId)
         .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, path)
+        .setObject(NS.FILE, params.path)
         .addVerbs(VERB.FILE_DOWNLOAD);
 
-    this.httpClient.request('GET', this.baseUrl + '/_api/storage/files/tickets/create', params, token, function (error, response) {
+    this.httpClient.request('GET', this.baseUrl + '/_api/download/secure_url', params, token, function (error, response) {
 
         if (error) {
             callback(error, null);
             return;
         }
 
-        callback(null, this.baseUrl + response.payload.url);
+        callback(null, this.baseUrl + response.payload.downloadUrl);
     }.bind(this));
 };
 
