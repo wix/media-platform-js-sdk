@@ -180,11 +180,11 @@ FileManager.prototype.deleteFileByPath = function (path, callback) {
     this.httpClient.request('DELETE', this.apiUrl, params, token, function (error, response) {
 
         if (error) {
-            callback(error, null);
+            callback(error);
             return;
         }
 
-        callback();
+        callback(null);
     });
 };
 
@@ -203,7 +203,7 @@ FileManager.prototype.deleteFileById = function (id, callback) {
     this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, token, function (error, response) {
 
         if (error) {
-            callback(error, null);
+            callback(error);
             return;
         }
 
