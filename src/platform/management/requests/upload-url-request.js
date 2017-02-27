@@ -10,9 +10,8 @@ function UploadUrlRequest() {
 
     /**
      * @type {string}
-     * @description path to the parent directory of the file
      */
-    this.directory = null;
+    this.path = null;
 }
 
 /**
@@ -25,11 +24,11 @@ UploadUrlRequest.prototype.setMimeType = function (mimeType) {
 };
 
 /**
- * @param {string} directory
+ * @param {string} path
  * @returns {UploadUrlRequest}
  */
-UploadUrlRequest.prototype.setDirectory = function (directory) {
-    this.directory = directory;
+UploadUrlRequest.prototype.setPath = function (path) {
+    this.path = path;
     return this;
 };
 
