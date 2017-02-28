@@ -4,7 +4,7 @@ var NS = require('../authentication/NS');
 var VERB = require('../authentication/VERB');
 var Token = require('../authentication/token');
 var UploadUrlRequest = require('./requests/upload-url-request');
-var FileDescriptor = require('./file-descriptor');
+var FileDescriptor = require('./metadata/file-descriptor');
 
 /**
  * @param {Configuration} configuration

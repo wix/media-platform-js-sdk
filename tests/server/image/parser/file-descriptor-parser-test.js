@@ -1,4 +1,4 @@
-var FileDescriptor = require('../../../../src/platform/management/file-descriptor');
+var FileDescriptor = require('../../../../src/platform/management/metadata/file-descriptor');
 var Image = require('../../../../src/image/image');
 var expect = require('expect.js');
 

@@ -60,6 +60,10 @@ function FileDescriptor(data) {
     }
 }
 
+/**
+ * @param data
+ * @private
+ */
 FileDescriptor.prototype.deserialize = function (data) {
     this.id = data.id;
     this.hash = data.hash;
@@ -71,14 +75,6 @@ FileDescriptor.prototype.deserialize = function (data) {
     this.dateCreated = data.dateCreated;
     this.dateUpdated = data.dateUpdated;
 };
-
-/**
- {
-			"parent": "/",
-			"path": "/kb",
-			"ancestors": ["/"],
- }
- */
 
 /**
  * @type {FileDescriptor}

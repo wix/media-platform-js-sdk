@@ -2,7 +2,8 @@ var _ = require('underscore');
 var NS = require('../authentication/NS');
 var VERB = require('../authentication/VERB');
 var Token = require('../authentication/token');
-var FileDescriptor = require('./file-descriptor');
+var FileDescriptor = require('./metadata/file-descriptor');
+var FileMetadata = require('./metadata/file-metadata');
 var ListFilesResponse = require('./responses/list-files-response');
 
 /**
@@ -55,7 +56,7 @@ FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
  * @param {function(Error, FileDescriptor|null)} callback
  */
 FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback) {
-    return this.fileUploader.uploadFile(path, file, uploadRequest, callback);
+    this.fileUploader.uploadFile(path, file, uploadRequest, callback);
 };
 
 /**
@@ -106,6 +107,29 @@ FileManager.prototype.getFile = function (path, callback) {
         }
 
         callback(null, new FileDescriptor(response.payload));
+    });
+};
+
+/**
+ * @param {string} fileId
+ * @param {function(Error, FileMetadata)} callback
+ */
+FileManager.prototype.getFileMetadataById = function (fileId, callback) {
+
+    var token = new Token()
+        .setIssuer(NS.APPLICATION, this.configuration.appId)
+        .setSubject(NS.APPLICATION, this.configuration.appId)
+        .setObject(NS.FILE, fileId)
+        .addVerbs(VERB.FILE_GET);
+
+    this.httpClient.request('GET', this.apiUrl + '/' + fileId + '/metadata', {}, token, function (error, response) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, new FileMetadata(response.payload));
     });
 };
 

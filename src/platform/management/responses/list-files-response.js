@@ -1,4 +1,4 @@
-var FileDescriptor = require('../file-descriptor');
+var FileDescriptor = require('../metadata/file-descriptor');
 
 /**
  * @constructor
@@ -20,6 +20,10 @@ function ListFilesResponse(data) {
     }
 }
 
+/**
+ * @param data
+ * @private
+ */
 ListFilesResponse.prototype.deserialize = function (data) {
     this.nextPageToken = data.nextPageToken;
     this.files = data.files.map(function (file) {

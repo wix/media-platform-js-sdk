@@ -1,6 +1,6 @@
 var inherits = require('inherits');
 var EventEmitter = require('eventemitter3');
-var FileDescriptor = require('../../../src/platform/management/file-descriptor');
+var FileDescriptor = require('../../../src/platform/management/metadata/file-descriptor');
 var UploadStartedEvent = require('./events/upload-started-event');
 var UploadProgressEvent = require('./events/upload-progress-event');
 var UploadSuccessEvent = require('./events/upload-success-event');

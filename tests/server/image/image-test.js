@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var Image = require('../../../src/image/image');
-var Rectangle = require('../../../src/image/geometry/rectangle');
-var Dimension = require('../../../src/image/geometry/dimension');
+var Rectangle = require('../../../src/geometry/rectangle');
+var Dimension = require('../../../src/geometry/dimension');
 
 describe('image url construction', function () {
 

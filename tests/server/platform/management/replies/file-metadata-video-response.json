@@ -1,0 +1,51 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "mediaType": "video",
+    "fileDescriptor": {
+      "acl": "private",
+      "hash": null,
+      "id": "2de4305552004e0b9076183651030646",
+      "mimeType": "video/mp4",
+      "path": "/videos/animals/cat.mp4",
+      "size": 15431333,
+      "type": "-"
+    },
+    "basic": {
+      "interlaced": false,
+      "videoStreams": [
+        {
+          "codecLongName": "MPEG-4 part 2",
+          "height": 720,
+          "duration": 59351,
+          "bitrate": 1950467,
+          "index": 0,
+          "rFrameRate": "3000/100",
+          "codecTag": "mp4v",
+          "avgFrameRate": "2997/100",
+          "codecName": "mpeg4",
+          "width": 1280,
+          "sampleAspectRatio": "1:1",
+          "displayAspectRatio": "16:9"
+        }
+      ],
+      "audioStreams": [
+        {
+          "codecLongName": "AAC (Advanced Audio Coding)",
+          "index": 1,
+          "codecTag": "mp4a",
+          "codecName": "aac",
+          "duration": 59351,
+          "bitrate": 128322
+        }
+      ],
+      "format": {
+        "duration": 59351,
+        "formatLongName": "QuickTime / MOV",
+        "bitrate": 2085272,
+        "size": 15476893
+      }
+    }
+  }
+}
