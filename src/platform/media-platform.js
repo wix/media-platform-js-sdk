@@ -3,6 +3,7 @@ var Authenticator = require('./authentication/authenticator');
 var HTTPClient = require('./http/http-client');
 var FileUploader = require('./management/file-uploader');
 var FileManager = require('./management/file-manager');
+var WebhookDeserializer = require('./webhook/webhook-deserializer');
 
 /**
  * @param {Configuration} config
@@ -20,6 +21,7 @@ function MediaPlatform(config) {
         authenticator.getHeader(token);
     };
     this.fileManager = new FileManager(configuration, httpClient, fileUploader);
+    this.webhookDeserializer = new WebhookDeserializer(authenticator)
 }
 
 /**

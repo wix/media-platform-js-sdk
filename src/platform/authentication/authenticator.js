@@ -26,6 +26,24 @@ Authenticator.prototype.getHeader = function(token) {
 };
 
 /**
+ * @summary decodes a signed JWT
+ * @param {string} signedToken
+ * @returns {{}|null} The JWT payload
+ */
+Authenticator.prototype.decode = function(signedToken) {
+    try {
+        return jwt.verify(signedToken, this.configuration.sharedSecret, {
+            ignoreExpiration: true,
+            issuer: 'urn:app:' + this.configuration.appId
+        });
+    } catch (error) {
+        console.log(error);
+        console.log(jwt.decode(signedToken));
+        return null;
+    }
+};
+
+/**
  * @type {Authenticator}
  */
 module.exports = Authenticator;
