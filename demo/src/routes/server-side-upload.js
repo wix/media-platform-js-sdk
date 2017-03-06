@@ -1,7 +1,5 @@
 var fs = require('fs');
-var EncodingOptions = require('../../../src/index').video.EncodingOptions;
 var UploadRequest = require('../../../src/index').file.UploadRequest;
-var fromDto = require('../../../src/index').image.fromDto;
 var mediaPlatform = require('../facades/media-platform-facade').mediaPlatform;
 
 var fileUploader = mediaPlatform.fileUploader;
@@ -19,10 +17,6 @@ module.exports = function(app) {
                 return;
             }
 
-            imageRequest = fromDto("domain.com", response);
-
-            console.log(imageRequest.fit(500, 500).toUrl().url);
-
             res.send(response);
         });
 
@@ -31,7 +25,6 @@ module.exports = function(app) {
     app.get('/upload/image/buffer', function(req, res) {
 
         var uploadRequest = new UploadRequest()
-            .setFileName('buf-image.jpg')
             .addTags('cat', 'fish');
         var buf = fs.readFileSync(__dirname + '/../files/image.jpg');
         fileUploader.uploadImage(userId, buf, uploadRequest, function (error, response) {
@@ -49,8 +42,6 @@ module.exports = function(app) {
     app.get('/upload/image/stream', function(req, res) {
 
         var uploadRequest = new UploadRequest()
-            .setFileName('str-image.jpg')
-            .setContentType('image/jpeg')
             .addTags('cat', 'fish');
         var stream = fs.createReadStream(__dirname + '/../files/image.jpg');
         fileUploader.uploadImage(userId, stream, uploadRequest, function (error, response) {

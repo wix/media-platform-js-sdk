@@ -5,10 +5,7 @@ var userId = 'userId';
 
 module.exports = function(app) {
 
-    app.get('/upload/:mediaType/credentials', function(req, res) {
-
-        var mediaType = req.params.mediaType;
-        
+    app.get('/upload/urlAndToken', function(req, res) {
         fileUploader.getUploadUrl(userId, mediaType, function (error, uploadCredentials) {
 
             if (error) {
