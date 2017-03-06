@@ -12,6 +12,7 @@ html()
             });
             
             var Image = MP.Image;
+            var UploadUrlRequest = MP.file.UploadUrlRequest;
             var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
             var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
 
@@ -58,7 +59,7 @@ html()
             var button = document.getElementById('upload-button');
             button.addEventListener('click', function () {
 
-                mediaPlatform.fileUploader.getUploadUrl(MP.MediaType.IMAGE, function(error, response) {
+                mediaPlatform.fileManager.getUploadUrl(new UploadUrlRequest(), function(error, response) {
 
                         var form = document.getElementById('upload-form');
 

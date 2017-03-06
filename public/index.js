@@ -1,6 +1,7 @@
 var Configuration = require('./platform/configuration/configuration');
 var MediaPlatform = require('./platform/media-platform');
 var Image = require('../src/image/image');
+var UploadUrlRequest = require('../src/platform/management/requests/upload-url-request');
 var UploadFileRequest = require('../src/platform/management/requests/upload-file-request');
 var ListFilesRequest = require('../src/platform/management/requests/list-files-request');
 var UpdateFileRequest = require('../src/platform/management/requests/update-file-request');
@@ -23,6 +24,11 @@ MP.MediaPlatform = MediaPlatform;
 MP.Image = Image;
 
 MP.file = {
+    /**
+     * @type {UploadUrlRequest}
+     */
+    UploadUrlRequest: UploadUrlRequest,
+
     /**
      * @type {UploadFileRequest}
      */

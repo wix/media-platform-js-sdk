@@ -3,6 +3,8 @@ var Image = require('./image/image');
 var UploadRequest = require('./platform/management/requests/upload-file-request');
 var UpdateFileRequest =  require('./platform/management/requests/update-file-request');
 var ListFilesRequest = require('./platform/management/requests/list-files-request');
+var Token = require('./platform/authentication/token');
+var NS = require('./platform/authentication/NS');
 
 module.exports = {
     
@@ -32,5 +34,17 @@ module.exports = {
          * @type {UpdateFileRequest}
          */
         UpdateFileRequest: UpdateFileRequest
+    },
+
+    auth: {
+        /**
+         * @type {Token}
+         */
+        Token: Token,
+
+        /**
+         * @type {{SERVICE: string, MEMBER: string, APPLICATION: string, FILE: string}}
+         */
+        NS: NS
     }
 };
