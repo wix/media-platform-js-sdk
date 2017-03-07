@@ -1,9 +1,12 @@
+include ./mixins/nav-bar
+include ./mixins/css
 doctype html
 html()
     head
         title Wix Media Platform - Demo
 
         script(src='/media-platform.min.js')
+        +styles
 
         script.
             var mediaPlatform = new MP.MediaPlatform({
@@ -18,6 +21,9 @@ html()
             var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
 
     body
+
+        +nav-bar
+
         h2 Image
 
         h3 Success
