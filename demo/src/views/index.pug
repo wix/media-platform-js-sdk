@@ -56,7 +56,12 @@ html()
 
             button.addEventListener('click', function () {
                 var file = document.getElementById('file');
-                var path = '/demo' + file.value;
+                var path = '/demo/' + file.value.split('\\').pop();
+                console.log(path)
+                mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
+                    // do nothing...
+                })
+
                 mediaPlatform.fileManager.getUploadUrl(new UploadUrlRequest().setPath(path), function(error, response) {
 
                         if (error) {
