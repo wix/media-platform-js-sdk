@@ -1,5 +1,54 @@
 mixin styles
     style.
+        body {
+            width: 800px;
+            margin: 0 auto;
+            font-family: sans-serif;
+        }
+
+        .content {
+            padding: 0 20px 20px 20px;
+            box-shadow: 0 2px 4px 0 rgba(16, 30, 42, 0.18);
+            display: flex;
+        }
+
+        .group {
+            display: flex;
+        }
+
+        .btn {
+            padding: 5px 20px;
+            border-radius: 18px;
+            font-size: 12px;
+            background-color: #3899ec;
+            color: white;
+            border: 0;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #2f9fff;
+        }
+
+        .upload {
+            margin-top: 10px;
+        }
+
+        #upload-result-container {
+           min-height: 100px;
+           max-height: 200px;
+           min-width: 300px;
+           border: 1px solid #dcdcdc;
+           border-radius: 5px;
+           padding: 2px;
+        }
+
+        #upload-result-container img {
+            max-height: 200px;
+            border-radius: 5px;
+        }
+
         ul {
             list-style-type: none;
             margin: 0;

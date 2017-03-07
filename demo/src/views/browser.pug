@@ -24,26 +24,21 @@ html()
 
         +nav-bar
 
-        h2 Image
+        .content
+            .group
+                .actions
+                    h3 Image Upload
+                    #upload
 
-        h3 Success
-        #image
+                        form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
+                            input(id='file' name='file' type='file' accept='image/*')
 
-        h3 Error
-        #error
+                        button(id='upload-button').btn.upload.
+                            Upload
 
-        h2 Upload
-        #upload
-
-            form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
-                input(id='file' name='file' type='file' accept='image/*')
-
-            button(id='upload-button').
-                Upload
-
-
-        h3 Upload Result
-        #upload-result-container
+                .preview
+                    h3 Upload Result
+                    #upload-result-container
 
         script.
             var button = document.getElementById('upload-button');
@@ -64,6 +59,7 @@ html()
                 var file = document.getElementById('file');
                 var path = '/demo/' + file.value.split('\\').pop();
                 console.log(path)
+
                 mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
                     // do nothing...
                 })
@@ -84,17 +80,14 @@ html()
                         var request = new XMLHttpRequest();
                         request.responseType = 'json';
                         request.addEventListener('load', function (event) {
-                            var images = event.target.response.payload;
+                           var images = event.target.response.payload;
 
-                           removeChildren(container);
                            if (images) {
                               var image = images[0];
                               var imgEl = document.createElement('img');
                               var url = 'http://' + imagesHost + image.path;
 
                               imgEl.setAttribute('src', url);
-                              imgEl.setAttribute('width', 400);
-
                               setChild(container, imgEl)
                             }
                         });
