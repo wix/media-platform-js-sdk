@@ -1,12 +1,8 @@
 var MediaPlatform = require('../../../src/index').MediaPlatform;
 
-function init(domain, appId, sharedSecret) {
+function init(config) {
     if (!exports.mediaPlatform) {
-        exports.mediaPlatform = new MediaPlatform({
-            domain: domain,
-            appId: appId,
-            sharedSecret: sharedSecret
-        });
+        exports.mediaPlatform = new MediaPlatform(config);
     }
 
     return exports;

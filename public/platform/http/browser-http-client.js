@@ -101,9 +101,7 @@ HTTPClient.prototype.getAuthorizationHeader = function (callback) {
 
     request.addEventListener('load', function (event) {
         try {
-            console.log(request.responseText);
             this.authorizationHeader = JSON.parse(request.responseText);
-            console.log(this.authorizationHeader);
         } catch (error) {
             callback(error, null);
             return;
