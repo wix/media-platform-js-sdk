@@ -31,7 +31,8 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      exclude: /node_modules/,
+      // exclude: /node_modules/,
+      exclude: /node_modules\/(?!(wix-style-react)\/).*/,
       loader: 'babel',
       query: {
         "presets": ["react", "es2015", "stage-0", "react-hmre"]
