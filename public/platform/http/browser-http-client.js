@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 /**
  * @param {string} authenticationUrl
  * @constructor
@@ -12,7 +14,7 @@ function HTTPClient(authenticationUrl) {
     /**
      * @type {string|null}
      */
-    this.authenticationHeader = null;
+    this.authorizationHeader = null;
 }
 
 /**
@@ -24,7 +26,7 @@ function HTTPClient(authenticationUrl) {
  */
 HTTPClient.prototype.request = function (httpMethod, url, params, token, callback) {
 
-    this.getAuthenticationHeader(function (error, header) {
+    this.getAuthorizationHeader(function (error, header) {
 
         if (error) {
             callback(error, null);
@@ -67,7 +69,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
         request.addEventListener('error', function (event) {
 
             if (request.status == 403 || request.status == 401) {
-                this.authenticationHeader = null;
+                this.authorizationHeader = null;
             }
 
             callback(new Error(request.statusText), null);
@@ -80,18 +82,18 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
         request.withCredentials = true;
         request.setRequestHeader('Accept', 'application/json');
         request.setRequestHeader('Content-Type', 'application/json');
-        request.setRequestHeader('Authorization', header.payload);
+        request.setRequestHeader('Authorization', header.Authorization);
         request.send(body);
     }.bind(this))
 };
 
 /**
- * @param {function(Error, *)} callback
+ * @param {function(Error, {Authorization: <string>} | null)} callback
  */
-HTTPClient.prototype.getAuthenticationHeader = function (callback) {
+HTTPClient.prototype.getAuthorizationHeader = function (callback) {
 
-    if (this.authenticationHeader) {
-        callback(null, this.authenticationHeader);
+    if (this.authorizationHeader) {
+        callback(null, this.authorizationHeader);
         return;
     }
 
@@ -99,12 +101,14 @@ HTTPClient.prototype.getAuthenticationHeader = function (callback) {
 
     request.addEventListener('load', function (event) {
         try {
-            this.authenticationHeader = JSON.parse(request.responseText);
+            console.log(request.responseText);
+            this.authorizationHeader = JSON.parse(request.responseText);
+            console.log(this.authorizationHeader);
         } catch (error) {
             callback(error, null);
             return;
         }
-        callback(null, this.authenticationHeader);
+        callback(null, this.authorizationHeader);
     }.bind(this));
     request.addEventListener('error', function (event) {
         callback(new Error(request.statusText), null);
@@ -120,10 +124,10 @@ HTTPClient.prototype.getAuthenticationHeader = function (callback) {
 };
 
 /**
- * @description deletes the cached authentication header
+ * @description deletes the cached authorization header
  */
 HTTPClient.prototype.deauthorize = function () {
-    this.authenticationHeader = null;
+    this.authorizationHeader = null;
 };
 
 /**

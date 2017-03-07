@@ -11,7 +11,8 @@ module.exports = function(app) {
             .setIssuer(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
             .setSubject(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
             // .setObject()
-            .setVerbs(['*']);
+            // .setVerbs(['*'])
+            ;
 
         var header = mediaPlatform.getAuthenticationHeader(token);
 
