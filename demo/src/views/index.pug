@@ -10,7 +10,7 @@ html()
                 domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
                 authenticationUrl: 'http://' + location.host + '/media-platform/auth-header'
             });
-            
+
             var Image = MP.Image;
             var UploadUrlRequest = MP.file.UploadUrlRequest;
             var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
@@ -56,6 +56,19 @@ html()
 
         script.
             var button = document.getElementById('upload-button');
+            var container = document.getElementById('upload-result-container');
+
+            function removeChildren(node) {
+              while (node.firstChild) {
+                node.removeChild(node.firstChild);
+              }
+            }
+
+            function setChild(node, child) {
+              removeChildren(node);
+              node.appendChild(child);
+            }
+
             button.addEventListener('click', function () {
                 var file = document.getElementById('file');
                 var path = '/demo' + file.value;
@@ -75,21 +88,19 @@ html()
                         var request = new XMLHttpRequest();
                         request.responseType = 'json';
                         request.addEventListener('load', function (event) {
+                            var images = event.target.response.payload;
 
-                            var imageDto = new ImageDTO(event.target.response[0]);
-                            var image = MP.image.fromDto('130.211.29.187', imageDto);
-                            var imageUrl = image.crop(800, 200, 1, 1).negative().toUrl();
+                           removeChildren(container);
+                           if (images) {
+                              var image = images[0];
+                              var imgEl = document.createElement('img');
+                              var url = 'http://' + imagesHost + image.path;
 
-                            var container = document.getElementById('upload-result-container');
-                            while (container.firstChild) {
-                                container.removeChild(container.firstChild);
+                              imgEl.setAttribute('src', url);
+                              imgEl.setAttribute('width', 400);
+
+                              setChild(container, imgEl)
                             }
-                            var img = document.createElement('img');
-                            img.setAttribute('src', imageUrl.url);
-                            var pre = document.createElement('pre');
-                            pre.innerText = JSON.stringify(event.target.response[0], null, 2);
-                            container.appendChild(img);
-                            container.appendChild(pre);
                         });
 
                         request.addEventListener('error', function (event) {
