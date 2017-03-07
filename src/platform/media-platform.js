@@ -17,10 +17,23 @@ function MediaPlatform(config) {
     var authenticator = new Authenticator(configuration);
     var httpClient = new HTTPClient(authenticator);
     var fileUploader = new FileUploader(configuration, httpClient);
-    this.getAuthenticationHeader = function (token) {
+
+    /**
+     * @param {Token?} token
+     * @returns {{Authorization: <string>}}
+     */
+    this.getAuthorizationHeader = function (token) {
         return authenticator.getHeader(token);
     };
+
+    /**
+     * @type {FileManager}
+     */
     this.fileManager = new FileManager(configuration, httpClient, fileUploader);
+
+    /**
+     * @type {WebhookDeserializer}
+     */
     this.webhookDeserializer = new WebhookDeserializer(authenticator)
 }
 

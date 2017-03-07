@@ -1,4 +1,6 @@
 var jwt = require('jsonwebtoken');
+var Token = require('./token');
+var NS = require('./NS');
 
 /**
  * @description creates a client that can authenticate against WixMP
@@ -15,11 +17,18 @@ function Authenticator(configuration) {
 
 /**
  * @summary Generates a provisional authentication header
- * @param {Token} token
+ * @param {Token?} token
  * @returns {{}} The self signed authentication header
  */
 Authenticator.prototype.getHeader = function(token) {
-    var signedToken = jwt.sign(token.toClaims(), this.configuration.sharedSecret);
+    var t = token;
+    if (!token) {
+        t = new Token()
+            .setIssuer(NS.APPLICATION, this.configuration.appId)
+            .setSubject(NS.APPLICATION, this.configuration.appId);
+    }
+
+    var signedToken = jwt.sign(t.toClaims(), this.configuration.sharedSecret);
     return {
         Authorization: signedToken
     };

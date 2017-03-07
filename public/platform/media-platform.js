@@ -9,15 +9,21 @@ var QueuedFileUploader = require('./uploader/queued-file-uploader');
  */
 function MediaPlatform(configuration) {
 
+    /**
+     * @type {HTTPClient}
+     */
     var browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
+    /**
+     * @type {FileUploader}
+     */
     var fileUploader = new FileUploader(configuration, browserHTTPClient);
 
     /**
      * retrieve the auth header for the currently logged in user
-     * @param callback
+     * @param {function(Error, {Authorization: <string>} | null)} callback
      */
-    this.getAuthenticationHeader = function (callback) {
-        browserHTTPClient.getAuthenticationHeader(callback);
+    this.getAuthorizationHeader = function (callback) {
+        browserHTTPClient.getAuthorizationHeader(callback);
     };
 
     /**
@@ -27,7 +33,14 @@ function MediaPlatform(configuration) {
         browserHTTPClient.deauthorize();
     };
 
+    /**
+     * @type {FileManager}
+     */
     this.fileManager = new FileManager(configuration, browserHTTPClient, fileUploader);
+
+    /**
+     * @type {QueuedFileUploader}
+     */
     this.queuedFileUploader = new QueuedFileUploader(fileUploader);
 }
 
