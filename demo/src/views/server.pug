@@ -27,6 +27,19 @@ html()
         .content
             .group
                 .actions
+                    h2 Instantiation
+                    #instantiation
+                        #instantiation-code.code-snippet
+                            p.
+                                var MediaPlatform = require('media-platform-js-sdk');
+
+                                var mediaPlatform = new MediaPlatform({
+                                    domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+                                    appId: '48fa9aa3e9d342a3a33e66af08cd7fe3',
+                                    sharedSecret: 'fad475d88786ab720b04f059ac674b0e'
+                                });
+
+                                var fileManager = mediaPlatform.fileManager;
                     h2 Files
                     #upload
                         #upload-code.code-snippet
@@ -36,19 +49,21 @@ html()
                                 });
                             button(id='upload-button').btn.
                                 Execute
-                            h4 Result
-                                #upload-result.pre
+                            h4 Response
+                                #upload-response.pre
 
                     #list
                         #list-code.code-snippet
                             p.
-                                fileManager.listFiles('/demo', null, function (error, listFilesResponse) {
+                                var listFilesRequest = new ListFilesRequest().setPageSize(5);
+                            p.
+                                fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
                                     // do something
                                 });
                             button(id='list-button').btn.
                                 Execute
-                            h4 Result
-                                #list-result.pre
+                            h4 Response
+                                #list-response.pre
 
                     #delete
                         #delete-code.code-snippet
@@ -58,19 +73,19 @@ html()
                                 });
                             button(id='delete-button').btn.
                                 Execute
-                            h4 Result
-                                #delete-result.pre
+                            h4 Response
+                                #delete-response.pre
 
         script.
             var uploadButton = document.getElementById('upload-button');
-            var uploadResult = document.getElementById('upload-result');
+            var uploadResponse = document.getElementById('upload-response');
             uploadButton.addEventListener('click', function () {
-                doGet('http://' + location.host + '/media-platform/file/upload', uploadResult)
+                doGet('http://' + location.host + '/media-platform/file/upload', uploadResponse)
             });
             var listButton = document.getElementById('list-button');
-            var listResult = document.getElementById('list-result');
+            var listResponse = document.getElementById('list-response');
             listButton.addEventListener('click', function () {
-                doGet('http://' + location.host + '/media-platform/files', listResult)
+                doGet('http://' + location.host + '/media-platform/files', listResponse)
             });
             var deleteButton = document.getElementById('delete-button');
             deleteButton.addEventListener('click', function () {
