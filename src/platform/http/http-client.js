@@ -22,10 +22,7 @@ function HTTPClient(authenticator) {
  */
 HTTPClient.prototype.request = function (httpMethod, url, params, token, callback) {
 
-    var header = {};
-    if (token) {
-        header = this.authenticator.getHeader(token);
-    }
+    var header = this.authenticator.getHeader(token);
 
     var options = { method: httpMethod, url: url, headers: header, json: true };
 

@@ -37,7 +37,7 @@ html()
                             button(id='upload-button').btn.
                                 Execute
                             h4 Result
-                            #upload-result.result
+                                #upload-result.pre
 
                     #list
                         #list-code.code-snippet
@@ -47,9 +47,8 @@ html()
                                 });
                             button(id='list-button').btn.
                                 Execute
-                            .preview
-                                h4 Result
-                                #list-result.result
+                            h4 Result
+                                #list-result.pre
 
                     #delete
                         #delete-code.code-snippet
@@ -59,10 +58,69 @@ html()
                                 });
                             button(id='delete-button').btn.
                                 Execute
-                            .preview
-                                h4 Result
-                                #delete-result.result
+                            h4 Result
+                                #delete-result.pre
 
+        script.
+            var uploadButton = document.getElementById('upload-button');
+            uploadButton.addEventListener('click', function () {
+                alert('UPLOAD!');
+            });
+            var listButton = document.getElementById('list-button');
+            var listResult = document.getElementById('list-result');
+            listButton.addEventListener('click', function () {
+                doGet('http://' + location.host + '/media-platform/files', listResult)
+            });
+            var deleteButton = document.getElementById('delete-button');
+            deleteButton.addEventListener('click', function () {
+                alert('DELETE!');
+            });
 
+            function doGet(url, resultContainer) {
+                var request = new XMLHttpRequest();
+                request.responseType = 'json';
+                request.addEventListener('load', function (event) {
+                    var el = document.createElement('pre');
+                    el.innerHTML = jsonSyntaxHighlight(event.target.response);
+                    setChild(resultContainer, el);
+                });
 
+                request.addEventListener('error', function (event) {
+                    alert('Oops! Something went wrong.');
+                });
+
+                request.open('GET', url);
+                request.send();
+            }
+
+            function removeChildren(node) {
+                while (node.firstChild) {
+                    node.removeChild(node.firstChild);
+                }
+            }
+
+            function setChild(node, child) {
+                removeChildren(node);
+                node.appendChild(child);
+            }
+
+            function jsonSyntaxHighlight(json) {
+                var str = JSON.stringify(json, null, 2)
+                str = str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return str.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                    var cls = 'number';
+                    if (/^"/.test(match)) {
+                        if (/:$/.test(match)) {
+                            cls = 'key';
+                        } else {
+                            cls = 'string';
+                        }
+                    } else if (/true|false/.test(match)) {
+                        cls = 'boolean';
+                    } else if (/null/.test(match)) {
+                        cls = 'null';
+                    }
+                    return '<span class="' + cls + '">' + match + '</span>';
+                });
+            }
 

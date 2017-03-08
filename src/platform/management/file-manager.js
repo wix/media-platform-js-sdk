@@ -168,13 +168,13 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
     };
     _.extendOwn(params, listFilesRequest);
 
-    var token = new Token()
-        .setIssuer(NS.APPLICATION, this.configuration.appId)
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, path)
-        .addVerbs(VERB.FILE_LIST);
+    // var token = new Token()
+    //     .setIssuer(NS.APPLICATION, this.configuration.appId)
+    //     .setSubject(NS.APPLICATION, this.configuration.appId)
+    //     .setObject(NS.FILE, path)
+    //     .addVerbs(VERB.FILE_LIST);
     
-    this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, token, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, null, function (error, response) {
 
         if (error) {
             callback(error, null);

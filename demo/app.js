@@ -24,9 +24,7 @@ var mediaPlatform = require('./src/facades/media-platform-facade').init({
 }).mediaPlatorm;
 
 require('./src/routes/index')(app);
-require('./src/routes/upload-url')(app);
-require('./src/routes/server-side-upload')(app);
-require('./src/routes/server-side-management')(app);
+require('./src/routes/files')(app);
 require('./src/routes/authentication')(app);
 
 
