@@ -33,16 +33,16 @@ html()
                         form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
                             input(id='file' name='file' type='file' accept='image/*')
 
-                        button(id='upload-button').btn.upload.
+                        button(id='upload-button').btn.
                             Upload
 
                 .preview
                     h3 Upload Result
-                    #upload-result-container
+                    #result-container
 
         script.
             var button = document.getElementById('upload-button');
-            var container = document.getElementById('upload-result-container');
+            var container = document.getElementById('result-container');
 
             function removeChildren(node) {
               while (node.firstChild) {

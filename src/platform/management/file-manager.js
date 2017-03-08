@@ -135,7 +135,7 @@ FileManager.prototype.getFileMetadataById = function (fileId, callback) {
 
 /**
  * @param {Object} params
- * @param {function(Error, string)} callback
+ * @param {function(Error, string | null)} callback
  */
 FileManager.prototype.getDownloadUrl = function (params, callback) {
 

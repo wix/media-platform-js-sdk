@@ -25,17 +25,39 @@ mixin styles
             border: 0;
             outline: none;
             cursor: pointer;
+            margin-top: 10px;
         }
 
         .btn:hover {
             background-color: #2f9fff;
         }
 
-        .upload {
-            margin-top: 10px;
+        .code-snippet {
+            font: 100% courier, monospace;
+            border: 1px solid #ccc;
+            overflow: auto;
+            overflow-x: scroll;
+            width: 90%;
+            padding: 0 1em 1em 1em;
+            margin: 1em auto 2em auto;
+            background: #fff7f0;
+            color: #000
         }
 
-        #upload-result-container {
+        /*.btn-pad {*/
+            /*margin-top: 10px;*/
+        /*}*/
+
+        .result {
+            min-height: 100px;
+            max-height: 200px;
+            min-width: 300px;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            padding: 2px;
+        }
+
+        #result-container {
            min-height: 100px;
            max-height: 200px;
            min-width: 300px;
@@ -44,7 +66,7 @@ mixin styles
            padding: 2px;
         }
 
-        #upload-result-container img {
+        #result-container img {
             max-height: 200px;
             border-radius: 5px;
         }

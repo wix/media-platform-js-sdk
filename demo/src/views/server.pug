@@ -23,3 +23,46 @@ html()
     body
 
         +nav-bar
+
+        .content
+            .group
+                .actions
+                    h2 Files
+                    #upload
+                        #upload-code.code-snippet
+                            p.
+                                fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, fileDescriptor) {
+                                    // do something
+                                });
+                            button(id='upload-button').btn.
+                                Execute
+                            h4 Result
+                            #upload-result.result
+
+                    #list
+                        #list-code.code-snippet
+                            p.
+                                fileManager.listFiles('path', null, function (error, fileDescriptors) {
+                                    // do something
+                                });
+                            button(id='list-button').btn.
+                                Execute
+                            .preview
+                                h4 Result
+                                #list-result.result
+
+                    #delete
+                        #delete-code.code-snippet
+                            p.
+                                fileManager.listFiles('path', null, function (error, fileDescriptors) {
+                                    // do something
+                                });
+                            button(id='delete-button').btn.
+                                Execute
+                            .preview
+                                h4 Result
+                                #delete-result.result
+
+
+
+
