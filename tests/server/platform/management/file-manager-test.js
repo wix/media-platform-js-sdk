@@ -7,7 +7,6 @@ var Configuration = require('../../../../src/platform/configuration/configuratio
 var Authenticator = require('../../../../src/platform/authentication/authenticator');
 var HTTPClient = require('../../../../src/platform/http/http-client');
 var ListFilesRequest = require('../../../../src/platform/management/requests/list-files-request');
-var UpdateFileRequest = require('../../../../src/platform/management/requests/update-file-request');
 
 var repliesDir = __dirname + '/replies/';
 var sourcesDir = __dirname + '/../../../sources/';
@@ -265,18 +264,19 @@ describe('file manager', function() {
     it('file upload accepts path (string) as source', function (done) {
 
         uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
         //path, file, uploadRequest, callback
         fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
+            console.log(data);
             done(error);
         });
     });
 
     it('file upload handles path (string) errors', function (done) {
 
-        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        // uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        // uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         fileManager.uploadFile('upload/to/there/image.jpg', 'nothing here', null, function (error, data) {
             expect(error).to.be.a(Error);
@@ -288,11 +288,12 @@ describe('file manager', function() {
     it('file upload accepts stream as source', function (done) {
 
         uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
         var stream = fs.createReadStream(sourcesDir + 'audio.mp3');
 
         fileManager.uploadFile('upload/to/there/image.jpg', stream, null, function (error, data) {
+            console.log(data);
             done(error);
         });
     });
@@ -300,7 +301,7 @@ describe('file manager', function() {
     it('file upload accepts buffer as source', function (done) {
 
         uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
         var buffer = fs.readFileSync(sourcesDir + 'document.xlsx');
 

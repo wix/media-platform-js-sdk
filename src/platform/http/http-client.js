@@ -59,10 +59,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
  */
 HTTPClient.prototype.postForm = function (url, form, token, callback) {
 
-    var header = {};
-    if (token) {
-        header = this.authenticator.getHeader(token);
-    }
+    var header = this.authenticator.getHeader(token);
 
     var options = { method: 'POST', url: url, formData: form, headers: header, json: true };
 

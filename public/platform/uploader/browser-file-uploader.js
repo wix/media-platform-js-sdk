@@ -1,3 +1,4 @@
+var UploadUrlResponse = require('../../../src/platform/management/responses/upload-url-response');
 var QueuedFileUploader = require('./queued-file-uploader');
 var UploadJob = require('./upload-job');
 
@@ -22,7 +23,7 @@ function FileUploader(configuration, browserHTTPClient) {
 /**
  * retrieve a pre signed URL to which the file is uploaded
  * @param {string} mediaType
- * @param {function(Error, {uploadUrl: string}|null)} callback
+ * @param {function(Error, UploadUrlResponse)} callback
  */
 FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
     this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, {}, null, function (error, body) {
@@ -31,10 +32,7 @@ FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
             return;
         }
 
-        callback(null, {
-            uploadToken: body.payload.uploadToken,
-            uploadUrl: body.payload.uploadUrl
-        })
+        callback(null, new UploadUrlResponse(body.payload))
     })
 };
 

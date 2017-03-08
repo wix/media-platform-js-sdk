@@ -1,9 +1,7 @@
 var fs = require('fs');
 var _ = require('underscore');
-var NS = require('../authentication/NS');
-var VERB = require('../authentication/VERB');
-var Token = require('../authentication/token');
 var UploadUrlRequest = require('./requests/upload-url-request');
+var UploadUrlResponse = require('./responses/upload-url-response');
 var FileDescriptor = require('./metadata/file-descriptor');
 
 /**
@@ -32,24 +30,18 @@ function FileUploader(configuration, httpClient) {
 /**
  * @description retrieve a signed URL to which the file is uploaded
  * @param {UploadUrlRequest?} uploadUrlRequest
- * @param {function(Error, {uploadUrl: string}|null)} callback
+ * @param {function(Error, UploadUrlResponse)} callback
  */
 FileUploader.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
 
-    var token = new Token()
-        .setIssuer(NS.APPLICATION, this.configuration.appId)
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, '*')
-        .addVerbs(VERB.FILE_UPLOAD);
-
-    this.httpClient.request('GET', this.apiUrl + '/url', uploadUrlRequest, token, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl + '/url', uploadUrlRequest, null, function (error, response) {
 
         if (error) {
             callback(error, null);
             return;
         }
 
-        callback(null, response)
+        callback(null, new UploadUrlResponse(response.payload))
     })
 };
 
@@ -58,7 +50,7 @@ FileUploader.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
  * @param {string} path the destination to which the file will be uploaded
  * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
  * @param {UploadFileRequest?} uploadRequest
- * @param {function(Error, FileDescriptor|null)} callback
+ * @param {function(Error, Array<FileDescriptor>|null)} callback
  */
 FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callback) {
 
@@ -84,7 +76,7 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
     if (uploadRequest) {
         uploadUrlRequest = new UploadUrlRequest()
             .setMimeType(uploadRequest.mimeType)
-            .setMediaType(uploadRequest.mediaType)
+            .setPath(path)
     }
 
     this.getUploadUrl(uploadUrlRequest, function (error, response) {
@@ -96,29 +88,26 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
 
         var form = {
             file: stream,
-            path: path
+            path: path,
+            uploadToken: response.uploadToken
         };
         if (uploadRequest) {
             _.extendOwn(form, uploadRequest);
         }
 
-        var token = new Token()
-            .setIssuer(NS.APPLICATION, this.configuration.appId)
-            .setSubject(NS.APPLICATION, this.configuration.appId)
-            .setObject(NS.FILE, path)
-            .addVerbs(VERB.FILE_UPLOAD);
-
-        this.httpClient.postForm(response.payload.uploadUrl, form, token, doCallback);
+        this.httpClient.postForm(response.uploadUrl, form, null, doCallback);
 
     }.bind(this));
 
-    function doCallback(error, data) {
+    function doCallback(error, response) {
         if (!calledBack) {
-            var fileDescriptor = null;
-            if (data) {
-                fileDescriptor = new FileDescriptor(data);
+            var fileDescriptors = null;
+            if (response) {
+                fileDescriptors = response.payload.map(function (file) {
+                    return new FileDescriptor(file);
+                });
             }
-            callback(error, fileDescriptor);
+            callback(error, fileDescriptors);
             calledBack = true;
         }
     }

@@ -1,7 +1,4 @@
 var _ = require('underscore');
-var NS = require('../authentication/NS');
-var VERB = require('../authentication/VERB');
-var Token = require('../authentication/token');
 var FileDescriptor = require('./metadata/file-descriptor');
 var FileMetadata = require('./metadata/file-metadata');
 var ListFilesResponse = require('./responses/list-files-response');
@@ -65,14 +62,7 @@ FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback
  * @param {function(Error, FileDescriptor)} callback
  */
 FileManager.prototype.createFile = function (fileDescriptor, callback) {
-
-    var token = new Token()
-        .setIssuer(NS.APPLICATION, this.configuration.appId)
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, fileDescriptor.path)
-        .addVerbs(VERB.FILE_CREATE);
-
-    this.httpClient.request('POST', this.apiUrl, fileDescriptor, token, function (error, response) {
+    this.httpClient.request('POST', this.apiUrl, fileDescriptor, null, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -93,13 +83,7 @@ FileManager.prototype.getFile = function (path, callback) {
         path: path
     };
 
-    var token = new Token()
-        .setIssuer(NS.APPLICATION, this.configuration.appId)
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, path)
-        .addVerbs(VERB.FILE_GET);
-
-    this.httpClient.request('GET', this.apiUrl, params, token, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -116,13 +100,7 @@ FileManager.prototype.getFile = function (path, callback) {
  */
 FileManager.prototype.getFileMetadataById = function (fileId, callback) {
 
-    var token = new Token()
-        .setIssuer(NS.APPLICATION, this.configuration.appId)
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, fileId)
-        .addVerbs(VERB.FILE_GET);
-
-    this.httpClient.request('GET', this.apiUrl + '/' + fileId + '/metadata', {}, token, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl + '/' + fileId + '/metadata', {}, null, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -139,13 +117,7 @@ FileManager.prototype.getFileMetadataById = function (fileId, callback) {
  */
 FileManager.prototype.getDownloadUrl = function (params, callback) {
 
-    var token = new Token()
-        .setIssuer(NS.APPLICATION, this.configuration.appId)
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, params.path)
-        .addVerbs(VERB.FILE_DOWNLOAD);
-
-    this.httpClient.request('GET', this.baseUrl + '/_api/download/secure_url', params, token, function (error, response) {
+    this.httpClient.request('GET', this.baseUrl + '/_api/download/secure_url', params, null, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -168,12 +140,6 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
     };
     _.extendOwn(params, listFilesRequest);
 
-    // var token = new Token()
-    //     .setIssuer(NS.APPLICATION, this.configuration.appId)
-    //     .setSubject(NS.APPLICATION, this.configuration.appId)
-    //     .setObject(NS.FILE, path)
-    //     .addVerbs(VERB.FILE_LIST);
-    
     this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, null, function (error, response) {
 
         if (error) {
@@ -195,13 +161,7 @@ FileManager.prototype.deleteFileByPath = function (path, callback) {
         path: path
     };
 
-    var token = new Token()
-        .setIssuer(NS.APPLICATION, this.configuration.appId)
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, path)
-        .addVerbs(VERB.FILE_DELETE);
-
-    this.httpClient.request('DELETE', this.apiUrl, params, token, function (error, response) {
+    this.httpClient.request('DELETE', this.apiUrl, params, null, function (error, response) {
 
         if (error) {
             callback(error);
@@ -218,13 +178,7 @@ FileManager.prototype.deleteFileByPath = function (path, callback) {
  */
 FileManager.prototype.deleteFileById = function (id, callback) {
 
-    var token = new Token()
-        .setIssuer(NS.APPLICATION, this.configuration.appId)
-        .setSubject(NS.APPLICATION, this.configuration.appId)
-        .setObject(NS.FILE, id)
-        .addVerbs(VERB.FILE_DELETE);
-
-    this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, token, function (error, response) {
+    this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, null, function (error, response) {
 
         if (error) {
             callback(error);

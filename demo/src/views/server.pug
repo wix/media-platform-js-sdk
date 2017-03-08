@@ -31,7 +31,7 @@ html()
                     #upload
                         #upload-code.code-snippet
                             p.
-                                fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, fileDescriptor) {
+                                fileManager.uploadFile('/demo/image.jpg', __dirname + '/../files/image.jpg', null, function (error, response) {
                                     // do something
                                 });
                             button(id='upload-button').btn.
@@ -42,7 +42,7 @@ html()
                     #list
                         #list-code.code-snippet
                             p.
-                                fileManager.listFiles('path', null, function (error, fileDescriptors) {
+                                fileManager.listFiles('/demo', null, function (error, listFilesResponse) {
                                     // do something
                                 });
                             button(id='list-button').btn.
@@ -63,8 +63,9 @@ html()
 
         script.
             var uploadButton = document.getElementById('upload-button');
+            var uploadResult = document.getElementById('upload-result');
             uploadButton.addEventListener('click', function () {
-                alert('UPLOAD!');
+                doGet('http://' + location.host + '/media-platform/file/upload', uploadResult)
             });
             var listButton = document.getElementById('list-button');
             var listResult = document.getElementById('list-result');

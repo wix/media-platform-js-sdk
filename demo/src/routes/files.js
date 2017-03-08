@@ -29,8 +29,9 @@ module.exports = function(app) {
     });
 
     app.get('/media-platform/file/upload', function(req, res) {
-        fileManager.uploadFile(__dirname + '/../files/image.jpg', null, function (error, response) {
-
+        var rand = Math.floor((Math.random() * 100000) + 1);
+        fileManager.uploadFile('/demo/' + rand + '.image.jpg', __dirname + '/../files/image.jpg', null, function (error, response) {
+            console.log(arguments);
             if (error) {
                 res.status(500).send(error.message);
                 return;
