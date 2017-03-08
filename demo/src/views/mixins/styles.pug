@@ -14,6 +14,12 @@ mixin styles
 
         .group {
             display: flex;
+            width: 100%;
+        }
+
+        .preview {
+            width: 100%;
+            text-align: center;
         }
 
         .btn {
@@ -68,7 +74,8 @@ mixin styles
             padding: 5px; margin: 5px;
         }
 
-        #result-container {
+        #upload-result-container {
+           display: inline-block;
            min-height: 100px;
            max-height: 200px;
            min-width: 300px;
@@ -80,6 +87,13 @@ mixin styles
         #result-container img {
             max-height: 200px;
             border-radius: 5px;
+        }
+
+        .settings {
+            font-size: 12px;
+            width: 300px;
+            margin: 5px auto;
+            text-align: left;
         }
 
         ul {

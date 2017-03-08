@@ -40,11 +40,24 @@ html()
 
                 .preview
                     h3 Upload Result
-                    #result-container
+
+                    #upload-result-container
+                    .settings
+                        div.
+                            Filters:
+                        select(id='image-filters')
+                            option(value=0, selected= true) -- Select --
+                            option(value='Blur') Blur
+                            option(value='Brightness') Brightness
+                            option(value='Contrast') Contrast
+                            option(value='Hue') Hue
+                            option(value='Saturation') Saturation
+                            option(value='UnsharpMask') Unsharp Mask
 
         script.
             var button = document.getElementById('upload-button');
-            var container = document.getElementById('result-container');
+            var container = document.getElementById('upload-result-container');
+            var imageFiltersButton = document.getElementById('image-filters');
 
             function removeChildren(node) {
               while (node.firstChild) {
@@ -101,4 +114,9 @@ html()
                         request.open('POST', response.uploadUrl);
                         request.send(formData);
                     })
+            })
+
+
+            imageFiltersButton.addEventListener('change', function(event) {
+              console.log('filter changed: ', event);
             })
