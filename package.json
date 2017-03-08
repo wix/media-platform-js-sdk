@@ -70,6 +70,7 @@
     "grunt-karma": "latest",
     "grunt-mocha": "latest",
     "grunt-mocha-test": "latest",
+    "highlight": "^0.2.4",
     "karma": "latest",
     "karma-chrome-launcher": "latest",
     "karma-mocha": "latest",

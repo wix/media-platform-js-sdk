@@ -6,6 +6,9 @@ html()
         title Wix Media Platform - Demo
 
         script(src='/media-platform.min.js')
+        script(src='/vendor/highlight.js/highlight.pack.js')
+        link(href='/vendor/highlight.js/styles/default.css')
+
         +styles
 
         script.
@@ -20,6 +23,9 @@ html()
             var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
             var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
 
+            // highlight syntax
+            hljs.initHighlightingOnLoad();
+
     body
 
         +nav-bar
@@ -30,23 +36,27 @@ html()
                     h2 Instantiation
                     #instantiation
                         #instantiation-code.code-snippet
-                            p.
-                                var MediaPlatform = require('media-platform-js-sdk');
+                            .highlight
+                                pre
+                                    code.js.
+                                        var MediaPlatform = require('media-platform-js-sdk');
 
-                                var mediaPlatform = new MediaPlatform({
-                                    domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
-                                    appId: '48fa9aa3e9d342a3a33e66af08cd7fe3',
-                                    sharedSecret: 'fad475d88786ab720b04f059ac674b0e'
-                                });
+                                        var mediaPlatform = new MediaPlatform({
+                                            domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+                                            appId: '48fa9aa3e9d342a3a33e66af08cd7fe3',
+                                            sharedSecret: 'fad475d88786ab720b04f059ac674b0e'
+                                        });
 
-                                var fileManager = mediaPlatform.fileManager;
+                                        var fileManager = mediaPlatform.fileManager;
                     h2 Files
                     #upload
                         #upload-code.code-snippet
-                            p.
-                                fileManager.uploadFile('/demo/image.jpg', __dirname + '/../files/image.jpg', null, function (error, response) {
-                                    // do something
-                                });
+                            .highlight
+                                pre
+                                   code.js.
+                                       fileManager.uploadFile('/demo/image.jpg', __dirname + '/../files/image.jpg', null, function(error, response) {
+                                            // do something
+                                       });
                             button(id='upload-button').btn.
                                 Execute
                             h4 Response
@@ -54,26 +64,33 @@ html()
 
                     #list
                         #list-code.code-snippet
-                            p.
-                                var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
+                            .highlight
+                                pre
+                                    code.js.
+                                        var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
 
-                                var listFilesRequest = new ListFilesRequest().setPageSize(5);
+                                        var listFilesRequest = new ListFilesRequest().setPageSize(5);
 
-                                fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
-                                    // do something
-                                });
+                                        fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
+                                            // do something
+                                        });
+
                             button(id='list-button').btn.
                                 Execute
                             h4 Response
                                 #list-response.pre
 
                     #delete
-                        #get-metadata-code.code-snippet
-                            p.
-                                fileManager.getFileMetadataById(id, function (error, response) {
-                                    // do something
-                                });
+                        #delete-code.code-snippet
+                            .highlight
+                                pre
+                                    code.js.
+                                        fileManager.getFileMetadataById(id, function (error, response) {
+                                            // do something
+                                        });
+                            br
                             input(id='file-id-input' type='text' value='Enter File ID')
+                            br
                             button(id='get-metadata-button').btn.
                                 Execute
                             h4 Response

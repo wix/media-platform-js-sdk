@@ -1,7 +1,7 @@
 mixin styles
     style.
         body {
-            width: 800px;
+            width: 1000px;
             margin: 0 auto;
             font-family: sans-serif;
         }
@@ -48,7 +48,7 @@ mixin styles
             border: 1px solid #ccc;
             overflow: auto;
             overflow-x: scroll;
-            width: 90%;
+            width: 100%;
             padding: 0 1em 1em 1em;
             margin: 1em auto 2em auto;
             background: #fff7f0;
@@ -142,3 +142,26 @@ mixin styles
             color: red;
         }
 
+        .highlight {
+            position: relative;
+            margin-top: 14px;
+            padding: 30px 14px 14px;
+            border: none;
+            border-radius: 0;
+            overflow: auto;
+            color: #333333;
+            background: #f8f5ec;
+        }
+
+        .highlight:after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            padding: 3px 7px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #c2c0bc;
+            background-color: #f1ede4;
+            content: "Code";
+        }
