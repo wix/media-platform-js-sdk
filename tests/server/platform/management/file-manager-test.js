@@ -274,10 +274,6 @@ describe('file manager', function() {
     });
 
     it('file upload handles path (string) errors', function (done) {
-
-        // uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        // uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
-
         fileManager.uploadFile('upload/to/there/image.jpg', 'nothing here', null, function (error, data) {
             expect(error).to.be.a(Error);
             expect(data).to.be(null);

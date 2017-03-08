@@ -29,12 +29,14 @@ html()
                 .actions
                     h3 Image Upload
                     #upload
-
+                        label(for='file').btn.
+                            Select File
+                        // TODO: display selection name
                         form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
                             input(id='file' name='file' type='file' accept='image/*')
 
                         button(id='upload-button').btn.
-                            Upload
+                            Upload File
 
                 .preview
                     h3 Upload Result
