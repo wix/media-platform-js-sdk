@@ -44,8 +44,8 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/media-platform/file', function(req, res) {
-        fileManager.getFile(req.params.path, function (error, response) {
+    app.get('/media-platform/file/:id/metadata', function(req, res) {
+        fileManager.getFileMetadataById(req.params.id, function (error, response) {
 
             if (error) {
                 res.status(500).send(error.message);

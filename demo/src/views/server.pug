@@ -55,8 +55,10 @@ html()
                     #list
                         #list-code.code-snippet
                             p.
+                                var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
+
                                 var listFilesRequest = new ListFilesRequest().setPageSize(5);
-                            p.
+
                                 fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
                                     // do something
                                 });
@@ -66,15 +68,16 @@ html()
                                 #list-response.pre
 
                     #delete
-                        #delete-code.code-snippet
+                        #get-metadata-code.code-snippet
                             p.
-                                fileManager.listFiles('path', null, function (error, fileDescriptors) {
+                                fileManager.getFileMetadataById(id, function (error, response) {
                                     // do something
                                 });
-                            button(id='delete-button').btn.
+                            input(id='file-id-input' type='text' value='Enter File ID')
+                            button(id='get-metadata-button').btn.
                                 Execute
                             h4 Response
-                                #delete-response.pre
+                                #get-metadata-response.pre
 
         script.
             var uploadButton = document.getElementById('upload-button');
@@ -87,9 +90,12 @@ html()
             listButton.addEventListener('click', function () {
                 doGet('http://' + location.host + '/media-platform/files', listResponse)
             });
-            var deleteButton = document.getElementById('delete-button');
+            var deleteButton = document.getElementById('get-metadata-button');
+            var metadataResponse = document.getElementById('get-metadata-response');
+            var fileIdInput = document.getElementById('file-id-input');
             deleteButton.addEventListener('click', function () {
-                alert('DELETE!');
+                var id = fileIdInput.value;
+                doGet('http://' + location.host + '/media-platform/file/' + id + '/metadata', metadataResponse)
             });
 
             function doGet(url, resultContainer) {
