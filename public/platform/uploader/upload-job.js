@@ -1,5 +1,6 @@
 var inherits = require('inherits');
 var EventEmitter = require('eventemitter3');
+var UploadUrlRequest = require('../../../src/platform/management/requests/upload-url-request');
 var FileDescriptor = require('../../../src/platform/management/metadata/file-descriptor');
 var UploadStartedEvent = require('./events/upload-started-event');
 var UploadProgressEvent = require('./events/upload-progress-event');
@@ -65,7 +66,8 @@ UploadJob.prototype.run = function (fileUploader) {
 
     var e = new UploadStartedEvent(this);
     this.emit(e.name, e);
-    fileUploader.getUploadUrl(null, function (error, response) {
+    var uploadUrlRequest = new UploadUrlRequest().setPath(this.path);
+    fileUploader.getUploadUrl(uploadUrlRequest, function (error, response) {
 
         if (error) {
             console.error('get upload url - error');
