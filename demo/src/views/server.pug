@@ -49,6 +49,41 @@ html()
                                         });
 
                                         var fileManager = mediaPlatform.fileManager;
+
+                    h2 Authorization
+                    #authorization
+                        #authorization-code.code-snippet
+                            .highlight
+                                pre
+                                    code.js.
+                                        var header = mediaPlatform.getAuthorizationHeader();
+                                        res.send(header);
+                            button(id='authorization-button').btn.
+                                Execute
+                            h4 Response
+                                #authorization-response.pre
+
+                    #limited-authorization
+                        #limited-authorization-code.code-snippet
+                            .highlight
+                                pre
+                                    code.js.
+                                        var Token = require('media-platform-js-sdk').auth.Token;
+                                        var NS = require('media-platform-js-sdk').auth.NS;
+
+                                        var token = new Token()
+                                            .setIssuer(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
+                                            .setSubject(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
+                                            .addVerbs('urn:service:file.get', 'urn:service:file.list');
+
+                                        var header = mediaPlatform.getAuthorizationHeader(token);
+
+                                        res.send(header);
+                            button(id='limited-authorization-button').btn.
+                                Execute
+                            h4 Response
+                                #limited-authorization-response.pre
+
                     h2 Files
                     #upload
                         #upload-code.code-snippet
@@ -98,6 +133,16 @@ html()
                                 #get-metadata-response.pre
 
         script.
+            var authorizationButton = document.getElementById('authorization-button');
+            var authorizationResponse = document.getElementById('authorization-response');
+            authorizationButton.addEventListener('click', function () {
+                doGet('http://' + location.host + '/media-platform/auth-header', authorizationResponse)
+            });
+            var limitedAuthorizationButton = document.getElementById('limited-authorization-button');
+            var limitedAuthorizationResponse = document.getElementById('limited-authorization-response');
+            limitedAuthorizationButton.addEventListener('click', function () {
+                doGet('http://' + location.host + '/media-platform/limited-auth-header', limitedAuthorizationResponse)
+            });
             var uploadButton = document.getElementById('upload-button');
             var uploadResponse = document.getElementById('upload-response');
             uploadButton.addEventListener('click', function () {
