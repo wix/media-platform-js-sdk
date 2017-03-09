@@ -65,7 +65,7 @@
     "file-api": "latest",
     "grunt": "latest",
     "grunt-browserify": "latest",
-    "grunt-cli": "^1.2.0",
+    "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-karma": "latest",
     "grunt-mocha": "latest",

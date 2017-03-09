@@ -9,7 +9,7 @@ var UploadErrorEvent = require('./events/upload-error-event');
 var UploadAbortedEvent = require('./events/upload-aborted-event');
 
 /**
- * @param {string} path
+ * @param {string?} path
  * @param {File?} file
  * @constructor
  * @extends {EventEmitter}

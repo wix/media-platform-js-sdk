@@ -6,6 +6,6 @@ module.exports = function(config) {
         ],
         browsers: ['Chrome'],
         singleRun: true,
-        browserNoActivityTimeout: 50000
+        browserNoActivityTimeout: 10000
     });
 };
