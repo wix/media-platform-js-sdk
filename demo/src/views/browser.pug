@@ -41,7 +41,15 @@ html()
                                 authenticationUrl: "http://localhost/media-platform/auth-header"
                             });
 
-                h2#ImageApi Image Api
+                h2#FileManagementApi File Management API
+                    h4 upload A file (any mime type)
+                    .highlight
+                        pre
+                            code.js.
+                                var a = g;
+
+
+                h2#ImageApi Image API
                     H4 Upload image
                     .highlight
                         pre
@@ -55,12 +63,9 @@ html()
                     .demo-group
                         label(for='image-file').btn.
                             Select Image
-                        // TODO: display selection name
+                        span#image-file-path
                         form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
                             input(id='image-file' name='file' type='file' accept='image/*')
-
-                        button(id='upload-image-button').btn.
-                            Upload Image
 
                         .response
                             .highlight.highlight-response
@@ -73,21 +78,23 @@ html()
 
 
         script.
-            var uploadImageButton = document.getElementById("upload-image-button");
+            var imageFile = document.getElementById("image-file");
             var imageOutput = document.getElementById("image-output");
             var imagePayload = document.getElementById("image-payload");
+            var imageFilePath = document.getElementById("image-file-path");
 
-            uploadImageButton.addEventListener("click", function () {
-                var file = document.getElementById("image-file");
-                var path = "/demo/" + file.value.split("\\").pop();
-                console.log(path)
+            imageFile.addEventListener("change", function () {
+                var path = "/demo/" + this.value.split("\\").pop();
+                var file = this.files[0];
+
+                imageFilePath.innerHTML = path;
 
                 mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
                     // do nothing...
                 });
 
                 mediaPlatform.fileManager
-                    .uploadFile(path, file.files[0])
+                    .uploadFile(path, file)
                     .on('upload-success', function (response) {
                         var images = response.fileDescriptors;
                         var image = images[0];
