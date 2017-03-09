@@ -57,8 +57,7 @@ html()
                             input(id='file-management' name='file' type='file')
                         .highlight.highlight-response
                             pre
-                                code.language-javascript#file-management-payload.
-                                    nothing to display here
+                                code.language-javascript#file-management-payload
 
                     h4 Retrieve a list of uploaded files
                     .highlight
@@ -67,7 +66,7 @@ html()
                                 var listFileRequest = new MP.file.ListFilesRequest();
 
                                 mediaPlatform.fileManager
-                                  .listFiles(path, listFilesRequest, function() {
+                                  .listFiles(path, listFilesRequest, function(error, response) {
                                     // handle response
                                   });
 
@@ -77,8 +76,39 @@ html()
 
                         .highlight.highlight-response
                             pre
-                                code.language-javascript#file-list-payload.
-                                    nothing to display here
+                                code.language-javascript#file-list-payload
+
+                    h4 Get metadata by fileId
+                    .highlight
+                        pre
+                            code.language-javascript.
+                                mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
+
+                                });
+                    .demo-group
+                        button#file-metadata-button.btn.
+                            Execute
+                        br
+                        input(id='file-metadata-id-input' type='text' placeholder='Enter File ID').text-input
+                        .highlight.highlight-response
+                            pre
+                                code.language-javascript#file-metadata-payload
+
+                    h4 Delete file by id
+                    .highlight
+                        pre
+                            code.language-javascript.
+                                mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
+
+                                });
+                    .demo-group
+                        button#file-delete-button.btn.
+                            Execute
+                        br
+                        input(id='file-delete-id-input' type='text' placeholder='Enter File ID').text-input
+                        .highlight.highlight-response
+                            pre
+                                code.language-javascript#file-delete-payload
 
                 h2#ImageApi Image API
                     H4 Upload image
@@ -102,7 +132,6 @@ html()
                             .highlight.highlight-response
                                 pre
                                     code.language-javascript#image-payload.
-                                        nothing to display here
 
                             .output
                                 img#image-output(src="/assets/img/no-preview.jpg")
@@ -157,6 +186,42 @@ html()
                            fileListPayload.innerHTML = html;
                       });
                 });
+
+                // get file metadata by id
+                var fileMetadataButton = document.getElementById('file-metadata-button');
+                var fileMetadataInput = document.getElementById('file-metadata-id-input');
+                var fileMetadataPayload = document.getElementById('file-metadata-payload');
+
+                fileMetadataButton.addEventListener('click', function() {
+                  var fileId = fileMetadataInput.value;
+                  if (!fileId) {
+                    console.log('please specify fileId');
+                    return
+                  }
+
+                  mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
+                    var html = Prism.highlight(JSON.stringify(response.fileDescriptor, null, 2), Prism.languages.js);
+                    fileMetadataPayload.innerHTML = html;
+                  });
+                })
+
+
+                // delete file by id
+                var fileDeleteButton = document.getElementById('file-delete-button');
+                var fileDeleteInput = document.getElementById('file-delete-id-input');
+                var fileDeletePayload = document.getElementById('file-delete-payload');
+
+                fileDeleteButton.addEventListener('click', function () {
+                var fileId = fileDeleteInput.value;
+                if (!fileId) {
+                  console.log('please specify fileId');
+                  return
+                }
+
+                mediaPlatform.fileManager.deleteFileById(fileId, function (error, response) {
+                  fileDeletePayload.innerHTML = error ? 'failed' : 'success';
+                });
+                })
             })();
 
 
