@@ -10,6 +10,7 @@ mixin styles
             padding: 0 20px 20px 20px;
             box-shadow: 0 2px 4px 0 rgba(16, 30, 42, 0.18);
             display: flex;
+            background: rgb(255, 255, 240);
         }
 
         .group {
@@ -68,10 +69,11 @@ mixin styles
             font-size: 12px;
             background-color: #f8f5ec;
             color: black;
-            border: none;
+            border: 1px solid #ccc;
             outline: none;
             cursor: text;
-            margin-top: 10px;
+            margin-top: 14px;
+            margin-bottom: 4px;
         }
 
         .path-to-file {
@@ -81,18 +83,6 @@ mixin styles
 
         input[type="file"] {
             display: none;
-        }
-
-        .code-snippet {
-            font: 100% courier, monospace;
-            white-space:pre;
-            border: 1px solid #ccc;
-            overflow: auto;
-            overflow-x: scroll;
-            padding: 0 1em 1em 1em;
-            margin: 1em auto 2em auto;
-            background: #fff7f0;
-            color: #000
         }
 
         /*.btn-pad {*/
@@ -186,7 +176,7 @@ mixin styles
             position: relative;
             margin-top: 14px;
             padding: 30px 14px 14px;
-            border: none;
+            border: 1px solid #ccc;
             border-radius: 0;
             overflow: auto;
             color: #333333;

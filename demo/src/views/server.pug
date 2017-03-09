@@ -32,7 +32,7 @@ html()
                 .actions
                     h2 Instantiation
                     #instantiation
-                        #instantiation-code.code-snippet
+                        #instantiation-code
                             .highlight
                                 pre
                                     code.language-javascript.
@@ -48,7 +48,7 @@ html()
 
                     h2 Authorization
                     #authorization
-                        #authorization-code.code-snippet
+                        #authorization-code
                             .highlight
                                 pre
                                     code.language-javascript.
@@ -56,11 +56,12 @@ html()
                                         res.send(header);
                             button(id='authorization-button').btn.
                                 Execute
-                            h4 Response
-                                #authorization-response.pre
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#authorization-response
 
                     #limited-authorization
-                        #limited-authorization-code.code-snippet
+                        #limited-authorization-code
                             .highlight
                                 pre
                                     code.language-javascript.
@@ -77,12 +78,13 @@ html()
                                         res.send(header);
                             button(id='limited-authorization-button').btn.
                                 Execute
-                            h4 Response
-                                #limited-authorization-response.pre
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#limited-authorization-response
 
                     h2 Files
                     #upload
-                        #upload-code.code-snippet
+                        #upload-code
                             .highlight
                                 pre
                                    code.language-javascript.
@@ -91,11 +93,13 @@ html()
                                        });
                             button(id='upload-button').btn.
                                 Execute
-                            h4 Response
-                                #upload-response.pre
+
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#upload-response
 
                     #list
-                        #list-code.code-snippet
+                        #list-code
                             .highlight
                                 pre
                                     code.language-javascript.
@@ -109,24 +113,25 @@ html()
 
                             button(id='list-button').btn.
                                 Execute
-                            h4 Response
-                                #list-response.pre
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#list-response
 
                     #metadata
-                        #metadata-code.code-snippet
+                        #metadata-code
                             .highlight
                                 pre
                                     code.language-javascript.
                                         fileManager.getFileMetadataById(id, function (error, response) {
                                             // do something
                                         });
-                            br
                             input(id='file-id-input' type='text' value='Enter File ID').text-input
                             br
                             button(id='get-metadata-button').btn.
                                 Execute
-                            h4 Response
-                                #get-metadata-response.pre
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#get-metadata-response
 
         script.
             var authorizationButton = document.getElementById('authorization-button');
@@ -161,9 +166,8 @@ html()
                 var request = new XMLHttpRequest();
                 request.responseType = 'json';
                 request.addEventListener('load', function (event) {
-                    var el = document.createElement('pre');
-                    el.innerHTML = Prism.highlight(JSON.stringify(event.target.response, null, 2), Prism.languages.js);
-                    setChild(resultContainer, el);
+                    var html = Prism.highlight(JSON.stringify(event.target.response, null, 2), Prism.languages.js);
+                    resultContainer.innerHTML = html;
                 });
 
                 request.addEventListener('error', function (event) {
@@ -173,15 +177,3 @@ html()
                 request.open('GET', url);
                 request.send();
             }
-
-            function removeChildren(node) {
-                while (node.firstChild) {
-                    node.removeChild(node.firstChild);
-                }
-            }
-
-            function setChild(node, child) {
-                removeChildren(node);
-                node.appendChild(child);
-            }
-
