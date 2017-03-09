@@ -1,5 +1,4 @@
 var UploadUrlResponse = require('../../../src/platform/management/responses/upload-url-response');
-var QueuedFileUploader = require('./queued-file-uploader');
 var UploadJob = require('./upload-job');
 
 
@@ -36,8 +35,13 @@ FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
     })
 };
 
-FileUploader.prototype.uploadFile = function (file, fileDescriptor, callback) {
-    var upload = new UploadJob(fileDescriptor, file);
+/**
+ * @param {string} path
+ * @param {File} file
+ * @returns {UploadJob}
+ */
+FileUploader.prototype.uploadFile = function (path, file) {
+    var upload = new UploadJob(path, file);
 
     return upload.run(this);
 };
