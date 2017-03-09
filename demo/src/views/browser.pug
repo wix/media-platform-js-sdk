@@ -5,20 +5,26 @@ html()
     head
         title Wix Media Platform - Demo
 
-        script(src='/media-platform.min.js')
+        script(src="/media-platform.min.js")
+        script(src="/vendor/highlight.js/highlight.pack.js")
+        script(src="/utils.js")
+        link(href="/vendor/highlight.js/styles/default.css")
         +styles
 
         script.
             var mediaPlatform = new MP.MediaPlatform({
-                domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
-                authenticationUrl: 'http://' + location.host + '/media-platform/auth-header'
+                domain: "wixmp-410a67650b2f46baa5d003c6.appspot.com",
+                authenticationUrl: "http://" + location.host + "/media-platform/auth-header"
             });
 
             var Image = MP.Image;
             var UploadUrlRequest = MP.file.UploadUrlRequest;
-            var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
-            var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
-            var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+            var fileHost = "wixmp-410a67650b2f46baa5d003c6.wixmp.com";
+            var imagesHost = "images-wixmp-410a67650b2f46baa5d003c6.wixmp.com";
+            var videosHost = "wixmp-410a67650b2f46baa5d003c6.wixmp.com";
+
+            // highlight syntax
+            hljs.initHighlightingOnLoad();
 
     body
 
@@ -26,53 +32,85 @@ html()
 
         .content
             .group
-                .actions
-                    h3 Image Upload
-                    #upload
-                        label(for='file').btn.
-                            Select File
+                h2#Instantiation Instantiation
+                .highlight
+                    pre
+                        code.js.
+                            var mediaPlatform = new MP.MediaPlatform({
+                                domain: "wixmp-410a67650b2f46baa5d003c6.appspot.com",
+                                authenticationUrl: "http://localhost/media-platform/auth-header"
+                            });
+
+                h2#ImageApi Image Api
+                    H4 Upload image
+                    .highlight
+                        pre
+                            code.js.
+                                button.addEventListener("click", function () {
+                                    var file = document.getElementById("file");
+                                    var path = "/demo/" + file.value.split("\\").pop();
+                                    console.log(path)
+
+                                    mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
+                                        // do nothing...
+                                    })
+
+                                    mediaPlatform.fileManager.getUploadUrl(new UploadUrlRequest().setPath(path), function(error, response) {
+
+                                            if (error) {
+                                                console.error(error);
+                                                return;
+                                            }
+
+                                            var form = document.getElementById("upload-form");
+
+                                            var formData = new FormData(form);
+                                            formData.set("uploadToken", response.uploadToken);
+                                            formData.set("path", path);
+
+                                            var request = new XMLHttpRequest();
+                                            request.responseType = "json";
+                                            request.addEventListener("load", function (event) {
+                                               console.log("payload", event.target.response.payload);
+                                            });
+
+                                            request.addEventListener("error", function (event) {
+                                                alert("Oops! Something went wrong.");
+                                            });
+
+                                            request.open("POST", response.uploadUrl);
+                                            request.send(formData);
+                                        })
+                                });
+
+                    .demo-group
+                        label(for='image-file').btn.
+                            Select Image
                         // TODO: display selection name
                         form(id='upload-form' enctype='multipart/form-data' action='' method='post' target='upload-result')
-                            input(id='file' name='file' type='file' accept='image/*')
+                            input(id='image-file' name='file' type='file' accept='image/*')
 
-                        button(id='upload-button').btn.
-                            Upload File
+                        button(id='upload-image-button').btn.
+                            Upload Image
 
-                .preview
-                    h3 Upload Result
+                        .response
+                            .highlight.highlight-response
+                                pre
+                                    code.json#image-payload.
+                                        nothing to display here
 
-                    #upload-result-container
-                    .settings
-                        div.
-                            Filters:
-                        select(id='image-filters')
-                            option(value=0, selected= true) -- Select --
-                            option(value='Blur') Blur
-                            option(value='Brightness') Brightness
-                            option(value='Contrast') Contrast
-                            option(value='Hue') Hue
-                            option(value='Saturation') Saturation
-                            option(value='UnsharpMask') Unsharp Mask
+                            .output
+                                img#image-output(src="/assets/img/no-preview.jpg")
+
 
         script.
-            var button = document.getElementById('upload-button');
-            var container = document.getElementById('upload-result-container');
-            var imageFiltersButton = document.getElementById('image-filters');
+            var uploadImageButton = document.getElementById("upload-image-button");
+            var imageOutput = document.getElementById("image-output");
+            var imagePayload = document.getElementById("image-payload");
 
-            function removeChildren(node) {
-              while (node.firstChild) {
-                node.removeChild(node.firstChild);
-              }
-            }
-
-            function setChild(node, child) {
-              removeChildren(node);
-              node.appendChild(child);
-            }
-
-            button.addEventListener('click', function () {
-                var file = document.getElementById('file');
-                var path = '/demo/' + file.value.split('\\').pop();
+            uploadImageButton.addEventListener("click", function () {
+                var file = document.getElementById("image-file");
+                var path = "/demo/" + file.value.split("\\").pop();
                 console.log(path)
 
                 mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
@@ -86,37 +124,30 @@ html()
                             return;
                         }
 
-                        var form = document.getElementById('upload-form');
+                        var form = document.getElementById("upload-form");
 
                         var formData = new FormData(form);
-                        formData.set('uploadToken', response.uploadToken);
-                        formData.set('path', path);
+                        formData.set("uploadToken", response.uploadToken);
+                        formData.set("path", path);
 
                         var request = new XMLHttpRequest();
-                        request.responseType = 'json';
-                        request.addEventListener('load', function (event) {
+                        request.responseType = "json";
+                        request.addEventListener("load", function (event) {
                            var images = event.target.response.payload;
 
                            if (images) {
                               var image = images[0];
-                              var imgEl = document.createElement('img');
-                              var url = 'http://' + imagesHost + image.path;
-
-                              imgEl.setAttribute('src', url);
-                              setChild(container, imgEl)
+                              var url = "http://" + imagesHost + image.path;
+                              imageOutput.setAttribute("src", url);
+                              imagePayload.innerHTML = jsonSyntaxHighlight(event.target.response);
                             }
                         });
 
-                        request.addEventListener('error', function (event) {
-                            alert('Oops! Something went wrong.');
+                        request.addEventListener("error", function (event) {
+                            alert("Oops! Something went wrong.");
                         });
 
-                        request.open('POST', response.uploadUrl);
+                        request.open("POST", response.uploadUrl);
                         request.send(formData);
                     })
-            })
-
-
-            imageFiltersButton.addEventListener('change', function(event) {
-              console.log('filter changed: ', event);
             })
