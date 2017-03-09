@@ -46,42 +46,11 @@ html()
                     .highlight
                         pre
                             code.js.
-                                button.addEventListener("click", function () {
-                                    var file = document.getElementById("file");
-                                    var path = "/demo/" + file.value.split("\\").pop();
-                                    console.log(path)
-
-                                    mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
-                                        // do nothing...
-                                    })
-
-                                    mediaPlatform.fileManager.getUploadUrl(new UploadUrlRequest().setPath(path), function(error, response) {
-
-                                            if (error) {
-                                                console.error(error);
-                                                return;
-                                            }
-
-                                            var form = document.getElementById("upload-form");
-
-                                            var formData = new FormData(form);
-                                            formData.set("uploadToken", response.uploadToken);
-                                            formData.set("path", path);
-
-                                            var request = new XMLHttpRequest();
-                                            request.responseType = "json";
-                                            request.addEventListener("load", function (event) {
-                                               console.log("payload", event.target.response.payload);
-                                            });
-
-                                            request.addEventListener("error", function (event) {
-                                                alert("Oops! Something went wrong.");
-                                            });
-
-                                            request.open("POST", response.uploadUrl);
-                                            request.send(formData);
-                                        })
-                                });
+                                mediaPlatform.fileManager
+                                    .uploadFile(path, file)
+                                    .on("upload-success", function(response) {
+                                        // handle success
+                                    });
 
                     .demo-group
                         label(for='image-file').btn.
@@ -115,39 +84,19 @@ html()
 
                 mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
                     // do nothing...
-                })
+                });
 
-                mediaPlatform.fileManager.getUploadUrl(new UploadUrlRequest().setPath(path), function(error, response) {
+                mediaPlatform.fileManager
+                    .uploadFile(path, file.files[0])
+                    .on('upload-success', function (response) {
+                        var images = response.fileDescriptors;
+                        var image = images[0];
+                        var url = "http://" + imagesHost + image.path;
 
-                        if (error) {
-                            console.error(error);
-                            return;
-                        }
-
-                        var form = document.getElementById("upload-form");
-
-                        var formData = new FormData(form);
-                        formData.set("uploadToken", response.uploadToken);
-                        formData.set("path", path);
-
-                        var request = new XMLHttpRequest();
-                        request.responseType = "json";
-                        request.addEventListener("load", function (event) {
-                           var images = event.target.response.payload;
-
-                           if (images) {
-                              var image = images[0];
-                              var url = "http://" + imagesHost + image.path;
-                              imageOutput.setAttribute("src", url);
-                              imagePayload.innerHTML = jsonSyntaxHighlight(event.target.response);
-                            }
-                        });
-
-                        request.addEventListener("error", function (event) {
-                            alert("Oops! Something went wrong.");
-                        });
-
-                        request.open("POST", response.uploadUrl);
-                        request.send(formData);
+                        imageOutput.setAttribute("src", url);
+                        imagePayload.innerHTML = jsonSyntaxHighlight(image);
                     })
+                    .on('upload-error', function(error) {
+                      console.info('upload error:', error);
+                    });
             })
