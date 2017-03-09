@@ -8,12 +8,12 @@ var UploadErrorEvent = require('./events/upload-error-event');
 var UploadAbortedEvent = require('./events/upload-aborted-event');
 
 /**
- * @param {FileDescriptor} fileDescriptor
+ * @param {string} path
  * @param {File?} file
  * @constructor
  * @extends {EventEmitter}
  */
-function UploadJob(fileDescriptor, file) {
+function UploadJob(path, file) {
     EventEmitter.call(this);
 
     /**
@@ -22,28 +22,23 @@ function UploadJob(fileDescriptor, file) {
     this.file = file;
 
     /**
-     * @type {FileDescriptor}
+     * @type {string}
      */
-    this.fileDescriptor = fileDescriptor;
+    this.path = path;
 
     /**
      * @type {string}
      */
     this.state = 'stopped';
-
-    /**
-     * @type {Array<string>}
-     */
-    this.tags = [];
 }
 inherits(UploadJob, EventEmitter);
 
 /**
- * @param {FileDescriptor} fileDescriptor
+ * @param {string} path
  * @returns {UploadJob}
  */
-UploadJob.prototype.setFileDescriptor = function (fileDescriptor) {
-    this.fileDescriptor = fileDescriptor;
+UploadJob.prototype.setPath = function (path) {
+    this.path = path;
     return this;
 };
 
@@ -53,24 +48,6 @@ UploadJob.prototype.setFileDescriptor = function (fileDescriptor) {
  */
 UploadJob.prototype.setFile = function (file) {
     this.file = file;
-    return this;
-};
-
-/**
- * @param {string} tag
- * @returns {UploadJob}
- */
-UploadJob.prototype.addTag = function (tag) {
-    this.tags.push(tag);
-    return this;
-};
-
-/**
- * @param {Array<string>} tags
- * @returns {UploadJob}
- */
-UploadJob.prototype.setTags = function (tags) {
-    this.tags = tags;
     return this;
 };
 
@@ -137,12 +114,8 @@ UploadJob.prototype.run = function (fileUploader) {
 
         var formData = new FormData();
         formData.append('uploadToken', response.uploadToken);
-        formData.append('path', this.fileDescriptor.path);
+        formData.append('path', this.path);
         formData.append('file', this.file);
-
-        if (this.fileDescriptor.mediaType) {
-            formData.append('mediaType', this.fileDescriptor.mediaType);
-        }
 
         var request = new XMLHttpRequest();
         request.withCredentials = true;

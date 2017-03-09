@@ -46,7 +46,6 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
             callback(new Error(JSON.stringify(response.body)), null);
             return;
         }
-
         callback(null, body);
     }.bind(this));
 };

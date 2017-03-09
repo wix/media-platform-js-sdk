@@ -59,39 +59,30 @@ describe('image url parsing', function () {
         });
     });
 
-    it('metadata - original image data fragment is mandatory', function () {
-        var image = new Image('http://test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#');
-
-        expect(image.toUrl()).to.eql({
-            url: null,
-            error: new Error('original image data is mandatory')
-        });
-    });
-
     it('metadata - ignores malformed fragment - without separator', function () {
-        var image = new Image('http://test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#w,h_200,mt_video%2Fmp4');
+        var image = new Image('http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100/fish.jpeg#w,h_200,mt_video%2Fmp4');
 
         expect(image.toUrl()).to.eql({
-            url: null,
-            error: new Error('original image data is mandatory')
+            url: 'http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100,x_0,y_0/fish.jpeg',
+            error: null
         });
     });
 
     it('metadata - ignores malformed fragment - with separator', function () {
-        var image = new Image('http://test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#w_,h_200,mt_video%2Fmp4');
+        var image = new Image('http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100/fish.jpeg#w_,h_200,mt_video%2Fmp4');
 
         expect(image.toUrl()).to.eql({
-            url: null,
-            error: new Error('original image data is mandatory')
+            url: 'http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100,x_0,y_0/fish.jpeg',
+            error: null
         });
     });
 
     it('metadata - ignores malformed fragment - missing param', function () {
-        var image = new Image('http://test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#h_200,mt_video%2Fmp4');
+        var image = new Image('http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100/fish.jpeg#h_200,mt_video%2Fmp4');
 
         expect(image.toUrl()).to.eql({
-            url: null,
-            error: new Error('original image data is mandatory')
+            url: 'http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100,x_0,y_0/fish.jpeg',
+            error: null
         });
     });
 

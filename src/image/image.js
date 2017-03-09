@@ -1,5 +1,8 @@
+var parseUrl = require('./parser/image-url-parser');
 var parseFileDescriptor = require('./parser/file-descriptor-parser');
-var parseUrl = require('./parser/url-parser');
+var parseFileMetadata = require('./parser/file-metadata-parser');
+var FileDescriptor = require('../platform/management/metadata/file-descriptor');
+var FileMetadata = require('../platform/management/metadata/file-metadata');
 var Crop = require('./framing/crop');
 var Rectangle = require('../geometry/rectangle');
 var Dimension = require('../geometry/dimension');
@@ -14,19 +17,19 @@ var validator = require('./validation/validator');
 
 /**
  * @description a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
- * @param {FileDescriptor|string} data the file descriptor or a previously generated image url
+ * @param {FileDescriptor|FileMetadata|string} data the file descriptor or a previously generated image url
  * @constructor Image
  */
 function Image(data) {
 
     /**
      * @description where the image is hosted
-     * @type {string}
+     * @type {null}
      */
     this.host = null;
 
     /**
-     * @description the image location
+     * @description the image path in host
      * @type {string}
      */
     this.path = null;
@@ -115,8 +118,10 @@ function Image(data) {
     if (data) {
         if (typeof data === 'string') {
             parseUrl(this, data);
-        } else {
+        } else if (data instanceof FileDescriptor) {
             parseFileDescriptor(this, data);
+        } else if (data instanceof FileMetadata){
+            parseFileMetadata(this, data);
         }
     }
 
@@ -224,18 +229,11 @@ Image.prototype.toUrl = function (host) {
         };
     }
 
-    if (!this.metadata) {
-        return {
-            url: null,
-            error: new Error('metadata is mandatory')
-        };
-    }
-
     var baseUrl = host || this.host || '';
 
-    var out = '';
+    var url = '';
     if (baseUrl.length != 0 && baseUrl.indexOf('http') != 0 && baseUrl.indexOf('//') != 0) {
-        out += '//';
+        url += '//';
     }
 
     if (baseUrl.lastIndexOf('/') == (baseUrl.length - 1)) {
@@ -247,9 +245,7 @@ Image.prototype.toUrl = function (host) {
         path = path.slice(1);
     }
 
-    out += baseUrl + '/' + path + '/' + this.version + '/';
-
-    var geometryParams = this.geometry.serialize(this.metadata);
+    var geometryParams = this.geometry.serialize();
     if (geometryParams.error) {
         return {
             url: null,
@@ -264,10 +260,13 @@ Image.prototype.toUrl = function (host) {
             error: new Error(filtersAndEncoderParams.errors)
         }
     }
-
+    url += baseUrl + '/' + path + '/' + this.version + '/';
+    url += geometryParams.params + filtersAndEncoderParams.params + '/' + encodeURIComponent(this.fileName);
+    if (this.metadata) {
+        url += '#' + this.metadata.serialize();
+    }
     return {
-        url: out + geometryParams.params + filtersAndEncoderParams.params + '/' + encodeURIComponent(this.fileName)
-        + '#' + this.metadata.serialize(),
+        url: url,
         error: null
     }
 };

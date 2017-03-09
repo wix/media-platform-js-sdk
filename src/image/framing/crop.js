@@ -77,10 +77,9 @@ Crop.prototype.size = function (width, height) {
 };
 
 /**
- * @param {Metadata} metadata
  * @returns {{params: string, error: *}}
  */
-Crop.prototype.serialize = function (metadata) {
+Crop.prototype.serialize = function () {
 
     var badScale = validator.numberNotInRange('crop scale factor', this.scale, 0, 100);
     var badX = validator.numberIsNotGreaterThan('crop x', this.x, 0);

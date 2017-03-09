@@ -69,7 +69,7 @@ html()
                                     code.js.
                                         var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
 
-                                        var listFilesRequest = new ListFilesRequest().setPageSize(5);
+                                        var listFilesRequest = new ListFilesRequest().setPageSize(3);
 
                                         fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
                                             // do something
@@ -80,8 +80,8 @@ html()
                             h4 Response
                                 #list-response.pre
 
-                    #delete
-                        #delete-code.code-snippet
+                    #metadata
+                        #metadata-code.code-snippet
                             .highlight
                                 pre
                                     code.js.
@@ -89,7 +89,7 @@ html()
                                             // do something
                                         });
                             br
-                            input(id='file-id-input' type='text' value='Enter File ID')
+                            input(id='file-id-input' type='text' value='Enter File ID').text-input
                             br
                             button(id='get-metadata-button').btn.
                                 Execute
