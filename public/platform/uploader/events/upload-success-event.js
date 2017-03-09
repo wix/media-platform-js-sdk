@@ -3,10 +3,10 @@ var UploadEvent = require('./upload-event');
 
 /**
  * @param {UploadJob} target
- * @param {FileDescriptor} fileDescriptor
+ * @param {Array<FileDescriptor>} fileDescriptors
  * @constructor
  */
-function UploadSuccessEvent(target, fileDescriptor) {
+function UploadSuccessEvent(target, fileDescriptors) {
     UploadEvent.call(this, target);
 
     /**
@@ -15,9 +15,9 @@ function UploadSuccessEvent(target, fileDescriptor) {
     this.name = 'upload-success';
 
     /**
-     * @type {FileDescriptor}
+     * @type {Array<FileDescriptor>}
      */
-    this.fileDescriptor = fileDescriptor;
+    this.fileDescriptors = fileDescriptors;
 }
 inherits(UploadSuccessEvent, UploadEvent);
 

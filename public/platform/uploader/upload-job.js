@@ -86,7 +86,11 @@ UploadJob.prototype.run = function (fileUploader) {
             if (event.target.status >= 400) {
                 e = new UploadErrorEvent(this);
             } else {
-                e = new UploadSuccessEvent(this, new FileDescriptor(event.target.response.payload[0]));
+                var fileDescriptors = event.target.response.payload.map(function (file) {
+                    return new FileDescriptor(file);
+                });
+
+                e = new UploadSuccessEvent(this, fileDescriptors);
             }
             this.emit(e.name, e);
         }.bind(this);

@@ -1,7 +1,7 @@
 var HTTPClient = require('./http/browser-http-client');
 var FileUploader = require('./uploader/browser-file-uploader');
-var FileManager = require('../../src/platform/management/file-manager');
 var QueuedFileUploader = require('./uploader/queued-file-uploader');
+var FileManager = require('../../src/platform/management/file-manager');
 
 /**
  * @param {Configuration} configuration

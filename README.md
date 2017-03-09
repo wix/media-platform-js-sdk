@@ -2,27 +2,7 @@
 
 [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url]
 
-[Wix Media Platform](https://www.wixmp.com/) is a collection of services for storing, serving, uploading, and managing image, audio, and video files.
-
-## Image
-
-Wix Media Platform provides powerful image-processing services that support resizing, cropping, rotating, sharpening, and face-detection, as well as offering a number of filters and adjustments. Images can be easily served with on-the-fly manipulations using the Wix Media Platform SDKs or Image API.
-
-See it in [action.](https://app.wixmp.com/dashboard/index.html)
-
-## Audio
-
-Wix Media Platform provides storage for professional, high-quality audio files that can then be used in commercial music-selling applications.
-
-## Video
-
-Video files uploaded to Wix Media Platform are automatically transcoded into additional formats of various qualities, enabling video playback on any browser or Internet-connected device.
-
-For video playback see [Vidi](https://github.com/wix/vidi) - Adaptive video playback library.
-
-## Documents
-
-In addition, Wix Media Platform supports uploading and distribution of documents such as Excel and Word.
+[Wix Media Platform](https://gcp.wixmp.com/) is a collection of services for storing, serving, uploading, and managing image, audio, video files and any files in general
 
 # JavaScript SDK
 
@@ -38,22 +18,24 @@ npm install media-platform-js-sdk --save
 ```bash
 git clone git@github.com:wix/media-platform-js-sdk.git
 
+npm install
+
 npm start
 ```
 and open http://localhost:3333/ in the browser
 
 ## Instantiating the Media Platform in the Server
 
-First, if you haven't done so yet, register at [Wix Media Media Platform](https://app.wixmp.com/dashboard/index.html),
-Once registered you'll be issued with your own API Key, API Secret and API Endpoint.
+First, if you haven't done so yet, register at [Wix Media Media Platform](https://gcp.wixmp.com/),
+Start your organization, project and application
 
 ```javascript
 var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
 
 var mediaPlatform = new MediaPlatform({
-  domain: '<Project domain as appears in the Dashboard>',
-  appId: '<API Key as appears in the Dashboard>',
-  sharedSecret: '<API Secret as appears in the Dashboard>'
+  domain: '<As appears in the application page>',
+  appId: '<As appears in the application page>',
+  sharedSecret: '<As appears in the application page>'
 });
 ```
 ## Instantiating the Media Platform in the Browser
@@ -62,21 +44,24 @@ var mediaPlatform = new MediaPlatform({
 <script src="/media-platform.min.js">
 
 var mediaPlatform = new MP.MediaPlatform({
-    domain: 'api.wixmp.com',
+    domain: '<As appears in the application page>',
     authenticationUrl: '<your authentication url - see example below>'
 });
 ```
 Authentication URL Node.js (with express) example:
 
 ```javascript
+/**
+ * Your own authentication mechanism comes here
+ */
 app.get('/media-platform/auth-header', function (req, res, next) {
-    mediaPlatform.getHeader('userId', function (error, header) {
-        if (error) {
-            res.status(500).send(error.message);
-            return;
-        }
-        res.send(header);
-    });
+    /**
+     * @description by default, the header authenticates the application
+     * @type {{Authorization}}
+     */
+    var header = mediaPlatform.getAuthorizationHeader();
+
+    res.send(header);
 });
 ```
 
