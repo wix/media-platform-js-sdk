@@ -7,9 +7,8 @@ html()
         title Wix Media Platform - Demo
 
         script(src="/media-platform.min.js")
-        script(src="/vendor/highlight.js/highlight.pack.js")
-        script(src="/utils.js")
-        link(href="/vendor/highlight.js/styles/default.css")
+        script(src="/prismjs/prism.js")
+        link(href="/prismjs/themes/prism.css")
         +styles
 
         script.
@@ -24,9 +23,6 @@ html()
             var imagesHost = "images-wixmp-410a67650b2f46baa5d003c6.wixmp.com";
             var videosHost = "wixmp-410a67650b2f46baa5d003c6.wixmp.com";
 
-            // highlight syntax
-            hljs.initHighlightingOnLoad();
-
     body
 
         +nav-bar
@@ -36,7 +32,7 @@ html()
                 h2#Instantiation Instantiation
                 .highlight
                     pre
-                        code.js.
+                        code.language-javascript.
                             var mediaPlatform = new MP.MediaPlatform({
                                 domain: "wixmp-410a67650b2f46baa5d003c6.appspot.com",
                                 authenticationUrl: "http://localhost/media-platform/auth-header"
@@ -46,7 +42,7 @@ html()
                     h4 Upload A file (any mime type)
                     .highlight
                         pre
-                            code.js.
+                            code.language-javascript.
                                 mediaPlatform.fileManager
                                     .uploadFile(path, file)
                                     .on("upload-success", function(response) {
@@ -61,13 +57,13 @@ html()
                             input(id='file-management' name='file' type='file')
                         .highlight.highlight-response
                             pre
-                                code.json#file-management-payload.
+                                code.language-javascript#file-management-payload.
                                     nothing to display here
 
                     h4 Retrieve a list of uploaded files
                     .highlight
                         pre
-                            code.js.
+                            code.language-javascript.
                                 var listFileRequest = new MP.file.ListFilesRequest();
 
                                 mediaPlatform.fileManager
@@ -81,14 +77,14 @@ html()
 
                         .highlight.highlight-response
                             pre
-                                code.json#file-list-payload.
+                                code.language-javascript#file-list-payload.
                                     nothing to display here
 
                 h2#ImageApi Image API
                     H4 Upload image
                     .highlight
                         pre
-                            code.js.
+                            code.language-javascript.
                                 mediaPlatform.fileManager
                                     .uploadFile(path, file)
                                     .on("upload-success", function(response) {
@@ -105,7 +101,7 @@ html()
                         .response
                             .highlight.highlight-response
                                 pre
-                                    code.json#image-payload.
+                                    code.language-javascript#image-payload.
                                         nothing to display here
 
                             .output
@@ -137,7 +133,8 @@ html()
                   mediaPlatform.fileManager
                     .uploadFile(path, file)
                     .on('upload-success', function (response) {
-                      fileUploadPayload.innerHTML = jsonSyntaxHighlight(response.fileDescriptors);
+                      var html = Prism.highlight(JSON.stringify(response.fileDescriptors, null, 2), Prism.languages.js);
+                      fileUploadPayload.innerHTML = html;
                     });
                 });
 
@@ -156,7 +153,8 @@ html()
                              return
                            }
 
-                           fileListPayload.innerHTML =  jsonSyntaxHighlight(response);
+                           var html = Prism.highlight(JSON.stringify(response, null, 2), Prism.languages.js);
+                           fileListPayload.innerHTML = html;
                       });
                 });
             })();
@@ -186,9 +184,10 @@ html()
                             var images = response.fileDescriptors;
                             var image = images[0];
                             var url = "http://" + imagesHost + image.path;
+                            var html = Prism.highlight(JSON.stringify(image, null, 2), Prism.languages.js);
 
                             imageOutput.setAttribute("src", url);
-                            imagePayload.innerHTML = jsonSyntaxHighlight(image);
+                            imagePayload.innerHTML = html;
                         })
                         .on('upload-error', function(error) {
                           console.error('upload error:', error);

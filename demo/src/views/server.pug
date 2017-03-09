@@ -6,9 +6,8 @@ html()
         title Wix Media Platform - Demo
 
         script(src='/media-platform.min.js')
-        script(src='/vendor/highlight.js/highlight.pack.js')
-        script(src="/utils.js")
-        link(href='/vendor/highlight.js/styles/default.css')
+        script(src="/prismjs/prism.js")
+        link(href="/prismjs/themes/prism.css")
 
         +styles
 
@@ -24,9 +23,6 @@ html()
             var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
             var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
 
-            // highlight syntax
-            hljs.initHighlightingOnLoad();
-
     body
 
         +nav-bar
@@ -39,7 +35,7 @@ html()
                         #instantiation-code.code-snippet
                             .highlight
                                 pre
-                                    code.js.
+                                    code.language-javascript.
                                         var MediaPlatform = require('media-platform-js-sdk');
 
                                         var mediaPlatform = new MediaPlatform({
@@ -55,7 +51,7 @@ html()
                         #authorization-code.code-snippet
                             .highlight
                                 pre
-                                    code.js.
+                                    code.language-javascript.
                                         var header = mediaPlatform.getAuthorizationHeader();
                                         res.send(header);
                             button(id='authorization-button').btn.
@@ -67,7 +63,7 @@ html()
                         #limited-authorization-code.code-snippet
                             .highlight
                                 pre
-                                    code.js.
+                                    code.language-javascript.
                                         var Token = require('media-platform-js-sdk').auth.Token;
                                         var NS = require('media-platform-js-sdk').auth.NS;
 
@@ -89,7 +85,7 @@ html()
                         #upload-code.code-snippet
                             .highlight
                                 pre
-                                   code.js.
+                                   code.language-javascript.
                                        fileManager.uploadFile('/demo/image.jpg', __dirname + '/../files/image.jpg', null, function(error, response) {
                                             // do something
                                        });
@@ -102,7 +98,7 @@ html()
                         #list-code.code-snippet
                             .highlight
                                 pre
-                                    code.js.
+                                    code.language-javascript.
                                         var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
 
                                         var listFilesRequest = new ListFilesRequest().setPageSize(3);
@@ -120,7 +116,7 @@ html()
                         #metadata-code.code-snippet
                             .highlight
                                 pre
-                                    code.js.
+                                    code.language-javascript.
                                         fileManager.getFileMetadataById(id, function (error, response) {
                                             // do something
                                         });
@@ -166,7 +162,7 @@ html()
                 request.responseType = 'json';
                 request.addEventListener('load', function (event) {
                     var el = document.createElement('pre');
-                    el.innerHTML = jsonSyntaxHighlight(event.target.response);
+                    el.innerHTML = Prism.highlight(JSON.stringify(event.target.response, null, 2), Prism.languages.js);
                     setChild(resultContainer, el);
                 });
 
