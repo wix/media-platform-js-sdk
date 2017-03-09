@@ -4,7 +4,7 @@ var expect = require('expect.js');
 
 describe('image file descriptor parsing', function () {
 
-    it('creates a new Image from a File Descriptor', function () {
+    it('creates a new Image from FileDescriptor', function () {
 
         var fileDescriptor = new FileDescriptor({
             id: 'id',

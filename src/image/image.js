@@ -162,6 +162,10 @@ Image.prototype.fillContainer = function (container, regionOfInterest) {
         regionOfInterest = new Rectangle(this.metadata.width, this.metadata.height, 0, 0);
     }
 
+    if (!this.metadata) {
+        throw new Error('client side manipulation requires image basic metadata');
+    }
+
     var roiAspectRatio = regionOfInterest.width / regionOfInterest.height;
     var containerWidth = Math.round(container.width ? container.width : (container.height * roiAspectRatio));
     var containerHeight = Math.round(container.height ? container.height : (container.width / roiAspectRatio));

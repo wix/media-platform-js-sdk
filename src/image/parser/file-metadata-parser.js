@@ -1,4 +1,5 @@
 var Metadata = require('../metadata');
+var parseFileDescriptor = require('./file-descriptor-parser');
 
 /**
  * @param {Image} image
@@ -6,19 +7,15 @@ var Metadata = require('../metadata');
  * @returns Image
  */
 function parse(image, fileMetadata) {
-    var type = fileMetadata.fileDescriptor.mimeType.split('/')[0].toLowerCase();
-    if (type !== 'image') {
-        throw new Error('file is not an image');
+    parseFileDescriptor(image, fileMetadata.fileDescriptor);
+
+    if (fileMetadata.basic) {
+        image.metadata = new Metadata(
+            fileMetadata.basic.width,
+            fileMetadata.basic.height,
+            fileMetadata.fileDescriptor.mimeType);
     }
-
-    image.path = fileDescriptor.path;
-    image.metadata = new Metadata(
-        fileDescriptor.mimeType
-    );
-    var pathParts = image.path.split('/');
-    image.fileName = pathParts[pathParts.length - 1];
 }
-
 
 /**
  * @type {parse}
