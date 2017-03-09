@@ -17,6 +17,10 @@ function MediaPlatform(configuration) {
      * @type {FileUploader}
      */
     var fileUploader = new FileUploader(configuration, browserHTTPClient);
+    /**
+     * @type {QueuedFileUploader}
+     */
+    var queuedFileUploader = new QueuedFileUploader(fileUploader);
 
     /**
      * retrieve the auth header for the currently logged in user
@@ -39,9 +43,12 @@ function MediaPlatform(configuration) {
     this.fileManager = new FileManager(configuration, browserHTTPClient, fileUploader);
 
     /**
-     * @type {QueuedFileUploader}
+     * @param {UploadJob} uploadJob
+     * @returns {QueuedFileUploader}
      */
-    this.queuedFileUploader = new QueuedFileUploader(fileUploader);
+    this.fileManager.queueFileUpload = function (uploadJob) {
+        return queuedFileUploader.enqueue(uploadJob);
+    }
 }
 
 /**

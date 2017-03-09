@@ -41,9 +41,9 @@ FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
  * @returns {UploadJob}
  */
 FileUploader.prototype.uploadFile = function (path, file) {
-    var upload = new UploadJob(path, file);
+    var uploadJob = new UploadJob(path, file);
 
-    return upload.run(this);
+    return uploadJob.run(this);
 };
 
 /**
