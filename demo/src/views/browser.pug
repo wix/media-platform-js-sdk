@@ -86,10 +86,10 @@ html()
 
                                 });
                     .demo-group
+                        input(id='file-metadata-id-input' type='text' placeholder='Enter File ID').text-input
+                        br
                         button#file-metadata-button.btn.
                             Execute
-                        br
-                        input(id='file-metadata-id-input' type='text' placeholder='Enter File ID').text-input
                         .highlight.highlight-response
                             pre
                                 code.language-javascript#file-metadata-payload
@@ -102,10 +102,10 @@ html()
 
                                 });
                     .demo-group
+                        input(id='file-delete-id-input' type='text' placeholder='Enter File ID').text-input
+                        br
                         button#file-delete-button.btn.
                             Execute
-                        br
-                        input(id='file-delete-id-input' type='text' placeholder='Enter File ID').text-input
                         .highlight.highlight-response
                             pre
                                 code.language-javascript#file-delete-payload
@@ -135,6 +135,39 @@ html()
 
                             .output
                                 img#image-output(src="/assets/img/no-preview.jpg")
+
+                    H4 Image manipulation
+                    .highlight
+                        pre
+                            code#image-manipulation-code.language-javascript.
+                                var image = new MP.Image(file);
+
+                                image
+                                  .crop(500, 500)
+                                  .jpeg(100, true)
+                                  .blur(50)
+                    .demo-group
+                        input(id='image-manipulation-id-input' type='text' placeholder='Enter File ID').text-input
+                        br
+                        select(id='image-manipulation-filters').filters-select
+                            option(value='blur;50', selected= true) Blur
+                            option(value='brightness;50') Brightness
+                            option(value='contrast;50') Contrast
+                            option(value='hue;50') Hue
+                            option(value='saturation;-70') Saturation
+                            option(value='unsharpMask;10,10,10') Unsharp Mask
+                        br
+                        button#image-manipulate-button.btn.
+                            Execute
+
+                        .response
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#image-manipulation-payload.
+
+                            .output
+                                img#image-manipulation-output(src="/assets/img/no-preview.jpg")
+
 
                 h2#VideoApi Video API
                 H4 Upload Video
@@ -283,7 +316,72 @@ html()
                         .on('upload-error', function(error) {
                           console.error('upload error:', error);
                         });
-                })
+                });
+
+              var imageManipulationIdInput = document.getElementById("image-manipulation-id-input");
+              var imageManipulateButton = document.getElementById("image-manipulate-button");
+              var imageManipulationFilters = document.getElementById("image-manipulation-filters");
+              var imageManipulationCode = document.getElementById("image-manipulation-code");
+              var imageOutput = document.getElementById("image-manipulation-output");
+              var imagePayload = document.getElementById("image-manipulation-payload");
+
+              var manipulationTemplate = 'var image = new MP.Image(file);\n\n' +
+                'image\n' +
+                '  .crop(500, 500)\n' +
+                '  .jpeg(100, true)\n';
+
+
+              imageManipulationFilters.addEventListener('change', function() {
+                if (!this.value) {
+                  return;
+                }
+
+                var fnName = this.value.split(';')[0];
+                var args = this.value.split(';')[1];
+
+                var codeString = manipulationTemplate + '  .' + fnName + '(' + args + ')';
+                imageManipulationCode.innerHTML = Prism.highlight(codeString, Prism.languages.js);
+              });
+
+              imageManipulateButton.addEventListener('click', function() {
+                var fileId = imageManipulationIdInput.value;
+                var filterValue = imageManipulationFilters.value;
+
+                if (!fileId) {
+                  console.warn('please specify fileId');
+                  return
+                }
+
+                if (!filterValue) {
+                  console.warn('please specify filter type');
+                  return
+                }
+
+                var fnName = filterValue.split(';')[0];
+                // to array with numbers
+                var args = filterValue.split(';')[1].split(',').map(function(val) {
+                  return parseInt(val, 10);
+                });
+
+                mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
+                    if (error) {
+                      return
+                    }
+                    var image = new MP.Image(response);
+
+                    image
+                      .crop(500, 500)
+                      .jpeg(100, true);
+
+                    // apply filter
+                    image[fnName].apply(image, args);
+
+                    var url = "http://" + imagesHost + image[fnName].apply(image, args).toUrl().url;
+
+                    imageOutput.setAttribute("src", url);
+                    imagePayload.innerHTML = url;
+                });
+              });
 
             })();
 

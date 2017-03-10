@@ -125,13 +125,14 @@ html()
                                         fileManager.getFileMetadataById(id, function (error, response) {
                                             // do something
                                         });
-                            input(id='file-id-input' type='text' placeholder='Enter File ID').text-input
-                            br
-                            button(id='get-metadata-button').btn.
-                                Execute
-                            .highlight.highlight-response
-                                pre
-                                    code.language-javascript#get-metadata-response
+                            .demo-group
+                                input(id='file-id-input' type='text' placeholder='Enter File ID').text-input
+                                br
+                                button(id='get-metadata-button').btn.
+                                    Execute
+                                .highlight.highlight-response
+                                    pre
+                                        code.language-javascript#get-metadata-response
 
         script.
             var authorizationButton = document.getElementById('authorization-button');
