@@ -136,9 +136,35 @@ html()
                             .output
                                 img#image-output(src="/assets/img/no-preview.jpg")
 
+                h2#VideoApi Video API
+                H4 Upload Video
+                .highlight
+                    pre
+                        code.language-javascript.
+                            mediaPlatform.fileManager
+                                .uploadFile(path, file)
+                                .on("upload-success", function(response) {
+                                    // handle success
+                                });
+
+                .demo-group
+                    label(for='video-file').btn.
+                        Upload Video
+                    span#video-file-path.path-to-file
+                    form(enctype='multipart/form-data' action='' method='post' target='upload-result')
+                        input(id='video-file' name='file' type='file' accept='video/*')
+
+                    .response
+                        .highlight.highlight-response
+                            pre
+                                code.language-javascript#video-payload.
+
+                        .output
+                            video#video-output(controls=true)
 
         script.
             var PATH_BASE = "/demo/";
+
 
             // FILE MANAGEMENT API
             (function() {
@@ -258,5 +284,42 @@ html()
                           console.error('upload error:', error);
                         });
                 })
+
+            })();
+
+
+            // VIDEO API
+            (function () {
+              var videoFile = document.getElementById("video-file");
+              var videoOutput = document.getElementById("video-output");
+              var videoPayload = document.getElementById("video-payload");
+              var videoFilePath = document.getElementById("video-file-path");
+
+              videoFile.addEventListener("change", function () {
+                var path = PATH_BASE + this.value.split("\\").pop();
+                var file = this.files[0];
+
+                videoFilePath.innerHTML = path;
+
+                // TODO: make callback optional
+                mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
+                  // do nothing...
+                });
+
+                mediaPlatform.fileManager
+                  .uploadFile(path, file)
+                  .on('upload-success', function (response) {
+                    var videos = response.fileDescriptors;
+                    var video = videos[0];
+                    var url = "http://" + videosHost + video.path;
+                    var html = Prism.highlight(JSON.stringify(video, null, 2), Prism.languages.js);
+
+                    videoOutput.setAttribute("src", url);
+                    videoPayload.innerHTML = html;
+                  })
+                  .on('upload-error', function (error) {
+                    console.error('upload error:', error);
+                  });
+              })
 
             })();
