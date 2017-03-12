@@ -34,7 +34,7 @@ describe('image url construction', function () {
             var result = image.crop(100.4, 200, 0, 0, 1).toUrl();
 
             expect(result).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -43,7 +43,7 @@ describe('image url construction', function () {
             var result = image.crop(99.5, 200).toUrl();
 
             expect(result).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -52,7 +52,7 @@ describe('image url construction', function () {
             var result = image.crop(100, 200.4).toUrl();
 
             expect(result).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -61,7 +61,7 @@ describe('image url construction', function () {
             var result = image.crop(100, 199.5).toUrl();
 
             expect(result).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_100,h_200,x_0,y_0,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -353,7 +353,7 @@ describe('image url construction', function () {
             var crop = image.crop(90, 91, 100, 101);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -362,7 +362,7 @@ describe('image url construction', function () {
             var crop = image.crop(90, 91, 100, 101, 1);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -371,7 +371,7 @@ describe('image url construction', function () {
             var crop = image.crop(90, 91, 100.4, 101);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -380,7 +380,7 @@ describe('image url construction', function () {
             var crop = image.crop(90, 91, 99.5, 101);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -389,7 +389,7 @@ describe('image url construction', function () {
             var crop = image.crop(90, 91, 100, 101.4);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -398,7 +398,7 @@ describe('image url construction', function () {
             var crop = image.crop(90, 91, 100, 100.5);
 
             expect(crop.toUrl()).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.5_0.2_0.0/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_90,h_91,x_100,y_101,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });
@@ -433,7 +433,7 @@ describe('image url construction', function () {
                 .toUrl();
 
             expect(result).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_101,h_102,x_81,y_82,scl_1.2,usm_10_8_9,blur_10,br_99,con_12,hue_60,sat_-70,q_100,bl/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_101,h_102,x_81,y_82,scl_1.2,usm_10.00_8.00_9.00,blur_10,br_99,con_12,hue_60,sat_-70,q_100,bl/324234#w_1000,h_2000,mt_image%2Fpng',
                 error: null
             });
         });

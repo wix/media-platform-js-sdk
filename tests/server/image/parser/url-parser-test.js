@@ -9,7 +9,7 @@ describe('image url parsing', function () {
         var image = new Image('http://media.wixapps.net/1234/images/file.png/v1/crop/w_50,h_50,q_75,usm_0.5_0.2_0.0/file.png#w_100,h_200,mt_image%2Fpng');
 
         expect(image.toUrl()).to.eql({
-            url: 'http://media.wixapps.net/1234/images/file.png/v1/crop/w_50,h_50,x_0,y_0,usm_0.5_0.2_0.0/file.png#w_100,h_200,mt_image%2Fpng',
+            url: 'http://media.wixapps.net/1234/images/file.png/v1/crop/w_50,h_50,x_0,y_0,usm_0.50_0.20_0.00/file.png#w_100,h_200,mt_image%2Fpng',
             error: null
         });
     });
