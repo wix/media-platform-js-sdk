@@ -161,7 +161,7 @@ html()
                             Execute
 
                         .response
-                            .highlight.highlight-response
+                            .highlight.highlight-response.url-block3
                                 pre
                                     code.language-javascript#image-manipulation-payload.
 
@@ -322,8 +322,8 @@ html()
               var imageManipulateButton = document.getElementById("image-manipulate-button");
               var imageManipulationFilters = document.getElementById("image-manipulation-filters");
               var imageManipulationCode = document.getElementById("image-manipulation-code");
-              var imageOutput = document.getElementById("image-manipulation-output");
-              var imagePayload = document.getElementById("image-manipulation-payload");
+              var imageManipulationOutput = document.getElementById("image-manipulation-output");
+              var imageManipulationPayload = document.getElementById("image-manipulation-payload");
 
               var manipulationTemplate = 'var image = new MP.Image(file);\n\n' +
                 'image\n' +
@@ -378,8 +378,8 @@ html()
 
                     var url = "http://" + imagesHost + image[fnName].apply(image, args).toUrl().url;
 
-                    imageOutput.setAttribute("src", url);
-                    imagePayload.innerHTML = url;
+                    imageManipulationOutput.setAttribute("src", url);
+                    imageManipulationPayload.innerHTML = url;
                 });
               });
 

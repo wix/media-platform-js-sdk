@@ -57,7 +57,7 @@ mixin styles
             border: 0;
             outline: none;
             cursor: pointer;
-            margin-top: 10px;
+            display: inline-block;
         }
 
         .btn:hover {
@@ -73,7 +73,7 @@ mixin styles
             border: 1px solid #ccc;
             outline: none;
             cursor: text;
-            margin-bottom: 4px;
+            margin-bottom: 10px;
         }
 
         .path-to-file {
@@ -128,7 +128,7 @@ mixin styles
         }
 
         .filters-select {
-            margin-top: 10px;
+            margin: 10px 0;
         }
 
         ul {
@@ -185,6 +185,7 @@ mixin styles
             overflow: auto;
             color: #333333;
             background: #f8f5ec;
+            white-space: pre-line;
         }
 
         .highlight:after {
@@ -208,4 +209,9 @@ mixin styles
             content: "Response";
             background: rgb(205, 226, 203);
             color: black;
+        }
+
+        .url-block code {
+            white-space: pre-line;
+            word-break: break-all;
         }

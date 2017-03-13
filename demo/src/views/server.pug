@@ -54,11 +54,12 @@ html()
                                     code.language-javascript.
                                         var header = mediaPlatform.getAuthorizationHeader();
                                         res.send(header);
-                            button(id='authorization-button').btn.
-                                Execute
-                            .highlight.highlight-response
-                                pre
-                                    code.language-javascript#authorization-response
+                            .demo-group
+                                button(id='authorization-button').btn.
+                                    Execute
+                                .highlight.highlight-response
+                                    pre
+                                        code.language-javascript#authorization-response
 
                     #limited-authorization
                         #limited-authorization-code
@@ -76,11 +77,12 @@ html()
                                         var header = mediaPlatform.getAuthorizationHeader(token);
 
                                         res.send(header);
-                            button(id='limited-authorization-button').btn.
-                                Execute
-                            .highlight.highlight-response
-                                pre
-                                    code.language-javascript#limited-authorization-response
+                            .demo-group
+                                button(id='limited-authorization-button').btn.
+                                    Execute
+                                .highlight.highlight-response
+                                    pre
+                                        code.language-javascript#limited-authorization-response
 
                     h2 Files
                     #upload
@@ -91,12 +93,14 @@ html()
                                        fileManager.uploadFile('/demo/image.jpg', __dirname + '/../files/image.jpg', null, function(error, response) {
                                             // do something
                                        });
-                            button(id='upload-button').btn.
-                                Execute
 
-                            .highlight.highlight-response
-                                pre
-                                    code.language-javascript#upload-response
+                            .demo-group
+                                button(id='upload-button').btn.
+                                    Execute
+
+                                .highlight.highlight-response
+                                    pre
+                                        code.language-javascript#upload-response
 
                     #list
                         #list-code
@@ -111,11 +115,12 @@ html()
                                             // do something
                                         });
 
-                            button(id='list-button').btn.
-                                Execute
-                            .highlight.highlight-response
-                                pre
-                                    code.language-javascript#list-response
+                            .demo-group
+                                button(id='list-button').btn.
+                                    Execute
+                                .highlight.highlight-response
+                                    pre
+                                        code.language-javascript#list-response
 
                     #metadata
                         #metadata-code
