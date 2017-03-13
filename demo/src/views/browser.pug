@@ -44,10 +44,10 @@ html()
                         pre
                             code.language-javascript.
                                 mediaPlatform.fileManager
-                                    .uploadFile(path, file)
-                                    .on("upload-success", function(response) {
-                                        // handle success
-                                    });
+                                  .uploadFile(path, file)
+                                  .on("upload-success", function(response) {
+                                      // handle success
+                                  });
 
                     .demo-group
                         label(for='file-management').btn.
@@ -114,12 +114,17 @@ html()
                     H4 Upload image
                     .highlight
                         pre
-                            code.language-javascript.
+                            code.language-javascript#image-manipulation-code.
                                 mediaPlatform.fileManager
-                                    .uploadFile(path, file)
-                                    .on("upload-success", function(response) {
-                                        // handle success
-                                    });
+                                  .uploadFile(path, file)
+                                  .on("upload-success", function(response) {
+                                    var image = new MP.Image(file);
+
+                                    image.crop(500, 500)
+                                      .jpeg(100, true)
+                                      .blur(50)
+                                      .toUrl();
+                                  });
 
                     .demo-group
                         label(for='image-file').btn.
@@ -128,27 +133,6 @@ html()
                         form(enctype='multipart/form-data' action='' method='post' target='upload-result')
                             input(id='image-file' name='file' type='file' accept='image/*')
 
-                        .response
-                            .highlight.highlight-response
-                                pre
-                                    code.language-javascript#image-payload.
-
-                            .output
-                                img#image-output(src="/assets/img/no-preview.jpg")
-
-                    H4 Image manipulation
-                    .highlight
-                        pre
-                            code#image-manipulation-code.language-javascript.
-                                var image = new MP.Image(file);
-
-                                image
-                                  .crop(500, 500)
-                                  .jpeg(100, true)
-                                  .blur(50)
-                    .demo-group
-                        input(id='image-manipulation-id-input' type='text' placeholder='Enter File ID').text-input
-                        br
                         select(id='image-manipulation-filters').filters-select
                             option(value='blur;50', selected= true) Blur
                             option(value='brightness;50') Brightness
@@ -156,18 +140,14 @@ html()
                             option(value='hue;50') Hue
                             option(value='saturation;-70') Saturation
                             option(value='unsharpMask;5.5,4.23,9.56') Unsharp Mask
-                        br
-                        button#image-manipulate-button.btn.
-                            Execute
 
                         .response
                             .highlight.highlight-response.url-block3
                                 pre
-                                    code.language-javascript#image-manipulation-payload.
+                                    code.language-javascript#image-payload.
 
                             .output
-                                img#image-manipulation-output(src="/assets/img/no-preview.jpg")
-
+                                img#image-output(src="/assets/img/no-preview.png")
 
                 h2#VideoApi Video API
                 H4 Upload Video
@@ -290,10 +270,44 @@ html()
                 var imageOutput = document.getElementById("image-output");
                 var imagePayload = document.getElementById("image-payload");
                 var imageFilePath = document.getElementById("image-file-path");
+                var imageManipulationFilters = document.getElementById("image-manipulation-filters");
+                var imageManipulationCode = document.getElementById("image-manipulation-code");
+                var imageDescriptor;
+
+                function getImageManipulationCode() {
+                  var filter = imageManipulationFilters.value.split(';');
+                  var filterName = filter[0];
+                  var value = filter[1];
+
+                  var filterFnText = filterName && value ? '.' + filterName + '(' + value + ')\n' : '';
+
+                  return 'mediaPlatform.fileManager\n' +
+                    '  .uploadFile(path, file)\n' +
+                    '  .on("upload-success", function (response) {\n' +
+                    '    var image = new MP.Image(file);\n\n' +
+                    '    image.crop(500, 500)\n' +
+                    '      .jpeg(100, true)\n' +
+                    '      ' + filterFnText +
+                    '      .toUrl();\n' +
+                    '  });'
+
+                }
+
+                function parseFilterValue(filterValue) {
+                  var fnName = filterValue.split(';')[0];
+                  // to array with numbers
+                  var args = filterValue.split(';')[1].split(',').map(function (val) {
+                    return +val
+                  });
+
+                  return [fnName, args];
+                }
 
                 imageFile.addEventListener("change", function () {
                     var path = PATH_BASE + this.value.split("\\").pop();
                     var file = this.files[0];
+                    var filterValueArr = parseFilterValue(imageManipulationFilters.value);
+
 
                     imageFilePath.innerHTML = path;
 
@@ -302,87 +316,61 @@ html()
                         // do nothing...
                     });
 
+                    var fnName = filterValueArr[0];
+                    var args = filterValueArr[1];
+
                     mediaPlatform.fileManager
                         .uploadFile(path, file)
                         .on('upload-success', function (response) {
-                            var images = response.fileDescriptors;
-                            var image = images[0];
-                            var url = "http://" + imagesHost + image.path;
-                            var html = Prism.highlight(JSON.stringify(image, null, 2), Prism.languages.js);
+                            var descriptors = response.fileDescriptors;
+                            var descriptor = imageDescriptor = descriptors[0];
 
+                            // set payload
+                            imagePayload.innerHTML = Prism.highlight(JSON.stringify(descriptor, null, 2), Prism.languages.js);
+
+                            var image = new MP.Image(descriptor);
+
+                            image
+                              .crop(500, 500)
+                              .jpeg(100, true);
+
+                            // apply filter
+                            image[fnName].apply(image, args);
+
+                            var url = "http://" + imagesHost + image.toUrl().url;
+
+                            // set image
                             imageOutput.setAttribute("src", url);
-                            imagePayload.innerHTML = html;
                         })
                         .on('upload-error', function(error) {
                           console.error('upload error:', error);
                         });
                 });
 
-              var imageManipulationIdInput = document.getElementById("image-manipulation-id-input");
-              var imageManipulateButton = document.getElementById("image-manipulate-button");
-              var imageManipulationFilters = document.getElementById("image-manipulation-filters");
-              var imageManipulationCode = document.getElementById("image-manipulation-code");
-              var imageManipulationOutput = document.getElementById("image-manipulation-output");
-              var imageManipulationPayload = document.getElementById("image-manipulation-payload");
+              imageManipulationFilters.addEventListener("change", function() {
 
-              var manipulationTemplate = 'var image = new MP.Image(file);\n\n' +
-                'image\n' +
-                '  .crop(500, 500)\n' +
-                '  .jpeg(100, true)\n';
+                imageManipulationCode.innerHTML = Prism.highlight(getImageManipulationCode(), Prism.languages.js)
 
+                if (!imageDescriptor) return
 
-              imageManipulationFilters.addEventListener('change', function() {
-                if (!this.value) {
-                  return;
-                }
+                  var filterValueArr = parseFilterValue(this.value);
+                  var fnName = filterValueArr[0];
+                  var args = filterValueArr[1];
 
-                var fnName = this.value.split(';')[0];
-                var args = this.value.split(';')[1];
+                  var image = new MP.Image(imageDescriptor);
 
-                var codeString = manipulationTemplate + '  .' + fnName + '(' + args + ')';
-                imageManipulationCode.innerHTML = Prism.highlight(codeString, Prism.languages.js);
+                  image
+                    .crop(500, 500)
+                    .jpeg(100, true);
+
+                  // apply filter
+                  image[fnName].apply(image, args);
+
+                  var url = "http://" + imagesHost + image.toUrl().url;
+
+                  // set image
+                  imageOutput.setAttribute("src", url);
               });
-
-              imageManipulateButton.addEventListener('click', function() {
-                var fileId = imageManipulationIdInput.value;
-                var filterValue = imageManipulationFilters.value;
-
-                if (!fileId) {
-                  console.warn('please specify fileId');
-                  return
-                }
-
-                if (!filterValue) {
-                  console.warn('please specify filter type');
-                  return
-                }
-
-                var fnName = filterValue.split(';')[0];
-                // to array with numbers
-                var args = filterValue.split(';')[1].split(',').map(function(val) {
-                  return parseInt(val, 10);
-                });
-
-                mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
-                    if (error) {
-                      return
-                    }
-                    var image = new MP.Image(response);
-
-                    image
-                      .crop(500, 500)
-                      .jpeg(100, true);
-
-                    // apply filter
-                    image[fnName].apply(image, args);
-
-                    var url = "http://" + imagesHost + image[fnName].apply(image, args).toUrl().url;
-
-                    imageManipulationOutput.setAttribute("src", url);
-                    imageManipulationPayload.innerHTML = url;
-                });
-              });
-
             })();
 
 
