@@ -2,6 +2,7 @@ var Configuration = require('./configuration/configuration');
 var Authenticator = require('./authentication/authenticator');
 var HTTPClient = require('./http/http-client');
 var FileUploader = require('./management/file-uploader');
+var FileDownloader = require('./management/file-downloader');
 var FileManager = require('./management/file-manager');
 var WebhookDeserializer = require('./webhook/webhook-deserializer');
 
@@ -17,6 +18,7 @@ function MediaPlatform(config) {
     var authenticator = new Authenticator(configuration);
     var httpClient = new HTTPClient(authenticator);
     var fileUploader = new FileUploader(configuration, httpClient);
+    var fileDownloader = new FileDownloader(configuration, authenticator);
 
     /**
      * @param {Token?} token
@@ -24,6 +26,15 @@ function MediaPlatform(config) {
      */
     this.getAuthorizationHeader = function (token) {
         return authenticator.getHeader(token);
+    };
+
+    /**
+     * @param {string} path
+     * @param {DownloadUrlRequest?} downloadUrlRequest
+     * @returns {{downloadUrl: string}}
+     */
+    this.getDownloadUrl = function (path, downloadUrlRequest) {
+        return fileDownloader.getDownloadUrl(path, downloadUrlRequest);
     };
 
     /**

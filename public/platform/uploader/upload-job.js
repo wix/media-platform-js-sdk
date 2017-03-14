@@ -70,7 +70,6 @@ UploadJob.prototype.run = function (fileUploader) {
     fileUploader.getUploadUrl(uploadUrlRequest, function (error, response) {
 
         if (error) {
-            console.error('get upload url - error');
             var e = new UploadErrorEvent(this);
             this.emit(e.name, e);
             return;
@@ -111,6 +110,7 @@ UploadJob.prototype.run = function (fileUploader) {
         }.bind(this);
 
         var reset = function () {
+            request.removeEventListener('progress', onProgress);
             request.removeEventListener('load', onLoad);
             request.removeEventListener('error', onError);
             request.removeEventListener('abort', onAbort);
@@ -125,7 +125,7 @@ UploadJob.prototype.run = function (fileUploader) {
 
         var request = new XMLHttpRequest();
         request.withCredentials = true;
-        request.upload.onprogress = onProgress;
+        request.addEventListener('progress', onProgress);
         request.addEventListener('load', onLoad);
         request.addEventListener('error', onError);
         request.addEventListener('abort', onAbort);

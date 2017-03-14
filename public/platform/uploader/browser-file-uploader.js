@@ -21,11 +21,11 @@ function FileUploader(configuration, browserHTTPClient) {
 
 /**
  * retrieve a pre signed URL to which the file is uploaded
- * @param {string} mediaType
+ * @param {UploadUrlRequest?} uploadUrlRequest
  * @param {function(Error, UploadUrlResponse)} callback
  */
-FileUploader.prototype.getUploadUrl = function (mediaType, callback) {
-    this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, {}, null, function (error, body) {
+FileUploader.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
+    this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, uploadUrlRequest, null, function (error, body) {
         if (error) {
             callback(error, null);
             return;

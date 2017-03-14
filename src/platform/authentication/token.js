@@ -89,6 +89,16 @@ Token.prototype.setObject = function(ns, pattern) {
 };
 
 /**
+ * @description sets the expiration in UNIX TIME
+ * @param {number} expiration
+ * @returns {Token}
+ */
+Token.prototype.setExpiration = function(expiration) {
+    this.expiration = expiration;
+    return this;
+};
+
+/**
  * @description add to the list of operations permitted by this token
  * @param {string} verbs
  * @returns {Token}
@@ -105,6 +115,16 @@ Token.prototype.addVerbs = function(verbs) {
  */
 Token.prototype.setVerbs = function(verbs) {
     this.verbs = verbs;
+    return this;
+};
+
+/**
+ * @description set any arbitrary claims in the token (be careful not override any of the standard claims)
+ * @param {{}} additionalClaims
+ * @returns {Token}
+ */
+Token.prototype.setAdditionalClaims = function(additionalClaims) {
+    this.additionalClaims = additionalClaims;
     return this;
 };
 

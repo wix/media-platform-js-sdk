@@ -28,10 +28,18 @@ Authenticator.prototype.getHeader = function(token) {
             .setSubject(NS.APPLICATION, this.configuration.appId);
     }
 
-    var signedToken = jwt.sign(t.toClaims(), this.configuration.sharedSecret);
     return {
-        Authorization: signedToken
+        Authorization: this.encode(t)
     };
+};
+
+/**
+ * @summary sign a JWT
+ * @param {Token} token
+ * @returns {string|null} The JWT payload
+ */
+Authenticator.prototype.encode = function(token) {
+    return jwt.sign(token.toClaims(), this.configuration.sharedSecret);
 };
 
 /**

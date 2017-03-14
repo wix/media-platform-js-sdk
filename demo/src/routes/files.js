@@ -56,4 +56,9 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/media-platform/file/download/url', function(req, res) {
+        var url = mediaPlatform.getDownloadUrl(req.query.path, null);
+
+        res.send(url);
+    });
 };

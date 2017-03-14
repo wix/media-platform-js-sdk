@@ -19,7 +19,7 @@ describe('queued file uploader', function () {
     var queuedFileUploader = new QueuedFileUploader(fileUploader);
 
     it('uploads a file and reports progress', function (done) {
-        setResponse(fileDescriptorResponse);
+        setResponse(fileUploadResponse);
         var progress = false;
         queuedFileUploader.queue.drain = function() {
             fauxJax.restore();
@@ -32,24 +32,20 @@ describe('queued file uploader', function () {
             .setPath('/fish/file.mp3')
             .setFile(file);
         uploadJob.on('upload-started', function (event) {
-            console.log(event.target);
         });
         uploadJob.on('upload-progress', function (event) {
-            // console.log(JSON.stringify(event, null, 2));
             progress = true;
         });
         uploadJob.on('upload-error', function (event) {
-            // console.log(JSON.stringify(event, null, 2));
         });
         uploadJob.on('upload-success', function (event) {
-            // console.log(JSON.stringify(event, null, 2));
         });
 
         queuedFileUploader.enqueue(uploadJob);
     });
 
     it('can only queue a job once', function (done) {
-        setResponse(fileDescriptorResponse);
+        setResponse(fileUploadResponse);
         queuedFileUploader.queue.drain = function() {
             fauxJax.restore();
             done();
@@ -58,10 +54,8 @@ describe('queued file uploader', function () {
         var file = new FileAPI.File('../files/image.jpg');
         var uploadJob = new UploadJob().setFile(file);
         uploadJob.on('upload-error', function (event) {
-            // console.log(event);
         });
         uploadJob.on('upload-success', function (event) {
-            // console.log('done');
         });
 
         queuedFileUploader.enqueue(uploadJob);
@@ -79,19 +73,17 @@ describe('queued file uploader', function () {
         var file = new FileAPI.File('../files/file.json');
         var uploadJob = new UploadJob().setFile(file);
         uploadJob.on('upload-error', function (event) {
-            console.log(event);
         });
         uploadJob.on('upload-success', function (event) {
-            console.log(event);
         });
 
         queuedFileUploader.enqueue(uploadJob);
     });
 
-    var fileDescriptorResponse = {
+    var fileUploadResponse = {
         "code": 0,
         "message": "OK",
-        "payload":  {
+        "payload":  [{
             "mimeType": "text/plain",
             "hash": "d41d8cd98f00b204e9800998ecf8427e",
             "parent": "/",
@@ -103,7 +95,7 @@ describe('queued file uploader', function () {
             "acl": "public",
             "dateUpdated": "2017-02-20T14:23:42Z",
             "type": "-"
-        }
+        }]
     };
 
     function setResponse(responseBody, responseStatus) {
@@ -123,15 +115,20 @@ describe('queued file uploader', function () {
                 return;
             }
 
-            if (request.requestURL.indexOf('https://www.domain.com/_api/file/upload/url') == 0) {
+            if (request.requestURL.indexOf('https://www.domain.com/_api/upload/url') == 0) {
                 request.respond(200, {'Content-Type': 'application/json'},
                     JSON.stringify({
-                        uploadUrl: 'https://www.domain.com/_api/upload'
+                        code: 0,
+                        message: 'OK',
+                        payload: {
+                            uploadUrl: 'https://www.domain.com/_api/upload',
+                            uploadToken: 'token'
+                        }
                     }));
                 return;
             }
 
-            if (request.requestURL === 'https://www.domain.com/_api/file/upload') {
+            if (request.requestURL === 'https://www.domain.com/_api/upload') {
                 request.respond(responseStatus || 200, {'Content-Type': 'application/json'}, JSON.stringify(responseBody));
             }
         })

@@ -11,18 +11,6 @@ html()
 
         +styles
 
-        script.
-            var mediaPlatform = new MP.MediaPlatform({
-                domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
-                authenticationUrl: 'http://' + location.host + '/media-platform/auth-header'
-            });
-
-            var Image = MP.Image;
-            var UploadUrlRequest = MP.file.UploadUrlRequest;
-            var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
-            var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
-            var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
-
     body
 
         +nav-bar
@@ -46,8 +34,8 @@ html()
 
                                         var fileManager = mediaPlatform.fileManager;
 
-                    h2 Authorization
-                    #authorization
+                    h2#authorization Authorization
+                        h4 Generating and signing an authorization token for use by the client (browser)
                         #authorization-code
                             .highlight
                                 pre
@@ -62,6 +50,7 @@ html()
                                         code.language-javascript#authorization-response
 
                     #limited-authorization
+                        h4 Limiting the authorization scope of the signed token
                         #limited-authorization-code
                             .highlight
                                 pre
@@ -84,8 +73,8 @@ html()
                                     pre
                                         code.language-javascript#limited-authorization-response
 
-                    h2 Files
-                    #upload
+                    h2#upload Files
+                        h4 Uploading a file directly from the server. Support streams, buffers and files
                         #upload-code
                             .highlight
                                 pre
@@ -103,6 +92,7 @@ html()
                                         code.language-javascript#upload-response
 
                     #list
+                        h4 List files under a specific directory
                         #list-code
                             .highlight
                                 pre
@@ -123,6 +113,8 @@ html()
                                         code.language-javascript#list-response
 
                     #metadata
+                        h4 Get all the accumulated file metadata, note that the available metadata depends on
+                           |  which services are active in the project
                         #metadata-code
                             .highlight
                                 pre
@@ -138,6 +130,24 @@ html()
                                 .highlight.highlight-response
                                     pre
                                         code.language-javascript#get-metadata-response
+                                        
+                    #download-url
+                        h4 Get a signed URL that directs to a file, required for non-public file download
+                        #download-url-code
+                            .highlight
+                                pre
+                                    code.language-javascript.
+                                        var url = mediaPlatform.getDownloadUrl(req.query.path, null);
+
+                                        res.send({url: url});
+                            .demo-group
+                                input(id='file-path-input' type='text' placeholder='Enter File Path').text-input
+                                br
+                                button(id='get-download-url-button').btn.
+                                    Execute
+                                .highlight.highlight-response
+                                    pre
+                                        code.language-javascript#get-download-url-response
 
         script.
             var authorizationButton = document.getElementById('authorization-button');
@@ -160,12 +170,19 @@ html()
             listButton.addEventListener('click', function () {
                 doGet('http://' + location.host + '/media-platform/files', listResponse)
             });
-            var deleteButton = document.getElementById('get-metadata-button');
+            var metadataButton = document.getElementById('get-metadata-button');
             var metadataResponse = document.getElementById('get-metadata-response');
             var fileIdInput = document.getElementById('file-id-input');
-            deleteButton.addEventListener('click', function () {
+            metadataButton.addEventListener('click', function () {
                 var id = fileIdInput.value;
                 doGet('http://' + location.host + '/media-platform/file/' + id + '/metadata', metadataResponse)
+            });
+            var downloadUrlButton = document.getElementById('get-download-url-button');
+            var downloadUrlResponse = document.getElementById('get-download-url-response');
+            var filePathInput = document.getElementById('file-path-input');
+            downloadUrlButton.addEventListener('click', function () {
+                var path = encodeURIComponent(filePathInput.value);
+                doGet('http://' + location.host + '/media-platform/file/download/url?path=' + path, downloadUrlResponse)
             });
 
             function doGet(url, resultContainer) {

@@ -112,23 +112,6 @@ FileManager.prototype.getFileMetadataById = function (fileId, callback) {
 };
 
 /**
- * @param {Object} params
- * @param {function(Error, string | null)} callback
- */
-FileManager.prototype.getDownloadUrl = function (params, callback) {
-
-    this.httpClient.request('GET', this.baseUrl + '/_api/download/secure_url', params, null, function (error, response) {
-
-        if (error) {
-            callback(error, null);
-            return;
-        }
-
-        callback(null, this.baseUrl + response.payload.downloadUrl);
-    }.bind(this));
-};
-
-/**
  * @param {string} path
  * @param {ListFilesRequest?} listFilesRequest
  * @param {function(Error, ListFilesResponse)} callback

@@ -1,7 +1,7 @@
 var MediaPlatform = require('./platform/media-platform');
 var Image = require('./image/image');
 var UploadFileRequest = require('./platform/management/requests/upload-file-request');
-var UpdateFileRequest =  require('./platform/management/requests/update-file-request');
+var DownloadUrlRequest = require('./platform/management/requests/download-url-request');
 var ListFilesRequest = require('./platform/management/requests/list-files-request');
 var Token = require('./platform/authentication/token');
 var NS = require('./platform/authentication/NS');
@@ -26,14 +26,14 @@ module.exports = {
         UploadFileRequest: UploadFileRequest,
 
         /**
-         * @type {ListFilesRequest}
+         * @type {DownloadUrlRequest}
          */
-        ListFilesRequest: ListFilesRequest,
+        DownloadUrlRequest: DownloadUrlRequest,
 
         /**
-         * @type {UpdateFileRequest}
+         * @type {ListFilesRequest}
          */
-        UpdateFileRequest: UpdateFileRequest
+        ListFilesRequest: ListFilesRequest
     },
 
     auth: {

@@ -43,6 +43,11 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
             default:
                 urlParams = '';
                 for (var key in params) {
+
+                    if (typeof params[key] === 'function' || params[key] == null) {
+                        continue;
+                    }
+
                     if (urlParams != '') {
                         urlParams += '&';
                     }
