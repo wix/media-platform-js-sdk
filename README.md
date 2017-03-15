@@ -150,8 +150,6 @@ fileManager.listFiles('/directory', listFilesRequest, callback)
 
 Get file metadata (by id)
 
-(*does not return the actual file*)
-
 ```javascript
 fileManager.getFileMetadataById('fileId', callback);
 ```
