@@ -5,7 +5,6 @@ var Image = require('../src/image/image');
 var UploadUrlRequest = require('../src/platform/management/requests/upload-url-request');
 var UploadFileRequest = require('../src/platform/management/requests/upload-file-request');
 var ListFilesRequest = require('../src/platform/management/requests/list-files-request');
-var UpdateFileRequest = require('../src/platform/management/requests/update-file-request');
 
 var MP = {};
 
@@ -45,12 +44,7 @@ MP.file = {
     /**
      * @type {ListFilesRequest}
      */
-    ListFilesRequest: ListFilesRequest,
-
-    /**
-     * @type {UpdateFileRequest}
-     */
-    UpdateFileRequest: UpdateFileRequest
+    ListFilesRequest: ListFilesRequest
 };
 
 module.exports = MP;

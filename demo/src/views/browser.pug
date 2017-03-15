@@ -43,11 +43,10 @@ html()
                     .highlight
                         pre
                             code.language-javascript.
-                                mediaPlatform.fileManager
-                                  .uploadFile(path, file)
-                                  .on("upload-success", function(response) {
-                                      // handle success
-                                  });
+                                mediaPlatform.fileManager.uploadFile(path, file)
+                                    .on("upload-success", function(response) {
+                                        // handle success
+                                    });
 
                     .demo-group
                         label(for='file-management').btn.
