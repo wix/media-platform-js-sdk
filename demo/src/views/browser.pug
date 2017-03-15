@@ -7,6 +7,7 @@ html()
         title Wix Media Platform - SDK Browser Demo
 
         script(src="/media-platform.min.js")
+        script(src="/utils.js")
         script(src="/prismjs/prism.js")
         link(href="/prismjs/themes/prism.css")
         +styles
@@ -49,11 +50,13 @@ html()
                                     });
 
                     .demo-group
-                        label(for='file-management').btn.
-                            Upload File
-                        span#file-management-path.path-to-file
-                        form(enctype='multipart/form-data' action='' method='post' target='upload-result')
-                            input(id='file-management' name='file' type='file')
+                        .executable-button
+                            label(for='file-management' id="file-management-label").btn.
+                                Upload File
+                            .spinner
+                            span#file-management-path.path-to-file
+                            form(enctype='multipart/form-data' action='' method='post' target='upload-result')
+                                input(id='file-management' name='file' type='file')
                         .highlight.highlight-response
                             pre
                                 code.language-javascript#file-management-payload
@@ -69,8 +72,10 @@ html()
                                 });
 
                     .demo-group
-                        button#file-list-button.btn.
-                            Execute
+                        .executable-button
+                            button#file-list-button.btn.
+                                Execute
+                            .spinner
 
                         .highlight.highlight-response
                             pre
@@ -86,8 +91,10 @@ html()
                     .demo-group
                         input(id='file-metadata-id-input' type='text' placeholder='Enter File ID').text-input
                         br
-                        button#file-metadata-button.btn.
-                            Execute
+                        .executable-button
+                            button#file-metadata-button.btn.
+                                Execute
+                            .spinner
                         .highlight.highlight-response
                             pre
                                 code.language-javascript#file-metadata-payload
@@ -102,8 +109,10 @@ html()
                     .demo-group
                         input(id='file-delete-id-input' type='text' placeholder='Enter File ID').text-input
                         br
-                        button#file-delete-button.btn.
-                            Execute
+                        .executable-button
+                            button#file-delete-button.btn.
+                                Execute
+                            .spinner
                         .highlight.highlight-response
                             pre
                                 code.language-javascript#file-delete-payload
@@ -124,11 +133,13 @@ html()
                                   });
 
                     .demo-group
-                        label(for='image-file').btn.
-                            Upload Image
-                        span#image-file-path.path-to-file
-                        form(enctype='multipart/form-data' action='' method='post' target='upload-result')
-                            input(id='image-file' name='file' type='file' accept='image/*')
+                        .executable-button
+                            label(for='image-file' id='image-file-label' ).btn.
+                                Upload Image
+                            .spinner
+                            span#image-file-path.path-to-file
+                            form(enctype='multipart/form-data' action='' method='post' target='upload-result')
+                                input(id='image-file' name='file' type='file' accept='image/*')
 
                         select(id='image-manipulation-filters').filters-select
                             option(value='blur;50', selected= true) Blur
@@ -157,11 +168,13 @@ html()
                                 });
 
                 .demo-group
-                    label(for='video-file').btn.
-                        Upload Video
-                    span#video-file-path.path-to-file
-                    form(enctype='multipart/form-data' action='' method='post' target='upload-result')
-                        input(id='video-file' name='file' type='file' accept='video/*')
+                    .executable-button
+                        label(for='video-file' id='video-file-label').btn.
+                            Upload Video
+                        .spinner
+                        span#video-file-path.path-to-file
+                        form(enctype='multipart/form-data' action='' method='post' target='upload-result')
+                            input(id='video-file' name='file' type='file' accept='video/*')
 
                     .response
                         .highlight.highlight-response
@@ -180,6 +193,7 @@ html()
 
                 // upload file
                 var fileUploadButton = document.getElementById('file-management');
+                var fileManagementLabel = document.getElementById('file-management-label');
                 var fileUploadPayload = document.getElementById('file-management-payload');
                 var fileUploadPath = document.getElementById('file-management-path');
 
@@ -190,17 +204,23 @@ html()
                     fileUploadPath.innerHTML = path;
 
                     // TODO: make callback optional
+                    startLoading(fileManagementLabel);
                     mediaPlatform.fileManager.deleteFileByPath(path, function(error, response) {
                         mediaPlatform.fileManager
                             .uploadFile(path, file)
                             .on('upload-success', function (response) {
+                                stopLoading(fileManagementLabel);
+
                                 fileUploadPayload.innerHTML = Prism.highlight(
                                     JSON.stringify(response.fileDescriptors, null, 2),
                                     Prism.languages.js);
+                            })
+                            .on('upload-error', function () {
+                                stopLoading(fileManagementLabel);
                             });
                     });
                 });
-                
+
                 // get list of files
                 var fileListButton = document.getElementById('file-list-button');
                 var fileListPayload = document.getElementById('file-list-payload');
@@ -208,10 +228,12 @@ html()
                 fileListButton.addEventListener('click', function() {
                     var listFileRequest = new MP.file.ListFilesRequest().setPageSize(3);
 
+                    startLoading(fileListButton);
                     mediaPlatform.fileManager
                         .listFiles('/demo', listFileRequest, function(error, response) {
+                            stopLoading(fileListButton);
                             if (error) {
-                                console.error('error', response.error);
+                                console.error('error', error);
                                 return
                             }
 
@@ -233,7 +255,9 @@ html()
                         return
                     }
 
+                    startLoading(fileMetadataButton);
                     mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
+                        stopLoading(fileMetadataButton);
                         fileMetadataPayload.innerHTML = Prism.highlight(
                             JSON.stringify(response.fileDescriptor, null, 2),
                             Prism.languages.js);
@@ -253,7 +277,9 @@ html()
                         return
                     }
 
+                    startLoading(fileDeleteButton);
                     mediaPlatform.fileManager.deleteFileById(fileId, function (error, response) {
+                        stopLoading(fileDeleteButton);
                         fileDeletePayload.innerHTML = error ? 'failed' : 'success';
                     });
                 })
@@ -263,6 +289,7 @@ html()
             // IMAGE API
             (function() {
                 var imageFile = document.getElementById("image-file");
+                var imageFileLabel = document.getElementById("image-file-label");
                 var imageOutput = document.getElementById("image-output");
                 var imagePayload = document.getElementById("image-payload");
                 var imageFilePath = document.getElementById("image-file-path");
@@ -307,6 +334,7 @@ html()
 
                     imageFilePath.innerHTML = path;
 
+                    startLoading(imageFileLabel);
                     // TODO: make callback optional
                     mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
                         // do nothing...
@@ -318,6 +346,7 @@ html()
                     mediaPlatform.fileManager
                         .uploadFile(path, file)
                         .on('upload-success', function (response) {
+                            stopLoading(imageFileLabel);
                             var descriptors = response.fileDescriptors;
                             var descriptor = imageDescriptor = descriptors[0];
 
@@ -342,6 +371,7 @@ html()
                         })
                         .on('upload-error', function(error) {
                             console.error('upload error:', error);
+                            stopLoading(imageFileLabel);
                         });
                 });
 
@@ -375,6 +405,7 @@ html()
             // VIDEO API
             (function () {
                 var videoFile = document.getElementById('video-file');
+                var videoFileLabel = document.getElementById('video-file-label');
                 var videoOutput = document.getElementById('video-output');
                 var videoPayload = document.getElementById('video-payload');
                 var videoFilePath = document.getElementById('video-file-path');
@@ -386,10 +417,12 @@ html()
                     videoFilePath.innerHTML = path;
 
                     // TODO: make callback optional
+                    startLoading(videoFileLabel);
                     mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
                         mediaPlatform.fileManager
                             .uploadFile(path, file)
                             .on('upload-success', function (response) {
+                                stopLoading(videoFileLabel);
                                 var videos = response.fileDescriptors;
                                 var video = videos[0];
                                 var url = "http://" + videosHost + video.path;
@@ -399,6 +432,7 @@ html()
                                 videoPayload.innerHTML = html;
                             })
                             .on('upload-error', function (err) {
+                                stopLoading(videoFileLabel);
                                 console.error('upload error:', err);
                             });
                     });

@@ -66,6 +66,28 @@ mixin styles
             background-color: #2f9fff;
         }
 
+        .btn:disabled,
+        .btn[disabled] {
+            background-color: #f8f5ec;
+        }
+
+        .executable-button {
+            display: flex;
+            align-items: center;
+        }
+
+        .executable-button .spinner {
+            display: none;
+            margin-left: 5px;
+            background: url('/assets/img/ring.svg');
+            width: 22px;
+            height: 22px;
+        }
+
+        .executable-button.loading .spinner {
+            display: block;
+        }
+
         .text-input {
             padding: 5px 20px;
             border-radius: 0;

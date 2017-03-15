@@ -6,6 +6,7 @@ html()
         title Wix Media Platform - SDK Server Demo
 
         script(src='/media-platform.min.js')
+        script(src="/utils.js")
         script(src="/prismjs/prism.js")
         link(href="/prismjs/themes/prism.css")
 
@@ -43,8 +44,10 @@ html()
                                         var header = mediaPlatform.getAuthorizationHeader();
                                         res.send(header);
                             .demo-group
-                                button(id='authorization-button').btn.
-                                    Execute
+                                .executable-button
+                                    button(id='authorization-button').btn.
+                                        Execute
+                                    .spinner
                                 .highlight.highlight-response
                                     pre
                                         code.language-javascript#authorization-response
@@ -67,8 +70,10 @@ html()
 
                                         res.send(header);
                             .demo-group
-                                button(id='limited-authorization-button').btn.
-                                    Execute
+                                .executable-button
+                                    button(id='limited-authorization-button').btn.
+                                        Execute
+                                    .spinner
                                 .highlight.highlight-response
                                     pre
                                         code.language-javascript#limited-authorization-response
@@ -84,9 +89,10 @@ html()
                                        });
 
                             .demo-group
-                                button(id='upload-button').btn.
-                                    Execute
-
+                                .executable-button
+                                    button(id='upload-button').btn.
+                                        Execute
+                                    .spinner
                                 .highlight.highlight-response
                                     pre
                                         code.language-javascript#upload-response
@@ -106,8 +112,10 @@ html()
                                         });
 
                             .demo-group
-                                button(id='list-button').btn.
-                                    Execute
+                                .executable-button
+                                    button(id='list-button').btn.
+                                        Execute
+                                    .spinner
                                 .highlight.highlight-response
                                     pre
                                         code.language-javascript#list-response
@@ -125,12 +133,14 @@ html()
                             .demo-group
                                 input(id='file-id-input' type='text' placeholder='Enter File ID').text-input
                                 br
-                                button(id='get-metadata-button').btn.
-                                    Execute
+                                .executable-button
+                                    button(id='get-metadata-button').btn.
+                                        Execute
+                                    .spinner
                                 .highlight.highlight-response
                                     pre
                                         code.language-javascript#get-metadata-response
-                                        
+
                     #download-url
                         h4 Get a signed URL that directs to a file, required for non-public file download
                         #download-url-code
@@ -143,8 +153,10 @@ html()
                             .demo-group
                                 input(id='file-path-input' type='text' placeholder='Enter File Path').text-input
                                 br
-                                button(id='get-download-url-button').btn.
-                                    Execute
+                                .executable-button
+                                    button(id='get-download-url-button').btn.
+                                        Execute
+                                    .spinner
                                 .highlight.highlight-response
                                     pre
                                         code.language-javascript#get-download-url-response
@@ -153,48 +165,52 @@ html()
             var authorizationButton = document.getElementById('authorization-button');
             var authorizationResponse = document.getElementById('authorization-response');
             authorizationButton.addEventListener('click', function () {
-                doGet('http://' + location.host + '/media-platform/auth-header', authorizationResponse)
+                doGet('http://' + location.host + '/media-platform/auth-header', authorizationResponse, this)
             });
             var limitedAuthorizationButton = document.getElementById('limited-authorization-button');
             var limitedAuthorizationResponse = document.getElementById('limited-authorization-response');
             limitedAuthorizationButton.addEventListener('click', function () {
-                doGet('http://' + location.host + '/media-platform/limited-auth-header', limitedAuthorizationResponse)
+                doGet('http://' + location.host + '/media-platform/limited-auth-header', limitedAuthorizationResponse, this)
             });
             var uploadButton = document.getElementById('upload-button');
             var uploadResponse = document.getElementById('upload-response');
             uploadButton.addEventListener('click', function () {
-                doGet('http://' + location.host + '/media-platform/file/upload', uploadResponse)
+                doGet('http://' + location.host + '/media-platform/file/upload', uploadResponse, this)
             });
             var listButton = document.getElementById('list-button');
             var listResponse = document.getElementById('list-response');
             listButton.addEventListener('click', function () {
-                doGet('http://' + location.host + '/media-platform/files', listResponse)
+                doGet('http://' + location.host + '/media-platform/files', listResponse, this)
             });
             var metadataButton = document.getElementById('get-metadata-button');
             var metadataResponse = document.getElementById('get-metadata-response');
             var fileIdInput = document.getElementById('file-id-input');
             metadataButton.addEventListener('click', function () {
                 var id = fileIdInput.value;
-                doGet('http://' + location.host + '/media-platform/file/' + id + '/metadata', metadataResponse)
+                doGet('http://' + location.host + '/media-platform/file/' + id + '/metadata', metadataResponse, this)
             });
             var downloadUrlButton = document.getElementById('get-download-url-button');
             var downloadUrlResponse = document.getElementById('get-download-url-response');
             var filePathInput = document.getElementById('file-path-input');
             downloadUrlButton.addEventListener('click', function () {
                 var path = encodeURIComponent(filePathInput.value);
-                doGet('http://' + location.host + '/media-platform/file/download/url?path=' + path, downloadUrlResponse)
+                doGet('http://' + location.host + '/media-platform/file/download/url?path=' + path, downloadUrlResponse, this)
             });
 
-            function doGet(url, resultContainer) {
+            function doGet(url, resultContainer, el) {
                 var request = new XMLHttpRequest();
                 request.responseType = 'json';
+
+                startLoading(el);
                 request.addEventListener('load', function (event) {
+                    stopLoading(el);
                     resultContainer.innerHTML = Prism.highlight(
                         JSON.stringify(event.target.response, null, 2),
                         Prism.languages.js);
                 });
 
                 request.addEventListener('error', function (event) {
+                    stopLoading(el);
                     alert('Oops! Something went wrong.');
                 });
 
