@@ -4,7 +4,7 @@ include ./mixins/styles
 doctype html
 html()
     head
-        title Wix Media Platform - Demo
+        title Wix Media Platform - SDK Browser Demo
 
         script(src="/media-platform.min.js")
         script(src="/prismjs/prism.js")
@@ -63,12 +63,11 @@ html()
                     .highlight
                         pre
                             code.language-javascript.
-                                var listFileRequest = new MP.file.ListFilesRequest();
+                                var listFileRequest = new MP.file.ListFilesRequest().setPageSize(3);
 
-                                mediaPlatform.fileManager
-                                  .listFiles(path, listFilesRequest, function(error, response) {
-                                    // handle response
-                                  });
+                                mediaPlatform.fileManager.listFiles(path, listFilesRequest, function(error, response) {
+                                    // do something
+                                });
 
                     .demo-group
                         button#file-list-button.btn.
@@ -78,12 +77,12 @@ html()
                             pre
                                 code.language-javascript#file-list-payload
 
-                    h4 Get metadata by fileId
+                    h4 Get file metadata by fileId
                     .highlight
                         pre
                             code.language-javascript.
                                 mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
-
+                                    // do something
                                 });
                     .demo-group
                         input(id='file-metadata-id-input' type='text' placeholder='Enter File ID').text-input
@@ -99,7 +98,7 @@ html()
                         pre
                             code.language-javascript.
                                 mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
-
+                                    // do something
                                 });
                     .demo-group
                         input(id='file-delete-id-input' type='text' placeholder='Enter File ID').text-input
@@ -115,15 +114,14 @@ html()
                     .highlight
                         pre
                             code.language-javascript#image-manipulation-code.
-                                mediaPlatform.fileManager
-                                  .uploadFile(path, file)
-                                  .on("upload-success", function(response) {
-                                    var image = new MP.Image(file);
+                                mediaPlatform.fileManager.uploadFile(path, file)
+                                    .on("upload-success", function(response) {
+                                        var image = new MP.Image(file);
 
-                                    image.crop(500, 500)
-                                      .jpeg(100, true)
-                                      .blur(50)
-                                      .toUrl();
+                                        image.crop(500, 500)
+                                            .jpeg(100, true)
+                                            .blur(50)
+                                            .toUrl();
                                   });
 
                     .demo-group
@@ -154,8 +152,7 @@ html()
                 .highlight
                     pre
                         code.language-javascript.
-                            mediaPlatform.fileManager
-                                .uploadFile(path, file)
+                            mediaPlatform.fileManager.uploadFile(path, file)
                                 .on("upload-success", function(response) {
                                     // handle success
                                 });
@@ -183,47 +180,46 @@ html()
             (function() {
 
                 // upload file
-                var fileUploadButton = document.getElementById("file-management");
-                var fileUploadPayload = document.getElementById("file-management-payload");
-                var fileUploadPath = document.getElementById("file-management-path");
+                var fileUploadButton = document.getElementById('file-management');
+                var fileUploadPayload = document.getElementById('file-management-payload');
+                var fileUploadPath = document.getElementById('file-management-path');
 
-                fileUploadButton.addEventListener("change", function() {
-                  var path = PATH_BASE + this.value.split("\\").pop();
-                  var file = this.files[0];
+                fileUploadButton.addEventListener('change', function() {
+                    var path = PATH_BASE + this.value.split("\\").pop();
+                    var file = this.files[0];
 
-                  fileUploadPath.innerHTML = path;
+                    fileUploadPath.innerHTML = path;
 
-                  // TODO: make callback optional
-                  mediaPlatform.fileManager.deleteFileByPath(path, function(error, response) {
-                    // do nothing...
-                  });
-
-                  mediaPlatform.fileManager
-                    .uploadFile(path, file)
-                    .on('upload-success', function (response) {
-                      var html = Prism.highlight(JSON.stringify(response.fileDescriptors, null, 2), Prism.languages.js);
-                      fileUploadPayload.innerHTML = html;
+                    // TODO: make callback optional
+                    mediaPlatform.fileManager.deleteFileByPath(path, function(error, response) {
+                        mediaPlatform.fileManager
+                            .uploadFile(path, file)
+                            .on('upload-success', function (response) {
+                                fileUploadPayload.innerHTML = Prism.highlight(
+                                    JSON.stringify(response.fileDescriptors, null, 2),
+                                    Prism.languages.js);
+                            });
                     });
                 });
-
-
+                
                 // get list of files
-                var fileListButton = document.getElementById("file-list-button");
-                var fileListPayload = document.getElementById("file-list-payload");
+                var fileListButton = document.getElementById('file-list-button');
+                var fileListPayload = document.getElementById('file-list-payload');
 
-                fileListButton.addEventListener("click", function() {
-                    var listFileRequest = new MP.file.ListFilesRequest();
+                fileListButton.addEventListener('click', function() {
+                    var listFileRequest = new MP.file.ListFilesRequest().setPageSize(3);
 
                     mediaPlatform.fileManager
-                      .listFiles("/", listFileRequest, function(error, response) {
-                           if (error) {
-                             console.error('error', response.error);
-                             return
-                           }
+                        .listFiles('/demo', listFileRequest, function(error, response) {
+                            if (error) {
+                                console.error('error', response.error);
+                                return
+                            }
 
-                           var html = Prism.highlight(JSON.stringify(response, null, 2), Prism.languages.js);
-                           fileListPayload.innerHTML = html;
-                      });
+                            fileListPayload.innerHTML = Prism.highlight(
+                                JSON.stringify(response, null, 2),
+                                Prism.languages.js);
+                        });
                 });
 
                 // get file metadata by id
@@ -232,16 +228,17 @@ html()
                 var fileMetadataPayload = document.getElementById('file-metadata-payload');
 
                 fileMetadataButton.addEventListener('click', function() {
-                  var fileId = fileMetadataInput.value;
-                  if (!fileId) {
-                    console.log('please specify fileId');
-                    return
-                  }
+                    var fileId = fileMetadataInput.value;
+                    if (!fileId) {
+                        console.log('please specify fileId');
+                        return
+                    }
 
-                  mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
-                    var html = Prism.highlight(JSON.stringify(response.fileDescriptor, null, 2), Prism.languages.js);
-                    fileMetadataPayload.innerHTML = html;
-                  });
+                    mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
+                        fileMetadataPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response.fileDescriptor, null, 2),
+                            Prism.languages.js);
+                    });
                 })
 
 
@@ -251,15 +248,15 @@ html()
                 var fileDeletePayload = document.getElementById('file-delete-payload');
 
                 fileDeleteButton.addEventListener('click', function () {
-                var fileId = fileDeleteInput.value;
-                if (!fileId) {
-                  console.log('please specify fileId');
-                  return
-                }
+                    var fileId = fileDeleteInput.value;
+                    if (!fileId) {
+                        console.log('please specify fileId');
+                        return
+                    }
 
-                mediaPlatform.fileManager.deleteFileById(fileId, function (error, response) {
-                  fileDeletePayload.innerHTML = error ? 'failed' : 'success';
-                });
+                    mediaPlatform.fileManager.deleteFileById(fileId, function (error, response) {
+                        fileDeletePayload.innerHTML = error ? 'failed' : 'success';
+                    });
                 })
             })();
 
@@ -275,32 +272,32 @@ html()
                 var imageDescriptor;
 
                 function getImageManipulationCode() {
-                  var filter = imageManipulationFilters.value.split(';');
-                  var filterName = filter[0];
-                  var value = filter[1];
+                    var filter = imageManipulationFilters.value.split(';');
+                    var filterName = filter[0];
+                    var value = filter[1];
 
-                  var filterFnText = filterName && value ? '.' + filterName + '(' + value + ')\n' : '';
+                    var filterFnText = filterName && value ? '.' + filterName + '(' + value + ')\n' : '';
 
-                  return 'mediaPlatform.fileManager\n' +
-                    '  .uploadFile(path, file)\n' +
-                    '  .on("upload-success", function (response) {\n' +
-                    '    var image = new MP.Image(file);\n\n' +
-                    '    image.crop(500, 500)\n' +
-                    '      .jpeg(100, true)\n' +
-                    '      ' + filterFnText +
-                    '      .toUrl();\n' +
-                    '  });'
+                    return 'mediaPlatform.fileManager\n' +
+                        '  .uploadFile(path, file)\n' +
+                        '  .on("upload-success", function (response) {\n' +
+                        '    var image = new MP.Image(file);\n\n' +
+                        '    image.crop(500, 500)\n' +
+                        '      .jpeg(100, true)\n' +
+                        '      ' + filterFnText +
+                        '      .toUrl();\n' +
+                        '  });'
 
                 }
 
                 function parseFilterValue(filterValue) {
-                  var fnName = filterValue.split(';')[0];
-                  // to array with numbers
-                  var args = filterValue.split(';')[1].split(',').map(function (val) {
-                    return +val
-                  });
+                    var fnName = filterValue.split(';')[0];
+                    // to array with numbers
+                    var args = filterValue.split(';')[1].split(',').map(function (val) {
+                        return +val
+                    });
 
-                  return [fnName, args];
+                    return [fnName, args];
                 }
 
                 imageFile.addEventListener("change", function () {
@@ -326,13 +323,15 @@ html()
                             var descriptor = imageDescriptor = descriptors[0];
 
                             // set payload
-                            imagePayload.innerHTML = Prism.highlight(JSON.stringify(descriptor, null, 2), Prism.languages.js);
+                            imagePayload.innerHTML = Prism.highlight(
+                                JSON.stringify(descriptor, null, 2),
+                                Prism.languages.js);
 
                             var image = new MP.Image(descriptor);
 
                             image
-                              .crop(500, 500)
-                              .jpeg(100, true);
+                                .crop(500, 500)
+                                .jpeg(100, true);
 
                             // apply filter
                             image[fnName].apply(image, args);
@@ -343,69 +342,66 @@ html()
                             imageOutput.setAttribute("src", url);
                         })
                         .on('upload-error', function(error) {
-                          console.error('upload error:', error);
+                            console.error('upload error:', error);
                         });
                 });
 
-              imageManipulationFilters.addEventListener("change", function() {
+                imageManipulationFilters.addEventListener("change", function() {
 
-                imageManipulationCode.innerHTML = Prism.highlight(getImageManipulationCode(), Prism.languages.js)
+                    imageManipulationCode.innerHTML = Prism.highlight(getImageManipulationCode(), Prism.languages.js)
 
-                if (!imageDescriptor) return
+                    if (!imageDescriptor) return
 
-                  var filterValueArr = parseFilterValue(this.value);
-                  var fnName = filterValueArr[0];
-                  var args = filterValueArr[1];
+                    var filterValueArr = parseFilterValue(this.value);
+                    var fnName = filterValueArr[0];
+                    var args = filterValueArr[1];
 
-                  var image = new MP.Image(imageDescriptor);
+                    var image = new MP.Image(imageDescriptor);
 
-                  image
-                    .crop(500, 500)
-                    .jpeg(100, true);
+                    image
+                        .crop(500, 500)
+                        .jpeg(100, true);
 
-                  // apply filter
-                  image[fnName].apply(image, args);
+                    // apply filter
+                    image[fnName].apply(image, args);
 
-                  var url = "http://" + imagesHost + image.toUrl().url;
+                    var url = "http://" + imagesHost + image.toUrl().url;
 
-                  // set image
-                  imageOutput.setAttribute("src", url);
-              });
+                    // set image
+                    imageOutput.setAttribute("src", url);
+                });
             })();
 
 
             // VIDEO API
             (function () {
-              var videoFile = document.getElementById("video-file");
-              var videoOutput = document.getElementById("video-output");
-              var videoPayload = document.getElementById("video-payload");
-              var videoFilePath = document.getElementById("video-file-path");
+                var videoFile = document.getElementById('video-file');
+                var videoOutput = document.getElementById('video-output');
+                var videoPayload = document.getElementById('video-payload');
+                var videoFilePath = document.getElementById('video-file-path');
 
-              videoFile.addEventListener("change", function () {
-                var path = PATH_BASE + this.value.split("\\").pop();
-                var file = this.files[0];
+                videoFile.addEventListener('change', function () {
+                    var path = PATH_BASE + this.value.split("\\").pop();
+                    var file = this.files[0];
 
-                videoFilePath.innerHTML = path;
+                    videoFilePath.innerHTML = path;
 
-                // TODO: make callback optional
-                mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
-                  // do nothing...
-                });
+                    // TODO: make callback optional
+                    mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
+                        mediaPlatform.fileManager
+                            .uploadFile(path, file)
+                            .on('upload-success', function (response) {
+                                var videos = response.fileDescriptors;
+                                var video = videos[0];
+                                var url = "http://" + videosHost + video.path;
+                                var html = Prism.highlight(JSON.stringify(video, null, 2), Prism.languages.js);
 
-                mediaPlatform.fileManager
-                  .uploadFile(path, file)
-                  .on('upload-success', function (response) {
-                    var videos = response.fileDescriptors;
-                    var video = videos[0];
-                    var url = "http://" + videosHost + video.path;
-                    var html = Prism.highlight(JSON.stringify(video, null, 2), Prism.languages.js);
-
-                    videoOutput.setAttribute("src", url);
-                    videoPayload.innerHTML = html;
-                  })
-                  .on('upload-error', function (error) {
-                    console.error('upload error:', error);
-                  });
-              })
-
+                                videoOutput.setAttribute('src', url);
+                                videoPayload.innerHTML = html;
+                            })
+                            .on('upload-error', function (err) {
+                                console.error('upload error:', err);
+                            });
+                    });
+                })
             })();

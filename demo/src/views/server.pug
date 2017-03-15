@@ -3,7 +3,7 @@ include ./mixins/styles
 doctype html
 html()
     head
-        title Wix Media Platform - Demo
+        title Wix Media Platform - SDK Server Demo
 
         script(src='/media-platform.min.js')
         script(src="/prismjs/prism.js")
@@ -189,8 +189,9 @@ html()
                 var request = new XMLHttpRequest();
                 request.responseType = 'json';
                 request.addEventListener('load', function (event) {
-                    var html = Prism.highlight(JSON.stringify(event.target.response, null, 2), Prism.languages.js);
-                    resultContainer.innerHTML = html;
+                    resultContainer.innerHTML = Prism.highlight(
+                        JSON.stringify(event.target.response, null, 2),
+                        Prism.languages.js);
                 });
 
                 request.addEventListener('error', function (event) {
