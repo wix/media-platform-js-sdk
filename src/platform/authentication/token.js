@@ -40,7 +40,7 @@ function Token() {
      * @description the token expiration in UNIX time
      * @type {number}
      */
-    this.expiration = Math.round(new Date().getTime()/1000) + 60;
+    this.expiration = Math.round(new Date().getTime()/1000) + 600;
 
     /**
      * @description a unique token id, can be used as nonce

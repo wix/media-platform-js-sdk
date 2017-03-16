@@ -35,18 +35,24 @@ html()
                     pre
                         code.language-javascript.
                             var mediaPlatform = new MP.MediaPlatform({
-                                domain: "wixmp-410a67650b2f46baa5d003c6.appspot.com",
-                                authenticationUrl: "http://localhost/media-platform/auth-header"
+                                domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+                                authenticationUrl: 'http://localhost/media-platform/auth-header'
                             });
 
                 h2#FileManagementApi File Management API
-                    h4 Upload A file (any mime type)
+                    h4 Upload a file (any mime type)
                     .highlight
                         pre
                             code.language-javascript.
                                 mediaPlatform.fileManager.uploadFile(path, file)
-                                    .on("upload-success", function(response) {
+                                    .on('upload-progress', function(event) {
+                                        // handle progress
+                                    })
+                                    .on('upload-success', function(event) {
                                         // handle success
+                                    })
+                                    .on('upload-error', function(event) {
+                                        // handle error
                                     });
 
                     .demo-group
@@ -108,7 +114,7 @@ html()
                             pre
                                 code.language-javascript#file-list-payload
 
-                    h4 Get file metadata by fileId
+                    h4 Get file metadata by id
                     .highlight
                         pre
                             code.language-javascript.
@@ -130,7 +136,7 @@ html()
                     .highlight
                         pre
                             code.language-javascript.
-                                mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
+                                mediaPlatform.fileManager.deleteFileById(fileId, function(error, response) {
                                     // do something
                                 });
                     .demo-group
@@ -150,13 +156,14 @@ html()
                         pre
                             code.language-javascript#image-manipulation-code.
                                 mediaPlatform.fileManager.uploadFile(path, file)
-                                    .on("upload-success", function(response) {
-                                        var image = new MP.Image(file);
+                                    .on('upload-success', function(event) {
+                                        var image = new MP.Image(event.fileDescriptors[0]);
 
                                         image.crop(500, 500)
                                             .jpeg(100, true)
                                             .blur(50)
-                                            .toUrl();
+                                            .toUrl()
+                                            .url;
                                   });
 
                     .demo-group
@@ -190,7 +197,7 @@ html()
                     pre
                         code.language-javascript.
                             mediaPlatform.fileManager.uploadFile(path, file)
-                                .on("upload-success", function(response) {
+                                .on('upload-success', function(response) {
                                     // handle success
                                 });
 
@@ -324,11 +331,10 @@ html()
                     mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
                         stopLoading(fileMetadataButton);
                         fileMetadataPayload.innerHTML = Prism.highlight(
-                            JSON.stringify(response.fileDescriptor, null, 2),
+                            JSON.stringify(response, null, 2),
                             Prism.languages.js);
                     });
                 })
-
 
                 // delete file by id
                 var fileDeleteButton = document.getElementById('file-delete-button');
@@ -345,7 +351,9 @@ html()
                     startLoading(fileDeleteButton);
                     mediaPlatform.fileManager.deleteFileById(fileId, function (error, response) {
                         stopLoading(fileDeleteButton);
-                        fileDeletePayload.innerHTML = error ? 'failed' : 'success';
+                        fileDeletePayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
                     });
                 })
             })();
@@ -369,14 +377,14 @@ html()
 
                     var filterFnText = filterName && value ? '.' + filterName + '(' + value + ')\n' : '';
 
-                    return 'mediaPlatform.fileManager\n' +
-                        '  .uploadFile(path, file)\n' +
-                        '  .on("upload-success", function (response) {\n' +
-                        '    var image = new MP.Image(file);\n\n' +
-                        '    image.crop(500, 500)\n' +
-                        '      .jpeg(100, true)\n' +
-                        '      ' + filterFnText +
-                        '      .toUrl();\n' +
+                    return 'mediaPlatform.fileManager.uploadFile(path, file)\n' +
+                        '       .on(\'upload-success\', function(event) {\n' +
+                        '           var image = new MP.Image(event.fileDescriptors[0]);\n\n' +
+                        '           image.crop(500, 500)\n' +
+                        '               .jpeg(100, true)\n' +
+                        '               ' + filterFnText +
+                        '               .toUrl()\n' +
+                        '               .url;\n' +
                         '  });'
 
                 }
@@ -391,7 +399,7 @@ html()
                     return [fnName, args];
                 }
 
-                imageFile.addEventListener("change", function () {
+                imageFile.addEventListener('change', function () {
                     var path = PATH_BASE + this.value.split("\\").pop();
                     var file = this.files[0];
                     var filterValueArr = parseFilterValue(imageManipulationFilters.value);
@@ -440,7 +448,7 @@ html()
                         });
                 });
 
-                imageManipulationFilters.addEventListener("change", function() {
+                imageManipulationFilters.addEventListener('change', function() {
 
                     imageManipulationCode.innerHTML = Prism.highlight(getImageManipulationCode(), Prism.languages.js)
 
@@ -486,9 +494,9 @@ html()
                     mediaPlatform.fileManager.deleteFileByPath(path, function (error, response) {
                         mediaPlatform.fileManager
                             .uploadFile(path, file)
-                            .on('upload-success', function (response) {
+                            .on('upload-success', function (event) {
                                 stopLoading(videoFileLabel);
-                                var videos = response.fileDescriptors;
+                                var videos = event.fileDescriptors;
                                 var video = videos[0];
                                 var url = "http://" + videosHost + video.path;
                                 var html = Prism.highlight(JSON.stringify(video, null, 2), Prism.languages.js);
