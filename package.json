@@ -1,6 +1,6 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "5.0.0-alpha",
+  "version": "5.0.0-beta",
   "description": "The Wix Media Platform Javascript SDK",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
