@@ -352,7 +352,7 @@ html()
                     mediaPlatform.fileManager.deleteFileById(fileId, function (error, response) {
                         stopLoading(fileDeleteButton);
                         fileDeletePayload.innerHTML = Prism.highlight(
-                            JSON.stringify(response, null, 2),
+                            JSON.stringify(response || error, null, 2),
                             Prism.languages.js);
                     });
                 })
