@@ -9,7 +9,7 @@ html()
         script(src="/media-platform.min.js")
         script(src="/utils.js")
         script(src="/prismjs/prism.js")
-        link(href="/prismjs/themes/prism.css")
+        link(href="/prismjs/themes/prism.css" type="text/css" rel="stylesheet")
         +styles
 
         script.
@@ -57,9 +57,36 @@ html()
                             span#file-management-path.path-to-file
                             form(enctype='multipart/form-data' action='' method='post' target='upload-result')
                                 input(id='file-management' name='file' type='file')
+
                         .highlight.highlight-response
                             pre
                                 code.language-javascript#file-management-payload
+                    h4 Queued file upload (any MIME type)
+                    .highlight
+                        pre
+                            code.language-javascript.
+                                var uploadJob = new MP.upload.UploadJob();
+
+                                uploadJob
+                                    .setPath(path)
+                                    .setFile(file)
+                                    .on('upload-success', function (response) {
+                                        // handle success
+                                    });
+
+                                mediaPlatform.fileManager.queueFileUpload(uploadJob);
+                    .demo-group
+                        .executable-button
+                            label(for='queued-file-management' id="queued-file-management-label").btn.
+                                Upload File
+                            .spinner
+                            span#queued-file-management-path.path-to-file
+                            form(enctype='multipart/form-data' action='' method='post' target='upload-result')
+                                input(id='queued-file-management' name='file' type='file')
+
+                        .highlight.highlight-response
+                            pre
+                                code.language-javascript#queued-file-management-payload
 
                     h4 Retrieve a list of uploaded files
                     .highlight
@@ -221,6 +248,43 @@ html()
                     });
                 });
 
+
+                // queued file upload
+                var queuedFileUploadButton = document.getElementById('queued-file-management');
+                var queuedFileManagementLabel = document.getElementById('queued-file-management-label');
+                var queuedFileUploadPayload = document.getElementById('queued-file-management-payload');
+                var queuedFileUploadPath = document.getElementById('queued-file-management-path');
+
+                queuedFileUploadButton.addEventListener('change', function() {
+                    var path = PATH_BASE + this.value.split("\\").pop();
+                    var file = this.files[0];
+
+                    queuedFileUploadPath.innerHTML = path;
+
+
+                    startLoading(queuedFileManagementLabel);
+                    mediaPlatform.fileManager.deleteFileByPath(path, function(error, response) {
+                      var uploadJob = new MP.upload.UploadJob();
+
+                      uploadJob
+                        .setPath(path)
+                        .setFile(file)
+                        .on('upload-success', function (response) {
+                          stopLoading(queuedFileManagementLabel);
+
+                          queuedFileUploadPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response.fileDescriptors, null, 2),
+                            Prism.languages.js
+                          );
+                        })
+                        .on('upload-error', function () {
+                          stopLoading(queuedFileManagementLabel);
+                        });
+
+                      mediaPlatform.fileManager.queueFileUpload(uploadJob);
+                    });
+                });
+
                 // get list of files
                 var fileListButton = document.getElementById('file-list-button');
                 var fileListPayload = document.getElementById('file-list-payload');
@@ -239,7 +303,8 @@ html()
 
                             fileListPayload.innerHTML = Prism.highlight(
                                 JSON.stringify(response, null, 2),
-                                Prism.languages.js);
+                                Prism.languages.js
+                            );
                         });
                 });
 
