@@ -13,17 +13,17 @@ function VideoBasicMetadata(data) {
     this.interlaced = null;
 
     /**
-     * @type {string}
+     * @type {Array<VideoStream>}
      */
     this.videoStreams = null;
 
     /**
-     * @type {string}
+     * @type {Array<AudioStream>}
      */
     this.audioStreams = null;
 
     /**
-     * @type {string}
+     * @type {VideoFormat}
      */
     this.format = null;
 
