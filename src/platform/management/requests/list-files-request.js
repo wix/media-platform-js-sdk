@@ -6,7 +6,7 @@ function ListFilesRequest() {
     /**
      * @type {string|null}
      */
-    this.cursor = null;
+    this.nextPageToken = null;
 
     /**
      * @type {number|null}
@@ -27,9 +27,20 @@ function ListFilesRequest() {
 /**
  * @param {string} cursor
  * @returns {ListFilesRequest}
+ * @deprecated incorrect param name, use setNextPageToken
  */
 ListFilesRequest.prototype.setCursor = function (cursor) {
-    this.cursor = cursor;
+    this.nextPageToken = cursor;
+    return this;
+};
+
+/**
+ * @param {string} nextPageToken
+ * @returns {ListFilesRequest}
+ * @deprecated
+ */
+ListFilesRequest.prototype.setNextPageToken = function (nextPageToken) {
+    this.nextPageToken = nextPageToken;
     return this;
 };
 
