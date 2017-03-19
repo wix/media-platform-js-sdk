@@ -38,8 +38,8 @@ function FileManager(configuration, httpClient, fileUploader) {
 }
 
 /**
- * @param {UploadUrlRequest} uploadUrlRequest
- * @param {function(Error, FileDescriptor)} callback
+ * @param {UploadUrlRequest?} uploadUrlRequest
+ * @param {function(Error, UploadUrlResponse)} callback
  */
 FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
     this.fileUploader.getUploadUrl(uploadUrlRequest, callback);
