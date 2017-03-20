@@ -14,15 +14,15 @@ html()
 
         script.
             var mediaPlatform = new MP.MediaPlatform({
-                domain: "wixmp-410a67650b2f46baa5d003c6.appspot.com",
-                authenticationUrl: "http://" + location.host + "/media-platform/auth-header"
+                domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+                authenticationUrl: 'http://' + location.host + '/media-platform/auth-header'
             });
 
             var Image = MP.Image;
             var UploadUrlRequest = MP.file.UploadUrlRequest;
-            var fileHost = "wixmp-410a67650b2f46baa5d003c6.wixmp.com";
-            var imagesHost = "images-wixmp-410a67650b2f46baa5d003c6.wixmp.com";
-            var videosHost = "wixmp-410a67650b2f46baa5d003c6.wixmp.com";
+            var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+            var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+            var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
 
     body
 
@@ -218,6 +218,26 @@ html()
                         .output
                             video#video-output(controls=true)
 
+                h2#download-url Signed URL
+                    h4 Get a signed URL that directs to a file, required for non-public file download
+                    #download-url-code
+                        .highlight
+                            pre
+                                code.language-javascript.
+                                    mediaPlatform.getDownloadUrl(path, null, function(error, response) {
+                                        // do something
+                                    });
+                        .demo-group
+                            input(id='download-url-input' type='text' placeholder='Enter File Path').text-input
+                            br
+                            .executable-button
+                                button(id='download-url-button').btn.
+                                    Execute
+                                .spinner
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#download-url-payload
+
         script.
             var PATH_BASE = "/demo/";
 
@@ -352,6 +372,27 @@ html()
                     mediaPlatform.fileManager.deleteFileById(fileId, function (error, response) {
                         stopLoading(fileDeleteButton);
                         fileDeletePayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response || error, null, 2),
+                            Prism.languages.js);
+                    });
+                })
+
+                // get secure url
+                var downloadUrlButton = document.getElementById('download-url-button');
+                var downloadUrlInput = document.getElementById('download-url-input');
+                var downloadUrlPayload = document.getElementById('download-url-payload');
+
+                downloadUrlButton.addEventListener('click', function () {
+                    var path = downloadUrlInput.value;
+                    if (!path) {
+                        console.log('please specify file path');
+                        return
+                    }
+
+                    startLoading(downloadUrlButton);
+                    mediaPlatform.getDownloadUrl(path, null, function (error, response) {
+                        stopLoading(downloadUrlButton);
+                        downloadUrlPayload.innerHTML = Prism.highlight(
                             JSON.stringify(response || error, null, 2),
                             Prism.languages.js);
                     });

@@ -3,7 +3,7 @@ var UploadJob = require('./upload-job');
 
 
 /**
- * @param configuration
+ * @param {Configuration} configuration
  * @param {HTTPClient} browserHTTPClient
  * @constructor
  */

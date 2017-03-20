@@ -1,6 +1,7 @@
 var HTTPClient = require('./http/browser-http-client');
 var FileUploader = require('./uploader/browser-file-uploader');
 var QueuedFileUploader = require('./uploader/queued-file-uploader');
+var FileDownloader = require('./downloader/browser-file-downloader');
 var FileManager = require('../../src/platform/management/file-manager');
 
 /**
@@ -21,6 +22,11 @@ function MediaPlatform(configuration) {
      * @type {QueuedFileUploader}
      */
     var queuedFileUploader = new QueuedFileUploader(fileUploader);
+
+    /**
+     * @type {FileDownloader}
+     */
+    var fileDownloader = new FileDownloader(configuration, browserHTTPClient);
 
     /**
      * retrieve the auth header for the currently logged in user
@@ -48,7 +54,16 @@ function MediaPlatform(configuration) {
      */
     this.fileManager.queueFileUpload = function (uploadJob) {
         return queuedFileUploader.enqueue(uploadJob);
-    }
+    };
+
+    /**
+     * @param {string} path
+     * @param {DownloadUrlRequest?} downloadUrlRequest
+     * @param {function(Error, *)} callback
+     */
+    this.getDownloadUrl = function (path, downloadUrlRequest, callback) {
+        fileDownloader.getDownloadUrl(path, downloadUrlRequest, callback);
+    };
 }
 
 /**
