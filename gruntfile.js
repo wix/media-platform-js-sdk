@@ -78,12 +78,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-mocha-test');
 
+    //TODO: 'browserify:tests'
     grunt.registerTask('browser', ['clean:build', 'clean:dist', 'browserify:dist', 'browserify:distMinified']);
 
     //TODO: run tests against the minified JS
     grunt.registerTask('browser-tests', ['browser', 'karma']);
     grunt.registerTask('server-tests', ['mochaTest']);
 
+    //TODO: 'browser-tests'
     grunt.registerTask('test', ['server-tests']);
 
     grunt.registerTask('default', ['browser', 'test']);
