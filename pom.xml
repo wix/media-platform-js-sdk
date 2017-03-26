@@ -5,6 +5,11 @@
     <artifactId>wix-media-platform-js-sdk</artifactId>
     <name>wix-media-platform-js-sdk</name>
     <description> </description>
+    
+    
+    <organization>
+      <name>Media Cloud</name>
+    </organization>
 
     <scm>
         <developerConnection>scm:git:ssh://git@github.com:wix/media-platform-js-sdk.git</developerConnection>
