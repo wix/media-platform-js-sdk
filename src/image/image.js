@@ -24,7 +24,7 @@ function Image(data) {
 
     /**
      * @description where the image is hosted
-     * @type {null}
+     * @type {string|null}
      */
     this.host = null;
 
