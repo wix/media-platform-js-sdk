@@ -1,5 +1,7 @@
 # Wix Media Platform
 
+[![Build Status](https://travis-ci.org/wix/media-platform-js-sdk.svg?branch=master)](https://travis-ci.org/wix/media-platform-js-sdk)
+
 [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url]
 
 [Wix Media Platform](https://gcp.wixmp.com/) is a collection of services for storing, serving, uploading, and managing media files and any files in general
