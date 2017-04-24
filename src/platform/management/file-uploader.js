@@ -56,6 +56,7 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
 
     var calledBack = false;
     var stream = null;
+
     if (typeof file.pipe === 'function') {
         stream = file;
         stream.once('error', doCallback);
@@ -63,10 +64,12 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
         stream = fs.createReadStream(file);
         stream.once('error', doCallback);
     } else if (file instanceof Buffer) {
-        // TODO: solve missing boundary issue (content length?)
-        // stream = new Stream.PassThrough();
-        // stream.end(source);
-        stream = file;
+        stream = {
+            value: file,
+            options: {
+                filename: 'filename'
+            }
+        };
     } else {
         doCallback(new Error('unsupported source type: ' + typeof file), null);
         return;
@@ -76,7 +79,7 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
     if (uploadRequest) {
         uploadUrlRequest = new UploadUrlRequest()
             .setMimeType(uploadRequest.mimeType)
-            .setPath(path)
+            .setPath(path);
     }
 
     this.getUploadUrl(uploadUrlRequest, function (error, response) {
