@@ -4,7 +4,7 @@
 [![NPM version][npm-image]][npm-url] 
 [![Downloads][downloads-image]][npm-url]
 
-[Wix Media Platform](https://gcp.wixmp.com/) is a collection of services for storing, serving, uploading, and managing media files and any files in general
+[Wix Media Platform][wixmp-url] is a collection of services for storing, serving, uploading, and managing media files and any files in general
 
 # JavaScript SDK
 
@@ -28,16 +28,15 @@ and open http://localhost:3333/ in the browser
 
 ## Instantiating the Media Platform in the Server
 
-First, if you haven't done so yet, register at [Wix Media Media Platform](https://gcp.wixmp.com/),
-Start your organization, project and application
+First, if you haven't done so yet, register at [Wix Media Platform][wixmp-url], start your organization, project and application.
 
 ```javascript
 var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
 
 var mediaPlatform = new MediaPlatform({
-  domain: '<As appears in the application page>',
-  appId: '<As appears in the application page>',
-  sharedSecret: '<As appears in the application page>'
+    domain: '<As appears in the application page>',
+    appId: '<As appears in the application page>',
+    sharedSecret: '<As appears in the application page>'
 });
 ```
 ## Instantiating the Media Platform in the Browser
@@ -81,8 +80,8 @@ var uploadRequest = new UploadFileRequest().setMimeType('image/jpeg');
 mediaPlatform.uploadFile('/path', '<ReadStream || Buffer || string path to file>', uploadRequest || null, function (error, response) {
 
     if (error) {
-      console.error('upload failed: ' + error.message);
-      return;
+        console.error('upload failed: ' + error.message);
+        return;
     }
 
     console.log('upload successful: ' + response);
@@ -98,19 +97,19 @@ mediaPlatform.uploadFile('/path', '<ReadStream || Buffer || string path to file>
 <button id="upload-button">Upload</button>
 
 <script>
-        var fileUploadButton = document.getElementById('upload-button');
-        var file = document.getElementById('file');
-        var path = file.value.split("\\").pop();
+    var fileUploadButton = document.getElementById('upload-button');
+    var file = document.getElementById('file');
+    var path = file.value.split("\\").pop();
         
-        fileUploadButton.addEventListener('click', function() {
-            mediaPlatform.fileManager.uploadFile(path, file)
-                .on('upload-success', function (response) {
-                     // do something
-                })                
-                .on('upload-error', function (error) {
-                     // do something
-                });
-        });
+    fileUploadButton.addEventListener('click', function() {
+        mediaPlatform.fileManager.uploadFile(path, file)
+            .on('upload-success', function(response) {
+                 // do something
+            })                
+            .on('upload-error', function(error) {
+                 // do something
+            });
+    });
 </script>
 ```
 
@@ -146,8 +145,9 @@ var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
 var listFilesRequest = new ListFilesRequest()
     .ascending()
     .setCursor('c')
-    .setPageSize(10);    
-fileManager.listFiles('/directory', listFilesRequest, callback)
+    .setPageSize(10);
+
+fileManager.listFiles('/directory', listFilesRequest, callback);
 ```
 
 Get file metadata (by id)
@@ -174,7 +174,7 @@ We use a custom license, see [LICENSE.md](LICENSE.md).
 
 ## About Wix
 
-[Wix.com](https://www.wix.com) is a leading cloud-based web development platform with more than 100 million registered users worldwide. 
+[Wix.com][wix-url] is a leading cloud-based web development platform with more than 100 million registered users worldwide. 
 Our powerful technology makes it simple for everyone to create a beautiful website and grow their business online.
 
 ## About Google Cloud Platform
@@ -183,8 +183,10 @@ Our powerful technology makes it simple for everyone to create a beautiful websi
 It offers computing, storage and application services for web, mobile and backend solutions.
 
 
-[npm-url]: https://npmjs.org/package/media-platform-js-sdk
+[wix-url]: https://www.wix.com/
+[wixmp-url]: https://gcp.wixmp.com/
 [npm-image]: https://img.shields.io/npm/v/media-platform-js-sdk.svg
+[npm-url]: https://npmjs.org/package/media-platform-js-sdk
 [downloads-image]: https://img.shields.io/npm/dm/media-platform-js-sdk.svg
 [travis-image]: https://travis-ci.org/wix/media-platform-js-sdk.svg?branch=master
 [travis-url]: https://travis-ci.org/wix/media-platform-js-sdk
