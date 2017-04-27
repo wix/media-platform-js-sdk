@@ -56,7 +56,7 @@ module.exports = function(grunt) {
                 dest: 'dist/media-platform.js'
             },
             tests: {
-                src: ['tests/browser/**/*-test.js'],
+                src: ['test/browser/**/*-test.js'],
                 dest: 'build/tests.js'
             }
         },
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
         },
         mochaTest: {
             serverTest: {
-                src: ['tests/server/**/*-test.js']
+                src: ['test/server/**/*-test.js']
             }
         }
     });

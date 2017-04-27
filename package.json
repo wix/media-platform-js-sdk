@@ -1,7 +1,7 @@
 {
   "name": "media-platform-js-sdk",
   "version": "5.0.0-beta",
-  "description": "The Wix Media Platform Javascript SDK",
+  "description": "The official Wix Media Platform Javascript SDK",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -44,9 +44,10 @@
   },
   "scripts": {
     "build": "grunt browser",
-    "test": "grunt test",
+    "test": "grunt test && npm run test:e2e",
     "release": "wnpm-release",
-    "start": "grunt browser && node ./demo/bin/www"
+    "start": "grunt browser && node ./demo/bin/www",
+    "test:e2e": "./node_modules/.bin/mocha --recursive **/*.e2e.js"
   },
   "dependencies": {
     "async": "^2.1.4",
@@ -80,6 +81,7 @@
     "pug": "latest",
     "request-debug": "latest",
     "uglifyify": "latest",
+    "uuid": "^3.0.1",
     "wnpm-ci": "latest"
   }
 }
