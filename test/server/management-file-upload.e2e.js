@@ -12,6 +12,7 @@ const credentials = require('./credentials');
 const MediaPlatform = require('../../src').MediaPlatform;
 
 const DEFAULT_FIXTURE_PATH = path.join(__dirname, '..', 'sources', 'image.jpg');
+const DEFAULT_PATH_PREFIX = '/test/';
 
 describe('E2E > File Management > File Upload', function() {
     this.timeout(30000);
@@ -21,7 +22,7 @@ describe('E2E > File Management > File Upload', function() {
     });
 
     beforeEach('test unique path', function() {
-        this.testPath = '/' + uuid.v4() + '.jpg';
+        this.testPath = DEFAULT_PATH_PREFIX + uuid.v4() + '.jpg';
     });
 
     afterEach('clean up after test', function(done) {
