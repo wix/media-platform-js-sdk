@@ -28,7 +28,7 @@ and open http://localhost:3333/ in the browser
 
 ## Instantiating the Media Platform in the Server
 
-First, if you haven't done so yet, register at [Wix Media Platform][wixmp-url], start your organization, project and application.
+First, if you haven't done so yet, register at [Wix Media Platform][wixmp-url], create your organization, project and application.
 
 ```javascript
 var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
