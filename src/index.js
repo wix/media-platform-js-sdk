@@ -4,6 +4,9 @@ var UploadFileRequest = require('./platform/management/requests/upload-file-requ
 var DownloadUrlRequest = require('./platform/management/requests/download-url-request');
 var UploadUrlRequest = require('./platform/management/requests/upload-url-request');
 var ListFilesRequest = require('./platform/management/requests/list-files-request');
+var SearchJobsRequest = require('./platform/management/requests/search-jobs-request');
+var ImportFileRequest = require('./platform/management/requests/import-file-request');
+var Destination = require('./platform/management/job/destination');
 var Token = require('./platform/authentication/token');
 var NS = require('./platform/authentication/NS');
 
@@ -39,7 +42,17 @@ module.exports = {
         /**
          * @type {ListFilesRequest}
          */
-        ListFilesRequest: ListFilesRequest
+        ListFilesRequest: ListFilesRequest,
+
+        /**
+         * @type {ImportFileRequest}
+         */
+        ImportFileRequest: ImportFileRequest,
+
+        /**
+         * @type {Destination}
+         */
+        Destination: Destination
     },
 
     auth: {
@@ -52,5 +65,12 @@ module.exports = {
          * @type {{SERVICE: string, MEMBER: string, APPLICATION: string, FILE: string}}
          */
         NS: NS
+    },
+
+    job: {
+        /**
+         * @type {SearchJobsRequest}
+         */
+        SearchJobsRequest: SearchJobsRequest
     }
 };

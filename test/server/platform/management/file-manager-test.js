@@ -7,6 +7,8 @@ var Configuration = require('../../../../src/platform/configuration/configuratio
 var Authenticator = require('../../../../src/platform/authentication/authenticator');
 var HTTPClient = require('../../../../src/platform/http/http-client');
 var ListFilesRequest = require('../../../../src/platform/management/requests/list-files-request');
+var ImportFileRequest = require('../../../../src/platform/management/requests/import-file-request');
+var Destination = require('../../../../src/platform/management/job/destination');
 
 var repliesDir = __dirname + '/replies/';
 var sourcesDir = __dirname + '/../../../sources/';
@@ -19,19 +21,19 @@ describe('file manager', function() {
     var fileUploader = new FileUploader(configuration, httpClient);
     var fileManager = new FileManager(configuration, httpClient, fileUploader);
 
-    var uploadServer = nock('https://manager.com/').defaultReplyHeaders({
+    var apiServer = nock('https://manager.com/').defaultReplyHeaders({
         'Content-Type': 'application/json'
     });
-    var fileServer = nock('https://manager.com/').defaultReplyHeaders({
-        'Content-Type': 'application/json'
-    });
+    // var apiServer = nock('https://manager.com/').defaultReplyHeaders({
+    //     'Content-Type': 'application/json'
+    // });
 
     afterEach(function() {
         nock.cleanAll();
     });
 
     it('listFiles - default', function (done) {
-        fileServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
+        apiServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
 
         fileManager.listFiles('path', null, function (error, data) {
             expect(data).to.eql({
@@ -66,7 +68,7 @@ describe('file manager', function() {
     });
 
     it('listFiles - page', function (done) {
-        fileServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
+        apiServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
 
         var listFilesRequest = new ListFilesRequest()
             .ascending()
@@ -81,7 +83,7 @@ describe('file manager', function() {
 
     it('getFile', function (done) {
 
-        fileServer.get('/_api/files').once().query(true).replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        apiServer.get('/_api/files').once().query(true).replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         fileManager.getFile('path/of/file', function (error, data) {
             expect(data).to.eql({
@@ -101,7 +103,7 @@ describe('file manager', function() {
 
     it('getFileMetadata - Image', function (done) {
 
-        fileServer.get('/_api/files/file-id/metadata')
+        apiServer.get('/_api/files/file-id/metadata')
             .once()
             .replyWithFile(200, repliesDir + 'file-metadata-image-response.json');
 
@@ -166,7 +168,7 @@ describe('file manager', function() {
 
     it('getFileMetadata - Video', function (done) {
 
-        fileServer.get('/_api/files/file-id/metadata')
+        apiServer.get('/_api/files/file-id/metadata')
             .once()
             .replyWithFile(200, repliesDir + 'file-metadata-video-response.json');
 
@@ -224,47 +226,10 @@ describe('file manager', function() {
         });
     });
 
-// it('updateFile', function (done) {
-//
-//     fileServer.put('/files/fileId').query(true).replyWithFile(200, reply + 'file-descriptor-response.json');
-//
-//     var updateFileRequest = new UpdateFileRequest()
-//         .setTags(['dog', 'Schnauzer']);
-//     fileManager.updateFile('userId', 'fileId', updateFileRequest, function (error, data) {
-//         expect(data).to.eql({
-//             id: 'id',
-//             path: '/here/be/fish/cat.png',
-//             type: '-',
-//             mimeType: 'image/png',
-//             mediaType: 'image',
-//             size: 1000,
-//             hash: 'hash',
-//             tags: ['tags'],
-//             metadata: {},
-//             dateCreated: 'yesterday',
-//             dateUpdated: 'a second ago'
-//         });
-//         done(error);
-//     });
-// });
-
-// it('deleteFile', function (done) {
-//
-//     fileServer.delete('/_api/files').query(true).reply(200, {
-//         'code': 0,
-//         'message': 'OK',
-//         'payload': null
-//     });
-//
-//     fileManager.deleteFile('path', function (error) {
-//         done(error);
-//     });
-// });
-
     it('file upload accepts path (string) as source', function (done) {
 
-        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
+        apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
         //path, file, uploadRequest, callback
         fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
@@ -283,8 +248,8 @@ describe('file manager', function() {
 
     it('file upload accepts stream as source', function (done) {
 
-        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
+        apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
         var stream = fs.createReadStream(sourcesDir + 'audio.mp3');
 
@@ -296,8 +261,8 @@ describe('file manager', function() {
 
     it('file upload accepts buffer as source', function (done) {
 
-        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
+        apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
         var buffer = fs.readFileSync(sourcesDir + 'document.xlsx');
 
@@ -308,8 +273,8 @@ describe('file manager', function() {
 
     it('file upload reject unsupported source', function (done) {
 
-        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+        apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
         fileManager.uploadFile('upload/to/there/image.jpg', 1111, null, function (error, data) {
             expect(error).to.be.a(Error);
@@ -320,7 +285,7 @@ describe('file manager', function() {
 
     it('file upload handles auth errors', function (done) {
 
-        uploadServer.get('/_api/upload/url').once().query(true).reply(403, {});
+        apiServer.get('/_api/upload/url').once().query(true).reply(403, {});
 
         fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
             expect(error).to.be.a(Error);
@@ -331,12 +296,29 @@ describe('file manager', function() {
 
     it('file upload handles upload errors', function (done) {
 
-        uploadServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-        uploadServer.post('/_api/upload/file').once().reply(500, {});
+        apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+        apiServer.post('/_api/upload/file').once().reply(500, {});
 
         fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
             expect(error).to.be.a(Error);
             expect(data).to.be(null);
+            done();
+        });
+    });
+
+    it('file import', function (done) {
+
+        apiServer.post('/_api/import/file')
+            .once()
+            .replyWithFile(200, repliesDir + 'import-file-pending-response.json');
+
+        var importFileRequest = new ImportFileRequest()
+            .setDestination(new Destination().setPath('/to/here/file.txt'))
+            .setSourceUrl('http://from/here/file.txt');
+
+        fileManager.importFile(importFileRequest, function (error, data) {
+            expect(error).to.be(null);
+            expect(data.id).to.be('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
             done();
         });
     });

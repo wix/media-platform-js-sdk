@@ -97,6 +97,33 @@ html()
                                     pre
                                         code.language-javascript#upload-response
 
+                        h4 Importing a file from a source URL
+                        #import-code
+                            .highlight
+                                pre
+                                    code.language-javascript.
+                                        var ImportFileRequest = require('media-platform-js-sdk').file.ImportFileRequest;
+                                        var Destination = require('media-platform-js-sdk').file.Destination;
+
+                                        var importFileRequest = new ImportFileRequest()
+                                                    .setSourceUrl('https://static.wixstatic.com/media/f31d7d0cfc554aacb1d737757c8d3f1b.jpg')
+                                                    .setDestination(new Destination()
+                                                        .setPath('/demo/import/' + rand + '.image.jpg')
+                                                        .setAcl('public'));
+
+                                        fileManager.importFile(importFileRequest, function (error, response) {
+                                             // do something
+                                        });
+
+                            .demo-group
+                                .executable-button
+                                    button(id='import-button').btn.
+                                        Execute
+                                    .spinner
+                                .highlight.highlight-response
+                                    pre
+                                        code.language-javascript#import-response
+
                     #list
                         h4 List files under a specific directory
                         #list-code
@@ -176,6 +203,11 @@ html()
             var uploadResponse = document.getElementById('upload-response');
             uploadButton.addEventListener('click', function () {
                 doGet('http://' + location.host + '/media-platform/file/upload', uploadResponse, this)
+            });
+            var importButton = document.getElementById('import-button');
+            var importResponse = document.getElementById('import-response');
+            importButton.addEventListener('click', function () {
+                doGet('http://' + location.host + '/media-platform/file/import', importResponse, this)
             });
             var listButton = document.getElementById('list-button');
             var listResponse = document.getElementById('list-response');

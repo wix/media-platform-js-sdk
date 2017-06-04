@@ -3,6 +3,7 @@ var FileUploader = require('./uploader/browser-file-uploader');
 var QueuedFileUploader = require('./uploader/queued-file-uploader');
 var FileDownloader = require('./downloader/browser-file-downloader');
 var FileManager = require('../../src/platform/management/file-manager');
+var JobManager = require('../../src/platform/management/job-manager');
 
 /**
  * @param {Configuration} configuration
@@ -64,6 +65,11 @@ function MediaPlatform(configuration) {
     this.getDownloadUrl = function (path, downloadUrlRequest, callback) {
         fileDownloader.getDownloadUrl(path, downloadUrlRequest, callback);
     };
+
+    /**
+     * @type {JobManager}
+     */
+    this.jobManager = new JobManager(configuration, browserHTTPClient);
 }
 
 /**

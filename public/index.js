@@ -5,6 +5,7 @@ var Image = require('../src/image/image');
 var UploadUrlRequest = require('../src/platform/management/requests/upload-url-request');
 var UploadFileRequest = require('../src/platform/management/requests/upload-file-request');
 var ListFilesRequest = require('../src/platform/management/requests/list-files-request');
+var SearchJobsRequest = require('../src/platform/management/requests/search-jobs-request');
 
 var MP = {};
 
@@ -45,6 +46,13 @@ MP.file = {
      * @type {ListFilesRequest}
      */
     ListFilesRequest: ListFilesRequest
+};
+
+MP.job = {
+    /**
+     * @type {SearchJobsRequest}
+     */
+    SearchJobsRequest: SearchJobsRequest
 };
 
 module.exports = MP;

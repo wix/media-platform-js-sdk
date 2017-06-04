@@ -2,6 +2,7 @@ var _ = require('underscore');
 var FileDescriptor = require('./metadata/file-descriptor');
 var FileMetadata = require('./metadata/file-metadata');
 var ListFilesResponse = require('./responses/list-files-response');
+var Job = require('./job/job');
 
 /**
  * @param {Configuration} configuration
@@ -54,6 +55,22 @@ FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
  */
 FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback) {
     return this.fileUploader.uploadFile(path, file, uploadRequest, callback);
+};
+
+/**
+ * @param {ImportFileRequest} importFileRequest
+ * @param {function(Error, Job|null)} callback
+ */
+FileManager.prototype.importFile = function (importFileRequest, callback) {
+    this.httpClient.request('POST', this.baseUrl + '/_api/import/file', importFileRequest, null, function (error, response) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, new Job(response.payload));
+    });
 };
 
 /**

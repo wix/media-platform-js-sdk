@@ -25,6 +25,35 @@ function Destination(data) {
 }
 
 /**
+ * @param {string} path
+ * @returns {Destination}
+ */
+Destination.prototype.setPath = function (path) {
+    this.path = path;
+    this.directory = null;
+    return this;
+};
+
+/**
+ * @param {string} directory
+ * @returns {Destination}
+ */
+Destination.prototype.setDirectory = function (directory) {
+    this.directory = directory;
+    this.path = null;
+    return this;
+};
+
+/**
+ * @param {string} acl
+ * @returns {Destination}
+ */
+Destination.prototype.setAcl = function (acl) {
+    this.acl = acl;
+    return this;
+};
+
+/**
  * @param data
  * @private
  */
