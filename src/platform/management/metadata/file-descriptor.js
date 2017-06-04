@@ -1,4 +1,5 @@
 /**
+ * @param data
  * @constructor
  */
 function FileDescriptor(data) {

@@ -4,6 +4,7 @@ var VideoBasicMetadata = require('./video-basic-metadata');
 var ImageFeatures = require('./image-features');
 
 /**
+ * @param data
  * @constructor
  */
 function FileMetadata(data) {
