@@ -58,6 +58,7 @@ FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback
 };
 
 /**
+ * @description import a file from a source URL, returns a Job (see job manager)
  * @param {ImportFileRequest} importFileRequest
  * @param {function(Error, Job|null)} callback
  */

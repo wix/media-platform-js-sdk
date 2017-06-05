@@ -59,7 +59,7 @@ Crop.prototype.coordinates = function (x, y, scale) {
 
     this.x = Math.round(x);
     this.y = Math.round(y);
-    this.scale = (!scale || scale == 1) ? null : scale;
+    this.scale = (!scale || scale === 1) ? null : scale;
     return this;
 };
 
@@ -104,12 +104,16 @@ Crop.prototype.serialize = function () {
 
     out += 'y_' + (this.y || 0);
 
-    if (this.scale && this.scale != 1) {
+    if (this.scale && this.scale !== 1) {
         if (out.length > 0) {
             out += ',';
         }
+        var str = this.scale.toString();
+        if (this.scale === Math.floor(this.scale)) {
+            str = this.scale.toFixed(1);
+        }
 
-        out += 'scl_' + this.scale;
+        out += 'scl_' + str;
     }
 
     return {

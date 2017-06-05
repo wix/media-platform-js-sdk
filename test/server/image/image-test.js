@@ -320,7 +320,8 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: '//fish.com/1234/5678/file.png/v1/crop/w_200,h_300,x_50,y_2958,scl_3/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_200,h_300,x_50,y_2958,scl_3.0/file.png#w_1926,h_1086,mt_image%2Fpng',
+                //    //fish.com/1234/5678/file.png/v1/crop/w_200,h_300,x_50,y_2958,scl_3.0/file.png#w_1926,h_1086,mt_image%2Fpng
                 error: null
             });
         });
@@ -338,7 +339,8 @@ describe('image url construction', function () {
             var result = image.fillContainer(container, roi).toUrl();
 
             expect(result).to.eql({
-                url: '//fish.com/1234/5678/file.png/v1/crop/w_200,h_200,x_3652,y_0,scl_2/file.png#w_1926,h_1086,mt_image%2Fpng',
+                url: '//fish.com/1234/5678/file.png/v1/crop/w_200,h_200,x_3652,y_0,scl_2.0/file.png#w_1926,h_1086,mt_image%2Fpng',
+                //    //fish.com/1234/5678/file.png/v1/crop/w_200,h_200,x_3652,y_0,scl_2.0/file.png#w_1926,h_1086,mt_image%2Fpng
                 error: null
             });
         });
@@ -433,7 +435,8 @@ describe('image url construction', function () {
                 .toUrl();
 
             expect(result).to.eql({
-                url: '//test.com/1111/images/324234/v1/crop/w_101,h_102,x_81,y_82,scl_1.2,usm_10.00_8.00_9.00,blur_10,br_99,con_12,hue_60,sat_-70,q_100,bl/324234#w_1000,h_2000,mt_image%2Fpng',
+                url: '//test.com/1111/images/324234/v1/crop/w_101,h_102,x_81,y_82,scl_1.2,blur_10,br_99,con_12,hue_60,q_100,bl,sat_-70,usm_10.00_8.00_9.00/324234#w_1000,h_2000,mt_image%2Fpng',
+                //    //test.com/1111/images/324234/v1/crop/w_101,h_102,x_81,y_82,scl_1.2,blur_10,br_99,con_12,hue_60,q_100,bl,sat_-70,usm_10.00_8.00_9.00/324234#w_1000,h_2000,mt_image%2Fpng
                 error: null
             });
         });
@@ -444,26 +447,28 @@ describe('image url construction', function () {
         var image = new Image(imageUrl);
 
         it('preserves parameter order', function () {
-            var result1 = image.crop(100, 200)
-                .jpeg(100, true)
-                .unsharpMask(10, 10, 10)
+            var result1 = image.crop(100, 200, 1, 2, 3)
+                .jpeg(10)
+                .unsharpMask(1, 2, 3)
                 .blur(10)
-                .saturation(-70)
-                .hue(60)
-                .contrast(90)
-                .brightness(99)
+                .saturation(10)
+                .hue(10)
+                .contrast(10)
+                .brightness(10)
                 .toUrl();
 
-            var result2 = image.crop(100, 200)
-                .jpeg(100, true)
-                .unsharpMask(10, 10, 10)
-                .contrast(90)
+            var result2 = image.crop(100, 200, 1, 2, 3)
+                .contrast(10)
+                .jpeg(10)
+                .saturation(10)
                 .blur(10)
-                .saturation(-70)
-                .brightness(99)
-                .hue(60)
+                .unsharpMask(1, 2, 3)
+                .brightness(10)
+                .hue(10)
                 .toUrl();
 
+            expect(result1.url).to.be('//test.com/1111/images/324234/v1/crop/w_100,h_200,x_1,y_2,scl_3.0,blur_10,br_10,con_10,hue_10,q_10,sat_10,usm_1.00_2.00_3.00/324234#w_1000,h_2000,mt_image%2Fpng');
+                                    // //test.com/1111/images/324234/v1/crop/w_100,h_200,x_1,y_2,scl_3.0,blur_10,br_10,con_10,hue_10,q_10,sat_10,usm_10.00_10.00_10.00/file.png
             expect(result1.url).to.be(result2.url);
         });
     });

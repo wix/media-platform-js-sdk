@@ -125,7 +125,7 @@ function Image(data) {
         }
     }
 
-    this.serializationOrder = [unsharpMask, blur, brightness, contrast, hue, saturation, jpeg];
+    this.serializationOrder = [blur, brightness, contrast, hue, jpeg, saturation, unsharpMask];
 }
 
 /**
@@ -236,16 +236,16 @@ Image.prototype.toUrl = function (host) {
     var baseUrl = host || this.host || '';
 
     var url = '';
-    if (baseUrl.length != 0 && baseUrl.indexOf('http') != 0 && baseUrl.indexOf('//') != 0) {
+    if (baseUrl.length !== 0 && baseUrl.indexOf('http') !== 0 && baseUrl.indexOf('//') !== 0) {
         url += '//';
     }
 
-    if (baseUrl.lastIndexOf('/') == (baseUrl.length - 1)) {
+    if (baseUrl.lastIndexOf('/') === (baseUrl.length - 1)) {
         baseUrl = baseUrl.slice(0, -1);
     }
 
     var path = this.path;
-    if (path.indexOf('/') == 0) {
+    if (path.indexOf('/') === 0) {
         path = path.slice(1);
     }
 

@@ -80,9 +80,9 @@ UnsharpMask.prototype.serialize = function () {
 
     var out = '';
 
-    if (this.settings.radius != null
-        && this.settings.amount != null
-        && this.settings.threshold !=null) {
+    if (this.settings.radius !== null
+        && this.settings.amount !== null
+        && this.settings.threshold !==null) {
         out += 'usm_' +
             this.settings.radius.toFixed(2) + "_" +
             this.settings.amount.toFixed(2) + "_" +
