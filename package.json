@@ -80,7 +80,7 @@
     "prismjs": "^1.6.0",
     "pug": "latest",
     "request-debug": "latest",
-    "uglifyify": "latest",
+    "uglifyify": "^3.0.4",
     "uuid": "^3.0.1",
     "wnpm-ci": "latest"
   }
