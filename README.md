@@ -20,6 +20,8 @@ npm install media-platform-js-sdk --save
 ```bash
 git clone git@github.com:wix/media-platform-js-sdk.git
 
+cd media-platform-js-sdk
+
 npm install
 
 npm start
