@@ -253,6 +253,7 @@ html()
                         button#transcode-video-button.btn.
                             Execute
                         .spinner
+                        span#transcode-job-status.path-to-file
                     .highlight.highlight-response
                         pre
                             code.language-javascript#transcode-video-payload
@@ -599,6 +600,7 @@ html()
                 var transcodeVideoButton = document.getElementById('transcode-video-button');
                 var transcodeVideoInput = document.getElementById('transcode-video-id-input');
                 var transcodeVideoPayload = document.getElementById('transcode-video-payload');
+                var transcodeJobStatus = document.getElementById('transcode-job-status');
 
                 transcodeVideoButton.addEventListener('click', function () {
                     var fileId = transcodeVideoInput.value;
@@ -624,11 +626,38 @@ html()
                         .addSpecification(transcodeSpecification);
 
                     mediaPlatform.transcodeManager.transcodeVideo(transcodeRequest, function (error, response) {
-                        stopLoading(transcodeVideoButton);
                         transcodeVideoPayload.innerHTML = Prism.highlight(
                             JSON.stringify(response, null, 2),
                             Prism.languages.js);
+                        // start polling
+                        pollTranscodeJobStatus(response.groupId);
                     });
                 });
+
+                function pollTranscodeJobStatus(jobGroupId) {
+                    mediaPlatform.jobManager.getJobGroup(jobGroupId, function (error, response) {
+                        transcodeJobStatus.innerText = "Polling";
+
+                        if(response.length) {
+                            var success = true;
+                            for(var i in response) {
+                                // if at least one job has status pending, we break
+                                if(response[i].status != "success") {
+                                    success = false;
+                                    break;
+                                }
+                            }
+
+                            if(success) {
+                                stopLoading(transcodeVideoButton);
+                                transcodeJobStatus.innerText = "Success";
+                            } else {
+                                setTimeout(function () {
+                                    pollTranscodeJobStatus(jobGroupId);
+                                }, 5000);
+                            }
+                        }
+                    });
+                }
             })();
 
