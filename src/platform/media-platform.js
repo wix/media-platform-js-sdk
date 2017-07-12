@@ -5,6 +5,7 @@ var FileUploader = require('./management/file-uploader');
 var FileDownloader = require('./management/file-downloader');
 var FileManager = require('./management/file-manager');
 var JobManager = require('./management/job-manager');
+var TranscodeManager = require('./management/transcode-manager');
 var WebhookDeserializer = require('./webhook/webhook-deserializer');
 
 /**
@@ -42,6 +43,11 @@ function MediaPlatform(config) {
      * @type {FileManager}
      */
     this.fileManager = new FileManager(configuration, httpClient, fileUploader);
+
+    /**
+     * @type {TranscodeManager}
+     */
+    this.transcodeManager = new TranscodeManager(configuration, httpClient);
 
     /**
      * @type {JobManager}
