@@ -4,6 +4,7 @@ var QueuedFileUploader = require('./uploader/queued-file-uploader');
 var FileDownloader = require('./downloader/browser-file-downloader');
 var FileManager = require('../../src/platform/management/file-manager');
 var JobManager = require('../../src/platform/management/job-manager');
+var TranscodeManager = require('../../src/platform/management/transcode-manager');
 
 /**
  * @param {Configuration} configuration
@@ -70,6 +71,11 @@ function MediaPlatform(configuration) {
      * @type {JobManager}
      */
     this.jobManager = new JobManager(configuration, browserHTTPClient);
+
+    /**
+     * @type {TranscodeManager}
+     */
+    this.transcodeManager = new TranscodeManager(configuration, browserHTTPClient);
 }
 
 /**

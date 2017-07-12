@@ -88,6 +88,7 @@ describe('job manager', function() {
         var searchJobsRequest = new SearchJobsRequest();
 
         jobManager.searchJobs(searchJobsRequest, function (error, data) {
+            console.log(data);
             expect(data).to.eql({
                 'nextPageToken': 'token',
                 'jobs': [
@@ -141,6 +142,10 @@ describe('job manager', function() {
                                 'acl': 'public'
                             },
                             'quality': '144p',
+                            'qualityRange': {
+                                'maximum': null,
+                                'minimum': null
+                            },
                             'video': {
                                 'specification': {
                                     'frameRate': '29.97',

@@ -19,7 +19,12 @@ html()
             });
 
             var Image = MP.Image;
+            var Source = MP.Source;
+            var Destination = MP.Destination;
+            var QualityRange = MP.QualityRange;
             var UploadUrlRequest = MP.file.UploadUrlRequest;
+            var TranscodeRequest = MP.transcode.TranscodeRequest;
+            var TranscodeSpecification = MP.transcode.TranscodeSpecification;
             var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
             var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
             var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
@@ -217,6 +222,41 @@ html()
 
                         .output
                             video#video-output(controls=true)
+
+                h2#TranscodeApi Transcode API
+                H4 Transcode Video
+                .highlight
+                    pre
+                        code.language-javascript.
+                            var source = new Source();
+                            source.fileId = fileId;
+
+                            var transcodeSpecification = new TranscodeSpecification();
+                            transcodeSpecification.destination = new Destination()
+                                .setDirectory("/test/output1.mp4")
+                                .setAcl("public");
+
+                            transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
+
+                            var transcodeRequest = new TranscodeRequest()
+                                .addSource(source)
+                                .addSpecification(transcodeSpecification);
+
+                            mediaPlatform.transcodeManager.transcodeVideo(transcodeRequest, function(error, response) {
+                                // handle success
+                            });
+
+                .demo-group
+                    input(id='transcode-video-id-input' type='text' placeholder='Enter File ID').text-input
+                    br
+                    .executable-button
+                        button#transcode-video-button.btn.
+                            Execute
+                        .spinner
+                    .highlight.highlight-response
+                        pre
+                            code.language-javascript#transcode-video-payload
+
 
                 h2#download-url Signed URL
                     h4 Get a signed URL that directs to a file, required for non-public file download
@@ -552,3 +592,43 @@ html()
                     });
                 })
             })();
+
+            // TRANSCODE API
+            (function () {
+                // transcode video file by id
+                var transcodeVideoButton = document.getElementById('transcode-video-button');
+                var transcodeVideoInput = document.getElementById('transcode-video-id-input');
+                var transcodeVideoPayload = document.getElementById('transcode-video-payload');
+
+                transcodeVideoButton.addEventListener('click', function () {
+                    var fileId = transcodeVideoInput.value;
+                    if (!fileId) {
+                        console.log('please specify fileId');
+                        return
+                    }
+
+                    startLoading(transcodeVideoButton);
+
+                    var source = new Source();
+                    source.fileId = fileId;
+
+                    var transcodeSpecification = new TranscodeSpecification();
+                    transcodeSpecification.destination = new Destination()
+                        .setDirectory("/test/output1.mp4")
+                        .setAcl("public");
+
+                    transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
+
+                    var transcodeRequest = new TranscodeRequest()
+                        .addSource(source)
+                        .addSpecification(transcodeSpecification);
+
+                    mediaPlatform.transcodeManager.transcodeVideo(transcodeRequest, function (error, response) {
+                        stopLoading(transcodeVideoButton);
+                        transcodeVideoPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
+                    });
+                });
+            })();
+

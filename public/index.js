@@ -6,6 +6,11 @@ var UploadUrlRequest = require('../src/platform/management/requests/upload-url-r
 var UploadFileRequest = require('../src/platform/management/requests/upload-file-request');
 var ListFilesRequest = require('../src/platform/management/requests/list-files-request');
 var SearchJobsRequest = require('../src/platform/management/requests/search-jobs-request');
+var TranscodeSpecification = require('../src/platform/management/job/transcode-specification');
+var Source = require('../src/platform/management/job/source');
+var Destination = require('../src/platform/management/job/destination');
+var TranscodeRequest = require('../src/platform/management/requests/transcode-request');
+var QualityRange = require('../src/platform/management/job/quality-range');
 
 var MP = {};
 
@@ -54,5 +59,31 @@ MP.job = {
      */
     SearchJobsRequest: SearchJobsRequest
 };
+
+MP.transcode = {
+    /**
+     * @type {TranscodeRequest}
+     */
+    TranscodeRequest: TranscodeRequest,
+    /**
+     * @type {TranscodeSpecification}
+     */
+    TranscodeSpecification: TranscodeSpecification
+};
+
+/**
+ *  * @type {Source}
+ */
+MP.Source = Source;
+
+/**
+ *  * @type {Destination}
+ */
+MP.Destination = Destination;
+
+/**
+ *  * @type {QualityRange}
+ */
+MP.QualityRange = QualityRange;
 
 module.exports = MP;
