@@ -39,7 +39,7 @@ describe('transcode manager', function() {
 
         var transcodeSpecification = new TranscodeSpecification();
         transcodeSpecification.destination = new Destination()
-                .setDirectory("/test/output1.mp4")
+                .setDirectory("/test/output/")
                 .setAcl("public");
         transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
 

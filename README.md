@@ -166,6 +166,31 @@ fileManager.deleteFileById('fileId', callback);
 fileManager.deleteFileByPath('/path/to/file.txt', callback);
 ```
 
+## Transcoding
+
+[Transcode API Documentation](https://support.wixmp.com/en/article/video-transcoding-5054232)
+
+To initiate a transcode request
+
+```javascript
+    var source = new Source();
+    source.path = "/test/file.mp4";
+
+    var transcodeSpecification = new TranscodeSpecification();
+    transcodeSpecification.destination = new Destination()
+            .setDirectory("/test/output/")
+            .setAcl("public");
+    transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
+
+    var transcodeRequest = new TranscodeRequest()
+        .addSource(source)
+        .addSpecification(transcodeSpecification);
+
+    transcodeManager.transcodeVideo(transcodeRequest, function(error, data) {
+        // handle response
+    });
+```
+
 ## Reporting Issues
 
 Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issues) to report issues related to this library, or to the Wix Media Platform API in general.
