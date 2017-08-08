@@ -33,6 +33,6 @@ ExtractArchiveRequest.prototype.setDestination = function (destination) {
 };
 
 /**
- * @type {ImportFileRequest}
+ * @type {CreateArchiveRequest}
  */
 module.exports = ExtractArchiveRequest;

@@ -25,6 +25,7 @@ html()
             var UploadUrlRequest = MP.file.UploadUrlRequest;
             var TranscodeRequest = MP.transcode.TranscodeRequest;
             var ExtractArchiveRequest = MP.archive.ExtractArchiveRequest;
+            var CreateArchiveRequest = MP.archive.CreateArchiveRequest;
             var TranscodeSpecification = MP.transcode.TranscodeSpecification;
             var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
             var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
@@ -225,6 +226,39 @@ html()
                             video#video-output(controls=true)
 
                 h2#ArchiveApi Archive API
+                H4 Create Archive
+                .highlight
+                    pre
+                        code.language-javascript.
+                            var createArchiveRequest = new CreateArchiveRequest();
+                            var destination = new Destination();
+                            destination.setPath("/fish/file.zip").setAcl('public');
+
+                            var source = new Source();
+                            source.fileId = "#archive-file-id";
+                            createArchiveRequest.setDestination(destination)
+                                                .addSource(source)
+                                                .setArchiveType('zip');
+
+                            mediaPlatform.archiveManager.createArchive(createArchiveRequest, function(job, error) {
+                                // handle job success
+                            });
+                .demo-group
+                    input(id='create-archive-id-input' type='text' placeholder='Enter File ID').text-input
+                    br
+                    input(id='create-archive-destination-input' type='text' placeholder='Enter Destination Path').text-input
+                    br
+                    input(id='create-archive-destination-acl-input' type='text' placeholder='Enter Destination ACL').text-input
+                    br
+                    input(id='create-archive-type-input' type='text' placeholder='Enter Archive Type').text-input
+                    br
+                    .executable-button
+                        button#create-archive-button.btn.
+                            Execute
+                        .spinner
+                    .highlight.highlight-response
+                        pre
+                            code.language-javascript#create-archive-payload
                 H4 Extract Archive
                 .highlight
                     pre
@@ -235,6 +269,9 @@ html()
 
                             var source = new Source();
                             source.fileId = "#archive-file-id";
+
+                            extractArchiveRequest.setDestination(destination)
+                                                 .setSource(source);
 
                             mediaPlatform.archiveManager.extractArchive(extractArchiveRequest, function(job, error) {
                                 // handle job success
@@ -627,6 +664,58 @@ html()
 
             // ARCHIVE API
             (function () {
+                // create archive by id
+                var createArchiveButton = document.getElementById('create-archive-button');
+                var createArchiveInput = document.getElementById('create-archive-id-input');
+                var createArchiveDestination = document.getElementById('create-archive-destination-input');
+                var createArchiveDestinationAcl = document.getElementById('create-archive-destination-acl-input');
+                var createArchiveType = document.getElementById('create-archive-type-input');
+                var createArchivePayload = document.getElementById('create-archive-payload');
+
+                createArchiveButton.addEventListener('click', function () {
+                    var fileId = createArchiveInput.value;
+                    if (!fileId) {
+                        console.log('please specify fileId');
+                        return
+                    }
+
+                    var destinationPath = createArchiveDestination.value;
+                    if (!destinationPath) {
+                        console.log('please specify destination path');
+                        return
+                    }
+
+                    var archiveType = createArchiveType.value;
+                    if (!archiveType) {
+                        console.log('please specify archive type (zip, gzip, etc..)');
+                        return
+                    }
+
+                    var destinationAcl = createArchiveDestinationAcl.value;
+                    if (!destinationAcl || (destinationAcl !== "private" && destinationAcl !== "public")) {
+                        console.log('please specify destination acl (private or public)');
+                        return
+                    }
+
+                    var createArchiveRequest = new CreateArchiveRequest();
+                    var destination = new Destination();
+                    destination.setDirectory(destinationPath).setAcl(destinationAcl);
+
+                    var source = new Source();
+                    source.fileId = fileId;
+
+                    createArchiveRequest.setDestination(destination).addSource(source).setArchiveType(archiveType);
+
+                    startLoading(createArchiveButton);
+                    mediaPlatform.archiveManager.createArchive(createArchiveRequest, function (error, response) {
+                        stopLoading(createArchiveButton);
+                        createArchivePayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response || error, null, 2),
+                            Prism.languages.js);
+                    });
+                })
+
+
                 // extract archive by id
                 var extractArchiveButton = document.getElementById('extract-archive-button');
                 var extractArchiveInput = document.getElementById('extract-archive-id-input');

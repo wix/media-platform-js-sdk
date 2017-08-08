@@ -23,6 +23,25 @@ function ArchiveManager(configuration, httpClient) {
     this.baseUrl = 'https://' + configuration.domain;
 }
 
+
+
+/**
+ * @param {CreateArchiveRequest?} createArchiveRequest
+ * @param {function(Error, Job)} callback
+ */
+ArchiveManager.prototype.createArchive = function (createArchiveRequest, callback) {
+    this.httpClient.request('POST', this.baseUrl + '/_api/archive/create', createArchiveRequest, null, function (error, response) {
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, new Job(response.payload));
+    });
+};
+
+
+
 /**
  * @param {ExtractArchiveRequest?} extractArchiveRequest
  * @param {function(Error, Job)} callback

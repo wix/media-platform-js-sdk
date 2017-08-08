@@ -6,6 +6,7 @@ var UploadUrlRequest = require('./platform/management/requests/upload-url-reques
 var ListFilesRequest = require('./platform/management/requests/list-files-request');
 var SearchJobsRequest = require('./platform/management/requests/search-jobs-request');
 var ExtractArchiveRequest = require('./platform/management/requests/extract-archive-request');
+var CreateArchiveRequest = require('./platform/management/requests/create-archive-request');
 var ImportFileRequest = require('./platform/management/requests/import-file-request');
 var Destination = require('./platform/management/job/destination');
 var Token = require('./platform/authentication/token');
@@ -57,9 +58,13 @@ module.exports = {
     },
 
     archive: {
-    /**
-     * @type {ExtractArchiveRequest}
-     */
+        /**
+         * @type {CreateArchiveRequest}
+         */
+        CreateArchiveRequest: CreateArchiveRequest,
+        /**
+         * @type {ExtractArchiveRequest}
+         */
         ExtractArchiveRequest: ExtractArchiveRequest
     },
 

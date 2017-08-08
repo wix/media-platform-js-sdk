@@ -1,5 +1,6 @@
 var Source = require('./source');
 var ExtractArchiveSpecification = require('./extract-archive-specification');
+var CreateArchiveSpecification = require('./create-archive-specification');
 var FileImportSpecification = require('./file-import-specification');
 var TranscodeSpecification = require('./transcode-specification');
 
@@ -68,13 +69,19 @@ Job.prototype.deserialize = function (data) {
     this.issuer = data.issuer;
     this.status = data.status;
     this.groupId = data.groupId;
-    this.sources = data.sources.map(function (source) {
-        return new Source(source)
-    });
+    if(typeof data.sources !== 'undefined') {
+        this.sources = data.sources.map(function (source) {
+            return new Source(source)
+        });
+    }
     switch (this.type) {
         case 'urn:job:archive.extract':
             this.result = data.result;
             this.specification = new ExtractArchiveSpecification(data.specification);
+            break;
+        case 'urn:job:archive.create':
+            this.result = data.result;
+            this.specification = new CreateArchiveSpecification(data.specification);
             break;
         case 'urn:job:av.transcode':
             this.result = data.result;

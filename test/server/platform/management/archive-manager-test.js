@@ -8,6 +8,7 @@ var Configuration = require('../../../../src/platform/configuration/configuratio
 var Authenticator = require('../../../../src/platform/authentication/authenticator');
 var HTTPClient = require('../../../../src/platform/http/http-client');
 var ExtractArchiveRequest = require('../../../../src/platform/management/requests/extract-archive-request');
+var CreateArchiveRequest = require('../../../../src/platform/management/requests/create-archive-request');
 
 var repliesDir = __dirname + '/replies/';
 
@@ -26,8 +27,30 @@ describe('archive manager', function() {
         nock.cleanAll();
     });
 
-    it('extract archive', function (done) {
+    it('create archive', function (done) {
+        apiServer.post('/_api/archive/create')
+            .once()
+            .query(true)
+            .replyWithFile(200, repliesDir + 'create-archive-pending-response.json');
 
+        var createArchiveRequest = new CreateArchiveRequest();
+
+        var source = new Source();
+        source.fileId = "archive-file";
+        createArchiveRequest.addSource(source);
+
+        var destination = new Destination();
+        destination.setDirectory("/fish").setAcl('public');
+
+        createArchiveRequest.setDestination(destination).setSources(source).setArchiveType('zip');
+
+        archiveManager.createArchive(createArchiveRequest, function (error, data) {
+            expect(data.id).to.eql("6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b");
+            done(error);
+        });
+    });
+
+    it('extract archive', function (done) {
         apiServer.post('/_api/archive/extract')
             .once()
             .query(true)

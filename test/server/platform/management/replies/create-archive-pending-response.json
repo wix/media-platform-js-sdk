@@ -1,0 +1,23 @@
+{
+  "message": "OK",
+  "code": 0,
+  "payload": {
+    "id": "6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b",
+    "groupId": "6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b",
+    "status": "pending",
+    "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3",
+    "type": "urn:job:archive.create",
+    "specification": {
+      "sources": [
+        {"path": "string"}
+      ],
+      "destination": {
+        "path": "string",
+        "acl": "public|private"
+      },
+      "archiveType": "zip"
+    },
+    "dateUpdated": "2017-05-22T07:17:44Z",
+    "dateCreated": "2017-05-22T07:17:44Z"
+  }
+}
