@@ -10,6 +10,7 @@ var TranscodeSpecification = require('../src/platform/management/job/transcode-s
 var Source = require('../src/platform/management/job/source');
 var Destination = require('../src/platform/management/job/destination');
 var TranscodeRequest = require('../src/platform/management/requests/transcode-request');
+var ExtractArchiveRequest = require('../src/platform/management/requests/extract-archive-request');
 var QualityRange = require('../src/platform/management/job/quality-range');
 
 var MP = {};
@@ -58,6 +59,13 @@ MP.job = {
      * @type {SearchJobsRequest}
      */
     SearchJobsRequest: SearchJobsRequest
+};
+
+MP.archive = {
+    /**
+     * @type {ExtractArchiveRequest}
+     */
+    ExtractArchiveRequest: ExtractArchiveRequest
 };
 
 MP.transcode = {

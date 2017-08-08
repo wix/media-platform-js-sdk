@@ -4,6 +4,7 @@ var HTTPClient = require('./http/http-client');
 var FileUploader = require('./management/file-uploader');
 var FileDownloader = require('./management/file-downloader');
 var FileManager = require('./management/file-manager');
+var ArchiveManager = require('./management/archive-manager');
 var JobManager = require('./management/job-manager');
 var TranscodeManager = require('./management/transcode-manager');
 var WebhookDeserializer = require('./webhook/webhook-deserializer');
@@ -38,6 +39,11 @@ function MediaPlatform(config) {
     this.getDownloadUrl = function (path, downloadUrlRequest) {
         return fileDownloader.getDownloadUrl(path, downloadUrlRequest);
     };
+
+    /**
+     * @type {ArchiveManager}
+     */
+    this.archiveManager = new ArchiveManager(configuration, httpClient);
 
     /**
      * @type {FileManager}

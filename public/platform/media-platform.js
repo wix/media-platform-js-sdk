@@ -3,6 +3,7 @@ var FileUploader = require('./uploader/browser-file-uploader');
 var QueuedFileUploader = require('./uploader/queued-file-uploader');
 var FileDownloader = require('./downloader/browser-file-downloader');
 var FileManager = require('../../src/platform/management/file-manager');
+var ArchiveManager = require('../../src/platform/management/archive-manager');
 var JobManager = require('../../src/platform/management/job-manager');
 var TranscodeManager = require('../../src/platform/management/transcode-manager');
 
@@ -44,6 +45,11 @@ function MediaPlatform(configuration) {
     this.deauthorize = function () {
         browserHTTPClient.deauthorize();
     };
+
+    /**
+     * @type {ArchiveManager}
+     */
+    this.archiveManager = new ArchiveManager(configuration, browserHTTPClient);
 
     /**
      * @type {FileManager}

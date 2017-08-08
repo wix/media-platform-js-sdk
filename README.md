@@ -166,6 +166,24 @@ fileManager.deleteFileById('fileId', callback);
 fileManager.deleteFileByPath('/path/to/file.txt', callback);
 ```
 
+## Archive Extraction
+
+Instead of uploading numerous files one by one, it is possible to upload a single zip file
+and order the Media Platform to extract its content to a destination directory. 
+
+```javascript
+var extractArchiveRequest = new ExtractArchiveRequest();
+var destination = new Destination();
+destination.setDirectory("/fish").setAcl('public');
+
+var source = new Source();
+source.fileId = "#archive-file-id";
+
+mediaPlatform.archiveManager.extractArchive(extractArchiveRequest, function(job, error) {
+    // handle job success
+});
+```
+
 ## Transcoding
 
 [Transcode API Documentation](https://support.wixmp.com/en/article/video-transcoding-5054232)
