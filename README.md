@@ -166,6 +166,50 @@ fileManager.deleteFileById('fileId', callback);
 fileManager.deleteFileByPath('/path/to/file.txt', callback);
 ```
 
+## Archive Functions
+[Archive API Documentation](https://support.wixmp.com/en/article/archive-service)
+
+### Archive Creation
+
+It is possible to create an archive from several files
+
+```javascript
+var createArchiveRequest = new CreateArchiveRequest();
+var destination = new Destination();
+destination.setPath("/fish/file.zip").setAcl('public');
+
+var source = new Source();
+source.fileId = "#archive-file-id";
+createArchiveRequest.setDestination(destination)
+                    .addSource(source)
+                    .setArchiveType('zip');
+
+mediaPlatform.archiveManager.createArchive(createArchiveRequest, function(job, error) {
+    // handle job success
+});
+```
+
+### Archive Extraction
+
+Instead of uploading numerous files one by one, it is possible to upload a single zip file
+and order the Media Platform to extract its content to a destination directory. 
+
+```javascript
+var extractArchiveRequest = new ExtractArchiveRequest();
+var destination = new Destination();
+destination.setDirectory("/fish").setAcl('public');
+
+var source = new Source();
+source.fileId = "#archive-file-id";
+
+extractArchiveRequest.setDestination(destination)
+                     .setSource(source);
+
+mediaPlatform.archiveManager.extractArchive(extractArchiveRequest, function(job, error) {
+    // handle job success
+});
+```
+
 ## Transcoding
 
 [Transcode API Documentation](https://support.wixmp.com/en/article/video-transcoding-5054232)

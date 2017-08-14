@@ -88,7 +88,6 @@ describe('job manager', function() {
         var searchJobsRequest = new SearchJobsRequest();
 
         jobManager.searchJobs(searchJobsRequest, function (error, data) {
-            console.log(data);
             expect(data).to.eql({
                 'nextPageToken': 'token',
                 'jobs': [

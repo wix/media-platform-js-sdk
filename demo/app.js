@@ -23,7 +23,7 @@ var mediaPlatform = require('./src/facades/media-platform-facade').init({
     domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
     appId: '48fa9aa3e9d342a3a33e66af08cd7fe3',
     sharedSecret: 'fad475d88786ab720b04f059ac674b0e'
-}).mediaPlatorm;
+}).mediaPlatform;
 
 require('./src/routes/index')(app);
 require('./src/routes/files')(app);
