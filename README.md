@@ -4,7 +4,7 @@
 [![NPM version][npm-image]][npm-url] 
 [![Downloads][downloads-image]][npm-url]
 
-[Wix Media Platform][wixmp-url] is a collection of services for storing, serving, uploading, and managing media files and any files in general
+[Wix Media Platform][wixmp-url] is an end-to-end solution for all modern web media management, handling images, video and audio in the most efficient way on the market. From upload, storage, metadata management and all the way to delivery, Wix Media Platform takes care of all possible media workflows.
 
 # JavaScript SDK
 
@@ -30,7 +30,7 @@ and open http://localhost:3333/ in the browser
 
 ## Instantiating the Media Platform in the Server
 
-First, if you haven't done so yet, register at [Wix Media Platform][wixmp-url], create your organization, project and application.
+First, if you haven't done so yet, register at [Wix Media Platform][wixmp-url], create your [organization, project][org-and-project-start] and [application][application-start].
 
 ```javascript
 var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
@@ -70,6 +70,7 @@ app.get('/media-platform/auth-header', function (req, res, next) {
 
 ## File Upload
 
+[File Upload API Documentation](https://support.wixmp.com/en/article/file-management#upload-file)
 ### Server
 
 ```javascript
@@ -132,8 +133,11 @@ var url = image.crop(200, 200).toUrl('http://<image host>').url;
 ```
 
 ## File Management
+[File Management API Documentation](https://support.wixmp.com/en/article/file-management)
 
-Wix Media Platform exposes a comprehensive set of APIs tailored for the management of previously uploaded files.
+[File Metadata API Documentation](https://support.wixmp.com/en/article/file-metadata)
+
+Wix Media Platform provides a comprehensive set of APIs tailored for management of previously uploaded files.
 
 ```javascript
 var fileManager = mediaPlatform.fileManager;
@@ -158,7 +162,7 @@ Get file metadata (by id)
 fileManager.getFileMetadataById('fileId', callback);
 ```
 
-Delete file
+Delete file (by id or path)
 
 ```javascript
 fileManager.deleteFileById('fileId', callback);
@@ -261,3 +265,5 @@ It offers computing, storage and application services for web, mobile and backen
 [downloads-image]: https://img.shields.io/npm/dm/media-platform-js-sdk.svg
 [travis-image]: https://travis-ci.org/wix/media-platform-js-sdk.svg?branch=master
 [travis-url]: https://travis-ci.org/wix/media-platform-js-sdk
+[org-and-project-start]: https://support.wixmp.com/en/article/creating-your-organization-and-project
+[application-start]: https://support.wixmp.com/en/article/creating-your-first-application
