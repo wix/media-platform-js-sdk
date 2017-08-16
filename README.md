@@ -239,14 +239,15 @@ fileManager.deleteFileByPath('/path/to/file.txt', callback);
 It is possible to create an archive from several files
 
 ```javascript
-var createArchiveRequest = new CreateArchiveRequest();
-var destination = new Destination();
-destination.setPath("/fish/file.zip").setAcl('public');
+var CreateArchiveRequest = require('media-platform-js-sdk').archive.CreateArchiveRequest;
 
-var source = new Source();
-source.fileId = "#archive-file-id";
-createArchiveRequest.setDestination(destination)
-                    .addSource(source)
+var createArchiveRequest = new CreateArchiveRequest()
+                    .setDestination(
+                        new Destination().setPath('/fish/file.zip').setAcl('public')
+                    )
+                    .addSource(
+                        new Source().setFileId('file-to-archive')
+                    )
                     .setArchiveType('zip');
 
 mediaPlatform.archiveManager.createArchive(createArchiveRequest, function(job, error) {
@@ -260,15 +261,13 @@ Instead of uploading numerous files one by one, it is possible to upload a singl
 and order the Media Platform to extract its content to a destination directory. 
 
 ```javascript
-var extractArchiveRequest = new ExtractArchiveRequest();
-var destination = new Destination();
-destination.setDirectory("/fish").setAcl('public');
+var ExtractArchiveRequest = require('media-platform-js-sdk').archive.ExtractArchiveRequest;
 
-var source = new Source();
-source.fileId = "#archive-file-id";
-
-extractArchiveRequest.setDestination(destination)
-                     .setSource(source);
+var destination = new Destination().setDirectory('/fish').setAcl('public');
+var source = new Source().setFileId('archive-file-id');
+var extractArchiveRequest = new ExtractArchiveRequest()
+                                    .setDestination(destination)
+                                    .setSource(source);
 
 mediaPlatform.archiveManager.extractArchive(extractArchiveRequest, function(job, error) {
     // handle job success
@@ -282,22 +281,22 @@ mediaPlatform.archiveManager.extractArchive(extractArchiveRequest, function(job,
 To initiate a transcode request
 
 ```javascript
-    var source = new Source();
-    source.path = "/test/file.mp4";
+var transcodeSpecification = new TranscodeSpecification()
+    .setDestination(new Destination()
+                        .setDirectory('/test/output/')
+                        .setAcl('public')
+    )
+    .setQualityRange(new QualityRange()
+                        .setMinimum('240p')
+                        .setMaximum('1440p'));
 
-    var transcodeSpecification = new TranscodeSpecification();
-    transcodeSpecification.destination = new Destination()
-            .setDirectory("/test/output/")
-            .setAcl("public");
-    transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
+var transcodeRequest = new TranscodeRequest()
+    .addSource(new Source().setPath('/test/file.mp4'))
+    .addSpecification(transcodeSpecification);
 
-    var transcodeRequest = new TranscodeRequest()
-        .addSource(source)
-        .addSpecification(transcodeSpecification);
-
-    transcodeManager.transcodeVideo(transcodeRequest, function(error, data) {
-        // handle response
-    });
+transcodeManager.transcodeVideo(transcodeRequest, function(error, data) {
+    // handle response
+});
 ```
 
 ## Reporting Issues

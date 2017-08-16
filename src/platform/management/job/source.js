@@ -16,6 +16,24 @@ function Source(data) {
 }
 
 /**
+ * @param {string} fileId
+ * @returns {Source}
+ */
+Source.prototype.setFileId = function (fileId) {
+    this.fileId = fileId;
+    return this;
+};
+
+/**
+ * @param {string} path
+ * @returns {Source}
+ */
+Source.prototype.setPath = function (path) {
+    this.path = path;
+    return this;
+};
+
+/**
  * @param data
  * @private
  */

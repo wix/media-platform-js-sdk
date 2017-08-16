@@ -17,6 +17,15 @@ function Video(data) {
 }
 
 /**
+ * @param {VideoSpecification} specification
+ * @returns {Video}
+ */
+Video.prototype.setSpecification = function (specification) {
+    this.specification = specification;
+    return this;
+};
+
+/**
  * @param data
  * @private
  */

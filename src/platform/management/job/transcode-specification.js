@@ -25,19 +25,32 @@ function TranscodeSpecification(data) {
 }
 
 /**
+ * @param {Destination} destination
+ * @returns {TranscodeSpecification}
+ */
+TranscodeSpecification.prototype.setDestination = function (destination) {
+    this.destination = destination;
+    return this;
+};
+
+/**
+ * @param {QualityRange} qualityRange
+ * @returns {TranscodeSpecification}
+ */
+TranscodeSpecification.prototype.setQualityRange = function (qualityRange) {
+    this.qualityRange = qualityRange;
+    return this;
+};
+
+/**
  * @param data
  * @private
  */
 TranscodeSpecification.prototype.deserialize = function (data) {
-
     this.destination = new Destination(data.destination);
-
     this.quality = data.quality;
-
     this.qualityRange = new QualityRange(data.qualityRange);
-
     this.video = new Video(data.video);
-
     this.audio = new Audio(data.audio);
 };
 

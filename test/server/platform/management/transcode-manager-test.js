@@ -1,4 +1,3 @@
-var fs = require('fs');
 var nock = require('nock');
 var expect = require('expect.js');
 var TranscodeManager = require('../../../../src/platform/management/transcode-manager');
@@ -12,7 +11,6 @@ var TranscodeSpecification = require('../../../../src/platform/management/job/tr
 var QualityRange = require('../../../../src/platform/management/job/quality-range');
 
 var repliesDir = __dirname + '/replies/';
-var sourcesDir = __dirname + '/../../../sources/';
 
 describe('transcode manager', function() {
 
@@ -32,7 +30,7 @@ describe('transcode manager', function() {
     it('transcodeVideo - default', function (done) {
         apiServer.post('/_api/av/transcode')
             .once()
-            .replyWithFile(200, repliesDir + 'transcode-response-delete.json');
+            .replyWithFile(200, repliesDir + 'transcode-response.json');
 
         var source = new Source();
         source.path = "/test/file.mp4";
@@ -53,4 +51,3 @@ describe('transcode manager', function() {
         });
     });
 });
-

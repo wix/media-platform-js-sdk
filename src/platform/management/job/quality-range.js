@@ -20,6 +20,24 @@ function QualityRange(data) {
 }
 
 /**
+ * @param {string} minimum
+ * @returns {QualityRange}
+ */
+QualityRange.prototype.setMinimum = function (minimum) {
+    this.minimum = minimum;
+    return this;
+};
+
+/**
+ * @param {string} maximum
+ * @returns {QualityRange}
+ */
+QualityRange.prototype.setMaximum = function (maximum) {
+    this.maximum = maximum;
+    return this;
+};
+
+/**
  * @param data
  * @private
  */
@@ -29,6 +47,6 @@ QualityRange.prototype.deserialize = function (data) {
 };
 
 /**
- * @type {Video}
+ * @type {QualityRange}
  */
 module.exports = QualityRange;

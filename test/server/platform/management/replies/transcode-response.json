@@ -7,7 +7,7 @@
                 "status": "pending",
                 "sources": [
                     {
-                        "path": "\/demo\/upload\/594f96d25fe65.video.mp4",
+                        "path": "/demo/upload/594f96d25fe65.video.mp4",
                         "fileId": "e75ce7b7c1b542edade3491675731793"
                     }
                 ],
@@ -36,12 +36,12 @@
                     "quality": "480p",
                     "destination": {
                         "directory": null,
-                        "path": "\/demo\/encodes\/594f96d25fe65\/\/480p\/594f96d25fe65.video.mp4",
+                        "path": "/demo/encodes/594f96d25fe65/480p/594f96d25fe65.video.mp4",
                         "acl": "public"
                     },
                     "video": {
                         "specification": {
-                            "filter": "scale=768:480,setsar=1\/1",
+                            "filter": "scale=768:480,setsar=1/1",
                             "frameRate": "25.0",
                             "codec": {
                                 "profile": "main",
@@ -76,7 +76,7 @@
                 "status": "pending",
                 "sources": [
                     {
-                        "path": "\/demo\/upload\/594f96d25fe65.video.mp4",
+                        "path": "/demo/upload/594f96d25fe65.video.mp4",
                         "fileId": "e75ce7b7c1b542edade3491675731793"
                     }
                 ],
@@ -105,12 +105,12 @@
                     "quality": "720p",
                     "destination": {
                         "directory": null,
-                        "path": "\/demo\/encodes\/594f96d25fe65\/\/720p\/594f96d25fe65.video.mp4",
+                        "path": "/demo/encodes/594f96d25fe65//720p/594f96d25fe65.video.mp4",
                         "acl": "public"
                     },
                     "video": {
                         "specification": {
-                            "filter": "scale=1152:720,setsar=1\/1",
+                            "filter": "scale=1152:720,setsar=1/1",
                             "frameRate": "25.0",
                             "codec": {
                                 "profile": "high",
@@ -145,7 +145,7 @@
                 "status": "pending",
                 "sources": [
                     {
-                        "path": "\/demo\/upload\/594f96d25fe65.video.mp4",
+                        "path": "/demo/upload/594f96d25fe65.video.mp4",
                         "fileId": "e75ce7b7c1b542edade3491675731793"
                     }
                 ],
@@ -174,12 +174,12 @@
                     "quality": "1080p",
                     "destination": {
                         "directory": null,
-                        "path": "\/demo\/encodes\/594f96d25fe65\/\/1080p\/594f96d25fe65.video.mp4",
+                        "path": "/demo/encodes/594f96d25fe65/1080p/594f96d25fe65.video.mp4",
                         "acl": "public"
                     },
                     "video": {
                         "specification": {
-                            "filter": "scale=1728:1080,setsar=1\/1",
+                            "filter": "scale=1728:1080,setsar=1/1",
                             "frameRate": "25.0",
                             "codec": {
                                 "profile": "high",
@@ -214,7 +214,7 @@
                 "status": "pending",
                 "sources": [
                     {
-                        "path": "\/demo\/upload\/594f96d25fe65.video.mp4",
+                        "path": "/demo/upload/594f96d25fe65.video.mp4",
                         "fileId": "e75ce7b7c1b542edade3491675731793"
                     }
                 ],
@@ -243,12 +243,12 @@
                     "quality": "240p",
                     "destination": {
                         "directory": null,
-                        "path": "\/demo\/encodes\/594f96d25fe65\/\/240p\/594f96d25fe65.video.mp4",
+                        "path": "/demo/encodes/594f96d25fe65/240p/594f96d25fe65.video.mp4",
                         "acl": "public"
                     },
                     "video": {
                         "specification": {
-                            "filter": "scale=384:240,setsar=1\/1",
+                            "filter": "scale=384:240,setsar=1/1",
                             "frameRate": "25.0",
                             "codec": {
                                 "profile": "main",
@@ -283,7 +283,7 @@
                 "status": "pending",
                 "sources": [
                     {
-                        "path": "\/demo\/upload\/594f96d25fe65.video.mp4",
+                        "path": "/demo/upload/594f96d25fe65.video.mp4",
                         "fileId": "e75ce7b7c1b542edade3491675731793"
                     }
                 ],
@@ -312,12 +312,12 @@
                     "quality": "360p",
                     "destination": {
                         "directory": null,
-                        "path": "\/demo\/encodes\/594f96d25fe65\/\/360p\/594f96d25fe65.video.mp4",
+                        "path": "/demo/encodes/594f96d25fe65/360p/594f96d25fe65.video.mp4",
                         "acl": "public"
                     },
                     "video": {
                         "specification": {
-                            "filter": "scale=576:360,setsar=1\/1",
+                            "filter": "scale=576:360,setsar=1/1",
                             "frameRate": "25.0",
                             "codec": {
                                 "profile": "main",
