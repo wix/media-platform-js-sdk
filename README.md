@@ -116,6 +116,53 @@ mediaPlatform.uploadFile('/path', '<ReadStream || Buffer || string path to file>
 </script>
 ```
 
+## File Import
+[File Import API documentation](https://support.wixmp.com/en/article/file-import)
+
+
+```javascript
+var ImportFileRequest = require('media-platform-js-sdk').file.ImportFileRequest;
+
+var importFileRequest = new ImportFileRequest()
+    .setDestination(new Destination().setPath('/to/here/file.txt'))
+    .setSourceUrl('http://from/here/file.txt');
+
+mediaPlatform.fileManager.importFile(importFileRequest, function (error, data) {
+	if (error) {
+        console.error('import failed: ' + error.message);
+		return;
+	}
+	console.log('import successful: ' + response);
+});
+```
+
+## Jobs
+
+The [Jobs API][jobs-api] forms the basis for all long running asynchronous operations in the platform.
+
+### Job Lifecycle
+
+A job is created by a service that performs a long running operation, such as video transcode or file import.
+
+1. When a job is created, it is queued for execution, and its status is initially set to 'pending'.
+2. Once the job execution commences, the job status is updated to 'working'.
+3. On job completion, the job status is updated to either 'success' or 'error', and the 'result' property is populated (prior to the job's completion, the 'result' field is null).
+
+### Get Job
+
+
+```javascript
+
+jobManager.getJob('jobId', callback);
+```
+
+### Get Job Group
+
+```javascript
+
+jobManager.getJobGroup('jobGroupId', callback);
+```
+
 ## Image Consumption
 
 The SDK provides a programmatic facility to generate image URLs 
