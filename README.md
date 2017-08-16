@@ -136,6 +136,20 @@ mediaPlatform.fileManager.importFile(importFileRequest, function (error, data) {
 });
 ```
 
+## Download a Secure File
+[File Download API documentation](https://support.wixmp.com/en/article/file-download)
+
+File access can be restricted by setting the acl to 'private'. In order to access these files, a secure URL must be generated
+
+```javascript
+
+var DownloadUrlRequest = require('media-platform-js-sdk').file.DownloadUrlRequest;
+
+var downloadUrlRequest = new DownloadUrlRequest();
+
+var downloadUrl = mediaPlatform.getDownloadUrl(path, downloadUrlRequest);
+```
+
 ## Jobs
 
 The [Jobs API][jobs-api] forms the basis for all long running asynchronous operations in the platform.
@@ -179,7 +193,7 @@ var url = image.crop(200, 200).toUrl('http://<image host>').url;
 
 ```
 
-## File Management
+## File Metadata & Management
 [File Management API Documentation](https://support.wixmp.com/en/article/file-management)
 
 [File Metadata API Documentation](https://support.wixmp.com/en/article/file-metadata)
@@ -190,7 +204,7 @@ Wix Media Platform provides a comprehensive set of APIs tailored for management 
 var fileManager = mediaPlatform.fileManager;
 ```
 
-List files in a directory
+### List Files in a Directory
 
 ```javascript
 var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
@@ -203,13 +217,13 @@ var listFilesRequest = new ListFilesRequest()
 fileManager.listFiles('/directory', listFilesRequest, callback);
 ```
 
-Get file metadata (by id)
+### Get File Metadata (by id)
 
 ```javascript
 fileManager.getFileMetadataById('fileId', callback);
 ```
 
-Delete file (by id or path)
+### Delete File (by id or path)
 
 ```javascript
 fileManager.deleteFileById('fileId', callback);
@@ -314,3 +328,4 @@ It offers computing, storage and application services for web, mobile and backen
 [travis-url]: https://travis-ci.org/wix/media-platform-js-sdk
 [org-and-project-start]: https://support.wixmp.com/en/article/creating-your-organization-and-project
 [application-start]: https://support.wixmp.com/en/article/creating-your-first-application
+[jobs-api]: https://support.wixmp.com/en/article/jobs
