@@ -52,7 +52,17 @@ MP.file = {
     /**
      * @type {ListFilesRequest}
      */
-    ListFilesRequest: ListFilesRequest
+    ListFilesRequest: ListFilesRequest,
+
+    /**
+     * @type {Source}
+     */
+    Source: Source,
+
+    /**
+     * @type {Destination}
+     */
+    Destination: Destination
 };
 
 MP.job = {
@@ -67,6 +77,7 @@ MP.archive = {
      * @type {CreateArchiveRequest}
      */
     CreateArchiveRequest: CreateArchiveRequest,
+
     /**
      * @type {ExtractArchiveRequest}
      */
@@ -78,24 +89,30 @@ MP.transcode = {
      * @type {TranscodeRequest}
      */
     TranscodeRequest: TranscodeRequest,
+
     /**
      * @type {TranscodeSpecification}
      */
-    TranscodeSpecification: TranscodeSpecification
+    TranscodeSpecification: TranscodeSpecification,
+
+    /**
+     * @type {QualityRange}
+     */
+    QualityRange: QualityRange
 };
 
 /**
- *  * @type {Source}
+ * @type {Source}
  */
 MP.Source = Source;
 
 /**
- *  * @type {Destination}
+ * @type {Destination}
  */
 MP.Destination = Destination;
 
 /**
- *  * @type {QualityRange}
+ * @type {QualityRange}
  */
 MP.QualityRange = QualityRange;
 

@@ -1,3 +1,7 @@
+/**
+ * @param data
+ * @constructor
+ */
 function Source(data) {
 
     /**

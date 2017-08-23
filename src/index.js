@@ -8,9 +8,14 @@ var SearchJobsRequest = require('./platform/management/requests/search-jobs-requ
 var ExtractArchiveRequest = require('./platform/management/requests/extract-archive-request');
 var CreateArchiveRequest = require('./platform/management/requests/create-archive-request');
 var ImportFileRequest = require('./platform/management/requests/import-file-request');
+var TranscodeRequest = require('./platform/management/requests/transcode-request');
+var TranscodeSpecification = require('./platform/management/job/transcode-specification');
+var QualityRange = require('./platform/management/job/quality-range');
 var Destination = require('./platform/management/job/destination');
+var Source = require('./platform/management/job/source');
 var Token = require('./platform/authentication/token');
 var NS = require('./platform/authentication/NS');
+var VERB = require('./platform/authentication/VERB');
 
 module.exports = {
     
@@ -25,7 +30,6 @@ module.exports = {
     Image: Image,
 
     file: {
-
         /**
          * @type {UploadFileRequest}
          */
@@ -52,6 +56,11 @@ module.exports = {
         ImportFileRequest: ImportFileRequest,
 
         /**
+         *  @type {Source}
+         */
+        Source: Source,
+
+        /**
          * @type {Destination}
          */
         Destination: Destination
@@ -62,6 +71,7 @@ module.exports = {
          * @type {CreateArchiveRequest}
          */
         CreateArchiveRequest: CreateArchiveRequest,
+
         /**
          * @type {ExtractArchiveRequest}
          */
@@ -77,7 +87,26 @@ module.exports = {
         /**
          * @type {{SERVICE: string, MEMBER: string, APPLICATION: string, FILE: string}}
          */
-        NS: NS
+        NS: NS,
+
+        VERB: VERB
+    },
+
+    transcode: {
+        /**
+         * @type {TranscodeRequest}
+         */
+        TranscodeRequest: TranscodeRequest,
+
+        /**
+         * @type {TranscodeSpecification}
+         */
+        TranscodeSpecification: TranscodeSpecification,
+
+        /**
+         * @type {QualityRange}
+         */
+        QualityRange: QualityRange
     },
 
     job: {
@@ -85,5 +114,20 @@ module.exports = {
          * @type {SearchJobsRequest}
          */
         SearchJobsRequest: SearchJobsRequest
-    }
+    },
+
+    /**
+     *  @type {Source}
+     */
+    Source: Source,
+
+    /**
+     *  @type {Destination}
+     */
+    Destination: Destination,
+
+    /**
+     * @type {QualityRange}
+     */
+    QualityRange: QualityRange
 };

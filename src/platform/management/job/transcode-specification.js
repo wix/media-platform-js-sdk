@@ -9,14 +9,29 @@ var QualityRange = require('./quality-range');
  */
 function TranscodeSpecification(data) {
 
+    /**
+     * @type {Destination}
+     */
     this.destination = null;
 
+    /**
+     * @type {string}
+     */
     this.quality = null;
 
+    /**
+     * @type {QualityRange}
+     */
     this.qualityRange = null;
 
+    /**
+     * @type {Video}
+     */
     this.video = null;
 
+    /**
+     * @type {Audio}
+     */
     this.audio = null;
 
     if (data) {
