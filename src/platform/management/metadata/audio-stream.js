@@ -49,6 +49,8 @@ AudioStream.prototype.deserialize = function (data) {
     this.duration = data.duration;
     this.bitrate = data.bitrate;
     this.index = data.index;
+    this.channels = data.channels;
+    this.sampleRate = data.sampleRate;
 };
 
 /**

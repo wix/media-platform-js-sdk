@@ -37,7 +37,9 @@
           "codecTag": "mp4a",
           "codecName": "aac",
           "duration": 59351,
-          "bitrate": 128322
+          "bitrate": 128322,
+          "channels": 2,
+          "sampleRate": 48000
         }
       ],
       "format": {
@@ -46,6 +48,12 @@
         "bitrate": 2085272,
         "size": 15476893
       }
+    },
+    "posters": {
+      "format": "jpeg",
+      "width": 100,
+      "height": 100,
+      "urls": ["www"]
     }
   }
 }
