@@ -2,6 +2,7 @@ var FileDescriptor = require('./file-descriptor');
 var ImageBasicMetadata = require('./image-basic-metadata');
 var VideoBasicMetadata = require('./video-basic-metadata');
 var ImageFeatures = require('./image-features');
+var VideoPosters = require('./video-posters');
 
 /**
  * @param data
@@ -20,9 +21,14 @@ function FileMetadata(data) {
     this.basic = null;
 
     /**
-     * @type {string}
+     * @type {ImageFeatures}
      */
     this.features = null;
+
+    /**
+     * * @type {VideoPosters}
+     */
+    this.posters = null;
 
     if (data) {
         this.deserialize(data);
@@ -52,6 +58,9 @@ FileMetadata.prototype.deserialize = function (data) {
                 this.features = new ImageFeatures(data.features);
                 break;
         }
+    }
+    if (type === 'video' && data.posters) {
+        this.posters = new VideoPosters(data.posters);
     }
 };
 

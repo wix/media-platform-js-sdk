@@ -126,6 +126,7 @@ describe('file manager', function() {
                     colorspace: null,
                     format: 'jpeg'
                 },
+                posters: null,
                 features: {
                     labels: [
                         {
@@ -182,7 +183,9 @@ describe('file manager', function() {
                             codecName: "aac",
                             codecTag: "mp4a",
                             duration: 59351,
-                            index: 1
+                            index: 1,
+                            channels: 2,
+                            sampleRate: 48000
                         }
                     ],
                     format: {
@@ -210,6 +213,12 @@ describe('file manager', function() {
                     ]
                 },
                 features: null,
+                posters: {
+                    format: 'jpeg',
+                    width: 100,
+                    height: 100,
+                    urls: ['www']
+                },
                 fileDescriptor: {
                     acl: "private",
                     dateCreated: undefined,
