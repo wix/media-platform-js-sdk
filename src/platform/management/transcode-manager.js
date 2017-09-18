@@ -32,7 +32,8 @@ function TranscodeManager(configuration, httpClient) {
 
 /**
  * @param {TranscodeRequest} transcodeRequest
- * @param {function(Error, Job)} callback
+ * todo: job group type
+ * @param {function(Error, Object)} callback
  */
 TranscodeManager.prototype.transcodeVideo = function (transcodeRequest, callback) {
     var params = {};

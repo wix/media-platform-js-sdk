@@ -344,6 +344,15 @@ describe('image url construction', function () {
                 error: null
             });
         });
+
+        it('scale to width - missing image basic data', function () {
+            var image = new Image('//fish.com/1234/5678/file.png/v1/crop/w_709,h_400/file.png');
+            try {
+                image.scaleToWidth(1000).toUrl();
+            } catch (e) {
+                expect(e.message).to.equal('client side manipulation requires image basic metadata')
+            }
+        });
     });
 
     describe('crop geometry', function () {

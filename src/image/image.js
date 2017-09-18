@@ -158,12 +158,12 @@ Image.prototype.scaleToHeight = function (height, regionOfInterest) {
  * @returns {Image}
  */
 Image.prototype.fillContainer = function (container, regionOfInterest) {
-    if (!regionOfInterest) {
-        regionOfInterest = new Rectangle(this.metadata.width, this.metadata.height, 0, 0);
-    }
-
     if (!this.metadata) {
         throw new Error('client side manipulation requires image basic metadata');
+    }
+
+    if (!regionOfInterest) {
+        regionOfInterest = new Rectangle(this.metadata.width, this.metadata.height, 0, 0);
     }
 
     var roiAspectRatio = regionOfInterest.width / regionOfInterest.height;
