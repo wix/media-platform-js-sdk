@@ -8,6 +8,8 @@ dist
 build
 jsdoc
 
+package-lock.json
+
 # Runtime data
 pids
 *.pid

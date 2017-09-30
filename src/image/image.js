@@ -4,6 +4,7 @@ var parseFileMetadata = require('./parser/file-metadata-parser');
 var FileDescriptor = require('../platform/management/metadata/file-descriptor');
 var FileMetadata = require('../platform/management/metadata/file-metadata');
 var Crop = require('./framing/crop');
+var Fill = require('./framing/fill');
 var Rectangle = require('../geometry/rectangle');
 var Dimension = require('../geometry/dimension');
 var UnsharpMask = require('./filter/unsharp-mask');
@@ -13,7 +14,6 @@ var Contrast = require('./filter/contrast');
 var Hue = require('./filter/hue');
 var Saturation = require('./filter/saturation');
 var JPEG = require('./encoder/jpeg');
-var validator = require('./validation/validator');
 
 /**
  * @description a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
@@ -216,6 +216,17 @@ Image.prototype.fillContainer = function (container, regionOfInterest) {
  */
 Image.prototype.crop = function (width, height, x, y, scale) {
     this.geometry = new Crop(width, height, x ? x : 0, y ? y : 0, scale ? scale : 1);
+    return this;
+};
+
+/**
+ * @summary Configures this image using the 'fill' operation.
+ * @param {number} width
+ * @param {number} height
+ * @returns {Image}
+ */
+Image.prototype.fill = function (width, height) {
+    this.geometry = new Fill(width, height);
     return this;
 };
 
