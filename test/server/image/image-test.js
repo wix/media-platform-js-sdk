@@ -506,7 +506,7 @@ describe('image url construction', function () {
 
             expect(fill.toUrl()).to.eql({
                 url: null,
-                error: new Error('crop x: -1 is not a number greater than 0')
+                error: new Error('fill x: -1 is not a number greater than 0')
             });
         });
 
@@ -515,7 +515,76 @@ describe('image url construction', function () {
 
             expect(fill.toUrl()).to.eql({
                 url: null,
-                error: new Error('crop y: -1 is not a number greater than 0')
+                error: new Error('fill y: -1 is not a number greater than 0')
+            });
+        });
+    });
+
+    describe('fit geometry', function () {
+
+        var image = new Image(imageUrl);
+
+        it('fit', function () {
+
+            var fit = image.fit(90, 91);
+
+            expect(fit.toUrl()).to.eql({
+                url: '//test.com/1111/images/324234/v1/fit/w_90,h_91,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
+                error: null
+            });
+        });
+
+        it('rounds w values down', function () {
+            var fit = image.fit(90.2, 91);
+
+            expect(fit.toUrl()).to.eql({
+                url: '//test.com/1111/images/324234/v1/fit/w_90,h_91,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
+                error: null
+            });
+        });
+
+        it('rounds w values up', function () {
+            var fit = image.fit(89.8, 91);
+
+            expect(fit.toUrl()).to.eql({
+                url: '//test.com/1111/images/324234/v1/fit/w_90,h_91,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
+                error: null
+            });
+        });
+
+        it('rounds h values down', function () {
+            var fit = image.fit(90, 91.2);
+
+            expect(fit.toUrl()).to.eql({
+                url: '//test.com/1111/images/324234/v1/fit/w_90,h_91,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
+                error: null
+            });
+        });
+
+        it('rounds h values up', function () {
+            var fit = image.fit(90, 90.9);
+
+            expect(fit.toUrl()).to.eql({
+                url: '//test.com/1111/images/324234/v1/fit/w_90,h_91,usm_0.50_0.20_0.00/324234#w_1000,h_2000,mt_image%2Fpng',
+                error: null
+            });
+        });
+
+        it('reject w values smaller than 1', function () {
+            var fit = image.fit(0, 91);
+
+            expect(fit.toUrl()).to.eql({
+                url: null,
+                error: new Error('fit x: -1 is not a number greater than 0')
+            });
+        });
+
+        it('reject h values smaller than 1', function () {
+            var fit = image.fit(90, 0);
+
+            expect(fit.toUrl()).to.eql({
+                url: null,
+                error: new Error('fit y: -1 is not a number greater than 0')
             });
         });
     });

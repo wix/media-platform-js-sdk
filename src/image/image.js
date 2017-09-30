@@ -5,6 +5,7 @@ var FileDescriptor = require('../platform/management/metadata/file-descriptor');
 var FileMetadata = require('../platform/management/metadata/file-metadata');
 var Crop = require('./framing/crop');
 var Fill = require('./framing/fill');
+var Fit = require('./framing/fit');
 var Rectangle = require('../geometry/rectangle');
 var Dimension = require('../geometry/dimension');
 var UnsharpMask = require('./filter/unsharp-mask');
@@ -227,6 +228,17 @@ Image.prototype.crop = function (width, height, x, y, scale) {
  */
 Image.prototype.fill = function (width, height) {
     this.geometry = new Fill(width, height);
+    return this;
+};
+
+/**
+ * @summary Configures this image using the 'fit' operation.
+ * @param {number} width
+ * @param {number} height
+ * @returns {Image}
+ */
+Image.prototype.fit = function (width, height) {
+    this.geometry = new Fit(width, height);
     return this;
 };
 
