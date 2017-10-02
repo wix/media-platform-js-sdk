@@ -15,6 +15,12 @@ This package is an isomorphic JavaScript library (works both in Node JS and in t
 ```bash
 npm install media-platform-js-sdk --save
 ```
+To get the most up-to-date version of the JS SDK, move to your project directory and type in ```npm update```:
+```bash
+cd media-platform-js-sdk
+npm update
+```
+[Click here](https://docs.npmjs.com/getting-started/updating-local-packages) for more info.
 ## Running the Demo
 
 ```bash
