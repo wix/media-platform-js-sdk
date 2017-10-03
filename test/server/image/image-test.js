@@ -451,6 +451,28 @@ describe('image url construction', function () {
         });
     });
 
+    describe('smart crop geometry', function () {
+
+        var image = new Image(imageUrl);
+
+        it('all options', function () {
+            var result = image.smartCrop(101, 102)
+                .jpeg(100, true)
+                .unsharpMask(10, 8, 9)
+                .blur(10)
+                .saturation(-70)
+                .hue(60)
+                .contrast(12)
+                .brightness(99)
+                .toUrl();
+
+            expect(result).to.eql({
+                url: '//test.com/1111/images/324234/v1/scrop/w_101,h_102,blur_10,br_99,con_12,hue_60,q_100,bl,sat_-70,usm_10.00_8.00_9.00/324234#w_1000,h_2000,mt_image%2Fpng',
+                error: null
+            });
+        });
+    });
+
     describe('fill geometry', function () {
 
         var image = new Image(imageUrl);

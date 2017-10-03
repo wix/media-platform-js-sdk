@@ -4,6 +4,7 @@ var parseFileMetadata = require('./parser/file-metadata-parser');
 var FileDescriptor = require('../platform/management/metadata/file-descriptor');
 var FileMetadata = require('../platform/management/metadata/file-metadata');
 var Crop = require('./framing/crop');
+var SmartCrop = require('./framing/smartcrop');
 var Fill = require('./framing/fill');
 var Fit = require('./framing/fit');
 var Rectangle = require('../geometry/rectangle');
@@ -217,6 +218,17 @@ Image.prototype.fillContainer = function (container, regionOfInterest) {
  */
 Image.prototype.crop = function (width, height, x, y, scale) {
     this.geometry = new Crop(width, height, x ? x : 0, y ? y : 0, scale ? scale : 1);
+    return this;
+};
+
+/**
+ * @summary Configures this image using the 'scrop' operation.
+ * @param {number} width
+ * @param {number} height
+ * @returns {Image}
+ */
+Image.prototype.smartCrop = function (width, height) {
+    this.geometry = new SmartCrop(width, height);
     return this;
 };
 
