@@ -37,7 +37,6 @@ ListFilesRequest.prototype.setCursor = function (cursor) {
 /**
  * @param {string} nextPageToken
  * @returns {ListFilesRequest}
- * @deprecated
  */
 ListFilesRequest.prototype.setNextPageToken = function (nextPageToken) {
     this.nextPageToken = nextPageToken;

@@ -33,7 +33,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
             return;
         }
         var request = new XMLHttpRequest();
-        var urlParams = null;
+        var queryString = null;
         var body = null;
         switch (httpMethod) {
             case 'POST':
@@ -41,17 +41,17 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
                 body = JSON.stringify(params);
                 break;
             default:
-                urlParams = '';
+                queryString = '';
                 for (var key in params) {
 
-                    if (typeof params[key] === 'function' || params[key] == null) {
+                    if (typeof params[key] === 'function' || params[key] === null) {
                         continue;
                     }
 
-                    if (urlParams != '') {
-                        urlParams += '&';
+                    if (queryString !== '') {
+                        queryString += '&';
                     }
-                    urlParams += key + '=' + encodeURIComponent(params[key]);
+                    queryString += key + '=' + encodeURIComponent(params[key]);
                 }
         }
         
@@ -73,7 +73,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
         }.bind(this));
         request.addEventListener('error', function (event) {
 
-            if (request.status == 403 || request.status == 401) {
+            if (request.status === 403 || request.status === 401) {
                 this.authorizationHeader = null;
             }
 
@@ -83,7 +83,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
             callback(new Error(request.statusText), null);
         }.bind(this));
         
-        request.open(httpMethod, urlParams ? url + '?' + urlParams : url);
+        request.open(httpMethod, queryString ? url + '?' + queryString : url);
         request.withCredentials = true;
         request.setRequestHeader('Accept', 'application/json');
         request.setRequestHeader('Content-Type', 'application/json');
@@ -93,7 +93,7 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
 };
 
 /**
- * @param {function(Error, {Authorization: <string>} | null)} callback
+ * @param {function(Error, string|null)} callback
  */
 HTTPClient.prototype.getAuthorizationHeader = function (callback) {
 

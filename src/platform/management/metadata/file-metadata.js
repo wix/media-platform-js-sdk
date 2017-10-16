@@ -10,17 +10,17 @@ var ImageFeatures = require('./image-features');
 function FileMetadata(data) {
 
     /**
-     * @type {string}
+     * @type {FileDescriptor}
      */
     this.fileDescriptor = null;
 
     /**
-     * @type {string}
+     * @type {Object}
      */
     this.basic = null;
 
     /**
-     * @type {string}
+     * @type {Object}
      */
     this.features = null;
 
