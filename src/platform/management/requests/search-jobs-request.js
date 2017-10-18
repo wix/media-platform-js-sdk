@@ -98,6 +98,50 @@ SearchJobsRequest.prototype.descending = function () {
     return this;
 };
 
+/**
+ * @param {string} job type
+ * @returns {SearchJobsRequest}
+ */
+SearchJobsRequest.prototype.setType = function (type) {
+    this.type = type;
+    return this;
+};
+
+/**
+ * @param {string} job status (pending, success etc.)
+ * @returns {SearchJobsRequest}
+ */
+SearchJobsRequest.prototype.setStatus = function (status) {
+    this.status = status;
+    return this;
+};
+
+/**
+ * @param {string} job group ID
+ * @returns {SearchJobsRequest}
+ */
+SearchJobsRequest.prototype.setGroupId = function (groupId) {
+    this.groupId = groupId;
+    return this;
+};
+
+/**
+ * @param {string} file ID of the job's source file
+ * @returns {SearchJobsRequest}
+ */
+SearchJobsRequest.prototype.setFileId = function (fileId) {
+    this.fileId = fileId;
+    return this;
+};
+
+/**
+ * @param {string} path of the job's source file
+ * @returns {SearchJobsRequest}
+ */
+SearchJobsRequest.prototype.setPath = function (path) {
+    this.path = path;
+    return this;
+};
 
 /**
  * @type {SearchJobsRequest}
