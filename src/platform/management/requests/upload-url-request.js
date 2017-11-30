@@ -12,6 +12,11 @@ function UploadUrlRequest() {
      * @type {string}
      */
     this.path = null;
+
+    /**
+     * @type {number|null}
+     */
+    this.size = null
 }
 
 /**
@@ -29,6 +34,16 @@ UploadUrlRequest.prototype.setMimeType = function (mimeType) {
  */
 UploadUrlRequest.prototype.setPath = function (path) {
     this.path = path;
+    return this;
+};
+
+/**
+ * @description Optional file size in bytes. Required for file size enforcement
+ * @param {number} size
+ * @returns {UploadUrlRequest}
+ */
+UploadUrlRequest.prototype.setSize = function (size) {
+    this.size = size;
     return this;
 };
 
