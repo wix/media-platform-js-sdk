@@ -66,7 +66,10 @@ UploadJob.prototype.run = function (fileUploader) {
 
     var e = new UploadStartedEvent(this);
     this.emit(e.name, e);
-    var uploadUrlRequest = new UploadUrlRequest().setPath(this.path);
+    var uploadUrlRequest = new UploadUrlRequest()
+        .setPath(this.path)
+        .setMimeType(this.file.type)
+        .setSize(this.file.size);
     fileUploader.getUploadUrl(uploadUrlRequest, function (error, response) {
 
         if (error) {
