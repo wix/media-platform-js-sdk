@@ -1,4 +1,3 @@
-var fs = require('fs');
 var nock = require('nock');
 var expect = require('expect.js');
 var JobManager = require('../../../../src/platform/management/job-manager');

@@ -23,8 +23,6 @@ function ArchiveManager(configuration, httpClient) {
     this.baseUrl = 'https://' + configuration.domain;
 }
 
-
-
 /**
  * @param {CreateArchiveRequest?} createArchiveRequest
  * @param {function(Error, Job)} callback
@@ -40,8 +38,6 @@ ArchiveManager.prototype.createArchive = function (createArchiveRequest, callbac
     });
 };
 
-
-
 /**
  * @param {ExtractArchiveRequest?} extractArchiveRequest
  * @param {function(Error, Job)} callback
@@ -56,7 +52,6 @@ ArchiveManager.prototype.extractArchive = function (extractArchiveRequest, callb
         callback(null, new Job(response.payload));
     });
 };
-
 
 /**
  * @type {ArchiveManager}

@@ -21,8 +21,15 @@ function Token() {
     /**
      * @description the object on which the operation is performed
      * @type {string}
+     * @deprecated incorrect representation, use objects instead
      */
     this.object = null;
+
+    /**
+     * @description a policy like objects array
+     * @type {Array<Array<{}>>}
+     */
+    this.objects = null;
 
     /**
      * @description a set of target operations, if left empty all operation are covered
@@ -78,6 +85,7 @@ Token.prototype.setSubject = function(ns, identifier) {
 };
 
 /**
+ * @deprecated incorrect representation, use setObjects instead
  * @description sets the object, the entity on which the action is taken
  * @param {string} ns
  * @param {string} pattern
@@ -85,6 +93,16 @@ Token.prototype.setSubject = function(ns, identifier) {
  */
 Token.prototype.setObject = function(ns, pattern) {
     this.subject = ns + pattern;
+    return this;
+};
+
+/**
+ * @description sets the object, the entity on which the action is taken
+ * @param {Array<Array<{}>>} objects
+ * @returns {Token}
+ */
+Token.prototype.setObjects = function(objects) {
+    this.objects = objects;
     return this;
 };
 
@@ -136,7 +154,7 @@ Token.prototype.toClaims = function() {
 
     var claims = {
         sub: this.subject,
-        obj: this.object,
+        obj: this.objects || this.object,
         aud: this.verbs.length > 0 ? this.verbs.join(',') : null,
         iss: this.issuer,
         iat: this.issuedAt,
