@@ -7,6 +7,7 @@ var FileManager = require('./management/file-manager');
 var ArchiveManager = require('./management/archive-manager');
 var JobManager = require('./management/job-manager');
 var TranscodeManager = require('./management/transcode-manager');
+var LiveManager = require('./management/live-manager');
 var WebhookDeserializer = require('./webhook/webhook-deserializer');
 
 /**
@@ -54,6 +55,11 @@ function MediaPlatform(config) {
      * @type {TranscodeManager}
      */
     this.transcodeManager = new TranscodeManager(configuration, httpClient);
+
+    /**
+     * @type {LiveManager}
+     */
+    this.liveManager = new LiveManager(configuration, httpClient);
 
     /**
      * @type {JobManager}

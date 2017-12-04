@@ -5,6 +5,7 @@ var Image = require('../src/image/image');
 var UploadUrlRequest = require('../src/platform/management/requests/upload-url-request');
 var UploadFileRequest = require('../src/platform/management/requests/upload-file-request');
 var ListFilesRequest = require('../src/platform/management/requests/list-files-request');
+var ImportFileRequest = require('../src/platform/management/requests/import-file-request');
 var SearchJobsRequest = require('../src/platform/management/requests/search-jobs-request');
 var TranscodeSpecification = require('../src/platform/management/job/transcode-specification');
 var Source = require('../src/platform/management/job/source');
@@ -48,6 +49,11 @@ MP.file = {
      * @type {UploadFileRequest}
      */
     UploadFileRequest: UploadFileRequest,
+
+    /**
+     * @type {ImportFileRequest}
+     */
+    ImportFileRequest: ImportFileRequest,
 
     /**
      * @type {ListFilesRequest}
