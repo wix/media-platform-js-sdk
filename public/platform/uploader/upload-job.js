@@ -88,7 +88,9 @@ UploadJob.prototype.run = function (fileUploader) {
             if (event.target.status >= 400) {
                 e = new UploadErrorEvent(this);
             } else {
-                var fileDescriptors = event.target.response.payload.map(function (file) {
+                var payload = typeof(event.target.response) == "string" ?
+                    JSON.parse(event.target.response).payload : event.target.response.payload;
+                var fileDescriptors = payload.map(function (file) {
                     return new FileDescriptor(file);
                 });
 
@@ -127,15 +129,18 @@ UploadJob.prototype.run = function (fileUploader) {
         formData.append('file', this.file);
 
         var request = new XMLHttpRequest();
-        request.withCredentials = true;
+        
         request.upload.addEventListener('progress', onProgress);
         request.addEventListener('load', onLoad);
         request.addEventListener('error', onError);
         request.addEventListener('abort', onAbort);
         request.addEventListener('loadend', onLoadEnd);
 
-        request.responseType = 'json';
         request.open('POST', response.uploadUrl);
+
+        request.withCredentials = true;
+        request.responseType = 'json';
+
         request.send(formData);
     }.bind(this));
 
