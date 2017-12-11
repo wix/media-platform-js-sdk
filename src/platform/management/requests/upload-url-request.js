@@ -16,7 +16,12 @@ function UploadUrlRequest() {
     /**
      * @type {number|null}
      */
-    this.size = null
+    this.size = null;
+
+    /**
+     * @type {string}
+     */
+    this.acl = 'public';
 }
 
 /**
@@ -44,6 +49,15 @@ UploadUrlRequest.prototype.setPath = function (path) {
  */
 UploadUrlRequest.prototype.setSize = function (size) {
     this.size = size;
+    return this;
+};
+
+/**
+ * @param {string} acl
+ * @returns {UploadUrlRequest}
+ */
+UploadUrlRequest.prototype.setAcl = function (acl) {
+    this.acl = acl;
     return this;
 };
 

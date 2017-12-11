@@ -87,7 +87,8 @@ FileUploader.prototype.uploadFile = function (path, file, uploadRequest, callbac
     if (uploadRequest) {
         uploadUrlRequest = new UploadUrlRequest()
             .setMimeType(uploadRequest.mimeType)
-            .setPath(path);
+            .setPath(path)
+            .setAcl(uploadRequest.acl);
         if (size) {
             uploadUrlRequest.setSize(size);
         }

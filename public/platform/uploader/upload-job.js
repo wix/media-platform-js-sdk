@@ -11,11 +11,17 @@ var UploadAbortedEvent = require('./events/upload-aborted-event');
 /**
  * @param {string?} path
  * @param {File?} file
+ * * @param {string?} acl
  * @constructor
  * @extends {EventEmitter}
  */
-function UploadJob(path, file) {
+function UploadJob(path, file, acl) {
     EventEmitter.call(this);
+
+    /**
+     * @type {string}
+     */
+    this.path = path;
 
     /**
      * @type {File}
@@ -25,7 +31,7 @@ function UploadJob(path, file) {
     /**
      * @type {string}
      */
-    this.path = path;
+    this.acl = acl || 'public';
 
     /**
      * @type {string}
@@ -44,11 +50,20 @@ UploadJob.prototype.setPath = function (path) {
 };
 
 /**
- * @param {string} file
+ * @param {File} file
  * @returns {UploadJob}
  */
 UploadJob.prototype.setFile = function (file) {
     this.file = file;
+    return this;
+};
+
+/**
+ * @param {string} acl
+ * @returns {UploadJob}
+ */
+UploadJob.prototype.setAcl = function (acl) {
+    this.acl = acl;
     return this;
 };
 
@@ -68,6 +83,7 @@ UploadJob.prototype.run = function (fileUploader) {
     this.emit(e.name, e);
     var uploadUrlRequest = new UploadUrlRequest()
         .setPath(this.path)
+        .setAcl(this.acl)
         .setMimeType(this.file.type)
         .setSize(this.file.size);
     fileUploader.getUploadUrl(uploadUrlRequest, function (error, response) {
@@ -88,7 +104,7 @@ UploadJob.prototype.run = function (fileUploader) {
             if (event.target.status >= 400) {
                 e = new UploadErrorEvent(this);
             } else {
-                var payload = typeof(event.target.response) == "string" ?
+                var payload = typeof(event.target.response) === 'string' ?
                     JSON.parse(event.target.response).payload : event.target.response.payload;
                 var fileDescriptors = payload.map(function (file) {
                     return new FileDescriptor(file);
@@ -127,6 +143,7 @@ UploadJob.prototype.run = function (fileUploader) {
         formData.append('uploadToken', response.uploadToken);
         formData.append('path', this.path);
         formData.append('file', this.file);
+        formData.append('acl', this.acl);
 
         var request = new XMLHttpRequest();
         

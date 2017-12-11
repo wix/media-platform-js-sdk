@@ -39,10 +39,11 @@ FileUploader.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
 * @description upload a file
 * @param {string} path the destination to which the file will be uploaded
 * @param {File} file
+* @param {String?} acl
 * @returns {UploadJob}
 */
-FileUploader.prototype.uploadFile = function (path, file) {
-    var uploadJob = new UploadJob(path, file);
+FileUploader.prototype.uploadFile = function (path, file, acl) {
+    var uploadJob = new UploadJob(path, file, acl);
 
     return uploadJob.run(this);
 };
