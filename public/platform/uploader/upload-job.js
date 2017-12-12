@@ -94,7 +94,7 @@ UploadJob.prototype.run = function (fileUploader) {
     fileUploader.getUploadUrl(uploadUrlRequest, function (error, response) {
 
         if (error) {
-            var e = new UploadErrorEvent(this);
+            var e = new UploadErrorEvent(this, error);
             this.emit(e.name, e);
             return;
         }
@@ -107,7 +107,7 @@ UploadJob.prototype.run = function (fileUploader) {
         var onLoad = function (event) {
             var e;
             if (event.target.status >= 400) {
-                e = new UploadErrorEvent(this);
+                e = new UploadErrorEvent(this, event.target.response);
             } else {
                 var payload = typeof(event.target.response) === 'string' ?
                     JSON.parse(event.target.response).payload : event.target.response.payload;
@@ -121,7 +121,7 @@ UploadJob.prototype.run = function (fileUploader) {
         }.bind(this);
 
         var onError = function (event) {
-            var e = new UploadErrorEvent(this);
+            var e = new UploadErrorEvent(this, event.target.response);
             this.emit(e.name, e);
         }.bind(this);
 
@@ -151,7 +151,7 @@ UploadJob.prototype.run = function (fileUploader) {
         formData.append('acl', acl);
 
         var request = new XMLHttpRequest();
-        
+
         request.upload.addEventListener('progress', onProgress);
         request.addEventListener('load', onLoad);
         request.addEventListener('error', onError);
