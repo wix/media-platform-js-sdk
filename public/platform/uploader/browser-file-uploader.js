@@ -36,14 +36,14 @@ FileUploader.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
 };
 
 /**
-* @description upload a file
-* @param {string} path the destination to which the file will be uploaded
-* @param {File} file
-* @param {String?} acl
-* @returns {UploadJob}
-*/
-FileUploader.prototype.uploadFile = function (path, file, acl) {
-    var uploadJob = new UploadJob(path, file, acl);
+ * @description upload a file
+ * @param {string} path the destination to which the file will be uploaded
+ * @param {File} file
+ * @param {UploadFileRequest?} uploadFileRequest
+ * @returns {UploadJob}
+ */
+FileUploader.prototype.uploadFile = function (path, file, uploadFileRequest) {
+    var uploadJob = new UploadJob(path, file, uploadFileRequest);
 
     return uploadJob.run(this);
 };

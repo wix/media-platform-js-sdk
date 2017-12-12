@@ -11,11 +11,11 @@ var UploadAbortedEvent = require('./events/upload-aborted-event');
 /**
  * @param {string?} path
  * @param {File?} file
- * * @param {string?} acl
+ * @param {UploadFileRequest?} uploadFileRequest
  * @constructor
  * @extends {EventEmitter}
  */
-function UploadJob(path, file, acl) {
+function UploadJob(path, file, uploadFileRequest) {
     EventEmitter.call(this);
 
     /**
@@ -29,9 +29,9 @@ function UploadJob(path, file, acl) {
     this.file = file;
 
     /**
-     * @type {string}
+     * @type {UploadFileRequest}
      */
-    this.acl = acl || 'public';
+    this.uploadFileRequest = uploadFileRequest;
 
     /**
      * @type {string}
@@ -59,11 +59,11 @@ UploadJob.prototype.setFile = function (file) {
 };
 
 /**
- * @param {string} acl
+ * @param {UploadFileRequest} uploadFileRequest
  * @returns {UploadJob}
  */
-UploadJob.prototype.setAcl = function (acl) {
-    this.acl = acl;
+UploadJob.prototype.setUploadFileRequest = function (uploadFileRequest) {
+    this.uploadFileRequest = uploadFileRequest;
     return this;
 };
 
@@ -79,11 +79,16 @@ UploadJob.prototype.run = function (fileUploader) {
     }
     this.state = 'running';
 
+    var acl = 'public';
+    if (this.uploadFileRequest && this.uploadFileRequest.acl) {
+        acl = this.uploadFileRequest.acl
+    }
+
     var e = new UploadStartedEvent(this);
     this.emit(e.name, e);
     var uploadUrlRequest = new UploadUrlRequest()
         .setPath(this.path)
-        .setAcl(this.acl)
+        .setAcl(acl)
         .setMimeType(this.file.type)
         .setSize(this.file.size);
     fileUploader.getUploadUrl(uploadUrlRequest, function (error, response) {
@@ -143,7 +148,7 @@ UploadJob.prototype.run = function (fileUploader) {
         formData.append('uploadToken', response.uploadToken);
         formData.append('path', this.path);
         formData.append('file', this.file);
-        formData.append('acl', this.acl);
+        formData.append('acl', acl);
 
         var request = new XMLHttpRequest();
         
