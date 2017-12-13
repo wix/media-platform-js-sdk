@@ -1,6 +1,6 @@
 /**
  * @param {UploadJob} target
- * @param {Response} response
+ * @param {object?} response
  * @constructor
  * @protected
  */
@@ -17,7 +17,7 @@ function UploadEvent(target, response) {
     this.target = target;
 
     /**
-     * @type {Response}
+     * @type {object || null}
      */
     this.response = response;
 }

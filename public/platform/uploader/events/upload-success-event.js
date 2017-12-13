@@ -3,11 +3,12 @@ var UploadEvent = require('./upload-event');
 
 /**
  * @param {UploadJob} target
+ * @param {object} response
  * @param {Array<FileDescriptor>} fileDescriptors
  * @constructor
  */
-function UploadSuccessEvent(target, fileDescriptors) {
-    UploadEvent.call(this, target);
+function UploadSuccessEvent(target, response, fileDescriptors) {
+    UploadEvent.call(this, target, response);
 
     /**
      * @type {string}

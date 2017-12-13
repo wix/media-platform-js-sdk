@@ -3,7 +3,7 @@ var UploadEvent = require('./upload-event');
 
 /**
  * @param {UploadJob} target
- * @param {Response} response
+ * @param {object} response
  * @constructor
  */
 function UploadErrorEvent(target, response) {

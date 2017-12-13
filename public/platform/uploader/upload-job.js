@@ -115,7 +115,7 @@ UploadJob.prototype.run = function (fileUploader) {
                     return new FileDescriptor(file);
                 });
 
-                e = new UploadSuccessEvent(this, fileDescriptors);
+                e = new UploadSuccessEvent(this, event.target.response, fileDescriptors);
             }
             this.emit(e.name, e);
         }.bind(this);
