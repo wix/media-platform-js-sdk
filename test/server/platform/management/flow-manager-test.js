@@ -70,7 +70,7 @@ describe('flow manager', function() {
             .setDestination(new Destination()
                 .setDirectory("/test/output/")
                 .setAcl("public")
-            ).setQualityRange(QualityRange({minimum: "240p", maximum: "1440p"} ));
+            ).setQualityRange(new QualityRange({minimum: "240p", maximum: "1440p"} ));
 
         var transcodeComponent = new FlowComponent()
             .setType('av.transcode')
