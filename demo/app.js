@@ -20,9 +20,9 @@ app.use(express.static(path.join(__dirname, '/src/client')));
  * replace with your config
  */
 var mediaPlatform = require('./src/facades/media-platform-facade').init({
-    domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
-    appId: '48fa9aa3e9d342a3a33e66af08cd7fe3',
-    sharedSecret: 'fad475d88786ab720b04f059ac674b0e'
+    domain: 'wixmp-18154a43097a198cc7f682a7.appspot.com',
+    appId: '6073c90a3c444da9811997cfb8937d21',
+    sharedSecret: '69c4a8a2c9d6f37c4e0638463b5993b8'
 }).mediaPlatform;
 
 require('./src/routes/index')(app);

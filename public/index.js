@@ -13,6 +13,12 @@ var Destination = require('../src/platform/management/job/destination');
 var TranscodeRequest = require('../src/platform/management/requests/transcode-request');
 var ExtractArchiveRequest = require('../src/platform/management/requests/extract-archive-request');
 var CreateArchiveRequest = require('../src/platform/management/requests/create-archive-request');
+var CreateFlowRequest = require('../src/platform/management/requests/create-flow-request');
+var LivestreamRequest = require('../src/platform/management/requests/livestream-request');
+var Flow = require('../src/platform/management/metadata/flow');
+var Invocation = require('../src/platform/management/metadata/invocation');
+var FlowComponent = require('../src/platform/management/metadata/flow-component');
+var LiveStream = require('../src/platform/management/metadata/live-stream');
 var QualityRange = require('../src/platform/management/job/quality-range');
 
 var MP = {};
@@ -76,6 +82,34 @@ MP.job = {
      * @type {SearchJobsRequest}
      */
     SearchJobsRequest: SearchJobsRequest
+};
+
+MP.live = {
+    /**
+     * @type {LivestreamRequest}
+     */
+    LivestreamRequest: LivestreamRequest,
+
+    /**
+     * @type {LiveStream}
+     */
+    LiveStream: LiveStream,
+};
+
+MP.flow = {
+    /**
+     * @type {CreateFlowRequest}
+     */
+    CreateFlowRequest: CreateFlowRequest,
+
+    /**
+     * @type {Flow}
+     */
+    Flow: Flow,
+
+    Invocation: Invocation,
+    FlowComponent: FlowComponent,
+
 };
 
 MP.archive = {

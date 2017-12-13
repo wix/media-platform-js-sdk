@@ -6,6 +6,8 @@ var FileManager = require('../../src/platform/management/file-manager');
 var ArchiveManager = require('../../src/platform/management/archive-manager');
 var JobManager = require('../../src/platform/management/job-manager');
 var TranscodeManager = require('../../src/platform/management/transcode-manager');
+var FlowManager = require('../../src/platform/management/flow-manager');
+var LiveManager = require('../../src/platform/management/live-manager');
 
 /**
  * @param {Configuration} configuration
@@ -82,6 +84,16 @@ function MediaPlatform(configuration) {
      * @type {TranscodeManager}
      */
     this.transcodeManager = new TranscodeManager(configuration, browserHTTPClient);
+
+    /**
+     * @type {LiveManager}
+     */
+    this.liveManager = new LiveManager(configuration, browserHTTPClient);
+
+    /**
+     * @type {FlowManager}
+     */
+    this.flowManager = new FlowManager(configuration, browserHTTPClient);
 }
 
 /**

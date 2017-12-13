@@ -10,6 +10,7 @@ var CreateArchiveRequest = require('./platform/management/requests/create-archiv
 var ImportFileRequest = require('./platform/management/requests/import-file-request');
 var TranscodeRequest = require('./platform/management/requests/transcode-request');
 var LivestreamRequest = require('./platform/management/requests/livestream-request');
+var CreateFlowRequest = require('./platform/management/requests/create-flow-request');
 var TranscodeSpecification = require('./platform/management/job/transcode-specification');
 var QualityRange = require('./platform/management/job/quality-range');
 var Destination = require('./platform/management/job/destination');
@@ -108,6 +109,13 @@ module.exports = {
          * @type {QualityRange}
          */
         QualityRange: QualityRange
+    },
+
+    flow: {
+        /**
+         * @type {CreateFlowRequest}
+         */
+        CreateFlowRequest: CreateFlowRequest
     },
 
     live: {

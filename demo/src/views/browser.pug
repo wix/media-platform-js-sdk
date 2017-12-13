@@ -14,7 +14,7 @@ html()
 
         script.
             var mediaPlatform = new MP.MediaPlatform({
-                domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+                domain: 'wixmp-18154a43097a198cc7f682a7.appspot.com',
                 authenticationUrl: 'http://' + location.host + '/media-platform/auth-header'
             });
 
@@ -23,13 +23,18 @@ html()
             var Destination = MP.Destination;
             var QualityRange = MP.QualityRange;
             var UploadUrlRequest = MP.file.UploadUrlRequest;
+            var ImportFileRequest = MP.file.ImportFileRequest;
             var TranscodeRequest = MP.transcode.TranscodeRequest;
             var ExtractArchiveRequest = MP.archive.ExtractArchiveRequest;
             var CreateArchiveRequest = MP.archive.CreateArchiveRequest;
             var TranscodeSpecification = MP.transcode.TranscodeSpecification;
-            var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
-            var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
-            var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+            var CreateFlowRequest = MP.flow.CreateFlowRequest;
+            var Invocation = MP.flow.Invocation;
+            var FlowComponent = MP.flow.FlowComponent;
+
+            var fileHost = 'wixmp-18154a43097a198cc7f682a7.wixmp.com';
+            var imagesHost = 'images-wixmp-18154a43097a198cc7f682a7.wixmp.com';
+            var videosHost = 'wixmp-18154a43097a198cc7f682a7.wixmp.com';
 
     body
 
@@ -301,7 +306,7 @@ html()
 
                             var transcodeSpecification = new TranscodeSpecification();
                             transcodeSpecification.destination = new Destination()
-                                .setDirectory("/test/output/")
+                                .setDirectory("/test/output")
                                 .setAcl("public");
 
                             transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
@@ -325,6 +330,57 @@ html()
                     .highlight.highlight-response
                         pre
                             code.language-javascript#transcode-video-payload
+
+
+                h2#FlowManagerApi Flow Manager API
+                H4 Invoke Flow on Remote Url
+                .highlight
+                    pre
+                        code.language-javascript.
+                            var invocation = new Invocation()
+                                .addEntryPoint("import");
+
+                            var importFileRequest = new ImportFileRequest()
+                                .setDestination(new Destination().setPath('/testflow/imported/test.mp4'))
+                                .setSourceUrl('http://some-url/some-file.mp4');
+
+                            var importComponent = new FlowComponent()
+                                .setType('file.import')
+                                .setSpecification(importFileRequest)
+                                .addSuccessor('transcode');
+
+                            var transcodeSpecification = new TranscodeSpecification()
+                                .setDestination(new Destination()
+                                    .setDirectory("/testflow/transcoded/")
+                                    .setAcl("public")
+                            ).setQualityRange(QualityRange({minimum: "240p", maximum: "1440p"} ));
+
+                            var transcodeComponent = new FlowComponent()
+                            .setType('av.transcode')
+                                .setSpecification(transcodeSpecification)
+                                .setSuccessors([]);
+
+                            var createFlowRequest = new CreateFlowRequest()
+                                .setInvocation(invocation)
+                                .addFlowComponent("import", importComponent)
+                                .addFlowComponent("transcode", transcodeComponent);
+
+
+                            mediaPlatform.flowManager.createFlow(createFlowRequest, function(error, data) {
+                                // handle success
+                            });
+
+                .demo-group
+                    input(id='flow-manager-id-input' type='text' placeholder='Enter Remote File URL (http://)').text-input
+                    br
+                    .executable-button
+                        button#flow-manager-button.btn.
+                            Execute
+                        .spinner
+                        span#flow-manager-job-status.path-to-file
+                    .highlight.highlight-response
+                        pre
+                            code.language-javascript#flow-manager-payload
 
 
                 h2#download-url Signed URL
@@ -784,7 +840,7 @@ html()
 
                     var transcodeSpecification = new TranscodeSpecification();
                     transcodeSpecification.destination = new Destination()
-                        .setDirectory("/test/output/")
+                        .setDirectory("/test/output")
                         .setAcl("public");
 
                     transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
@@ -825,6 +881,93 @@ html()
                                 }, 5000);
                             }
                         }
+                    });
+                }
+            })();
+
+            // FLOW Manager API
+            (function () {
+                // flow manager file by id
+                var flowManagerButton = document.getElementById('flow-manager-button');
+                var flowManagerInput = document.getElementById('flow-manager-id-input');
+                var flowManagerPayload = document.getElementById('flow-manager-payload');
+                var flowManagerJobStatus = document.getElementById('flow-manager-job-status');
+
+                flowManagerButton.addEventListener('click', function () {
+                    var fileUrl = flowManagerInput.value;
+                    if (!fileUrl) {
+                        console.log('please specify URL');
+                        return
+                    }
+
+                    startLoading(flowManagerButton);
+
+                    var invocation = new Invocation()
+                        //.addSource(new Source().setPath("/testflow/imported/file.mp4"))
+                        .addEntryPoint("import");
+
+                    var importFileRequest = new ImportFileRequest()
+                        .setDestination(new Destination().setPath('/testflow/imported/ahhaz.mp4').setAcl("public"))
+                        .setSourceUrl(fileUrl);
+
+                    var importComponent = new FlowComponent()
+                        .setType('file.import')
+                        .setSpecification(importFileRequest)
+                        .addSuccessor('transcode');
+
+                    var transcodeSpecification = new TranscodeSpecification()
+                        .setDestination(new Destination()
+                            .setDirectory("/testflow/transcoded/")
+                            .setAcl("public")
+                    ).setQualityRange(new QualityRange({minimum: "240p", maximum: "1440p"} ));
+
+                    var transcodeComponent = new FlowComponent()
+                    .setType('av.transcode')
+                        .setSpecification(transcodeSpecification)
+                        .setSuccessors([]);
+
+                    var createFlowRequest = new CreateFlowRequest()
+                        .setInvocation(invocation)
+                        .addFlowComponent("import", importComponent)
+                        .addFlowComponent("transcode", transcodeComponent);
+
+
+                    mediaPlatform.flowManager.createFlow(createFlowRequest, function(error, data) {
+                        flowManagerPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(data, null, 2),
+                            Prism.languages.js);
+                        // start polling
+                        pollFlowManagerJobStatus(data.id);
+                    });
+
+                });
+
+                function pollFlowManagerJobStatus(flowId) {
+                    mediaPlatform.flowManager.getFlow(flowId, function (error, response) {
+                        flowManagerJobStatus.innerText = "Polling";
+
+                        setTimeout(function () {
+                            pollFlowManagerJobStatus(flowId);
+                        }, 5000);
+
+                        if(response.length) {
+                            /*console.log(response);
+                            var success = true;
+                            for(var i in response) {
+                                // if at least one job has status pending, we break
+                                if(response[i].status != "success") {
+                                    success = false;
+                                    break;
+                                }
+                            }
+
+                            if(success) {
+                                stopLoading(flowManagerButton);
+                                flowManagerJobStatus.innerText = "Success";
+                            } else {
+                            }*/
+                        }
+
                     });
                 }
             })();
