@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var jwt = require('jsonwebtoken');
 
 /**
  * @param {string} authenticationUrl
@@ -96,34 +97,46 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
  * @param {function(Error, string|null)} callback
  */
 HTTPClient.prototype.getAuthorizationHeader = function (callback) {
-
-    if (this.authorizationHeader) {
+    if (this.isAuthorizationHeaderValid()) {
         callback(null, this.authorizationHeader);
-        return;
+    } else {
+        var request = new XMLHttpRequest();
+
+        request.addEventListener('load', function (event) {
+            try {
+                this.authorizationHeader = JSON.parse(request.responseText);
+            } catch (error) {
+                callback(error, null);
+                return;
+            }
+            callback(null, this.authorizationHeader);
+        }.bind(this));
+        request.addEventListener('error', function (event) {
+            callback(new Error(request.statusText), null);
+        }.bind(this));
+        request.addEventListener('abort', function (event) {
+            callback(new Error(request.statusText), null);
+        }.bind(this));
+
+        request.open('GET', this.authenticationUrl);
+        request.withCredentials = true;
+        request.setRequestHeader('Accept', 'application/json');
+        request.send();
+    }
+};
+
+HTTPClient.prototype.isAuthorizationHeaderValid = function() {
+    var valid = false;
+
+    if(this.authorizationHeader && this.authorizationHeader.Authorization) {
+        // validate the expiration
+        var token = jwt.decode(this.authorizationHeader.Authorization);
+        if(token && token.exp && token.exp * 1000 > Date.now()) {
+            valid = true;
+        }
     }
 
-    var request = new XMLHttpRequest();
-
-    request.addEventListener('load', function (event) {
-        try {
-            this.authorizationHeader = JSON.parse(request.responseText);
-        } catch (error) {
-            callback(error, null);
-            return;
-        }
-        callback(null, this.authorizationHeader);
-    }.bind(this));
-    request.addEventListener('error', function (event) {
-        callback(new Error(request.statusText), null);
-    }.bind(this));
-    request.addEventListener('abort', function (event) {
-        callback(new Error(request.statusText), null);
-    }.bind(this));
-    
-    request.open('GET', this.authenticationUrl);
-    request.withCredentials = true;
-    request.setRequestHeader('Accept', 'application/json');
-    request.send();
+    return valid;
 };
 
 /**
