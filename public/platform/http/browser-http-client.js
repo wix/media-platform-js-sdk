@@ -25,7 +25,7 @@ function HTTPClient(authenticationUrl) {
  * @param {string?} token
  * @param {function(Error, *)} callback
  */
-HTTPClient.prototype.request = function (httpMethod, url, params, token, callback) {
+HTTPClient.prototype.request = function (httpMethod, url, params, token, callback, noRetry) {
 
     this.getAuthorizationHeader(function (error, header) {
 
@@ -66,6 +66,13 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
             }
 
             if (!_.includes([200, 201], request.status)) {
+                if(request.status === 401) {
+                    if(!noRetry) {
+                        this.request(httpMethod, url, params, token, callback, true);
+                        return;
+                    }
+                }
+
                 callback(payload, null);
                 return;
             }
@@ -76,6 +83,10 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
 
             if (request.status === 403 || request.status === 401) {
                 this.authorizationHeader = null;
+                if(request.status === 401 && !noRetry) {
+                    this.request(httpMethod, url, params, token, callback, true);
+                    return;
+                }
             }
 
             callback(new Error(request.statusText), null);
