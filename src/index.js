@@ -10,6 +10,8 @@ var CreateArchiveRequest = require('./platform/management/requests/create-archiv
 var ImportFileRequest = require('./platform/management/requests/import-file-request');
 var TranscodeRequest = require('./platform/management/requests/transcode-request');
 var LivestreamRequest = require('./platform/management/requests/livestream-request');
+var ImageOperationSpecification = require('./platform/management/job/image-operation-specification');
+var ImageOperationRequest = require('./platform/management/requests/image-operation-request');
 var TranscodeSpecification = require('./platform/management/job/transcode-specification');
 var QualityRange = require('./platform/management/job/quality-range');
 var Destination = require('./platform/management/job/destination');
@@ -29,6 +31,24 @@ module.exports = {
      * @type {Image}
      */
     Image: Image,
+
+    image: {
+
+        /**
+         * @type {Image}
+         */
+        Image: Image,
+
+        /**
+         * @type {ImageOperationSpecification}
+         */
+        ImageOperationSpecification: ImageOperationSpecification,
+
+        /**
+         * @type {ImageOperationRequest}
+         */
+        ImageOperationRequest: ImageOperationRequest
+    },
 
     file: {
         /**

@@ -14,6 +14,8 @@ var TranscodeRequest = require('../src/platform/management/requests/transcode-re
 var ExtractArchiveRequest = require('../src/platform/management/requests/extract-archive-request');
 var CreateArchiveRequest = require('../src/platform/management/requests/create-archive-request');
 var QualityRange = require('../src/platform/management/job/quality-range');
+var ImageOperationSpecification = require('../src/platform/management/job/image-operation-specification');
+var ImageOperationRequest = require('../src/platform/management/requests/image-operation-request');
 
 var MP = {};
 
@@ -31,6 +33,23 @@ MP.MediaPlatform = MediaPlatform;
  * @type {Image}
  */
 MP.Image = Image;
+
+MP.image = {
+    /**
+     * @type {Image}
+     */
+    Image: Image,
+
+    /**
+     * @type {ImageOperationSpecification}
+     */
+    ImageOperationSpecification: ImageOperationSpecification,
+
+    /**
+     * @type {ImageOperationRequest}
+     */
+    ImageOperationRequest: ImageOperationRequest
+};
 
 MP.upload = {
     /**
