@@ -138,16 +138,17 @@ HTTPClient.prototype.getAuthorizationHeader = function (callback) {
 HTTPClient.prototype.isAuthorizationHeaderValid = function() {
     var valid = false;
 
-    if(this.authorizationHeader && this.authorizationHeader.Authorization) {
+    if (this.authorizationHeader && this.authorizationHeader.Authorization) {
         // validate the expiration
+        var token = null;
         try {
             var parts = this.authorizationHeader.Authorization.split('.');
             var tokenString = window.atob(parts[1]);
-            var token = JSON.parse(tokenString);
+            token = JSON.parse(tokenString);
         } catch (error) {
             console.error('invalid token structure')
         }
-        if(token && token.exp && token.exp * 1000 > Date.now()) {
+        if (token && token.exp && token.exp * 1000 > Date.now()) {
             valid = true;
         }
     }
