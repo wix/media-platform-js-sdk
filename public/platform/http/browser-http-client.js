@@ -1,5 +1,4 @@
 var _ = require('underscore');
-var jwt = require('jsonwebtoken');
 
 /**
  * @param {string} authenticationUrl
@@ -141,7 +140,13 @@ HTTPClient.prototype.isAuthorizationHeaderValid = function() {
 
     if(this.authorizationHeader && this.authorizationHeader.Authorization) {
         // validate the expiration
-        var token = jwt.decode(this.authorizationHeader.Authorization);
+        try {
+            var parts = this.authorizationHeader.Authorization.split('.');
+            var tokenString = window.atob(parts[1]);
+            var token = JSON.parse(tokenString);
+        } catch (error) {
+            console.error('invalid token structure')
+        }
         if(token && token.exp && token.exp * 1000 > Date.now()) {
             valid = true;
         }
