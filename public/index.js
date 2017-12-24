@@ -20,6 +20,8 @@ var Invocation = require('../src/platform/management/metadata/invocation');
 var FlowComponent = require('../src/platform/management/metadata/flow-component');
 var LiveStream = require('../src/platform/management/metadata/live-stream');
 var QualityRange = require('../src/platform/management/job/quality-range');
+var ImageOperationSpecification = require('../src/platform/management/job/image-operation-specification');
+var ImageOperationRequest = require('../src/platform/management/requests/image-operation-request');
 
 var MP = {};
 
@@ -37,6 +39,23 @@ MP.MediaPlatform = MediaPlatform;
  * @type {Image}
  */
 MP.Image = Image;
+
+MP.image = {
+    /**
+     * @type {Image}
+     */
+    Image: Image,
+
+    /**
+     * @type {ImageOperationSpecification}
+     */
+    ImageOperationSpecification: ImageOperationSpecification,
+
+    /**
+     * @type {ImageOperationRequest}
+     */
+    ImageOperationRequest: ImageOperationRequest
+};
 
 MP.upload = {
     /**

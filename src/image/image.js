@@ -261,10 +261,12 @@ Image.prototype.fit = function (width, height) {
  */
 Image.prototype.toUrl = function (host) {
 
-    if (!this.geometry) {
+    var command = this.toCommand();
+
+    if (command.error) {
         return {
             url: null,
-            error: new Error('geometry not defined')
+            error: command.error
         };
     }
 
@@ -284,6 +286,29 @@ Image.prototype.toUrl = function (host) {
         path = path.slice(1);
     }
 
+    url += baseUrl + '/' + path + command.command + '/' + encodeURIComponent(this.fileName);
+    if (this.metadata) {
+        url += '#' + this.metadata.serialize();
+    }
+    return {
+        url: url,
+        error: null
+    }
+};
+
+/**
+ * @summary serializes the command part of the URL
+ * @returns {{command: string|null, error: Error|null}}
+ */
+Image.prototype.toCommand = function () {
+
+    if (!this.geometry) {
+        return {
+            url: null,
+            error: new Error('geometry not defined')
+        };
+    }
+
     var geometryParams = this.geometry.serialize();
     if (geometryParams.error) {
         return {
@@ -299,13 +324,10 @@ Image.prototype.toUrl = function (host) {
             error: new Error(filtersAndEncoderParams.errors)
         }
     }
-    url += baseUrl + '/' + path + '/' + this.version + '/';
-    url += geometryParams.params + filtersAndEncoderParams.params + '/' + encodeURIComponent(this.fileName);
-    if (this.metadata) {
-        url += '#' + this.metadata.serialize();
-    }
+    var command = '/' + this.version + '/' + geometryParams.params + filtersAndEncoderParams.params;
+
     return {
-        url: url,
+        command: command,
         error: null
     }
 };

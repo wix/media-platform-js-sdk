@@ -11,11 +11,17 @@ var UploadAbortedEvent = require('./events/upload-aborted-event');
 /**
  * @param {string?} path
  * @param {File?} file
+ * @param {UploadFileRequest?} uploadFileRequest
  * @constructor
  * @extends {EventEmitter}
  */
-function UploadJob(path, file) {
+function UploadJob(path, file, uploadFileRequest) {
     EventEmitter.call(this);
+
+    /**
+     * @type {string}
+     */
+    this.path = path;
 
     /**
      * @type {File}
@@ -23,9 +29,9 @@ function UploadJob(path, file) {
     this.file = file;
 
     /**
-     * @type {string}
+     * @type {UploadFileRequest}
      */
-    this.path = path;
+    this.uploadFileRequest = uploadFileRequest;
 
     /**
      * @type {string}
@@ -44,11 +50,20 @@ UploadJob.prototype.setPath = function (path) {
 };
 
 /**
- * @param {string} file
+ * @param {File} file
  * @returns {UploadJob}
  */
 UploadJob.prototype.setFile = function (file) {
     this.file = file;
+    return this;
+};
+
+/**
+ * @param {UploadFileRequest} uploadFileRequest
+ * @returns {UploadJob}
+ */
+UploadJob.prototype.setUploadFileRequest = function (uploadFileRequest) {
+    this.uploadFileRequest = uploadFileRequest;
     return this;
 };
 
@@ -64,16 +79,22 @@ UploadJob.prototype.run = function (fileUploader) {
     }
     this.state = 'running';
 
+    var acl = 'public';
+    if (this.uploadFileRequest && this.uploadFileRequest.acl) {
+        acl = this.uploadFileRequest.acl
+    }
+
     var e = new UploadStartedEvent(this);
     this.emit(e.name, e);
     var uploadUrlRequest = new UploadUrlRequest()
         .setPath(this.path)
+        .setAcl(acl)
         .setMimeType(this.file.type)
         .setSize(this.file.size);
     fileUploader.getUploadUrl(uploadUrlRequest, function (error, response) {
 
         if (error) {
-            var e = new UploadErrorEvent(this);
+            var e = new UploadErrorEvent(this, error);
             this.emit(e.name, e);
             return;
         }
@@ -86,19 +107,21 @@ UploadJob.prototype.run = function (fileUploader) {
         var onLoad = function (event) {
             var e;
             if (event.target.status >= 400) {
-                e = new UploadErrorEvent(this);
+                e = new UploadErrorEvent(this, event.target.response);
             } else {
-                var fileDescriptors = event.target.response.payload.map(function (file) {
+                var payload = typeof(event.target.response) === 'string' ?
+                    JSON.parse(event.target.response).payload : event.target.response.payload;
+                var fileDescriptors = payload.map(function (file) {
                     return new FileDescriptor(file);
                 });
 
-                e = new UploadSuccessEvent(this, fileDescriptors);
+                e = new UploadSuccessEvent(this, event.target.response, fileDescriptors);
             }
             this.emit(e.name, e);
         }.bind(this);
 
         var onError = function (event) {
-            var e = new UploadErrorEvent(this);
+            var e = new UploadErrorEvent(this, event.target.response);
             this.emit(e.name, e);
         }.bind(this);
 
@@ -125,17 +148,21 @@ UploadJob.prototype.run = function (fileUploader) {
         formData.append('uploadToken', response.uploadToken);
         formData.append('path', this.path);
         formData.append('file', this.file);
+        formData.append('acl', acl);
 
         var request = new XMLHttpRequest();
-        request.withCredentials = true;
+
         request.upload.addEventListener('progress', onProgress);
         request.addEventListener('load', onLoad);
         request.addEventListener('error', onError);
         request.addEventListener('abort', onAbort);
         request.addEventListener('loadend', onLoadEnd);
 
-        request.responseType = 'json';
         request.open('POST', response.uploadUrl);
+
+        request.withCredentials = true;
+        request.responseType = 'json';
+
         request.send(formData);
     }.bind(this));
 

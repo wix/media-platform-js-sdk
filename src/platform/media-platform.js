@@ -6,6 +6,7 @@ var FileDownloader = require('./management/file-downloader');
 var FileManager = require('./management/file-manager');
 var ArchiveManager = require('./management/archive-manager');
 var JobManager = require('./management/job-manager');
+var ImageManager = require('./management/image-manager');
 var TranscodeManager = require('./management/transcode-manager');
 var FlowManager = require('./management/flow-manager');
 var LiveManager = require('./management/live-manager');
@@ -71,6 +72,11 @@ function MediaPlatform(config) {
      * @type {JobManager}
      */
     this.jobManager = new JobManager(configuration, httpClient);
+
+    /**
+     * @type {ImageManager}
+     */
+    this.imageManager = new ImageManager(configuration, httpClient);
 
     /**
      * @type {WebhookDeserializer}

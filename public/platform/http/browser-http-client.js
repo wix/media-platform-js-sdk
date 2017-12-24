@@ -24,7 +24,7 @@ function HTTPClient(authenticationUrl) {
  * @param {string?} token
  * @param {function(Error, *)} callback
  */
-HTTPClient.prototype.request = function (httpMethod, url, params, token, callback) {
+HTTPClient.prototype.request = function (httpMethod, url, params, token, callback, noRetry) {
 
     this.getAuthorizationHeader(function (error, header) {
 
@@ -65,6 +65,13 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
             }
 
             if (!_.includes([200, 201], request.status)) {
+                if(request.status === 401) {
+                    if(!noRetry) {
+                        this.request(httpMethod, url, params, token, callback, true);
+                        return;
+                    }
+                }
+
                 callback(payload, null);
                 return;
             }
@@ -75,6 +82,10 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
 
             if (request.status === 403 || request.status === 401) {
                 this.authorizationHeader = null;
+                if(request.status === 401 && !noRetry) {
+                    this.request(httpMethod, url, params, token, callback, true);
+                    return;
+                }
             }
 
             callback(new Error(request.statusText), null);
@@ -96,34 +107,53 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
  * @param {function(Error, string|null)} callback
  */
 HTTPClient.prototype.getAuthorizationHeader = function (callback) {
-
-    if (this.authorizationHeader) {
+    if (this.isAuthorizationHeaderValid()) {
         callback(null, this.authorizationHeader);
-        return;
+    } else {
+        var request = new XMLHttpRequest();
+
+        request.addEventListener('load', function (event) {
+            try {
+                this.authorizationHeader = JSON.parse(request.responseText);
+            } catch (error) {
+                callback(error, null);
+                return;
+            }
+            callback(null, this.authorizationHeader);
+        }.bind(this));
+        request.addEventListener('error', function (event) {
+            callback(new Error(request.statusText), null);
+        }.bind(this));
+        request.addEventListener('abort', function (event) {
+            callback(new Error(request.statusText), null);
+        }.bind(this));
+
+        request.open('GET', this.authenticationUrl);
+        request.withCredentials = true;
+        request.setRequestHeader('Accept', 'application/json');
+        request.send();
+    }
+};
+
+HTTPClient.prototype.isAuthorizationHeaderValid = function() {
+    var valid = false;
+
+    if (this.authorizationHeader && this.authorizationHeader.Authorization) {
+        // validate the expiration
+        var token = null;
+        try {
+            var parts = this.authorizationHeader.Authorization.split('.');
+            var tokenString = window.atob(parts[1]);
+            token = JSON.parse(tokenString);
+        } catch (error) {
+            console.error('invalid token structure')
+        }
+        if (token && token.exp && token.exp * 1000 > Date.now()) {
+            valid = true;
+        }
     }
 
-    var request = new XMLHttpRequest();
-
-    request.addEventListener('load', function (event) {
-        try {
-            this.authorizationHeader = JSON.parse(request.responseText);
-        } catch (error) {
-            callback(error, null);
-            return;
-        }
-        callback(null, this.authorizationHeader);
-    }.bind(this));
-    request.addEventListener('error', function (event) {
-        callback(new Error(request.statusText), null);
-    }.bind(this));
-    request.addEventListener('abort', function (event) {
-        callback(new Error(request.statusText), null);
-    }.bind(this));
-    
-    request.open('GET', this.authenticationUrl);
-    request.withCredentials = true;
-    request.setRequestHeader('Accept', 'application/json');
-    request.send();
+    return valid;
 };
 
 /**
