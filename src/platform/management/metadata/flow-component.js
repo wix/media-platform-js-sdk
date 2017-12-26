@@ -18,6 +18,11 @@ function FlowComponent(data) {
      */
     this.successors = null;
 
+    /**
+     * @type {string}
+     */
+    this.status = null;
+
     if (data) {
         this.deserialize(data);
     }
@@ -74,6 +79,7 @@ FlowComponent.prototype.deserialize = function (data) {
     this.type = data.type;
     this.specification = data.specification;
     this.successors = data.successors;
+    this.status = data.status;
 };
 
 /**

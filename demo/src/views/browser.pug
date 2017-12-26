@@ -14,7 +14,7 @@ html()
 
         script.
             var mediaPlatform = new MP.MediaPlatform({
-                domain: 'wixmp-18154a43097a198cc7f682a7.appspot.com',
+                domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
                 authenticationUrl: 'http://' + location.host + '/media-platform/auth-header'
             });
 
@@ -32,9 +32,9 @@ html()
             var Invocation = MP.flow.Invocation;
             var FlowComponent = MP.flow.FlowComponent;
 
-            var fileHost = 'wixmp-18154a43097a198cc7f682a7.wixmp.com';
-            var imagesHost = 'images-wixmp-18154a43097a198cc7f682a7.wixmp.com';
-            var videosHost = 'wixmp-18154a43097a198cc7f682a7.wixmp.com';
+            var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+            var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+            var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
 
     body
 
@@ -341,8 +341,8 @@ html()
                                 .addEntryPoint("import");
 
                             var importFileRequest = new ImportFileRequest()
-                                .setDestination(new Destination().setPath('/testflow/imported/test.mp4'))
-                                .setSourceUrl('http://some-url/some-file.mp4');
+                                .setDestination(new Destination().setPath("/testflow/imported/file_" + Date.now() + ".mp4").setAcl("public"))
+                                .setSourceUrl(fileUrl);
 
                             var importComponent = new FlowComponent()
                                 .setType('file.import')
@@ -351,9 +351,9 @@ html()
 
                             var transcodeSpecification = new TranscodeSpecification()
                                 .setDestination(new Destination()
-                                    .setDirectory("/testflow/transcoded/")
+                                    .setDirectory("/testflow/transcoded")
                                     .setAcl("public")
-                            ).setQualityRange(QualityRange({minimum: "240p", maximum: "1440p"} ));
+                            ).setQualityRange(new QualityRange({minimum: "240p", maximum: "1440p"} ));
 
                             var transcodeComponent = new FlowComponent()
                             .setType('av.transcode')
@@ -903,11 +903,10 @@ html()
                     startLoading(flowManagerButton);
 
                     var invocation = new Invocation()
-                        //.addSource(new Source().setPath("/testflow/imported/file.mp4"))
                         .addEntryPoint("import");
 
                     var importFileRequest = new ImportFileRequest()
-                        .setDestination(new Destination().setPath('/testflow/imported/ahhaz.mp4').setAcl("public"))
+                        .setDestination(new Destination().setPath("/testflow/imported/file_" + Date.now() + ".mp4").setAcl("public"))
                         .setSourceUrl(fileUrl);
 
                     var importComponent = new FlowComponent()
@@ -917,7 +916,7 @@ html()
 
                     var transcodeSpecification = new TranscodeSpecification()
                         .setDestination(new Destination()
-                            .setDirectory("/testflow/transcoded/")
+                            .setDirectory("/testflow/transcoded")
                             .setAcl("public")
                     ).setQualityRange(new QualityRange({minimum: "240p", maximum: "1440p"} ));
 
@@ -946,26 +945,40 @@ html()
                     mediaPlatform.flowManager.getFlow(flowId, function (error, response) {
                         flowManagerJobStatus.innerText = "Polling";
 
-                        setTimeout(function () {
+                        var t = setTimeout(function () {
                             pollFlowManagerJobStatus(flowId);
                         }, 5000);
 
-                        if(response.length) {
-                            /*console.log(response);
+
+                        if(response && response.flow && Object.keys(response.flow).length ) {
+                            flowManagerPayload.innerHTML = Prism.highlight(
+                                JSON.stringify(response, null, 2),
+                                Prism.languages.js);
+
                             var success = true;
-                            for(var i in response) {
+                            var failed = false;
+                            for(var i in response.flow) {
+                                // if at least one job has status error, we break
+                                if(response.flow[i].status === "error") {
+                                    failed = true;
+                                    break;
+                                }
                                 // if at least one job has status pending, we break
-                                if(response[i].status != "success") {
+                                if(response.flow[i].status !== "success") {
                                     success = false;
                                     break;
                                 }
                             }
 
-                            if(success) {
+                            if (failed) {
                                 stopLoading(flowManagerButton);
+                                clearTimeout(t);
+                                flowManagerJobStatus.innerText = "Error";
+                            } else if(success) {
+                                stopLoading(flowManagerButton);
+                                clearTimeout(t);
                                 flowManagerJobStatus.innerText = "Success";
-                            } else {
-                            }*/
+                            }
                         }
 
                     });
