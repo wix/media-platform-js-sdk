@@ -4,7 +4,7 @@ var Invocation = require('../metadata/invocation');
 /**
  * @constructor
  */
-function CreateFlowRequest() {
+function CreateFlowRequest(data) {
 
     /**
      * @type {Invocation}
@@ -15,6 +15,10 @@ function CreateFlowRequest() {
      * @type {{}}
      */
     this.flow = {};
+
+    if (data) {
+        this.deserialize(data);
+    }
 }
 
 /**
@@ -37,6 +41,11 @@ CreateFlowRequest.prototype.addFlowComponent = function(name, flowComponent) {
 
     this.flow[name] = flowComponent;
     return this;
+};
+
+CreateFlowRequest.prototype.deserialize = function(data) {
+    this.flow = data.flow;
+    this.invocation = data.invocation;
 };
 
 /**
