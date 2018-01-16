@@ -52,6 +52,32 @@ html()
                             });
 
                 h2#FileManagementApi File Management API
+                    h4 Import a file from URL (any mime type)
+                    .highlight
+                        pre
+                            code.language-javascript.
+                                var importFileRequest = new ImportFileRequest()
+                                     .setDestination(
+                                        new Destination()
+                                            .setPath("/destination/file.ext")
+                                            .setAcl("public")
+                                     ).setSourceUrl(fileUrl);
+
+
+                                 mediaPlatform.fileManager.importFile(importFileRequest, function(error, data) {
+                                    // handle result
+                                 });
+                    .demo-group
+                        input(id='file-import-id-input' type='text' placeholder='Enter Remote File URL (http://)').text-input
+                        br
+                        .executable-button
+                            button#file-import-button.btn.
+                                Execute
+                            .spinner
+                            span#file-import-job-status.path-to-file
+                        .highlight.highlight-response
+                            pre
+                                code.language-javascript#file-import-payload
                     h4 Upload a file (any mime type)
                     .highlight
                         pre
@@ -978,6 +1004,78 @@ html()
                                 stopLoading(flowManagerButton);
                                 clearTimeout(t);
                                 flowManagerJobStatus.innerText = "Success";
+                            }
+                        }
+
+                    });
+                }
+            })();
+
+            // File Import API
+            (function () {
+                // import file from url
+                var fileImportButton = document.getElementById('file-import-button');
+                var fileImportInput = document.getElementById('file-import-id-input');
+                var fileImportPayload = document.getElementById('file-import-payload');
+                var fileImportJobStatus = document.getElementById('file-import-job-status');
+
+                fileImportButton.addEventListener('click', function () {
+                    var fileUrl = fileImportInput.value;
+                    if (!fileUrl) {
+                        console.log('please specify URL');
+                        return
+                    }
+
+                    startLoading(fileImportButton);
+
+                    var importFileRequest = new ImportFileRequest()
+                        .setDestination(new Destination().setPath("/testimport/file_" + Date.now() + ".mp4").setAcl("public"))
+                        .setSourceUrl(fileUrl);
+
+
+                    mediaPlatform.fileManager.importFile(importFileRequest, function(error, data) {
+                        fileImportPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(data, null, 2),
+                            Prism.languages.js);
+                        // start polling
+                        pollFileImportJobStatus(data.id);
+                    });
+
+                });
+
+                function pollFileImportJobStatus(jobId) {
+                    mediaPlatform.jobManager.getJob(jobId, function (error, response) {
+                        fileImportJobStatus.innerText = "Polling";
+
+                        var t = setTimeout(function () {
+                            pollFileImportJobStatus(jobId);
+                        }, 5000);
+
+
+                        if(response && response.id ) {
+                            fileImportPayload.innerHTML = Prism.highlight(
+                                JSON.stringify(response, null, 2),
+                                Prism.languages.js);
+
+                            var failed = false;
+                            var success = false;
+                            // if at least one job has status error, we break
+                            if(response.status === "error") {
+                                failed = true;
+                           }
+                            // if at least one job has status pending, we break
+                            if(response.status !== "success") {
+                                success = false;
+                            }
+
+                            if (failed) {
+                                stopLoading(fileImportButton);
+                                clearTimeout(t);
+                                fileImportJobStatus.innerText = "Error";
+                            } else if(success) {
+                                stopLoading(fileImportButton);
+                                clearTimeout(t);
+                                fileImportJobStatus.innerText = "Success";
                             }
                         }
 
