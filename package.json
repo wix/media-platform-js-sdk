@@ -71,7 +71,6 @@
     "grunt-karma": "latest",
     "grunt-mocha": "latest",
     "grunt-mocha-test": "latest",
-    "lodash": "latest",
     "karma": "1.4.0",
     "karma-chrome-launcher": "latest",
     "karma-mocha": "latest",
