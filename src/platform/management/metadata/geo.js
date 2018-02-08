@@ -1,4 +1,3 @@
-var _ = require('lodash');
 /**
  * @param data
  * @constructor
@@ -27,12 +26,12 @@ function Geo(data) {
  * @private
  */
 Geo.prototype.deserialize = function (data) {
-    var coordinates = _.get(data, ['coordinates'], null);
+    var coordinates = data.coordinates || null;
 
     if(coordinates !== null) {
         this.coordinates = {
-            "latitude": _.get(data, ['coordinates', 'latitude'], null),
-            "longitute": _.get(data, ['coordinates', 'longitude'], null)
+            "latitude": coordinates.latitude || null,
+            "longitute": coordinates.longitude || null
         };
     }
     this.ipAddress = data.ipAddress;
