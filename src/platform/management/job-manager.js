@@ -7,85 +7,97 @@ import {SearchJobsResponse} from './responses/search-jobs-response';
  * @param {HTTPClient} httpClient
  * @constructor
  */
-function JobManager(configuration, httpClient) {
+
+class JobManager {
+  constructor(configuration, httpClient) {
+
+
+    /**
+     * @type {Configuration}
+     */
+    this.configuration = configuration;
+
+    /**
+     * @type {HTTPClient}
+     */
+    this.httpClient = httpClient;
+
+    /**
+     * @type {string}
+     */
+    this.baseUrl = 'https://' + configuration.domain;
+
+    /**
+     * @type {string}
+     */
+    this.apiUrl = this.baseUrl + '/_api/jobs';
+
+  }
+
 
   /**
-   * @type {Configuration}
+   * @param {string} jobId
+   * @param {function(Error, Job)} callback
    */
-  this.configuration = configuration;
+  getJob(jobId, callback) {
+
+    this.httpClient.request('GET', this.apiUrl + '/' + jobId, {}, null, function (error, response) {
+
+      if (error) {
+        callback(error, null);
+        return;
+      }
+
+      callback(null, new Job(response.payload));
+    });
+  }
+
 
   /**
-   * @type {HTTPClient}
+   * @param {string} groupId
+   * @param {function(Error, Array<Job>)} callback
    */
-  this.httpClient = httpClient;
+  getJobGroup(groupId, callback) {
+
+    this.httpClient.request('GET', this.apiUrl + '/groups/' + groupId, {}, null, function (error, response) {
+
+      if (error) {
+        callback(error, null);
+        return;
+      }
+
+      var jobs = response.payload.map(function (data) {
+        return new Job(data);
+      });
+
+      callback(null, jobs);
+    });
+  }
+
 
   /**
-   * @type {string}
+   * @param {SearchJobsRequest} searchJobsRequest
+   * @param {function(Error, SearchJobsResponse)} callback
    */
-  this.baseUrl = 'https://' + configuration.domain;
+  searchJobs(searchJobsRequest, callback) {
 
-  /**
-   * @type {string}
-   */
-  this.apiUrl = this.baseUrl + '/_api/jobs';
+
+    var params = {};
+    _.extendOwn(params, searchJobsRequest);
+
+    this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
+
+      if (error) {
+        callback(error, null);
+        return;
+      }
+
+      callback(null, new SearchJobsResponse(response.payload));
+    });
+  }
 
 }
 
-/**
- * @param {string} jobId
- * @param {function(Error, Job)} callback
- */
-JobManager.prototype.getJob = function (jobId, callback) {
-  this.httpClient.request('GET', this.apiUrl + '/' + jobId, {}, null, function (error, response) {
-
-    if (error) {
-      callback(error, null);
-      return;
-    }
-
-    callback(null, new Job(response.payload));
-  });
-};
-
-/**
- * @param {string} groupId
- * @param {function(Error, Array<Job>)} callback
- */
-JobManager.prototype.getJobGroup = function (groupId, callback) {
-  this.httpClient.request('GET', this.apiUrl + '/groups/' + groupId, {}, null, function (error, response) {
-
-    if (error) {
-      callback(error, null);
-      return;
-    }
-
-    var jobs = response.payload.map(function (data) {
-      return new Job(data);
-    });
-
-    callback(null, jobs);
-  });
-};
-
-/**
- * @param {SearchJobsRequest} searchJobsRequest
- * @param {function(Error, SearchJobsResponse)} callback
- */
-JobManager.prototype.searchJobs = function (searchJobsRequest, callback) {
-
-  var params = {};
-  _.extendOwn(params, searchJobsRequest);
-
-  this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
-
-    if (error) {
-      callback(error, null);
-      return;
-    }
-
-    callback(null, new SearchJobsResponse(response.payload));
-  });
-};
 
 /**
  * @type {JobManager}

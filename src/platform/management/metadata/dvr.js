@@ -4,31 +4,40 @@ import {Destination} from '../job/destination';
  * @param data
  * @constructor
  */
-function Dvr(data) {
-  this.destination = null;
 
-  if (data) {
-    this.deserialize(data);
+class Dvr {
+  constructor(data) {
+
+    this.destination = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.destination = new Destination(data.destination);
+  }
+
+
+  /**
+   *
+   * @param destination {Destination}
+   * @returns {Dvr}
+   */
+  setDestination(destination) {
+
+    this.destination = destination;
+    return this;
+  }
+
 }
-
-/**
- * @param data
- * @private
- */
-Dvr.prototype.deserialize = function (data) {
-  this.destination = new Destination(data.destination);
-};
-
-/**
- *
- * @param destination {Destination}
- * @returns {Dvr}
- */
-Dvr.prototype.setDestination = function (destination) {
-  this.destination = destination;
-  return this;
-};
 
 
 /**

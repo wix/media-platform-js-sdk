@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import {Flow} from './metadata/flow';
 
 /**
@@ -6,70 +5,80 @@ import {Flow} from './metadata/flow';
  * @param {HTTPClient} httpClient
  * @constructor
  */
-function FlowManager(configuration, httpClient) {
+
+class FlowManager {
+  constructor(configuration, httpClient) {
+
+
+    /**
+     * @type {Configuration}
+     */
+    this.configuration = configuration;
+
+    /**
+     * @type {HTTPClient}
+     */
+    this.httpClient = httpClient;
+
+    /**
+     * @type {string}
+     */
+    this.baseUrl = 'https://' + configuration.domain;
+
+    /**
+     * @type {string}
+     */
+    this.apiUrl = this.baseUrl + '/_api/flow_control';
+
+  }
+
 
   /**
-   * @type {Configuration}
+   * @param {string} flowId
+   * @param {function(Error, Flow)} callback
    */
-  this.configuration = configuration;
+  getFlow(flowId, callback) {
 
-  /**
-   * @type {HTTPClient}
-   */
-  this.httpClient = httpClient;
+    this.httpClient.request('GET', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
 
-  /**
-   * @type {string}
-   */
-  this.baseUrl = 'https://' + configuration.domain;
+      if (error) {
+        callback(error, null);
+        return;
+      }
 
-  /**
-   * @type {string}
-   */
-  this.apiUrl = this.baseUrl + '/_api/flow_control';
+      callback(null, new Flow(response.payload));
+    });
+  }
+
+
+  createFlow(createFlowRequest, callback) {
+
+    this.httpClient.request('POST', this.apiUrl + '/flow', createFlowRequest, null, function (error, response) {
+
+      if (error) {
+        callback(error, null);
+        return;
+      }
+
+      callback(null, new Flow(response.payload));
+    });
+  }
+
+
+  deleteFlow(flowId, callback) {
+
+    this.httpClient.request('DELETE', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
+
+      if (error) {
+        callback(error, null);
+        return;
+      }
+
+      callback(null, response);
+    });
+  }
 
 }
-
-/**
- * @param {string} flowId
- * @param {function(Error, Flow)} callback
- */
-FlowManager.prototype.getFlow = function (flowId, callback) {
-  this.httpClient.request('GET', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
-
-    if (error) {
-      callback(error, null);
-      return;
-    }
-
-    callback(null, new Flow(response.payload));
-  });
-};
-
-FlowManager.prototype.createFlow = function (createFlowRequest, callback) {
-  this.httpClient.request('POST', this.apiUrl + '/flow', createFlowRequest, null, function (error, response) {
-
-    if (error) {
-      callback(error, null);
-      return;
-    }
-
-    callback(null, new Flow(response.payload));
-  });
-};
-
-
-FlowManager.prototype.deleteFlow = function (flowId, callback) {
-  this.httpClient.request('DELETE', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
-
-    if (error) {
-      callback(error, null);
-      return;
-    }
-
-    callback(null, response);
-  });
-};
 
 
 /**

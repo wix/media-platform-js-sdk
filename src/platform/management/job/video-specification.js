@@ -5,43 +5,51 @@ import {Resolution} from './resolution';
  * @param data
  * @constructor
  */
-function VideoSpecification(data) {
 
-  /**
-   * @type {string}
-   */
-  this.frameRate = null;
+class VideoSpecification {
+  constructor(data) {
 
-  /**
-   * @type {number}
-   */
-  this.keyFrame = null;
 
-  /**
-   * @type {VideoCodec}
-   */
-  this.codec = null;
+    /**
+     * @type {string}
+     */
+    this.frameRate = null;
 
-  /**
-   * @type {Resolution}
-   */
-  this.resolution = null;
+    /**
+     * @type {number}
+     */
+    this.keyFrame = null;
 
-  if (data) {
-    this.deserialize(data);
+    /**
+     * @type {VideoCodec}
+     */
+    this.codec = null;
+
+    /**
+     * @type {Resolution}
+     */
+    this.resolution = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.frameRate = data.frameRate;
+    this.keyFrame = data.keyFrame;
+    this.codec = new VideoCodec(data.codec);
+    this.resolution = new Resolution(data.resolution);
+  }
+
 }
 
-/**
- * @param data
- * @private
- */
-VideoSpecification.prototype.deserialize = function (data) {
-  this.frameRate = data.frameRate;
-  this.keyFrame = data.keyFrame;
-  this.codec = new VideoCodec(data.codec);
-  this.resolution = new Resolution(data.resolution);
-};
 
 /**
  * @type {VideoSpecification}

@@ -4,31 +4,39 @@ import {AudioCodec} from './audio-codec';
  * @param data
  * @constructor
  */
-function AudioSpecification(data) {
 
-  /**
-   * @type {string}
-   */
-  this.channels = null;
+class AudioSpecification {
+  constructor(data) {
 
-  /**
-   * @type {AudioCodec}
-   */
-  this.codec = null;
 
-  if (data) {
-    this.deserialize(data);
+    /**
+     * @type {string}
+     */
+    this.channels = null;
+
+    /**
+     * @type {AudioCodec}
+     */
+    this.codec = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.channels = data.channels;
+    this.codec = new AudioCodec(data.codec);
+  }
+
 }
 
-/**
- * @param data
- * @private
- */
-AudioSpecification.prototype.deserialize = function (data) {
-  this.channels = data.channels;
-  this.codec = new AudioCodec(data.codec);
-};
 
 /**
  * @type {AudioSpecification}

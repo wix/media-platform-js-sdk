@@ -1,33 +1,43 @@
 /**
  * @constructor
  */
-function ExternalAuthorization() {
+
+class ExternalAuthorization {
+  constructor() {
+
+
+    /**
+     * @type {{}}
+     */
+    this.headers = {};
+
+  }
+
 
   /**
-   * @type {{}}
+   * @param {string} name
+   * @param {string} value
+   * @returns {ExternalAuthorization}
    */
-  this.headers = {};
+  addHeader(name, value) {
+
+    this.headers[name] = value;
+    return this;
+  }
+
+
+  /**
+   * @param {{}} headers
+   * @returns {ExternalAuthorization}
+   */
+  setHeaders(headers) {
+
+    this.headers = headers;
+    return this;
+  }
 
 }
 
-/**
- * @param {string} name
- * @param {string} value
- * @returns {ExternalAuthorization}
- */
-ExternalAuthorization.prototype.addHeader = function (name, value) {
-  this.headers[name] = value;
-  return this;
-};
-
-/**
- * @param {{}} headers
- * @returns {ExternalAuthorization}
- */
-ExternalAuthorization.prototype.setHeaders = function (headers) {
-  this.headers = headers;
-  return this;
-};
 
 /**
  * @type {ExternalAuthorization}

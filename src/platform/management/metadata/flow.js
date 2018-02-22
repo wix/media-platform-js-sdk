@@ -4,36 +4,44 @@ import {FlowComponent} from './flow-component';
 /**
  * @constructor
  */
-function Flow(data) {
-  this.id = null;
+
+class Flow {
+  constructor(data) {
+
+    this.id = null;
+
+    /**
+     * @type {Invocation}
+     */
+    this.invocation = null;
+
+    /**
+     * @type {{}}
+     */
+    this.flow = {};
+
+    if (data) {
+      this.deserialize(data);
+    }
+
+  }
+
 
   /**
-   * @type {Invocation}
+   * @param data
+   * @private
    */
-  this.invocation = null;
+  deserialize(data) {
 
-  /**
-   * @type {{}}
-   */
-  this.flow = {};
-
-  if (data) {
-    this.deserialize(data);
+    this.id = data.id;
+    this.invocation = new Invocation(data.invocation);
+    for (var i in data.flow) {
+      this.flow[i] = new FlowComponent(data.flow[i]);
+    }
   }
 
 }
 
-/**
- * @param data
- * @private
- */
-Flow.prototype.deserialize = function (data) {
-  this.id = data.id;
-  this.invocation = new Invocation(data.invocation);
-  for (var i in data.flow) {
-    this.flow[i] = new FlowComponent(data.flow[i]);
-  }
-};
 
 /**
  * @type {Flow}

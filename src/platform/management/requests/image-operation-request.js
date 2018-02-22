@@ -3,36 +3,46 @@
  * @param {ImageOperationSpecification?} specification
  * @constructor
  */
-function ImageOperationRequest(source, specification) {
+
+class ImageOperationRequest {
+  constructor(source, specification) {
+
+
+    /**
+     * @type {Source}
+     */
+    this.source = source || null;
+
+    /**
+     * @type {ImageOperationSpecification}
+     */
+    this.specification = specification || null;
+  }
+
 
   /**
-   * @type {Source}
+   * @param {Source} source
+   * @returns {ImageOperationRequest}
    */
-  this.source = source || null;
+  setSource(source) {
+
+    this.source = source;
+    return this;
+  }
+
 
   /**
-   * @type {ImageOperationSpecification}
+   * @param {ImageOperationSpecification} imageOperationSpecification
+   * @returns {ImageOperationRequest}
    */
-  this.specification = specification || null;
+  setSpecification(imageOperationSpecification) {
+
+    this.specification = imageOperationSpecification;
+    return this;
+  }
+
 }
 
-/**
- * @param {Source} source
- * @returns {ImageOperationRequest}
- */
-ImageOperationRequest.prototype.setSource = function (source) {
-  this.source = source;
-  return this;
-};
-
-/**
- * @param {ImageOperationSpecification} imageOperationSpecification
- * @returns {ImageOperationRequest}
- */
-ImageOperationRequest.prototype.setSpecification = function (imageOperationSpecification) {
-  this.specification = imageOperationSpecification;
-  return this;
-};
 
 /**
  * @type {ImageOperationRequest}

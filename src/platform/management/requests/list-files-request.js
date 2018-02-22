@@ -1,81 +1,99 @@
 /**
  * @constructor
  */
-function ListFilesRequest() {
+
+class ListFilesRequest {
+  constructor() {
+
+
+    /**
+     * @type {string|null}
+     */
+    this.nextPageToken = null;
+
+    /**
+     * @type {number|null}
+     */
+    this.pageSize = 20;
+
+    /**
+     * @type {string|null}
+     */
+    this.orderBy = null;
+
+    /**
+     * @type {string|null}
+     */
+    this.orderDirection = null;
+  }
+
 
   /**
-   * @type {string|null}
+   * @param {string} cursor
+   * @returns {ListFilesRequest}
+   * @deprecated incorrect param name, use setNextPageToken
    */
-  this.nextPageToken = null;
+  setCursor(cursor) {
+
+    this.nextPageToken = cursor;
+    return this;
+  }
+
 
   /**
-   * @type {number|null}
+   * @param {string} nextPageToken
+   * @returns {ListFilesRequest}
    */
-  this.pageSize = 20;
+  setNextPageToken(nextPageToken) {
+
+    this.nextPageToken = nextPageToken;
+    return this;
+  }
+
 
   /**
-   * @type {string|null}
+   * @param {number} pageSize
+   * @returns {ListFilesRequest}
    */
-  this.orderBy = null;
+  setPageSize(pageSize) {
+
+    this.pageSize = pageSize;
+    return this;
+  }
+
 
   /**
-   * @type {string|null}
+   * @param {string} orderBy name or date
+   * @returns {ListFilesRequest}
    */
-  this.orderDirection = null;
+  setOrderBy(orderBy) {
+
+    this.orderBy = orderBy;
+    return this;
+  }
+
+
+  /**
+   * @returns {ListFilesRequest}
+   */
+  ascending() {
+
+    this.orderDirection = 'acs';
+    return this;
+  }
+
+
+  /**
+   * @returns {ListFilesRequest}
+   */
+  descending() {
+
+    this.orderDirection = 'des';
+    return this;
+  }
+
 }
 
-/**
- * @param {string} cursor
- * @returns {ListFilesRequest}
- * @deprecated incorrect param name, use setNextPageToken
- */
-ListFilesRequest.prototype.setCursor = function (cursor) {
-  this.nextPageToken = cursor;
-  return this;
-};
-
-/**
- * @param {string} nextPageToken
- * @returns {ListFilesRequest}
- */
-ListFilesRequest.prototype.setNextPageToken = function (nextPageToken) {
-  this.nextPageToken = nextPageToken;
-  return this;
-};
-
-/**
- * @param {number} pageSize
- * @returns {ListFilesRequest}
- */
-ListFilesRequest.prototype.setPageSize = function (pageSize) {
-  this.pageSize = pageSize;
-  return this;
-};
-
-/**
- * @param {string} orderBy name or date
- * @returns {ListFilesRequest}
- */
-ListFilesRequest.prototype.setOrderBy = function (orderBy) {
-  this.orderBy = orderBy;
-  return this;
-};
-
-/**
- * @returns {ListFilesRequest}
- */
-ListFilesRequest.prototype.ascending = function () {
-  this.orderDirection = 'acs';
-  return this;
-};
-
-/**
- * @returns {ListFilesRequest}
- */
-ListFilesRequest.prototype.descending = function () {
-  this.orderDirection = 'des';
-  return this;
-};
 
 /**
  * @type {ListFilesRequest}

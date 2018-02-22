@@ -7,53 +7,60 @@ import {ImageFeatures} from './image-features';
  * @param data
  * @constructor
  */
-function FileMetadata(data) {
 
-  /**
-   * @type {FileDescriptor}
-   */
-  this.fileDescriptor = null;
+class FileMetadata {
+  constructor(data) {
 
-  /**
-   * @type {Object}
-   */
-  this.basic = null;
 
-  /**
-   * @type {Object}
-   */
-  this.features = null;
+    /**
+     * @type {FileDescriptor}
+     */
+    this.fileDescriptor = null;
 
-  if (data) {
-    this.deserialize(data);
+    /**
+     * @type {Object}
+     */
+    this.basic = null;
+
+    /**
+     * @type {Object}
+     */
+    this.features = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.fileDescriptor = new FileDescriptor(data.fileDescriptor);
+    var type = this.fileDescriptor.mimeType.split('/')[0].toLowerCase();
+    if (data.basic) {
+      switch (type) {
+        case 'image':
+          this.basic = new ImageBasicMetadata(data.basic);
+          break;
+        case 'video':
+          this.basic = new VideoBasicMetadata(data.basic);
+          break;
+      }
+    }
+    if (data.features) {
+      switch (type) {
+        case 'image':
+          this.features = new ImageFeatures(data.features);
+          break;
+      }
+    }
+  }
+
 }
-
-/**
- * @param data
- * @private
- */
-FileMetadata.prototype.deserialize = function (data) {
-  this.fileDescriptor = new FileDescriptor(data.fileDescriptor);
-  var type = this.fileDescriptor.mimeType.split('/')[0].toLowerCase();
-  if (data.basic) {
-    switch (type) {
-      case 'image':
-        this.basic = new ImageBasicMetadata(data.basic);
-        break;
-      case 'video':
-        this.basic = new VideoBasicMetadata(data.basic);
-        break;
-    }
-  }
-  if (data.features) {
-    switch (type) {
-      case 'image':
-        this.features = new ImageFeatures(data.features);
-        break;
-    }
-  }
-};
 
 
 /**

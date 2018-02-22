@@ -4,22 +4,30 @@ import {AudioSpecification} from './audio-specification';
  * @param data
  * @constructor
  */
-function Audio(data) {
 
-  this.specification = null;
+class Audio {
+  constructor(data) {
 
-  if (data) {
-    this.deserialize(data);
+
+    this.specification = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.specification = new AudioSpecification(data.specification);
+  }
+
 }
 
-/**
- * @param data
- * @private
- */
-Audio.prototype.deserialize = function (data) {
-  this.specification = new AudioSpecification(data.specification);
-};
 
 /**
  * @type {Audio}

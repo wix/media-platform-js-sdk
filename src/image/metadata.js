@@ -4,30 +4,38 @@
  * @param {string} mimeType
  * @constructor
  */
-function Metadata(width, height, mimeType) {
+
+class Metadata {
+  constructor(width, height, mimeType) {
+
+
+    /**
+     * @type {number}
+     */
+    this.width = width;
+
+    /**
+     * @type {number}
+     */
+    this.height = height;
+
+    /**
+     * @type {string}
+     */
+    this.mimeType = mimeType;
+  }
+
 
   /**
-   * @type {number}
+   * @returns {string}
    */
-  this.width = width;
+  serialize() {
 
-  /**
-   * @type {number}
-   */
-  this.height = height;
+    return 'w_' + this.width + ',h_' + this.height + ',mt_' + encodeURIComponent(this.mimeType);
+  }
 
-  /**
-   * @type {string}
-   */
-  this.mimeType = mimeType;
 }
 
-/**
- * @returns {string}
- */
-Metadata.prototype.serialize = function () {
-  return 'w_' + this.width + ',h_' + this.height + ',mt_' + encodeURIComponent(this.mimeType);
-};
 
 /**
  * @type {Metadata}

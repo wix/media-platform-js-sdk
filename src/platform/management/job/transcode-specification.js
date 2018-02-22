@@ -7,67 +7,79 @@ import {QualityRange} from './quality-range';
  * @param data
  * @constructor
  */
-function TranscodeSpecification(data) {
 
-  /**
-   * @type {Destination}
-   */
-  this.destination = null;
+class TranscodeSpecification {
+  constructor(data) {
 
-  /**
-   * @type {string}
-   */
-  this.quality = null;
 
-  /**
-   * @type {QualityRange}
-   */
-  this.qualityRange = null;
+    /**
+     * @type {Destination}
+     */
+    this.destination = null;
 
-  /**
-   * @type {Video}
-   */
-  this.video = null;
+    /**
+     * @type {string}
+     */
+    this.quality = null;
 
-  /**
-   * @type {Audio}
-   */
-  this.audio = null;
+    /**
+     * @type {QualityRange}
+     */
+    this.qualityRange = null;
 
-  if (data) {
-    this.deserialize(data);
+    /**
+     * @type {Video}
+     */
+    this.video = null;
+
+    /**
+     * @type {Audio}
+     */
+    this.audio = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param {Destination} destination
+   * @returns {TranscodeSpecification}
+   */
+  setDestination(destination) {
+
+    this.destination = destination;
+    return this;
+  }
+
+
+  /**
+   * @param {QualityRange} qualityRange
+   * @returns {TranscodeSpecification}
+   */
+  setQualityRange(qualityRange) {
+
+    this.qualityRange = qualityRange;
+    return this;
+  }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.destination = new Destination(data.destination);
+    this.quality = data.quality;
+    this.qualityRange = new QualityRange(data.qualityRange);
+    this.video = new Video(data.video);
+    this.audio = new Audio(data.audio);
+  }
+
 }
 
-/**
- * @param {Destination} destination
- * @returns {TranscodeSpecification}
- */
-TranscodeSpecification.prototype.setDestination = function (destination) {
-  this.destination = destination;
-  return this;
-};
-
-/**
- * @param {QualityRange} qualityRange
- * @returns {TranscodeSpecification}
- */
-TranscodeSpecification.prototype.setQualityRange = function (qualityRange) {
-  this.qualityRange = qualityRange;
-  return this;
-};
-
-/**
- * @param data
- * @private
- */
-TranscodeSpecification.prototype.deserialize = function (data) {
-  this.destination = new Destination(data.destination);
-  this.quality = data.quality;
-  this.qualityRange = new QualityRange(data.qualityRange);
-  this.video = new Video(data.video);
-  this.audio = new Audio(data.audio);
-};
 
 /**
  * @type {TranscodeSpecification}

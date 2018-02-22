@@ -1,31 +1,39 @@
 /**
  * @constructor
  */
-function Label(data) {
 
-  /**
-   * @type {string}
-   */
-  this.name = null;
+class Label {
+  constructor(data) {
 
-  /**
-   * @type {number}
-   */
-  this.score = null;
 
-  if (data) {
-    this.deserialize(data);
+    /**
+     * @type {string}
+     */
+    this.name = null;
+
+    /**
+     * @type {number}
+     */
+    this.score = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.name = data.name;
+    this.score = data.score;
+  }
+
 }
 
-/**
- * @param data
- * @private
- */
-Label.prototype.deserialize = function (data) {
-  this.name = data.name;
-  this.score = data.score;
-};
 
 /**
  * @type {Label}

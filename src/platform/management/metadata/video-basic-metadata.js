@@ -5,47 +5,54 @@ import {VideoFormat} from './video-format';
 /**
  * @constructor
  */
-function VideoBasicMetadata(data) {
 
-  /**
-   * @type {boolean}
-   */
-  this.interlaced = null;
+class VideoBasicMetadata {
+  constructor(data) {
 
-  /**
-   * @type {Array<VideoStream>}
-   */
-  this.videoStreams = null;
 
-  /**
-   * @type {Array<AudioStream>}
-   */
-  this.audioStreams = null;
+    /**
+     * @type {boolean}
+     */
+    this.interlaced = null;
 
-  /**
-   * @type {VideoFormat}
-   */
-  this.format = null;
+    /**
+     * @type {Array<VideoStream>}
+     */
+    this.videoStreams = null;
 
-  if (data) {
-    this.deserialize(data);
+    /**
+     * @type {Array<AudioStream>}
+     */
+    this.audioStreams = null;
+
+    /**
+     * @type {VideoFormat}
+     */
+    this.format = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
-}
 
-/**
- * @param data
- * @private
- */
-VideoBasicMetadata.prototype.deserialize = function (data) {
-  this.interlaced = data.interlaced;
-  this.videoStreams = data.videoStreams.map(function (videoStream) {
-    return new VideoStream(videoStream)
-  });
-  this.audioStreams = data.audioStreams.map(function (audioStream) {
-    return new AudioStream(audioStream)
-  });
-  this.format = new VideoFormat(data.format);
-};
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.interlaced = data.interlaced;
+    this.videoStreams = data.videoStreams.map(function (videoStream) {
+      return new VideoStream(videoStream)
+    });
+    this.audioStreams = data.audioStreams.map(function (audioStream) {
+      return new AudioStream(audioStream)
+    });
+    this.format = new VideoFormat(data.format);
+  }
+
+}
 
 
 /**

@@ -4,34 +4,44 @@ import {VideoSpecification} from './video-specification';
  * @param data
  * @constructor
  */
-function Video(data) {
+
+class Video {
+  constructor(data) {
+
+
+    /**
+     * @type {VideoSpecification}
+     */
+    this.specification = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
+  }
+
 
   /**
-   * @type {VideoSpecification}
+   * @param {VideoSpecification} specification
+   * @returns {Video}
    */
-  this.specification = null;
+  setSpecification(specification) {
 
-  if (data) {
-    this.deserialize(data);
+    this.specification = specification;
+    return this;
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.specification = new VideoSpecification(data.specification);
+  }
+
 }
 
-/**
- * @param {VideoSpecification} specification
- * @returns {Video}
- */
-Video.prototype.setSpecification = function (specification) {
-  this.specification = specification;
-  return this;
-};
-
-/**
- * @param data
- * @private
- */
-Video.prototype.deserialize = function (data) {
-  this.specification = new VideoSpecification(data.specification);
-};
 
 /**
  * @type {Video}

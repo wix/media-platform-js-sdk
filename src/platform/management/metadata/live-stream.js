@@ -6,110 +6,117 @@ import {Dvr} from './dvr';
  * @param data
  * @constructor
  */
-function LiveStream(data) {
 
-  /**
-   *
-   * @type {String}
-   */
-  this.id = null;
+class LiveStream {
+  constructor(data) {
 
-  /**
-   * @type {PublishEndpoint}
-   */
-  this.publishEndpoint = null;
 
-  /**
-   * @type {Array<PlaybackUrl>}
-   */
-  this.playbackUrls = null;
+    /**
+     *
+     * @type {String}
+     */
+    this.id = null;
 
-  /**
-   * @type {String}
-   */
-  this.streamType = null;
+    /**
+     * @type {PublishEndpoint}
+     */
+    this.publishEndpoint = null;
 
-  /**
-   * @type {int}
-   */
-  this.duration = null;
+    /**
+     * @type {Array<PlaybackUrl>}
+     */
+    this.playbackUrls = null;
 
-  /**
-   * @type {int}
-   */
-  this.connectTimeout = null;
+    /**
+     * @type {String}
+     */
+    this.streamType = null;
 
-  /**
-   * @type {int}
-   */
-  this.reconnectTimeout = null;
+    /**
+     * @type {int}
+     */
+    this.duration = null;
 
-  /**
-   * @type {int}
-   */
-  this.enforcedWidth = null;
+    /**
+     * @type {int}
+     */
+    this.connectTimeout = null;
 
-  /**
-   * @type {int}
-   */
-  this.enforcedHeight = null;
+    /**
+     * @type {int}
+     */
+    this.reconnectTimeout = null;
 
-  /**
-   * @type {int}
-   */
-  this.maxPublishDuration = null;
+    /**
+     * @type {int}
+     */
+    this.enforcedWidth = null;
 
-  /**
-   * @type {String}
-   */
-  this.state = null;
+    /**
+     * @type {int}
+     */
+    this.enforcedHeight = null;
 
-  /**
-   * @type {Dvr}
-   */
-  this.dvr = null;
+    /**
+     * @type {int}
+     */
+    this.maxPublishDuration = null;
 
-  /**
-   * @type {String}
-   */
-  this.dateCreated = null;
+    /**
+     * @type {String}
+     */
+    this.state = null;
 
-  /**
-   * @type {String}
-   */
-  this.dateUpdated = null;
+    /**
+     * @type {Dvr}
+     */
+    this.dvr = null;
 
-  if (data) {
-    this.deserialize(data);
+    /**
+     * @type {String}
+     */
+    this.dateCreated = null;
+
+    /**
+     * @type {String}
+     */
+    this.dateUpdated = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.id = data.id;
+
+    this.publishEndpoint = new PublishEndpoint(data.publishEndpoint);
+
+    this.playbackUrls = [];
+    for (var i in data.playbackUrls) {
+      this.playbackUrls.push(new PlaybackUrl(data.playbackUrls[i]));
+    }
+
+    this.streamType = data.streamType;
+    this.duration = data.duration;
+    this.connectTimeout = data.connectTimeout;
+    this.reconnectTimeout = data.reconnectTimeout;
+    this.enforcedWidth = data.enforcedWidth;
+    this.enforcedHeight = data.enforcedHeight;
+    this.maxPublishDuration = data.maxPublishDuration;
+    this.state = data.state;
+    this.dvr = new Dvr(data.dvr);
+    this.dateCreated = data.dateCreated;
+    this.dateUpdated = data.dateUpdated;
+  }
+
 }
-
-/**
- * @param data
- * @private
- */
-LiveStream.prototype.deserialize = function (data) {
-  this.id = data.id;
-
-  this.publishEndpoint = new PublishEndpoint(data.publishEndpoint);
-
-  this.playbackUrls = [];
-  for (var i in data.playbackUrls) {
-    this.playbackUrls.push(new PlaybackUrl(data.playbackUrls[i]));
-  }
-
-  this.streamType = data.streamType;
-  this.duration = data.duration;
-  this.connectTimeout = data.connectTimeout;
-  this.reconnectTimeout = data.reconnectTimeout;
-  this.enforcedWidth = data.enforcedWidth;
-  this.enforcedHeight = data.enforcedHeight;
-  this.maxPublishDuration = data.maxPublishDuration;
-  this.state = data.state;
-  this.dvr = new Dvr(data.dvr);
-  this.dateCreated = data.dateCreated;
-  this.dateUpdated = data.dateUpdated;
-};
 
 
 /**
