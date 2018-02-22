@@ -5,64 +5,78 @@
  * @param {number?} y
  * @constructor
  */
-function Rectangle(width, height, x, y) {
+
+class Rectangle {
+  constructor(width, height, x, y) {
+
+
+    /**
+     * @type {number}
+     */
+    this.x = x || 0;
+
+    /**
+     * @type {number}
+     */
+    this.y = y || 0;
+
+    /**
+     * @type {number|null}
+     */
+    this.width = width || null;
+
+    /**
+     * @type {number|null}
+     */
+    this.height = height || null;
+  }
+
 
   /**
-   * @type {number}
+   * @param {number} x
+   * @returns {Rectangle}
    */
-  this.x = x || 0;
+  setX(x) {
+
+    this.x = x;
+    return this;
+  }
+
 
   /**
-   * @type {number}
+   * @param {number} y
+   * @returns {Rectangle}
    */
-  this.y = y || 0;
+  setY(y) {
+
+    this.y = y;
+    return this;
+  }
+
 
   /**
-   * @type {number|null}
+   * @param {number} width
+   * @returns {Rectangle}
    */
-  this.width = width || null;
+  setWidth(width) {
+
+    this.width = width;
+    return this;
+  }
+
 
   /**
-   * @type {number|null}
+   * @param {number} height
+   * @returns {Rectangle}
    */
-  this.height = height || null;
+  setHeight(height) {
+
+    this.height = height;
+    return this;
+  }
+
 }
 
-/**
- * @param {number} x
- * @returns {Rectangle}
- */
-Rectangle.prototype.setX = function (x) {
-  this.x = x;
-  return this;
-};
-
-/**
- * @param {number} y
- * @returns {Rectangle}
- */
-Rectangle.prototype.setY = function (y) {
-  this.y = y;
-  return this;
-};
-
-/**
- * @param {number} width
- * @returns {Rectangle}
- */
-Rectangle.prototype.setWidth = function (width) {
-  this.width = width;
-  return this;
-};
-
-/**
- * @param {number} height
- * @returns {Rectangle}
- */
-Rectangle.prototype.setHeight = function (height) {
-  this.height = height;
-  return this;
-};
 
 /**
  * @type {Rectangle}

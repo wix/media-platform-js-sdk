@@ -6,44 +6,51 @@ import {validator} from '../validation/validator';
  * @param height
  * @constructor SmartCrop
  */
-function SmartCrop(width, height) {
 
-  this.name = 'scrop';
+class SmartCrop {
+  constructor(width, height) {
+
+
+    this.name = 'scrop';
+
+    /**
+     * @type {number}
+     */
+    this.width = Math.round(width);
+
+    /**
+     * @type {number}
+     */
+    this.height = Math.round(height);
+  }
+
 
   /**
-   * @type {number}
+   * @returns {{params: string, error: *}}
    */
-  this.width = Math.round(width);
-
-  /**
-   * @type {number}
-   */
-  this.height = Math.round(height);
-}
+  serialize() {
 
 
-/**
- * @returns {{params: string, error: *}}
- */
-SmartCrop.prototype.serialize = function () {
+    var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
+    var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
 
-  var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-  var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
+    if (badWidth || badHeight) {
+      return {
+        params: null,
+        error: new Error([badWidth, badHeight].filter(msg => msg).join(','))
+      };
+    }
 
-  if (badWidth || badHeight) {
+    var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+
     return {
-      params: null,
-      error: new Error([badWidth, badHeight].filter(msg => msg).join(','))
+      params: out,
+      error: null
     };
   }
 
-  var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+}
 
-  return {
-    params: out,
-    error: null
-  };
-};
 
 /**
  * @type {SmartCrop}

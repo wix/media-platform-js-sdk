@@ -4,23 +4,30 @@
  * @param {string} appId
  * @constructor
  */
-function Configuration(domain, sharedSecret, appId) {
 
-  /**
-   * @type {string}
-   */
-  this.domain = domain;
+class Configuration {
+  constructor(domain, sharedSecret, appId) {
 
-  /**
-   * @type {string}
-   */
-  this.sharedSecret = sharedSecret;
 
-  /**
-   * @type {string}
-   */
-  this.appId = appId;
+    /**
+     * @type {string}
+     */
+    this.domain = domain;
+
+    /**
+     * @type {string}
+     */
+    this.sharedSecret = sharedSecret;
+
+    /**
+     * @type {string}
+     */
+    this.appId = appId;
+  }
+
+
 }
+
 
 /**
  * @type {Configuration}

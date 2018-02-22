@@ -2,31 +2,39 @@
  * @param data
  * @constructor
  */
-function AudioCodec(data) {
 
-  /**
-   * @type {number}
-   */
-  this.cbr = null;
+class AudioCodec {
+  constructor(data) {
 
-  /**
-   * @type {string}
-   */
-  this.name = null;
 
-  if (data) {
-    this.deserialize(data);
+    /**
+     * @type {number}
+     */
+    this.cbr = null;
+
+    /**
+     * @type {string}
+     */
+    this.name = null;
+
+    if (data) {
+      this.deserialize(data);
+    }
   }
+
+
+  /**
+   * @param data
+   * @private
+   */
+  deserialize(data) {
+
+    this.cbr = data.cbr;
+    this.name = data.name;
+  }
+
 }
 
-/**
- * @param data
- * @private
- */
-AudioCodec.prototype.deserialize = function (data) {
-  this.cbr = data.cbr;
-  this.name = data.name;
-};
 
 /**
  * @type {AudioCodec}

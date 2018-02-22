@@ -1,36 +1,46 @@
 /**
  * @constructor
  */
-function ExtractArchiveRequest() {
+
+class ExtractArchiveRequest {
+  constructor() {
+
+
+    /**
+     * @type {Source}
+     */
+    this.source = null;
+
+    /**
+     * @type {Destination}
+     */
+    this.destination = null;
+  }
+
 
   /**
-   * @type {Source}
+   * @param {Source} source
+   * @returns {ExtractArchiveRequest}
    */
-  this.source = null;
+  setSource(source) {
+
+    this.source = source;
+    return this;
+  }
+
 
   /**
-   * @type {Destination}
+   * @param {Destination} destination
+   * @returns {ExtractArchiveRequest}
    */
-  this.destination = null;
+  setDestination(destination) {
+
+    this.destination = destination;
+    return this;
+  }
+
 }
 
-/**
- * @param {Source} source
- * @returns {ExtractArchiveRequest}
- */
-ExtractArchiveRequest.prototype.setSource = function (source) {
-  this.source = source;
-  return this;
-};
-
-/**
- * @param {Destination} destination
- * @returns {ExtractArchiveRequest}
- */
-ExtractArchiveRequest.prototype.setDestination = function (destination) {
-  this.destination = destination;
-  return this;
-};
 
 /**
  * @type {CreateArchiveRequest}

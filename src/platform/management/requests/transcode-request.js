@@ -1,55 +1,69 @@
 /**
  * @constructor
  */
-function TranscodeRequest() {
+
+class TranscodeRequest {
+  constructor() {
+
+
+    /**
+     * @type {array}
+     */
+    this.sources = [];
+
+    /**
+     * @type {array}
+     */
+    this.specifications = [];
+
+  }
+
 
   /**
-   * @type {array}
+   * @param {array} sources
+   * @returns {TranscodeRequest}
    */
-  this.sources = [];
+  setSources(sources) {
+
+    this.sources = sources;
+    return this;
+  }
+
 
   /**
-   * @type {array}
+   * @param {array} specifications
+   * @returns {TranscodeRequest}
    */
-  this.specifications = [];
+  setSpecifications(specifications) {
+
+    this.specifications = specifications;
+    return this;
+  }
+
+
+  /**
+   * @param {Source} source
+   * @returns {TranscodeRequest}
+   */
+  addSource(source) {
+
+    this.sources.push(source);
+    return this;
+  }
+
+
+  /**
+   * @param {TranscodeSpecification} specification
+   * @returns {TranscodeRequest}
+   */
+  addSpecification(specification) {
+
+    this.specifications.push(specification);
+    return this;
+  }
 
 }
 
-/**
- * @param {array} sources
- * @returns {TranscodeRequest}
- */
-TranscodeRequest.prototype.setSources = function (sources) {
-  this.sources = sources;
-  return this;
-};
-
-/**
- * @param {array} specifications
- * @returns {TranscodeRequest}
- */
-TranscodeRequest.prototype.setSpecifications = function (specifications) {
-  this.specifications = specifications;
-  return this;
-};
-
-/**
- * @param {Source} source
- * @returns {TranscodeRequest}
- */
-TranscodeRequest.prototype.addSource = function (source) {
-  this.sources.push(source);
-  return this;
-};
-
-/**
- * @param {TranscodeSpecification} specification
- * @returns {TranscodeRequest}
- */
-TranscodeRequest.prototype.addSpecification = function (specification) {
-  this.specifications.push(specification);
-  return this;
-};
 
 /**
  * @type {TranscodeRequest}

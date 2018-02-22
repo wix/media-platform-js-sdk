@@ -1,65 +1,78 @@
 /**
  * @constructor
  */
-function UploadUrlRequest() {
+
+class UploadUrlRequest {
+  constructor() {
+
+
+    /**
+     * @type {string}
+     */
+    this.mimeType = null;
+
+    /**
+     * @type {string}
+     */
+    this.path = null;
+
+    /**
+     * @type {number|null}
+     */
+    this.size = null;
+
+    /**
+     * @type {string}
+     */
+    this.acl = 'public';
+  }
+
 
   /**
-   * @type {string}
+   * @param {string} mimeType
+   * @returns {UploadUrlRequest}
    */
-  this.mimeType = null;
+  setMimeType(mimeType) {
+
+    this.mimeType = mimeType;
+    return this;
+  }
+
 
   /**
-   * @type {string}
+   * @param {string} path
+   * @returns {UploadUrlRequest}
    */
-  this.path = null;
+  setPath(path) {
+
+    this.path = path;
+    return this;
+  }
+
 
   /**
-   * @type {number|null}
+   * @description Optional file size in bytes. Required for file size enforcement
+   * @param {number} size
+   * @returns {UploadUrlRequest}
    */
-  this.size = null;
+  setSize(size) {
+
+    this.size = size;
+    return this;
+  }
+
 
   /**
-   * @type {string}
+   * @param {string} acl
+   * @returns {UploadUrlRequest}
    */
-  this.acl = 'public';
+  setAcl(acl) {
+
+    this.acl = acl;
+    return this;
+  }
+
 }
-
-/**
- * @param {string} mimeType
- * @returns {UploadUrlRequest}
- */
-UploadUrlRequest.prototype.setMimeType = function (mimeType) {
-  this.mimeType = mimeType;
-  return this;
-};
-
-/**
- * @param {string} path
- * @returns {UploadUrlRequest}
- */
-UploadUrlRequest.prototype.setPath = function (path) {
-  this.path = path;
-  return this;
-};
-
-/**
- * @description Optional file size in bytes. Required for file size enforcement
- * @param {number} size
- * @returns {UploadUrlRequest}
- */
-UploadUrlRequest.prototype.setSize = function (size) {
-  this.size = size;
-  return this;
-};
-
-/**
- * @param {string} acl
- * @returns {UploadUrlRequest}
- */
-UploadUrlRequest.prototype.setAcl = function (acl) {
-  this.acl = acl;
-  return this;
-};
 
 
 /**

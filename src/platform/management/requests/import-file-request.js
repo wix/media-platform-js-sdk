@@ -1,50 +1,62 @@
 /**
  * @constructor
  */
-function ImportFileRequest() {
+
+class ImportFileRequest {
+  constructor() {
+
+
+    /**
+     * @type {string}
+     */
+    this.sourceUrl = null;
+
+    /**
+     * @type {ExternalAuthorization}
+     */
+    this.externalAuthorization = null;
+
+    /**
+     * @type {Destination}
+     */
+    this.destination = null;
+  }
+
 
   /**
-   * @type {string}
+   * @param {string} sourceUrl
+   * @returns {ImportFileRequest}
    */
-  this.sourceUrl = null;
+  setSourceUrl(sourceUrl) {
+
+    this.sourceUrl = sourceUrl;
+    return this;
+  }
+
 
   /**
-   * @type {ExternalAuthorization}
+   * @param {ExternalAuthorization} externalAuthorization
+   * @returns {ImportFileRequest}
    */
-  this.externalAuthorization = null;
+  setExternalAuthorization(externalAuthorization) {
+
+    this.externalAuthorization = externalAuthorization;
+    return this;
+  }
+
 
   /**
-   * @type {Destination}
+   * @param {Destination} destination
+   * @returns {ImportFileRequest}
    */
-  this.destination = null;
+  setDestination(destination) {
+
+    this.destination = destination;
+    return this;
+  }
+
 }
 
-/**
- * @param {string} sourceUrl
- * @returns {ImportFileRequest}
- */
-ImportFileRequest.prototype.setSourceUrl = function (sourceUrl) {
-  this.sourceUrl = sourceUrl;
-  return this;
-};
-
-/**
- * @param {ExternalAuthorization} externalAuthorization
- * @returns {ImportFileRequest}
- */
-ImportFileRequest.prototype.setExternalAuthorization = function (externalAuthorization) {
-  this.externalAuthorization = externalAuthorization;
-  return this;
-};
-
-/**
- * @param {Destination} destination
- * @returns {ImportFileRequest}
- */
-ImportFileRequest.prototype.setDestination = function (destination) {
-  this.destination = destination;
-  return this;
-};
 
 /**
  * @type {ImportFileRequest}

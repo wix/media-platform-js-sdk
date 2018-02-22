@@ -5,45 +5,53 @@ import {FileDescriptor} from './metadata/file-descriptor';
  * @param {HTTPClient} httpClient
  * @constructor
  */
-function ImageManager(configuration, httpClient) {
+
+class ImageManager {
+  constructor(configuration, httpClient) {
+
+
+    /**
+     * @type {Configuration}
+     */
+    this.configuration = configuration;
+
+    /**
+     * @type {HTTPClient}
+     */
+    this.httpClient = httpClient;
+
+    /**
+     * @type {string}
+     */
+    this.baseUrl = 'https://' + configuration.domain;
+
+    /**
+     * @type {string}
+     */
+    this.apiUrl = this.baseUrl + '/_api/images';
+
+  }
+
 
   /**
-   * @type {Configuration}
+   * @param {ImageOperationRequest} imageOperationRequest
+   * @param {function(Error, FileDescriptor)} callback
    */
-  this.configuration = configuration;
+  imageOperation(imageOperationRequest, callback) {
 
-  /**
-   * @type {HTTPClient}
-   */
-  this.httpClient = httpClient;
+    this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, null, function (error, response) {
 
-  /**
-   * @type {string}
-   */
-  this.baseUrl = 'https://' + configuration.domain;
+      if (error) {
+        callback(error, null);
+        return;
+      }
 
-  /**
-   * @type {string}
-   */
-  this.apiUrl = this.baseUrl + '/_api/images';
+      callback(null, new FileDescriptor(response.payload));
+    });
+  }
 
 }
 
-/**
- * @param {ImageOperationRequest} imageOperationRequest
- * @param {function(Error, FileDescriptor)} callback
- */
-ImageManager.prototype.imageOperation = function (imageOperationRequest, callback) {
-  this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, null, function (error, response) {
-
-    if (error) {
-      callback(error, null);
-      return;
-    }
-
-    callback(null, new FileDescriptor(response.payload));
-  });
-};
 
 /**
  * @type {ImageManager}

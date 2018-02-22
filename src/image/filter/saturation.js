@@ -4,57 +4,67 @@ import {validator} from '../validation/validator';
  * @param image
  * @constructor
  */
-function Saturation(image) {
 
-  this.image = image;
+class Saturation {
+  constructor(image) {
+
+
+    this.image = image;
+
+    /**
+     * @type {string|null}
+     */
+    this.error = null;
+
+    this.settings = {
+      /**
+       * @type {number|null}
+       */
+      saturation: null
+    };
+
+    this.saturation = this.saturation.bind(this);
+  }
+
 
   /**
-   * @type {string|null}
+   * @summary saturation of the image.
+   * @param {number?} saturation a Number between `-100` and `100`
+   * @returns {*} the operation
    */
-  this.error = null;
+  saturation(saturation) {
 
-  this.settings = {
-    /**
-     * @type {number|null}
-     */
-    saturation: null
-  };
 
-  this.saturation = this.saturation.bind(this);
-}
+    this.error = validator.numberNotInRange('saturation', saturation, -100, 100);
+    if (this.error) {
+      return this.image;
+    }
 
-/**
- * @summary saturation of the image.
- * @param {number?} saturation a Number between `-100` and `100`
- * @returns {*} the operation
- */
-Saturation.prototype.saturation = function (saturation) {
-
-  this.error = validator.numberNotInRange('saturation', saturation, -100, 100);
-  if (this.error) {
+    this.settings.saturation = saturation === void 0 ? null : saturation;
     return this.image;
   }
 
-  this.settings.saturation = saturation === void 0 ? null : saturation;
-  return this.image;
-};
 
-/**
- * @returns {string}
- */
-Saturation.prototype.serialize = function () {
+  /**
+   * @returns {string}
+   */
+  serialize() {
 
-  var out = '';
 
-  if (this.settings.saturation) {
-    out += 'sat_' + this.settings.saturation;
+    var out = '';
+
+    if (this.settings.saturation) {
+      out += 'sat_' + this.settings.saturation;
+    }
+
+    return {
+      params: out,
+      error: this.error
+    };
   }
 
-  return {
-    params: out,
-    error: this.error
-  };
-};
+}
+
 
 /**
  * @type {Saturation}

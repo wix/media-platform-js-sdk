@@ -16,70 +16,76 @@ import {WebhookDeserializer} from './webhook/webhook-deserializer';
  * @param {Configuration} config
  * @constructor
  */
-export function MediaPlatform(config) {
+export class MediaPlatform {
+  constructor(config) {
 
-  // TODO: validate config
 
-  var configuration = new Configuration(config.domain, config.sharedSecret, config.appId);
-  var authenticator = new Authenticator(configuration);
-  var httpClient = new HTTPClient(authenticator);
-  var fileUploader = new FileUploader(configuration, httpClient);
-  var fileDownloader = new FileDownloader(configuration, authenticator);
+    // TODO: validate config
 
-  /**
-   * @param {Token?} token
-   * @returns {{Authorization: <string>}}
-   */
-  this.getAuthorizationHeader = function (token) {
-    return authenticator.getHeader(token);
-  };
+    var configuration = new Configuration(config.domain, config.sharedSecret, config.appId);
+    var authenticator = new Authenticator(configuration);
+    var httpClient = new HTTPClient(authenticator);
+    var fileUploader = new FileUploader(configuration, httpClient);
+    var fileDownloader = new FileDownloader(configuration, authenticator);
 
-  /**
-   * @param {string} path
-   * @param {DownloadUrlRequest?} downloadUrlRequest
-   * @returns {{downloadUrl: string}}
-   */
-  this.getDownloadUrl = function (path, downloadUrlRequest) {
-    return fileDownloader.getDownloadUrl(path, downloadUrlRequest);
-  };
+    /**
+     * @param {Token?} token
+     * @returns {{Authorization: <string>}}
+     */
+    this.getAuthorizationHeader = function (token) {
+      return authenticator.getHeader(token);
+    };
 
-  /**
-   * @type {ArchiveManager}
-   */
-  this.archiveManager = new ArchiveManager(configuration, httpClient);
+    /**
+     * @param {string} path
+     * @param {DownloadUrlRequest?} downloadUrlRequest
+     * @returns {{downloadUrl: string}}
+     */
+    this.getDownloadUrl = function (path, downloadUrlRequest) {
+      return fileDownloader.getDownloadUrl(path, downloadUrlRequest);
+    };
 
-  /**
-   * @type {FileManager}
-   */
-  this.fileManager = new FileManager(configuration, httpClient, fileUploader);
+    /**
+     * @type {ArchiveManager}
+     */
+    this.archiveManager = new ArchiveManager(configuration, httpClient);
 
-  /**
-   * @type {TranscodeManager}
-   */
-  this.transcodeManager = new TranscodeManager(configuration, httpClient);
+    /**
+     * @type {FileManager}
+     */
+    this.fileManager = new FileManager(configuration, httpClient, fileUploader);
 
-  /**
-   * @type {FlowManager}
-   */
-  this.flowManager = new FlowManager(configuration, httpClient);
+    /**
+     * @type {TranscodeManager}
+     */
+    this.transcodeManager = new TranscodeManager(configuration, httpClient);
 
-  /**
-   * @type {LiveManager}
-   */
-  this.liveManager = new LiveManager(configuration, httpClient);
+    /**
+     * @type {FlowManager}
+     */
+    this.flowManager = new FlowManager(configuration, httpClient);
 
-  /**
-   * @type {JobManager}
-   */
-  this.jobManager = new JobManager(configuration, httpClient);
+    /**
+     * @type {LiveManager}
+     */
+    this.liveManager = new LiveManager(configuration, httpClient);
 
-  /**
-   * @type {ImageManager}
-   */
-  this.imageManager = new ImageManager(configuration, httpClient);
+    /**
+     * @type {JobManager}
+     */
+    this.jobManager = new JobManager(configuration, httpClient);
 
-  /**
-   * @type {WebhookDeserializer}
-   */
-  this.webhookDeserializer = new WebhookDeserializer(authenticator)
+    /**
+     * @type {ImageManager}
+     */
+    this.imageManager = new ImageManager(configuration, httpClient);
+
+    /**
+     * @type {WebhookDeserializer}
+     */
+    this.webhookDeserializer = new WebhookDeserializer(authenticator)
+  }
+
+
 }
+    

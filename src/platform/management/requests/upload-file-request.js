@@ -1,36 +1,46 @@
 /**
  * @constructor
  */
-function UploadFileRequest() {
+
+class UploadFileRequest {
+  constructor() {
+
+
+    /**
+     * @type {string}
+     */
+    this.mimeType = 'application/octet-stream';
+
+    /**
+     * @type {string}
+     */
+    this.acl = 'public';
+  }
+
 
   /**
-   * @type {string}
+   * @param {string} mimeType
+   * @returns {UploadFileRequest}
    */
-  this.mimeType = 'application/octet-stream';
+  setMimeType(mimeType) {
+
+    this.mimeType = mimeType;
+    return this;
+  }
+
 
   /**
-   * @type {string}
+   * @param {string} acl
+   * @returns {UploadFileRequest}
    */
-  this.acl = 'public';
+  setAcl(acl) {
+
+    this.acl = acl;
+    return this;
+  }
+
 }
 
-/**
- * @param {string} mimeType
- * @returns {UploadFileRequest}
- */
-UploadFileRequest.prototype.setMimeType = function (mimeType) {
-  this.mimeType = mimeType;
-  return this;
-};
-
-/**
- * @param {string} acl
- * @returns {UploadFileRequest}
- */
-UploadFileRequest.prototype.setAcl = function (acl) {
-  this.acl = acl;
-  return this;
-};
 
 /**
  * @type {UploadFileRequest}
