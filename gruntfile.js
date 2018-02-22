@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+export default function(grunt) {
 
     var minifiedOptions = {
         debug: false,

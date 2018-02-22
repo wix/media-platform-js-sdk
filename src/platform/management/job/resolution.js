@@ -4,19 +4,19 @@
  */
 function Resolution(data) {
 
-    /**
-     * @type {number}
-     */
-    this.width = null;
+  /**
+   * @type {number}
+   */
+  this.width = null;
 
-    /**
-     * @type {number}
-     */
-    this.height = null;
+  /**
+   * @type {number}
+   */
+  this.height = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -24,11 +24,12 @@ function Resolution(data) {
  * @private
  */
 Resolution.prototype.deserialize = function (data) {
-    this.width = data.width;
-    this.height = data.height;
+  this.width = data.width;
+  this.height = data.height;
 };
 
 /**
  * @type {Resolution}
  */
-module.exports = Resolution;
+export default Resolution;
+export {Resolution};

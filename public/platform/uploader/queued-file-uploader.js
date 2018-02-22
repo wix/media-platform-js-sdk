@@ -1,4 +1,4 @@
-var async = require('async');
+import async from 'async';
 
 /**
  * @param {FileUploader} fileUploader
@@ -86,4 +86,5 @@ QueuedFileUploader.prototype.length = function () {
 /**
  * @type {QueuedFileUploader}
  */
-module.exports = QueuedFileUploader;
+export default QueuedFileUploader;
+export {QueuedFileUploader};

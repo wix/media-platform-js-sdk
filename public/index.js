@@ -1,27 +1,27 @@
-var Configuration = require('./platform/configuration/configuration');
-var MediaPlatform = require('./platform/media-platform');
-var UploadJob = require('./platform/uploader/upload-job');
-var Image = require('../src/image/image');
-var UploadUrlRequest = require('../src/platform/management/requests/upload-url-request');
-var UploadFileRequest = require('../src/platform/management/requests/upload-file-request');
-var ListFilesRequest = require('../src/platform/management/requests/list-files-request');
-var ImportFileRequest = require('../src/platform/management/requests/import-file-request');
-var SearchJobsRequest = require('../src/platform/management/requests/search-jobs-request');
-var TranscodeSpecification = require('../src/platform/management/job/transcode-specification');
-var Source = require('../src/platform/management/job/source');
-var Destination = require('../src/platform/management/job/destination');
-var TranscodeRequest = require('../src/platform/management/requests/transcode-request');
-var ExtractArchiveRequest = require('../src/platform/management/requests/extract-archive-request');
-var CreateArchiveRequest = require('../src/platform/management/requests/create-archive-request');
-var CreateFlowRequest = require('../src/platform/management/requests/create-flow-request');
-var LivestreamRequest = require('../src/platform/management/requests/livestream-request');
-var Flow = require('../src/platform/management/metadata/flow');
-var Invocation = require('../src/platform/management/metadata/invocation');
-var FlowComponent = require('../src/platform/management/metadata/flow-component');
-var LiveStream = require('../src/platform/management/metadata/live-stream');
-var QualityRange = require('../src/platform/management/job/quality-range');
-var ImageOperationSpecification = require('../src/platform/management/job/image-operation-specification');
-var ImageOperationRequest = require('../src/platform/management/requests/image-operation-request');
+import {Configuration} from './platform/configuration/configuration';
+import {MediaPlatform} from './platform/media-platform';
+import {UploadJob} from './platform/uploader/upload-job';
+import {Image} from '../src/image/image';
+import {UploadUrlRequest} from '../src/platform/management/requests/upload-url-request';
+import {UploadFileRequest} from '../src/platform/management/requests/upload-file-request';
+import {ListFilesRequest} from '../src/platform/management/requests/list-files-request';
+import {ImportFileRequest} from '../src/platform/management/requests/import-file-request';
+import {SearchJobsRequest} from '../src/platform/management/requests/search-jobs-request';
+import {TranscodeSpecification} from '../src/platform/management/job/transcode-specification';
+import {Source} from '../src/platform/management/job/source';
+import {Destination} from '../src/platform/management/job/destination';
+import {TranscodeRequest} from '../src/platform/management/requests/transcode-request';
+import {ExtractArchiveRequest} from '../src/platform/management/requests/extract-archive-request';
+import {CreateArchiveRequest} from '../src/platform/management/requests/create-archive-request';
+import {CreateFlowRequest} from '../src/platform/management/requests/create-flow-request';
+import {LivestreamRequest} from '../src/platform/management/requests/livestream-request';
+import {Flow} from '../src/platform/management/metadata/flow';
+import {Invocation} from '../src/platform/management/metadata/invocation';
+import {FlowComponent} from '../src/platform/management/metadata/flow-component';
+import {LiveStream} from '../src/platform/management/metadata/live-stream';
+import {QualityRange} from '../src/platform/management/job/quality-range';
+import {ImageOperationSpecification} from '../src/platform/management/job/image-operation-specification';
+import {ImageOperationRequest} from '../src/platform/management/requests/image-operation-request';
 
 var MP = {};
 
@@ -175,4 +175,5 @@ MP.Destination = Destination;
  */
 MP.QualityRange = QualityRange;
 
-module.exports = MP;
+export default MP;
+export {MP};

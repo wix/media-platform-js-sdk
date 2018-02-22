@@ -1,4 +1,4 @@
-var validator = require('../validation/validator');
+import {validator} from '../validation/validator';
 
 /**
  * @description Crops the image starting at the x, y pixel coordinates, along with the width and height options. The image is scaled according to the scale factor parameter before crop.
@@ -11,34 +11,34 @@ var validator = require('../validation/validator');
  */
 function Crop(width, height, x, y, scale) {
 
-    this.name = 'crop';
+  this.name = 'crop';
 
-    /**
-     * @type {number}
-     */
-    this.x = null;
+  /**
+   * @type {number}
+   */
+  this.x = null;
 
-    /**
-     * @type {number}
-     */
-    this.y = null;
+  /**
+   * @type {number}
+   */
+  this.y = null;
 
-    /**
-     * @type {number}
-     */
-    this.width = Math.round(width);
+  /**
+   * @type {number}
+   */
+  this.width = Math.round(width);
 
-    /**
-     * @type {number}
-     */
-    this.height = Math.round(height);
-    
-    /**
-     * @type {number|null}
-     */
-    this.scale = scale || null;
+  /**
+   * @type {number}
+   */
+  this.height = Math.round(height);
 
-    this.coordinates(x, y, scale);
+  /**
+   * @type {number|null}
+   */
+  this.scale = scale || null;
+
+  this.coordinates(x, y, scale);
 }
 
 
@@ -49,18 +49,18 @@ function Crop(width, height, x, y, scale) {
  * @returns {*} the operation
  */
 Crop.prototype.coordinates = function (x, y, scale) {
-    if (arguments.length === 0) {
-        this.x = null;
-        this.y = null;
-        this.scale = null;
-        this.error = null;
-        return this;
-    }
-
-    this.x = Math.round(x);
-    this.y = Math.round(y);
-    this.scale = (!scale || scale === 1) ? null : scale;
+  if (arguments.length === 0) {
+    this.x = null;
+    this.y = null;
+    this.scale = null;
+    this.error = null;
     return this;
+  }
+
+  this.x = Math.round(x);
+  this.y = Math.round(y);
+  this.scale = (!scale || scale === 1) ? null : scale;
+  return this;
 };
 
 
@@ -71,58 +71,58 @@ Crop.prototype.coordinates = function (x, y, scale) {
  * @returns {*} the operation
  */
 Crop.prototype.size = function (width, height) {
-    this.width = Math.round(width);
-    this.height = Math.round(height);
-    return this;
+  this.width = Math.round(width);
+  this.height = Math.round(height);
+  return this;
 };
 
 /**
- * @returns {{params: string, error: *}}
+ * @returns {{params: string | null, error: Error | null}}
  */
 Crop.prototype.serialize = function () {
+  var badScale = validator.numberNotInRange('crop scale factor', this.scale, 0, 100);
+  var badX = validator.numberIsNotGreaterThan('crop x', this.x, 0);
+  var badY = validator.numberIsNotGreaterThan('crop y', this.y, 0);
+  var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
+  var badHeight = validator.numberIsRequired('height', this.height) || validator.numberIsNotGreaterThan('height', this.height, 1);
 
-    var badScale = validator.numberNotInRange('crop scale factor', this.scale, 0, 100);
-    var badX = validator.numberIsNotGreaterThan('crop x', this.x, 0);
-    var badY = validator.numberIsNotGreaterThan('crop y', this.y, 0);
-    var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-    var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
-
-    if (badScale || badX || badY || badWidth || badHeight) {
-        return {
-            params: null,
-            error: new Error([badScale, badX, badY, badWidth, badHeight])
-        };
-    }
-
-    var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
-
-    out += ',x_' + (this.x || 0);
-
-    if (out.length > 0) {
-        out += ',';
-    }
-
-    out += 'y_' + (this.y || 0);
-
-    if (this.scale && this.scale !== 1) {
-        if (out.length > 0) {
-            out += ',';
-        }
-        var str = this.scale.toString();
-        if (this.scale === Math.floor(this.scale)) {
-            str = this.scale.toFixed(1);
-        }
-
-        out += 'scl_' + str;
-    }
-
+  if (badScale || badX || badY || badWidth || badHeight) {
     return {
-        params: out,
-        error: null
+      params: null,
+      error: new Error([badScale, badX, badY, badWidth, badHeight].filter(error => error).join(','))
     };
+  }
+
+  var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+
+  out += ',x_' + (this.x || 0);
+
+  if (out.length > 0) {
+    out += ',';
+  }
+
+  out += 'y_' + (this.y || 0);
+
+  if (this.scale && this.scale !== 1) {
+    if (out.length > 0) {
+      out += ',';
+    }
+    var str = this.scale.toString();
+    if (this.scale === Math.floor(this.scale)) {
+      str = this.scale.toFixed(1);
+    }
+
+    out += 'scl_' + str;
+  }
+
+  return {
+    params: out,
+    error: null
+  };
 };
 
 /**
  * @type {Crop}
  */
-module.exports = Crop;
+export default Crop;
+export {Crop};

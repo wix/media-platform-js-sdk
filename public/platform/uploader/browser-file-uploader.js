@@ -1,5 +1,5 @@
-var UploadUrlResponse = require('../../../src/platform/management/responses/upload-url-response');
-var UploadJob = require('./upload-job');
+import {UploadUrlResponse} from '../../../src/platform/management/responses/upload-url-response';
+import {UploadJob} from './upload-job';
 
 
 /**
@@ -51,4 +51,5 @@ FileUploader.prototype.uploadFile = function (path, file, uploadFileRequest) {
 /**
  * @type {FileUploader}
  */
-module.exports = FileUploader;
+export default FileUploader;
+export {FileUploader};

@@ -3,10 +3,10 @@
  */
 function ExternalAuthorization() {
 
-    /**
-     * @type {{}}
-     */
-    this.headers = {};
+  /**
+   * @type {{}}
+   */
+  this.headers = {};
 
 }
 
@@ -16,8 +16,8 @@ function ExternalAuthorization() {
  * @returns {ExternalAuthorization}
  */
 ExternalAuthorization.prototype.addHeader = function (name, value) {
-    this.headers[name] = value;
-    return this;
+  this.headers[name] = value;
+  return this;
 };
 
 /**
@@ -25,11 +25,12 @@ ExternalAuthorization.prototype.addHeader = function (name, value) {
  * @returns {ExternalAuthorization}
  */
 ExternalAuthorization.prototype.setHeaders = function (headers) {
-    this.headers = headers;
-    return this;
+  this.headers = headers;
+  return this;
 };
 
 /**
  * @type {ExternalAuthorization}
  */
-module.exports = ExternalAuthorization;
+export default ExternalAuthorization;
+export {ExternalAuthorization};

@@ -1,5 +1,5 @@
-var inherits = require('inherits');
-var UploadEvent = require('./upload-event');
+import inherits from 'inherits';
+import {UploadEvent} from './upload-event';
 
 function UploadProgressEvent(target, loaded, total) {
     UploadEvent.call(this, target);
@@ -18,4 +18,5 @@ inherits(UploadProgressEvent, UploadEvent);
 /***
  * @type {UploadProgressEvent}
  */
-module.exports = UploadProgressEvent;
+export default UploadProgressEvent;
+export {UploadProgressEvent};

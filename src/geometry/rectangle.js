@@ -7,25 +7,25 @@
  */
 function Rectangle(width, height, x, y) {
 
-    /**
-     * @type {number}
-     */
-    this.x = x || 0;
+  /**
+   * @type {number}
+   */
+  this.x = x || 0;
 
-    /**
-     * @type {number}
-     */
-    this.y = y || 0;
+  /**
+   * @type {number}
+   */
+  this.y = y || 0;
 
-    /**
-     * @type {number|null}
-     */
-    this.width = width || null;
+  /**
+   * @type {number|null}
+   */
+  this.width = width || null;
 
-    /**
-     * @type {number|null}
-     */
-    this.height = height || null;
+  /**
+   * @type {number|null}
+   */
+  this.height = height || null;
 }
 
 /**
@@ -33,8 +33,8 @@ function Rectangle(width, height, x, y) {
  * @returns {Rectangle}
  */
 Rectangle.prototype.setX = function (x) {
-    this.x = x;
-    return this;
+  this.x = x;
+  return this;
 };
 
 /**
@@ -42,8 +42,8 @@ Rectangle.prototype.setX = function (x) {
  * @returns {Rectangle}
  */
 Rectangle.prototype.setY = function (y) {
-    this.y = y;
-    return this;
+  this.y = y;
+  return this;
 };
 
 /**
@@ -51,8 +51,8 @@ Rectangle.prototype.setY = function (y) {
  * @returns {Rectangle}
  */
 Rectangle.prototype.setWidth = function (width) {
-    this.width = width;
-    return this;
+  this.width = width;
+  return this;
 };
 
 /**
@@ -60,11 +60,12 @@ Rectangle.prototype.setWidth = function (width) {
  * @returns {Rectangle}
  */
 Rectangle.prototype.setHeight = function (height) {
-    this.height = height;
-    return this;
+  this.height = height;
+  return this;
 };
 
 /**
  * @type {Rectangle}
  */
-module.exports = Rectangle;
+export default Rectangle;
+export {Rectangle};

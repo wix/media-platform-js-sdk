@@ -4,15 +4,15 @@
  * @constructor
  */
 function Dimension(width, height) {
-    /**
-     * @type {number|null}
-     */
-    this.width = width || null;
+  /**
+   * @type {number|null}
+   */
+  this.width = width || null;
 
-    /**
-     * @type {number|null}
-     */
-    this.height = height || null;
+  /**
+   * @type {number|null}
+   */
+  this.height = height || null;
 }
 
 /**
@@ -20,8 +20,8 @@ function Dimension(width, height) {
  * @returns {Dimension}
  */
 Dimension.prototype.setWidth = function (width) {
-    this.width = width;
-    return this;
+  this.width = width;
+  return this;
 };
 
 /**
@@ -29,11 +29,12 @@ Dimension.prototype.setWidth = function (width) {
  * @returns {Dimension}
  */
 Dimension.prototype.setHeight = function (height) {
-    this.height = height;
-    return this;
+  this.height = height;
+  return this;
 };
 
 /**
  * @type {Dimension}
  */
-module.exports = Dimension;
+export default Dimension;
+export {Dimension};

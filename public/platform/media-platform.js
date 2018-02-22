@@ -1,14 +1,14 @@
-var HTTPClient = require('./http/browser-http-client');
-var FileUploader = require('./uploader/browser-file-uploader');
-var QueuedFileUploader = require('./uploader/queued-file-uploader');
-var FileDownloader = require('./downloader/browser-file-downloader');
-var FileManager = require('../../src/platform/management/file-manager');
-var ArchiveManager = require('../../src/platform/management/archive-manager');
-var JobManager = require('../../src/platform/management/job-manager');
-var TranscodeManager = require('../../src/platform/management/transcode-manager');
-var FlowManager = require('../../src/platform/management/flow-manager');
-var LiveManager = require('../../src/platform/management/live-manager');
-var ImageManager = require('../../src/platform/management/image-manager');
+import {HTTPClient} from './http/browser-http-client';
+import {FileUploader} from './uploader/browser-file-uploader';
+import {QueuedFileUploader} from './uploader/queued-file-uploader';
+import {FileDownloader} from './downloader/browser-file-downloader';
+import {FileManager} from '../../src/platform/management/file-manager';
+import {ArchiveManager} from '../../src/platform/management/archive-manager';
+import {JobManager} from '../../src/platform/management/job-manager';
+import {TranscodeManager} from '../../src/platform/management/transcode-manager';
+import {FlowManager} from '../../src/platform/management/flow-manager';
+import {LiveManager} from '../../src/platform/management/live-manager';
+import {ImageManager} from '../../src/platform/management/image-manager';
 
 /**
  * @param {Configuration} configuration
@@ -105,4 +105,5 @@ function MediaPlatform(configuration) {
 /**
  * @type {MediaPlatform}
  */
-module.exports = MediaPlatform;
+export default MediaPlatform;
+export {MediaPlatform};

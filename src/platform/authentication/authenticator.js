@@ -1,6 +1,6 @@
-var jwt = require('jsonwebtoken');
-var Token = require('./token');
-var NS = require('./NS');
+import jwt from 'jsonwebtoken';
+import {Token} from './token';
+import {NS} from './NS';
 
 /**
  * @description creates a client that can authenticate against WixMP
@@ -9,10 +9,10 @@ var NS = require('./NS');
  */
 function Authenticator(configuration) {
 
-    /**
-     * @type {Configuration}
-     */
-    this.configuration = configuration;
+  /**
+   * @type {Configuration}
+   */
+  this.configuration = configuration;
 }
 
 /**
@@ -20,17 +20,17 @@ function Authenticator(configuration) {
  * @param {Token?} token
  * @returns {{}} The self signed authentication header
  */
-Authenticator.prototype.getHeader = function(token) {
-    var t = token;
-    if (!token) {
-        t = new Token()
-            .setIssuer(NS.APPLICATION, this.configuration.appId)
-            .setSubject(NS.APPLICATION, this.configuration.appId);
-    }
+Authenticator.prototype.getHeader = function (token) {
+  var t = token;
+  if (!token) {
+    t = new Token()
+      .setIssuer(NS.APPLICATION, this.configuration.appId)
+      .setSubject(NS.APPLICATION, this.configuration.appId);
+  }
 
-    return {
-        Authorization: this.encode(t)
-    };
+  return {
+    Authorization: this.encode(t)
+  };
 };
 
 /**
@@ -38,8 +38,8 @@ Authenticator.prototype.getHeader = function(token) {
  * @param {Token} token
  * @returns {string|null} The JWT payload
  */
-Authenticator.prototype.encode = function(token) {
-    return jwt.sign(token.toClaims(), this.configuration.sharedSecret);
+Authenticator.prototype.encode = function (token) {
+  return jwt.sign(token.toClaims(), this.configuration.sharedSecret);
 };
 
 /**
@@ -47,20 +47,21 @@ Authenticator.prototype.encode = function(token) {
  * @param {string} signedToken
  * @returns {{}|null} The JWT payload
  */
-Authenticator.prototype.decode = function(signedToken) {
-    try {
-        return jwt.verify(signedToken, this.configuration.sharedSecret, {
-            ignoreExpiration: true,
-            issuer: 'urn:app:' + this.configuration.appId
-        });
-    } catch (error) {
-        console.log(error);
-        console.log(jwt.decode(signedToken));
-        return null;
-    }
+Authenticator.prototype.decode = function (signedToken) {
+  try {
+    return jwt.verify(signedToken, this.configuration.sharedSecret, {
+      ignoreExpiration: true,
+      issuer: 'urn:app:' + this.configuration.appId
+    });
+  } catch (error) {
+    console.log(error);
+    console.log(jwt.decode(signedToken));
+    return null;
+  }
 };
 
 /**
  * @type {Authenticator}
  */
-module.exports = Authenticator;
+export default Authenticator;
+export {Authenticator};

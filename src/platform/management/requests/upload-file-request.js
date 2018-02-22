@@ -3,15 +3,15 @@
  */
 function UploadFileRequest() {
 
-    /**
-     * @type {string}
-     */
-    this.mimeType = 'application/octet-stream';
+  /**
+   * @type {string}
+   */
+  this.mimeType = 'application/octet-stream';
 
-    /**
-     * @type {string}
-     */
-    this.acl = 'public';
+  /**
+   * @type {string}
+   */
+  this.acl = 'public';
 }
 
 /**
@@ -19,8 +19,8 @@ function UploadFileRequest() {
  * @returns {UploadFileRequest}
  */
 UploadFileRequest.prototype.setMimeType = function (mimeType) {
-    this.mimeType = mimeType;
-    return this;
+  this.mimeType = mimeType;
+  return this;
 };
 
 /**
@@ -28,11 +28,12 @@ UploadFileRequest.prototype.setMimeType = function (mimeType) {
  * @returns {UploadFileRequest}
  */
 UploadFileRequest.prototype.setAcl = function (acl) {
-    this.acl = acl;
-    return this;
+  this.acl = acl;
+  return this;
 };
 
 /**
  * @type {UploadFileRequest}
  */
-module.exports = UploadFileRequest;
+export default UploadFileRequest;
+export {UploadFileRequest};

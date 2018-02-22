@@ -3,20 +3,20 @@
  */
 function CreateArchiveRequest() {
 
-    /**
-     * @type {array}
-     */
-    this.sources = [];
+  /**
+   * @type {array}
+   */
+  this.sources = [];
 
-    /**
-     * @type {Destination}
-     */
-    this.destination = null;
+  /**
+   * @type {Destination}
+   */
+  this.destination = null;
 
-    /**
-     * @type {string}
-     */
-    this.archiveType = null;
+  /**
+   * @type {string}
+   */
+  this.archiveType = null;
 }
 
 /**
@@ -24,8 +24,8 @@ function CreateArchiveRequest() {
  * @returns {CreateArchiveRequest}
  */
 CreateArchiveRequest.prototype.setSources = function (sources) {
-    this.sources = sources;
-    return this;
+  this.sources = sources;
+  return this;
 };
 
 /**
@@ -33,8 +33,8 @@ CreateArchiveRequest.prototype.setSources = function (sources) {
  * @returns {CreateArchiveRequest}
  */
 CreateArchiveRequest.prototype.addSource = function (source) {
-    this.sources.push(source);
-    return this;
+  this.sources.push(source);
+  return this;
 };
 
 /**
@@ -42,8 +42,8 @@ CreateArchiveRequest.prototype.addSource = function (source) {
  * @returns {CreateArchiveRequest}
  */
 CreateArchiveRequest.prototype.setDestination = function (destination) {
-    this.destination = destination;
-    return this;
+  this.destination = destination;
+  return this;
 };
 
 /**
@@ -51,11 +51,12 @@ CreateArchiveRequest.prototype.setDestination = function (destination) {
  * @returns {CreateArchiveRequest}
  */
 CreateArchiveRequest.prototype.setArchiveType = function (archiveType) {
-    this.archiveType = archiveType;
-    return this;
+  this.archiveType = archiveType;
+  return this;
 };
 
 /**
  * @type {CreateArchiveRequest}
  */
-module.exports = CreateArchiveRequest;
+export default CreateArchiveRequest;
+export {CreateArchiveRequest};

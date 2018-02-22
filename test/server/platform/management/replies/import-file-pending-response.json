@@ -1,24 +1,24 @@
 {
-  "code":0,
-  "message":"OK",
-  "payload":{
-    "status":"pending",
-    "specification":{
-      "sourceUrl":"string",
-      "destination":{
-        "directory":"string",
-        "path":"string",
-        "acl":"public"
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "status": "pending",
+    "specification": {
+      "sourceUrl": "string",
+      "destination": {
+        "directory": "string",
+        "path": "string",
+        "acl": "public"
       }
     },
-    "dateCreated":"2017-05-23T08:34:43Z",
-    "sources":[
+    "dateCreated": "2017-05-23T08:34:43Z",
+    "sources": [
     ],
-    "result":null,
-    "id":"71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f",
-    "dateUpdated":"2017-05-23T08:34:43Z",
-    "type":"urn:job:import.file",
-    "groupId":"71f0d3fde7f348ea89aa1173299146f8",
-    "issuer":"urn:app:app-id-1"
+    "result": null,
+    "id": "71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f",
+    "dateUpdated": "2017-05-23T08:34:43Z",
+    "type": "urn:job:import.file",
+    "groupId": "71f0d3fde7f348ea89aa1173299146f8",
+    "issuer": "urn:app:app-id-1"
   }
 }

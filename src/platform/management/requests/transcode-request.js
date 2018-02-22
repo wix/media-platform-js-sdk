@@ -3,15 +3,15 @@
  */
 function TranscodeRequest() {
 
-    /**
-     * @type {array}
-     */
-    this.sources = [];
+  /**
+   * @type {array}
+   */
+  this.sources = [];
 
-    /**
-     * @type {array}
-     */
-    this.specifications = [];
+  /**
+   * @type {array}
+   */
+  this.specifications = [];
 
 }
 
@@ -20,8 +20,8 @@ function TranscodeRequest() {
  * @returns {TranscodeRequest}
  */
 TranscodeRequest.prototype.setSources = function (sources) {
-    this.sources = sources;
-    return this;
+  this.sources = sources;
+  return this;
 };
 
 /**
@@ -29,8 +29,8 @@ TranscodeRequest.prototype.setSources = function (sources) {
  * @returns {TranscodeRequest}
  */
 TranscodeRequest.prototype.setSpecifications = function (specifications) {
-    this.specifications = specifications;
-    return this;
+  this.specifications = specifications;
+  return this;
 };
 
 /**
@@ -38,8 +38,8 @@ TranscodeRequest.prototype.setSpecifications = function (specifications) {
  * @returns {TranscodeRequest}
  */
 TranscodeRequest.prototype.addSource = function (source) {
-    this.sources.push(source);
-    return this;
+  this.sources.push(source);
+  return this;
 };
 
 /**
@@ -47,11 +47,12 @@ TranscodeRequest.prototype.addSource = function (source) {
  * @returns {TranscodeRequest}
  */
 TranscodeRequest.prototype.addSpecification = function (specification) {
-    this.specifications.push(specification);
-    return this;
+  this.specifications.push(specification);
+  return this;
 };
 
 /**
  * @type {TranscodeRequest}
  */
-module.exports = TranscodeRequest;
+export default TranscodeRequest;
+export {TranscodeRequest};

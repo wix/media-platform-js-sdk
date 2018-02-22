@@ -1,23 +1,23 @@
-var Job = require('../job/job');
+import {Job} from '../job/job';
 
 /**
  * @constructor
  */
 function TranscodeJobResponse(data) {
 
-    /**
-     * @type {Array<Job>}
-     */
-    this.jobs = [];
+  /**
+   * @type {Array<Job>}
+   */
+  this.jobs = [];
 
-    /**
-     * @type {string}
-     */
-    this.groupId = null;
+  /**
+   * @type {string}
+   */
+  this.groupId = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -25,13 +25,14 @@ function TranscodeJobResponse(data) {
  * @private
  */
 TranscodeJobResponse.prototype.deserialize = function (data) {
-    this.groupId = data.groupId;
-    this.jobs = data.jobs.map(function (job) {
-        return new Job(job)
-    });
+  this.groupId = data.groupId;
+  this.jobs = data.jobs.map(function (job) {
+    return new Job(job)
+  });
 };
 
 /**
  * @type {TranscodeJobResponse}
  */
-module.exports = TranscodeJobResponse;
+export default TranscodeJobResponse;
+export {TranscodeJobResponse};

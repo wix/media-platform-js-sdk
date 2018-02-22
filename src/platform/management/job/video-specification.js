@@ -1,5 +1,5 @@
-var VideoCodec = require('./video-codec');
-var Resolution = require('./resolution');
+import {VideoCodec} from './video-codec';
+import {Resolution} from './resolution';
 
 /**
  * @param data
@@ -7,29 +7,29 @@ var Resolution = require('./resolution');
  */
 function VideoSpecification(data) {
 
-    /**
-     * @type {string}
-     */
-    this.frameRate = null;
+  /**
+   * @type {string}
+   */
+  this.frameRate = null;
 
-    /**
-     * @type {number}
-     */
-    this.keyFrame = null;
+  /**
+   * @type {number}
+   */
+  this.keyFrame = null;
 
-    /**
-     * @type {VideoCodec}
-     */
-    this.codec = null;
+  /**
+   * @type {VideoCodec}
+   */
+  this.codec = null;
 
-    /**
-     * @type {Resolution}
-     */
-    this.resolution = null;
+  /**
+   * @type {Resolution}
+   */
+  this.resolution = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -37,13 +37,14 @@ function VideoSpecification(data) {
  * @private
  */
 VideoSpecification.prototype.deserialize = function (data) {
-    this.frameRate = data.frameRate;
-    this.keyFrame = data.keyFrame;
-    this.codec = new VideoCodec(data.codec);
-    this.resolution = new Resolution(data.resolution);
+  this.frameRate = data.frameRate;
+  this.keyFrame = data.keyFrame;
+  this.codec = new VideoCodec(data.codec);
+  this.resolution = new Resolution(data.resolution);
 };
 
 /**
  * @type {VideoSpecification}
  */
-module.exports = VideoSpecification;
+export default VideoSpecification;
+export {VideoSpecification};

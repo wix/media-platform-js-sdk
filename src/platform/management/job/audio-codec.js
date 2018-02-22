@@ -4,19 +4,19 @@
  */
 function AudioCodec(data) {
 
-    /**
-     * @type {number}
-     */
-    this.cbr = null;
+  /**
+   * @type {number}
+   */
+  this.cbr = null;
 
-    /**
-     * @type {string}
-     */
-    this.name = null;
+  /**
+   * @type {string}
+   */
+  this.name = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -24,11 +24,12 @@ function AudioCodec(data) {
  * @private
  */
 AudioCodec.prototype.deserialize = function (data) {
-    this.cbr = data.cbr;
-    this.name = data.name;
+  this.cbr = data.cbr;
+  this.name = data.name;
 };
 
 /**
  * @type {AudioCodec}
  */
-module.exports = AudioCodec;
+export default AudioCodec;
+export {AudioCodec};

@@ -54,4 +54,5 @@ FileDownloader.prototype.getDownloadUrl = function (path, downloadUrlRequest, ca
 /**
  * @type {FileDownloader}
  */
-module.exports = FileDownloader;
+export default FileDownloader;
+export {FileDownloader};

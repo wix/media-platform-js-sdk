@@ -4,19 +4,19 @@
  */
 function Source(data) {
 
-    /**
-     * @type {string}
-     */
-    this.fileId = null;
+  /**
+   * @type {string}
+   */
+  this.fileId = null;
 
-    /**
-     * @type {string}
-     */
-    this.path = null;
+  /**
+   * @type {string}
+   */
+  this.path = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -24,8 +24,8 @@ function Source(data) {
  * @returns {Source}
  */
 Source.prototype.setFileId = function (fileId) {
-    this.fileId = fileId;
-    return this;
+  this.fileId = fileId;
+  return this;
 };
 
 /**
@@ -33,8 +33,8 @@ Source.prototype.setFileId = function (fileId) {
  * @returns {Source}
  */
 Source.prototype.setPath = function (path) {
-    this.path = path;
-    return this;
+  this.path = path;
+  return this;
 };
 
 /**
@@ -42,11 +42,12 @@ Source.prototype.setPath = function (path) {
  * @private
  */
 Source.prototype.deserialize = function (data) {
-    this.fileId = data.fileId;
-    this.path = data.path;
+  this.fileId = data.fileId;
+  this.path = data.path;
 };
 
 /**
  * @type {Source}
  */
-module.exports = Source;
+export default Source;
+export {Source};

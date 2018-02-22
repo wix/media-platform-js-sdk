@@ -19,4 +19,5 @@ function Configuration(domain, authenticationUrl) {
 /**
  * @type {Configuration}
  */
-module.exports = Configuration;
+export default Configuration;
+export {Configuration};

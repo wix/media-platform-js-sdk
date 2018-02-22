@@ -1,7 +1,8 @@
 {
   "code": 0,
   "message": "OK",
-  "payload": [{
+  "payload": [
+    {
       "status": "success",
       "specification": {
         "sourceUrl": "string",
@@ -31,5 +32,6 @@
       "type": "urn:job:import.file",
       "groupId": "71f0d3fde7f348ea89aa1173299146f8",
       "issuer": "urn:app:app-id-1"
-    }]
+    }
+  ]
 }

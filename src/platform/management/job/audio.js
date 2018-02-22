@@ -1,4 +1,4 @@
-var AudioSpecification = require('./audio-specification');
+import {AudioSpecification} from './audio-specification';
 
 /**
  * @param data
@@ -6,11 +6,11 @@ var AudioSpecification = require('./audio-specification');
  */
 function Audio(data) {
 
-    this.specification = null;
+  this.specification = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -18,10 +18,11 @@ function Audio(data) {
  * @private
  */
 Audio.prototype.deserialize = function (data) {
-    this.specification = new AudioSpecification(data.specification);
+  this.specification = new AudioSpecification(data.specification);
 };
 
 /**
  * @type {Audio}
  */
-module.exports = Audio;
+export default Audio;
+export {Audio};

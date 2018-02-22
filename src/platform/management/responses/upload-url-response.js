@@ -3,19 +3,19 @@
  */
 function UploadUrlResponse(data) {
 
-    /**
-     * @type {string}
-     */
-    this.uploadToken = null;
+  /**
+   * @type {string}
+   */
+  this.uploadToken = null;
 
-    /**
-     * @type {string}
-     */
-    this.uploadUrl = null;
+  /**
+   * @type {string}
+   */
+  this.uploadUrl = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -23,11 +23,12 @@ function UploadUrlResponse(data) {
  * @private
  */
 UploadUrlResponse.prototype.deserialize = function (data) {
-    this.uploadToken = data.uploadToken;
-    this.uploadUrl = data.uploadUrl;
+  this.uploadToken = data.uploadToken;
+  this.uploadUrl = data.uploadUrl;
 };
 
 /**
  * @type {UploadUrlResponse}
  */
-module.exports = UploadUrlResponse;
+export default UploadUrlResponse;
+export {UploadUrlResponse};

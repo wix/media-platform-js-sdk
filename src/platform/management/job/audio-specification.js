@@ -1,4 +1,4 @@
-var AudioCodec = require('./audio-codec');
+import {AudioCodec} from './audio-codec';
 
 /**
  * @param data
@@ -6,19 +6,19 @@ var AudioCodec = require('./audio-codec');
  */
 function AudioSpecification(data) {
 
-    /**
-     * @type {string}
-     */
-    this.channels = null;
+  /**
+   * @type {string}
+   */
+  this.channels = null;
 
-    /**
-     * @type {AudioCodec}
-     */
-    this.codec = null;
+  /**
+   * @type {AudioCodec}
+   */
+  this.codec = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -26,11 +26,12 @@ function AudioSpecification(data) {
  * @private
  */
 AudioSpecification.prototype.deserialize = function (data) {
-    this.channels = data.channels;
-    this.codec = new AudioCodec(data.codec);
+  this.channels = data.channels;
+  this.codec = new AudioCodec(data.codec);
 };
 
 /**
  * @type {AudioSpecification}
  */
-module.exports = AudioSpecification;
+export default AudioSpecification;
+export {AudioSpecification};

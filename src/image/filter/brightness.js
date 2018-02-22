@@ -1,26 +1,26 @@
-var validator = require('../validation/validator');
+import {validator} from '../validation/validator';
 
 /**
  * @param image
  * @constructor
  */
 function Brightness(image) {
-    
-    this.image = image;
 
+  this.image = image;
+
+  /**
+   * @type {string|null}
+   */
+  this.error = null;
+
+  this.settings = {
     /**
-     * @type {string|null}
+     * @type {number|null}
      */
-    this.error = null;
+    brightness: null
+  };
 
-    this.settings = {
-        /**
-         * @type {number|null}
-         */
-        brightness: null
-    };
-
-    this.brightness = this.brightness.bind(this);
+  this.brightness = this.brightness.bind(this);
 }
 
 /**
@@ -31,13 +31,13 @@ function Brightness(image) {
  */
 Brightness.prototype.brightness = function (brightness) {
 
-    this.error = validator.numberNotInRange('brightness', brightness, -100, 100);
-    if (this.error) {
-        return this.image;
-    }
-
-    this.settings.brightness = brightness === void 0 ? null : brightness;
+  this.error = validator.numberNotInRange('brightness', brightness, -100, 100);
+  if (this.error) {
     return this.image;
+  }
+
+  this.settings.brightness = brightness === void 0 ? null : brightness;
+  return this.image;
 };
 
 /**
@@ -45,19 +45,20 @@ Brightness.prototype.brightness = function (brightness) {
  */
 Brightness.prototype.serialize = function () {
 
-    var out = '';
+  var out = '';
 
-    if (this.settings.brightness) {
-        out += 'br_' + this.settings.brightness;
-    }
+  if (this.settings.brightness) {
+    out += 'br_' + this.settings.brightness;
+  }
 
-    return {
-        params: out,
-        error: this.error
-    };
+  return {
+    params: out,
+    error: this.error
+  };
 };
 
 /**
  * @type {Brightness}
  */
-module.exports = Brightness;
+export default Brightness;
+export {Brightness};

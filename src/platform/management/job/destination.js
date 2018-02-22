@@ -4,24 +4,24 @@
  */
 function Destination(data) {
 
-    /**
-     * @type {string}
-     */
-    this.path = null;
+  /**
+   * @type {string}
+   */
+  this.path = null;
 
-    /**
-     * @type {string}
-     */
-    this.directory = null;
+  /**
+   * @type {string}
+   */
+  this.directory = null;
 
-    /**
-     * @type {string}
-     */
-    this.acl = null;
+  /**
+   * @type {string}
+   */
+  this.acl = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -29,9 +29,9 @@ function Destination(data) {
  * @returns {Destination}
  */
 Destination.prototype.setPath = function (path) {
-    this.path = path;
-    this.directory = null;
-    return this;
+  this.path = path;
+  this.directory = null;
+  return this;
 };
 
 /**
@@ -39,9 +39,9 @@ Destination.prototype.setPath = function (path) {
  * @returns {Destination}
  */
 Destination.prototype.setDirectory = function (directory) {
-    this.directory = directory;
-    this.path = null;
-    return this;
+  this.directory = directory;
+  this.path = null;
+  return this;
 };
 
 /**
@@ -49,8 +49,8 @@ Destination.prototype.setDirectory = function (directory) {
  * @returns {Destination}
  */
 Destination.prototype.setAcl = function (acl) {
-    this.acl = acl;
-    return this;
+  this.acl = acl;
+  return this;
 };
 
 /**
@@ -58,12 +58,13 @@ Destination.prototype.setAcl = function (acl) {
  * @private
  */
 Destination.prototype.deserialize = function (data) {
-    this.path = data.path;
-    this.directory = data.directory;
-    this.acl = data.acl;
+  this.path = data.path;
+  this.directory = data.directory;
+  this.acl = data.acl;
 };
 
 /**
  * @type {Destination}
  */
-module.exports = Destination;
+export default Destination;
+export {Destination};

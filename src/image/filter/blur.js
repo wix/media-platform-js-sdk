@@ -1,26 +1,26 @@
-var validator = require('../validation/validator');
+import {validator} from '../validation/validator';
 
 /**
  * @param image
  * @constructor
  */
 function Blur(image) {
-    
-    this.image = image;
 
+  this.image = image;
+
+  /**
+   * @type {string|null}
+   */
+  this.error = null;
+
+  this.settings = {
     /**
-     * @type {string|null}
+     * @type {number|null}
      */
-    this.error = null;
-    
-    this.settings = {
-        /**
-         * @type {number|null}
-         */
-        percentage: null
-    };
+    percentage: null
+  };
 
-    this.percentage = this.percentage.bind(this);
+  this.percentage = this.percentage.bind(this);
 }
 
 /**
@@ -30,13 +30,13 @@ function Blur(image) {
  */
 Blur.prototype.percentage = function (percentage) {
 
-    this.error = validator.numberNotInRange('blur', percentage, 0, 100);
-    if (this.error) {
-        return this.image;
-    }
-
-    this.settings.percentage = percentage || null;
+  this.error = validator.numberNotInRange('blur', percentage, 0, 100);
+  if (this.error) {
     return this.image;
+  }
+
+  this.settings.percentage = percentage || null;
+  return this.image;
 };
 
 /**
@@ -44,19 +44,20 @@ Blur.prototype.percentage = function (percentage) {
  */
 Blur.prototype.serialize = function () {
 
-    var out = '';
+  var out = '';
 
-    if (this.settings.percentage) {
-        out += 'blur_' + this.settings.percentage;
-    }
+  if (this.settings.percentage) {
+    out += 'blur_' + this.settings.percentage;
+  }
 
-    return {
-        params: out,
-        error: this.error
-    };
+  return {
+    params: out,
+    error: this.error
+  };
 };
 
 /**
  * @type {Blur}
  */
-module.exports = Blur;
+export default Blur;
+export {Blur};

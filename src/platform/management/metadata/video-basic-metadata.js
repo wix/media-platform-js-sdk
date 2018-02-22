@@ -1,35 +1,35 @@
-var VideoStream = require('./video-stream');
-var AudioStream = require('./audio-stream');
-var VideoFormat = require('./video-format');
+import {VideoStream} from './video-stream';
+import {AudioStream} from './audio-stream';
+import {VideoFormat} from './video-format';
 
 /**
  * @constructor
  */
 function VideoBasicMetadata(data) {
 
-    /**
-     * @type {boolean}
-     */
-    this.interlaced = null;
+  /**
+   * @type {boolean}
+   */
+  this.interlaced = null;
 
-    /**
-     * @type {Array<VideoStream>}
-     */
-    this.videoStreams = null;
+  /**
+   * @type {Array<VideoStream>}
+   */
+  this.videoStreams = null;
 
-    /**
-     * @type {Array<AudioStream>}
-     */
-    this.audioStreams = null;
+  /**
+   * @type {Array<AudioStream>}
+   */
+  this.audioStreams = null;
 
-    /**
-     * @type {VideoFormat}
-     */
-    this.format = null;
+  /**
+   * @type {VideoFormat}
+   */
+  this.format = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -37,18 +37,19 @@ function VideoBasicMetadata(data) {
  * @private
  */
 VideoBasicMetadata.prototype.deserialize = function (data) {
-    this.interlaced = data.interlaced;
-    this.videoStreams = data.videoStreams.map(function (videoStream) {
-        return new VideoStream(videoStream)
-    });
-    this.audioStreams = data.audioStreams.map(function (audioStream) {
-        return new AudioStream(audioStream)
-    });
-    this.format = new VideoFormat(data.format);
+  this.interlaced = data.interlaced;
+  this.videoStreams = data.videoStreams.map(function (videoStream) {
+    return new VideoStream(videoStream)
+  });
+  this.audioStreams = data.audioStreams.map(function (audioStream) {
+    return new AudioStream(audioStream)
+  });
+  this.format = new VideoFormat(data.format);
 };
 
 
 /**
  * @type {VideoBasicMetadata}
  */
-module.exports = VideoBasicMetadata;
+export default VideoBasicMetadata;
+export {VideoBasicMetadata};

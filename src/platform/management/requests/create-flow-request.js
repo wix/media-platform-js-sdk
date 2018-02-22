@@ -1,4 +1,4 @@
-var Invocation = require('../metadata/invocation');
+import {Invocation} from '../metadata/invocation';
 
 
 /**
@@ -6,49 +6,50 @@ var Invocation = require('../metadata/invocation');
  */
 function CreateFlowRequest(data) {
 
-    /**
-     * @type {Invocation}
-     */
-    this.invocation = null;
+  /**
+   * @type {Invocation}
+   */
+  this.invocation = null;
 
-    /**
-     * @type {{}}
-     */
-    this.flow = {};
+  /**
+   * @type {{}}
+   */
+  this.flow = {};
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
  * @returns {CreateFlowRequest}
  */
 CreateFlowRequest.prototype.setInvocation = function (invocation) {
-    this.invocation = invocation;
-    return this;
+  this.invocation = invocation;
+  return this;
 };
 
-CreateFlowRequest.prototype.setFlowComponents = function(flowComponents) {
-    this.flow = flowComponents;
-    return this;
+CreateFlowRequest.prototype.setFlowComponents = function (flowComponents) {
+  this.flow = flowComponents;
+  return this;
 };
 
-CreateFlowRequest.prototype.addFlowComponent = function(name, flowComponent) {
-    if(!this.flow) {
-        this.flow = {};
-    }
+CreateFlowRequest.prototype.addFlowComponent = function (name, flowComponent) {
+  if (!this.flow) {
+    this.flow = {};
+  }
 
-    this.flow[name] = flowComponent;
-    return this;
+  this.flow[name] = flowComponent;
+  return this;
 };
 
-CreateFlowRequest.prototype.deserialize = function(data) {
-    this.flow = data.flow;
-    this.invocation = data.invocation;
+CreateFlowRequest.prototype.deserialize = function (data) {
+  this.flow = data.flow;
+  this.invocation = data.invocation;
 };
 
 /**
  * @type {CreateFlowRequest}
  */
-module.exports = CreateFlowRequest;
+export default CreateFlowRequest;
+export {CreateFlowRequest};

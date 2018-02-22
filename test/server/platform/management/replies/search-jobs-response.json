@@ -43,10 +43,12 @@
         "groupId": "e8e1d5908cde4883ac30176f5ebdd68f",
         "dateUpdated": "2017-05-23T23:14:31Z",
         "dateCreated": "2017-05-23T23:14:20Z",
-        "sources": [{
-          "path": "/_end2end_test/uploaded/49c15451069444889093e8da6b715643.mp4",
-          "fileId": "49c15451069444889093e8da6b715643"
-        }],
+        "sources": [
+          {
+            "path": "/_end2end_test/uploaded/49c15451069444889093e8da6b715643.mp4",
+            "fileId": "49c15451069444889093e8da6b715643"
+          }
+        ],
         "specification": {
           "destination": {
             "directory": null,
@@ -118,6 +120,7 @@
             }
           }
         }
-      }]
+      }
+    ]
   }
 }

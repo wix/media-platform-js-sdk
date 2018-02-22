@@ -1,11 +1,11 @@
-var mediaPlatform = require('../facades/media-platform-facade').mediaPlatform;
-var ListFilesRequest = require('../../../src/index').file.ListFilesRequest;
-var ImportFileRequest = require('../../../src/index').file.ImportFileRequest;
-var Destination = require('../../../src/index').file.Destination;
+import {mediaPlatform} from '../facades/media-platform-facade';
+import {ListFilesRequest} from '../../../src/platform/management/requests/list-files-request';
+import {ImportFileRequest} from '../../../src/platform/management/requests/import-file-request';
+import {Destination} from '../../../src';
 
 var fileManager = mediaPlatform.fileManager;
 
-module.exports = function(app) {
+export default function(app) {
 
     app.get('/media-platform/file/upload/url', function(req, res) {
         fileManager.getUploadUrl(null, function (error, uploadCredentials) {

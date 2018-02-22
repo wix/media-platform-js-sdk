@@ -3,23 +3,23 @@
  */
 function DownloadUrlRequest() {
 
-    /**
-     * @description the token time to live in seconds
-     * @type {number}
-     */
-    this.ttl = 600;
+  /**
+   * @description the token time to live in seconds
+   * @type {number}
+   */
+  this.ttl = 600;
 
-    /**
-     * @description Content-Disposition header, if provided the content disposition is set to attachment with the provided file name
-     * @type {{filename: <string>}}
-     */
-    this.attachment = null;
+  /**
+   * @description Content-Disposition header, if provided the content disposition is set to attachment with the provided file name
+   * @type {{filename: <string>}}
+   */
+  this.attachment = null;
 
-    /**
-     * @description if the token expired, will redirect to this provided url
-     * @type {string | null}
-     */
-    this.onExpireRedirectTo = null;
+  /**
+   * @description if the token expired, will redirect to this provided url
+   * @type {string | null}
+   */
+  this.onExpireRedirectTo = null;
 }
 
 /**
@@ -27,8 +27,8 @@ function DownloadUrlRequest() {
  * @returns {DownloadUrlRequest}
  */
 DownloadUrlRequest.prototype.setTTL = function (ttl) {
-    this.ttl = ttl;
-    return this;
+  this.ttl = ttl;
+  return this;
 };
 
 /**
@@ -36,12 +36,12 @@ DownloadUrlRequest.prototype.setTTL = function (ttl) {
  * @returns {DownloadUrlRequest}
  */
 DownloadUrlRequest.prototype.setAttachment = function (filename) {
-    this.attachment = {};
-    if (filename) {
-        this.attachment.filename = filename;
-    }
+  this.attachment = {};
+  if (filename) {
+    this.attachment.filename = filename;
+  }
 
-    return this;
+  return this;
 };
 
 /**
@@ -49,11 +49,12 @@ DownloadUrlRequest.prototype.setAttachment = function (filename) {
  * @returns {DownloadUrlRequest}
  */
 DownloadUrlRequest.prototype.setOnExpireRedirectTo = function (onExpireRedirectTo) {
-    this.onExpireRedirectTo = onExpireRedirectTo;
-    return this;
+  this.onExpireRedirectTo = onExpireRedirectTo;
+  return this;
 };
 
 /**
  * @type {DownloadUrlRequest}
  */
-module.exports = DownloadUrlRequest;
+export default DownloadUrlRequest;
+export {DownloadUrlRequest};
