@@ -7,21 +7,17 @@ import {WebhookEvent} from './webhook-event';
 
 class WebhookDeserializer {
   constructor(authenticator) {
-
-
     /**
      * @type {Authenticator}
      */
     this.authenticator = authenticator;
   }
 
-
   /**
    * @param {String} signedToken
    * @returns {WebhookEvent|null}
    */
   deserialize(signedToken) {
-
     var claims = this.authenticator.decode(signedToken);
     if (!claims) {
       return null;
@@ -29,9 +25,7 @@ class WebhookDeserializer {
 
     return new WebhookEvent(claims.event);
   }
-
 }
-
 
 /**
  * @type {WebhookDeserializer}

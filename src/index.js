@@ -22,27 +22,22 @@ import {NS} from './platform/authentication/NS';
 import {VERB} from './platform/authentication/VERB';
 
 export {
-
   /**
    * @type {MediaPlatform}
    */
     MediaPlatform,
-
   /**
    * @type {Image}
    */
     Image,
-
   /**
    *  @type {Source}
    */
     Source,
-
   /**
    *  @type {Destination}
    */
     Destination,
-
   /**
    * @type {QualityRange}
    */
@@ -50,7 +45,6 @@ export {
 };
 
 export const image = {
-
   /**
    * @type {Image}
    */

@@ -14,8 +14,9 @@ import {ImageManager} from '../../src/platform/management/image-manager';
  * @param {Configuration} configuration
  * @constructor
  */
-function MediaPlatform(configuration) {
 
+class MediaPlatform {
+  constructor(configuration) {
     /**
      * @type {HTTPClient}
      */
@@ -39,14 +40,14 @@ function MediaPlatform(configuration) {
      * @param {function(Error, {Authorization: <string>} | null)} callback
      */
     this.getAuthorizationHeader = function (callback) {
-        browserHTTPClient.getAuthorizationHeader(callback);
+      browserHTTPClient.getAuthorizationHeader(callback);
     };
 
     /**
      * log out the user
      */
     this.deauthorize = function () {
-        browserHTTPClient.deauthorize();
+      browserHTTPClient.deauthorize();
     };
 
     /**
@@ -64,7 +65,7 @@ function MediaPlatform(configuration) {
      * @returns {QueuedFileUploader}
      */
     this.fileManager.queueFileUpload = function (uploadJob) {
-        return queuedFileUploader.enqueue(uploadJob);
+      return queuedFileUploader.enqueue(uploadJob);
     };
 
     /**
@@ -73,7 +74,7 @@ function MediaPlatform(configuration) {
      * @param {function(Error, *)} callback
      */
     this.getDownloadUrl = function (path, downloadUrlRequest, callback) {
-        fileDownloader.getDownloadUrl(path, downloadUrlRequest, callback);
+      fileDownloader.getDownloadUrl(path, downloadUrlRequest, callback);
     };
 
     /**
@@ -100,6 +101,7 @@ function MediaPlatform(configuration) {
      * @type {ImageManager}
      */
     this.imageManager = new ImageManager(configuration, browserHTTPClient);
+  }
 }
 
 /**

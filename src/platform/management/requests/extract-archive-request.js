@@ -4,8 +4,6 @@
 
 class ExtractArchiveRequest {
   constructor() {
-
-
     /**
      * @type {Source}
      */
@@ -17,30 +15,24 @@ class ExtractArchiveRequest {
     this.destination = null;
   }
 
-
   /**
    * @param {Source} source
    * @returns {ExtractArchiveRequest}
    */
   setSource(source) {
-
     this.source = source;
     return this;
   }
-
 
   /**
    * @param {Destination} destination
    * @returns {ExtractArchiveRequest}
    */
   setDestination(destination) {
-
     this.destination = destination;
     return this;
   }
-
 }
-
 
 /**
  * @type {CreateArchiveRequest}

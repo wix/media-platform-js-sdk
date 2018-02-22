@@ -13,8 +13,6 @@ import {Job} from './job/job';
 
 class FileManager {
   constructor(configuration, httpClient, fileUploader) {
-
-
     /**
      * @type {Configuration}
      */
@@ -41,16 +39,13 @@ class FileManager {
     this.fileUploader = fileUploader;
   }
 
-
   /**
    * @param {UploadUrlRequest?} uploadUrlRequest
    * @param {function(Error, UploadUrlResponse)} callback
    */
   getUploadUrl(uploadUrlRequest, callback) {
-
     this.fileUploader.getUploadUrl(uploadUrlRequest, callback);
   }
-
 
   /**
    * @description upload a file
@@ -60,10 +55,8 @@ class FileManager {
    * @param {function(Error, Array<FileDescriptor>|null)} callback
    */
   uploadFile(path, file, uploadRequest, callback) {
-
     return this.fileUploader.uploadFile(path, file, uploadRequest, callback);
   }
-
 
   /**
    * @description import a file from a source URL, returns a Job (see job manager)
@@ -71,9 +64,8 @@ class FileManager {
    * @param {function(Error, Job|null)} callback
    */
   importFile(importFileRequest, callback) {
-
-    this.httpClient.request('POST', this.baseUrl + '/_api/import/file', importFileRequest, null, function (error, response) {
-
+    this.httpClient.request('POST', this.baseUrl + '/_api/import/file', importFileRequest, null, function (error,
+                                                                                                           response) {
       if (error) {
         callback(error, null);
         return;
@@ -83,16 +75,13 @@ class FileManager {
     });
   }
 
-
   /**
    * @description creates a file descriptor, use this to create an empty directory
    * @param {FileDescriptor} fileDescriptor
    * @param {function(Error, FileDescriptor)} callback
    */
   createFile(fileDescriptor, callback) {
-
     this.httpClient.request('POST', this.apiUrl, fileDescriptor, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -101,21 +90,17 @@ class FileManager {
       callback(null, new FileDescriptor(response.payload));
     });
   }
-
 
   /**
    * @param {string} path
    * @param {function(Error, FileDescriptor)} callback
    */
   getFile(path, callback) {
-
-
     var params = {
       path: path
     };
 
     this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -125,16 +110,12 @@ class FileManager {
     });
   }
 
-
   /**
    * @param {string} fileId
    * @param {function(Error, FileMetadata)} callback
    */
   getFileMetadataById(fileId, callback) {
-
-
     this.httpClient.request('GET', this.apiUrl + '/' + fileId + '/metadata', {}, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -144,22 +125,18 @@ class FileManager {
     });
   }
 
-
   /**
    * @param {string} path
    * @param {ListFilesRequest?} listFilesRequest
    * @param {function(Error, ListFilesResponse)} callback
    */
   listFiles(path, listFilesRequest, callback) {
-
-
     var params = {
       path: path
     };
     _.extendOwn(params, listFilesRequest);
 
     this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -169,20 +146,16 @@ class FileManager {
     });
   }
 
-
   /**
    * @param {string} path
    * @param {function(Error)} callback
    */
   deleteFileByPath(path, callback) {
-
-
     var params = {
       path: path
     };
 
     this.httpClient.request('DELETE', this.apiUrl, params, null, function (error, response) {
-
       if (error) {
         callback(error);
         return;
@@ -191,17 +164,13 @@ class FileManager {
       callback(null);
     });
   }
-
 
   /**
    * @param {string} id
    * @param {function(Error)} callback
    */
   deleteFileById(id, callback) {
-
-
     this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, null, function (error, response) {
-
       if (error) {
         callback(error);
         return;
@@ -210,9 +179,7 @@ class FileManager {
       callback(null);
     });
   }
-
 }
-
 
 /**
  * @type {FileManager}

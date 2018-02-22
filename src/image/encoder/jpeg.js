@@ -7,8 +7,6 @@ import {validator} from '../validation/validator';
 
 class JPEG {
   constructor(image) {
-
-
     this.image = image;
 
     /**
@@ -31,7 +29,6 @@ class JPEG {
     this.compression = this.compression.bind(this);
   }
 
-
   /**
    * @summary The quality constraint, if the image is a jpg
    * @param {number?} quality a number from `0` to `100`
@@ -39,8 +36,6 @@ class JPEG {
    * @returns {*} the operation
    */
   compression(quality, baseline) {
-
-
     quality = Math.round(quality || 0);
     this.error = validator.numberNotInRange('jpeg compression quality', quality, 0, 100);
     if (this.error) {
@@ -57,13 +52,10 @@ class JPEG {
     return this.image;
   }
 
-
   /**
    * @returns {string}
    */
   serialize() {
-
-
     var out = '';
 
     if (this.settings.quality) {
@@ -75,7 +67,7 @@ class JPEG {
         out += ',';
       }
 
-      out += 'bl'
+      out += 'bl';
     }
 
     return {
@@ -83,9 +75,7 @@ class JPEG {
       error: this.error
     };
   }
-
 }
-
 
 /**
  * @type {JPEG}

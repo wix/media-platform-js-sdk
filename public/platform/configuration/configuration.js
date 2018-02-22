@@ -3,8 +3,9 @@
  * @param {string} authenticationUrl
  * @constructor
  */
-function Configuration(domain, authenticationUrl) {
 
+class Configuration {
+  constructor(domain, authenticationUrl) {
     /**
      * @type {string}
      */
@@ -14,6 +15,7 @@ function Configuration(domain, authenticationUrl) {
      * @type {string}
      */
     this.authenticationUrl = authenticationUrl;
+  }
 }
 
 /**

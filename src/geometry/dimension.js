@@ -6,7 +6,6 @@
 
 class Dimension {
   constructor(width, height) {
-
     /**
      * @type {number|null}
      */
@@ -18,30 +17,24 @@ class Dimension {
     this.height = height || null;
   }
 
-
   /**
    * @param {number} width
    * @returns {Dimension}
    */
   setWidth(width) {
-
     this.width = width;
     return this;
   }
-
 
   /**
    * @param {number} height
    * @returns {Dimension}
    */
   setHeight(height) {
-
     this.height = height;
     return this;
   }
-
 }
-
 
 /**
  * @type {Dimension}

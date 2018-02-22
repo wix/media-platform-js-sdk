@@ -12,8 +12,6 @@ import {FileDescriptor} from './metadata/file-descriptor';
 
 class FileUploader {
   constructor(configuration, httpClient) {
-
-
     /**
      * @type {Configuration}
      */
@@ -30,26 +28,21 @@ class FileUploader {
     this.apiUrl = 'https://' + configuration.domain + '/_api/upload';
   }
 
-
   /**
    * @description retrieve a signed URL to which the file is uploaded
    * @param {UploadUrlRequest?} uploadUrlRequest
    * @param {function(Error, UploadUrlResponse)} callback
    */
   getUploadUrl(uploadUrlRequest, callback) {
-
-
     this.httpClient.request('GET', this.apiUrl + '/url', uploadUrlRequest, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
       }
 
-      callback(null, new UploadUrlResponse(response.payload))
-    })
+      callback(null, new UploadUrlResponse(response.payload));
+    });
   }
-
 
   /**
    * @description upload a file
@@ -59,8 +52,6 @@ class FileUploader {
    * @param {function(Error, Array<FileDescriptor>|null)} callback
    */
   uploadFile(path, file, uploadRequest, callback) {
-
-
     var calledBack = false;
     var stream = null;
     var size = null;
@@ -101,25 +92,26 @@ class FileUploader {
       }
     }
 
-    this.getUploadUrl(uploadUrlRequest, function (error, response) {
+    this.getUploadUrl(
+      uploadUrlRequest,
+      function (error, response) {
+        if (error) {
+          doCallback(error, null);
+          return;
+        }
 
-      if (error) {
-        doCallback(error, null);
-        return;
-      }
+        var form = {
+          file: stream,
+          path: path,
+          uploadToken: response.uploadToken
+        };
+        if (uploadRequest) {
+          _.extendOwn(form, uploadRequest);
+        }
 
-      var form = {
-        file: stream,
-        path: path,
-        uploadToken: response.uploadToken
-      };
-      if (uploadRequest) {
-        _.extendOwn(form, uploadRequest);
-      }
-
-      this.httpClient.postForm(response.uploadUrl, form, null, doCallback);
-
-    }.bind(this));
+        this.httpClient.postForm(response.uploadUrl, form, null, doCallback);
+      }.bind(this)
+    );
 
     function doCallback(error, response) {
       if (!calledBack) {
@@ -134,9 +126,7 @@ class FileUploader {
       }
     }
   }
-
 }
-
 
 /**
  * @type {FileUploader}

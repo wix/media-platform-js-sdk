@@ -10,14 +10,11 @@ import {NS} from './NS';
 
 class Authenticator {
   constructor(configuration) {
-
-
     /**
      * @type {Configuration}
      */
     this.configuration = configuration;
   }
-
 
   /**
    * @summary Generates a provisional authentication header
@@ -25,7 +22,6 @@ class Authenticator {
    * @returns {{}} The self signed authentication header
    */
   getHeader(token) {
-
     var t = token;
     if (!token) {
       t = new Token()
@@ -38,17 +34,14 @@ class Authenticator {
     };
   }
 
-
   /**
    * @summary sign a JWT
    * @param {Token} token
    * @returns {string|null} The JWT payload
    */
   encode(token) {
-
     return jwt.sign(token.toClaims(), this.configuration.sharedSecret);
   }
-
 
   /**
    * @summary decodes a signed JWT
@@ -56,7 +49,6 @@ class Authenticator {
    * @returns {{}|null} The JWT payload
    */
   decode(signedToken) {
-
     try {
       return jwt.verify(signedToken, this.configuration.sharedSecret, {
         ignoreExpiration: true,
@@ -68,9 +60,7 @@ class Authenticator {
       return null;
     }
   }
-
 }
-
 
 /**
  * @type {Authenticator}

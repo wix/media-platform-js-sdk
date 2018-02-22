@@ -7,7 +7,6 @@ import {Destination} from '../job/destination';
 
 class Dvr {
   constructor(data) {
-
     this.destination = null;
 
     if (data) {
@@ -15,16 +14,13 @@ class Dvr {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.destination = new Destination(data.destination);
   }
-
 
   /**
    *
@@ -32,13 +28,10 @@ class Dvr {
    * @returns {Dvr}
    */
   setDestination(destination) {
-
     this.destination = destination;
     return this;
   }
-
 }
-
 
 /**
  * @type {Dvr}

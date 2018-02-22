@@ -7,8 +7,6 @@ import _ from 'underscore';
 
 class Token {
   constructor() {
-
-
     /**
      * @description the issuer of the token
      * @type {string}
@@ -65,7 +63,6 @@ class Token {
     this.additionalClaims = {};
   }
 
-
   /**
    * @description sets the issuer of the token
    * @param {string} ns
@@ -73,11 +70,9 @@ class Token {
    * @returns {Token}
    */
   setIssuer(ns, identifier) {
-
     this.issuer = ns + identifier;
     return this;
   }
-
 
   /**
    * @description sets the subject (actor) of the operation
@@ -86,11 +81,9 @@ class Token {
    * @returns {Token}
    */
   setSubject(ns, identifier) {
-
     this.subject = ns + identifier;
     return this;
   }
-
 
   /**
    * @deprecated incorrect representation, use setObjects instead
@@ -100,11 +93,9 @@ class Token {
    * @returns {Token}
    */
   setObject(ns, pattern) {
-
     this.subject = ns + pattern;
     return this;
   }
-
 
   /**
    * @description sets the object, the entity on which the action is taken
@@ -112,11 +103,9 @@ class Token {
    * @returns {Token}
    */
   setObjects(objects) {
-
     this.objects = objects;
     return this;
   }
-
 
   /**
    * @description sets the expiration in UNIX TIME
@@ -124,11 +113,9 @@ class Token {
    * @returns {Token}
    */
   setExpiration(expiration) {
-
     this.expiration = expiration;
     return this;
   }
-
 
   /**
    * @description add to the list of operations permitted by this token
@@ -136,11 +123,9 @@ class Token {
    * @returns {Token}
    */
   addVerbs(verbs) {
-
     this.verbs.concat(Array.from(arguments));
     return this;
   }
-
 
   /**
    * @description set the list of operations permitted by this token
@@ -148,11 +133,9 @@ class Token {
    * @returns {Token}
    */
   setVerbs(verbs) {
-
     this.verbs = verbs;
     return this;
   }
-
 
   /**
    * @description set any arbitrary claims in the token (be careful not override any of the standard claims)
@@ -160,19 +143,15 @@ class Token {
    * @returns {Token}
    */
   setAdditionalClaims(additionalClaims) {
-
     this.additionalClaims = additionalClaims;
     return this;
   }
-
 
   /**
    * @description return the JWT claims dictionary
    * @returns {{}}
    */
   toClaims() {
-
-
     var claims = {
       sub: this.subject,
       obj: this.objects || this.object,
@@ -186,11 +165,9 @@ class Token {
       _.extendOwn(claims, this.additionalClaims);
     }
 
-    return claims
+    return claims;
   }
-
 }
-
 
 /**
  * @type {Token}

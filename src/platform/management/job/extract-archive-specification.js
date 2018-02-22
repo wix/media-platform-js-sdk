@@ -8,8 +8,6 @@ import {Destination} from './destination';
 
 class ExtractArchiveSpecification {
   constructor(data) {
-
-
     /**
      * @type {Source}
      */
@@ -25,19 +23,15 @@ class ExtractArchiveSpecification {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.sources = new Source(data.source);
     this.destination = new Destination(data.destination);
   }
-
 }
-
 
 /**
  * @type {ExtractArchiveSpecification}

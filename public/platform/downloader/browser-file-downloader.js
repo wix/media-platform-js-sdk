@@ -3,7 +3,9 @@
  * @param {HTTPClient} httpClient
  * @constructor
  */
-function FileDownloader(configuration, httpClient) {
+
+class FileDownloader {
+  constructor(configuration, httpClient) {
     /**
      * @type {Configuration}
      */
@@ -13,43 +15,47 @@ function FileDownloader(configuration, httpClient) {
      * @type {HTTPClient}
      */
     this.httpClient = httpClient;
-}
+  }
 
-/**
- * @param {string} path
- * @param {DownloadUrlRequest?} downloadUrlRequest
- * @param {function(Error|null, Object)} callback
- */
-FileDownloader.prototype.getDownloadUrl = function (path, downloadUrlRequest, callback) {
-
+  /**
+   * @param {string} path
+   * @param {DownloadUrlRequest?} downloadUrlRequest
+   * @param {function(Error|null, Object)} callback
+   */
+  getDownloadUrl(path, downloadUrlRequest, callback) {
     var params = {
-        path: path
+      path: path
     };
 
     // todo: seems redundant... already handled in the the HttpClient
     if (downloadUrlRequest) {
-        for (var key in downloadUrlRequest) {
-            if (downloadUrlRequest.hasOwnProperty(key)) {
-                if (typeof downloadUrlRequest[key] === 'function' || downloadUrlRequest[key] === null) {
-                    continue;
-                }
+      for (var key in downloadUrlRequest) {
+        if (downloadUrlRequest.hasOwnProperty(key)) {
+          if (typeof downloadUrlRequest[key] === 'function' || downloadUrlRequest[key] === null) {
+            continue;
+          }
 
-                params[key] = downloadUrlRequest[key];
-            }
+          params[key] = downloadUrlRequest[key];
         }
+      }
     }
 
-    this.httpClient.request('GET', 'https://' + this.configuration.domain + '/_api/download/secure_url', params, null,
-        function (error, body) {
+    this.httpClient.request(
+      'GET',
+      'https://' + this.configuration.domain + '/_api/download/secure_url',
+      params,
+      null,
+      function (error, body) {
+        if (error) {
+          callback(error, null);
+          return;
+        }
 
-            if (error) {
-                callback(error, null);
-                return;
-            }
-
-            callback(null, body.payload);
-        })
-};
+        callback(null, body.payload);
+      }
+    );
+  }
+}
 
 /**
  * @type {FileDownloader}

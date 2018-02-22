@@ -4,8 +4,6 @@
 
 class DownloadUrlRequest {
   constructor() {
-
-
     /**
      * @description the token time to live in seconds
      * @type {number}
@@ -25,24 +23,20 @@ class DownloadUrlRequest {
     this.onExpireRedirectTo = null;
   }
 
-
   /**
    * @param {number} ttl
    * @returns {DownloadUrlRequest}
    */
   setTTL(ttl) {
-
     this.ttl = ttl;
     return this;
   }
-
 
   /**
    * @param {string?} filename
    * @returns {DownloadUrlRequest}
    */
   setAttachment(filename) {
-
     this.attachment = {};
     if (filename) {
       this.attachment.filename = filename;
@@ -51,19 +45,15 @@ class DownloadUrlRequest {
     return this;
   }
 
-
   /**
    * @param {string} onExpireRedirectTo
    * @returns {DownloadUrlRequest}
    */
   setOnExpireRedirectTo(onExpireRedirectTo) {
-
     this.onExpireRedirectTo = onExpireRedirectTo;
     return this;
   }
-
 }
-
 
 /**
  * @type {DownloadUrlRequest}

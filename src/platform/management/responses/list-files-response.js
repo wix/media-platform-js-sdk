@@ -6,8 +6,6 @@ import {FileDescriptor} from '../metadata/file-descriptor';
 
 class ListFilesResponse {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -23,21 +21,17 @@ class ListFilesResponse {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.nextPageToken = data.nextPageToken;
     this.files = data.files.map(function (file) {
-      return new FileDescriptor(file)
+      return new FileDescriptor(file);
     });
   }
-
 }
-
 
 /**
  * @type {ListFilesResponse}

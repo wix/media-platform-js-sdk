@@ -9,7 +9,6 @@ import {validator} from '../validation/validator';
 
 class Fit {
   constructor(width, height) {
-
     this.name = 'fit';
 
     /**
@@ -25,14 +24,12 @@ class Fit {
     this.coordinates(width, height);
   }
 
-
   /**
    * @param {number?} x the x value
    * @param {number?} y the y value
    * @returns {Fit}
    */
   coordinates(x, y) {
-
     if (arguments.length === 0) {
       this.x = null;
       this.y = null;
@@ -45,7 +42,6 @@ class Fit {
     return this;
   }
 
-
   /**
    * @summary The width constraint
    * @param {number} width a number greater than `0`
@@ -53,19 +49,15 @@ class Fit {
    * @returns {*} the operation
    */
   size(width, height) {
-
     this.width = Math.round(width);
     this.height = Math.round(height);
     return this;
   }
 
-
   /**
    * @returns {{params: string || null, error: *}}
    */
   serialize() {
-
-
     var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
     var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
 
@@ -83,9 +75,7 @@ class Fit {
       error: null
     };
   }
-
 }
-
 
 /**
  * @type {Fit}

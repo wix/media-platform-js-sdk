@@ -7,8 +7,6 @@ import {AudioSpecification} from './audio-specification';
 
 class Audio {
   constructor(data) {
-
-
     this.specification = null;
 
     if (data) {
@@ -16,18 +14,14 @@ class Audio {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.specification = new AudioSpecification(data.specification);
   }
-
 }
-
 
 /**
  * @type {Audio}

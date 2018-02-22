@@ -7,8 +7,6 @@ import {validator} from '../validation/validator';
 
 class Saturation {
   constructor(image) {
-
-
     this.image = image;
 
     /**
@@ -26,15 +24,12 @@ class Saturation {
     this.saturation = this.saturation.bind(this);
   }
 
-
   /**
    * @summary saturation of the image.
    * @param {number?} saturation a Number between `-100` and `100`
    * @returns {*} the operation
    */
   saturation(saturation) {
-
-
     this.error = validator.numberNotInRange('saturation', saturation, -100, 100);
     if (this.error) {
       return this.image;
@@ -44,13 +39,10 @@ class Saturation {
     return this.image;
   }
 
-
   /**
    * @returns {string}
    */
   serialize() {
-
-
     var out = '';
 
     if (this.settings.saturation) {
@@ -62,9 +54,7 @@ class Saturation {
       error: this.error
     };
   }
-
 }
-
 
 /**
  * @type {Saturation}

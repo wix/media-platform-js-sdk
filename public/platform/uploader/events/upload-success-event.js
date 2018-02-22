@@ -7,7 +7,9 @@ import {UploadEvent} from './upload-event';
  * @param {Array<FileDescriptor>} fileDescriptors
  * @constructor
  */
-function UploadSuccessEvent(target, response, fileDescriptors) {
+
+class UploadSuccessEvent {
+  constructor(target, response, fileDescriptors) {
     UploadEvent.call(this, target, response);
 
     /**
@@ -19,7 +21,9 @@ function UploadSuccessEvent(target, response, fileDescriptors) {
      * @type {Array<FileDescriptor>}
      */
     this.fileDescriptors = fileDescriptors;
+  }
 }
+
 inherits(UploadSuccessEvent, UploadEvent);
 
 /**

@@ -5,8 +5,6 @@
 
 class Resolution {
   constructor(data) {
-
-
     /**
      * @type {number}
      */
@@ -22,19 +20,15 @@ class Resolution {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.width = data.width;
     this.height = data.height;
   }
-
 }
-
 
 /**
  * @type {Resolution}

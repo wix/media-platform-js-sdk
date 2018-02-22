@@ -4,8 +4,6 @@
 
 class Label {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -21,25 +19,18 @@ class Label {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.name = data.name;
     this.score = data.score;
   }
-
 }
-
 
 /**
  * @type {Label}
  */
 export default Label;
 export {Label};
-
-
-

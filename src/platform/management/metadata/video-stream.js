@@ -4,8 +4,6 @@
 
 class VideoStream {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -71,13 +69,11 @@ class VideoStream {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.codecLongName = data.codecLongName;
     this.codecTag = data.codecTag;
     this.codecName = data.codecName;
@@ -91,9 +87,7 @@ class VideoStream {
     this.sampleAspectRatio = data.sampleAspectRatio;
     this.displayAspectRatio = data.displayAspectRatio;
   }
-
 }
-
 
 /**
  * @type {VideoStream}

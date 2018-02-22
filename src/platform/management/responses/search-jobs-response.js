@@ -6,8 +6,6 @@ import {Job} from '../job/job';
 
 class SearchJobsResponse {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -23,21 +21,17 @@ class SearchJobsResponse {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.nextPageToken = data.nextPageToken;
     this.jobs = data.jobs.map(function (job) {
-      return new Job(job)
+      return new Job(job);
     });
   }
-
 }
-
 
 /**
  * @type {SearchJobsResponse}

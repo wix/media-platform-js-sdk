@@ -6,8 +6,6 @@ import {Job} from '../job/job';
 
 class TranscodeJobResponse {
   constructor(data) {
-
-
     /**
      * @type {Array<Job>}
      */
@@ -23,21 +21,17 @@ class TranscodeJobResponse {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.groupId = data.groupId;
     this.jobs = data.jobs.map(function (job) {
-      return new Job(job)
+      return new Job(job);
     });
   }
-
 }
-
 
 /**
  * @type {TranscodeJobResponse}

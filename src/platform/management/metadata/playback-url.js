@@ -5,8 +5,6 @@
 
 class PlaybackUrl {
   constructor(data) {
-
-
     /**
      *
      * @type {String}
@@ -24,17 +22,14 @@ class PlaybackUrl {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.path = data.path;
     this.packageName = data.packageName;
   }
-
 
   /**
    *
@@ -42,11 +37,9 @@ class PlaybackUrl {
    * @returns {PlaybackUrl}
    */
   setPath(path) {
-
     this.path = path;
     return this;
   }
-
 
   /**
    *
@@ -54,13 +47,10 @@ class PlaybackUrl {
    * @returns {PlaybackUrl}
    */
   setPackageName(packageName) {
-
     this.packageName = packageName;
     return this;
   }
-
 }
-
 
 /**
  * @type {PlaybackUrl}

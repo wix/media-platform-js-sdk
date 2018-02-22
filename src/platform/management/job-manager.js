@@ -10,8 +10,6 @@ import {SearchJobsResponse} from './responses/search-jobs-response';
 
 class JobManager {
   constructor(configuration, httpClient) {
-
-
     /**
      * @type {Configuration}
      */
@@ -31,18 +29,14 @@ class JobManager {
      * @type {string}
      */
     this.apiUrl = this.baseUrl + '/_api/jobs';
-
   }
-
 
   /**
    * @param {string} jobId
    * @param {function(Error, Job)} callback
    */
   getJob(jobId, callback) {
-
     this.httpClient.request('GET', this.apiUrl + '/' + jobId, {}, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -52,15 +46,12 @@ class JobManager {
     });
   }
 
-
   /**
    * @param {string} groupId
    * @param {function(Error, Array<Job>)} callback
    */
   getJobGroup(groupId, callback) {
-
     this.httpClient.request('GET', this.apiUrl + '/groups/' + groupId, {}, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -74,19 +65,15 @@ class JobManager {
     });
   }
 
-
   /**
    * @param {SearchJobsRequest} searchJobsRequest
    * @param {function(Error, SearchJobsResponse)} callback
    */
   searchJobs(searchJobsRequest, callback) {
-
-
     var params = {};
     _.extendOwn(params, searchJobsRequest);
 
     this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -95,9 +82,7 @@ class JobManager {
       callback(null, new SearchJobsResponse(response.payload));
     });
   }
-
 }
-
 
 /**
  * @type {JobManager}

@@ -1,13 +1,14 @@
 import {UploadUrlResponse} from '../../../src/platform/management/responses/upload-url-response';
 import {UploadJob} from './upload-job';
 
-
 /**
  * @param {Configuration} configuration
  * @param {HTTPClient} browserHTTPClient
  * @constructor
  */
-function FileUploader(configuration, browserHTTPClient) {
+
+class FileUploader {
+  constructor(configuration, browserHTTPClient) {
     /**
      * @type {string}
      */
@@ -17,36 +18,37 @@ function FileUploader(configuration, browserHTTPClient) {
      * @type {HTTPClient}
      */
     this.browserHTTPClient = browserHTTPClient;
-}
+  }
 
-/**
- * retrieve a pre signed URL to which the file is uploaded
- * @param {UploadUrlRequest?} uploadUrlRequest
- * @param {function(Error, UploadUrlResponse)} callback
- */
-FileUploader.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
+  /**
+   * retrieve a pre signed URL to which the file is uploaded
+   * @param {UploadUrlRequest?} uploadUrlRequest
+   * @param {function(Error, UploadUrlResponse)} callback
+   */
+  getUploadUrl(uploadUrlRequest, callback) {
     this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, uploadUrlRequest, null, function (error, body) {
-        if (error) {
-            callback(error, null);
-            return;
-        }
+      if (error) {
+        callback(error, null);
+        return;
+      }
 
-        callback(null, new UploadUrlResponse(body.payload))
-    })
-};
+      callback(null, new UploadUrlResponse(body.payload));
+    });
+  }
 
-/**
- * @description upload a file
- * @param {string} path the destination to which the file will be uploaded
- * @param {File} file
- * @param {UploadFileRequest?} uploadFileRequest
- * @returns {UploadJob}
- */
-FileUploader.prototype.uploadFile = function (path, file, uploadFileRequest) {
+  /**
+   * @description upload a file
+   * @param {string} path the destination to which the file will be uploaded
+   * @param {File} file
+   * @param {UploadFileRequest?} uploadFileRequest
+   * @returns {UploadJob}
+   */
+  uploadFile(path, file, uploadFileRequest) {
     var uploadJob = new UploadJob(path, file, uploadFileRequest);
 
     return uploadJob.run(this);
-};
+  }
+}
 
 /**
  * @type {FileUploader}

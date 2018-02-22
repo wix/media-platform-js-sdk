@@ -4,8 +4,9 @@
  * @constructor
  * @protected
  */
-function UploadEvent(target, response) {
 
+class UploadEvent {
+  constructor(target, response) {
     /**
      * @type {string}
      */
@@ -20,6 +21,7 @@ function UploadEvent(target, response) {
      * @type {object || null}
      */
     this.response = response;
+  }
 }
 
 /**

@@ -7,8 +7,6 @@ import {VideoSpecification} from './video-specification';
 
 class Video {
   constructor(data) {
-
-
     /**
      * @type {VideoSpecification}
      */
@@ -19,29 +17,23 @@ class Video {
     }
   }
 
-
   /**
    * @param {VideoSpecification} specification
    * @returns {Video}
    */
   setSpecification(specification) {
-
     this.specification = specification;
     return this;
   }
-
 
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.specification = new VideoSpecification(data.specification);
   }
-
 }
-
 
 /**
  * @type {Video}

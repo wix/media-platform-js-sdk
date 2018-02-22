@@ -7,7 +7,6 @@ import {Geo} from './geo';
 
 class PublishEndpoint {
   constructor(data) {
-
     /**
      *
      * @type {String}
@@ -31,18 +30,15 @@ class PublishEndpoint {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.url = data.url;
     this.protocol = data.protocol;
     this.geo = new Geo(data.geo);
   }
-
 
   /**
    *
@@ -50,11 +46,9 @@ class PublishEndpoint {
    * @returns {PublishEndpoint}
    */
   setUrl(url) {
-
     this.url = url;
     return this;
   }
-
 
   /**
    *
@@ -62,11 +56,9 @@ class PublishEndpoint {
    * @returns {PublishEndpoint}
    */
   setProtocol(protocol) {
-
     this.protocol = protocol;
     return this;
   }
-
 
   /**
    *
@@ -74,13 +66,10 @@ class PublishEndpoint {
    * @returns {PublishEndpoint}
    */
   setGeo(geo) {
-
     this.geo = geo;
     return this;
   }
-
 }
-
 
 /**
  * @type {PublishEndpoint}

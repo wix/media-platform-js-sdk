@@ -8,8 +8,6 @@ import {VideoFormat} from './video-format';
 
 class VideoBasicMetadata {
   constructor(data) {
-
-
     /**
      * @type {boolean}
      */
@@ -35,25 +33,21 @@ class VideoBasicMetadata {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.interlaced = data.interlaced;
     this.videoStreams = data.videoStreams.map(function (videoStream) {
-      return new VideoStream(videoStream)
+      return new VideoStream(videoStream);
     });
     this.audioStreams = data.audioStreams.map(function (audioStream) {
-      return new AudioStream(audioStream)
+      return new AudioStream(audioStream);
     });
     this.format = new VideoFormat(data.format);
   }
-
 }
-
 
 /**
  * @type {VideoBasicMetadata}

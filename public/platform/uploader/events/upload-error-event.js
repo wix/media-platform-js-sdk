@@ -6,14 +6,18 @@ import {UploadEvent} from './upload-event';
  * @param {object} response
  * @constructor
  */
-function UploadErrorEvent(target, response) {
+
+class UploadErrorEvent {
+  constructor(target, response) {
     UploadEvent.call(this, target, response);
 
     /**
      * @type {string}
      */
     this.name = 'upload-error';
+  }
 }
+
 inherits(UploadErrorEvent, UploadEvent);
 
 /**

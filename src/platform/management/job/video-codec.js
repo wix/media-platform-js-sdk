@@ -1,7 +1,5 @@
 class VideoCodec {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -32,22 +30,18 @@ class VideoCodec {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.profile = data.profile;
     this.maxRate = data.maxRate;
     this.crf = data.crf;
     this.name = data.name;
     this.level = data.level;
   }
-
 }
-
 
 /**
  * @type {VideoCodec}

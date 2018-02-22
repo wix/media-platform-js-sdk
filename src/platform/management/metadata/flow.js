@@ -7,7 +7,6 @@ import {FlowComponent} from './flow-component';
 
 class Flow {
   constructor(data) {
-
     this.id = null;
 
     /**
@@ -23,31 +22,23 @@ class Flow {
     if (data) {
       this.deserialize(data);
     }
-
   }
-
 
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.id = data.id;
     this.invocation = new Invocation(data.invocation);
     for (var i in data.flow) {
       this.flow[i] = new FlowComponent(data.flow[i]);
     }
   }
-
 }
-
 
 /**
  * @type {Flow}
  */
 export default Flow;
 export {Flow};
-
-
-

@@ -4,8 +4,6 @@
 
 class VideoFormat {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -31,21 +29,17 @@ class VideoFormat {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.formatLongName = data.formatLongName;
     this.duration = data.duration;
     this.bitrate = data.bitrate;
     this.size = data.size;
   }
-
 }
-
 
 /**
  * @type {VideoFormat}

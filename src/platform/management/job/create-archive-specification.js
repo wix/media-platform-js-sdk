@@ -8,8 +8,6 @@ import {Destination} from './destination';
 
 class CreateArchiveSpecification {
   constructor(data) {
-
-
     /**
      * @type {array}
      */
@@ -30,23 +28,18 @@ class CreateArchiveSpecification {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.sources = data.sources.map(function (source) {
-      return new Source(source)
+      return new Source(source);
     });
     this.destination = new Destination(data.destination);
     this.archiveType = data.archiveType;
-
   }
-
 }
-
 
 /**
  * @type {CreateArchiveSpecification}

@@ -34,7 +34,6 @@ function parseUrl(image, url) {
  * @private
  */
 function explodeUrl(url) {
-
   var scheme;
   var host;
   var port;
@@ -61,9 +60,9 @@ function explodeUrl(url) {
   parts = parts[0].split('//');
   if (parts.length > 1) {
     scheme = parts[0].replace(':', '');
-    parts = parts[1].split('/')
+    parts = parts[1].split('/');
   } else {
-    parts = parts[0].split('/')
+    parts = parts[0].split('/');
   }
 
   var loc = parts[0].split(':');
@@ -87,7 +86,7 @@ function explodeUrl(url) {
     fileName: fileName,
     query: query,
     fragment: fragment
-  }
+  };
 }
 
 /**
@@ -167,7 +166,6 @@ function applyFilters(image, explodedTransformations) {
     }
   }
 }
-
 
 /**
  * @type {parseUrl}

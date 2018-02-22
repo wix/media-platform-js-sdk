@@ -7,8 +7,6 @@
 
 class Configuration {
   constructor(domain, sharedSecret, appId) {
-
-
     /**
      * @type {string}
      */
@@ -24,10 +22,7 @@ class Configuration {
      */
     this.appId = appId;
   }
-
-
 }
-
 
 /**
  * @type {Configuration}

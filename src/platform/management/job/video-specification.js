@@ -8,8 +8,6 @@ import {Resolution} from './resolution';
 
 class VideoSpecification {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -35,21 +33,17 @@ class VideoSpecification {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.frameRate = data.frameRate;
     this.keyFrame = data.keyFrame;
     this.codec = new VideoCodec(data.codec);
     this.resolution = new Resolution(data.resolution);
   }
-
 }
-
 
 /**
  * @type {VideoSpecification}

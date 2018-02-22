@@ -7,8 +7,6 @@
 
 class Metadata {
   constructor(width, height, mimeType) {
-
-
     /**
      * @type {number}
      */
@@ -25,17 +23,13 @@ class Metadata {
     this.mimeType = mimeType;
   }
 
-
   /**
    * @returns {string}
    */
   serialize() {
-
     return 'w_' + this.width + ',h_' + this.height + ',mt_' + encodeURIComponent(this.mimeType);
   }
-
 }
-
 
 /**
  * @type {Metadata}

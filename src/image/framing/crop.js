@@ -12,8 +12,6 @@ import {validator} from '../validation/validator';
 
 class Crop {
   constructor(width, height, x, y, scale) {
-
-
     this.name = 'crop';
 
     /**
@@ -44,7 +42,6 @@ class Crop {
     this.coordinates(x, y, scale);
   }
 
-
   /**
    * @param {number?} x the x value
    * @param {number?} y the y value
@@ -52,7 +49,6 @@ class Crop {
    * @returns {*} the operation
    */
   coordinates(x, y, scale) {
-
     if (arguments.length === 0) {
       this.x = null;
       this.y = null;
@@ -63,10 +59,9 @@ class Crop {
 
     this.x = Math.round(x);
     this.y = Math.round(y);
-    this.scale = (!scale || scale === 1) ? null : scale;
+    this.scale = !scale || scale === 1 ? null : scale;
     return this;
   }
-
 
   /**
    * @summary The width constraint
@@ -75,23 +70,21 @@ class Crop {
    * @returns {*} the operation
    */
   size(width, height) {
-
     this.width = Math.round(width);
     this.height = Math.round(height);
     return this;
   }
 
-
   /**
    * @returns {{params: string | null, error: Error | null}}
    */
   serialize() {
-
     var badScale = validator.numberNotInRange('crop scale factor', this.scale, 0, 100);
     var badX = validator.numberIsNotGreaterThan('crop x', this.x, 0);
     var badY = validator.numberIsNotGreaterThan('crop y', this.y, 0);
     var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-    var badHeight = validator.numberIsRequired('height', this.height) || validator.numberIsNotGreaterThan('height', this.height, 1);
+    var badHeight =
+      validator.numberIsRequired('height', this.height) || validator.numberIsNotGreaterThan('height', this.height, 1);
 
     if (badScale || badX || badY || badWidth || badHeight) {
       return {
@@ -127,9 +120,7 @@ class Crop {
       error: null
     };
   }
-
 }
-
 
 /**
  * @type {Crop}

@@ -18,8 +18,6 @@ import {WebhookDeserializer} from './webhook/webhook-deserializer';
  */
 export class MediaPlatform {
   constructor(config) {
-
-
     // TODO: validate config
 
     var configuration = new Configuration(config.domain, config.sharedSecret, config.appId);
@@ -83,9 +81,6 @@ export class MediaPlatform {
     /**
      * @type {WebhookDeserializer}
      */
-    this.webhookDeserializer = new WebhookDeserializer(authenticator)
+    this.webhookDeserializer = new WebhookDeserializer(authenticator);
   }
-
-
 }
-    

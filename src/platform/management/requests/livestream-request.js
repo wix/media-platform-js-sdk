@@ -7,8 +7,6 @@ import {Dvr} from '../metadata/dvr';
 
 class LivestreamRequest {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -38,7 +36,6 @@ class LivestreamRequest {
      */
     this.reconnectTimeout = null;
 
-
     /**
      *
      * @type {string}
@@ -62,18 +59,15 @@ class LivestreamRequest {
     }
   }
 
-
   /**
    *
    * @param protocol {String}
    * @returns {LivestreamRequest}
    */
   setProtocol(protocol) {
-
     this.protocol = protocol;
     return this;
   }
-
 
   /**
    *
@@ -81,11 +75,9 @@ class LivestreamRequest {
    * @returns {LivestreamRequest}
    */
   setMaxStreamingSec(maxStreamingSec) {
-
     this.maxStreamingSec = maxStreamingSec;
     return this;
   }
-
 
   /**
    *
@@ -93,7 +85,6 @@ class LivestreamRequest {
    * @returns {LivestreamRequest}
    */
   setGeo(geo) {
-
     if (geo instanceof Geo) {
       this.geo = geo;
     } else {
@@ -103,18 +94,15 @@ class LivestreamRequest {
     return this;
   }
 
-
   /**
    *
    * @param connectTimeout {number}
    * @returns {LivestreamRequest}
    */
   setConnectTimeout(connectTimeout) {
-
     this.connectTimeout = connectTimeout;
     return this;
   }
-
 
   /**
    *
@@ -122,11 +110,9 @@ class LivestreamRequest {
    * @returns {LivestreamRequest}
    */
   setReconnectTimeout(reconnectTimeout) {
-
     this.reconnectTimeout = reconnectTimeout;
     return this;
   }
-
 
   /**
    *
@@ -134,11 +120,9 @@ class LivestreamRequest {
    * @returns {LivestreamRequest}
    */
   setEnforcedWidth(enforcedWidth) {
-
     this.enforcedWidth = enforcedWidth;
     return this;
   }
-
 
   /**
    *
@@ -146,11 +130,9 @@ class LivestreamRequest {
    * @returns {LivestreamRequest}
    */
   setEnforcedHeight(enforcedHeight) {
-
     this.enforcedHeight = enforcedHeight;
     return this;
   }
-
 
   /**
    *
@@ -158,11 +140,9 @@ class LivestreamRequest {
    * @returns {LivestreamRequest}
    */
   setStreamType(streamType) {
-
     this.streamType = streamType;
     return this;
   }
-
 
   /**
    *
@@ -170,7 +150,6 @@ class LivestreamRequest {
    * @returns {LivestreamRequest}
    */
   setDvr(dvr) {
-
     if (dvr instanceof Dvr) {
       this.dvr = dvr;
     } else {
@@ -180,25 +159,21 @@ class LivestreamRequest {
     return this;
   }
 
-
   /**
    *
    * @param stateNotification {{}}
    * @returns {LivestreamRequest}
    */
   setStateNotification(stateNotification) {
-
     this.stateNotification = stateNotification;
     return this;
   }
-
 
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.protocol = data.protocol;
     this.maxStreamingSec = data.maxStreamingSec;
     this.geo = new Geo(data.geo);
@@ -208,9 +183,7 @@ class LivestreamRequest {
     this.dvr = new Dvr(data.dvr);
     this.stateNotification = data.stateNotification;
   }
-
 }
-
 
 /**
  * @type {LivestreamRequest}
