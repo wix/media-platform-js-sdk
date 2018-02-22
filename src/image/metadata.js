@@ -6,30 +6,31 @@
  */
 function Metadata(width, height, mimeType) {
 
-    /**
-     * @type {number}
-     */
-    this.width = width;
+  /**
+   * @type {number}
+   */
+  this.width = width;
 
-    /**
-     * @type {number}
-     */
-    this.height = height;
+  /**
+   * @type {number}
+   */
+  this.height = height;
 
-    /**
-     * @type {string}
-     */
-    this.mimeType = mimeType;
+  /**
+   * @type {string}
+   */
+  this.mimeType = mimeType;
 }
 
 /**
  * @returns {string}
  */
-Metadata.prototype.serialize = function() {
-    return 'w_' + this.width + ',h_' + this.height + ',mt_' + encodeURIComponent(this.mimeType);
+Metadata.prototype.serialize = function () {
+  return 'w_' + this.width + ',h_' + this.height + ',mt_' + encodeURIComponent(this.mimeType);
 };
 
 /**
  * @type {Metadata}
  */
-module.exports = Metadata;
+export default Metadata;
+export {Metadata};

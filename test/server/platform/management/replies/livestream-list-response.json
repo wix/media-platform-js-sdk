@@ -3,106 +3,106 @@
   "message": "OK",
   "payload": [
     {
-    "id": "stream_id1",
-    "publishEndpoint": {
-      "url": "rtmp://example.com/live/test",
-      "protocol": "rtmp",
-      "geo": {
-        "coordinates": {
-          "latitude": 33.66,
-          "longitude": 33.66
-        },
-        "ipAddress": "127.0.0.1"
-      }
+      "id": "stream_id1",
+      "publishEndpoint": {
+        "url": "rtmp://example.com/live/test",
+        "protocol": "rtmp",
+        "geo": {
+          "coordinates": {
+            "latitude": 33.66,
+            "longitude": 33.66
+          },
+          "ipAddress": "127.0.0.1"
+        }
+      },
+      "playbackUrls": [
+        {
+          "packageName": "hls",
+          "path": "http://example.com/hls/test.m3u8"
+        }
+      ],
+      "streamType": "live",
+      "duration": 666,
+      "connectTimeout": 60,
+      "reconnectTimeout": 60,
+      "maxPublishDuration": 3600,
+      "state": "created",
+      "dvr": {
+        "destination": {
+          "path": "/live",
+          "acl": "public"
+        }
+      },
+      "dateCreated": "2017-05-23T08:34:43Z",
+      "dateUpdated": "2017-05-23T08:34:43Z"
     },
-    "playbackUrls": [
-      {
-        "packageName": "hls",
-        "path": "http://example.com/hls/test.m3u8"
-      }
-    ],
-    "streamType": "live",
-    "duration": 666,
-    "connectTimeout": 60,
-    "reconnectTimeout": 60,
-    "maxPublishDuration": 3600,
-    "state": "created",
-    "dvr": {
-      "destination": {
-        "path": "/live",
-        "acl": "public"
-      }
+    {
+      "id": "stream_id2",
+      "publishEndpoint": {
+        "url": "rtmp://example.com/live/test",
+        "protocol": "rtmp",
+        "geo": {
+          "coordinates": {
+            "latitude": 33.66,
+            "longitude": 33.66
+          },
+          "ipAddress": "127.0.0.1"
+        }
+      },
+      "playbackUrls": [
+        {
+          "packageName": "hls",
+          "path": "http://example.com/hls/test.m3u8"
+        }
+      ],
+      "streamType": "live",
+      "duration": 666,
+      "connectTimeout": 60,
+      "reconnectTimeout": 60,
+      "maxPublishDuration": 3600,
+      "state": "created",
+      "dvr": {
+        "destination": {
+          "path": "/live",
+          "acl": "public"
+        }
+      },
+      "dateCreated": "2017-05-23T08:34:43Z",
+      "dateUpdated": "2017-05-23T08:34:43Z"
     },
-    "dateCreated": "2017-05-23T08:34:43Z",
-    "dateUpdated": "2017-05-23T08:34:43Z"
-  },
- {
-    "id": "stream_id2",
-    "publishEndpoint": {
-      "url": "rtmp://example.com/live/test",
-      "protocol": "rtmp",
-      "geo": {
-        "coordinates": {
-          "latitude": 33.66,
-          "longitude": 33.66
-        },
-        "ipAddress": "127.0.0.1"
-      }
-    },
-    "playbackUrls": [
-      {
-        "packageName": "hls",
-        "path": "http://example.com/hls/test.m3u8"
-      }
-    ],
-    "streamType": "live",
-    "duration": 666,
-    "connectTimeout": 60,
-    "reconnectTimeout": 60,
-    "maxPublishDuration": 3600,
-    "state": "created",
-    "dvr": {
-      "destination": {
-        "path": "/live",
-        "acl": "public"
-      }
-    },
-    "dateCreated": "2017-05-23T08:34:43Z",
-    "dateUpdated": "2017-05-23T08:34:43Z"
-  },
- {
-    "id": "stream_id3",
-    "publishEndpoint": {
-      "url": "rtmp://example.com/live/test",
-      "protocol": "rtmp",
-      "geo": {
-        "coordinates": {
-          "latitude": 33.66,
-          "longitude": 33.66
-        },
-        "ipAddress": "127.0.0.1"
-      }
-    },
-    "playbackUrls": [
-      {
-        "packageName": "hls",
-        "path": "http://example.com/hls/test.m3u8"
-      }
-    ],
-    "streamType": "live",
-    "duration": 666,
-    "connectTimeout": 60,
-    "reconnectTimeout": 60,
-    "maxPublishDuration": 3600,
-    "state": "created",
-    "dvr": {
-      "destination": {
-        "path": "/live",
-        "acl": "public"
-      }
-    },
-    "dateCreated": "2017-05-23T08:34:43Z",
-    "dateUpdated": "2017-05-23T08:34:43Z"
-  }
+    {
+      "id": "stream_id3",
+      "publishEndpoint": {
+        "url": "rtmp://example.com/live/test",
+        "protocol": "rtmp",
+        "geo": {
+          "coordinates": {
+            "latitude": 33.66,
+            "longitude": 33.66
+          },
+          "ipAddress": "127.0.0.1"
+        }
+      },
+      "playbackUrls": [
+        {
+          "packageName": "hls",
+          "path": "http://example.com/hls/test.m3u8"
+        }
+      ],
+      "streamType": "live",
+      "duration": 666,
+      "connectTimeout": 60,
+      "reconnectTimeout": 60,
+      "maxPublishDuration": 3600,
+      "state": "created",
+      "dvr": {
+        "destination": {
+          "path": "/live",
+          "acl": "public"
+        }
+      },
+      "dateCreated": "2017-05-23T08:34:43Z",
+      "dateUpdated": "2017-05-23T08:34:43Z"
+    }
   ]
 }

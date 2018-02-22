@@ -3,29 +3,29 @@
  */
 function FlowComponent(data) {
 
-    /**
-     * @type {string}
-     */
-    this.type = null;
+  /**
+   * @type {string}
+   */
+  this.type = null;
 
-    /**
-     * @type {{}}
-     */
-    this.specification = null;
+  /**
+   * @type {{}}
+   */
+  this.specification = null;
 
-    /**
-     * @type {string}
-     */
-    this.successors = null;
+  /**
+   * @type {string}
+   */
+  this.successors = null;
 
-    /**
-     * @type {string}
-     */
-    this.status = null;
+  /**
+   * @type {string}
+   */
+  this.status = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -33,8 +33,8 @@ function FlowComponent(data) {
  * @returns {FlowComponent}
  */
 FlowComponent.prototype.setType = function (type) {
-    this.type = type;
-    return this;
+  this.type = type;
+  return this;
 };
 
 /**
@@ -42,8 +42,8 @@ FlowComponent.prototype.setType = function (type) {
  * @returns {FlowComponent}
  */
 FlowComponent.prototype.setSpecification = function (specification) {
-    this.specification = specification;
-    return this;
+  this.specification = specification;
+  return this;
 };
 
 
@@ -52,8 +52,8 @@ FlowComponent.prototype.setSpecification = function (specification) {
  * @returns {FlowComponent}
  */
 FlowComponent.prototype.setSuccessors = function (successors) {
-    this.successors = successors;
-    return this;
+  this.successors = successors;
+  return this;
 };
 
 
@@ -62,13 +62,13 @@ FlowComponent.prototype.setSuccessors = function (successors) {
  * @returns {FlowComponent}
  */
 FlowComponent.prototype.addSuccessor = function (successor) {
-    if(!this.successors) {
-        this.successors = [];
-    }
+  if (!this.successors) {
+    this.successors = [];
+  }
 
-    this.successors.push(successor);
+  this.successors.push(successor);
 
-    return this;
+  return this;
 };
 
 /**
@@ -76,16 +76,17 @@ FlowComponent.prototype.addSuccessor = function (successor) {
  * @private
  */
 FlowComponent.prototype.deserialize = function (data) {
-    this.type = data.type;
-    this.specification = data.specification;
-    this.successors = data.successors;
-    this.status = data.status;
+  this.type = data.type;
+  this.specification = data.specification;
+  this.successors = data.successors;
+  this.status = data.status;
 };
 
 /**
  * @type {FlowComponent}
  */
-module.exports = FlowComponent;
+export default FlowComponent;
+export {FlowComponent};
 
 
 

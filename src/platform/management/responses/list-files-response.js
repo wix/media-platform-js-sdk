@@ -1,23 +1,23 @@
-var FileDescriptor = require('../metadata/file-descriptor');
+import {FileDescriptor} from '../metadata/file-descriptor';
 
 /**
  * @constructor
  */
 function ListFilesResponse(data) {
 
-    /**
-     * @type {string}
-     */
-    this.nextPageToken = null;
+  /**
+   * @type {string}
+   */
+  this.nextPageToken = null;
 
-    /**
-     * @type {Array<FileDescriptor>}
-     */
-    this.files = [];
+  /**
+   * @type {Array<FileDescriptor>}
+   */
+  this.files = [];
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -25,13 +25,14 @@ function ListFilesResponse(data) {
  * @private
  */
 ListFilesResponse.prototype.deserialize = function (data) {
-    this.nextPageToken = data.nextPageToken;
-    this.files = data.files.map(function (file) {
-        return new FileDescriptor(file)
-    });
+  this.nextPageToken = data.nextPageToken;
+  this.files = data.files.map(function (file) {
+    return new FileDescriptor(file)
+  });
 };
 
 /**
  * @type {ListFilesResponse}
  */
-module.exports = ListFilesResponse;
+export default ListFilesResponse;
+export {ListFilesResponse};

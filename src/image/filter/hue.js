@@ -1,4 +1,4 @@
-var validator = require('../validation/validator');
+import {validator} from '../validation/validator';
 
 /**
  * @param image
@@ -6,21 +6,21 @@ var validator = require('../validation/validator');
  */
 function Hue(image) {
 
-    this.image = image;
+  this.image = image;
 
+  /**
+   * @type {string|null}
+   */
+  this.error = null;
+
+  this.settings = {
     /**
-     * @type {string|null}
+     * @type {number|null}
      */
-    this.error = null;
-    
-    this.settings = {
-        /**
-         * @type {number|null}
-         */
-        hue: null
-    };
+    hue: null
+  };
 
-    this.hue = this.hue.bind(this);
+  this.hue = this.hue.bind(this);
 }
 
 /**
@@ -31,13 +31,13 @@ function Hue(image) {
  */
 Hue.prototype.hue = function (hue) {
 
-    this.error = validator.numberNotInRange('hue', hue, -100, 100);
-    if (this.error) {
-        return this.image;
-    }
-
-    this.settings.hue = hue === void 0 ? null : hue;
+  this.error = validator.numberNotInRange('hue', hue, -100, 100);
+  if (this.error) {
     return this.image;
+  }
+
+  this.settings.hue = hue === void 0 ? null : hue;
+  return this.image;
 };
 
 /**
@@ -45,19 +45,20 @@ Hue.prototype.hue = function (hue) {
  */
 Hue.prototype.serialize = function () {
 
-    var out = '';
+  var out = '';
 
-    if (this.settings.hue) {
-        out += 'hue_' + this.settings.hue;
-    }
+  if (this.settings.hue) {
+    out += 'hue_' + this.settings.hue;
+  }
 
-    return {
-        params: out,
-        error: this.error
-    };
+  return {
+    params: out,
+    error: this.error
+  };
 };
 
 /**
  * @type {Hue}
  */
-module.exports = Hue;
+export default Hue;
+export {Hue};

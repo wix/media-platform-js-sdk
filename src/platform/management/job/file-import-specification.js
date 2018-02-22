@@ -1,4 +1,4 @@
-var Destination = require('./destination');
+import {Destination} from './destination';
 
 /**
  * @param data
@@ -6,19 +6,19 @@ var Destination = require('./destination');
  */
 function FileImportSpecification(data) {
 
-    /**
-     * @type {string}
-     */
-    this.sourceUrl = null;
+  /**
+   * @type {string}
+   */
+  this.sourceUrl = null;
 
-    /**
-     * @type {Destination}
-     */
-    this.destination = null;
+  /**
+   * @type {Destination}
+   */
+  this.destination = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -26,11 +26,12 @@ function FileImportSpecification(data) {
  * @private
  */
 FileImportSpecification.prototype.deserialize = function (data) {
-    this.sourceUrl = data.sourceUrl;
-    this.destination = new Destination(data.destination);
+  this.sourceUrl = data.sourceUrl;
+  this.destination = new Destination(data.destination);
 };
 
 /**
  * @type {FileImportSpecification}
  */
-module.exports = FileImportSpecification;
+export default FileImportSpecification;
+export {FileImportSpecification};

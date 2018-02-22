@@ -6,23 +6,24 @@
  */
 function Configuration(domain, sharedSecret, appId) {
 
-    /**
-     * @type {string}
-     */
-    this.domain = domain;
+  /**
+   * @type {string}
+   */
+  this.domain = domain;
 
-    /**
-     * @type {string}
-     */
-    this.sharedSecret = sharedSecret;
+  /**
+   * @type {string}
+   */
+  this.sharedSecret = sharedSecret;
 
-    /**
-     * @type {string}
-     */
-    this.appId = appId;
+  /**
+   * @type {string}
+   */
+  this.appId = appId;
 }
 
 /**
  * @type {Configuration}
  */
-module.exports = Configuration;
+export default Configuration;
+export {Configuration};

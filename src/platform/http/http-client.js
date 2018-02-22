@@ -1,4 +1,5 @@
-var request = require('request');
+import request from 'request';
+
 // require('request-debug')(request);
 
 /**
@@ -7,10 +8,10 @@ var request = require('request');
  */
 function HTTPClient(authenticator) {
 
-    /**
-     * @type {Authenticator}
-     */
-    this.authenticator = authenticator;
+  /**
+   * @type {Authenticator}
+   */
+  this.authenticator = authenticator;
 }
 
 /**
@@ -22,32 +23,32 @@ function HTTPClient(authenticator) {
  */
 HTTPClient.prototype.request = function (httpMethod, url, params, token, callback) {
 
-    var header = this.authenticator.getHeader(token);
+  var header = this.authenticator.getHeader(token);
 
-    var options = { method: httpMethod, url: url, headers: header, json: true };
+  var options = {method: httpMethod, url: url, headers: header, json: true};
 
-    switch (httpMethod) {
-        case 'POST':
-        case 'PUT':
-            options.body = params;
-            break;
-        default:
-            options.qs = params;
+  switch (httpMethod) {
+    case 'POST':
+    case 'PUT':
+      options.body = params;
+      break;
+    default:
+      options.qs = params;
+  }
+
+  request(options, function (error, response, body) {
+
+    if (error) {
+      callback(error, null);
+      return;
     }
 
-    request(options, function (error, response, body) {
-
-        if (error) {
-            callback(error, null);
-            return;
-        }
-
-        if (response.statusCode < 200 || response.statusCode >= 300) {
-            callback(new Error(JSON.stringify(response.body)), null);
-            return;
-        }
-        callback(null, body);
-    }.bind(this));
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      callback(new Error(JSON.stringify(response.body)), null);
+      return;
+    }
+    callback(null, body);
+  }.bind(this));
 };
 
 /**
@@ -58,27 +59,28 @@ HTTPClient.prototype.request = function (httpMethod, url, params, token, callbac
  */
 HTTPClient.prototype.postForm = function (url, form, token, callback) {
 
-    var header = this.authenticator.getHeader(token);
+  var header = this.authenticator.getHeader(token);
 
-    var options = { method: 'POST', url: url, formData: form, headers: header, json: true };
+  var options = {method: 'POST', url: url, formData: form, headers: header, json: true};
 
-    request(options, function (error, response, body) {
+  request(options, function (error, response, body) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        if (response.statusCode < 200 || response.statusCode >= 300) {
-            callback(new Error(JSON.stringify(response.body)), null);
-            return;
-        }
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      callback(new Error(JSON.stringify(response.body)), null);
+      return;
+    }
 
-        callback(null, body);
-    }.bind(this));
+    callback(null, body);
+  }.bind(this));
 };
 
 /**
  * @type {HTTPClient}
  */
-module.exports = HTTPClient;
+export default HTTPClient;
+export {HTTPClient};

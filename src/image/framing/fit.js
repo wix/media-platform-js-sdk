@@ -1,4 +1,4 @@
-var validator = require('../validation/validator');
+import {validator} from '../validation/validator';
 
 /**
  * @description Uses only part of the image that fills the given dimensions. Only part of the original image might be visible if the required proportions are different than the original ones.
@@ -7,19 +7,19 @@ var validator = require('../validation/validator');
  * @constructor Fit
  */
 function Fit(width, height) {
-    this.name = 'fit';
+  this.name = 'fit';
 
-    /**
-     * @type {number}
-     */
-    this.width = Math.round(width);
+  /**
+   * @type {number}
+   */
+  this.width = Math.round(width);
 
-    /**
-     * @type {number}
-     */
-    this.height = Math.round(height);
+  /**
+   * @type {number}
+   */
+  this.height = Math.round(height);
 
-    this.coordinates(width, height);
+  this.coordinates(width, height);
 }
 
 
@@ -29,16 +29,16 @@ function Fit(width, height) {
  * @returns {Fit}
  */
 Fit.prototype.coordinates = function (x, y) {
-    if (arguments.length === 0) {
-        this.x = null;
-        this.y = null;
-        this.error = null;
-        return this;
-    }
-
-    this.x = Math.round(x);
-    this.y = Math.round(y);
+  if (arguments.length === 0) {
+    this.x = null;
+    this.y = null;
+    this.error = null;
     return this;
+  }
+
+  this.x = Math.round(x);
+  this.y = Math.round(y);
+  return this;
 };
 
 
@@ -49,9 +49,9 @@ Fit.prototype.coordinates = function (x, y) {
  * @returns {*} the operation
  */
 Fit.prototype.size = function (width, height) {
-    this.width = Math.round(width);
-    this.height = Math.round(height);
-    return this;
+  this.width = Math.round(width);
+  this.height = Math.round(height);
+  return this;
 };
 
 /**
@@ -59,25 +59,26 @@ Fit.prototype.size = function (width, height) {
  */
 Fit.prototype.serialize = function () {
 
-    var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-    var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
+  var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
+  var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
 
-    if (badWidth || badHeight) {
-        return {
-            params: null,
-            error: new Error([badWidth, badHeight])
-        };
-    }
-
-    var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
-
+  if (badWidth || badHeight) {
     return {
-        params: out,
-        error: null
+      params: null,
+      error: new Error([badWidth, badHeight].filter(msg => msg).join(','))
     };
+  }
+
+  var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+
+  return {
+    params: out,
+    error: null
+  };
 };
 
 /**
  * @type {Fit}
  */
-module.exports = Fit;
+export default Fit;
+export {Fit};

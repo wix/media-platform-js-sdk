@@ -1,14 +1,13 @@
-var MediaPlatform = require('../../../src/index').MediaPlatform;
+import {MediaPlatform} from '../../../src';
 
-function init(config) {
-    if (!exports.mediaPlatform) {
-        exports.mediaPlatform = new MediaPlatform(config);
+let mediaPlatform;
+
+export function init(config) {
+    if (!mediaPlatform) {
+        mediaPlatform = new MediaPlatform(config);
     }
 
-    return exports;
+    return mediaPlatform;
 }
 
-/**
- * @type {init}
- */
-exports.init = init;
+export {mediaPlatform};

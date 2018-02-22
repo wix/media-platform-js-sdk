@@ -1,5 +1,5 @@
-var _ = require('underscore');
-var Flow = require('./metadata/flow');
+import _ from 'underscore';
+import {Flow} from './metadata/flow';
 
 /**
  * @param {Configuration} configuration
@@ -8,25 +8,25 @@ var Flow = require('./metadata/flow');
  */
 function FlowManager(configuration, httpClient) {
 
-    /**
-     * @type {Configuration}
-     */
-    this.configuration = configuration;
+  /**
+   * @type {Configuration}
+   */
+  this.configuration = configuration;
 
-    /**
-     * @type {HTTPClient}
-     */
-    this.httpClient = httpClient;
+  /**
+   * @type {HTTPClient}
+   */
+  this.httpClient = httpClient;
 
-    /**
-     * @type {string}
-     */
-    this.baseUrl = 'https://' + configuration.domain;
+  /**
+   * @type {string}
+   */
+  this.baseUrl = 'https://' + configuration.domain;
 
-    /**
-     * @type {string}
-     */
-    this.apiUrl = this.baseUrl + '/_api/flow_control';
+  /**
+   * @type {string}
+   */
+  this.apiUrl = this.baseUrl + '/_api/flow_control';
 
 }
 
@@ -34,46 +34,46 @@ function FlowManager(configuration, httpClient) {
  * @param {string} flowId
  * @param {function(Error, Flow)} callback
  */
-FlowManager.prototype.getFlow = function (flowId, callback)
-{
-    this.httpClient.request('GET', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
+FlowManager.prototype.getFlow = function (flowId, callback) {
+  this.httpClient.request('GET', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new Flow(response.payload));
-    });
+    callback(null, new Flow(response.payload));
+  });
 };
 
-FlowManager.prototype.createFlow = function(createFlowRequest, callback) {
-    this.httpClient.request('POST', this.apiUrl + '/flow' , createFlowRequest, null, function (error, response) {
+FlowManager.prototype.createFlow = function (createFlowRequest, callback) {
+  this.httpClient.request('POST', this.apiUrl + '/flow', createFlowRequest, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new Flow(response.payload));
-    });
+    callback(null, new Flow(response.payload));
+  });
 };
 
 
-FlowManager.prototype.deleteFlow = function(flowId, callback) {
-    this.httpClient.request('DELETE', this.apiUrl + '/flow/' + flowId , {}, null, function (error, response) {
+FlowManager.prototype.deleteFlow = function (flowId, callback) {
+  this.httpClient.request('DELETE', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, response);
-    });
+    callback(null, response);
+  });
 };
 
 
 /**
  * @type {FlowManager}
  */
-module.exports = FlowManager;
+export default FlowManager;
+export {FlowManager};

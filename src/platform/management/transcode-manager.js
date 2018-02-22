@@ -1,5 +1,5 @@
-var _ = require('underscore');
-var TranscodeJobResponse = require('./responses/transcode-job-response');
+import _ from 'underscore';
+import {TranscodeJobResponse} from './responses/transcode-job-response';
 
 /**
  * @param {Configuration} configuration
@@ -8,25 +8,25 @@ var TranscodeJobResponse = require('./responses/transcode-job-response');
  */
 function TranscodeManager(configuration, httpClient) {
 
-    /**
-     * @type {Configuration}
-     */
-    this.configuration = configuration;
+  /**
+   * @type {Configuration}
+   */
+  this.configuration = configuration;
 
-    /**
-     * @type {HTTPClient}
-     */
-    this.httpClient = httpClient;
+  /**
+   * @type {HTTPClient}
+   */
+  this.httpClient = httpClient;
 
-    /**
-     * @type {string}
-     */
-    this.baseUrl = 'https://' + configuration.domain;
+  /**
+   * @type {string}
+   */
+  this.baseUrl = 'https://' + configuration.domain;
 
-    /**
-     * @type {string}
-     */
-    this.apiUrl = this.baseUrl + '/_api/av/transcode';
+  /**
+   * @type {string}
+   */
+  this.apiUrl = this.baseUrl + '/_api/av/transcode';
 
 }
 
@@ -36,18 +36,19 @@ function TranscodeManager(configuration, httpClient) {
  * @param {function(Error, Object)} callback
  */
 TranscodeManager.prototype.transcodeVideo = function (transcodeRequest, callback) {
-    var params = {};
-    _.extendOwn(params, transcodeRequest);
+  var params = {};
+  _.extendOwn(params, transcodeRequest);
 
-    this.httpClient.request('POST', this.apiUrl , params, null, function (error, response) {
+  this.httpClient.request('POST', this.apiUrl, params, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new TranscodeJobResponse(response.payload));
-    });
+    callback(null, new TranscodeJobResponse(response.payload));
+  });
 };
 
-module.exports = TranscodeManager;
+export default TranscodeManager;
+export {TranscodeManager};

@@ -3,29 +3,29 @@
  */
 function VideoFormat(data) {
 
-    /**
-     * @type {string}
-     */
-    this.formatLongName = null;
+  /**
+   * @type {string}
+   */
+  this.formatLongName = null;
 
-    /**
-     * @type {number}
-     */
-    this.duration = null;
+  /**
+   * @type {number}
+   */
+  this.duration = null;
 
-    /**
-     * @type {number}
-     */
-    this.bitrate = null;
+  /**
+   * @type {number}
+   */
+  this.bitrate = null;
 
-    /**
-     * @type {number}
-     */
-    this.size = null;
+  /**
+   * @type {number}
+   */
+  this.size = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -33,13 +33,14 @@ function VideoFormat(data) {
  * @private
  */
 VideoFormat.prototype.deserialize = function (data) {
-    this.formatLongName = data.formatLongName;
-    this.duration = data.duration;
-    this.bitrate = data.bitrate;
-    this.size = data.size;
+  this.formatLongName = data.formatLongName;
+  this.duration = data.duration;
+  this.bitrate = data.bitrate;
+  this.size = data.size;
 };
 
 /**
  * @type {VideoFormat}
  */
-module.exports = VideoFormat;
+export default VideoFormat;
+export {VideoFormat};

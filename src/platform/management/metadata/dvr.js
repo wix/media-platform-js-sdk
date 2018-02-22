@@ -1,15 +1,15 @@
-var Destination = require('../job/destination');
+import {Destination} from '../job/destination';
 
 /**
  * @param data
  * @constructor
  */
 function Dvr(data) {
-    this.destination = null;
+  this.destination = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -17,7 +17,7 @@ function Dvr(data) {
  * @private
  */
 Dvr.prototype.deserialize = function (data) {
-    this.destination = new Destination(data.destination);
+  this.destination = new Destination(data.destination);
 };
 
 /**
@@ -25,13 +25,14 @@ Dvr.prototype.deserialize = function (data) {
  * @param destination {Destination}
  * @returns {Dvr}
  */
-Dvr.prototype.setDestination = function(destination) {
-    this.destination = destination;
-    return this;
+Dvr.prototype.setDestination = function (destination) {
+  this.destination = destination;
+  return this;
 };
 
 
 /**
  * @type {Dvr}
  */
-module.exports = Dvr;
+export default Dvr;
+export {Dvr};

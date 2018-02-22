@@ -4,29 +4,30 @@
  */
 function PlaybackUrl(data) {
 
-    /**
-     *
-     * @type {String}
-     */
-    this.path = null;
+  /**
+   *
+   * @type {String}
+   */
+  this.path = null;
 
-    /**
-     *
-     * @type {String}
-     */
-    this.packageName = null;
+  /**
+   *
+   * @type {String}
+   */
+  this.packageName = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
+
 /**
  * @param data
  * @private
  */
 PlaybackUrl.prototype.deserialize = function (data) {
-    this.path = data.path;
-    this.packageName = data.packageName;
+  this.path = data.path;
+  this.packageName = data.packageName;
 };
 
 /**
@@ -34,9 +35,9 @@ PlaybackUrl.prototype.deserialize = function (data) {
  * @param path {String}
  * @returns {PlaybackUrl}
  */
-PlaybackUrl.prototype.setPath = function(path) {
-    this.path = path;
-    return this;
+PlaybackUrl.prototype.setPath = function (path) {
+  this.path = path;
+  return this;
 };
 
 /**
@@ -44,13 +45,14 @@ PlaybackUrl.prototype.setPath = function(path) {
  * @param packageName {String}
  * @returns {PlaybackUrl}
  */
-PlaybackUrl.prototype.setPackageName = function(packageName) {
-    this.packageName = packageName;
-    return this;
+PlaybackUrl.prototype.setPackageName = function (packageName) {
+  this.packageName = packageName;
+  return this;
 };
 
 
 /**
  * @type {PlaybackUrl}
  */
-module.exports = PlaybackUrl;
+export default PlaybackUrl;
+export {PlaybackUrl};

@@ -1,7 +1,7 @@
-var Destination = require('./destination');
-var Video = require('./video');
-var Audio = require('./audio');
-var QualityRange = require('./quality-range');
+import {Destination} from './destination';
+import {Video} from './video';
+import {Audio} from './audio';
+import {QualityRange} from './quality-range';
 
 /**
  * @param data
@@ -9,34 +9,34 @@ var QualityRange = require('./quality-range');
  */
 function TranscodeSpecification(data) {
 
-    /**
-     * @type {Destination}
-     */
-    this.destination = null;
+  /**
+   * @type {Destination}
+   */
+  this.destination = null;
 
-    /**
-     * @type {string}
-     */
-    this.quality = null;
+  /**
+   * @type {string}
+   */
+  this.quality = null;
 
-    /**
-     * @type {QualityRange}
-     */
-    this.qualityRange = null;
+  /**
+   * @type {QualityRange}
+   */
+  this.qualityRange = null;
 
-    /**
-     * @type {Video}
-     */
-    this.video = null;
+  /**
+   * @type {Video}
+   */
+  this.video = null;
 
-    /**
-     * @type {Audio}
-     */
-    this.audio = null;
+  /**
+   * @type {Audio}
+   */
+  this.audio = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -44,8 +44,8 @@ function TranscodeSpecification(data) {
  * @returns {TranscodeSpecification}
  */
 TranscodeSpecification.prototype.setDestination = function (destination) {
-    this.destination = destination;
-    return this;
+  this.destination = destination;
+  return this;
 };
 
 /**
@@ -53,8 +53,8 @@ TranscodeSpecification.prototype.setDestination = function (destination) {
  * @returns {TranscodeSpecification}
  */
 TranscodeSpecification.prototype.setQualityRange = function (qualityRange) {
-    this.qualityRange = qualityRange;
-    return this;
+  this.qualityRange = qualityRange;
+  return this;
 };
 
 /**
@@ -62,14 +62,15 @@ TranscodeSpecification.prototype.setQualityRange = function (qualityRange) {
  * @private
  */
 TranscodeSpecification.prototype.deserialize = function (data) {
-    this.destination = new Destination(data.destination);
-    this.quality = data.quality;
-    this.qualityRange = new QualityRange(data.qualityRange);
-    this.video = new Video(data.video);
-    this.audio = new Audio(data.audio);
+  this.destination = new Destination(data.destination);
+  this.quality = data.quality;
+  this.qualityRange = new QualityRange(data.qualityRange);
+  this.video = new Video(data.video);
+  this.audio = new Audio(data.audio);
 };
 
 /**
  * @type {TranscodeSpecification}
  */
-module.exports = TranscodeSpecification;
+export default TranscodeSpecification;
+export {TranscodeSpecification};

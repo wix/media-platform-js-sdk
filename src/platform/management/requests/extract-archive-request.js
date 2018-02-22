@@ -3,15 +3,15 @@
  */
 function ExtractArchiveRequest() {
 
-    /**
-     * @type {Source}
-     */
-    this.source = null;
+  /**
+   * @type {Source}
+   */
+  this.source = null;
 
-    /**
-     * @type {Destination}
-     */
-    this.destination = null;
+  /**
+   * @type {Destination}
+   */
+  this.destination = null;
 }
 
 /**
@@ -19,8 +19,8 @@ function ExtractArchiveRequest() {
  * @returns {ExtractArchiveRequest}
  */
 ExtractArchiveRequest.prototype.setSource = function (source) {
-    this.source = source;
-    return this;
+  this.source = source;
+  return this;
 };
 
 /**
@@ -28,11 +28,12 @@ ExtractArchiveRequest.prototype.setSource = function (source) {
  * @returns {ExtractArchiveRequest}
  */
 ExtractArchiveRequest.prototype.setDestination = function (destination) {
-    this.destination = destination;
-    return this;
+  this.destination = destination;
+  return this;
 };
 
 /**
  * @type {CreateArchiveRequest}
  */
-module.exports = ExtractArchiveRequest;
+export default ExtractArchiveRequest;
+export {ExtractArchiveRequest};

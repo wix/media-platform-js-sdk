@@ -1,4 +1,4 @@
-module.exports = function(app) {
+export default function(app) {
 
     app.get('/', function(req, res, next) {
         res.redirect('/browser');

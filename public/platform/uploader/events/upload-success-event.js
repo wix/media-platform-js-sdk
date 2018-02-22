@@ -1,5 +1,5 @@
-var inherits = require('inherits');
-var UploadEvent = require('./upload-event');
+import inherits from 'inherits';
+import {UploadEvent} from './upload-event';
 
 /**
  * @param {UploadJob} target
@@ -25,4 +25,5 @@ inherits(UploadSuccessEvent, UploadEvent);
 /**
  * @type {UploadSuccessEvent}
  */
-module.exports = UploadSuccessEvent;
+export default UploadSuccessEvent;
+export {UploadSuccessEvent};

@@ -1,4 +1,4 @@
-var validator = require('../validation/validator');
+import {validator} from '../validation/validator';
 
 /**
  * @description Crops the image intelligently using width and height options.
@@ -8,17 +8,17 @@ var validator = require('../validation/validator');
  */
 function SmartCrop(width, height) {
 
-    this.name = 'scrop';
+  this.name = 'scrop';
 
-    /**
-     * @type {number}
-     */
-    this.width = Math.round(width);
+  /**
+   * @type {number}
+   */
+  this.width = Math.round(width);
 
-    /**
-     * @type {number}
-     */
-    this.height = Math.round(height);
+  /**
+   * @type {number}
+   */
+  this.height = Math.round(height);
 }
 
 
@@ -27,25 +27,26 @@ function SmartCrop(width, height) {
  */
 SmartCrop.prototype.serialize = function () {
 
-    var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-    var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
+  var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
+  var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
 
-    if (badWidth || badHeight) {
-        return {
-            params: null,
-            error: new Error([badWidth, badHeight])
-        };
-    }
-
-    var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
-
+  if (badWidth || badHeight) {
     return {
-        params: out,
-        error: null
+      params: null,
+      error: new Error([badWidth, badHeight].filter(msg => msg).join(','))
     };
+  }
+
+  var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+
+  return {
+    params: out,
+    error: null
+  };
 };
 
 /**
  * @type {SmartCrop}
  */
-module.exports = SmartCrop;
+export default SmartCrop;
+export {SmartCrop};

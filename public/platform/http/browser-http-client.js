@@ -1,4 +1,4 @@
-var _ = require('underscore');
+import _ from 'underscore';
 
 /**
  * @param {string} authenticationUrl
@@ -146,7 +146,7 @@ HTTPClient.prototype.isAuthorizationHeaderValid = function() {
             var tokenString = window.atob(parts[1]);
             token = JSON.parse(tokenString);
         } catch (error) {
-            console.error('invalid token structure')
+            console.error('invalid token structure', tokenString)
         }
         if (token && token.exp && token.exp * 1000 > Date.now()) {
             valid = true;
@@ -166,4 +166,5 @@ HTTPClient.prototype.deauthorize = function () {
 /**
  * @type {HTTPClient}
  */
-module.exports = HTTPClient;
+export default HTTPClient;
+export {HTTPClient};

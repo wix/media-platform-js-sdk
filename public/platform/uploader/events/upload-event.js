@@ -25,4 +25,5 @@ function UploadEvent(target, response) {
 /**
  * @type {UploadEvent}
  */
-module.exports = UploadEvent;
+export default UploadEvent;
+export {UploadEvent};

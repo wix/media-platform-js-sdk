@@ -1,6 +1,6 @@
-var _ = require('underscore');
-var Job = require('./job/job');
-var SearchJobsResponse = require('./responses/search-jobs-response');
+import _ from 'underscore';
+import {Job} from './job/job';
+import {SearchJobsResponse} from './responses/search-jobs-response';
 
 /**
  * @param {Configuration} configuration
@@ -9,25 +9,25 @@ var SearchJobsResponse = require('./responses/search-jobs-response');
  */
 function JobManager(configuration, httpClient) {
 
-    /**
-     * @type {Configuration}
-     */
-    this.configuration = configuration;
+  /**
+   * @type {Configuration}
+   */
+  this.configuration = configuration;
 
-    /**
-     * @type {HTTPClient}
-     */
-    this.httpClient = httpClient;
+  /**
+   * @type {HTTPClient}
+   */
+  this.httpClient = httpClient;
 
-    /**
-     * @type {string}
-     */
-    this.baseUrl = 'https://' + configuration.domain;
+  /**
+   * @type {string}
+   */
+  this.baseUrl = 'https://' + configuration.domain;
 
-    /**
-     * @type {string}
-     */
-    this.apiUrl = this.baseUrl + '/_api/jobs';
+  /**
+   * @type {string}
+   */
+  this.apiUrl = this.baseUrl + '/_api/jobs';
 
 }
 
@@ -36,15 +36,15 @@ function JobManager(configuration, httpClient) {
  * @param {function(Error, Job)} callback
  */
 JobManager.prototype.getJob = function (jobId, callback) {
-    this.httpClient.request('GET', this.apiUrl + '/' + jobId, {}, null, function (error, response) {
+  this.httpClient.request('GET', this.apiUrl + '/' + jobId, {}, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new Job(response.payload));
-    });
+    callback(null, new Job(response.payload));
+  });
 };
 
 /**
@@ -52,19 +52,19 @@ JobManager.prototype.getJob = function (jobId, callback) {
  * @param {function(Error, Array<Job>)} callback
  */
 JobManager.prototype.getJobGroup = function (groupId, callback) {
-    this.httpClient.request('GET', this.apiUrl + '/groups/' + groupId, {}, null, function (error, response) {
+  this.httpClient.request('GET', this.apiUrl + '/groups/' + groupId, {}, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        var jobs = response.payload.map(function (data) {
-            return new Job(data);
-        });
-
-        callback(null, jobs);
+    var jobs = response.payload.map(function (data) {
+      return new Job(data);
     });
+
+    callback(null, jobs);
+  });
 };
 
 /**
@@ -73,21 +73,22 @@ JobManager.prototype.getJobGroup = function (groupId, callback) {
  */
 JobManager.prototype.searchJobs = function (searchJobsRequest, callback) {
 
-    var params = {};
-    _.extendOwn(params, searchJobsRequest);
+  var params = {};
+  _.extendOwn(params, searchJobsRequest);
 
-    this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
+  this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new SearchJobsResponse(response.payload));
-    });
+    callback(null, new SearchJobsResponse(response.payload));
+  });
 };
 
 /**
  * @type {JobManager}
  */
-module.exports = JobManager;
+export default JobManager;
+export {JobManager};

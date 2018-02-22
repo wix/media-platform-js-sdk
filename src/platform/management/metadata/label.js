@@ -3,19 +3,19 @@
  */
 function Label(data) {
 
-    /**
-     * @type {string}
-     */
-    this.name = null;
+  /**
+   * @type {string}
+   */
+  this.name = null;
 
-    /**
-     * @type {number}
-     */
-    this.score = null;
+  /**
+   * @type {number}
+   */
+  this.score = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -23,14 +23,15 @@ function Label(data) {
  * @private
  */
 Label.prototype.deserialize = function (data) {
-    this.name = data.name;
-    this.score = data.score;
+  this.name = data.name;
+  this.score = data.score;
 };
 
 /**
  * @type {Label}
  */
-module.exports = Label;
+export default Label;
+export {Label};
 
 
 

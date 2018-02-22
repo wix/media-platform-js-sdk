@@ -1,5 +1,5 @@
-var Source = require('./source');
-var Destination = require('./destination');
+import {Source} from './source';
+import {Destination} from './destination';
 
 /**
  * @param data
@@ -7,19 +7,19 @@ var Destination = require('./destination');
  */
 function ExtractArchiveSpecification(data) {
 
-    /**
-     * @type {Source}
-     */
-    this.source = null;
+  /**
+   * @type {Source}
+   */
+  this.source = null;
 
-    /**
-     * @type {Destination}
-     */
-    this.destination = null;
+  /**
+   * @type {Destination}
+   */
+  this.destination = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -27,11 +27,12 @@ function ExtractArchiveSpecification(data) {
  * @private
  */
 ExtractArchiveSpecification.prototype.deserialize = function (data) {
-    this.sources = new Source(data.source);
-    this.destination = new Destination(data.destination);
+  this.sources = new Source(data.source);
+  this.destination = new Destination(data.destination);
 };
 
 /**
  * @type {ExtractArchiveSpecification}
  */
-module.exports = ExtractArchiveSpecification;
+export default ExtractArchiveSpecification;
+export {ExtractArchiveSpecification};

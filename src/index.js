@@ -1,169 +1,169 @@
-var MediaPlatform = require('./platform/media-platform');
-var Image = require('./image/image');
-var UploadFileRequest = require('./platform/management/requests/upload-file-request');
-var DownloadUrlRequest = require('./platform/management/requests/download-url-request');
-var UploadUrlRequest = require('./platform/management/requests/upload-url-request');
-var ListFilesRequest = require('./platform/management/requests/list-files-request');
-var SearchJobsRequest = require('./platform/management/requests/search-jobs-request');
-var ExtractArchiveRequest = require('./platform/management/requests/extract-archive-request');
-var CreateArchiveRequest = require('./platform/management/requests/create-archive-request');
-var ImportFileRequest = require('./platform/management/requests/import-file-request');
-var TranscodeRequest = require('./platform/management/requests/transcode-request');
-var LivestreamRequest = require('./platform/management/requests/livestream-request');
-var CreateFlowRequest = require('./platform/management/requests/create-flow-request');
-var ImageOperationSpecification = require('./platform/management/job/image-operation-specification');
-var ImageOperationRequest = require('./platform/management/requests/image-operation-request');
-var TranscodeSpecification = require('./platform/management/job/transcode-specification');
-var QualityRange = require('./platform/management/job/quality-range');
-var Destination = require('./platform/management/job/destination');
-var Source = require('./platform/management/job/source');
-var Token = require('./platform/authentication/token');
-var NS = require('./platform/authentication/NS');
-var VERB = require('./platform/authentication/VERB');
+import {MediaPlatform} from './platform/media-platform';
+import {Image} from './image/image';
+import {UploadFileRequest} from './platform/management/requests/upload-file-request';
+import {DownloadUrlRequest} from './platform/management/requests/download-url-request';
+import {UploadUrlRequest} from './platform/management/requests/upload-url-request';
+import {ListFilesRequest} from './platform/management/requests/list-files-request';
+import {SearchJobsRequest} from './platform/management/requests/search-jobs-request';
+import {ExtractArchiveRequest} from './platform/management/requests/extract-archive-request';
+import {CreateArchiveRequest} from './platform/management/requests/create-archive-request';
+import {ImportFileRequest} from './platform/management/requests/import-file-request';
+import {TranscodeRequest} from './platform/management/requests/transcode-request';
+import {LivestreamRequest} from './platform/management/requests/livestream-request';
+import {CreateFlowRequest} from './platform/management/requests/create-flow-request';
+import {ImageOperationSpecification} from './platform/management/job/image-operation-specification';
+import {ImageOperationRequest} from './platform/management/requests/image-operation-request';
+import {TranscodeSpecification} from './platform/management/job/transcode-specification';
+import {QualityRange} from './platform/management/job/quality-range';
+import {Destination} from './platform/management/job/destination';
+import {Source} from './platform/management/job/source';
+import {Token} from './platform/authentication/token';
+import {NS} from './platform/authentication/NS';
+import {VERB} from './platform/authentication/VERB';
 
-module.exports = {
-    
-    /**
-     * @type {MediaPlatform}
-     */
-    MediaPlatform: MediaPlatform,
+export {
 
-    /**
-     * @type {Image}
-     */
-    Image: Image,
+  /**
+   * @type {MediaPlatform}
+   */
+    MediaPlatform,
 
-    image: {
+  /**
+   * @type {Image}
+   */
+    Image,
 
-        /**
-         * @type {Image}
-         */
-        Image: Image,
+  /**
+   *  @type {Source}
+   */
+    Source,
 
-        /**
-         * @type {ImageOperationSpecification}
-         */
-        ImageOperationSpecification: ImageOperationSpecification,
+  /**
+   *  @type {Destination}
+   */
+    Destination,
 
-        /**
-         * @type {ImageOperationRequest}
-         */
-        ImageOperationRequest: ImageOperationRequest
-    },
+  /**
+   * @type {QualityRange}
+   */
+    QualityRange
+};
 
-    file: {
-        /**
-         * @type {UploadFileRequest}
-         */
-        UploadFileRequest: UploadFileRequest,
+export const image = {
 
-        /**
-         * @type {UploadUrlRequest}
-         */
-        UploadUrlRequest: UploadUrlRequest,
+  /**
+   * @type {Image}
+   */
+  Image: Image,
 
-        /**
-         * @type {DownloadUrlRequest}
-         */
-        DownloadUrlRequest: DownloadUrlRequest,
+  /**
+   * @type {ImageOperationSpecification}
+   */
+  ImageOperationSpecification: ImageOperationSpecification,
 
-        /**
-         * @type {ListFilesRequest}
-         */
-        ListFilesRequest: ListFilesRequest,
+  /**
+   * @type {ImageOperationRequest}
+   */
+  ImageOperationRequest: ImageOperationRequest
+};
 
-        /**
-         * @type {ImportFileRequest}
-         */
-        ImportFileRequest: ImportFileRequest,
+export const file = {
+  /**
+   * @type {UploadFileRequest}
+   */
+  UploadFileRequest: UploadFileRequest,
 
-        /**
-         *  @type {Source}
-         */
-        Source: Source,
+  /**
+   * @type {UploadUrlRequest}
+   */
+  UploadUrlRequest: UploadUrlRequest,
 
-        /**
-         * @type {Destination}
-         */
-        Destination: Destination
-    },
+  /**
+   * @type {DownloadUrlRequest}
+   */
+  DownloadUrlRequest: DownloadUrlRequest,
 
-    archive: {
-        /**
-         * @type {CreateArchiveRequest}
-         */
-        CreateArchiveRequest: CreateArchiveRequest,
+  /**
+   * @type {ListFilesRequest}
+   */
+  ListFilesRequest: ListFilesRequest,
 
-        /**
-         * @type {ExtractArchiveRequest}
-         */
-        ExtractArchiveRequest: ExtractArchiveRequest
-    },
+  /**
+   * @type {ImportFileRequest}
+   */
+  ImportFileRequest: ImportFileRequest,
 
-    auth: {
-        /**
-         * @type {Token}
-         */
-        Token: Token,
+  /**
+   *  @type {Source}
+   */
+  Source: Source,
 
-        /**
-         * @type {{SERVICE: string, MEMBER: string, APPLICATION: string, FILE: string}}
-         */
-        NS: NS,
+  /**
+   * @type {Destination}
+   */
+  Destination: Destination
+};
 
-        VERB: VERB
-    },
+export const archive = {
+  /**
+   * @type {CreateArchiveRequest}
+   */
+  CreateArchiveRequest: CreateArchiveRequest,
 
-    transcode: {
-        /**
-         * @type {TranscodeRequest}
-         */
-        TranscodeRequest: TranscodeRequest,
+  /**
+   * @type {ExtractArchiveRequest}
+   */
+  ExtractArchiveRequest: ExtractArchiveRequest
+};
 
-        /**
-         * @type {TranscodeSpecification}
-         */
-        TranscodeSpecification: TranscodeSpecification,
+export const auth = {
+  /**
+   * @type {Token}
+   */
+  Token: Token,
 
-        /**
-         * @type {QualityRange}
-         */
-        QualityRange: QualityRange
-    },
+  /**
+   * @type {{SERVICE: string, MEMBER: string, APPLICATION: string, FILE: string}}
+   */
+  NS: NS,
 
-    flow: {
-        /**
-         * @type {CreateFlowRequest}
-         */
-        CreateFlowRequest: CreateFlowRequest
-    },
+  VERB: VERB
+};
 
-    live: {
-        /**
-         * @type {LivestreamRequest}
-         */
-        LivestreamRequest: LivestreamRequest
-    },
+export const transcode = {
+  /**
+   * @type {TranscodeRequest}
+   */
+  TranscodeRequest: TranscodeRequest,
 
-    job: {
-        /**
-         * @type {SearchJobsRequest}
-         */
-        SearchJobsRequest: SearchJobsRequest
-    },
+  /**
+   * @type {TranscodeSpecification}
+   */
+  TranscodeSpecification: TranscodeSpecification,
 
-    /**
-     *  @type {Source}
-     */
-    Source: Source,
+  /**
+   * @type {QualityRange}
+   */
+  QualityRange: QualityRange
+};
 
-    /**
-     *  @type {Destination}
-     */
-    Destination: Destination,
+export const flow = {
+  /**
+   * @type {CreateFlowRequest}
+   */
+  CreateFlowRequest: CreateFlowRequest
+};
 
-    /**
-     * @type {QualityRange}
-     */
-    QualityRange: QualityRange
+export const live = {
+  /**
+   * @type {LivestreamRequest}
+   */
+  LivestreamRequest: LivestreamRequest
+};
+
+export const job = {
+  /**
+   * @type {SearchJobsRequest}
+   */
+  SearchJobsRequest: SearchJobsRequest
 };

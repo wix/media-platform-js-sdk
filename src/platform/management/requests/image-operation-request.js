@@ -5,15 +5,15 @@
  */
 function ImageOperationRequest(source, specification) {
 
-    /**
-     * @type {Source}
-     */
-    this.source = source || null;
+  /**
+   * @type {Source}
+   */
+  this.source = source || null;
 
-    /**
-     * @type {ImageOperationSpecification}
-     */
-    this.specification = specification || null;
+  /**
+   * @type {ImageOperationSpecification}
+   */
+  this.specification = specification || null;
 }
 
 /**
@@ -21,8 +21,8 @@ function ImageOperationRequest(source, specification) {
  * @returns {ImageOperationRequest}
  */
 ImageOperationRequest.prototype.setSource = function (source) {
-    this.source = source;
-    return this;
+  this.source = source;
+  return this;
 };
 
 /**
@@ -30,11 +30,12 @@ ImageOperationRequest.prototype.setSource = function (source) {
  * @returns {ImageOperationRequest}
  */
 ImageOperationRequest.prototype.setSpecification = function (imageOperationSpecification) {
-    this.specification = imageOperationSpecification;
-    return this;
+  this.specification = imageOperationSpecification;
+  return this;
 };
 
 /**
  * @type {ImageOperationRequest}
  */
-module.exports = ImageOperationRequest;
+export default ImageOperationRequest;
+export {ImageOperationRequest};

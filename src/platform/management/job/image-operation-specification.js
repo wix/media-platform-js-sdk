@@ -1,4 +1,4 @@
-var Destination = require('./destination');
+import {Destination} from './destination';
 
 /**
  * @param {{}?} data
@@ -6,19 +6,19 @@ var Destination = require('./destination');
  */
 function ImageOperationSpecification(data) {
 
-    /**
-     * @type {string}
-     */
-    this.command = null;
+  /**
+   * @type {string}
+   */
+  this.command = null;
 
-    /**
-     * @type {Destination}
-     */
-    this.destination = null;
+  /**
+   * @type {Destination}
+   */
+  this.destination = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -26,8 +26,8 @@ function ImageOperationSpecification(data) {
  * @return {ImageOperationSpecification}
  */
 ImageOperationSpecification.prototype.setCommand = function (command) {
-    this.command = command;
-    return this;
+  this.command = command;
+  return this;
 };
 
 /**
@@ -35,8 +35,8 @@ ImageOperationSpecification.prototype.setCommand = function (command) {
  * @return {ImageOperationSpecification}
  */
 ImageOperationSpecification.prototype.setDestination = function (destination) {
-    this.destination = destination;
-    return this;
+  this.destination = destination;
+  return this;
 };
 
 /**
@@ -44,11 +44,12 @@ ImageOperationSpecification.prototype.setDestination = function (destination) {
  * @private
  */
 ImageOperationSpecification.prototype.deserialize = function (data) {
-    this.command = data.command;
-    this.destination = new Destination(data.destination);
+  this.command = data.command;
+  this.destination = new Destination(data.destination);
 };
 
 /**
  * @type {ImageOperationSpecification}
  */
-module.exports = ImageOperationSpecification;
+export default ImageOperationSpecification;
+export {ImageOperationSpecification};

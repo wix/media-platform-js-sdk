@@ -1,17 +1,21 @@
 {
   "message": "OK",
   "code": 0,
-  "payload": [{
-    "mimeType": "image/jpeg",
-    "hash": "9eea21221c9abe895eac99a54f058d2a",
-    "parent": "/demo",
-    "dateCreated": "2017-03-08T12:57:38Z",
-    "path": "/demo/image.jpg",
-    "id": "c4516b12744b4ef08625f016a80aed3a",
-    "size": 12958,
-    "ancestors": ["/demo"],
-    "acl": "public",
-    "dateUpdated": "2017-03-08T12:57:38Z",
-    "type": "-"
-  }]
+  "payload": [
+    {
+      "mimeType": "image/jpeg",
+      "hash": "9eea21221c9abe895eac99a54f058d2a",
+      "parent": "/demo",
+      "dateCreated": "2017-03-08T12:57:38Z",
+      "path": "/demo/image.jpg",
+      "id": "c4516b12744b4ef08625f016a80aed3a",
+      "size": 12958,
+      "ancestors": [
+        "/demo"
+      ],
+      "acl": "public",
+      "dateUpdated": "2017-03-08T12:57:38Z",
+      "type": "-"
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-var VideoSpecification = require('./video-specification');
+import {VideoSpecification} from './video-specification';
 
 /**
  * @param data
@@ -6,14 +6,14 @@ var VideoSpecification = require('./video-specification');
  */
 function Video(data) {
 
-    /**
-     * @type {VideoSpecification}
-     */
-    this.specification = null;
+  /**
+   * @type {VideoSpecification}
+   */
+  this.specification = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -21,8 +21,8 @@ function Video(data) {
  * @returns {Video}
  */
 Video.prototype.setSpecification = function (specification) {
-    this.specification = specification;
-    return this;
+  this.specification = specification;
+  return this;
 };
 
 /**
@@ -30,10 +30,11 @@ Video.prototype.setSpecification = function (specification) {
  * @private
  */
 Video.prototype.deserialize = function (data) {
-    this.specification = new VideoSpecification(data.specification);
+  this.specification = new VideoSpecification(data.specification);
 };
 
 /**
  * @type {Video}
  */
-module.exports = Video;
+export default Video;
+export {Video};

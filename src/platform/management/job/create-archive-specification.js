@@ -1,5 +1,5 @@
-var Source = require('./source');
-var Destination = require('./destination');
+import {Source} from './source';
+import {Destination} from './destination';
 
 /**
  * @param data
@@ -7,24 +7,24 @@ var Destination = require('./destination');
  */
 function CreateArchiveSpecification(data) {
 
-    /**
-     * @type {array}
-     */
-    this.sources = null;
+  /**
+   * @type {array}
+   */
+  this.sources = null;
 
-    /**
-     * @type {Destination}
-     */
-    this.destination = null;
+  /**
+   * @type {Destination}
+   */
+  this.destination = null;
 
-    /**
-     * @type {string}
-     */
-    this.archiveType = null;
+  /**
+   * @type {string}
+   */
+  this.archiveType = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -32,15 +32,16 @@ function CreateArchiveSpecification(data) {
  * @private
  */
 CreateArchiveSpecification.prototype.deserialize = function (data) {
-    this.sources = data.sources.map(function (source) {
-        return new Source(source)
-    });
-    this.destination = new Destination(data.destination);
-    this.archiveType = data.archiveType;
+  this.sources = data.sources.map(function (source) {
+    return new Source(source)
+  });
+  this.destination = new Destination(data.destination);
+  this.archiveType = data.archiveType;
 
 };
 
 /**
  * @type {CreateArchiveSpecification}
  */
-module.exports = CreateArchiveSpecification;
+export default CreateArchiveSpecification;
+export {CreateArchiveSpecification};

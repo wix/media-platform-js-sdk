@@ -1,23 +1,23 @@
-var Job = require('../job/job');
+import {Job} from '../job/job';
 
 /**
  * @constructor
  */
 function SearchJobsResponse(data) {
 
-    /**
-     * @type {string}
-     */
-    this.nextPageToken = null;
+  /**
+   * @type {string}
+   */
+  this.nextPageToken = null;
 
-    /**
-     * @type {Array<Job>}
-     */
-    this.jobs = [];
+  /**
+   * @type {Array<Job>}
+   */
+  this.jobs = [];
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -25,13 +25,14 @@ function SearchJobsResponse(data) {
  * @private
  */
 SearchJobsResponse.prototype.deserialize = function (data) {
-    this.nextPageToken = data.nextPageToken;
-    this.jobs = data.jobs.map(function (job) {
-        return new Job(job)
-    });
+  this.nextPageToken = data.nextPageToken;
+  this.jobs = data.jobs.map(function (job) {
+    return new Job(job)
+  });
 };
 
 /**
  * @type {SearchJobsResponse}
  */
-module.exports = SearchJobsResponse;
+export default SearchJobsResponse;
+export {SearchJobsResponse};

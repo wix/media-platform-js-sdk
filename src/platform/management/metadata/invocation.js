@@ -1,24 +1,24 @@
-var Source = require('../job/source');
+import {Source} from '../job/source';
 
 /**
  * @constructor
  */
 function Invocation(data) {
 
-    /**
-     * @type {Source[]}
-     * @type {null}
-     */
-    this.sources = [];
+  /**
+   * @type {Source[]}
+   * @type {null}
+   */
+  this.sources = [];
 
-    /**
-     * @type {[]}
-     */
-    this.entryPoints = null;
+  /**
+   * @type {[]}
+   */
+  this.entryPoints = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -26,22 +26,22 @@ function Invocation(data) {
  * @param sources
  * @returns {Invocation}
  */
-Invocation.prototype.setSources = function(sources) {
-    this.sources = sources;
-    return this;
+Invocation.prototype.setSources = function (sources) {
+  this.sources = sources;
+  return this;
 };
 
 /**
  * @param source
  * @returns {Invocation}
  */
-Invocation.prototype.addSource = function(source) {
-    if(!this.sources) {
-        this.sources = [];
-    }
+Invocation.prototype.addSource = function (source) {
+  if (!this.sources) {
+    this.sources = [];
+  }
 
-    this.sources.push(source);
-    return this;
+  this.sources.push(source);
+  return this;
 };
 
 /**
@@ -49,22 +49,22 @@ Invocation.prototype.addSource = function(source) {
  * @param entryPoints
  * @returns {Invocation}
  */
-Invocation.prototype.setEntryPoints = function(entryPoints) {
-    this.entryPoints = entryPoints;
-    return this;
+Invocation.prototype.setEntryPoints = function (entryPoints) {
+  this.entryPoints = entryPoints;
+  return this;
 };
 
 /**
  * @param entryPoint
  * @returns {Invocation}
  */
-Invocation.prototype.addEntryPoint = function(entryPoint) {
-    if(!this.entryPoints) {
-        this.entryPoints = [];
-    }
+Invocation.prototype.addEntryPoint = function (entryPoint) {
+  if (!this.entryPoints) {
+    this.entryPoints = [];
+  }
 
-    this.entryPoints.push(entryPoint);
-    return this;
+  this.entryPoints.push(entryPoint);
+  return this;
 };
 
 /**
@@ -72,17 +72,18 @@ Invocation.prototype.addEntryPoint = function(entryPoint) {
  * @private
  */
 Invocation.prototype.deserialize = function (data) {
-    this.sources = [];
-    for(var i in data.sources) {
-        this.sources[i] = new Source(data.sources[i]);
-    }
-    this.entryPoints = data.entryPoints;
+  this.sources = [];
+  for (var i in data.sources) {
+    this.sources[i] = new Source(data.sources[i]);
+  }
+  this.entryPoints = data.entryPoints;
 };
 
 /**
  * @type {Invocation}
  */
-module.exports = Invocation;
+export default Invocation;
+export {Invocation};
 
 
 

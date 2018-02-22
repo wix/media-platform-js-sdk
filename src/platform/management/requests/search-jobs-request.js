@@ -3,55 +3,55 @@
  */
 function SearchJobsRequest() {
 
-    /**
-     * @type {string}
-     */
-    this.nextPageToken = null;
+  /**
+   * @type {string}
+   */
+  this.nextPageToken = null;
 
-    /**
-     * @type {number}
-     */
-    this.pageSize = null;
+  /**
+   * @type {number}
+   */
+  this.pageSize = null;
 
-    /**
-     * @type {string}
-     */
-    this.orderBy = null;
+  /**
+   * @type {string}
+   */
+  this.orderBy = null;
 
-    /**
-     * @type {string}
-     */
-    this.orderDirection = null;
+  /**
+   * @type {string}
+   */
+  this.orderDirection = null;
 
-    /**
-     * @type {string}
-     */
-    this.issuer = null;
+  /**
+   * @type {string}
+   */
+  this.issuer = null;
 
-    /**
-     * @type {string}
-     */
-    this.type = null;
+  /**
+   * @type {string}
+   */
+  this.type = null;
 
-    /**
-     * @type {string}
-     */
-    this.status = null;
+  /**
+   * @type {string}
+   */
+  this.status = null;
 
-    /**
-     * @type {string}
-     */
-    this.groupId = null;
+  /**
+   * @type {string}
+   */
+  this.groupId = null;
 
-    /**
-     * @type {string}
-     */
-    this.fileId = null;
+  /**
+   * @type {string}
+   */
+  this.fileId = null;
 
-    /**
-     * @type {string}
-     */
-    this.path = null;
+  /**
+   * @type {string}
+   */
+  this.path = null;
 }
 
 
@@ -60,8 +60,8 @@ function SearchJobsRequest() {
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.setNextPageToken = function (nextPageToken) {
-    this.nextPageToken = nextPageToken;
-    return this;
+  this.nextPageToken = nextPageToken;
+  return this;
 };
 
 /**
@@ -69,8 +69,8 @@ SearchJobsRequest.prototype.setNextPageToken = function (nextPageToken) {
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.setPageSize = function (pageSize) {
-    this.pageSize = pageSize;
-    return this;
+  this.pageSize = pageSize;
+  return this;
 };
 
 /**
@@ -78,24 +78,24 @@ SearchJobsRequest.prototype.setPageSize = function (pageSize) {
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.setOrderBy = function (orderBy) {
-    this.orderBy = orderBy;
-    return this;
+  this.orderBy = orderBy;
+  return this;
 };
 
 /**
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.ascending = function () {
-    this.orderDirection = 'acs';
-    return this;
+  this.orderDirection = 'acs';
+  return this;
 };
 
 /**
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.descending = function () {
-    this.orderDirection = 'des';
-    return this;
+  this.orderDirection = 'des';
+  return this;
 };
 
 /**
@@ -103,8 +103,8 @@ SearchJobsRequest.prototype.descending = function () {
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.setType = function (type) {
-    this.type = type;
-    return this;
+  this.type = type;
+  return this;
 };
 
 /**
@@ -112,8 +112,8 @@ SearchJobsRequest.prototype.setType = function (type) {
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.setStatus = function (status) {
-    this.status = status;
-    return this;
+  this.status = status;
+  return this;
 };
 
 /**
@@ -121,8 +121,8 @@ SearchJobsRequest.prototype.setStatus = function (status) {
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.setGroupId = function (groupId) {
-    this.groupId = groupId;
-    return this;
+  this.groupId = groupId;
+  return this;
 };
 
 /**
@@ -130,8 +130,8 @@ SearchJobsRequest.prototype.setGroupId = function (groupId) {
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.setFileId = function (fileId) {
-    this.fileId = fileId;
-    return this;
+  this.fileId = fileId;
+  return this;
 };
 
 /**
@@ -139,11 +139,12 @@ SearchJobsRequest.prototype.setFileId = function (fileId) {
  * @returns {SearchJobsRequest}
  */
 SearchJobsRequest.prototype.setPath = function (path) {
-    this.path = path;
-    return this;
+  this.path = path;
+  return this;
 };
 
 /**
  * @type {SearchJobsRequest}
  */
-module.exports = SearchJobsRequest;
+export default SearchJobsRequest;
+export {SearchJobsRequest};

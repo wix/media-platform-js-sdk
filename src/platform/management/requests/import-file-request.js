@@ -3,20 +3,20 @@
  */
 function ImportFileRequest() {
 
-    /**
-     * @type {string}
-     */
-    this.sourceUrl = null;
+  /**
+   * @type {string}
+   */
+  this.sourceUrl = null;
 
-    /**
-     * @type {ExternalAuthorization}
-     */
-    this.externalAuthorization = null;
+  /**
+   * @type {ExternalAuthorization}
+   */
+  this.externalAuthorization = null;
 
-    /**
-     * @type {Destination}
-     */
-    this.destination = null;
+  /**
+   * @type {Destination}
+   */
+  this.destination = null;
 }
 
 /**
@@ -24,8 +24,8 @@ function ImportFileRequest() {
  * @returns {ImportFileRequest}
  */
 ImportFileRequest.prototype.setSourceUrl = function (sourceUrl) {
-    this.sourceUrl = sourceUrl;
-    return this;
+  this.sourceUrl = sourceUrl;
+  return this;
 };
 
 /**
@@ -33,8 +33,8 @@ ImportFileRequest.prototype.setSourceUrl = function (sourceUrl) {
  * @returns {ImportFileRequest}
  */
 ImportFileRequest.prototype.setExternalAuthorization = function (externalAuthorization) {
-    this.externalAuthorization = externalAuthorization;
-    return this;
+  this.externalAuthorization = externalAuthorization;
+  return this;
 };
 
 /**
@@ -42,11 +42,11 @@ ImportFileRequest.prototype.setExternalAuthorization = function (externalAuthori
  * @returns {ImportFileRequest}
  */
 ImportFileRequest.prototype.setDestination = function (destination) {
-    this.destination = destination;
-    return this;
+  this.destination = destination;
+  return this;
 };
 
 /**
  * @type {ImportFileRequest}
  */
-module.exports = ImportFileRequest;
+export {ImportFileRequest};

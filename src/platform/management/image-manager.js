@@ -1,4 +1,4 @@
-var FileDescriptor = require('./metadata/file-descriptor');
+import {FileDescriptor} from './metadata/file-descriptor';
 
 /**
  * @param {Configuration} configuration
@@ -7,25 +7,25 @@ var FileDescriptor = require('./metadata/file-descriptor');
  */
 function ImageManager(configuration, httpClient) {
 
-    /**
-     * @type {Configuration}
-     */
-    this.configuration = configuration;
+  /**
+   * @type {Configuration}
+   */
+  this.configuration = configuration;
 
-    /**
-     * @type {HTTPClient}
-     */
-    this.httpClient = httpClient;
+  /**
+   * @type {HTTPClient}
+   */
+  this.httpClient = httpClient;
 
-    /**
-     * @type {string}
-     */
-    this.baseUrl = 'https://' + configuration.domain;
+  /**
+   * @type {string}
+   */
+  this.baseUrl = 'https://' + configuration.domain;
 
-    /**
-     * @type {string}
-     */
-    this.apiUrl = this.baseUrl + '/_api/images';
+  /**
+   * @type {string}
+   */
+  this.apiUrl = this.baseUrl + '/_api/images';
 
 }
 
@@ -34,18 +34,19 @@ function ImageManager(configuration, httpClient) {
  * @param {function(Error, FileDescriptor)} callback
  */
 ImageManager.prototype.imageOperation = function (imageOperationRequest, callback) {
-    this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, null, function (error, response) {
+  this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new FileDescriptor(response.payload));
-    });
+    callback(null, new FileDescriptor(response.payload));
+  });
 };
 
 /**
  * @type {ImageManager}
  */
-module.exports = ImageManager;
+export default ImageManager;
+export {ImageManager};

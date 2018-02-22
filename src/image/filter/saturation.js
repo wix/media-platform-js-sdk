@@ -1,4 +1,4 @@
-var validator = require('../validation/validator');
+import {validator} from '../validation/validator';
 
 /**
  * @param image
@@ -6,21 +6,21 @@ var validator = require('../validation/validator');
  */
 function Saturation(image) {
 
-    this.image = image;
+  this.image = image;
 
+  /**
+   * @type {string|null}
+   */
+  this.error = null;
+
+  this.settings = {
     /**
-     * @type {string|null}
+     * @type {number|null}
      */
-    this.error = null;
-    
-    this.settings = {
-        /**
-         * @type {number|null}
-         */
-        saturation: null
-    };
+    saturation: null
+  };
 
-    this.saturation = this.saturation.bind(this);
+  this.saturation = this.saturation.bind(this);
 }
 
 /**
@@ -30,13 +30,13 @@ function Saturation(image) {
  */
 Saturation.prototype.saturation = function (saturation) {
 
-    this.error = validator.numberNotInRange('saturation', saturation, -100, 100);
-    if (this.error) {
-        return this.image;
-    }
-    
-    this.settings.saturation = saturation === void 0 ? null : saturation;
+  this.error = validator.numberNotInRange('saturation', saturation, -100, 100);
+  if (this.error) {
     return this.image;
+  }
+
+  this.settings.saturation = saturation === void 0 ? null : saturation;
+  return this.image;
 };
 
 /**
@@ -44,19 +44,20 @@ Saturation.prototype.saturation = function (saturation) {
  */
 Saturation.prototype.serialize = function () {
 
-    var out = '';
+  var out = '';
 
-    if (this.settings.saturation) {
-        out += 'sat_' + this.settings.saturation;
-    }
+  if (this.settings.saturation) {
+    out += 'sat_' + this.settings.saturation;
+  }
 
-    return {
-        params: out,
-        error: this.error
-    };
+  return {
+    params: out,
+    error: this.error
+  };
 };
 
 /**
  * @type {Saturation}
  */
-module.exports = Saturation;
+export default Saturation;
+export {Saturation};

@@ -1,8 +1,8 @@
-var _ = require('underscore');
-var FileDescriptor = require('./metadata/file-descriptor');
-var FileMetadata = require('./metadata/file-metadata');
-var ListFilesResponse = require('./responses/list-files-response');
-var Job = require('./job/job');
+import _ from 'underscore';
+import {FileDescriptor} from './metadata/file-descriptor';
+import {FileMetadata} from './metadata/file-metadata';
+import {ListFilesResponse} from './responses/list-files-response';
+import {Job} from './job/job';
 
 /**
  * @param {Configuration} configuration
@@ -12,30 +12,30 @@ var Job = require('./job/job');
  */
 function FileManager(configuration, httpClient, fileUploader) {
 
-    /**
-     * @type {Configuration}
-     */
-    this.configuration = configuration;
+  /**
+   * @type {Configuration}
+   */
+  this.configuration = configuration;
 
-    /**
-     * @type {HTTPClient}
-     */
-    this.httpClient = httpClient;
+  /**
+   * @type {HTTPClient}
+   */
+  this.httpClient = httpClient;
 
-    /**
-     * @type {string}
-     */
-    this.baseUrl = 'https://' + configuration.domain;
+  /**
+   * @type {string}
+   */
+  this.baseUrl = 'https://' + configuration.domain;
 
-    /**
-     * @type {string}
-     */
-    this.apiUrl = this.baseUrl + '/_api/files';
+  /**
+   * @type {string}
+   */
+  this.apiUrl = this.baseUrl + '/_api/files';
 
-    /**
-     * @type {FileUploader}
-     */
-    this.fileUploader = fileUploader;
+  /**
+   * @type {FileUploader}
+   */
+  this.fileUploader = fileUploader;
 }
 
 /**
@@ -43,7 +43,7 @@ function FileManager(configuration, httpClient, fileUploader) {
  * @param {function(Error, UploadUrlResponse)} callback
  */
 FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
-    this.fileUploader.getUploadUrl(uploadUrlRequest, callback);
+  this.fileUploader.getUploadUrl(uploadUrlRequest, callback);
 };
 
 /**
@@ -54,7 +54,7 @@ FileManager.prototype.getUploadUrl = function (uploadUrlRequest, callback) {
  * @param {function(Error, Array<FileDescriptor>|null)} callback
  */
 FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback) {
-    return this.fileUploader.uploadFile(path, file, uploadRequest, callback);
+  return this.fileUploader.uploadFile(path, file, uploadRequest, callback);
 };
 
 /**
@@ -63,15 +63,15 @@ FileManager.prototype.uploadFile = function (path, file, uploadRequest, callback
  * @param {function(Error, Job|null)} callback
  */
 FileManager.prototype.importFile = function (importFileRequest, callback) {
-    this.httpClient.request('POST', this.baseUrl + '/_api/import/file', importFileRequest, null, function (error, response) {
+  this.httpClient.request('POST', this.baseUrl + '/_api/import/file', importFileRequest, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new Job(response.payload));
-    });
+    callback(null, new Job(response.payload));
+  });
 };
 
 /**
@@ -80,15 +80,15 @@ FileManager.prototype.importFile = function (importFileRequest, callback) {
  * @param {function(Error, FileDescriptor)} callback
  */
 FileManager.prototype.createFile = function (fileDescriptor, callback) {
-    this.httpClient.request('POST', this.apiUrl, fileDescriptor, null, function (error, response) {
+  this.httpClient.request('POST', this.apiUrl, fileDescriptor, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new FileDescriptor(response.payload));
-    });
+    callback(null, new FileDescriptor(response.payload));
+  });
 };
 
 /**
@@ -97,19 +97,19 @@ FileManager.prototype.createFile = function (fileDescriptor, callback) {
  */
 FileManager.prototype.getFile = function (path, callback) {
 
-    var params = {
-        path: path
-    };
+  var params = {
+    path: path
+  };
 
-    this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
+  this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new FileDescriptor(response.payload));
-    });
+    callback(null, new FileDescriptor(response.payload));
+  });
 };
 
 /**
@@ -118,15 +118,15 @@ FileManager.prototype.getFile = function (path, callback) {
  */
 FileManager.prototype.getFileMetadataById = function (fileId, callback) {
 
-    this.httpClient.request('GET', this.apiUrl + '/' + fileId + '/metadata', {}, null, function (error, response) {
+  this.httpClient.request('GET', this.apiUrl + '/' + fileId + '/metadata', {}, null, function (error, response) {
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-        callback(null, new FileMetadata(response.payload));
-    });
+    callback(null, new FileMetadata(response.payload));
+  });
 };
 
 /**
@@ -135,21 +135,21 @@ FileManager.prototype.getFileMetadataById = function (fileId, callback) {
  * @param {function(Error, ListFilesResponse)} callback
  */
 FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
-    
-    var params = {
-        path: path
-    };
-    _.extendOwn(params, listFilesRequest);
 
-    this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, null, function (error, response) {
+  var params = {
+    path: path
+  };
+  _.extendOwn(params, listFilesRequest);
 
-        if (error) {
-            callback(error, null);
-            return;
-        }
+  this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, null, function (error, response) {
 
-        callback(null, new ListFilesResponse(response.payload));
-    });
+    if (error) {
+      callback(error, null);
+      return;
+    }
+
+    callback(null, new ListFilesResponse(response.payload));
+  });
 };
 
 /**
@@ -158,19 +158,19 @@ FileManager.prototype.listFiles = function (path, listFilesRequest, callback) {
  */
 FileManager.prototype.deleteFileByPath = function (path, callback) {
 
-    var params = {
-        path: path
-    };
+  var params = {
+    path: path
+  };
 
-    this.httpClient.request('DELETE', this.apiUrl, params, null, function (error, response) {
+  this.httpClient.request('DELETE', this.apiUrl, params, null, function (error, response) {
 
-        if (error) {
-            callback(error);
-            return;
-        }
+    if (error) {
+      callback(error);
+      return;
+    }
 
-        callback(null);
-    });
+    callback(null);
+  });
 };
 
 /**
@@ -179,19 +179,20 @@ FileManager.prototype.deleteFileByPath = function (path, callback) {
  */
 FileManager.prototype.deleteFileById = function (id, callback) {
 
-    this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, null, function (error, response) {
+  this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, null, function (error, response) {
 
-        if (error) {
-            callback(error);
-            return;
-        }
+    if (error) {
+      callback(error);
+      return;
+    }
 
-        callback(null);
-    });
+    callback(null);
+  });
 };
 
 
 /**
  * @type {FileManager}
  */
-module.exports = FileManager;
+export default FileManager;
+export {FileManager};

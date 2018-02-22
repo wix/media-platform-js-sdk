@@ -1,24 +1,25 @@
-var Invocation = require('./invocation');
-var FlowComponent = require('./flow-component');
+import {Invocation} from './invocation';
+import {FlowComponent} from './flow-component';
+
 /**
  * @constructor
  */
 function Flow(data) {
-    this.id = null;
+  this.id = null;
 
-    /**
-     * @type {Invocation}
-     */
-    this.invocation = null;
+  /**
+   * @type {Invocation}
+   */
+  this.invocation = null;
 
-    /**
-     * @type {{}}
-     */
-    this.flow = {};
+  /**
+   * @type {{}}
+   */
+  this.flow = {};
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 
 }
 
@@ -27,17 +28,18 @@ function Flow(data) {
  * @private
  */
 Flow.prototype.deserialize = function (data) {
-    this.id = data.id;
-    this.invocation = new Invocation(data.invocation);
-    for(var i in data.flow) {
-        this.flow[i] = new FlowComponent(data.flow[i]);
-    }
+  this.id = data.id;
+  this.invocation = new Invocation(data.invocation);
+  for (var i in data.flow) {
+    this.flow[i] = new FlowComponent(data.flow[i]);
+  }
 };
 
 /**
  * @type {Flow}
  */
-module.exports = Flow;
+export default Flow;
+export {Flow};
 
 
 

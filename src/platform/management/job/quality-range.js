@@ -4,19 +4,19 @@
  */
 function QualityRange(data) {
 
-    /**
-     * @type {string}
-     */
-    this.minimum = null;
+  /**
+   * @type {string}
+   */
+  this.minimum = null;
 
-    /**
-     * @type {string}
-     */
-    this.maximum = null;
+  /**
+   * @type {string}
+   */
+  this.maximum = null;
 
-    if (data) {
-        this.deserialize(data);
-    }
+  if (data) {
+    this.deserialize(data);
+  }
 }
 
 /**
@@ -24,8 +24,8 @@ function QualityRange(data) {
  * @returns {QualityRange}
  */
 QualityRange.prototype.setMinimum = function (minimum) {
-    this.minimum = minimum;
-    return this;
+  this.minimum = minimum;
+  return this;
 };
 
 /**
@@ -33,8 +33,8 @@ QualityRange.prototype.setMinimum = function (minimum) {
  * @returns {QualityRange}
  */
 QualityRange.prototype.setMaximum = function (maximum) {
-    this.maximum = maximum;
-    return this;
+  this.maximum = maximum;
+  return this;
 };
 
 /**
@@ -42,11 +42,12 @@ QualityRange.prototype.setMaximum = function (maximum) {
  * @private
  */
 QualityRange.prototype.deserialize = function (data) {
-    this.minimum = data.minimum;
-    this.maximum = data.maximum;
+  this.minimum = data.minimum;
+  this.maximum = data.maximum;
 };
 
 /**
  * @type {QualityRange}
  */
-module.exports = QualityRange;
+export default QualityRange;
+export {QualityRange};

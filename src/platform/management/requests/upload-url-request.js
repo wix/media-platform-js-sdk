@@ -3,25 +3,25 @@
  */
 function UploadUrlRequest() {
 
-    /**
-     * @type {string}
-     */
-    this.mimeType = null;
+  /**
+   * @type {string}
+   */
+  this.mimeType = null;
 
-    /**
-     * @type {string}
-     */
-    this.path = null;
+  /**
+   * @type {string}
+   */
+  this.path = null;
 
-    /**
-     * @type {number|null}
-     */
-    this.size = null;
+  /**
+   * @type {number|null}
+   */
+  this.size = null;
 
-    /**
-     * @type {string}
-     */
-    this.acl = 'public';
+  /**
+   * @type {string}
+   */
+  this.acl = 'public';
 }
 
 /**
@@ -29,8 +29,8 @@ function UploadUrlRequest() {
  * @returns {UploadUrlRequest}
  */
 UploadUrlRequest.prototype.setMimeType = function (mimeType) {
-    this.mimeType = mimeType;
-    return this;
+  this.mimeType = mimeType;
+  return this;
 };
 
 /**
@@ -38,8 +38,8 @@ UploadUrlRequest.prototype.setMimeType = function (mimeType) {
  * @returns {UploadUrlRequest}
  */
 UploadUrlRequest.prototype.setPath = function (path) {
-    this.path = path;
-    return this;
+  this.path = path;
+  return this;
 };
 
 /**
@@ -48,8 +48,8 @@ UploadUrlRequest.prototype.setPath = function (path) {
  * @returns {UploadUrlRequest}
  */
 UploadUrlRequest.prototype.setSize = function (size) {
-    this.size = size;
-    return this;
+  this.size = size;
+  return this;
 };
 
 /**
@@ -57,12 +57,13 @@ UploadUrlRequest.prototype.setSize = function (size) {
  * @returns {UploadUrlRequest}
  */
 UploadUrlRequest.prototype.setAcl = function (acl) {
-    this.acl = acl;
-    return this;
+  this.acl = acl;
+  return this;
 };
 
 
 /**
  * @type {UploadUrlRequest}
  */
-module.exports = UploadUrlRequest;
+export default UploadUrlRequest;
+export {UploadUrlRequest};

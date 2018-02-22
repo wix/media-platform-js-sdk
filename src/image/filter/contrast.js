@@ -1,26 +1,26 @@
-var validator = require('../validation/validator');
+import {validator} from '../validation/validator';
 
 /**
  * @param image
  * @constructor
  */
 function Contrast(image) {
-    
-    this.image = image;
 
+  this.image = image;
+
+  /**
+   * @type {string|null}
+   */
+  this.error = null;
+
+  this.settings = {
     /**
-     * @type {string|null}
+     * @type {number|null}
      */
-    this.error = null;
+    contrast: null
+  };
 
-    this.settings = {
-        /**
-         * @type {number|null}
-         */
-        contrast: null
-    };
-
-    this.contrast = this.contrast.bind(this);
+  this.contrast = this.contrast.bind(this);
 }
 
 /**
@@ -31,13 +31,13 @@ function Contrast(image) {
  */
 Contrast.prototype.contrast = function (contrast) {
 
-    this.error = validator.numberNotInRange('contrast', contrast, -100, 100);
-    if (this.error) {
-        return this.image;
-    }
-
-    this.settings.contrast = contrast === void 0 ? null : contrast;
+  this.error = validator.numberNotInRange('contrast', contrast, -100, 100);
+  if (this.error) {
     return this.image;
+  }
+
+  this.settings.contrast = contrast === void 0 ? null : contrast;
+  return this.image;
 };
 
 /**
@@ -45,19 +45,20 @@ Contrast.prototype.contrast = function (contrast) {
  */
 Contrast.prototype.serialize = function () {
 
-    var out = '';
+  var out = '';
 
-    if (this.settings.contrast) {
-        out += 'con_' + this.settings.contrast;
-    }
+  if (this.settings.contrast) {
+    out += 'con_' + this.settings.contrast;
+  }
 
-    return {
-        params: out,
-        error: this.error
-    };
+  return {
+    params: out,
+    error: this.error
+  };
 };
 
 /**
  * @type {Contrast}
  */
-module.exports = Contrast;
+export default Contrast;
+export {Contrast};
