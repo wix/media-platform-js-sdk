@@ -7,8 +7,6 @@ import {Destination} from './destination';
 
 class FileImportSpecification {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -24,19 +22,15 @@ class FileImportSpecification {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.sourceUrl = data.sourceUrl;
     this.destination = new Destination(data.destination);
   }
-
 }
-
 
 /**
  * @type {FileImportSpecification}

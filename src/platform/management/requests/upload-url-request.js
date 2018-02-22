@@ -4,8 +4,6 @@
 
 class UploadUrlRequest {
   constructor() {
-
-
     /**
      * @type {string}
      */
@@ -27,28 +25,23 @@ class UploadUrlRequest {
     this.acl = 'public';
   }
 
-
   /**
    * @param {string} mimeType
    * @returns {UploadUrlRequest}
    */
   setMimeType(mimeType) {
-
     this.mimeType = mimeType;
     return this;
   }
-
 
   /**
    * @param {string} path
    * @returns {UploadUrlRequest}
    */
   setPath(path) {
-
     this.path = path;
     return this;
   }
-
 
   /**
    * @description Optional file size in bytes. Required for file size enforcement
@@ -56,24 +49,19 @@ class UploadUrlRequest {
    * @returns {UploadUrlRequest}
    */
   setSize(size) {
-
     this.size = size;
     return this;
   }
-
 
   /**
    * @param {string} acl
    * @returns {UploadUrlRequest}
    */
   setAcl(acl) {
-
     this.acl = acl;
     return this;
   }
-
 }
-
 
 /**
  * @type {UploadUrlRequest}

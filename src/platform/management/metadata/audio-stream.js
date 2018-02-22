@@ -4,8 +4,6 @@
 
 class AudioStream {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -41,13 +39,11 @@ class AudioStream {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.codecLongName = data.codecLongName;
     this.codecTag = data.codecTag;
     this.codecName = data.codecName;
@@ -55,9 +51,7 @@ class AudioStream {
     this.bitrate = data.bitrate;
     this.index = data.index;
   }
-
 }
-
 
 /**
  * @type {AudioStream}

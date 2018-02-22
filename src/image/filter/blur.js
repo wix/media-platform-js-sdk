@@ -7,8 +7,6 @@ import {validator} from '../validation/validator';
 
 class Blur {
   constructor(image) {
-
-
     this.image = image;
 
     /**
@@ -26,15 +24,12 @@ class Blur {
     this.percentage = this.percentage.bind(this);
   }
 
-
   /**
    * @summary Applies a blur effect to the image.
    * @param {number?} percentage percent to blur the image. Valid values: [0:100].
    * @returns {*} the operation
    */
   percentage(percentage) {
-
-
     this.error = validator.numberNotInRange('blur', percentage, 0, 100);
     if (this.error) {
       return this.image;
@@ -44,13 +39,10 @@ class Blur {
     return this.image;
   }
 
-
   /**
    * @returns {string}
    */
   serialize() {
-
-
     var out = '';
 
     if (this.settings.percentage) {
@@ -62,9 +54,7 @@ class Blur {
       error: this.error
     };
   }
-
 }
-
 
 /**
  * @type {Blur}

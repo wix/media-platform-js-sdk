@@ -9,14 +9,11 @@ import request from 'request';
 
 class HTTPClient {
   constructor(authenticator) {
-
-
     /**
      * @type {Authenticator}
      */
     this.authenticator = authenticator;
   }
-
 
   /**
    * @param {string} httpMethod
@@ -26,8 +23,6 @@ class HTTPClient {
    * @param {function(Error, *)} callback
    */
   request(httpMethod, url, params, token, callback) {
-
-
     var header = this.authenticator.getHeader(token);
 
     var options = {method: httpMethod, url: url, headers: header, json: true};
@@ -41,21 +36,22 @@ class HTTPClient {
         options.qs = params;
     }
 
-    request(options, function (error, response, body) {
+    request(
+      options,
+      function (error, response, body) {
+        if (error) {
+          callback(error, null);
+          return;
+        }
 
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        callback(new Error(JSON.stringify(response.body)), null);
-        return;
-      }
-      callback(null, body);
-    }.bind(this));
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          callback(new Error(JSON.stringify(response.body)), null);
+          return;
+        }
+        callback(null, body);
+      }.bind(this)
+    );
   }
-
 
   /**
    * @param {string} url
@@ -64,30 +60,28 @@ class HTTPClient {
    * @param {function(Error, *)} callback
    */
   postForm(url, form, token, callback) {
-
-
     var header = this.authenticator.getHeader(token);
 
     var options = {method: 'POST', url: url, formData: form, headers: header, json: true};
 
-    request(options, function (error, response, body) {
+    request(
+      options,
+      function (error, response, body) {
+        if (error) {
+          callback(error, null);
+          return;
+        }
 
-      if (error) {
-        callback(error, null);
-        return;
-      }
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          callback(new Error(JSON.stringify(response.body)), null);
+          return;
+        }
 
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        callback(new Error(JSON.stringify(response.body)), null);
-        return;
-      }
-
-      callback(null, body);
-    }.bind(this));
+        callback(null, body);
+      }.bind(this)
+    );
   }
-
 }
-
 
 /**
  * @type {HTTPClient}

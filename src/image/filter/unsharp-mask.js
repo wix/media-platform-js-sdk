@@ -7,8 +7,6 @@ import {validator} from '../validation/validator';
 
 class UnsharpMask {
   constructor(image) {
-
-
     this.image = image;
 
     /**
@@ -34,7 +32,6 @@ class UnsharpMask {
     this.configuration = this.configuration.bind(this);
   }
 
-
   /**
    * @summary Sharpens the image using radius, amount & threshold parameters
    * @param {number} radius the unsharp mask radius. default value: `0.50`
@@ -43,8 +40,6 @@ class UnsharpMask {
    * @returns {*} the operation
    */
   configuration(radius, amount, threshold) {
-
-
     if (arguments.length === 0) {
       this.settings.radius = null;
       this.settings.amount = null;
@@ -71,13 +66,10 @@ class UnsharpMask {
     return this.image;
   }
 
-
   /**
    * @returns {string}
    */
   serialize() {
-
-
     if (this.error) {
       return {
         params: null,
@@ -87,12 +79,13 @@ class UnsharpMask {
 
     var out = '';
 
-    if (this.settings.radius !== null
-      && this.settings.amount !== null
-      && this.settings.threshold !== null) {
-      out += 'usm_' +
-        this.settings.radius.toFixed(2) + '_' +
-        this.settings.amount.toFixed(2) + '_' +
+    if (this.settings.radius !== null && this.settings.amount !== null && this.settings.threshold !== null) {
+      out +=
+        'usm_' +
+        this.settings.radius.toFixed(2) +
+        '_' +
+        this.settings.amount.toFixed(2) +
+        '_' +
         this.settings.threshold.toFixed(2);
     }
 
@@ -101,9 +94,7 @@ class UnsharpMask {
       error: this.error
     };
   }
-
 }
-
 
 /**
  * @type {UnsharpMask}

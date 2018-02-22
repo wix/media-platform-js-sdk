@@ -6,8 +6,6 @@ import {Source} from '../job/source';
 
 class Invocation {
   constructor(data) {
-
-
     /**
      * @type {Source[]}
      * @type {null}
@@ -24,25 +22,21 @@ class Invocation {
     }
   }
 
-
   /**
    *
    * @param sources
    * @returns {Invocation}
    */
   setSources(sources) {
-
     this.sources = sources;
     return this;
   }
-
 
   /**
    * @param source
    * @returns {Invocation}
    */
   addSource(source) {
-
     if (!this.sources) {
       this.sources = [];
     }
@@ -51,25 +45,21 @@ class Invocation {
     return this;
   }
 
-
   /**
    *
    * @param entryPoints
    * @returns {Invocation}
    */
   setEntryPoints(entryPoints) {
-
     this.entryPoints = entryPoints;
     return this;
   }
-
 
   /**
    * @param entryPoint
    * @returns {Invocation}
    */
   addEntryPoint(entryPoint) {
-
     if (!this.entryPoints) {
       this.entryPoints = [];
     }
@@ -78,28 +68,21 @@ class Invocation {
     return this;
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.sources = [];
     for (var i in data.sources) {
       this.sources[i] = new Source(data.sources[i]);
     }
     this.entryPoints = data.entryPoints;
   }
-
 }
-
 
 /**
  * @type {Invocation}
  */
 export default Invocation;
 export {Invocation};
-
-
-

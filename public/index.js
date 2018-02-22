@@ -41,123 +41,122 @@ MP.MediaPlatform = MediaPlatform;
 MP.Image = Image;
 
 MP.image = {
-    /**
-     * @type {Image}
-     */
-    Image: Image,
+  /**
+   * @type {Image}
+   */
+  Image: Image,
 
-    /**
-     * @type {ImageOperationSpecification}
-     */
-    ImageOperationSpecification: ImageOperationSpecification,
+  /**
+   * @type {ImageOperationSpecification}
+   */
+  ImageOperationSpecification: ImageOperationSpecification,
 
-    /**
-     * @type {ImageOperationRequest}
-     */
-    ImageOperationRequest: ImageOperationRequest
+  /**
+   * @type {ImageOperationRequest}
+   */
+  ImageOperationRequest: ImageOperationRequest
 };
 
 MP.upload = {
-    /**
-     * @type {UploadJob}
-     */
-    UploadJob: UploadJob
+  /**
+   * @type {UploadJob}
+   */
+  UploadJob: UploadJob
 };
 
 MP.file = {
-    /**
-     * @type {UploadUrlRequest}
-     */
-    UploadUrlRequest: UploadUrlRequest,
+  /**
+   * @type {UploadUrlRequest}
+   */
+  UploadUrlRequest: UploadUrlRequest,
 
-    /**
-     * @type {UploadFileRequest}
-     */
-    UploadFileRequest: UploadFileRequest,
+  /**
+   * @type {UploadFileRequest}
+   */
+  UploadFileRequest: UploadFileRequest,
 
-    /**
-     * @type {ImportFileRequest}
-     */
-    ImportFileRequest: ImportFileRequest,
+  /**
+   * @type {ImportFileRequest}
+   */
+  ImportFileRequest: ImportFileRequest,
 
-    /**
-     * @type {ListFilesRequest}
-     */
-    ListFilesRequest: ListFilesRequest,
+  /**
+   * @type {ListFilesRequest}
+   */
+  ListFilesRequest: ListFilesRequest,
 
-    /**
-     * @type {Source}
-     */
-    Source: Source,
+  /**
+   * @type {Source}
+   */
+  Source: Source,
 
-    /**
-     * @type {Destination}
-     */
-    Destination: Destination
+  /**
+   * @type {Destination}
+   */
+  Destination: Destination
 };
 
 MP.job = {
-    /**
-     * @type {SearchJobsRequest}
-     */
-    SearchJobsRequest: SearchJobsRequest
+  /**
+   * @type {SearchJobsRequest}
+   */
+  SearchJobsRequest: SearchJobsRequest
 };
 
 MP.live = {
-    /**
-     * @type {LivestreamRequest}
-     */
-    LivestreamRequest: LivestreamRequest,
+  /**
+   * @type {LivestreamRequest}
+   */
+  LivestreamRequest: LivestreamRequest,
 
-    /**
-     * @type {LiveStream}
-     */
-    LiveStream: LiveStream,
+  /**
+   * @type {LiveStream}
+   */
+  LiveStream: LiveStream
 };
 
 MP.flow = {
-    /**
-     * @type {CreateFlowRequest}
-     */
-    CreateFlowRequest: CreateFlowRequest,
+  /**
+   * @type {CreateFlowRequest}
+   */
+  CreateFlowRequest: CreateFlowRequest,
 
-    /**
-     * @type {Flow}
-     */
-    Flow: Flow,
+  /**
+   * @type {Flow}
+   */
+  Flow: Flow,
 
-    Invocation: Invocation,
-    FlowComponent: FlowComponent,
-
+  Invocation: Invocation,
+  FlowComponent: FlowComponent
 };
 
 MP.archive = {
-    /**
-     * @type {CreateArchiveRequest}
-     */
-    CreateArchiveRequest: CreateArchiveRequest,
+  /**
+   * @type {CreateArchiveRequest}
+   */
+  CreateArchiveRequest: CreateArchiveRequest,
 
-    /**
-     * @type {ExtractArchiveRequest}
-     */
-    ExtractArchiveRequest: ExtractArchiveRequest
+  /**
+   * @type {ExtractArchiveRequest}
+   */
+  ExtractArchiveRequest: ExtractArchiveRequest
 };
 
 MP.transcode = {
-    /**
-     * @type {TranscodeRequest}
-     */
-    TranscodeRequest: TranscodeRequest,
+  /**
+   * @type {TranscodeRequest}
+   */
+  TranscodeRequest: TranscodeRequest,
 
-    /**
-     * @type {TranscodeSpecification}
-     */
-    TranscodeSpecification: TranscodeSpecification,
+  /**
+   * @type {TranscodeSpecification}
+   */
+  TranscodeSpecification: TranscodeSpecification,
 
-    /**
-     * @type {QualityRange}
-     */
-    QualityRange: QualityRange
+  /**
+   * @type {QualityRange}
+   */
+  QualityRange: QualityRange
 };
 
 /**

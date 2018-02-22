@@ -8,8 +8,6 @@ import {Rectangle} from '../../../geometry/rectangle';
 
 class ImageFeatures {
   constructor(data) {
-
-
     /**
      * @type {Array<Label>}
      */
@@ -30,26 +28,22 @@ class ImageFeatures {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.labels = data.labels.map(function (label) {
-      return new Label(label)
+      return new Label(label);
     });
     this.faces = data.faces.map(function (face) {
-      return new Rectangle(face.width, face.height, face.x, face.y)
+      return new Rectangle(face.width, face.height, face.x, face.y);
     });
     this.colors = data.colors.map(function (color) {
-      return new Color(color)
+      return new Color(color);
     });
   }
-
 }
-
 
 /**
  * @type {ImageFeatures}

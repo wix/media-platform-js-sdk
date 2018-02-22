@@ -5,8 +5,6 @@
 
 class QualityRange {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -22,41 +20,33 @@ class QualityRange {
     }
   }
 
-
   /**
    * @param {string} minimum
    * @returns {QualityRange}
    */
   setMinimum(minimum) {
-
     this.minimum = minimum;
     return this;
   }
-
 
   /**
    * @param {string} maximum
    * @returns {QualityRange}
    */
   setMaximum(maximum) {
-
     this.maximum = maximum;
     return this;
   }
-
 
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.minimum = data.minimum;
     this.maximum = data.maximum;
   }
-
 }
-
 
 /**
  * @type {QualityRange}

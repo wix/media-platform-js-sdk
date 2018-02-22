@@ -1,7 +1,8 @@
 import inherits from 'inherits';
 import {UploadEvent} from './upload-event';
 
-function UploadProgressEvent(target, loaded, total) {
+class UploadProgressEvent {
+  constructor(target, loaded, total) {
     UploadEvent.call(this, target);
 
     /**
@@ -12,7 +13,9 @@ function UploadProgressEvent(target, loaded, total) {
     this.loaded = loaded;
 
     this.total = total;
+  }
 }
+
 inherits(UploadProgressEvent, UploadEvent);
 
 /***

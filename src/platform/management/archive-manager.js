@@ -8,8 +8,6 @@ import {Job} from './job/job';
 
 class ArchiveManager {
   constructor(configuration, httpClient) {
-
-
     /**
      * @type {Configuration}
      */
@@ -26,14 +24,13 @@ class ArchiveManager {
     this.baseUrl = 'https://' + configuration.domain;
   }
 
-
   /**
    * @param {CreateArchiveRequest?} createArchiveRequest
    * @param {function(Error, Job)} callback
    */
   createArchive(createArchiveRequest, callback) {
-
-    this.httpClient.request('POST', this.baseUrl + '/_api/archive/create', createArchiveRequest, null, function (error, response) {
+    this.httpClient.request('POST', this.baseUrl + '/_api/archive/create', createArchiveRequest, null, function (error,
+                                                                                                                 response) {
       if (error) {
         callback(error, null);
         return;
@@ -42,15 +39,14 @@ class ArchiveManager {
       callback(null, new Job(response.payload));
     });
   }
-
 
   /**
    * @param {ExtractArchiveRequest?} extractArchiveRequest
    * @param {function(Error, Job)} callback
    */
   extractArchive(extractArchiveRequest, callback) {
-
-    this.httpClient.request('POST', this.baseUrl + '/_api/archive/extract', extractArchiveRequest, null, function (error, response) {
+    this.httpClient.request('POST', this.baseUrl + '/_api/archive/extract', extractArchiveRequest, null, function (error,
+                                                                                                                   response) {
       if (error) {
         callback(error, null);
         return;
@@ -59,9 +55,7 @@ class ArchiveManager {
       callback(null, new Job(response.payload));
     });
   }
-
 }
-
 
 /**
  * @type {ArchiveManager}

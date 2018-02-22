@@ -7,8 +7,6 @@ import {validator} from '../validation/validator';
 
 class Contrast {
   constructor(image) {
-
-
     this.image = image;
 
     /**
@@ -26,7 +24,6 @@ class Contrast {
     this.contrast = this.contrast.bind(this);
   }
 
-
   /**
    * @summary contrast of the image.
    * @description supports a numeric value between `-100` and `100`
@@ -34,8 +31,6 @@ class Contrast {
    * @returns {*} the operation
    */
   contrast(contrast) {
-
-
     this.error = validator.numberNotInRange('contrast', contrast, -100, 100);
     if (this.error) {
       return this.image;
@@ -45,13 +40,10 @@ class Contrast {
     return this.image;
   }
 
-
   /**
    * @returns {string}
    */
   serialize() {
-
-
     var out = '';
 
     if (this.settings.contrast) {
@@ -63,9 +55,7 @@ class Contrast {
       error: this.error
     };
   }
-
 }
-
 
 /**
  * @type {Contrast}

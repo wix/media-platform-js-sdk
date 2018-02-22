@@ -5,8 +5,6 @@
 
 class FileDescriptor {
   constructor(data) {
-
-
     /**
      * @description a system assigned unique id
      * @type {string}
@@ -64,13 +62,11 @@ class FileDescriptor {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.id = data.id;
     this.hash = data.hash;
     this.path = data.path;
@@ -81,9 +77,7 @@ class FileDescriptor {
     this.dateCreated = data.dateCreated;
     this.dateUpdated = data.dateUpdated;
   }
-
 }
-
 
 /**
  * @type {FileDescriptor}

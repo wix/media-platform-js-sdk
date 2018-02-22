@@ -46,41 +46,40 @@
     "preset": "yoshi"
   },
   "scripts": {
-    "build": "haste build",
-    "lint": "haste lint",
-    "test": "haste test --mocha --karma --protractor",
-    "release": "haste release",
-    "start": "haste start",
-    "e2e": "haste test --protractor",
-    "karma": "haste test --karma"
+    "build": "grunt browser",
+    "test": "grunt test && npm run test:e2e",
+    "release": "#wnpm-release",
+    "start": "grunt browser && node ./demo/bin/www",
+    "test:e2e": "./node_modules/.bin/mocha --recursive **/*.e2e.js"
   },
   "dependencies": {
     "async": "^2.1.4",
     "eventemitter3": "^2.0.2",
     "inherits": "^2.0.3",
-    "jsonwebtoken": "^8.0.0",
+    "jsonwebtoken": "^7.3.0",
     "request": "^2.81.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "@types/chai": "~4.0.0",
     "@types/mocha": "^2.2.48",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-preset-wix": "^1.0.3",
+    "chai": "~4.1.0",
+    "haste-preset-yoshi": "^1.0.40",
+    "husky": "~0.14.0",
+    "typescript": "^2.7.1",
     "body-parser": "latest",
-    "chai": "^4.1.2",
     "cookie-parser": "latest",
+    "expect.js": "latest",
     "express": "latest",
     "faux-jax": "latest",
     "file-api": "latest",
-    "haste-preset-yoshi": "^1.0.40",
-    "husky": "~0.14.0",
-    "jsdom": "^10.1.0",
-    "jsdom-global": "^3.0.2",
+    "grunt": "latest",
+    "grunt-browserify": "latest",
+    "grunt-cli": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-karma": "latest",
+    "grunt-mocha": "latest",
+    "grunt-mocha-test": "latest",
     "karma": "1.4.0",
     "karma-chrome-launcher": "latest",
     "karma-mocha": "latest",
@@ -89,25 +88,9 @@
     "nock": "9.0.2",
     "prismjs": "^1.6.0",
     "pug": "latest",
-    "puppeteer": "^1.1.0",
     "request-debug": "latest",
-    "sinon": "^4.3.0",
-    "sinon-chai": "^2.14.0",
-    "typescript": "^2.7.1",
+    "uglifyify": "^3.0.4",
     "uuid": "^3.0.1",
     "wnpm-ci": "latest"
-  },
-  "babel": {
-    "plugins": [
-      "transform-decorators-legacy"
-    ],
-    "presets": [
-      "wix"
-    ]
-  },
-  "yoshi": {
-    "specs": {
-      "browser": "test/browser/**/*.test.js"
-    }
   }
 }

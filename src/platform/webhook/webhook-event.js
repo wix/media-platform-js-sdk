@@ -6,8 +6,6 @@ import {FileDescriptor} from '../management/metadata/file-descriptor';
 
 class WebhookEvent {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -28,13 +26,11 @@ class WebhookEvent {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.id = data.id;
     this.type = data.type;
     switch (this.type) {
@@ -43,16 +39,12 @@ class WebhookEvent {
         this.body = new FileDescriptor(data.body);
         break;
       case 'metadata_updated':
-
         break;
       case 'file_transcode_completed':
-
         break;
     }
   }
-
 }
-
 
 /**
  * @type {WebhookEvent}

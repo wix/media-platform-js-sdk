@@ -7,8 +7,6 @@ import {validator} from '../validation/validator';
 
 class Hue {
   constructor(image) {
-
-
     this.image = image;
 
     /**
@@ -26,7 +24,6 @@ class Hue {
     this.hue = this.hue.bind(this);
   }
 
-
   /**
    * @summary hue of the image.
    * @description supports a numeric value between `-100` and `100`
@@ -34,8 +31,6 @@ class Hue {
    * @returns {*} the operation
    */
   hue(hue) {
-
-
     this.error = validator.numberNotInRange('hue', hue, -100, 100);
     if (this.error) {
       return this.image;
@@ -45,13 +40,10 @@ class Hue {
     return this.image;
   }
 
-
   /**
    * @returns {string}
    */
   serialize() {
-
-
     var out = '';
 
     if (this.settings.hue) {
@@ -63,9 +55,7 @@ class Hue {
       error: this.error
     };
   }
-
 }
-
 
 /**
  * @type {Hue}

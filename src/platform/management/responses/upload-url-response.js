@@ -4,8 +4,6 @@
 
 class UploadUrlResponse {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -21,19 +19,15 @@ class UploadUrlResponse {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.uploadToken = data.uploadToken;
     this.uploadUrl = data.uploadUrl;
   }
-
 }
-
 
 /**
  * @type {UploadUrlResponse}

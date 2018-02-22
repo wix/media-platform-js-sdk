@@ -11,8 +11,6 @@ import {VERB} from '../authentication/VERB';
 
 class FileDownloader {
   constructor(configuration, authenticator) {
-
-
     /**
      * @type {Configuration}
      */
@@ -24,15 +22,12 @@ class FileDownloader {
     this.authenticator = authenticator;
   }
 
-
   /**
    * @param {string} path
    * @param {DownloadUrlRequest?} downloadUrlRequest
    * @returns {{downloadUrl: string}}
    */
   getDownloadUrl(path, downloadUrlRequest) {
-
-
     var payload = {
       path: path
     };
@@ -59,9 +54,7 @@ class FileDownloader {
       downloadUrl: 'https://' + this.configuration.domain + '/_api/download/file?downloadToken=' + signedToken
     };
   }
-
 }
-
 
 /**
  * @type {FileDownloader}

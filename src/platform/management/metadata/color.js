@@ -4,8 +4,6 @@
 
 class Color {
   constructor(data) {
-
-
     /**
      * @type {number}
      */
@@ -36,28 +34,21 @@ class Color {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.r = data.r;
     this.g = data.g;
     this.b = data.b;
     this.pixelFraction = data.pixelFraction;
     this.score = data.score;
   }
-
 }
-
 
 /**
  * @type {Color}
  */
 export default Color;
 export {Color};
-
-
-

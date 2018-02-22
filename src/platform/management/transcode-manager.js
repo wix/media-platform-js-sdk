@@ -9,8 +9,6 @@ import {TranscodeJobResponse} from './responses/transcode-job-response';
 
 class TranscodeManager {
   constructor(configuration, httpClient) {
-
-
     /**
      * @type {Configuration}
      */
@@ -30,9 +28,7 @@ class TranscodeManager {
      * @type {string}
      */
     this.apiUrl = this.baseUrl + '/_api/av/transcode';
-
   }
-
 
   /**
    * @param {TranscodeRequest} transcodeRequest
@@ -40,12 +36,10 @@ class TranscodeManager {
    * @param {function(Error, Object)} callback
    */
   transcodeVideo(transcodeRequest, callback) {
-
     var params = {};
     _.extendOwn(params, transcodeRequest);
 
     this.httpClient.request('POST', this.apiUrl, params, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -54,9 +48,7 @@ class TranscodeManager {
       callback(null, new TranscodeJobResponse(response.payload));
     });
   }
-
 }
-
 
 export default TranscodeManager;
 export {TranscodeManager};

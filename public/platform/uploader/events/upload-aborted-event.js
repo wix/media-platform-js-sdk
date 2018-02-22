@@ -5,14 +5,18 @@ import {UploadEvent} from './upload-event';
  * @param {UploadJob} target
  * @constructor
  */
-function UploadAbortedEvent(target) {
+
+class UploadAbortedEvent {
+  constructor(target) {
     UploadEvent.call(this, target);
 
     /**
      * @type {string}
      */
     this.name = 'upload-aborted';
+  }
 }
+
 inherits(UploadAbortedEvent, UploadEvent);
 
 /**

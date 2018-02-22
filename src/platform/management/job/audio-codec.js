@@ -5,8 +5,6 @@
 
 class AudioCodec {
   constructor(data) {
-
-
     /**
      * @type {number}
      */
@@ -22,19 +20,15 @@ class AudioCodec {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.cbr = data.cbr;
     this.name = data.name;
   }
-
 }
-
 
 /**
  * @type {AudioCodec}

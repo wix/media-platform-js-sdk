@@ -10,8 +10,6 @@ import {ImageFeatures} from './image-features';
 
 class FileMetadata {
   constructor(data) {
-
-
     /**
      * @type {FileDescriptor}
      */
@@ -32,13 +30,11 @@ class FileMetadata {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.fileDescriptor = new FileDescriptor(data.fileDescriptor);
     var type = this.fileDescriptor.mimeType.split('/')[0].toLowerCase();
     if (data.basic) {
@@ -59,9 +55,7 @@ class FileMetadata {
       }
     }
   }
-
 }
-
 
 /**
  * @type {FileMetadata}

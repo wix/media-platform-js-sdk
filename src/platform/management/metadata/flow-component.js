@@ -4,8 +4,6 @@
 
 class FlowComponent {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -31,46 +29,38 @@ class FlowComponent {
     }
   }
 
-
   /**
    * @param type
    * @returns {FlowComponent}
    */
   setType(type) {
-
     this.type = type;
     return this;
   }
-
 
   /**
    * @param specification
    * @returns {FlowComponent}
    */
   setSpecification(specification) {
-
     this.specification = specification;
     return this;
   }
-
 
   /**
    * @param successors
    * @returns {FlowComponent}
    */
   setSuccessors(successors) {
-
     this.successors = successors;
     return this;
   }
-
 
   /**
    * @param successor
    * @returns {FlowComponent}
    */
   addSuccessor(successor) {
-
     if (!this.successors) {
       this.successors = [];
     }
@@ -80,27 +70,20 @@ class FlowComponent {
     return this;
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.type = data.type;
     this.specification = data.specification;
     this.successors = data.successors;
     this.status = data.status;
   }
-
 }
-
 
 /**
  * @type {FlowComponent}
  */
 export default FlowComponent;
 export {FlowComponent};
-
-
-

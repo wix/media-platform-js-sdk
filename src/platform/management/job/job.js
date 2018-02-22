@@ -11,8 +11,6 @@ import {TranscodeSpecification} from './transcode-specification';
 
 class Job {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -62,13 +60,11 @@ class Job {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.id = data.id;
     this.type = data.type;
     this.issuer = data.issuer;
@@ -76,7 +72,7 @@ class Job {
     this.groupId = data.groupId;
     if (typeof data.sources !== 'undefined') {
       this.sources = data.sources.map(function (source) {
-        return new Source(source)
+        return new Source(source);
       });
     }
     switch (this.type) {
@@ -100,9 +96,7 @@ class Job {
     this.dateCreated = data.dateCreated;
     this.dateUpdated = data.dateUpdated;
   }
-
 }
-
 
 /**
  * @type {Job}

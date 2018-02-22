@@ -4,15 +4,11 @@
 
 class ExternalAuthorization {
   constructor() {
-
-
     /**
      * @type {{}}
      */
     this.headers = {};
-
   }
-
 
   /**
    * @param {string} name
@@ -20,24 +16,19 @@ class ExternalAuthorization {
    * @returns {ExternalAuthorization}
    */
   addHeader(name, value) {
-
     this.headers[name] = value;
     return this;
   }
-
 
   /**
    * @param {{}} headers
    * @returns {ExternalAuthorization}
    */
   setHeaders(headers) {
-
     this.headers = headers;
     return this;
   }
-
 }
-
 
 /**
  * @type {ExternalAuthorization}

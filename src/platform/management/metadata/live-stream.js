@@ -9,8 +9,6 @@ import {Dvr} from './dvr';
 
 class LiveStream {
   constructor(data) {
-
-
     /**
      *
      * @type {String}
@@ -87,13 +85,11 @@ class LiveStream {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.id = data.id;
 
     this.publishEndpoint = new PublishEndpoint(data.publishEndpoint);
@@ -115,9 +111,7 @@ class LiveStream {
     this.dateCreated = data.dateCreated;
     this.dateUpdated = data.dateUpdated;
   }
-
 }
-
 
 /**
  * @type {LiveStream}

@@ -8,8 +8,6 @@ import {FileDescriptor} from './metadata/file-descriptor';
 
 class ImageManager {
   constructor(configuration, httpClient) {
-
-
     /**
      * @type {Configuration}
      */
@@ -29,18 +27,15 @@ class ImageManager {
      * @type {string}
      */
     this.apiUrl = this.baseUrl + '/_api/images';
-
   }
-
 
   /**
    * @param {ImageOperationRequest} imageOperationRequest
    * @param {function(Error, FileDescriptor)} callback
    */
   imageOperation(imageOperationRequest, callback) {
-
-    this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, null, function (error, response) {
-
+    this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, null, function (error,
+                                                                                                        response) {
       if (error) {
         callback(error, null);
         return;
@@ -49,9 +44,7 @@ class ImageManager {
       callback(null, new FileDescriptor(response.payload));
     });
   }
-
 }
-
 
 /**
  * @type {ImageManager}

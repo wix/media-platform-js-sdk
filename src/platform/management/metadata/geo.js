@@ -5,8 +5,6 @@
 
 class Geo {
   constructor(data) {
-
-
     /**
      *
      * @type {Object}
@@ -24,24 +22,21 @@ class Geo {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     var coordinates = data.coordinates || null;
 
     if (coordinates !== null) {
       this.coordinates = {
-        'latitude': coordinates.latitude || null,
-        'longitute': coordinates.longitude || null
+        latitude: coordinates.latitude || null,
+        longitute: coordinates.longitude || null
       };
     }
     this.ipAddress = data.ipAddress;
   }
-
 
   /**
    *
@@ -49,11 +44,9 @@ class Geo {
    * @returns {Geo}
    */
   setCoordinates(coordinates) {
-
     this.coordinates = coordinates;
     return this;
   }
-
 
   /**
    *
@@ -61,13 +54,10 @@ class Geo {
    * @returns {Geo}
    */
   setIpAddress(ipAddress) {
-
     this.ipAddress = ipAddress;
     return this;
   }
-
 }
-
 
 /**
  * @type {Geo}

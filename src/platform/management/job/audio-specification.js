@@ -7,8 +7,6 @@ import {AudioCodec} from './audio-codec';
 
 class AudioSpecification {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -24,19 +22,15 @@ class AudioSpecification {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.channels = data.channels;
     this.codec = new AudioCodec(data.codec);
   }
-
 }
-
 
 /**
  * @type {AudioSpecification}

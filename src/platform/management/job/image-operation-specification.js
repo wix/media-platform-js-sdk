@@ -7,8 +7,6 @@ import {Destination} from './destination';
 
 class ImageOperationSpecification {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -24,41 +22,33 @@ class ImageOperationSpecification {
     }
   }
 
-
   /**
    * @param {string} command
    * @return {ImageOperationSpecification}
    */
   setCommand(command) {
-
     this.command = command;
     return this;
   }
-
 
   /**
    * @param {Destination} destination
    * @return {ImageOperationSpecification}
    */
   setDestination(destination) {
-
     this.destination = destination;
     return this;
   }
-
 
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.command = data.command;
     this.destination = new Destination(data.destination);
   }
-
 }
-
 
 /**
  * @type {ImageOperationSpecification}

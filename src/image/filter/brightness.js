@@ -7,8 +7,6 @@ import {validator} from '../validation/validator';
 
 class Brightness {
   constructor(image) {
-
-
     this.image = image;
 
     /**
@@ -26,7 +24,6 @@ class Brightness {
     this.brightness = this.brightness.bind(this);
   }
 
-
   /**
    * @summary brightness of the image
    * @description supports a numeric value between `-100` and `100`
@@ -34,8 +31,6 @@ class Brightness {
    * @returns {*} the operation
    */
   brightness(brightness) {
-
-
     this.error = validator.numberNotInRange('brightness', brightness, -100, 100);
     if (this.error) {
       return this.image;
@@ -45,13 +40,10 @@ class Brightness {
     return this.image;
   }
 
-
   /**
    * @returns {string}
    */
   serialize() {
-
-
     var out = '';
 
     if (this.settings.brightness) {
@@ -63,9 +55,7 @@ class Brightness {
       error: this.error
     };
   }
-
 }
-
 
 /**
  * @type {Brightness}

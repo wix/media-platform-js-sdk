@@ -25,8 +25,6 @@ import {JPEG} from './encoder/jpeg';
 
 class Image {
   constructor(data) {
-
-
     /**
      * @description where the image is hosted
      * @type {string|null}
@@ -102,7 +100,6 @@ class Image {
       return hue.hue;
     })();
 
-
     /**
      * @type {Saturation}
      */
@@ -119,7 +116,6 @@ class Image {
       return jpeg.compression;
     })();
 
-
     if (data) {
       if (typeof data === 'string') {
         parseUrl(this, data);
@@ -133,7 +129,6 @@ class Image {
     this.serializationOrder = [blur, brightness, contrast, hue, jpeg, saturation, unsharpMask];
   }
 
-
   /**
    * @summary fills the given width, the height is derived from the region of interest aspect ratio.
    * @param {number} width
@@ -141,12 +136,10 @@ class Image {
    * @returns {Image}
    */
   scaleToWidth(width, regionOfInterest) {
-
     var container = new Dimension().setWidth(width);
 
     return this.fillContainer(container, regionOfInterest);
   }
-
 
   /**
    * @summary fills the given height, the width is derived from the region of interest aspect ratio.
@@ -155,12 +148,10 @@ class Image {
    * @returns {Image}
    */
   scaleToHeight(height, regionOfInterest) {
-
     var container = new Dimension().setHeight(height);
 
     return this.fillContainer(container, regionOfInterest);
   }
-
 
   /**
    * @param {Dimension} container
@@ -168,7 +159,6 @@ class Image {
    * @returns {Image}
    */
   fillContainer(container, regionOfInterest) {
-
     if (!this.metadata) {
       throw new Error('client side manipulation requires image basic metadata');
     }
@@ -178,14 +168,16 @@ class Image {
     }
 
     var roiAspectRatio = regionOfInterest.width / regionOfInterest.height;
-    var containerWidth = Math.round(container.width ? container.width : (container.height * roiAspectRatio));
-    var containerHeight = Math.round(container.height ? container.height : (container.width / roiAspectRatio));
+    var containerWidth = Math.round(container.width ? container.width : container.height * roiAspectRatio);
+    var containerHeight = Math.round(container.height ? container.height : container.width / roiAspectRatio);
     var containerAspectRatio = container.width / container.height;
 
     var scale;
-    if (containerAspectRatio <= 1) {                //portrait -> portrait, landscape/square -> portrait/square
+    if (containerAspectRatio <= 1) {
+      //portrait -> portrait, landscape/square -> portrait/square
       scale = containerHeight / regionOfInterest.height;
-    } else {                                        //portrait/square -> landscape/square, //landscape -> landscape
+    } else {
+      //portrait/square -> landscape/square, //landscape -> landscape
       scale = containerWidth / regionOfInterest.width;
     }
 
@@ -198,7 +190,7 @@ class Image {
     var verticalPadding = containerHeight - height;
     height += verticalPadding;
     var verticalOffset = Math.floor(verticalPadding / 2);
-    if ((y - verticalOffset) < 0) {
+    if (y - verticalOffset < 0) {
       y = 0;
     } else {
       y -= verticalOffset;
@@ -207,7 +199,7 @@ class Image {
     var horizontalPadding = containerWidth - width;
     width += horizontalPadding;
     var horizontalOffset = Math.floor(horizontalPadding / 2);
-    if ((x - horizontalOffset) < 0) {
+    if (x - horizontalOffset < 0) {
       x = 0;
     } else {
       x -= horizontalOffset;
@@ -215,7 +207,6 @@ class Image {
 
     return this.crop(width, height, x, y, scale);
   }
-
 
   /**
    * @summary Configures this image using the 'crop' operation.
@@ -227,11 +218,9 @@ class Image {
    * @returns {Image}
    */
   crop(width, height, x, y, scale) {
-
     this.geometry = new Crop(width, height, x ? x : 0, y ? y : 0, scale ? scale : 1);
     return this;
   }
-
 
   /**
    * @summary Configures this image using the 'scrop' operation.
@@ -240,11 +229,9 @@ class Image {
    * @returns {Image}
    */
   smartCrop(width, height) {
-
     this.geometry = new SmartCrop(width, height);
     return this;
   }
-
 
   /**
    * @summary Configures this image using the 'fill' operation.
@@ -253,11 +240,9 @@ class Image {
    * @returns {Image}
    */
   fill(width, height) {
-
     this.geometry = new Fill(width, height);
     return this;
   }
-
 
   /**
    * @summary Configures this image using the 'fit' operation.
@@ -266,11 +251,9 @@ class Image {
    * @returns {Image}
    */
   fit(width, height) {
-
     this.geometry = new Fit(width, height);
     return this;
   }
-
 
   /**
    * @summary serializes the Image to the URL
@@ -278,8 +261,6 @@ class Image {
    * @returns {{url: string|null, error: Error|null}}
    */
   toUrl(host) {
-
-
     var command = this.toCommand();
 
     if (command.error) {
@@ -296,7 +277,7 @@ class Image {
       url += '//';
     }
 
-    if (baseUrl.lastIndexOf('/') === (baseUrl.length - 1)) {
+    if (baseUrl.lastIndexOf('/') === baseUrl.length - 1) {
       baseUrl = baseUrl.slice(0, -1);
     }
 
@@ -312,17 +293,14 @@ class Image {
     return {
       url: url,
       error: null
-    }
+    };
   }
-
 
   /**
    * @summary serializes the command part of the URL
    * @returns {{command: string|null, error: Error|null}}
    */
   toCommand() {
-
-
     if (!this.geometry) {
       return {
         url: null,
@@ -335,7 +313,7 @@ class Image {
       return {
         url: null,
         error: new Error(geometryParams.error)
-      }
+      };
     }
 
     var filtersAndEncoderParams = this.collectParams();
@@ -343,23 +321,21 @@ class Image {
       return {
         url: null,
         error: new Error(filtersAndEncoderParams.errors)
-      }
+      };
     }
     var command = '/' + this.version + '/' + geometryParams.params + filtersAndEncoderParams.params;
 
     return {
       command: command,
       error: null
-    }
+    };
   }
-
 
   /**
    * @returns {{params: string, errors: Array<string>}}
    * @private
    */
   collectParams() {
-
     var out = '';
     var part;
     var errors = [];
@@ -382,9 +358,7 @@ class Image {
       errors: errors
     };
   }
-
 }
-
 
 /**
  * @type {Image}

@@ -8,8 +8,6 @@ import {Flow} from './metadata/flow';
 
 class FlowManager {
   constructor(configuration, httpClient) {
-
-
     /**
      * @type {Configuration}
      */
@@ -29,18 +27,14 @@ class FlowManager {
      * @type {string}
      */
     this.apiUrl = this.baseUrl + '/_api/flow_control';
-
   }
-
 
   /**
    * @param {string} flowId
    * @param {function(Error, Flow)} callback
    */
   getFlow(flowId, callback) {
-
     this.httpClient.request('GET', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -49,12 +43,9 @@ class FlowManager {
       callback(null, new Flow(response.payload));
     });
   }
-
 
   createFlow(createFlowRequest, callback) {
-
     this.httpClient.request('POST', this.apiUrl + '/flow', createFlowRequest, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -64,11 +55,8 @@ class FlowManager {
     });
   }
 
-
   deleteFlow(flowId, callback) {
-
     this.httpClient.request('DELETE', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
-
       if (error) {
         callback(error, null);
         return;
@@ -77,9 +65,7 @@ class FlowManager {
       callback(null, response);
     });
   }
-
 }
-
 
 /**
  * @type {FlowManager}

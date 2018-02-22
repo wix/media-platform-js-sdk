@@ -9,8 +9,6 @@ import {validator} from '../validation/validator';
 
 class SmartCrop {
   constructor(width, height) {
-
-
     this.name = 'scrop';
 
     /**
@@ -24,13 +22,10 @@ class SmartCrop {
     this.height = Math.round(height);
   }
 
-
   /**
    * @returns {{params: string, error: *}}
    */
   serialize() {
-
-
     var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
     var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
 
@@ -48,9 +43,7 @@ class SmartCrop {
       error: null
     };
   }
-
 }
-
 
 /**
  * @type {SmartCrop}

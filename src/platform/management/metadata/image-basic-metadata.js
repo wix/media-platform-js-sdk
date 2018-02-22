@@ -4,8 +4,6 @@
 
 class ImageBasicMetadata {
   constructor(data) {
-
-
     /**
      * @type {string}
      */
@@ -31,21 +29,17 @@ class ImageBasicMetadata {
     }
   }
 
-
   /**
    * @param data
    * @private
    */
   deserialize(data) {
-
     this.height = data.height;
     this.width = data.width;
     this.colorspace = data.colorspace;
     this.format = data.format;
   }
-
 }
-
 
 /**
  * @type {ImageBasicMetadata}
