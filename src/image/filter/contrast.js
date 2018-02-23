@@ -44,7 +44,7 @@ class Contrast {
    * @returns {string}
    */
   serialize() {
-    var out = '';
+    let out = '';
 
     if (this.settings.contrast) {
       out += 'con_' + this.settings.contrast;

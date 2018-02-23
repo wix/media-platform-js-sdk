@@ -40,7 +40,7 @@ class QueuedFileUploader {
     this.queue.push(
       uploadJob,
       function () {
-        var i = this.jobs.indexOf(uploadJob);
+        const i = this.jobs.indexOf(uploadJob);
         if (i > -1) {
           this.jobs.splice(i, 1);
         }

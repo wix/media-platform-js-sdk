@@ -1,6 +1,6 @@
 import {Metadata} from '../metadata';
 
-var handlers = {
+const handlers = {
   br: 'brightness',
   con: 'contrast',
   hue: 'hue',
@@ -15,13 +15,13 @@ var handlers = {
  * @param {string} url
  */
 function parseUrl(image, url) {
-  var explodedUrl = explodeUrl(url);
-  var explodedTransformations = explodeTransformations(explodedUrl.transformations);
+  const explodedUrl = explodeUrl(url);
+  const explodedTransformations = explodeTransformations(explodedUrl.transformations);
 
   image.host = explodedUrl.host;
   image.path = explodedUrl.path;
   image.metadata = parseFragment(explodedUrl.fragment);
-  var pathParts = image.path.split('/');
+  const pathParts = image.path.split('/');
   image.fileName = pathParts[pathParts.length - 1];
 
   applyGeometry(image, explodedUrl.geometry, explodedTransformations);
@@ -34,18 +34,18 @@ function parseUrl(image, url) {
  * @private
  */
 function explodeUrl(url) {
-  var scheme;
-  var host;
-  var port;
-  var path;
-  var version;
-  var geometry;
-  var transformations;
-  var fileName;
-  var query;
-  var fragment;
+  let scheme;
+  let host;
+  let port;
+  let path;
+  let version;
+  let geometry;
+  let transformations;
+  let fileName;
+  let query;
+  let fragment;
 
-  var parts;
+  let parts;
 
   parts = url.split('#');
   if (parts.length > 1) {
@@ -65,7 +65,7 @@ function explodeUrl(url) {
     parts = parts[0].split('/');
   }
 
-  var loc = parts[0].split(':');
+  const loc = parts[0].split(':');
   if (loc.length > 1) {
     port = loc[1];
   }
@@ -95,10 +95,10 @@ function explodeUrl(url) {
  * @private
  */
 function explodeTransformations(transformations) {
-  var parts = transformations.split(',');
-  var exploded = {};
+  const parts = transformations.split(',');
+  const exploded = {};
   parts.forEach(function (transformation) {
-    var params = transformation.split('_');
+    const params = transformation.split('_');
     exploded[params[0]] = params.slice(1);
   });
 
@@ -115,10 +115,10 @@ function parseFragment(fragment) {
     return null;
   }
 
-  var parts = fragment.split(',');
-  var exploded = {};
+  const parts = fragment.split(',');
+  const exploded = {};
   parts.forEach(function (part) {
-    var params = part.split('_');
+    const params = part.split('_');
     if (params.length >= 2 && params[1] != '') {
       exploded[params[0]] = params.slice(1)[0];
     }
@@ -140,13 +140,13 @@ function parseFragment(fragment) {
  */
 function applyGeometry(image, geometry, explodedTransformations) {
   //mandatory params for all operations
-  var h = explodedTransformations.h;
-  var w = explodedTransformations.w;
+  const h = explodedTransformations.h;
+  const w = explodedTransformations.w;
 
   //mandatory params for crop
-  var x = explodedTransformations.x;
-  var y = explodedTransformations.y;
-  var scl = explodedTransformations.scl;
+  const x = explodedTransformations.x;
+  const y = explodedTransformations.y;
+  const scl = explodedTransformations.scl;
 
   image[geometry](h[0], w[0], x ? x[0] : undefined, y ? y[0] : undefined, scl ? scl[0] : undefined);
 }
@@ -157,9 +157,9 @@ function applyGeometry(image, geometry, explodedTransformations) {
  * @private
  */
 function applyFilters(image, explodedTransformations) {
-  for (var key in explodedTransformations) {
+  for (const key in explodedTransformations) {
     if (explodedTransformations.hasOwnProperty(key)) {
-      var handler = handlers[key];
+      const handler = handlers[key];
       if (handler) {
         image[handler].apply(this, explodedTransformations[key]);
       }

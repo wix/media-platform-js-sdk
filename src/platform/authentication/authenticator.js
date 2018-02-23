@@ -22,7 +22,7 @@ class Authenticator {
    * @returns {{}} The self signed authentication header
    */
   getHeader(token) {
-    var t = token;
+    let t = token;
     if (!token) {
       t = new Token()
         .setIssuer(NS.APPLICATION, this.configuration.appId)

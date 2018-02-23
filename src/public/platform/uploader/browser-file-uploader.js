@@ -44,7 +44,7 @@ class FileUploader {
    * @returns {UploadJob}
    */
   uploadFile(path, file, uploadFileRequest) {
-    var uploadJob = new UploadJob(path, file, uploadFileRequest);
+    const uploadJob = new UploadJob(path, file, uploadFileRequest);
 
     return uploadJob.run(this);
   }

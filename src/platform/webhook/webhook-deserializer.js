@@ -18,7 +18,7 @@ class WebhookDeserializer {
    * @returns {WebhookEvent|null}
    */
   deserialize(signedToken) {
-    var claims = this.authenticator.decode(signedToken);
+    const claims = this.authenticator.decode(signedToken);
     if (!claims) {
       return null;
     }

@@ -63,7 +63,7 @@ class Image {
     /**
      * @type {UnsharpMask}
      */
-    var unsharpMask = new UnsharpMask(this);
+    const unsharpMask = new UnsharpMask(this);
     this.unsharpMask = (function () {
       return unsharpMask.configuration;
     })();
@@ -71,7 +71,7 @@ class Image {
     /**
      * @type {Blur}
      */
-    var blur = new Blur(this);
+    const blur = new Blur(this);
     this.blur = (function () {
       return blur.percentage;
     })();
@@ -79,7 +79,7 @@ class Image {
     /**
      * @type {Brightness}
      */
-    var brightness = new Brightness(this);
+    const brightness = new Brightness(this);
     this.brightness = (function () {
       return brightness.brightness;
     })();
@@ -87,7 +87,7 @@ class Image {
     /**
      * @type {Contrast}
      */
-    var contrast = new Contrast(this);
+    const contrast = new Contrast(this);
     this.contrast = (function () {
       return contrast.contrast;
     })();
@@ -95,7 +95,7 @@ class Image {
     /**
      * @type {Hue}
      */
-    var hue = new Hue(this);
+    const hue = new Hue(this);
     this.hue = (function () {
       return hue.hue;
     })();
@@ -103,7 +103,7 @@ class Image {
     /**
      * @type {Saturation}
      */
-    var saturation = new Saturation(this);
+    const saturation = new Saturation(this);
     this.saturation = (function () {
       return saturation.saturation;
     })();
@@ -111,7 +111,7 @@ class Image {
     /**
      * @type {JPEG}
      */
-    var jpeg = new JPEG(this);
+    const jpeg = new JPEG(this);
     this.jpeg = (function () {
       return jpeg.compression;
     })();
@@ -136,7 +136,7 @@ class Image {
    * @returns {Image}
    */
   scaleToWidth(width, regionOfInterest) {
-    var container = new Dimension().setWidth(width);
+    const container = new Dimension().setWidth(width);
 
     return this.fillContainer(container, regionOfInterest);
   }
@@ -148,7 +148,7 @@ class Image {
    * @returns {Image}
    */
   scaleToHeight(height, regionOfInterest) {
-    var container = new Dimension().setHeight(height);
+    const container = new Dimension().setHeight(height);
 
     return this.fillContainer(container, regionOfInterest);
   }
@@ -167,12 +167,12 @@ class Image {
       regionOfInterest = new Rectangle(this.metadata.width, this.metadata.height, 0, 0);
     }
 
-    var roiAspectRatio = regionOfInterest.width / regionOfInterest.height;
-    var containerWidth = Math.round(container.width ? container.width : container.height * roiAspectRatio);
-    var containerHeight = Math.round(container.height ? container.height : container.width / roiAspectRatio);
-    var containerAspectRatio = container.width / container.height;
+    const roiAspectRatio = regionOfInterest.width / regionOfInterest.height;
+    const containerWidth = Math.round(container.width ? container.width : container.height * roiAspectRatio);
+    const containerHeight = Math.round(container.height ? container.height : container.width / roiAspectRatio);
+    const containerAspectRatio = container.width / container.height;
 
-    var scale;
+    let scale;
     if (containerAspectRatio <= 1) {
       //portrait -> portrait, landscape/square -> portrait/square
       scale = containerHeight / regionOfInterest.height;
@@ -181,24 +181,24 @@ class Image {
       scale = containerWidth / regionOfInterest.width;
     }
 
-    var x = Math.floor(regionOfInterest.x * scale);
-    var y = Math.floor(regionOfInterest.y * scale);
-    var height = Math.floor(regionOfInterest.height * scale);
-    var width = Math.floor(regionOfInterest.width * scale);
+    let x = Math.floor(regionOfInterest.x * scale);
+    let y = Math.floor(regionOfInterest.y * scale);
+    let height = Math.floor(regionOfInterest.height * scale);
+    let width = Math.floor(regionOfInterest.width * scale);
 
     //TODO: handle bleeding top, bottom, left, right
-    var verticalPadding = containerHeight - height;
+    const verticalPadding = containerHeight - height;
     height += verticalPadding;
-    var verticalOffset = Math.floor(verticalPadding / 2);
+    const verticalOffset = Math.floor(verticalPadding / 2);
     if (y - verticalOffset < 0) {
       y = 0;
     } else {
       y -= verticalOffset;
     }
 
-    var horizontalPadding = containerWidth - width;
+    const horizontalPadding = containerWidth - width;
     width += horizontalPadding;
-    var horizontalOffset = Math.floor(horizontalPadding / 2);
+    const horizontalOffset = Math.floor(horizontalPadding / 2);
     if (x - horizontalOffset < 0) {
       x = 0;
     } else {
@@ -261,7 +261,7 @@ class Image {
    * @returns {{url: string|null, error: Error|null}}
    */
   toUrl(host) {
-    var command = this.toCommand();
+    const command = this.toCommand();
 
     if (command.error) {
       return {
@@ -270,9 +270,9 @@ class Image {
       };
     }
 
-    var baseUrl = host || this.host || '';
+    let baseUrl = host || this.host || '';
 
-    var url = '';
+    let url = '';
     if (baseUrl.length !== 0 && baseUrl.indexOf('http') !== 0 && baseUrl.indexOf('//') !== 0) {
       url += '//';
     }
@@ -281,7 +281,7 @@ class Image {
       baseUrl = baseUrl.slice(0, -1);
     }
 
-    var path = this.path;
+    let path = this.path;
     if (path.indexOf('/') === 0) {
       path = path.slice(1);
     }
@@ -308,7 +308,7 @@ class Image {
       };
     }
 
-    var geometryParams = this.geometry.serialize();
+    const geometryParams = this.geometry.serialize();
     if (geometryParams.error) {
       return {
         url: null,
@@ -316,14 +316,14 @@ class Image {
       };
     }
 
-    var filtersAndEncoderParams = this.collectParams();
+    const filtersAndEncoderParams = this.collectParams();
     if (filtersAndEncoderParams.errors.length > 0) {
       return {
         url: null,
         error: new Error(filtersAndEncoderParams.errors)
       };
     }
-    var command = '/' + this.version + '/' + geometryParams.params + filtersAndEncoderParams.params;
+    const command = '/' + this.version + '/' + geometryParams.params + filtersAndEncoderParams.params;
 
     return {
       command: command,
@@ -336,9 +336,9 @@ class Image {
    * @private
    */
   collectParams() {
-    var out = '';
-    var part;
-    var errors = [];
+    let out = '';
+    let part;
+    const errors = [];
     this.serializationOrder.forEach(function concat(op) {
       part = op.serialize();
       if (part.error) {

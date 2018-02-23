@@ -28,7 +28,7 @@ class FileDownloader {
    * @returns {{downloadUrl: string}}
    */
   getDownloadUrl(path, downloadUrlRequest) {
-    var payload = {
+    const payload = {
       path: path
     };
 
@@ -36,7 +36,7 @@ class FileDownloader {
       _.extendOwn(payload, downloadUrlRequest);
     }
 
-    var token = new Token()
+    const token = new Token()
       .setSubject(NS.APPLICATION, this.configuration.appId)
       .setIssuer(NS.APPLICATION, this.configuration.appId)
       .setVerbs([VERB.FILE_DOWNLOAD])
@@ -48,7 +48,7 @@ class FileDownloader {
       token.setExpiration(Math.round(new Date().getTime() / 1000) + downloadUrlRequest.ttl);
     }
 
-    var signedToken = this.authenticator.encode(token);
+    const signedToken = this.authenticator.encode(token);
 
     return {
       downloadUrl: 'https://' + this.configuration.domain + '/_api/download/file?downloadToken=' + signedToken

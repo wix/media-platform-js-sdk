@@ -44,7 +44,7 @@ class Brightness {
    * @returns {string}
    */
   serialize() {
-    var out = '';
+    let out = '';
 
     if (this.settings.brightness) {
       out += 'br_' + this.settings.brightness;

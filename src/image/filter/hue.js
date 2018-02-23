@@ -44,7 +44,7 @@ class Hue {
    * @returns {string}
    */
   serialize() {
-    var out = '';
+    let out = '';
 
     if (this.settings.hue) {
       out += 'hue_' + this.settings.hue;

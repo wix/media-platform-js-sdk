@@ -69,8 +69,8 @@ class LiveManager {
         return;
       }
 
-      var streams = [];
-      for (var i in response.payload) {
+      const streams = [];
+      for (const i in response.payload) {
         streams.push(new LiveStream(response.payload[i]));
       }
 

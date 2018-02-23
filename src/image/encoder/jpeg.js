@@ -56,7 +56,7 @@ class JPEG {
    * @returns {string}
    */
   serialize() {
-    var out = '';
+    let out = '';
 
     if (this.settings.quality) {
       out += 'q_' + this.settings.quality;

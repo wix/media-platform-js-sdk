@@ -152,7 +152,7 @@ class Token {
    * @returns {{}}
    */
   toClaims() {
-    var claims = {
+    const claims = {
       sub: this.subject,
       obj: this.objects || this.object,
       aud: this.verbs.length > 0 ? this.verbs.join(',') : null,

@@ -57,7 +57,7 @@ class JobManager {
         return;
       }
 
-      var jobs = response.payload.map(function (data) {
+      const jobs = response.payload.map(function (data) {
         return new Job(data);
       });
 
@@ -70,7 +70,7 @@ class JobManager {
    * @param {function(Error, SearchJobsResponse)} callback
    */
   searchJobs(searchJobsRequest, callback) {
-    var params = {};
+    const params = {};
     _.extendOwn(params, searchJobsRequest);
 
     this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {

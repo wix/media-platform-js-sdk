@@ -20,20 +20,20 @@ class MediaPlatform {
     /**
      * @type {HTTPClient}
      */
-    var browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
+    const browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
     /**
      * @type {FileUploader}
      */
-    var fileUploader = new FileUploader(configuration, browserHTTPClient);
+    const fileUploader = new FileUploader(configuration, browserHTTPClient);
     /**
      * @type {QueuedFileUploader}
      */
-    var queuedFileUploader = new QueuedFileUploader(fileUploader);
+    const queuedFileUploader = new QueuedFileUploader(fileUploader);
 
     /**
      * @type {FileDownloader}
      */
-    var fileDownloader = new FileDownloader(configuration, browserHTTPClient);
+    const fileDownloader = new FileDownloader(configuration, browserHTTPClient);
 
     /**
      * retrieve the auth header for the currently logged in user
