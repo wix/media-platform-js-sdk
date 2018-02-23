@@ -27,7 +27,7 @@ class Geo {
    * @private
    */
   deserialize(data) {
-    var coordinates = data.coordinates || null;
+    const coordinates = data.coordinates || null;
 
     if (coordinates !== null) {
       this.coordinates = {

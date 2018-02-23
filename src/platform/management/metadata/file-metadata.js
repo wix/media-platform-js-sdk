@@ -36,7 +36,7 @@ class FileMetadata {
    */
   deserialize(data) {
     this.fileDescriptor = new FileDescriptor(data.fileDescriptor);
-    var type = this.fileDescriptor.mimeType.split('/')[0].toLowerCase();
+    const type = this.fileDescriptor.mimeType.split('/')[0].toLowerCase();
     if (data.basic) {
       switch (type) {
         case 'image':

@@ -31,7 +31,7 @@ class Flow {
   deserialize(data) {
     this.id = data.id;
     this.invocation = new Invocation(data.invocation);
-    for (var i in data.flow) {
+    for (const i in data.flow) {
       this.flow[i] = new FlowComponent(data.flow[i]);
     }
   }

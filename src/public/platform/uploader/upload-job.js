@@ -78,14 +78,14 @@ class UploadJob extends EventEmitter {
     }
     this.state = 'running';
 
-    var acl = 'public';
+    let acl = 'public';
     if (this.uploadFileRequest && this.uploadFileRequest.acl) {
       acl = this.uploadFileRequest.acl;
     }
 
-    var e = new UploadStartedEvent(this);
+    const e = new UploadStartedEvent(this);
     this.emit(e.name, e);
-    var uploadUrlRequest = new UploadUrlRequest()
+    const uploadUrlRequest = new UploadUrlRequest()
       .setPath(this.path)
       .setAcl(acl)
       .setMimeType(this.file.type)
@@ -94,26 +94,26 @@ class UploadJob extends EventEmitter {
       uploadUrlRequest,
       function (error, response) {
         if (error) {
-          var e = new UploadErrorEvent(this, error);
+          const e = new UploadErrorEvent(this, error);
           this.emit(e.name, e);
           return;
         }
 
-        var onProgress = function (event) {
-          var e = new UploadProgressEvent(this, event.loaded, event.total);
+        const onProgress = function (event) {
+          const e = new UploadProgressEvent(this, event.loaded, event.total);
           this.emit(e.name, e);
         }.bind(this);
 
-        var onLoad = function (event) {
-          var e;
+        const onLoad = function (event) {
+          let e;
           if (event.target.status >= 400) {
             e = new UploadErrorEvent(this, event.target.response);
           } else {
-            var payload =
+            const payload =
               typeof event.target.response === 'string'
                 ? JSON.parse(event.target.response).payload
                 : event.target.response.payload;
-            var fileDescriptors = payload.map(function (file) {
+            const fileDescriptors = payload.map(function (file) {
               return new FileDescriptor(file);
             });
 
@@ -122,22 +122,22 @@ class UploadJob extends EventEmitter {
           this.emit(e.name, e);
         }.bind(this);
 
-        var onError = function (event) {
-          var e = new UploadErrorEvent(this, event.target.response);
+        const onError = function (event) {
+          const e = new UploadErrorEvent(this, event.target.response);
           this.emit(e.name, e);
         }.bind(this);
 
-        var onAbort = function (event) {
-          var e = new UploadAbortedEvent(this);
+        const onAbort = function (event) {
+          const e = new UploadAbortedEvent(event.target);
           this.emit(e.name, e);
         }.bind(this);
 
-        var onLoadEnd = function (event) {
+        const onLoadEnd = function () {
           reset();
           this.emit('upload-end');
         }.bind(this);
 
-        var reset = function () {
+        const reset = function () {
           if (request.upload) {
             request.upload.removeEventListener('progress', onProgress);
           } else {
@@ -150,13 +150,13 @@ class UploadJob extends EventEmitter {
           this.state = 'stopped';
         }.bind(this);
 
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append('uploadToken', response.uploadToken);
         formData.append('path', this.path);
         formData.append('file', this.file);
         formData.append('acl', acl);
 
-        var request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
 
         if (request.upload) {
           request.upload.addEventListener('progress', onProgress);

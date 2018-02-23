@@ -36,7 +36,7 @@ class TranscodeManager {
    * @param {function(Error, Object)} callback
    */
   transcodeVideo(transcodeRequest, callback) {
-    var params = {};
+    const params = {};
     _.extendOwn(params, transcodeRequest);
 
     this.httpClient.request('POST', this.apiUrl, params, null, function (error, response) {

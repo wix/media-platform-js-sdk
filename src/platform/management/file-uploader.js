@@ -52,9 +52,9 @@ class FileUploader {
    * @param {function(Error, Array<FileDescriptor>|null)} callback
    */
   uploadFile(path, file, uploadRequest, callback) {
-    var calledBack = false;
-    var stream = null;
-    var size = null;
+    let calledBack = false;
+    let stream = null;
+    let size = null;
 
     if (typeof file.pipe === 'function') {
       stream = file;
@@ -81,7 +81,7 @@ class FileUploader {
       return;
     }
 
-    var uploadUrlRequest = null;
+    let uploadUrlRequest = null;
     if (uploadRequest) {
       uploadUrlRequest = new UploadUrlRequest()
         .setMimeType(uploadRequest.mimeType)
@@ -100,7 +100,7 @@ class FileUploader {
           return;
         }
 
-        var form = {
+        const form = {
           file: stream,
           path: path,
           uploadToken: response.uploadToken
@@ -115,7 +115,7 @@ class FileUploader {
 
     function doCallback(error, response) {
       if (!calledBack) {
-        var fileDescriptors = null;
+        let fileDescriptors = null;
         if (response) {
           fileDescriptors = response.payload.map(function (file) {
             return new FileDescriptor(file);

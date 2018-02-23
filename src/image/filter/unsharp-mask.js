@@ -48,9 +48,9 @@ class UnsharpMask {
       return this.image;
     }
 
-    var r = parseFloat(radius);
-    var a = parseFloat(amount);
-    var t = parseFloat(threshold);
+    const r = parseFloat(radius);
+    const a = parseFloat(amount);
+    const t = parseFloat(threshold);
 
     this.error = validator.numberNotInRange('unsharp mask radius', r, 0.1, 128);
     if (!this.error) {
@@ -77,7 +77,7 @@ class UnsharpMask {
       };
     }
 
-    var out = '';
+    let out = '';
 
     if (this.settings.radius !== null && this.settings.amount !== null && this.settings.threshold !== null) {
       out +=

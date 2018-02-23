@@ -43,7 +43,7 @@ class Saturation {
    * @returns {string}
    */
   serialize() {
-    var out = '';
+    let out = '';
 
     if (this.settings.saturation) {
       out += 'sat_' + this.settings.saturation;

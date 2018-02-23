@@ -20,11 +20,11 @@ export class MediaPlatform {
   constructor(config) {
     // TODO: validate config
 
-    var configuration = new Configuration(config.domain, config.sharedSecret, config.appId);
-    var authenticator = new Authenticator(configuration);
-    var httpClient = new HTTPClient(authenticator);
-    var fileUploader = new FileUploader(configuration, httpClient);
-    var fileDownloader = new FileDownloader(configuration, authenticator);
+    const configuration = new Configuration(config.domain, config.sharedSecret, config.appId);
+    const authenticator = new Authenticator(configuration);
+    const httpClient = new HTTPClient(authenticator);
+    const fileUploader = new FileUploader(configuration, httpClient);
+    const fileDownloader = new FileDownloader(configuration, authenticator);
 
     /**
      * @param {Token?} token

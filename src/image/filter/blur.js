@@ -43,7 +43,7 @@ class Blur {
    * @returns {string}
    */
   serialize() {
-    var out = '';
+    let out = '';
 
     if (this.settings.percentage) {
       out += 'blur_' + this.settings.percentage;

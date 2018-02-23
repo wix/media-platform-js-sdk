@@ -96,7 +96,7 @@ class FileManager {
    * @param {function(Error, FileDescriptor)} callback
    */
   getFile(path, callback) {
-    var params = {
+    const params = {
       path: path
     };
 
@@ -131,7 +131,7 @@ class FileManager {
    * @param {function(Error, ListFilesResponse)} callback
    */
   listFiles(path, listFilesRequest, callback) {
-    var params = {
+    const params = {
       path: path
     };
     _.extendOwn(params, listFilesRequest);
@@ -151,7 +151,7 @@ class FileManager {
    * @param {function(Error)} callback
    */
   deleteFileByPath(path, callback) {
-    var params = {
+    const params = {
       path: path
     };
 

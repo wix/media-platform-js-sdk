@@ -74,7 +74,7 @@ class Invocation {
    */
   deserialize(data) {
     this.sources = [];
-    for (var i in data.sources) {
+    for (const i in data.sources) {
       this.sources[i] = new Source(data.sources[i]);
     }
     this.entryPoints = data.entryPoints;

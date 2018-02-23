@@ -58,8 +58,8 @@ class Fill {
    * @returns {{params: string || null, error: *}}
    */
   serialize() {
-    var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-    var badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
+    const badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
+    const badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
 
     if (badWidth || badHeight) {
       return {
@@ -68,7 +68,7 @@ class Fill {
       };
     }
 
-    var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+    const out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
 
     return {
       params: out,

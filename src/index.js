@@ -23,7 +23,7 @@ import {QualityRange} from './platform/management/job/quality-range';
 import {ImageOperationSpecification} from './platform/management/job/image-operation-specification';
 import {ImageOperationRequest} from './platform/management/requests/image-operation-request';
 
-var MP = {};
+const MP = {};
 
 /**
  * @type {Configuration}

@@ -23,9 +23,9 @@ class HTTPClient {
    * @param {function(Error, *)} callback
    */
   request(httpMethod, url, params, token, callback) {
-    var header = this.authenticator.getHeader(token);
+    const header = this.authenticator.getHeader(token);
 
-    var options = {method: httpMethod, url: url, headers: header, json: true};
+    const options = {method: httpMethod, url: url, headers: header, json: true};
 
     switch (httpMethod) {
       case 'POST':
@@ -60,9 +60,9 @@ class HTTPClient {
    * @param {function(Error, *)} callback
    */
   postForm(url, form, token, callback) {
-    var header = this.authenticator.getHeader(token);
+    const header = this.authenticator.getHeader(token);
 
-    var options = {method: 'POST', url: url, formData: form, headers: header, json: true};
+    const options = {method: 'POST', url: url, formData: form, headers: header, json: true};
 
     request(
       options,

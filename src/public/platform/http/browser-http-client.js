@@ -32,9 +32,9 @@ class HTTPClient {
           callback(error, null);
           return;
         }
-        var request = new XMLHttpRequest();
-        var queryString = null;
-        var body = null;
+        const request = new XMLHttpRequest();
+        let queryString = null;
+        let body = null;
         switch (httpMethod) {
           case 'POST':
           case 'PUT':
@@ -42,7 +42,7 @@ class HTTPClient {
             break;
           default:
             queryString = '';
-            for (var key in params) {
+            for (const key in params) {
               if (typeof params[key] === 'function' || params[key] === null) {
                 continue;
               }
@@ -57,7 +57,7 @@ class HTTPClient {
         request.addEventListener(
           'load',
           function (event) {
-            var payload = null;
+            let payload = null;
             try {
               payload = JSON.parse(request.responseText);
             } catch (error) {
@@ -118,7 +118,7 @@ class HTTPClient {
     if (this.isAuthorizationHeaderValid()) {
       callback(null, this.authorizationHeader);
     } else {
-      var request = new XMLHttpRequest();
+      const request = new XMLHttpRequest();
 
       request.addEventListener(
         'load',
@@ -161,14 +161,15 @@ class HTTPClient {
 }
 
 HTTPClient.prototype.isAuthorizationHeaderValid = function () {
-  var valid = false;
+  let valid = false;
+  let tokenString;
 
   if (this.authorizationHeader && this.authorizationHeader.Authorization) {
     // validate the expiration
-    var token = null;
+    let token = null;
     try {
-      var parts = this.authorizationHeader.Authorization.split('.');
-      var tokenString = window.atob(parts[1]);
+      const parts = this.authorizationHeader.Authorization.split('.');
+      tokenString = window.atob(parts[1]);
       token = JSON.parse(tokenString);
     } catch (error) {
       console.error('invalid token structure', tokenString);

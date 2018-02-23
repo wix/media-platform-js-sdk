@@ -1,6 +1,6 @@
 import {UploadEvent} from './upload-event';
 
-class UploadProgressEvent extends  UploadEvent {
+class UploadProgressEvent extends UploadEvent {
   constructor(target, loaded, total) {
     super(target);
 

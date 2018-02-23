@@ -23,13 +23,13 @@ class FileDownloader {
    * @param {function(Error|null, Object)} callback
    */
   getDownloadUrl(path, downloadUrlRequest, callback) {
-    var params = {
+    const params = {
       path: path
     };
 
     // todo: seems redundant... already handled in the the HttpClient
     if (downloadUrlRequest) {
-      for (var key in downloadUrlRequest) {
+      for (const key in downloadUrlRequest) {
         if (downloadUrlRequest.hasOwnProperty(key)) {
           if (typeof downloadUrlRequest[key] === 'function' || downloadUrlRequest[key] === null) {
             continue;

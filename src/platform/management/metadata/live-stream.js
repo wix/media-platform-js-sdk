@@ -95,7 +95,7 @@ class LiveStream {
     this.publishEndpoint = new PublishEndpoint(data.publishEndpoint);
 
     this.playbackUrls = [];
-    for (var i in data.playbackUrls) {
+    for (const i in data.playbackUrls) {
       this.playbackUrls.push(new PlaybackUrl(data.playbackUrls[i]));
     }
 

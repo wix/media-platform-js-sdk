@@ -79,11 +79,11 @@ class Crop {
    * @returns {{params: string | null, error: Error | null}}
    */
   serialize() {
-    var badScale = validator.numberNotInRange('crop scale factor', this.scale, 0, 100);
-    var badX = validator.numberIsNotGreaterThan('crop x', this.x, 0);
-    var badY = validator.numberIsNotGreaterThan('crop y', this.y, 0);
-    var badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-    var badHeight =
+    const badScale = validator.numberNotInRange('crop scale factor', this.scale, 0, 100);
+    const badX = validator.numberIsNotGreaterThan('crop x', this.x, 0);
+    const badY = validator.numberIsNotGreaterThan('crop y', this.y, 0);
+    const badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
+    const badHeight =
       validator.numberIsRequired('height', this.height) || validator.numberIsNotGreaterThan('height', this.height, 1);
 
     if (badScale || badX || badY || badWidth || badHeight) {
@@ -93,7 +93,7 @@ class Crop {
       };
     }
 
-    var out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+    let out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
 
     out += ',x_' + (this.x || 0);
 
@@ -107,7 +107,7 @@ class Crop {
       if (out.length > 0) {
         out += ',';
       }
-      var str = this.scale.toString();
+      let str = this.scale.toString();
       if (this.scale === Math.floor(this.scale)) {
         str = this.scale.toFixed(1);
       }
