@@ -1,4 +1,3 @@
-import inherits from 'inherits';
 import {UploadEvent} from './upload-event';
 
 /**
@@ -6,9 +5,9 @@ import {UploadEvent} from './upload-event';
  * @constructor
  */
 
-class UploadAbortedEvent {
+class UploadAbortedEvent extends UploadEvent {
   constructor(target) {
-    UploadEvent.call(this, target);
+    super(target);
 
     /**
      * @type {string}
@@ -16,8 +15,6 @@ class UploadAbortedEvent {
     this.name = 'upload-aborted';
   }
 }
-
-inherits(UploadAbortedEvent, UploadEvent);
 
 /**
  * @type {UploadAbortedEvent}

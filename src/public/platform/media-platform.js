@@ -2,13 +2,13 @@ import {HTTPClient} from './http/browser-http-client';
 import {FileUploader} from './uploader/browser-file-uploader';
 import {QueuedFileUploader} from './uploader/queued-file-uploader';
 import {FileDownloader} from './downloader/browser-file-downloader';
-import {FileManager} from '../../src/platform/management/file-manager';
-import {ArchiveManager} from '../../src/platform/management/archive-manager';
-import {JobManager} from '../../src/platform/management/job-manager';
-import {TranscodeManager} from '../../src/platform/management/transcode-manager';
-import {FlowManager} from '../../src/platform/management/flow-manager';
-import {LiveManager} from '../../src/platform/management/live-manager';
-import {ImageManager} from '../../src/platform/management/image-manager';
+import {FileManager} from '../../platform/management/file-manager';
+import {ArchiveManager} from '../../platform/management/archive-manager';
+import {JobManager} from '../../platform/management/job-manager';
+import {TranscodeManager} from '../../platform/management/transcode-manager';
+import {FlowManager} from '../../platform/management/flow-manager';
+import {LiveManager} from '../../platform/management/live-manager';
+import {ImageManager} from '../../platform/management/image-manager';
 
 /**
  * @param {Configuration} configuration

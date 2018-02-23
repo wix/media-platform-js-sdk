@@ -1,4 +1,4 @@
-import {UploadUrlResponse} from '../../../src/platform/management/responses/upload-url-response';
+import {UploadUrlResponse} from '../../../platform/management/responses/upload-url-response';
 import {UploadJob} from './upload-job';
 
 /**

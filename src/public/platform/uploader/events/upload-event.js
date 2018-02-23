@@ -27,5 +27,4 @@ class UploadEvent {
 /**
  * @type {UploadEvent}
  */
-export default UploadEvent;
 export {UploadEvent};
