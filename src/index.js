@@ -1,50 +1,46 @@
-import {MediaPlatform} from './platform/media-platform';
+import {Configuration} from './public/platform/configuration/configuration';
+import {MediaPlatform} from './public/platform/media-platform';
+import {UploadJob} from './public/platform/uploader/upload-job';
 import {Image} from './image/image';
-import {UploadFileRequest} from './platform/management/requests/upload-file-request';
-import {DownloadUrlRequest} from './platform/management/requests/download-url-request';
 import {UploadUrlRequest} from './platform/management/requests/upload-url-request';
+import {UploadFileRequest} from './platform/management/requests/upload-file-request';
 import {ListFilesRequest} from './platform/management/requests/list-files-request';
+import {ImportFileRequest} from './platform/management/requests/import-file-request';
 import {SearchJobsRequest} from './platform/management/requests/search-jobs-request';
+import {TranscodeSpecification} from './platform/management/job/transcode-specification';
+import {Source} from './platform/management/job/source';
+import {Destination} from './platform/management/job/destination';
+import {TranscodeRequest} from './platform/management/requests/transcode-request';
 import {ExtractArchiveRequest} from './platform/management/requests/extract-archive-request';
 import {CreateArchiveRequest} from './platform/management/requests/create-archive-request';
-import {ImportFileRequest} from './platform/management/requests/import-file-request';
-import {TranscodeRequest} from './platform/management/requests/transcode-request';
-import {LivestreamRequest} from './platform/management/requests/livestream-request';
 import {CreateFlowRequest} from './platform/management/requests/create-flow-request';
+import {LivestreamRequest} from './platform/management/requests/livestream-request';
+import {Flow} from './platform/management/metadata/flow';
+import {Invocation} from './platform/management/metadata/invocation';
+import {FlowComponent} from './platform/management/metadata/flow-component';
+import {LiveStream} from './platform/management/metadata/live-stream';
+import {QualityRange} from './platform/management/job/quality-range';
 import {ImageOperationSpecification} from './platform/management/job/image-operation-specification';
 import {ImageOperationRequest} from './platform/management/requests/image-operation-request';
-import {TranscodeSpecification} from './platform/management/job/transcode-specification';
-import {QualityRange} from './platform/management/job/quality-range';
-import {Destination} from './platform/management/job/destination';
-import {Source} from './platform/management/job/source';
-import {Token} from './platform/authentication/token';
-import {NS} from './platform/authentication/NS';
-import {VERB} from './platform/authentication/VERB';
 
-export {
-  /**
-   * @type {MediaPlatform}
-   */
-    MediaPlatform,
-  /**
-   * @type {Image}
-   */
-    Image,
-  /**
-   *  @type {Source}
-   */
-    Source,
-  /**
-   *  @type {Destination}
-   */
-    Destination,
-  /**
-   * @type {QualityRange}
-   */
-    QualityRange
-};
+var MP = {};
 
-export const image = {
+/**
+ * @type {Configuration}
+ */
+MP.Configuration = Configuration;
+
+/**
+ * @type {MediaPlatform}
+ */
+MP.MediaPlatform = MediaPlatform;
+
+/**
+ * @type {Image}
+ */
+MP.Image = Image;
+
+MP.image = {
   /**
    * @type {Image}
    */
@@ -61,26 +57,23 @@ export const image = {
   ImageOperationRequest: ImageOperationRequest
 };
 
-export const file = {
+MP.upload = {
   /**
-   * @type {UploadFileRequest}
+   * @type {UploadJob}
    */
-  UploadFileRequest: UploadFileRequest,
+  UploadJob: UploadJob
+};
 
+MP.file = {
   /**
    * @type {UploadUrlRequest}
    */
   UploadUrlRequest: UploadUrlRequest,
 
   /**
-   * @type {DownloadUrlRequest}
+   * @type {UploadFileRequest}
    */
-  DownloadUrlRequest: DownloadUrlRequest,
-
-  /**
-   * @type {ListFilesRequest}
-   */
-  ListFilesRequest: ListFilesRequest,
+  UploadFileRequest: UploadFileRequest,
 
   /**
    * @type {ImportFileRequest}
@@ -88,7 +81,12 @@ export const file = {
   ImportFileRequest: ImportFileRequest,
 
   /**
-   *  @type {Source}
+   * @type {ListFilesRequest}
+   */
+  ListFilesRequest: ListFilesRequest,
+
+  /**
+   * @type {Source}
    */
   Source: Source,
 
@@ -98,7 +96,41 @@ export const file = {
   Destination: Destination
 };
 
-export const archive = {
+MP.job = {
+  /**
+   * @type {SearchJobsRequest}
+   */
+  SearchJobsRequest: SearchJobsRequest
+};
+
+MP.live = {
+  /**
+   * @type {LivestreamRequest}
+   */
+  LivestreamRequest: LivestreamRequest,
+
+  /**
+   * @type {LiveStream}
+   */
+  LiveStream: LiveStream
+};
+
+MP.flow = {
+  /**
+   * @type {CreateFlowRequest}
+   */
+  CreateFlowRequest: CreateFlowRequest,
+
+  /**
+   * @type {Flow}
+   */
+  Flow: Flow,
+
+  Invocation: Invocation,
+  FlowComponent: FlowComponent
+};
+
+MP.archive = {
   /**
    * @type {CreateArchiveRequest}
    */
@@ -110,21 +142,7 @@ export const archive = {
   ExtractArchiveRequest: ExtractArchiveRequest
 };
 
-export const auth = {
-  /**
-   * @type {Token}
-   */
-  Token: Token,
-
-  /**
-   * @type {{SERVICE: string, MEMBER: string, APPLICATION: string, FILE: string}}
-   */
-  NS: NS,
-
-  VERB: VERB
-};
-
-export const transcode = {
+MP.transcode = {
   /**
    * @type {TranscodeRequest}
    */
@@ -141,23 +159,20 @@ export const transcode = {
   QualityRange: QualityRange
 };
 
-export const flow = {
-  /**
-   * @type {CreateFlowRequest}
-   */
-  CreateFlowRequest: CreateFlowRequest
-};
+/**
+ * @type {Source}
+ */
+MP.Source = Source;
 
-export const live = {
-  /**
-   * @type {LivestreamRequest}
-   */
-  LivestreamRequest: LivestreamRequest
-};
+/**
+ * @type {Destination}
+ */
+MP.Destination = Destination;
 
-export const job = {
-  /**
-   * @type {SearchJobsRequest}
-   */
-  SearchJobsRequest: SearchJobsRequest
-};
+/**
+ * @type {QualityRange}
+ */
+MP.QualityRange = QualityRange;
+
+export default MP;
+export {MP};

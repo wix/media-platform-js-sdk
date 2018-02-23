@@ -1,4 +1,3 @@
-import inherits from 'inherits';
 import {UploadEvent} from './upload-event';
 
 /**
@@ -7,9 +6,9 @@ import {UploadEvent} from './upload-event';
  * @constructor
  */
 
-class UploadErrorEvent {
+class UploadErrorEvent extends UploadEvent {
   constructor(target, response) {
-    UploadEvent.call(this, target, response);
+    super(target, response);
 
     /**
      * @type {string}
@@ -18,10 +17,7 @@ class UploadErrorEvent {
   }
 }
 
-inherits(UploadErrorEvent, UploadEvent);
-
 /**
  * @type {UploadErrorEvent}
  */
-export default UploadErrorEvent;
 export {UploadErrorEvent};
