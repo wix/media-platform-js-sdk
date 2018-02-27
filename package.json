@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "async": "^2.1.4",
-    "eslint": "^4.18.1",
+    "core-decorators": "^0.20.0",
     "eventemitter3": "^2.0.2",
     "inherits": "^2.0.3",
     "jsonwebtoken": "^8.0.0",
@@ -64,21 +64,16 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "@types/async": "^2.0.47",
     "@types/chai": "~4.0.0",
     "@types/mocha": "^2.2.48",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-preset-wix": "^1.0.3",
     "body-parser": "latest",
     "chai": "^4.1.2",
     "cookie-parser": "latest",
     "express": "latest",
     "faux-jax": "latest",
     "file-api": "latest",
-    "haste-preset-yoshi": "^1.0.40",
+    "haste-preset-yoshi": "^1.0.45",
     "husky": "~0.14.0",
     "jsdom": "^10.1.0",
     "jsdom-global": "^3.0.2",
@@ -109,7 +104,7 @@
   "unpkg": true,
   "yoshi": {
     "specs": {
-      "browser": "test/browser/**/*.test.js"
+      "browser": "test/browser/**/*.test.ts"
     }
   }
 }
