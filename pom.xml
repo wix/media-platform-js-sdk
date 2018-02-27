@@ -28,6 +28,13 @@
                 <role>developer</role>
             </roles>
         </developer>
+        <developer>
+            <name>Alexander Davydov</name>
+            <email>aleksandrd@wix.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
     </developers>
 
     <parent>
