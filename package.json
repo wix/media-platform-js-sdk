@@ -49,10 +49,13 @@
     "build": "yoshi build",
     "lint": "yoshi lint",
     "test": "yoshi test --mocha --karma --protractor",
-    "release": "yoshi release",
+    "release": "#yoshi release",
     "start": "yoshi start",
     "e2e": "yoshi test --protractor",
-    "karma": "yoshi test --karma"
+    "karma": "yoshi test --karma",
+    "travis-script": "./scripts/travis-script.sh",
+    "travis-test": "npm run travis-test:mocha",
+    "travis-test:mocha": "mocha --require ts-node/register **/*.spec.ts --no-timeouts"
   },
   "dependencies": {
     "async": "^2.1.4",
@@ -67,6 +70,10 @@
     "@types/async": "^2.0.47",
     "@types/chai": "~4.0.0",
     "@types/mocha": "^2.2.48",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-wix": "^1.0.3",
     "body-parser": "latest",
     "chai": "^4.1.2",
     "cookie-parser": "latest",
@@ -89,6 +96,7 @@
     "request-debug": "latest",
     "sinon": "^4.3.0",
     "sinon-chai": "^2.14.0",
+    "ts-node": "^5.0.0",
     "typescript": "^2.7.1",
     "uuid": "^3.0.1",
     "wnpm-ci": "latest"
