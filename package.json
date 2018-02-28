@@ -46,13 +46,13 @@
     "preset": "yoshi"
   },
   "scripts": {
-    "build": "haste build",
-    "lint": "haste lint",
-    "test": "haste test --mocha --karma --protractor",
-    "release": "haste release",
-    "start": "haste start",
-    "e2e": "haste test --protractor",
-    "karma": "haste test --karma"
+    "build": "yoshi build",
+    "lint": "yoshi lint",
+    "test": "yoshi test --mocha --karma --protractor",
+    "release": "yoshi release",
+    "start": "yoshi start",
+    "e2e": "yoshi test --protractor",
+    "karma": "yoshi test --karma"
   },
   "dependencies": {
     "async": "^2.1.4",
