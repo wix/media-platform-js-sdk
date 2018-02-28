@@ -53,7 +53,7 @@
     "start": "yoshi start",
     "e2e": "yoshi test --protractor",
     "karma": "yoshi test --karma",
-    "travis-script": "./scripts/travis-script.sh",
+    "travis-script": "npm run travis-test",
     "travis-test": "npm run travis-test:mocha",
     "travis-test:mocha": "mocha --require ts-node/register **/*.spec.ts --no-timeouts"
   },
