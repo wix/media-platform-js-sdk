@@ -9,17 +9,21 @@ import {Destination} from '../../../../src/platform/management/job/destination';
 import {Source} from '../../../../src/platform/management/job/source';
 import {TranscodeSpecification} from '../../../../src/platform/management/job/transcode-specification';
 import {QualityRange} from '../../../../src/platform/management/job/quality-range';
+import {ExtractStoryboardSpecification} from "../../../../src/platform/management/job/extract-storyboard-specification";
+import {ExtractPosterSpecification} from "../../../../src/platform/management/job/extract-poster-specification";
+import {ExtractPosterRequest} from "../../../../src/platform/management/requests/extract-poster-request";
+import {ExtractStoryboardRequest} from "../../../../src/platform/management/requests/extract-storyboard-request";
 
-var repliesDir = __dirname + '/replies/';
+const repliesDir = __dirname + '/replies/';
 
 describe('transcode manager', function () {
 
-  var configuration = new Configuration('manager.com', 'secret', 'appId');
-  var authenticator = new Authenticator(configuration);
-  var httpClient = new HTTPClient(authenticator);
-  var transcodeManager = new TranscodeManager(configuration, httpClient);
+  const configuration = new Configuration('manager.com', 'secret', 'appId');
+  const authenticator = new Authenticator(configuration);
+  const httpClient = new HTTPClient(authenticator);
+  const transcodeManager = new TranscodeManager(configuration, httpClient);
 
-  var apiServer = nock('https://manager.com/').defaultReplyHeaders({
+  const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'
   });
 
@@ -32,16 +36,16 @@ describe('transcode manager', function () {
       .once()
       .replyWithFile(200, repliesDir + 'transcode-response.json');
 
-    var source = new Source();
+    const source = new Source();
     source.path = '/test/file.mp4';
 
-    var transcodeSpecification = new TranscodeSpecification();
+    const transcodeSpecification = new TranscodeSpecification();
     transcodeSpecification.destination = new Destination()
       .setDirectory('/test/output/')
       .setAcl('public');
     transcodeSpecification.qualityRange = new QualityRange({minimum: '240p', maximum: '1440p'});
 
-    var transcodeRequest = new TranscodeRequest()
+    const transcodeRequest = new TranscodeRequest()
       .addSource(source)
       .addSpecification(transcodeSpecification);
 
@@ -50,4 +54,57 @@ describe('transcode manager', function () {
       done();
     });
   });
+
+    it('extractPoster - default', function (done) {
+        apiServer.post('/_api/av/poster')
+            .once()
+            .replyWithFile(200, repliesDir + 'extract-poster-response.json');
+
+        const source = new Source();
+        source.path = "/test/file.mp4";
+
+        const extractPosterSpecification = new ExtractPosterSpecification();
+        extractPosterSpecification.destination = new Destination()
+            .setDirectory("/test/output/")
+            .setAcl("public");
+        extractPosterSpecification.setFormat("jpg");
+        extractPosterSpecification.setSecond(5);
+
+        const extractPosterRequest = new ExtractPosterRequest()
+            .addSource(source)
+            .addSpecification(extractPosterSpecification);
+
+        transcodeManager.extractPoster(extractPosterRequest, function(error, data) {
+            expect(data.groupId).to.equal("31325609b28541e6afea56d0dd7649ba");
+            done();
+        });
+    });
+
+    it('extractStoryboard - default', function (done) {
+        apiServer.post('/_api/av/storyboard')
+            .once()
+            .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
+
+        const source = new Source();
+        source.path = "/test/file.mp4";
+
+        const extractStoryboardSpecification = new ExtractStoryboardSpecification();
+        extractStoryboardSpecification.destination = new Destination()
+            .setDirectory("/test/output/")
+            .setAcl("public");
+        extractStoryboardSpecification.setFormat("jpg");
+        extractStoryboardSpecification.setColumns(5);
+        extractStoryboardSpecification.setRows(5);
+        extractStoryboardSpecification.setTileWidth(100);
+        extractStoryboardSpecification.setTileHeight(50);
+
+        const extractStoryboardRequest = new ExtractStoryboardRequest()
+            .addSource(source)
+            .addSpecification(extractStoryboardSpecification);
+
+        transcodeManager.extractStoryboard(extractStoryboardRequest, function(error, data) {
+            expect(data.groupId).to.equal("dd35054a57a0490aa67251777e0f9386");
+            done();
+        });
+    });
 });
