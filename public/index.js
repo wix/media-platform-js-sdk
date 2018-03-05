@@ -8,9 +8,11 @@ var ListFilesRequest = require('../src/platform/management/requests/list-files-r
 var ImportFileRequest = require('../src/platform/management/requests/import-file-request');
 var SearchJobsRequest = require('../src/platform/management/requests/search-jobs-request');
 var TranscodeSpecification = require('../src/platform/management/job/transcode-specification');
+var ExtractPosterSpecification = require('../src/platform/management/job/extract-poster-specification');
 var Source = require('../src/platform/management/job/source');
 var Destination = require('../src/platform/management/job/destination');
 var TranscodeRequest = require('../src/platform/management/requests/transcode-request');
+var ExtractPosterRequest = require('../src/platform/management/requests/extract-poster-request');
 var ExtractArchiveRequest = require('../src/platform/management/requests/extract-archive-request');
 var CreateArchiveRequest = require('../src/platform/management/requests/create-archive-request');
 var CreateFlowRequest = require('../src/platform/management/requests/create-flow-request');
@@ -153,6 +155,16 @@ MP.transcode = {
      * @type {TranscodeSpecification}
      */
     TranscodeSpecification: TranscodeSpecification,
+
+    /**
+     * @type {ExtractPosterRequest}
+     */
+    ExtractPosterRequest: ExtractPosterRequest,
+
+    /**
+     * @type {ExtractPosterSpecification}
+     */
+    ExtractPosterSpecification: ExtractPosterSpecification,
 
     /**
      * @type {QualityRange}
