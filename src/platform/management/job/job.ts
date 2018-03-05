@@ -3,6 +3,8 @@ import {ExtractArchiveSpecification, IExtractArchiveSpecification} from './extra
 import {CreateArchiveSpecification, ICreateArchiveSpecification} from './create-archive-specification';
 import {FileImportSpecification, IFileImportSpecification} from './file-import-specification';
 import {ITranscodeSpecification, TranscodeSpecification} from './transcode-specification';
+import {ExtractPosterSpecification, IExtractPosterSpecification} from "./extract-poster-specification";
+import {ExtractStoryboardSpecification, IExtractStoryboardSpecification} from "./extract-storyboard-specification";
 
 export interface IJob {
   id: string;
@@ -14,7 +16,7 @@ export interface IJob {
   dateUpdated: string;
   sources: ISource[];
   result;
-  specification: IExtractArchiveSpecification | ICreateArchiveSpecification | ITranscodeSpecification | IFileImportSpecification;
+  specification: IExtractArchiveSpecification | ICreateArchiveSpecification | ITranscodeSpecification | IFileImportSpecification | IExtractPosterSpecification | IExtractStoryboardSpecification;
 }
 
 export class Job {
@@ -27,7 +29,7 @@ export class Job {
   public dateUpdated: string | null = null;
   public sources: Source[] = [];
   public result;
-  public specification: ExtractArchiveSpecification | CreateArchiveSpecification | TranscodeSpecification | FileImportSpecification | null;
+  public specification: IExtractArchiveSpecification | ICreateArchiveSpecification | ITranscodeSpecification | IFileImportSpecification | IExtractPosterSpecification | IExtractStoryboardSpecification | null;
 
   constructor(data?: IJob) {
     if (data) {
@@ -62,6 +64,14 @@ export class Job {
       case 'urn:job:av.transcode':
         this.result = data.result;
         this.specification = new TranscodeSpecification(data.specification as ITranscodeSpecification);
+        break;
+      case 'urn:job:av.poster':
+        this.result = data.result;
+        this.specification = new ExtractPosterSpecification(data.specification as IExtractPosterSpecification);
+        break;
+      case 'urn:job:av.storyboard':
+        this.result = data.result;
+        this.specification = new ExtractStoryboardSpecification(data.specification as IExtractStoryboardSpecification);
         break;
       case 'urn:job:import.file':
         this.result = data.result;

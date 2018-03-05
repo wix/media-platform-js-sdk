@@ -12,6 +12,8 @@ import {Source} from './platform/management/job/source';
 import {Destination} from './platform/management/job/destination';
 import {TranscodeRequest} from './platform/management/requests/transcode-request';
 import {ExtractArchiveRequest} from './platform/management/requests/extract-archive-request';
+import {ExtractPosterRequest} from './platform/management/requests/extract-poster-request';
+import {ExtractStoryboardRequest} from './platform/management/requests/extract-storyboard-request';
 import {CreateArchiveRequest} from './platform/management/requests/create-archive-request';
 import {CreateFlowRequest} from './platform/management/requests/create-flow-request';
 import {LivestreamRequest} from './platform/management/requests/livestream-request';
@@ -66,6 +68,8 @@ export const archive = {
 export const transcode = {
   TranscodeRequest,
   TranscodeSpecification,
+  ExtractPosterRequest,
+  ExtractStoryboardRequest,
   QualityRange
 };
 
