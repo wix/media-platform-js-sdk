@@ -390,10 +390,10 @@ html()
                             Execute
                         .spinner
                         span#extract-poster-job-status.path-to-file
+                    div#extract-poster-image
                     .highlight.highlight-response
                         pre
                             code.language-javascript#extract-poster-payload
-
 
                 h2#FlowManagerApi Flow Manager API
                 H4 Invoke Flow on Remote Url
@@ -924,6 +924,9 @@ html()
                 function pollTranscodeJobStatus(jobGroupId) {
                     mediaPlatform.jobManager.getJobGroup(jobGroupId, function (error, response) {
                         transcodeJobStatus.innerText = "Polling";
+                        transcodeVideoPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
 
                         if(response.length) {
                             var success = true;
@@ -955,6 +958,7 @@ html()
                 var extractPosterVideoButton = document.getElementById('extract-poster-button');
                 var extractPosterVideoInput = document.getElementById('extract-poster-id-input');
                 var extractPosterVideoPayload = document.getElementById('extract-poster-payload');
+                var extractPosterImage = document.getElementById('extract-poster-image');
                 var extractPosterJobStatus = document.getElementById('extract-poster-job-status');
 
                 extractPosterVideoButton.addEventListener('click', function () {
@@ -970,8 +974,9 @@ html()
                     source.fileId = fileId;
 
                     var extractPosterSpecification = new ExtractPosterSpecification();
+                    var posterFilePath = "/test/poster/file_" + Date.now() + ".jpg";
                     extractPosterSpecification.destination = new Destination()
-                        .setPath("/test/poster/file_" + Date.now() + ".jpg")
+                        .setPath(posterFilePath)
                         .setAcl("public");
 
                     extractPosterSpecification.format = "jpg";
@@ -995,6 +1000,10 @@ html()
                     mediaPlatform.jobManager.getJobGroup(jobGroupId, function (error, response) {
                         extractPosterJobStatus.innerText = "Polling";
 
+                        extractPosterVideoPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
+
                         if(response.length) {
                             var success = true;
                             for(var i in response) {
@@ -1008,6 +1017,8 @@ html()
                             if(success) {
                                 stopLoading(extractPosterVideoButton);
                                 extractPosterJobStatus.innerText = "Success";
+                                var path = response[0].specification.destination.path;
+                                extractPosterImage.innerHTML = "<img src='//" + imagesHost + path + "' width='400'/>"
                             } else {
                                 setTimeout(function () {
                                     pollExtractPosterJobStatus(jobGroupId);
