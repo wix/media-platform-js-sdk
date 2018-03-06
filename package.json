@@ -49,7 +49,7 @@
     "build": "yoshi build",
     "lint": "yoshi lint",
     "test": "yoshi test --mocha --karma --protractor",
-    "release": "#yoshi release",
+    "release": "node scripts/npm-release.js",
     "start": "yoshi start",
     "e2e": "yoshi test --protractor",
     "karma": "yoshi test --karma",
@@ -99,7 +99,8 @@
     "ts-node": "^5.0.0",
     "typescript": "^2.7.1",
     "uuid": "^3.0.1",
-    "wnpm-ci": "latest"
+    "wnpm-ci": "latest",
+    "semver": "latest"
   },
   "babel": {
     "plugins": [
