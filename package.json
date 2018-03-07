@@ -1,6 +1,6 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "6.0.0-alpha",
+  "version": "6.0.0-alpha.1",
   "description": "The official Wix Media Platform Javascript SDK",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
@@ -37,8 +37,8 @@
     "streaming"
   ],
   "private": false,
-  "main": "./src/main.js",
-  "browser": "./src/index.js",
+  "main": "./dist/src/main.js",
+  "browser": "./dist/src/index.js",
   "engines": {
     "node": ">= 4.0.0"
   },
