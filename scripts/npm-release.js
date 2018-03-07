@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 if (!process.env.IS_BUILD_AGENT) {
   console.log(
     "Package will not be published because we're not running in a CI build agent",
@@ -34,7 +36,7 @@ function getPublishedVersion() {
 function shouldPublish(publishedVersion, packageJSONVersion) {
   return (
     publishedVersion === ZERO_VERSION ||
-    (!!publishedVersion && semver.gt(packageJSONVersion, publishedVersion))
+    (Boolean(publishedVersion) && semver.gt(packageJSONVersion, publishedVersion))
   );
 }
 
