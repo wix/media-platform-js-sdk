@@ -149,7 +149,7 @@ export class Token {
     let claims = {
       sub: this.subject,
       obj: this.objects || this.object,
-      aud: this.verbs.length > 0 ? this.verbs.join(',') : null,
+      aud: this.verbs.length > 0 ? this.verbs : null,
       iss: this.issuer,
       iat: this.issuedAt,
       jti: this.tokenId,

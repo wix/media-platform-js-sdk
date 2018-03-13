@@ -18,7 +18,7 @@ export class Authenticator {
    * @param {Token?} token
    * @returns {{}} The self signed authentication header
    */
-  getHeader(token?: Token): AuthorizationHeader {
+  getHeader(token?: Token | string): AuthorizationHeader {
     let t = token;
     if (!token) {
       t = new Token()
@@ -27,7 +27,7 @@ export class Authenticator {
     }
 
     return {
-      Authorization: this.encode(t)
+      Authorization: typeof t === 'string' ? t : this.encode(t)
     };
   }
 
