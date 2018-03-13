@@ -112,7 +112,7 @@ describe('file manager', function () {
 
     fileManager.getFileMetadataById('file-id', function (error, data) {
       expect(data).to.deep.equal(new FileMetadata({
-        fileDescriptor: new FileDescriptor( {
+        fileDescriptor: new FileDescriptor({
           id: '2145ae56cd5c47c79c05d4cfef5f1078',
           hash: null,
           path: '/images/animals/cat.jpg',
@@ -229,82 +229,86 @@ describe('file manager', function () {
     });
   });
 
-  it('file upload accepts path (string) as source', function (done) {
+  describe('file upload', () => {
 
-    apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-    apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
+    it('should accept path (string) as source', function (done) {
 
-    //path, file, uploadRequest, callback
-    fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
-      done(error);
+      apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+      apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
+
+      //path, file, uploadRequest, callback
+      fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
+        done(error);
+      });
     });
-  });
 
-  it('file upload handles path (string) errors', function (done) {
-    fileManager.uploadFile('upload/to/there/image.jpg', 'nothing here', null, function (error, data) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(data).to.equal(null);
-      done();
+    it('should handle path (string) errors', function (done) {
+      fileManager.uploadFile('upload/to/there/image.jpg', 'nothing here', null, function (error, data) {
+        expect(error).to.be.an.instanceof(Error);
+        expect(data).to.equal(null);
+        done();
+      });
     });
-  });
 
-  it('file upload accepts stream as source', function (done) {
+    it('should accept stream as source', function (done) {
 
-    apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-    apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
+      apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+      apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
-    const stream = fs.createReadStream(sourcesDir + 'audio.mp3');
+      const stream = fs.createReadStream(sourcesDir + 'audio.mp3');
 
-    fileManager.uploadFile('upload/to/there/image.jpg', stream, null, function (error, data) {
-      done(error);
+      fileManager.uploadFile('upload/to/there/image.jpg', stream, null, function (error, data) {
+        done(error);
+      });
     });
-  });
 
-  it('file upload accepts buffer as source', function (done) {
+    it('should accept buffer as source', function (done) {
 
-    apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-    apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
+      apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+      apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
-    const buffer = fs.readFileSync(sourcesDir + 'document.xlsx');
+      const buffer = fs.readFileSync(sourcesDir + 'document.xlsx');
 
-    fileManager.uploadFile('upload/to/there/image.jpg', buffer, null, function (error, data) {
-      done(error);
+      fileManager.uploadFile('upload/to/there/image.jpg', buffer, null, function (error, data) {
+        done(error);
+      });
     });
-  });
 
-  it('file upload reject unsupported source', function (done) {
+    it('should reject unsupported source', function (done) {
 
-    apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-    apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+      apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+      apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
-    (fileManager.uploadFile as any)('upload/to/there/image.jpg', 1111, null, function (error, data) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(data).to.equal(null);
-      done();
+      (fileManager.uploadFile as any)('upload/to/there/image.jpg', 1111, null, function (error, data) {
+        expect(error).to.be.an.instanceof(Error);
+        expect(data).to.equal(null);
+        done();
+      });
     });
-  });
 
-  it('file upload handles auth errors', function (done) {
+    it('should handle auth errors', function (done) {
 
-    apiServer.get('/_api/upload/url').once().query(true).reply(403, {});
+      apiServer.get('/_api/upload/url').once().query(true).reply(403, {});
 
-    fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(data).to.equal(null);
-      done();
+      fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
+        expect(error).to.be.an.instanceof(Error);
+        expect(data).to.equal(null);
+        done();
+      });
     });
-  });
 
-  it('file upload handles upload errors', function (done) {
+    it('should handle upload errors', function (done) {
 
-    apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-    apiServer.post('/_api/upload/file').once().reply(500, {});
+      apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+      apiServer.post('/_api/upload/file').once().reply(500, {});
 
-    fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(data).to.equal(null);
-      done();
+      fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
+        expect(error).to.be.an.instanceof(Error);
+        expect(data).to.equal(null);
+        done();
+      });
     });
+
   });
 
   it('file import', function (done) {

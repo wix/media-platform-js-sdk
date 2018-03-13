@@ -49,7 +49,7 @@ export class HTTPClient implements IHTTPClient {
 
         request.addEventListener(
           'load',
-          function (event) {
+          (event) => {
             let payload = null;
             try {
               payload = JSON.parse(request.responseText);
@@ -71,11 +71,11 @@ export class HTTPClient implements IHTTPClient {
             }
 
             callback(null, payload);
-          }.bind(this)
+          }
         );
         request.addEventListener(
           'error',
-          function (event) {
+          (event) => {
             if (request.status === 403 || request.status === 401) {
               this.authorizationHeader = null;
               if (request.status === 401 && !noRetry) {
@@ -85,13 +85,13 @@ export class HTTPClient implements IHTTPClient {
             }
 
             callback(new Error(request.statusText), null);
-          }.bind(this)
+          }
         );
         request.addEventListener(
           'abort',
-          function (event) {
+          (event) => {
             callback(new Error(request.statusText), null);
-          }.bind(this)
+          }
         );
 
         request.open(httpMethod, queryString ? url + '?' + queryString : url);
@@ -100,7 +100,7 @@ export class HTTPClient implements IHTTPClient {
         request.setRequestHeader('Content-Type', 'application/json');
         request.setRequestHeader('Authorization', header.Authorization);
         request.send(body);
-      }.bind(this)
+      }
     );
   }
 
@@ -115,7 +115,7 @@ export class HTTPClient implements IHTTPClient {
 
       request.addEventListener(
         'load',
-        function (event) {
+        (event) => {
           try {
             this.authorizationHeader = JSON.parse(request.responseText);
           } catch (error) {
@@ -123,19 +123,19 @@ export class HTTPClient implements IHTTPClient {
             return;
           }
           callback(null, this.authorizationHeader);
-        }.bind(this)
+        }
       );
       request.addEventListener(
         'error',
-        function (event) {
+        (event) => {
           callback(new Error(request.statusText), null);
-        }.bind(this)
+        }
       );
       request.addEventListener(
         'abort',
-        function (event) {
+        (event) => {
           callback(new Error(request.statusText), null);
-        }.bind(this)
+        }
       );
 
       request.open('GET', this.authenticationUrl);

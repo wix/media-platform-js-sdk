@@ -10,6 +10,7 @@ import {UploadJob} from './upload-job';
 export class QueuedFileUploader {
   public queue: AsyncQueue<UploadJob>;
   public jobs: UploadJob[] = [];
+
   constructor(public fileUploader: FileUploader, public concurrency: number = 4) {
     this.fileUploader = fileUploader;
 
@@ -36,12 +37,12 @@ export class QueuedFileUploader {
     this.jobs.push(uploadJob);
     this.queue.push(
       uploadJob,
-      function () {
+      () => {
         const i = this.jobs.indexOf(uploadJob);
         if (i > -1) {
           this.jobs.splice(i, 1);
         }
-      }.bind(this)
+      }
     );
 
     return this;
