@@ -9,6 +9,12 @@ import {UploadAbortedEvent} from './events/upload-aborted-event';
 import {UploadFileRequest} from '../../../platform/management/requests/upload-file-request';
 import {FileUploader} from './browser-file-uploader';
 
+
+export enum UploadJobState {
+  STOPPED = 'stopped',
+  RUNNING = 'running',
+}
+
 /**
  * @param {string?} path
  * @param {File?} file
@@ -17,7 +23,8 @@ import {FileUploader} from './browser-file-uploader';
  * @extends {EventEmitter}
  */
 export class UploadJob extends EventEmitter {
-  public state: string = 'stopped';
+  public state: UploadJobState = UploadJobState.STOPPED;
+  private request: XMLHttpRequest | undefined;
 
   constructor(public path: string | undefined = undefined, public file?: File, public uploadFileRequest?: UploadFileRequest) {
     super();
@@ -55,11 +62,11 @@ export class UploadJob extends EventEmitter {
    * @returns {UploadJob}
    */
   run(fileUploader: FileUploader): this {
-    if (this.state === 'running') {
+    if (this.state === UploadJobState.RUNNING) {
       console.warn('job already running');
       return this;
     }
-    this.state = 'running';
+    this.state = UploadJobState.RUNNING;
 
     let acl = 'public';
     if (this.uploadFileRequest && this.uploadFileRequest.acl) {
@@ -75,19 +82,19 @@ export class UploadJob extends EventEmitter {
       .setSize(this.file.size);
     fileUploader.getUploadUrl(
       uploadUrlRequest,
-      function (error, response) {
+      (error, response) => {
         if (error) {
           const e = new UploadErrorEvent(this, error);
           this.emit(e.name, e);
           return;
         }
 
-        const onProgress = function (event) {
+        const onProgress = (event: ProgressEvent) => {
           const e = new UploadProgressEvent(this, event.loaded, event.total);
           this.emit(e.name, e);
-        }.bind(this);
+        };
 
-        const onLoad = function (event) {
+        const onLoad = (event) => {
           let e;
           if (event.target.status >= 400) {
             e = new UploadErrorEvent(this, event.target.response);
@@ -103,24 +110,24 @@ export class UploadJob extends EventEmitter {
             e = new UploadSuccessEvent(this, event.target.response, fileDescriptors);
           }
           this.emit(e.name, e);
-        }.bind(this);
+        };
 
-        const onError = function (event) {
-          const e = new UploadErrorEvent(this, event.target.response);
+        const onError = () => {
+          const e = new UploadErrorEvent(this, request.response);
           this.emit(e.name, e);
-        }.bind(this);
+        };
 
-        const onAbort = function (event) {
+        const onAbort = (event) => {
           const e = new UploadAbortedEvent(event.target);
           this.emit(e.name, e);
-        }.bind(this);
+        };
 
-        const onLoadEnd = function () {
+        const onLoadEnd = () => {
           reset();
           this.emit('upload-end');
-        }.bind(this);
+        };
 
-        const reset = function () {
+        const reset = () => {
           if (request.upload) {
             request.upload.removeEventListener('progress', onProgress);
           } else {
@@ -130,8 +137,8 @@ export class UploadJob extends EventEmitter {
           request.removeEventListener('error', onError);
           request.removeEventListener('abort', onAbort);
           request.removeEventListener('loadend', onLoadEnd);
-          this.state = 'stopped';
-        }.bind(this);
+          this.state = UploadJobState.STOPPED;
+        };
 
         const formData = new FormData();
         formData.append('uploadToken', response.uploadToken);
@@ -139,7 +146,7 @@ export class UploadJob extends EventEmitter {
         formData.append('file', this.file);
         formData.append('acl', acl);
 
-        const request = new XMLHttpRequest();
+        const request = this.request = new XMLHttpRequest();
 
         if (request.upload) {
           request.upload.addEventListener('progress', onProgress);
@@ -157,10 +164,17 @@ export class UploadJob extends EventEmitter {
         request.responseType = 'json';
 
         request.send(formData);
-      }.bind(this)
+      }
     );
 
     return this;
+  }
+
+  public abort() {
+    if (this.state !== UploadJobState.RUNNING) {
+      throw Error('Job is not running');
+    }
+    this.request.abort();
   }
 }
 

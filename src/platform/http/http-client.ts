@@ -1,8 +1,10 @@
 import * as request from 'request';
+import * as Stream from 'stream';
 import {Authenticator} from '../authentication/authenticator';
 import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 import {Token} from '../authentication/token';
 import {Configuration, IConfiguration} from '../configuration/configuration';
+import {UploadFileRequest} from '../management/requests/upload-file-request';
 
 // require('request-debug')(request);
 
@@ -21,11 +23,13 @@ export interface IHTTPClient {
   request(httpMethod: string, url: string, params: any, token: Token | undefined, callback: RequestCallback);
 
   get<T>(url: string, params?: object, token?: Token | string): Promise<T>;
+
   put<T>(url: string, params?: object, token?: Token | string): Promise<T>;
+
   post<T>(url: string, params?: object, token?: Token | string): Promise<T>;
 }
 
-export class HTTPClient implements IHTTPClient{
+export class HTTPClient implements IHTTPClient {
   constructor(public authenticator: Authenticator) {
   }
 
@@ -51,7 +55,7 @@ export class HTTPClient implements IHTTPClient{
 
     request(
       options,
-      function (error, response, body) {
+      (error, response, body) => {
         if (error) {
           callback(error, null);
           return;
@@ -62,7 +66,7 @@ export class HTTPClient implements IHTTPClient{
           return;
         }
         callback(null, body);
-      }.bind(this)
+      }
     );
   }
 
@@ -72,14 +76,14 @@ export class HTTPClient implements IHTTPClient{
    * @param {Token?} token
    * @param {function(Error, *)} callback
    */
-  postForm(url: string, form: FormData, token: Token | undefined, callback: RequestCallback) {
+  postForm(url: string, form: FormData | { file: Stream, path: string, uploadToken: string } & Partial<UploadFileRequest>, token: Token | undefined, callback: RequestCallback) {
     const header = this.authenticator.getHeader(token);
 
     const options = {method: 'POST', url: url, formData: form, headers: header, json: true};
 
     request(
       options,
-      function (error, response, body) {
+      (error, response, body) => {
         if (error) {
           callback(error, null);
           return;
@@ -91,7 +95,7 @@ export class HTTPClient implements IHTTPClient{
         }
 
         callback(null, body);
-      }.bind(this)
+      }
     );
   }
 

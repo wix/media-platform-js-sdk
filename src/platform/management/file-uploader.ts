@@ -95,7 +95,7 @@ export class FileUploader implements IFileUploader {
 
     this.getUploadUrl(
       uploadUrlRequest,
-      function (error, response) {
+      (error, response) => {
         if (error) {
           doCallback(error, null);
           return;
@@ -111,7 +111,7 @@ export class FileUploader implements IFileUploader {
         }
 
         this.httpClient.postForm(response.uploadUrl, form, null, doCallback);
-      }.bind(this)
+      }
     );
 
     function doCallback(error, response) {

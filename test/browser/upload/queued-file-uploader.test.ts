@@ -6,6 +6,7 @@ import {HTTPClient} from '../../../src/public/platform/http/browser-http-client'
 import {UploadJob} from '../../../src/public/platform/uploader/upload-job';
 import {FileUploader} from '../../../src/public/platform/uploader/browser-file-uploader';
 import {QueuedFileUploader} from '../../../src/public/platform/uploader/queued-file-uploader';
+import {delay} from '../../helpers/delay';
 
 describe('queued file uploader', function () {
 
@@ -18,6 +19,23 @@ describe('queued file uploader', function () {
   let browserHTTPClient;
   let fileUploader;
   let queuedFileUploader;
+  const fileUploadResponse = {
+    'code': 0,
+    'message': 'OK',
+    'payload': [{
+      'mimeType': 'text/plain',
+      'hash': 'd41d8cd98f00b204e9800998ecf8427e',
+      'parent': '/',
+      'dateCreated': '2017-02-20T14:23:42Z',
+      'path': '/place-holder.txt',
+      'id': 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+      'size': 0,
+      'ancestors': ['/'],
+      'acl': 'public',
+      'dateUpdated': '2017-02-20T14:23:42Z',
+      'type': '-'
+    }]
+  };
   const sandbox = sinon.sandbox.create();
 
   beforeEach(() => {
@@ -32,7 +50,7 @@ describe('queued file uploader', function () {
     sandbox.verifyAndRestore();
   });
 
-  it('uploads a file and reports progress', async () => {
+  it('should upload a file and report progress', async () => {
     setResponse(fileUploadResponse);
     let progress = false;
     const endPromise = new Promise((resolve) => {
@@ -45,14 +63,14 @@ describe('queued file uploader', function () {
     const uploadJob = new UploadJob()
       .setPath('/fish/file.mp3')
       .setFile(file);
-    uploadJob.on('upload-started', function (event) {
+    uploadJob.on('upload-started', () => {
     });
-    uploadJob.on('upload-progress', function (event) {
+    uploadJob.on('upload-progress', () => {
       progress = true;
     });
-    uploadJob.on('upload-error', function (event) {
+    uploadJob.on('upload-error', () => {
     });
-    uploadJob.on('upload-success', function (event) {
+    uploadJob.on('upload-success', () => {
     });
 
     queuedFileUploader.enqueue(uploadJob);
@@ -60,7 +78,7 @@ describe('queued file uploader', function () {
     expect(progress).to.be.true;
   });
 
-  it('can only queue a job once', async () => {
+  it('should only be able to queue a job once', async () => {
     const consoleWarn = sandbox.stub(console, 'warn');
     setResponse(fileUploadResponse);
     const endPromise = new Promise((resolve) => {
@@ -84,6 +102,38 @@ describe('queued file uploader', function () {
     await endPromise;
   });
 
+  it('should abort when abort() called', async () => {
+    setResponse(fileUploadResponse);
+    const endPromise = new Promise((resolve) => {
+      queuedFileUploader.queue.drain = () => {
+        resolve();
+      };
+    });
+
+    const file = new FileAPI.File('../../sources/image.jpg');
+    const uploadJob = new UploadJob()
+      .setPath('/fish/file.mp3')
+      .setFile(file);
+    const abortedSpy = sinon.spy();
+    uploadJob.on('upload-aborted', abortedSpy);
+    queuedFileUploader.enqueue(uploadJob);
+    await delay();
+    uploadJob.abort();
+    await endPromise;
+    expect(abortedSpy).to.have.been.called;
+  });
+
+  it('should raise when abort() called, but not run yet', () => {
+    setResponse(fileUploadResponse);
+
+    const file = new FileAPI.File('../../sources/image.jpg');
+    const uploadJob = new UploadJob()
+      .setPath('/fish/file.mp3')
+      .setFile(file);
+
+    expect(() => uploadJob.abort()).to.throw('Job is not running');
+  });
+
   it('handles errors', async () => {
     setResponse({error: 'fish'}, 500);
     const endPromise = new Promise((resolve) => {
@@ -102,24 +152,6 @@ describe('queued file uploader', function () {
     queuedFileUploader.enqueue(uploadJob);
     await endPromise;
   });
-
-  const fileUploadResponse = {
-    'code': 0,
-    'message': 'OK',
-    'payload': [{
-      'mimeType': 'text/plain',
-      'hash': 'd41d8cd98f00b204e9800998ecf8427e',
-      'parent': '/',
-      'dateCreated': '2017-02-20T14:23:42Z',
-      'path': '/place-holder.txt',
-      'id': 'd0e18fd468cd4e53bc2bbec3ca4a8676',
-      'size': 0,
-      'ancestors': ['/'],
-      'acl': 'public',
-      'dateUpdated': '2017-02-20T14:23:42Z',
-      'type': '-'
-    }]
-  };
 
   function setResponse(responseBody, responseStatus = 200) {
 
