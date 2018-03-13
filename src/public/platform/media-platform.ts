@@ -13,6 +13,7 @@ import {Configuration} from './configuration/configuration';
 import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 import {UploadJob} from './uploader/upload-job';
 import {DownloadUrlRequest} from '../../platform/management/requests/download-url-request';
+import {WidgetInstanceManager} from '../../platform/management/widgets/widget-instance-manager/widget-instance-manager';
 
 /**
  * @param {Configuration} configuration
@@ -29,6 +30,7 @@ class MediaPlatform {
   public liveManager: LiveManager;
   public flowManager: FlowManager;
   public imageManager: ImageManager;
+  public widgetInstancesManager: WidgetInstanceManager;
 
   constructor(configuration: Configuration) {
     this.browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
@@ -51,6 +53,7 @@ class MediaPlatform {
     this.liveManager = new LiveManager(configuration, this.browserHTTPClient);
     this.flowManager = new FlowManager(configuration, this.browserHTTPClient);
     this.imageManager = new ImageManager(configuration, this.browserHTTPClient);
+    this.widgetInstancesManager = new WidgetInstanceManager(configuration, this.browserHTTPClient);
   }
 
   /**

@@ -15,6 +15,7 @@ import {Token} from './authentication/token';
 import {AuthorizationHeader} from '../types/media-platform/media-platform';
 import {DownloadUrlRequest} from './management/requests/download-url-request';
 import {DownloadURLObject} from '../types/media-platform/media-platform';
+import {WidgetInstanceManager} from './management/widgets/widget-instance-manager/widget-instance-manager';
 
 /**
  * @param {Configuration} config
@@ -24,14 +25,15 @@ export class MediaPlatform {
   private authenticator: Authenticator;
   private fileDownloader: FileDownloader;
 
-  public archiveManager;
-  public fileManager;
-  public transcodeManager;
-  public flowManager;
-  public liveManager;
-  public jobManager;
-  public imageManager;
-  public webhookDeserializer;
+  public archiveManager: ArchiveManager;
+  public fileManager: FileManager;
+  public transcodeManager: TranscodeManager;
+  public flowManager: FlowManager;
+  public liveManager: LiveManager;
+  public jobManager: JobManager;
+  public imageManager: ImageManager;
+  public widgetInstancesManager: WidgetInstanceManager;
+  public webhookDeserializer: WebhookDeserializer;
 
   constructor(config) {
     // TODO: validate config
@@ -75,6 +77,11 @@ export class MediaPlatform {
      * @type {ImageManager}
      */
     this.imageManager = new ImageManager(configuration, httpClient);
+
+    /**
+     * @type {WidgetInstanceManager}
+     */
+    this.widgetInstancesManager = new WidgetInstanceManager(configuration, httpClient);
 
     /**
      * @type {WebhookDeserializer}

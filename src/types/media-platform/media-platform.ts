@@ -11,7 +11,7 @@ export type TokenObjects = any[][];
 export interface TokenClaims {
   sub: string;
   obj: string | TokenObjects | null;
-  aud: string;
+  aud: string | string[] | null;
   iss: string;
   iat: number;
   jti: string;
