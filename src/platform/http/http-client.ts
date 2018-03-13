@@ -38,9 +38,6 @@ export class HTTPClient implements IHTTPClient{
    */
   request(httpMethod: string, url: string, params: any, token: Token | string | undefined, callback: RequestCallback) {
     const header = this.authenticator.getHeader(token);
-    console.log('\x1b[36m%s\x1b[0m', 'request');
-    console.log('request', url, token, header);
-
     const options: HTTPRequest = {method: httpMethod, url: url, headers: header, json: true};
 
     switch (httpMethod) {

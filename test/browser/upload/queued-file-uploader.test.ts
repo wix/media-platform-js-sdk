@@ -125,8 +125,6 @@ describe('queued file uploader', function () {
 
     fauxJax.on('request', function (request) {
 
-      //console.log(request.requestURL);
-
       if (request.requestURL === 'https://www.myapp.com/auth') {
         request.respond(200, {'Content-Type': 'application/json'},
           JSON.stringify({

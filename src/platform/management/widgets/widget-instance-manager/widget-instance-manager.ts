@@ -39,7 +39,6 @@ export class WidgetInstanceManager {
   }
 
   private auth(widgetInstanceId: string): Promise<string> {
-    console.log('auth');
     return this.httpClient.get<WidgetInstanceAuthResponse>(this.getAuthURL(widgetInstanceId))
       .then(response => response.payload.token, error => {
         console.error('Error while auth', error);
