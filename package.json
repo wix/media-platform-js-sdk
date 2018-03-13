@@ -55,7 +55,7 @@
     "karma": "yoshi test --karma",
     "travis-script": "npm run travis-test",
     "travis-test": "npm run travis-test:mocha",
-    "travis-test:mocha": "mocha --require ts-node/register **/*.spec.ts --no-timeouts"
+    "travis-test:mocha": "mocha --require ts-node/register test/mocha-setup.ts **/*.spec.ts --no-timeouts"
   },
   "dependencies": {
     "async": "^2.1.4",
@@ -70,6 +70,9 @@
     "@types/async": "^2.0.47",
     "@types/chai": "~4.0.0",
     "@types/mocha": "^2.2.48",
+    "@types/nock": "^9.1.2",
+    "@types/sinon": "^4.3.0",
+    "@types/sinon-chai": "^2.7.29",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -94,13 +97,13 @@
     "pug": "latest",
     "puppeteer": "^1.1.0",
     "request-debug": "latest",
+    "semver": "latest",
     "sinon": "^4.3.0",
     "sinon-chai": "^2.14.0",
     "ts-node": "^5.0.0",
     "typescript": "^2.7.1",
     "uuid": "^3.0.1",
-    "wnpm-ci": "latest",
-    "semver": "latest"
+    "wnpm-ci": "latest"
   },
   "babel": {
     "plugins": [
@@ -114,6 +117,11 @@
   "yoshi": {
     "specs": {
       "browser": "test/browser/**/*.test.ts"
+    },
+    "servers": {
+      "cdn": {
+        "port": 3211
+      }
     }
   }
 }

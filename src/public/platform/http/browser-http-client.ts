@@ -173,4 +173,38 @@ export class HTTPClient implements IHTTPClient {
 
     return valid;
   }
+
+  get<T>(url: string, params: object = {}, token?: Token): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      this.request('GET', url, params, token, (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      });
+    });
+  }
+  put<T>(url: string, params: object = {}, token?: Token): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      this.request('PUT', url, params, token, (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      });
+    });
+  }
+  post<T>(url: string, params: object = {}, token?: Token): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      this.request('POST', url, params, token, (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      });
+    });
+  }
 }

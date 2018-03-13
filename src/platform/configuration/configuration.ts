@@ -2,7 +2,12 @@ export interface IConfigurationBase {
   domain: string;
 }
 
-export class Configuration implements IConfigurationBase {
+export interface IConfiguration extends IConfigurationBase {
+  sharedSecret: string;
+  appId: string
+}
+
+export class Configuration implements IConfiguration {
   /**
    * @param {string} domain
    * @param {string} sharedSecret

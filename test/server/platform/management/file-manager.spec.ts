@@ -236,7 +236,6 @@ describe('file manager', function () {
 
     //path, file, uploadRequest, callback
     fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
-      //console.log(data);
       done(error);
     });
   });
@@ -257,7 +256,6 @@ describe('file manager', function () {
     const stream = fs.createReadStream(sourcesDir + 'audio.mp3');
 
     fileManager.uploadFile('upload/to/there/image.jpg', stream, null, function (error, data) {
-      //console.log(data);
       done(error);
     });
   });

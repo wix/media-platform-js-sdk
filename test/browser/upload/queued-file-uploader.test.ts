@@ -7,7 +7,7 @@ import {UploadJob} from '../../../src/public/platform/uploader/upload-job';
 import {FileUploader} from '../../../src/public/platform/uploader/browser-file-uploader';
 import {QueuedFileUploader} from '../../../src/public/platform/uploader/queued-file-uploader';
 
-describe.only('queued file uploader', function () {
+describe('queued file uploader', function () {
 
   this.timeout(50000);
 
