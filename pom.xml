@@ -28,9 +28,34 @@
                 <role>developer</role>
             </roles>
         </developer>
+
         <developer>
             <name>Alexander Davydov</name>
             <email>aleksandrd@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Alexander Gonchar</name>
+            <email>aleksandrg@wix.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Dmitry Bildin</name>
+            <email>dmitriyb@wix.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Artem Astakhov</name>
+            <email>artema@wix.com</email>
             <roles>
                 <role>developer</role>
             </roles>
