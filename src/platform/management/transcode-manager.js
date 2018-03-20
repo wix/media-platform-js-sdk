@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var TranscodeJobResponse = require('./responses/transcode-job-response');
 var ExtractPosterJobResponse = require('./responses/extract-poster-job-response');
+var ExtractStoryboardJobResponse = require('./responses/extract-storyboard-job-response');
 
 /**
  * @param {Configuration} configuration
@@ -27,13 +28,7 @@ function TranscodeManager(configuration, httpClient) {
     /**
      * @type {string}
      */
-    this.apiUrl = this.baseUrl + '/_api/av/transcode';
-
-    /**
-     * @type {string}
-     */
-    this.videoApiUrl = this.baseUrl + '/_api/video';
-
+    this.apiUrl = this.baseUrl + '/_api/av';
 }
 
 /**
@@ -45,7 +40,7 @@ TranscodeManager.prototype.transcodeVideo = function (transcodeRequest, callback
     var params = {};
     _.extendOwn(params, transcodeRequest);
 
-    this.httpClient.request('POST', this.apiUrl , params, null, function (error, response) {
+    this.httpClient.request('POST', this.apiUrl + '/transcode' , params, null, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -65,7 +60,7 @@ TranscodeManager.prototype.extractPoster = function (extractPosterRequest, callb
     var params = {};
     _.extendOwn(params, extractPosterRequest);
 
-    this.httpClient.request('POST', this.videoApiUrl + '/poster' , params, null, function (error, response) {
+    this.httpClient.request('POST', this.apiUrl + '/poster' , params, null, function (error, response) {
 
         if (error) {
             callback(error, null);
@@ -73,6 +68,27 @@ TranscodeManager.prototype.extractPoster = function (extractPosterRequest, callb
         }
 
         callback(null, new ExtractPosterJobResponse(response.payload));
+    });
+};
+
+
+/**
+ * @param {ExtractStoryboardRequest} extractStoryboardRequest
+ * todo: job group type
+ * @param {function(Error, Object)} callback
+ */
+TranscodeManager.prototype.extractStoryboard = function (extractStoryboardRequest, callback) {
+    var params = {};
+    _.extendOwn(params, extractStoryboardRequest);
+
+    this.httpClient.request('POST', this.apiUrl + '/storyboard' , params, null, function (error, response) {
+
+        if (error) {
+            callback(error, null);
+            return;
+        }
+
+        callback(null, new ExtractStoryboardJobResponse(response.payload));
     });
 };
 

@@ -1,5 +1,6 @@
 var Source = require('./source');
 var ExtractPosterSpecification = require('./extract-poster-specification');
+var ExtractStoryboardSpecification = require('./extract-storyboard-specification');
 var ExtractArchiveSpecification = require('./extract-archive-specification');
 var CreateArchiveSpecification = require('./create-archive-specification');
 var FileImportSpecification = require('./file-import-specification');
@@ -91,6 +92,10 @@ Job.prototype.deserialize = function (data) {
         case 'urn:job:av.poster':
             this.result = data.result;
             this.specification = new ExtractPosterSpecification(data.specification);
+            break;
+        case 'urn:job:av.storyboard':
+            this.result = data.result;
+            this.specification = new ExtractStoryboardSpecification(data.specification);
             break;
         case 'urn:job:import.file':
             this.result = data.result;

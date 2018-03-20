@@ -9,10 +9,12 @@ var ImportFileRequest = require('../src/platform/management/requests/import-file
 var SearchJobsRequest = require('../src/platform/management/requests/search-jobs-request');
 var TranscodeSpecification = require('../src/platform/management/job/transcode-specification');
 var ExtractPosterSpecification = require('../src/platform/management/job/extract-poster-specification');
+var ExtractStoryboardSpecification = require('../src/platform/management/job/extract-storyboard-specification');
 var Source = require('../src/platform/management/job/source');
 var Destination = require('../src/platform/management/job/destination');
 var TranscodeRequest = require('../src/platform/management/requests/transcode-request');
 var ExtractPosterRequest = require('../src/platform/management/requests/extract-poster-request');
+var ExtractStoryboardRequest = require('../src/platform/management/requests/extract-storyboard-request');
 var ExtractArchiveRequest = require('../src/platform/management/requests/extract-archive-request');
 var CreateArchiveRequest = require('../src/platform/management/requests/create-archive-request');
 var CreateFlowRequest = require('../src/platform/management/requests/create-flow-request');
@@ -165,6 +167,16 @@ MP.transcode = {
      * @type {ExtractPosterSpecification}
      */
     ExtractPosterSpecification: ExtractPosterSpecification,
+
+    /**
+     * @type {ExtractStoryboardRequest}
+     */
+    ExtractStoryboardRequest: ExtractStoryboardRequest,
+
+    /**
+     * @type {ExtractStoryboardSpecification}
+     */
+    ExtractStoryboardSpecification: ExtractStoryboardSpecification,
 
     /**
      * @type {QualityRange}
