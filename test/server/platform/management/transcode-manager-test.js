@@ -3,6 +3,7 @@ var expect = require('expect.js');
 var TranscodeManager = require('../../../../src/platform/management/transcode-manager');
 var TranscodeRequest = require('../../../../src/platform/management/requests/transcode-request');
 var ExtractPosterRequest = require('../../../../src/platform/management/requests/extract-poster-request');
+var ExtractStoryboardRequest = require('../../../../src/platform/management/requests/extract-storyboard-request');
 var Configuration = require('../../../../src/platform/configuration/configuration');
 var Authenticator = require('../../../../src/platform/authentication/authenticator');
 var HTTPClient = require('../../../../src/platform/http/http-client');
@@ -10,6 +11,7 @@ var Destination = require('../../../../src/platform/management/job/destination')
 var Source = require('../../../../src/platform/management/job/source');
 var TranscodeSpecification = require('../../../../src/platform/management/job/transcode-specification');
 var ExtractPosterSpecification = require('../../../../src/platform/management/job/extract-poster-specification');
+var ExtractStoryboardSpecification = require('../../../../src/platform/management/job/extract-storyboard-specification');
 var QualityRange = require('../../../../src/platform/management/job/quality-range');
 
 var repliesDir = __dirname + '/replies/';
@@ -55,7 +57,7 @@ describe('transcode manager', function() {
 
 
     it('extractPoster - default', function (done) {
-        apiServer.post('/_api/video/poster')
+        apiServer.post('/_api/av/poster')
             .once()
             .replyWithFile(200, repliesDir + 'extract-poster-response.json');
 
@@ -75,6 +77,34 @@ describe('transcode manager', function() {
 
         transcodeManager.extractPoster(extractPosterRequest, function(error, data) {
             expect(data.groupId).to.be("31325609b28541e6afea56d0dd7649ba");
+            done();
+        });
+    });
+
+    it('extractStoryboard - default', function (done) {
+        apiServer.post('/_api/av/storyboard')
+            .once()
+            .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
+
+        var source = new Source();
+        source.path = "/test/file.mp4";
+
+        var extractStoryboardSpecification = new ExtractStoryboardSpecification();
+        extractStoryboardSpecification.destination = new Destination()
+                .setDirectory("/test/output/")
+                .setAcl("public");
+        extractStoryboardSpecification.setFormat("jpg");
+        extractStoryboardSpecification.setColumns(5);
+        extractStoryboardSpecification.setRows(5);
+        extractStoryboardSpecification.setTileWidth(100);
+        extractStoryboardSpecification.setTileHeight(50);
+
+        var extractStoryboardRequest = new ExtractStoryboardRequest()
+            .addSource(source)
+            .addSpecification(extractStoryboardSpecification);
+
+        transcodeManager.extractStoryboard(extractStoryboardRequest, function(error, data) {
+            expect(data.groupId).to.be("dd35054a57a0490aa67251777e0f9386");
             done();
         });
     });
