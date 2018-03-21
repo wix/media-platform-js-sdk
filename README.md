@@ -32,7 +32,7 @@ cd media-platform-js-sdk
 
 npm install
 
-npm start
+npm start:demo
 ```
 and open http://localhost:3333/ in the browser
 
