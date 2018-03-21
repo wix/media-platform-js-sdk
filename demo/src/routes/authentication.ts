@@ -1,5 +1,5 @@
 import {mediaPlatform} from '../facades/media-platform-facade';
-import {auth} from '../../../src';
+import {auth} from '../../../src/main';
 
 const {Token, NS} = auth;
 

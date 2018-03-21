@@ -1,6 +1,7 @@
 import {Flow} from './metadata/flow';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
+import {ICreateFlowRequest} from './requests/create-flow-request';
 
 /**
  * @param {Configuration} configuration
@@ -32,7 +33,7 @@ export class FlowManager {
     });
   }
 
-  createFlow(createFlowRequest, callback: (error: Error | null, flow: Flow | null) => void) {
+  createFlow(createFlowRequest: ICreateFlowRequest, callback: (error: Error | null, flow: Flow | null) => void) {
     this.httpClient.request('POST', this.apiUrl + '/flow', createFlowRequest, null, function (error, response) {
       if (error) {
         callback(error, null);

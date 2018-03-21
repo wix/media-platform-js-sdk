@@ -7,7 +7,7 @@ export interface ICreateFlowRequest {
   flow: IFlowItems;
 }
 
-export class CreateFlowRequest {
+export class CreateFlowRequest implements ICreateFlowRequest {
   public invocation: Invocation | null = null;
   public flow: IFlowItems;
 
