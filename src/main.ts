@@ -5,6 +5,8 @@ import {DownloadUrlRequest} from './platform/management/requests/download-url-re
 import {UploadUrlRequest} from './platform/management/requests/upload-url-request';
 import {ListFilesRequest} from './platform/management/requests/list-files-request';
 import {SearchJobsRequest} from './platform/management/requests/search-jobs-request';
+import {ExtractPosterRequest} from './platform/management/requests/extract-poster-request';
+import {ExtractStoryboardRequest} from './platform/management/requests/extract-storyboard-request';
 import {ExtractArchiveRequest} from './platform/management/requests/extract-archive-request';
 import {CreateArchiveRequest} from './platform/management/requests/create-archive-request';
 import {ImportFileRequest} from './platform/management/requests/import-file-request';
@@ -134,6 +136,15 @@ export const transcode = {
    * @type {TranscodeSpecification}
    */
   TranscodeSpecification: TranscodeSpecification,
+
+  /**
+   * @type {ExtractPosterRequest}
+   */
+  ExtractPosterRequest: ExtractPosterRequest,  /**
+
+   * @type {ExtractPosterRequest}
+   */
+  ExtractStoryboardRequest: ExtractStoryboardRequest,
 
   /**
    * @type {QualityRange}
