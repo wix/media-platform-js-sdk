@@ -1,81 +1,66 @@
 import {Destination, IDestination} from './destination';
 
 export interface IExtractStoryboardSpecification {
-    rows: number;
-    columns: number;
-    tileHeight: number;
-    tileWidth: number;
-    format: string;
-    destination: IDestination;
+  rows: number;
+  columns: number;
+  tileHeight: number;
+  tileWidth: number;
+  format: string;
+  destination: IDestination;
 }
 
-export class ExtractStoryboardSpecification {
-    public destination = null;
+export class ExtractStoryboardSpecification implements IExtractStoryboardSpecification {
+  public rows: number;
+  public columns: number;
+  public tileHeight: number;
+  public tileWidth: number;
+  public format: string;
+  public destination: Destination;
 
-    public format = null;
-    
-    public rows = null;
-    public columns = null;
-    
-    public tileHeight = null;
-    public tileWidth = null;
-
-
-    constructor(data?: IExtractStoryboardSpecification) {
-        if (data) {
-            this.deserialize(data);
-        }
+  constructor(data?: IExtractStoryboardSpecification) {
+    if (data) {
+      this.deserialize(data);
     }
+  }
 
-    setDestination = function (destination) {
-        this.destination = destination;
-        return this;
-    };
+  public setDestination(destination): this {
+    this.destination = destination;
+    return this;
+  };
 
-    setFormat = function (format) {
-        this.format = format;
-        return this;
-    };
+  public setFormat(format): this {
+    this.format = format;
+    return this;
+  };
 
-    setTileWidth = function (tileWidth) {
-        this.tileWidth = tileWidth;
-        return this;
-    };
+  public setTileWidth(tileWidth): this {
+    this.tileWidth = tileWidth;
+    return this;
+  };
 
-    setTileHeight = function (tileHeight) {
-        this.tileHeight = tileHeight;
-        return this;
-    };
+  public setTileHeight(tileHeight): this {
+    this.tileHeight = tileHeight;
+    return this;
+  };
 
-    setRows = function (rows) {
-        this.rows = rows;
-        return this;
-    };
+  public setRows(rows): this {
+    this.rows = rows;
+    return this;
+  };
 
-    setColumns = function (columns) {
-        this.columns = columns;
-        return this;
-    };
+  public setColumns(columns): this {
+    this.columns = columns;
+    return this;
+  };
 
-    deserialize = function (data) {
-        this.destination = new Destination(data.destination);
-        this.format = data.format;
-        this.columns = data.columns;
-        this.rows = data.rows;
-        this.tileWidth = data.tileWidth;
-        this.tileHeight = data.tileHeight;
-    };
-
-}
-/**
- * @param data
- * @private
- */
-ExtractStoryboardSpecification.prototype.deserialize = function (data) {
+  private deserialize(data: IExtractStoryboardSpecification): void {
     this.destination = new Destination(data.destination);
+    this.format = data.format;
     this.columns = data.columns;
     this.rows = data.rows;
     this.tileWidth = data.tileWidth;
     this.tileHeight = data.tileHeight;
-    this.format = data.format;
-};
+  };
+
+}
+

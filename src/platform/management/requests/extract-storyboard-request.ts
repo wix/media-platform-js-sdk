@@ -1,48 +1,43 @@
 import {Source} from '../job/source';
-import {ExtractStoryboardSpecification} from "../job/extract-storyboard-specification";
+import {ExtractStoryboardSpecification} from '../job/extract-storyboard-specification';
 
 export class ExtractStoryboardRequest {
-    public sources: Source[] | null = null;
-    public specifications: ExtractStoryboardSpecification[]| null = null;
+  public sources: Source[] | null = [];
+  public specifications: ExtractStoryboardSpecification[] | null = [];
 
-    constructor() {
-        this.sources = [];
-        this.specifications = [];
-    }
+  /**
+   * @param sources
+   * @returns {ExtractStoryboardRequest}
+   */
+  setSources(sources: Source[]): this {
+    this.sources = sources;
+    return this;
+  }
 
-    /**
-     * @param sources
-     * @returns {ExtractStoryboardRequest}
-     */
-    setSources(sources: Source[]): this {
-        this.sources =sources;
-        return this;
-    }
+  /**
+   * @param {array} specifications
+   * @returns {ExtractStoryboardRequest}
+   */
+  public setSpecifications(specifications: ExtractStoryboardSpecification[]): this {
+    this.specifications = specifications;
+    return this;
+  };
 
-    /**
-     * @param {array} specifications
-     * @returns {ExtractStoryboardRequest}
-     */
-    setSpecifications = function (specifications: ExtractStoryboardSpecification[]) {
-        this.specifications = specifications;
-        return this;
-    };
+  /**
+   * @param {Source} source
+   * @returns {ExtractStoryboardRequest}
+   */
+  public addSource(source: Source): this {
+    this.sources.push(source);
+    return this;
+  };
 
-    /**
-     * @param {Source} source
-     * @returns {ExtractStoryboardRequest}
-     */
-    addSource = function (source: Source) {
-        this.sources.push(source);
-        return this;
-    };
-
-    /**
-     * @param {ExtractStoryboardSpecification} specification
-     * @returns {ExtractStoryboardRequest}
-     */
-    addSpecification = function (specification: ExtractStoryboardSpecification) {
-        this.specifications.push(specification);
-        return this;
-    };
+  /**
+   * @param {ExtractStoryboardSpecification} specification
+   * @returns {ExtractStoryboardRequest}
+   */
+  public addSpecification(specification: ExtractStoryboardSpecification): this {
+    this.specifications.push(specification);
+    return this;
+  };
 }

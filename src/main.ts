@@ -22,6 +22,8 @@ import {Source} from './platform/management/job/source';
 import {Token} from './platform/authentication/token';
 import {NS} from './platform/authentication/NS';
 import {VERB} from './platform/authentication/VERB';
+import {ExtractStoryboardSpecification} from './platform/management/job/extract-storyboard-specification';
+import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
 
 export {
   /**
@@ -130,26 +132,28 @@ export const transcode = {
   /**
    * @type {TranscodeRequest}
    */
-  TranscodeRequest: TranscodeRequest,
+  TranscodeRequest,
 
   /**
    * @type {TranscodeSpecification}
    */
-  TranscodeSpecification: TranscodeSpecification,
+  TranscodeSpecification,
 
   /**
    * @type {ExtractPosterRequest}
    */
-  ExtractPosterRequest: ExtractPosterRequest,  /**
+  ExtractPosterRequest,
 
+  /**
    * @type {ExtractPosterRequest}
    */
-  ExtractStoryboardRequest: ExtractStoryboardRequest,
-
+  ExtractStoryboardRequest,
+  ExtractPosterSpecification,
+  ExtractStoryboardSpecification,
   /**
    * @type {QualityRange}
    */
-  QualityRange: QualityRange
+  QualityRange
 };
 
 export const flow = {

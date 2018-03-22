@@ -3,8 +3,8 @@ import {ExtractArchiveSpecification, IExtractArchiveSpecification} from './extra
 import {CreateArchiveSpecification, ICreateArchiveSpecification} from './create-archive-specification';
 import {FileImportSpecification, IFileImportSpecification} from './file-import-specification';
 import {ITranscodeSpecification, TranscodeSpecification} from './transcode-specification';
-import {ExtractPosterSpecification, IExtractPosterSpecification} from "./extract-poster-specification";
-import {ExtractStoryboardSpecification, IExtractStoryboardSpecification} from "./extract-storyboard-specification";
+import {ExtractPosterSpecification, IExtractPosterSpecification} from './extract-poster-specification';
+import {ExtractStoryboardSpecification, IExtractStoryboardSpecification} from './extract-storyboard-specification';
 
 export interface IJob {
   id: string;
