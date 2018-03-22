@@ -25,9 +25,13 @@ html()
             var UploadUrlRequest = MP.file.UploadUrlRequest;
             var ImportFileRequest = MP.file.ImportFileRequest;
             var TranscodeRequest = MP.transcode.TranscodeRequest;
+            var ExtractPosterRequest = MP.transcode.ExtractPosterRequest;
+            var ExtractStoryboardRequest = MP.transcode.ExtractStoryboardRequest;
             var ExtractArchiveRequest = MP.archive.ExtractArchiveRequest;
             var CreateArchiveRequest = MP.archive.CreateArchiveRequest;
             var TranscodeSpecification = MP.transcode.TranscodeSpecification;
+            var ExtractPosterSpecification = MP.transcode.ExtractPosterSpecification;
+            var ExtractStoryboardSpecification = MP.transcode.ExtractStoryboardSpecification;
             var CreateFlowRequest = MP.flow.CreateFlowRequest;
             var Invocation = MP.flow.Invocation;
             var FlowComponent = MP.flow.FlowComponent;
@@ -356,7 +360,82 @@ html()
                     .highlight.highlight-response
                         pre
                             code.language-javascript#transcode-video-payload
+                H4 Extract Poster from Video
+                .highlight
+                    pre
+                        code.language-javascript.
+                            var source = new Source();
+                            source.fileId = fileId;
 
+                            var extractPosterSpecification = new ExtractPosterSpecification();
+                            extractPosterSpecification.destination = new Destination()
+                                .setDirectory("/test/output")
+                                .setAcl("public");
+
+                            extractPosterSpecification.format = "jpg";
+                            
+                            extractPosterSpecification.second = 1;
+
+                            var extractPosterRequest = new ExtractPosterRequest()
+                                .addSource(source)
+                                .addSpecification(extractPosterSpecification);
+
+                            mediaPlatform.transcodeManager.extractPoster(extractPosterRequest, function(error, response) {
+                                // handle success
+                            });
+
+                .demo-group
+                    input(id='extract-poster-id-input' type='text' placeholder='Enter File ID').text-input
+                    br
+                    .executable-button
+                        button#extract-poster-button.btn.
+                            Execute
+                        .spinner
+                        span#extract-poster-job-status.path-to-file
+                    div#extract-poster-image
+                    .highlight.highlight-response
+                        pre
+                            code.language-javascript#extract-poster-payload
+
+                H4 Extract Storyboard from Video
+                .highlight
+                    pre
+                        code.language-javascript.
+                            var source = new Source();
+                            source.fileId = fileId;
+
+                            var extractStoryboardSpecification = new ExtractStoryboardSpecification();
+                            extractStoryboardSpecification.destination = new Destination()
+                                .setDirectory("/test/output")
+                                .setAcl("public");
+
+                            extractStoryboardSpecification.format = "jpg";
+
+                            extractStoryboardSpecification.columns = 6;
+                            extractStoryboardSpecification.rows = 4;
+                            extractStoryboardSpecification.tileWidth = 100;
+                            extractStoryboardSpecification.tileHeight = 40;
+
+                            var extractStoryboardRequest = new ExtractStoryboardRequest()
+                                .addSource(source)
+                                .addSpecification(extractStoryboardSpecification);
+
+                            mediaPlatform.transcodeManager.extractStoryboard(extractStoryboardRequest, function(error, response) {
+                                // handle success
+                            });
+
+                .demo-group
+                    input(id='extract-storyboard-id-input' type='text' placeholder='Enter File ID').text-input
+                    br
+                    .executable-button
+                        button#extract-storyboard-button.btn.
+                            Execute
+                        .spinner
+                        span#extract-storyboard-job-status.path-to-file
+                    div#extract-storyboard-image
+                    .highlight.highlight-response
+                        pre
+                            code.language-javascript#extract-storyboard-payload
 
                 h2#FlowManagerApi Flow Manager API
                 H4 Invoke Flow on Remote Url
@@ -887,6 +966,9 @@ html()
                 function pollTranscodeJobStatus(jobGroupId) {
                     mediaPlatform.jobManager.getJobGroup(jobGroupId, function (error, response) {
                         transcodeJobStatus.innerText = "Polling";
+                        transcodeVideoPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
 
                         if(response.length) {
                             var success = true;
@@ -904,6 +986,172 @@ html()
                             } else {
                                 setTimeout(function () {
                                     pollTranscodeJobStatus(jobGroupId);
+                                }, 5000);
+                            }
+                        }
+                    });
+                }
+            })();
+            
+            
+            // EXTRACT POSTER API
+            (function () {
+                // extractPoster video file by id
+                var extractPosterVideoButton = document.getElementById('extract-poster-button');
+                var extractPosterVideoInput = document.getElementById('extract-poster-id-input');
+                var extractPosterVideoPayload = document.getElementById('extract-poster-payload');
+                var extractPosterImage = document.getElementById('extract-poster-image');
+                var extractPosterJobStatus = document.getElementById('extract-poster-job-status');
+
+                extractPosterVideoButton.addEventListener('click', function () {
+                    var fileId = extractPosterVideoInput.value;
+                    if (!fileId) {
+                        console.log('please specify fileId');
+                        return
+                    }
+
+                    startLoading(extractPosterVideoButton);
+
+                    var source = new Source();
+                    source.fileId = fileId;
+
+                    var extractPosterSpecification = new ExtractPosterSpecification();
+                    var posterFilePath = "/test/poster/file_" + Date.now() + ".jpg";
+                    extractPosterSpecification.destination = new Destination()
+                        .setPath(posterFilePath)
+                        .setAcl("public");
+
+                    extractPosterSpecification.format = "jpg";
+
+                    extractPosterSpecification.second = 1;
+
+                    var extractPosterRequest = new ExtractPosterRequest()
+                        .addSource(source)
+                        .addSpecification(extractPosterSpecification);
+
+                    mediaPlatform.transcodeManager.extractPoster(extractPosterRequest, function (error, response) {
+                        if(error) {
+                            stopLoading(extractPosterVideoButton);
+                            return;
+                        }
+
+                        extractPosterVideoPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
+                        // start polling
+                        pollExtractPosterJobStatus(response.groupId);
+                    });
+                });
+
+                function pollExtractPosterJobStatus(jobGroupId) {
+                    mediaPlatform.jobManager.getJobGroup(jobGroupId, function (error, response) {
+                        extractPosterJobStatus.innerText = "Polling";
+
+                        extractPosterVideoPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
+
+                        if(response.length) {
+                            var success = true;
+                            for(var i in response) {
+                                // if at least one job has status pending, we break
+                                if(response[i].status !== "success") {
+                                    success = false;
+                                    break;
+                                }
+                            }
+
+                            if(success) {
+                                stopLoading(extractPosterVideoButton);
+                                extractPosterJobStatus.innerText = "Success";
+                                var path = response[0].specification.destination.path;
+                                extractPosterImage.innerHTML = "<img src='//" + imagesHost + path + "' width='400'/>"
+                            } else {
+                                setTimeout(function () {
+                                    pollExtractPosterJobStatus(jobGroupId);
+                                }, 5000);
+                            }
+                        }
+                    });
+                }
+            })();
+
+            // EXTRACT STORYBOARD API
+            (function () {
+                // extractStoryboard video file by id
+                var extractStoryboardVideoButton = document.getElementById('extract-storyboard-button');
+                var extractStoryboardVideoInput = document.getElementById('extract-storyboard-id-input');
+                var extractStoryboardVideoPayload = document.getElementById('extract-storyboard-payload');
+                var extractStoryboardImage = document.getElementById('extract-storyboard-image');
+                var extractStoryboardJobStatus = document.getElementById('extract-storyboard-job-status');
+
+                extractStoryboardVideoButton.addEventListener('click', function () {
+                    var fileId = extractStoryboardVideoInput.value;
+                    if (!fileId) {
+                        console.log('please specify fileId');
+                        return
+                    }
+
+                    startLoading(extractStoryboardVideoButton);
+
+                    var source = new Source();
+                    source.fileId = fileId;
+
+                    var extractStoryboardSpecification = new ExtractStoryboardSpecification();
+                    var storyboardFilePath = "/test/storyboard/file_" + Date.now() + ".jpg";
+                    extractStoryboardSpecification.destination = new Destination()
+                        .setPath(storyboardFilePath)
+                        .setAcl("public");
+
+                    extractStoryboardSpecification.format = "jpg";
+
+                    extractStoryboardSpecification.columns = 6;
+                    extractStoryboardSpecification.rows = 4;
+                    extractStoryboardSpecification.tileWidth = 200;
+                    extractStoryboardSpecification.tileHeight = 100;
+                    var extractStoryboardRequest = new ExtractStoryboardRequest()
+                        .addSource(source)
+                        .addSpecification(extractStoryboardSpecification);
+
+                    mediaPlatform.transcodeManager.extractStoryboard(extractStoryboardRequest, function (error, response) {
+                        if(error) {
+                            stopLoading(extractStoryboardVideoButton);
+                            return;
+                        }
+                        extractStoryboardVideoPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
+                        // start polling
+                        pollExtractStoryboardJobStatus(response.groupId);
+                    });
+                });
+
+                function pollExtractStoryboardJobStatus(jobGroupId) {
+                    mediaPlatform.jobManager.getJobGroup(jobGroupId, function (error, response) {
+                        extractStoryboardJobStatus.innerText = "Polling";
+
+                        extractStoryboardVideoPayload.innerHTML = Prism.highlight(
+                            JSON.stringify(response, null, 2),
+                            Prism.languages.js);
+
+                        if(response.length) {
+                            var success = true;
+                            for(var i in response) {
+                                // if at least one job has status pending, we break
+                                if(response[i].status !== "success") {
+                                    success = false;
+                                    break;
+                                }
+                            }
+
+                            if(success) {
+                                stopLoading(extractStoryboardVideoButton);
+                                extractStoryboardJobStatus.innerText = "Success";
+                                var path = response[0].specification.destination.path;
+                                extractStoryboardImage.innerHTML = "<img src='//" + imagesHost + path + "' width='400'/>"
+                            } else {
+                                setTimeout(function () {
+                                    pollExtractStoryboardJobStatus(jobGroupId);
                                 }, 5000);
                             }
                         }

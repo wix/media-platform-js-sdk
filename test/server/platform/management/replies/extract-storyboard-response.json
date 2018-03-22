@@ -1,0 +1,38 @@
+{
+  "message": "OK",
+  "code": 0,
+  "payload": {
+    "jobs": [
+      {
+        "status": "pending",
+        "dateCreated": "2018-03-20T12:37:07Z",
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "991e9bfcc3904114ad0011d87dd88c6c"
+          }
+        ],
+        "result": null,
+        "id": "dd35054a57a0490aa67251777e0f9386_8d5706768ea9409aa7223c028b5e3151",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3",
+        "specification": {
+          "rows": 3,
+          "tileHeight": 100,
+          "tileWidth": 200,
+          "format": "jpg",
+          "destination": {
+            "directory": null,
+            "path": "/test/storyboard/file_1521549426532.jpg",
+            "acl": "public"
+          },
+          "columns": 3
+        },
+        "groupId": "dd35054a57a0490aa67251777e0f9386",
+        "flowId": null,
+        "dateUpdated": "2018-03-20T12:37:07Z",
+        "type": "urn:job:av.storyboard"
+      }
+    ],
+    "groupId": "dd35054a57a0490aa67251777e0f9386"
+  }
+}

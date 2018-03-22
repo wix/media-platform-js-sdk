@@ -10,16 +10,16 @@ import {PublishEndpoint} from '../../../../src/platform/management/metadata/publ
 import {Dvr} from '../../../../src/platform/management/metadata/dvr';
 import {Geo} from '../../../../src/platform/management/metadata/geo';
 
-var repliesDir = __dirname + '/replies/';
+const repliesDir = __dirname + '/replies/';
 
 describe('live manager', function () {
 
-  var configuration = new Configuration('manager.com', 'secret', 'appId');
-  var authenticator = new Authenticator(configuration);
-  var httpClient = new HTTPClient(authenticator);
-  var liveManager = new LiveManager(configuration, httpClient);
+  const configuration = new Configuration('manager.com', 'secret', 'appId');
+  const authenticator = new Authenticator(configuration);
+  const httpClient = new HTTPClient(authenticator);
+  const liveManager = new LiveManager(configuration, httpClient);
 
-  var apiServer = nock('https://manager.com/').defaultReplyHeaders({
+  const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'
   });
 
@@ -87,7 +87,7 @@ describe('live manager', function () {
       .replyWithFile(200, repliesDir + 'livestream-response.json');
 
 
-    var livestreamRequest = new LivestreamRequest()
+    const livestreamRequest = new LivestreamRequest()
       .setProtocol('rtmp')
       .setMaxStreamingSec(3600)
       .setGeo(new Geo().setIpAddress('127.0.0.1'))
