@@ -9,10 +9,10 @@ import {Destination} from '../../../../src/platform/management/job/destination';
 import {Source} from '../../../../src/platform/management/job/source';
 import {TranscodeSpecification} from '../../../../src/platform/management/job/transcode-specification';
 import {QualityRange} from '../../../../src/platform/management/job/quality-range';
-import {ExtractStoryboardSpecification} from "../../../../src/platform/management/job/extract-storyboard-specification";
-import {ExtractPosterSpecification} from "../../../../src/platform/management/job/extract-poster-specification";
-import {ExtractPosterRequest} from "../../../../src/platform/management/requests/extract-poster-request";
-import {ExtractStoryboardRequest} from "../../../../src/platform/management/requests/extract-storyboard-request";
+import {ExtractStoryboardSpecification} from '../../../../src/platform/management/job/extract-storyboard-specification';
+import {ExtractPosterSpecification} from '../../../../src/platform/management/job/extract-poster-specification';
+import {ExtractPosterRequest} from '../../../../src/platform/management/requests/extract-poster-request';
+import {ExtractStoryboardRequest} from '../../../../src/platform/management/requests/extract-storyboard-request';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -55,56 +55,114 @@ describe('transcode manager', function () {
     });
   });
 
-    it('extractPoster - default', function (done) {
-        apiServer.post('/_api/av/poster')
-            .once()
-            .replyWithFile(200, repliesDir + 'extract-poster-response.json');
+  describe('extract poster – default', () => {
 
-        const source = new Source();
-        source.path = "/test/file.mp4";
+    it('should call a callback', done => {
+      apiServer.post('/_api/av/poster')
+        .once()
+        .replyWithFile(200, repliesDir + 'extract-poster-response.json');
 
-        const extractPosterSpecification = new ExtractPosterSpecification();
-        extractPosterSpecification.destination = new Destination()
-            .setDirectory("/test/output/")
-            .setAcl("public");
-        extractPosterSpecification.setFormat("jpg");
-        extractPosterSpecification.setSecond(5);
+      const source = new Source();
+      source.path = '/test/file.mp4';
 
-        const extractPosterRequest = new ExtractPosterRequest()
-            .addSource(source)
-            .addSpecification(extractPosterSpecification);
+      const extractPosterSpecification = new ExtractPosterSpecification();
+      extractPosterSpecification.destination = new Destination()
+        .setDirectory('/test/output/')
+        .setAcl('public');
+      extractPosterSpecification.setFormat('jpg');
+      extractPosterSpecification.setSecond(5);
 
-        transcodeManager.extractPoster(extractPosterRequest, function(error, data) {
-            expect(data.groupId).to.equal("31325609b28541e6afea56d0dd7649ba");
-            done();
-        });
+      const extractPosterRequest = new ExtractPosterRequest()
+        .addSource(source)
+        .addSpecification(extractPosterSpecification);
+
+      transcodeManager.extractPoster(extractPosterRequest, function (error, data) {
+        expect(data.groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
+        done();
+      });
     });
 
-    it('extractStoryboard - default', function (done) {
-        apiServer.post('/_api/av/storyboard')
-            .once()
-            .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
+    it('should resolve a promise', () => {
+      apiServer.post('/_api/av/poster')
+        .once()
+        .replyWithFile(200, repliesDir + 'extract-poster-response.json');
 
-        const source = new Source();
-        source.path = "/test/file.mp4";
+      const source = new Source();
+      source.path = '/test/file.mp4';
 
-        const extractStoryboardSpecification = new ExtractStoryboardSpecification();
-        extractStoryboardSpecification.destination = new Destination()
-            .setDirectory("/test/output/")
-            .setAcl("public");
-        extractStoryboardSpecification.setFormat("jpg");
-        extractStoryboardSpecification.setColumns(5);
-        extractStoryboardSpecification.setRows(5);
-        extractStoryboardSpecification.setTileWidth(100);
-        extractStoryboardSpecification.setTileHeight(50);
+      const extractPosterSpecification = new ExtractPosterSpecification();
+      extractPosterSpecification.destination = new Destination()
+        .setDirectory('/test/output/')
+        .setAcl('public');
+      extractPosterSpecification.setFormat('jpg');
+      extractPosterSpecification.setSecond(5);
 
-        const extractStoryboardRequest = new ExtractStoryboardRequest()
-            .addSource(source)
-            .addSpecification(extractStoryboardSpecification);
+      const extractPosterRequest = new ExtractPosterRequest()
+        .addSource(source)
+        .addSpecification(extractPosterSpecification);
 
-        transcodeManager.extractStoryboard(extractStoryboardRequest, function(error, data) {
-            expect(data.groupId).to.equal("dd35054a57a0490aa67251777e0f9386");
-            done();
+      return transcodeManager.extractPoster(extractPosterRequest)
+        .then((data) => {
+          expect(data.groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
         });
     });
+  });
+
+  describe('extractStoryboard - default', () => {
+    it('should call a callback', done => {
+      apiServer.post('/_api/av/storyboard')
+        .once()
+        .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
+
+      const source = new Source();
+      source.path = '/test/file.mp4';
+
+      const extractStoryboardSpecification = new ExtractStoryboardSpecification();
+      extractStoryboardSpecification.destination = new Destination()
+        .setDirectory('/test/output/')
+        .setAcl('public');
+      extractStoryboardSpecification.setFormat('jpg');
+      extractStoryboardSpecification.setColumns(5);
+      extractStoryboardSpecification.setRows(5);
+      extractStoryboardSpecification.setTileWidth(100);
+      extractStoryboardSpecification.setTileHeight(50);
+
+      const extractStoryboardRequest = new ExtractStoryboardRequest()
+        .addSource(source)
+        .addSpecification(extractStoryboardSpecification);
+
+      transcodeManager.extractStoryboard(extractStoryboardRequest, function (error, data) {
+        expect(data.groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
+        done();
+      });
+    });
+
+    it('should resolve a promise', () => {
+      apiServer.post('/_api/av/storyboard')
+        .once()
+        .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
+
+      const source = new Source();
+      source.path = '/test/file.mp4';
+
+      const extractStoryboardSpecification = new ExtractStoryboardSpecification();
+      extractStoryboardSpecification.destination = new Destination()
+        .setDirectory('/test/output/')
+        .setAcl('public');
+      extractStoryboardSpecification.setFormat('jpg');
+      extractStoryboardSpecification.setColumns(5);
+      extractStoryboardSpecification.setRows(5);
+      extractStoryboardSpecification.setTileWidth(100);
+      extractStoryboardSpecification.setTileHeight(50);
+
+      const extractStoryboardRequest = new ExtractStoryboardRequest()
+        .addSource(source)
+        .addSpecification(extractStoryboardSpecification);
+
+      return transcodeManager.extractStoryboard(extractStoryboardRequest)
+        .then(data => {
+          expect(data.groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
+        });
+    });
+  });
 });
