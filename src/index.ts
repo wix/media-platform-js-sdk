@@ -24,6 +24,8 @@ import {LiveStream} from './platform/management/metadata/live-stream';
 import {QualityRange} from './platform/management/job/quality-range';
 import {ImageOperationSpecification} from './platform/management/job/image-operation-specification';
 import {ImageOperationRequest} from './platform/management/requests/image-operation-request';
+import {ExtractStoryboardSpecification} from './platform/management/job/extract-storyboard-specification';
+import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
 
 export {Configuration};
 export {MediaPlatform};
@@ -70,6 +72,8 @@ export const transcode = {
   TranscodeSpecification,
   ExtractPosterRequest,
   ExtractStoryboardRequest,
+  ExtractPosterSpecification,
+  ExtractStoryboardSpecification,
   QualityRange
 };
 
