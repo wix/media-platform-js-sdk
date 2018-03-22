@@ -7,6 +7,7 @@ npm-debug.log*
 dist
 build
 jsdoc
+*.private.*
 
 package-lock.json
 
