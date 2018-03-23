@@ -5,9 +5,9 @@ export interface IFileImportSpecification {
   destination: IDestination;
 }
 
-export class FileImportSpecification {
-  public sourceUrl: string | null = null;
-  public destination: Destination | null = null;
+export class FileImportSpecification implements IFileImportSpecification {
+  public sourceUrl: string;
+  public destination: Destination;
 
   constructor(data?: IFileImportSpecification) {
     if (data) {

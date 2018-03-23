@@ -1,4 +1,4 @@
-import {AuthorizationHeader} from '../../../types/media-platform/media-platform';
+import {AuthorizationHeader, TokenClaims} from '../../../types/media-platform/media-platform';
 import {IHTTPClient, RequestCallback} from '../../../platform/http/http-client';
 import {Token} from '../../../platform/authentication/token';
 
@@ -26,8 +26,8 @@ export class HTTPClient implements IHTTPClient {
           return;
         }
         const request = new XMLHttpRequest();
-        let queryString = null;
-        let body = null;
+        let queryString: string = '';
+        let body: string = '';
         switch (httpMethod) {
           case 'POST':
           case 'PUT':
@@ -158,7 +158,7 @@ export class HTTPClient implements IHTTPClient {
 
     if (this.authorizationHeader && this.authorizationHeader.Authorization) {
       // validate the expiration
-      let token = null;
+      let token: TokenClaims | null = null;
       try {
         const parts = this.authorizationHeader.Authorization.split('.');
         tokenString = window.atob(parts[1]);
@@ -166,7 +166,7 @@ export class HTTPClient implements IHTTPClient {
       } catch (error) {
         console.error('invalid token structure', tokenString);
       }
-      if (token && token.exp && token.exp * 1000 > Date.now()) {
+      if (token !== null && token.exp && token.exp * 1000 > Date.now()) {
         valid = true;
       }
     }
@@ -185,6 +185,7 @@ export class HTTPClient implements IHTTPClient {
       });
     });
   }
+
   put<T>(url: string, params: object = {}, token?: Token): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.request('PUT', url, params, token, (error, response) => {
@@ -196,6 +197,7 @@ export class HTTPClient implements IHTTPClient {
       });
     });
   }
+
   post<T>(url: string, params: object = {}, token?: Token): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.request('POST', url, params, token, (error, response) => {

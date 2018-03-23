@@ -7,9 +7,9 @@ export interface IInvocation {
   entryPoints: EntryPoint[];
 }
 
-export class Invocation {
+export class Invocation implements IInvocation {
   public sources: Source[] = [];
-  public entryPoints: EntryPoint[] | null = null;
+  public entryPoints: EntryPoint[] = [];
 
   constructor(data?: IInvocation) {
     if (data) {

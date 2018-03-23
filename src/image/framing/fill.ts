@@ -10,8 +10,8 @@ import {SerializedGeometry} from '../../types/image/geometry';
  */
 export class Fill extends Geometry {
   public name = 'fill';
-  public x: number;
-  public y: number;
+  public x: number | null = null;
+  public y: number | null = null;
   public error: string | null = null;
 
   /**
@@ -27,8 +27,8 @@ export class Fill extends Geometry {
       return this;
     }
 
-    this.x = Math.round(x);
-    this.y = Math.round(y);
+    this.x = typeof x === 'number' ? Math.round(x) : null;
+    this.y = typeof y === 'number' ? Math.round(y) : null;
     return this;
   }
 

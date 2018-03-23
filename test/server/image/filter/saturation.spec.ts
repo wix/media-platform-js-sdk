@@ -34,7 +34,7 @@ describe('saturation', function () {
   it('resets for null', function () {
     const saturation = new Saturation(new Image());
     saturation.saturation(70);
-    saturation.saturation(null);
+    saturation.saturation();
 
     expect(saturation.serialize()).to.deep.equal({params: '', error: null});
   });

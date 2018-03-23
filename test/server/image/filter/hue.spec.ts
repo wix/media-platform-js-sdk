@@ -34,7 +34,7 @@ describe('hue', function () {
   it('resets for null', function () {
     const hue = new Hue(new Image());
     hue.hue(-101);
-    hue.hue(null);
+    hue.hue();
 
     expect(hue.serialize()).to.deep.equal({params: '', error: null});
   });

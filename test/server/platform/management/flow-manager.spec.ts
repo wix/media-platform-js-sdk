@@ -12,6 +12,7 @@ import {TranscodeSpecification} from '../../../../src/platform/management/job/tr
 import {QualityRange} from '../../../../src/platform/management/job/quality-range';
 import {Invocation} from '../../../../src/platform/management/metadata/invocation';
 import {FlowComponent} from '../../../../src/platform/management/metadata/flow-component';
+import {Flow} from '../../../../src/platform/management/metadata/flow';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -37,6 +38,9 @@ describe('flow manager', function () {
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
 
     flowManager.getFlow('flow_id', function (error, data) {
+      if (data === null) {
+        return;
+      }
       expect(data.invocation).to.be.an.instanceof(Invocation);
       expect(data.invocation.entryPoints).to.be.an.instanceof(Array);
       expect(data.invocation.entryPoints[0]).to.equal('import');
@@ -82,7 +86,8 @@ describe('flow manager', function () {
       .addFlowComponent('transcode', transcodeComponent);
 
 
-    flowManager.createFlow(createFlowRequest, function (error, data) {
+    flowManager.createFlow(createFlowRequest, (error, data: Flow) => {
+      expect(data !== null).to.be.true;
       expect(data.id).to.equal('flow_id');
       done();
     });

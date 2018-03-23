@@ -24,7 +24,7 @@ export enum UploadJobState {
  */
 export class UploadJob extends EventEmitter {
   public state: UploadJobState = UploadJobState.STOPPED;
-  private request: XMLHttpRequest | undefined;
+  private request: XMLHttpRequest;
 
   constructor(public path: string | undefined = undefined, public file?: File, public uploadFileRequest?: UploadFileRequest) {
     super();
@@ -66,6 +66,9 @@ export class UploadJob extends EventEmitter {
       console.warn('job already running');
       return this;
     }
+    if (!this.file) {
+      throw Error('no file');
+    }
     this.state = UploadJobState.RUNNING;
 
     let acl = 'public';
@@ -76,7 +79,7 @@ export class UploadJob extends EventEmitter {
     const e = new UploadStartedEvent(this);
     this.emit(e.name, e);
     const uploadUrlRequest = new UploadUrlRequest()
-      .setPath(this.path)
+      .setPath(this.path as string)
       .setAcl(acl)
       .setMimeType(this.file.type)
       .setSize(this.file.size);
@@ -142,8 +145,12 @@ export class UploadJob extends EventEmitter {
 
         const formData = new FormData();
         formData.append('uploadToken', response.uploadToken);
-        formData.append('path', this.path);
-        formData.append('file', this.file);
+        if (this.path !== undefined) {
+          formData.append('path', this.path);
+        }
+        if (this.file !== undefined) {
+          formData.append('file', this.file);
+        }
         formData.append('acl', acl);
 
         const request = this.request = new XMLHttpRequest();
@@ -174,7 +181,9 @@ export class UploadJob extends EventEmitter {
     if (this.state !== UploadJobState.RUNNING) {
       throw Error('Job is not running');
     }
-    this.request.abort();
+    if (this.request) {
+      this.request.abort();
+    }
   }
 }
 

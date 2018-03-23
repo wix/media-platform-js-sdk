@@ -1,20 +1,20 @@
 export interface IVideoStream {
-  codecLongName: string;
-  codecTag: string;
-  codecName: string;
-  height: number;
-  width: number;
-  duration: number;
-  bitrate: number;
-  index: number;
-  rFrameRate: string;
-  avgFrameRate: string;
-  sampleAspectRatio: string;
-  displayAspectRatio: string;
+  codecLongName: string | null;
+  codecTag: string | null;
+  codecName: string | null;
+  height: number | null;
+  width: number | null;
+  duration: number | null;
+  bitrate: number | null;
+  index: number | null;
+  rFrameRate: string | null;
+  avgFrameRate: string | null;
+  sampleAspectRatio: string | null;
+  displayAspectRatio: string | null;
 }
 
 
-export class VideoStream {
+export class VideoStream implements IVideoStream {
   public codecLongName: string | null = null;
   public codecTag: string | null = null;
   public codecName: string | null = null;

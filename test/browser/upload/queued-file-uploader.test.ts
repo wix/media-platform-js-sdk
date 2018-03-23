@@ -8,6 +8,8 @@ import {FileUploader} from '../../../src/public/platform/uploader/browser-file-u
 import {QueuedFileUploader} from '../../../src/public/platform/uploader/queued-file-uploader';
 import {delay} from '../../helpers/delay';
 
+const UPLOAD_TIMEOUT = 100;
+
 describe('queued file uploader', function () {
 
   this.timeout(50000);
@@ -18,7 +20,7 @@ describe('queued file uploader', function () {
   };
   let browserHTTPClient;
   let fileUploader;
-  let queuedFileUploader;
+  let queuedFileUploader: QueuedFileUploader;
   const fileUploadResponse = {
     'code': 0,
     'message': 'OK',
@@ -117,7 +119,7 @@ describe('queued file uploader', function () {
     const abortedSpy = sinon.spy();
     uploadJob.on('upload-aborted', abortedSpy);
     queuedFileUploader.enqueue(uploadJob);
-    await delay();
+    await delay(UPLOAD_TIMEOUT / 2);
     uploadJob.abort();
     await endPromise;
     expect(abortedSpy).to.have.been.called;
@@ -180,7 +182,10 @@ describe('queued file uploader', function () {
       }
 
       if (request.requestURL === 'https://www.domain.com/_api/upload') {
-        request.respond(responseStatus, {'Content-Type': 'application/json'}, JSON.stringify(responseBody));
+        setTimeout(() => {
+          request.respond(responseStatus, {'Content-Type': 'application/json'}, JSON.stringify(responseBody));
+        }, UPLOAD_TIMEOUT);
+
       }
     })
   }

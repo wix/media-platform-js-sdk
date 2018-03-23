@@ -1,9 +1,9 @@
 export interface ISource {
-  path: string;
-  fileId: string;
+  path: string | null;
+  fileId: string | null;
 }
 
-export class Source {
+export class Source implements ISource {
   public path: string | null = null;
   public fileId: string | null = null;
 

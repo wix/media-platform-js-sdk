@@ -46,7 +46,7 @@ describe('image manager', function () {
       dateCreated: '2017-02-20T14:23:42Z',
       dateUpdated: '2017-02-20T14:23:42Z'
     });
-    const command = new Image(fileDescriptor).fit(100, 200).toCommand().command;
+    const command = new Image(fileDescriptor).fit(100, 200).toCommand().command as string;
     const destination = new Destination().setPath('/orig.thumb.png').setAcl('private');
     const specification = new ImageOperationSpecification().setCommand(command).setDestination(destination);
     const request = new ImageOperationRequest(source, specification);

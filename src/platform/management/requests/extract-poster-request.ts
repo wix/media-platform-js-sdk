@@ -2,8 +2,8 @@ import {Source} from '../job/source';
 import {ExtractPosterSpecification} from '../job/extract-poster-specification';
 
 export class ExtractPosterRequest {
-  public sources: Source[] | null = [];
-  public specifications: ExtractPosterSpecification[] | null = [];
+  public sources: Source[] = [];
+  public specifications: ExtractPosterSpecification[] = [];
 
   /**
    * @param sources

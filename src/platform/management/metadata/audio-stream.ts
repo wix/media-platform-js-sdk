@@ -1,13 +1,13 @@
 export interface IAudioStream {
-  codecLongName: string;
-  codecTag: string;
-  codecName: string;
-  duration: number;
-  bitrate: number;
-  index: number;
+  codecLongName: string | null;
+  codecTag: string | null;
+  codecName: string | null;
+  duration: number | null;
+  bitrate: number | null;
+  index: number | null;
 }
 
-export class AudioStream {
+export class AudioStream implements IAudioStream {
   public codecLongName: string | null = null;
   public codecTag: string | null = null;
   public codecName: string | null = null;

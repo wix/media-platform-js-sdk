@@ -13,6 +13,8 @@ import {ExtractStoryboardSpecification} from '../../../../src/platform/managemen
 import {ExtractPosterSpecification} from '../../../../src/platform/management/job/extract-poster-specification';
 import {ExtractPosterRequest} from '../../../../src/platform/management/requests/extract-poster-request';
 import {ExtractStoryboardRequest} from '../../../../src/platform/management/requests/extract-storyboard-request';
+import {ExtractPosterJobResponse} from '../../../../src/platform/management/responses/extract-poster-job-response';
+import {ExtractStoryboardJobResponse} from '../../../../src/platform/management/responses/extract-storyboard-job-response';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -77,7 +79,7 @@ describe('transcode manager', function () {
         .addSpecification(extractPosterSpecification);
 
       transcodeManager.extractPoster(extractPosterRequest, function (error, data) {
-        expect(data.groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
+        expect((data as ExtractPosterJobResponse).groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
         done();
       });
     });
@@ -132,7 +134,7 @@ describe('transcode manager', function () {
         .addSpecification(extractStoryboardSpecification);
 
       transcodeManager.extractStoryboard(extractStoryboardRequest, function (error, data) {
-        expect(data.groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
+        expect((data as ExtractStoryboardJobResponse).groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
         done();
       });
     });

@@ -1,13 +1,13 @@
 export interface IDestination {
-  path: string;
-  directory: string;
+  path: string | null;
+  directory: string | null;
   acl: string;
 }
 
-export class Destination {
+export class Destination implements IDestination {
   public path: string | null = null;
   public directory: string | null = null;
-  public acl: string | null = null;
+  public acl: string = 'public';
 
   constructor(data?: IDestination) {
     if (data) {

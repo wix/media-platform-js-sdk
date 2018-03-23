@@ -21,7 +21,7 @@ import {GeometryBase} from './framing/geometry-base';
 
 export interface ImageParams {
   params: string | null;
-  errors: string[] | null;
+  errors: (string | Error)[];
 }
 
 export class Image {
@@ -157,7 +157,7 @@ export class Image {
       throw new Error('client side manipulation requires image basic metadata');
     }
 
-    if (!regionOfInterest) {
+    if (regionOfInterest === undefined || regionOfInterest === null) {
       regionOfInterest = new Rectangle(this.metadata.width, this.metadata.height, 0, 0);
     }
 
@@ -276,6 +276,12 @@ export class Image {
     }
 
     let path = this.path;
+    if (path === null || this.fileName === null) {
+      return {
+        url: null,
+        error: new Error('path or filename is missing')
+      };
+    }
     if (path.indexOf('/') === 0) {
       path = path.slice(1);
     }
@@ -332,7 +338,7 @@ export class Image {
   collectParams(): ImageParams {
     let out = '';
     let part;
-    const errors = [];
+    const errors: (Error | string)[] = [];
     this.serializationOrder.forEach(function concat(op) {
       part = op.serialize();
       if (part.error) {

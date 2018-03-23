@@ -23,7 +23,7 @@ export class FlowManager {
    * @param {function(Error, Flow)} callback
    */
   getFlow(flowId: string, callback: (error: Error | null, flow: Flow | null) => void) {
-    this.httpClient.request('GET', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl + '/flow/' + flowId, {}, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -34,7 +34,7 @@ export class FlowManager {
   }
 
   createFlow(createFlowRequest: ICreateFlowRequest, callback: (error: Error | null, flow: Flow | null) => void) {
-    this.httpClient.request('POST', this.apiUrl + '/flow', createFlowRequest, null, function (error, response) {
+    this.httpClient.request('POST', this.apiUrl + '/flow', createFlowRequest, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -45,7 +45,7 @@ export class FlowManager {
   }
 
   deleteFlow(flowId, callback: (error: Error | null, response: any) => void) {
-    this.httpClient.request('DELETE', this.apiUrl + '/flow/' + flowId, {}, null, function (error, response) {
+    this.httpClient.request('DELETE', this.apiUrl + '/flow/' + flowId, {}, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;

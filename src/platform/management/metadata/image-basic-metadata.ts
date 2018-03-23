@@ -1,12 +1,12 @@
 
 export interface IImageBasicMetadata {
-  height: number;
-  width: number;
-  colorspace: string;
-  format: string;
+  height: number | null;
+  width: number | null;
+  colorspace: string | null;
+  format: string | null;
 }
 
-export class ImageBasicMetadata {
+export class ImageBasicMetadata implements IImageBasicMetadata {
   public height: number | null = null;
   public width: number | null = null;
   public colorspace: string | null = null;

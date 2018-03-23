@@ -29,8 +29,8 @@ export class JobManager {
    * @param {string} jobId
    * @param {function(Error, Job)} callback
    */
-  getJob(jobId, callback: (error: Error | null, job: Job) => void) {
-    this.httpClient.request('GET', this.apiUrl + '/' + jobId, {}, null, function (error, response) {
+  getJob(jobId, callback: (error: Error | null, job: Job | null) => void) {
+    this.httpClient.request('GET', this.apiUrl + '/' + jobId, {}, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -44,8 +44,8 @@ export class JobManager {
    * @param {string} groupId
    * @param {function(Error, Array<Job>)} callback
    */
-  getJobGroup(groupId, callback: (error: Error | null, job: Job[]) => void) {
-    this.httpClient.request('GET', this.apiUrl + '/groups/' + groupId, {}, null, function (error, response) {
+  getJobGroup(groupId, callback: (error: Error | null, job: Job[] | null) => void) {
+    this.httpClient.request('GET', this.apiUrl + '/groups/' + groupId, {}, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -63,10 +63,10 @@ export class JobManager {
    * @param {SearchJobsRequest} searchJobsRequest
    * @param {function(Error, SearchJobsResponse)} callback
    */
-  searchJobs(searchJobsRequest, callback: (error: Error | null, job: SearchJobsResponse) => void) {
+  searchJobs(searchJobsRequest, callback: (error: Error | null, job: SearchJobsResponse | null) => void) {
     const params = {...searchJobsRequest};
 
-    this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl, params, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;

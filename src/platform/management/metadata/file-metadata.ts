@@ -4,12 +4,12 @@ import {IVideoBasicMetadata, VideoBasicMetadata} from './video-basic-metadata';
 import {IImageFeatures, ImageFeatures} from './image-features';
 
 export interface IFileMetadata {
-  fileDescriptor: IFileDescriptor;
+  fileDescriptor: IFileDescriptor | null;
   basic: IImageBasicMetadata | IVideoBasicMetadata | null;
-  features: IImageFeatures;
+  features: IImageFeatures | null;
 }
 
-export class FileMetadata {
+export class FileMetadata implements IFileMetadata {
   public fileDescriptor: FileDescriptor | null = null;
   public basic: ImageBasicMetadata | VideoBasicMetadata | null = null;
   public features: ImageFeatures | null = null;
@@ -25,7 +25,10 @@ export class FileMetadata {
    * @private
    */
   deserialize(data: Partial<IFileMetadata>) {
-    this.fileDescriptor = new FileDescriptor(data.fileDescriptor);
+    this.fileDescriptor = new FileDescriptor(data.fileDescriptor || undefined);
+    if (this.fileDescriptor === null || this.fileDescriptor.mimeType === null) {
+      return;
+    }
     const type = this.fileDescriptor.mimeType.split('/')[0].toLowerCase();
     if (data.basic) {
       switch (type) {

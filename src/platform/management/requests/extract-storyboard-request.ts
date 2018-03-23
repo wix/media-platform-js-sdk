@@ -2,8 +2,8 @@ import {Source} from '../job/source';
 import {ExtractStoryboardSpecification} from '../job/extract-storyboard-specification';
 
 export class ExtractStoryboardRequest {
-  public sources: Source[] | null = [];
-  public specifications: ExtractStoryboardSpecification[] | null = [];
+  public sources: Source[] = [];
+  public specifications: ExtractStoryboardSpecification[] = [];
 
   /**
    * @param sources

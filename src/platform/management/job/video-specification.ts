@@ -2,13 +2,13 @@ import {VideoCodec} from './video-codec';
 import {Resolution} from './resolution';
 
 export interface IVideoSpecification {
-  frameRate: string;
-  keyFrame: number;
-  codec: VideoCodec;
-  resolution: Resolution;
+  frameRate: string | null;
+  keyFrame: number | null;
+  codec: VideoCodec | null;
+  resolution: Resolution | null;
 }
 
-export class VideoSpecification {
+export class VideoSpecification implements IVideoSpecification {
   public frameRate: string | null = null;
   public keyFrame: number | null = null;
   public codec: VideoCodec | null = null;
@@ -27,7 +27,7 @@ export class VideoSpecification {
   deserialize(data: IVideoSpecification) {
     this.frameRate = data.frameRate;
     this.keyFrame = data.keyFrame;
-    this.codec = new VideoCodec(data.codec);
+    this.codec = new VideoCodec(data.codec || undefined);
     this.resolution = new Resolution(data.resolution);
   }
 }

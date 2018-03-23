@@ -5,13 +5,13 @@ export interface IFlowComponent {
   type: string;
   specification: any;
   successors: Successor[];
-  status: string;
+  status: string | null;
 }
 
-export class FlowComponent {
-  public type: string | null = null;
+export class FlowComponent implements IFlowComponent {
+  public type: string;
   public specification: any | null = null;
-  public successors: Successor[] | null = null;
+  public successors: Successor[] = [];
   public status: string | null = null;
 
   constructor(data?: IFlowComponent) {

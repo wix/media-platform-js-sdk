@@ -9,13 +9,13 @@ export interface DownloadURLObject {
 export type TokenObjects = any[][];
 
 export interface TokenClaims {
-  sub: string;
+  sub: string | null;
   obj: string | TokenObjects | null;
   aud: string | string[] | null;
-  iss: string;
-  iat: number;
-  jti: string;
-  exp: number;
+  iss: string | null;
+  iat: number | null;
+  jti: string | null;
+  exp: number | null;
 }
 
 // unknown type yet

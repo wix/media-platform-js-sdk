@@ -18,13 +18,13 @@ export class Token {
    * @type {string}
    * @deprecated incorrect representation, use objects instead
    */
-  public object: string = null;
+  public object: string | null = null;
 
   /**
    * @description a policy like objects array
    * @type {Array<Array<{}>>}
    */
-  public objects: TokenObjects = null;
+  public objects: TokenObjects | null = null;
 
   /**
    * @description a set of target operations, if left empty all operation are covered

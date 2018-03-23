@@ -33,7 +33,7 @@ export class FileDownloader {
       'GET',
       'https://' + this.configuration.domain + '/_api/download/secure_url',
       params,
-      null,
+      undefined,
       function (error, body) {
         if (error) {
           callback(error, null);

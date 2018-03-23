@@ -5,16 +5,16 @@ import {IQualityRange, QualityRange} from './quality-range';
 
 export interface ITranscodeSpecification {
   destination: IDestination;
-  quality: string;
-  qualityRange: IQualityRange;
-  video: IVideo;
-  audio: IAudio;
+  quality: string | null;
+  qualityRange: IQualityRange | null;
+  video: IVideo | null;
+  audio: IAudio | null;
 }
 
-export class TranscodeSpecification {
-  public destination: Destination | null = null;
+export class TranscodeSpecification implements ITranscodeSpecification {
+  public destination: Destination;
   public quality: string | null = null;
-  public qualityRange: QualityRange | null = null;
+  public qualityRange: QualityRange | null;
   public video: Video | null = null;
   public audio: Audio | null = null;
 
@@ -42,7 +42,11 @@ export class TranscodeSpecification {
     this.destination = new Destination(data.destination);
     this.quality = data.quality;
     this.qualityRange = new QualityRange(data.qualityRange);
-    this.video = new Video(data.video);
-    this.audio = new Audio(data.audio);
+    if (data.video) {
+      this.video = new Video(data.video);
+    }
+    if (data.audio) {
+      this.audio = new Audio(data.audio);
+    }
   }
 }

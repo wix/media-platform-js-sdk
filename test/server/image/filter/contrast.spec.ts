@@ -34,7 +34,7 @@ describe('contrast', function () {
   it('resets for null', function () {
     const contrast = new Contrast(new Image());
     contrast.contrast(70);
-    contrast.contrast(null);
+    contrast.contrast();
 
     expect(contrast.serialize()).to.deep.equal({params: '', error: null});
   });

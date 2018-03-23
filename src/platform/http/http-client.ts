@@ -1,10 +1,10 @@
 import * as request from 'request';
-import * as Stream from 'stream';
 import {Authenticator} from '../authentication/authenticator';
 import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 import {Token} from '../authentication/token';
 import {Configuration, IConfiguration} from '../configuration/configuration';
 import {UploadFileRequest} from '../management/requests/upload-file-request';
+import {UploadFileStream} from '../management/file-uploader';
 
 // require('request-debug')(request);
 
@@ -76,7 +76,7 @@ export class HTTPClient implements IHTTPClient {
    * @param {Token?} token
    * @param {function(Error, *)} callback
    */
-  postForm(url: string, form: FormData | { file: Stream, path: string, uploadToken: string } & Partial<UploadFileRequest>, token: Token | undefined, callback: RequestCallback) {
+  postForm(url: string, form: FormData | { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest>, token: Token | undefined, callback: RequestCallback) {
     const header = this.authenticator.getHeader(token);
 
     const options = {method: 'POST', url: url, formData: form, headers: header, json: true};

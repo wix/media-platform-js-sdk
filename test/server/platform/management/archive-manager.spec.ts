@@ -8,6 +8,7 @@ import {Authenticator} from '../../../../src/platform/authentication/authenticat
 import {HTTPClient} from '../../../../src/platform/http/http-client';
 import {ExtractArchiveRequest} from '../../../../src/platform/management/requests/extract-archive-request';
 import {CreateArchiveRequest} from '../../../../src/platform/management/requests/create-archive-request';
+import {Job} from '../../../../src/platform/management/job/job';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -43,8 +44,8 @@ describe('archive manager', function () {
 
     createArchiveRequest.setDestination(destination).setSources([source]).setArchiveType('zip');
 
-    archiveManager.createArchive(createArchiveRequest, function (error, data) {
-      expect(data.id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+    archiveManager.createArchive(createArchiveRequest, function (error, job) {
+      expect((job as Job).id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
       done(error);
     });
   });
@@ -64,8 +65,8 @@ describe('archive manager', function () {
 
     extractArchiveRequest.setDestination(destination).setSource(source);
 
-    archiveManager.extractArchive(extractArchiveRequest, function (error, data) {
-      expect(data.id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+    archiveManager.extractArchive(extractArchiveRequest, function (error, job) {
+      expect((job as Job).id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
       done(error);
     });
   });

@@ -6,11 +6,11 @@ export interface IExtractArchiveSpecification {
   destination: IDestination;
 }
 
-export class ExtractArchiveSpecification {
-  public source: Source | null = null;
+export class ExtractArchiveSpecification implements IExtractArchiveSpecification {
+  public source: Source;
   // TODO: is it a mistake?
-  public sources: Source | null = null;
-  public destination: Destination | null = null;
+  public sources: Source;
+  public destination: Destination;
 
   constructor(data?: IExtractArchiveSpecification) {
     if (data) {

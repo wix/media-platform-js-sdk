@@ -323,6 +323,9 @@ describe('file manager', function () {
 
     fileManager.importFile(importFileRequest, function (error, data) {
       expect(error).to.equal(null);
+      if (data === null) {
+        throw Error('something is wrong');
+      }
       expect(data.id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
       done();
     });

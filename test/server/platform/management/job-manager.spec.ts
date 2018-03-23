@@ -4,7 +4,6 @@ import {IJob, Job} from '../../../../src/platform/management/job/job';
 import {JobManager} from '../../../../src/platform/management/job-manager';
 import {SearchJobsResponse} from '../../../../src/platform/management/responses/search-jobs-response';
 import {FileImportSpecification} from '../../../../src/platform/management/job/file-import-specification';
-import {Destination} from '../../../../src/platform/management/job/destination';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
@@ -43,11 +42,11 @@ describe('job manager', function () {
         'status': 'success',
         'specification': new FileImportSpecification({
           'sourceUrl': 'string',
-          'destination': new Destination({
+          'destination': {
             'directory': 'string',
             'path': 'string',
             'acl': 'public'
-          })
+          }
         }),
         'sources': [],
         'result': {

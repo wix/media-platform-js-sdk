@@ -30,7 +30,7 @@ export class ImageManager {
    * @param {function(Error, FileDescriptor)} callback
    */
   imageOperation(imageOperationRequest: ImageOperationRequest, callback: (error: Error | null, fileDescriptor: FileDescriptor | null) => void) {
-    this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, null, function (error,
+    this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, undefined, function (error,
                                                                                                         response) {
       if (error) {
         callback(error, null);

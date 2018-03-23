@@ -34,7 +34,7 @@ describe('brightness', function () {
   it('resets for null', function () {
     const brightness = new Brightness(new Image());
     brightness.brightness(70);
-    brightness.brightness(null);
+    brightness.brightness();
 
     expect(brightness.serialize()).to.deep.equal({params: '', error: null});
   });

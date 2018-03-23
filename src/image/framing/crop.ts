@@ -1,4 +1,5 @@
 import {validator} from '../validation/validator';
+import {GeometryBase} from './geometry-base';
 
 /**
  * @description Crops the image starting at the x, y pixel coordinates, along with the width and height options. The image is scaled according to the scale factor parameter before crop.
@@ -10,7 +11,7 @@ import {validator} from '../validation/validator';
  * @constructor Crop
  */
 
-export class Crop {
+export class Crop implements GeometryBase {
   public name = 'crop';
   public error: string | null = null;
 

@@ -1,5 +1,5 @@
 export class Rectangle {
-  constructor(public width: number = null, public height: number = null, public x: number = null, public y: number = null) {
+  constructor(public width: number, public height: number, public x: number, public y: number) {
   }
 
   /**

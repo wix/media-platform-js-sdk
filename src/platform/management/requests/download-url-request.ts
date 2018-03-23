@@ -12,7 +12,7 @@ export class DownloadUrlRequest {
    * @description Content-Disposition header, if provided the content disposition is set to attachment with the provided file name
    * @type {{filename: <string>}}
    */
-  public attachment: Attachment = null;
+  public attachment: Attachment | null = null;
   /**
    * @description if the token expired, will redirect to this provided url
    * @type {string | null}

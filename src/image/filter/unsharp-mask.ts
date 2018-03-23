@@ -44,7 +44,7 @@ class UnsharpMask {
       return this.image;
     }
 
-    const floatify = (param: string | number) => typeof param === 'string' ? parseFloat(param) : param;
+    const floatify = (param: string | number | null) => typeof param === 'string' ? parseFloat(param) : param;
     const r = floatify(radius);
     const a = floatify(amount);
     const t = floatify(threshold);

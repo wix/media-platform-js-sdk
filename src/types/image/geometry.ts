@@ -1,5 +1,5 @@
 export interface SerializedGeometry {
-  params: string;
+  params: string | null;
   error: Error | null;
 }
 

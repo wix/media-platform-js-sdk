@@ -8,7 +8,7 @@ export interface ICreateFlowRequest {
 }
 
 export class CreateFlowRequest implements ICreateFlowRequest {
-  public invocation: Invocation | null = null;
+  public invocation: Invocation;
   public flow: IFlowItems;
 
   constructor(data?: ICreateFlowRequest) {

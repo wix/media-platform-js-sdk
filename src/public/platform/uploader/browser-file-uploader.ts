@@ -4,6 +4,7 @@ import {Configuration} from '../configuration/configuration';
 import {HTTPClient} from '../http/browser-http-client';
 import {UploadFileRequest} from '../../../platform/management/requests/upload-file-request';
 import {IFileUploader} from '../../../platform/management/file-uploader';
+import {UploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
 
 
 export class FileUploader implements IFileUploader {
@@ -21,8 +22,8 @@ export class FileUploader implements IFileUploader {
    * @param {UploadUrlRequest?} uploadUrlRequest
    * @param {function(Error, UploadUrlResponse)} callback
    */
-  getUploadUrl(uploadUrlRequest, callback) {
-    this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, uploadUrlRequest, null, function (error, body) {
+  getUploadUrl(uploadUrlRequest: UploadUrlRequest | undefined, callback) {
+    this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, uploadUrlRequest, undefined, function (error, body) {
       if (error) {
         callback(error, null);
         return;

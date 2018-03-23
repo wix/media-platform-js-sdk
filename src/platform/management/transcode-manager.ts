@@ -5,8 +5,8 @@ import {ExtractPosterJobResponse, IExtractPosterJobResponse} from './responses/e
 import {ExtractStoryboardJobResponse, IExtractStoryboardJobResponse} from './responses/extract-storyboard-job-response';
 
 
-export type ExtractPosterCallback = (error: Error | null, response: ExtractPosterJobResponse) => void;
-export type ExtractStoryboardCallback = (error: Error | null, response: ExtractStoryboardJobResponse) => void;
+export type ExtractPosterCallback = (error: Error | null, response: ExtractPosterJobResponse | null) => void;
+export type ExtractStoryboardCallback = (error: Error | null, response: ExtractStoryboardJobResponse | null) => void;
 
 /**
  * @param {Configuration} configuration
@@ -33,7 +33,7 @@ export class TranscodeManager {
   public transcodeVideo(transcodeRequest, callback) {
     const params = {...transcodeRequest};
 
-    this.httpClient.request('POST', this.apiUrl + '/transcode', params, null, function (error, response) {
+    this.httpClient.request('POST', this.apiUrl + '/transcode', params, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;

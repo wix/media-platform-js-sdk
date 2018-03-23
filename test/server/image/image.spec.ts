@@ -21,7 +21,9 @@ describe('image url construction', function () {
         .toUrl();
 
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('jpeg compression quality: 200 is not a number between 0 to 100,saturation: 500 is not a number between -100 to 100,unsharp mask radius: -1 is not a number between 0.1 to 128');
+      expect(result.error).not.to.equal(null);
+
+      expect((result.error as Error).message).to.equal('jpeg compression quality: 200 is not a number between 0 to 100,saturation: 500 is not a number between -100 to 100,unsharp mask radius: -1 is not a number between 0.1 to 128');
     });
   });
 
@@ -69,21 +71,21 @@ describe('image url construction', function () {
       const result = image.crop(0.4, 100).toUrl();
 
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('width: 0 is not a number greater than 1');
+      expect((result.error as Error).message).to.equal('width: 0 is not a number greater than 1');
     });
 
     it('reject height values smaller than 1', function () {
       const result = image.crop(100, -1).toUrl();
 
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('height: -1 is not a number greater than 1');
+      expect((result.error as Error).message).to.equal('height: -1 is not a number greater than 1');
     });
 
     it('requires height to be set', function () {
       const result = (image.crop as any)(100).toUrl();
 
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('height is mandatory');
+      expect((result.error as Error).message).to.equal('height is mandatory');
     });
   });
 
@@ -101,11 +103,7 @@ describe('image url construction', function () {
     });
 
     it('scale to width - with ROI', function () {
-      const roi = new Rectangle()
-        .setX(1100)
-        .setWidth(600)
-        .setY(225)
-        .setHeight(250);
+      const roi = new Rectangle(600, 250, 1100, 225);
       const result = image.scaleToWidth(1000, roi).toUrl();
 
       expect(result).to.deep.equal({
@@ -118,7 +116,7 @@ describe('image url construction', function () {
       const result = image.scaleToWidth(-1).toUrl();
 
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('crop scale factor: -0.0009208103130755065 is not a number between 0 to 100,width: -1 is not a number greater than 1,height: -1 is not a number greater than 1');
+      expect((result.error as Error).message).to.equal('crop scale factor: -0.0009208103130755065 is not a number between 0 to 100,width: -1 is not a number greater than 1,height: -1 is not a number greater than 1');
     });
 
     it('scale to height - without ROI', function () {
@@ -131,11 +129,7 @@ describe('image url construction', function () {
     });
 
     it('scale to height - with ROI', function () {
-      const roi = new Rectangle()
-        .setX(415)
-        .setWidth(250)
-        .setY(350)
-        .setHeight(600);
+      const roi = new Rectangle(250, 600, 415, 350);
 
       const result = image.scaleToHeight(500, roi).toUrl();
 
@@ -148,15 +142,11 @@ describe('image url construction', function () {
     it('scale to height - illegal height argument', function () {
       const result = image.scaleToHeight(-300).toUrl();
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('crop scale factor: -0.27624309392265195 is not a number between 0 to 100,width: -532 is not a number greater than 1,height: -300 is not a number greater than 1');
+      expect((result.error as Error).message).to.equal('crop scale factor: -0.27624309392265195 is not a number between 0 to 100,width: -532 is not a number greater than 1,height: -300 is not a number greater than 1');
     });
 
     it('roi - landscape -> portrait', function () {
-      const roi = new Rectangle()
-        .setX(1100)
-        .setWidth(600)
-        .setY(225)
-        .setHeight(250);
+      const roi = new Rectangle(600, 250, 1100, 225);
       const container = new Dimension()
         .setWidth(200)
         .setHeight(300);
@@ -170,11 +160,7 @@ describe('image url construction', function () {
     });
 
     it('roi - landscape -> landscape', function () {
-      const roi = new Rectangle()
-        .setX(1100)
-        .setWidth(600)
-        .setY(225)
-        .setHeight(250);
+      const roi = new Rectangle(600, 250, 1100, 225);
       const container = new Dimension()
         .setWidth(300)
         .setHeight(200);
@@ -188,11 +174,7 @@ describe('image url construction', function () {
     });
 
     it('roi - portrait -> landscape', function () {
-      const roi = new Rectangle()
-        .setX(415)
-        .setWidth(250)
-        .setY(350)
-        .setHeight(600);
+      const roi = new Rectangle(250, 600, 415, 350);
       const container = new Dimension()
         .setWidth(300)
         .setHeight(200);
@@ -206,11 +188,7 @@ describe('image url construction', function () {
     });
 
     it('roi - portrait -> portrait', function () {
-      const roi = new Rectangle()
-        .setX(415)
-        .setWidth(250)
-        .setY(350)
-        .setHeight(600);
+      const roi = new Rectangle(250, 600, 415, 350);
       const container = new Dimension()
         .setWidth(400)
         .setHeight(500);
@@ -224,11 +202,7 @@ describe('image url construction', function () {
     });
 
     it('roi - square -> portrait', function () {
-      const roi = new Rectangle()
-        .setX(1240)
-        .setWidth(400)
-        .setY(590)
-        .setHeight(400);
+      const roi = new Rectangle(400, 400, 1240, 590);
       const container = new Dimension()
         .setWidth(900)
         .setHeight(1000);
@@ -242,11 +216,7 @@ describe('image url construction', function () {
     });
 
     it('roi - square -> landscape', function () {
-      const roi = new Rectangle()
-        .setX(1240)
-        .setWidth(400)
-        .setY(590)
-        .setHeight(400);
+      const roi = new Rectangle(400, 400, 1240, 590);
       const container = new Dimension()
         .setWidth(1000)
         .setHeight(600);
@@ -260,7 +230,7 @@ describe('image url construction', function () {
     });
 
     it('roi - square -> square', function () {
-      const roi = new Rectangle()
+      const roi = new Rectangle(400, 400, 1240, 590)
         .setX(1240)
         .setWidth(400)
         .setY(590)
@@ -278,7 +248,7 @@ describe('image url construction', function () {
     });
 
     it('roi - full image -> square', function () {
-      const roi = new Rectangle()
+      const roi = new Rectangle(1926, 1086, 0, 0)
         .setX(0)
         .setWidth(1926)
         .setY(0)
@@ -296,11 +266,7 @@ describe('image url construction', function () {
     });
 
     it('roi - handles bleeding bottom, left', function () {
-      const roi = new Rectangle()
-        .setX(0)
-        .setWidth(100)
-        .setY(986)
-        .setHeight(100);
+      const roi = new Rectangle(100, 100, 0, 986);
       const container = new Dimension()
         .setWidth(200)
         .setHeight(300);
@@ -315,11 +281,7 @@ describe('image url construction', function () {
     });
 
     it('roi - handles bleeding top, right', function () {
-      const roi = new Rectangle()
-        .setX(1826)
-        .setWidth(100)
-        .setY(0)
-        .setHeight(100);
+      const roi = new Rectangle(100, 100, 1826, 0);
       const container = new Dimension()
         .setWidth(200)
         .setHeight(200);
@@ -406,7 +368,7 @@ describe('image url construction', function () {
       const crop = image.crop(90, 91, -0.6, 101);
       const result = crop.toUrl();
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('crop x: -1 is not a number greater than 0');
+      expect((result.error as Error).message).to.equal('crop x: -1 is not a number greater than 0');
     });
 
     it('reject y values smaller than 0', function () {
@@ -414,7 +376,7 @@ describe('image url construction', function () {
       const result = crop.toUrl();
 
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('crop y: -1 is not a number greater than 0');
+      expect((result.error as Error).message).to.equal('crop y: -1 is not a number greater than 0');
     });
 
     it('all options', function () {
@@ -512,7 +474,7 @@ describe('image url construction', function () {
       const fill = image.fill(0, 91);
       const result = fill.toUrl();
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('width: 0 is not a number greater than 1');
+      expect((result.error as Error).message).to.equal('width: 0 is not a number greater than 1');
 
     });
 
@@ -520,7 +482,7 @@ describe('image url construction', function () {
       const fill = image.fill(90, 0);
       const result = fill.toUrl();
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('height: 0 is not a number greater than 1');
+      expect((result.error as Error).message).to.equal('height: 0 is not a number greater than 1');
     });
   });
 
@@ -578,14 +540,14 @@ describe('image url construction', function () {
       const fit = image.fit(0, 91);
       const result = fit.toUrl();
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('width: 0 is not a number greater than 1');
+      expect((result.error as Error).message).to.equal('width: 0 is not a number greater than 1');
     });
 
     it('reject h values smaller than 1', function () {
       const fit = image.fit(90, 0);
       const result = fit.toUrl();
       expect(result.url).to.equal(null);
-      expect(result.error.message).to.equal('height: 0 is not a number greater than 1');
+      expect((result.error as Error).message).to.equal('height: 0 is not a number greater than 1');
     });
   });
 

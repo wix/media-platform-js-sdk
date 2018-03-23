@@ -3,9 +3,9 @@ export interface ILabel {
   score: number;
 }
 
-export class Label {
-  public name: string | null = null;
-  public score: number | null = null;
+export class Label implements ILabel {
+  public name: string;
+  public score: number;
 
   constructor(data?: ILabel) {
     if (data) {

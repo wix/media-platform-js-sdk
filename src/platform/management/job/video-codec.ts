@@ -1,11 +1,11 @@
 export interface IVideoCodec {
-  profile: string;
-  maxRate: number;
-  crf: number;
-  name: string;
-  level: string;
+  profile: string | null;
+  maxRate: number | null;
+  crf: number | null;
+  name: string | null;
+  level: string | null;
 }
-export class VideoCodec {
+export class VideoCodec implements IVideoCodec {
   public profile: string | null = null;
   public maxRate: number | null = null;
   public crf: number | null = null;

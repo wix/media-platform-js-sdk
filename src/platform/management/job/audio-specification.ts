@@ -1,11 +1,11 @@
 import {AudioCodec, IAudioCodec} from './audio-codec';
 
 export interface IAudioSpecification {
-  channels: string;
-  codec: IAudioCodec;
+  channels: string | null;
+  codec: IAudioCodec | null;
 }
 
-export class AudioSpecification {
+export class AudioSpecification implements IAudioSpecification {
   public channels: string | null = null;
   public codec: AudioCodec | null = null;
 
@@ -21,7 +21,7 @@ export class AudioSpecification {
    */
   deserialize(data: IAudioSpecification) {
     this.channels = data.channels;
-    this.codec = new AudioCodec(data.codec);
+    this.codec = new AudioCodec(data.codec || undefined);
   }
 }
 

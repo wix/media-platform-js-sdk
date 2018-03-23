@@ -4,8 +4,8 @@ export interface IAudio {
   specification: IAudioSpecification;
 }
 
-export class Audio {
-  public specification: AudioSpecification | null = null;
+export class Audio implements IAudio {
+  public specification: AudioSpecification;
 
   constructor(data?: IAudio) {
     if (data) {

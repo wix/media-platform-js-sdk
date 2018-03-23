@@ -943,12 +943,13 @@ html()
                     var source = new Source();
                     source.fileId = fileId;
 
-                    var transcodeSpecification = new TranscodeSpecification();
-                    transcodeSpecification.destination = new Destination()
-                        .setDirectory("/test/output")
-                        .setAcl("public");
-
-                    transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
+                    var transcodeSpecification = new TranscodeSpecification({
+                      destination: {
+                        directory: '/test/output',
+                        acl: 'public'
+                      },
+                      qualityRange: {minimum: "240p", maximum: "1440p"}
+                    });
 
                     var transcodeRequest = new TranscodeRequest()
                         .addSource(source)

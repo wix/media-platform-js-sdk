@@ -15,10 +15,10 @@ export interface IImageFeatures {
   colors: IColor[];
 }
 
-export class ImageFeatures {
-  public labels: Label[] | null = null;
-  public faces: Rectangle[] | null = null;
-  public colors: Color[] | null = null;
+export class ImageFeatures implements IImageFeatures {
+  public labels: Label[] = [];
+  public faces: Rectangle[] = [];
+  public colors: Color[] = [];
 
   constructor(data?: IImageFeatures) {
     if (data) {
@@ -30,7 +30,7 @@ export class ImageFeatures {
    * @param data
    * @private
    */
-  deserialize(data) {
+  deserialize(data: IImageFeatures) {
     this.labels = data.labels.map(function (label) {
       return new Label(label);
     });

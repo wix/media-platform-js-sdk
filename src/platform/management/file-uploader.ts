@@ -10,11 +10,20 @@ import {UploadFileRequest} from './requests/upload-file-request';
 export type GetUploadURLCallback = (error: Error | null, response: UploadUrlResponse | null) => void;
 export type UploadFileCallback = (error: Error | null, response: FileDescriptor[] | null) => void;
 
+export type UploadFileStream = Stream | {
+  value: Buffer;
+  options: {
+    filename: 'filename';
+  };
+};
+
 export interface IFileUploader {
   configuration: IConfigurationBase;
   httpClient: IHTTPClient;
-  getUploadUrl(uploadUrlRequest: UploadUrlRequest, callback: GetUploadURLCallback);
-  uploadFile(path: string, file: string | Buffer | Stream | File, uploadRequest: UploadFileRequest, callback: UploadFileCallback)
+
+  getUploadUrl(uploadUrlRequest: UploadUrlRequest | null | undefined, callback: GetUploadURLCallback);
+
+  uploadFile(path: string, file: string | Buffer | Stream | File, uploadRequest: UploadFileRequest | null | undefined, callback: UploadFileCallback)
 }
 
 /**
@@ -34,8 +43,8 @@ export class FileUploader implements IFileUploader {
    * @param {UploadUrlRequest?} uploadUrlRequest
    * @param {function(Error, UploadUrlResponse)} callback
    */
-  getUploadUrl(uploadUrlRequest: UploadUrlRequest, callback: GetUploadURLCallback) {
-    this.httpClient.request('GET', this.apiUrl + '/url', uploadUrlRequest, null, function (error, response) {
+  getUploadUrl(uploadUrlRequest: UploadUrlRequest | null | undefined, callback: GetUploadURLCallback) {
+    this.httpClient.request('GET', this.apiUrl + '/url', uploadUrlRequest, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -54,8 +63,8 @@ export class FileUploader implements IFileUploader {
    */
   uploadFile(path: string, file: string | Buffer | Stream, uploadRequest: UploadFileRequest, callback: UploadFileCallback) {
     let calledBack = false;
-    let stream = null;
-    let size = null;
+    let stream: UploadFileStream;
+    let size: number | null = null;
 
     if (file instanceof Stream && typeof file.pipe === 'function') {
       stream = file;
@@ -82,13 +91,13 @@ export class FileUploader implements IFileUploader {
       return;
     }
 
-    let uploadUrlRequest = null;
+    let uploadUrlRequest: UploadUrlRequest | null = null;
     if (uploadRequest) {
       uploadUrlRequest = new UploadUrlRequest()
         .setMimeType(uploadRequest.mimeType)
         .setPath(path)
         .setAcl(uploadRequest.acl);
-      if (size) {
+      if (size !== null) {
         uploadUrlRequest.setSize(size);
       }
     }
@@ -96,12 +105,12 @@ export class FileUploader implements IFileUploader {
     this.getUploadUrl(
       uploadUrlRequest,
       (error, response) => {
-        if (error) {
+        if (error || response === null) {
           doCallback(error, null);
           return;
         }
 
-        let form: {file: Stream, path: string, uploadToken: string} & Partial<UploadFileRequest> = {
+        let form: { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest> = {
           file: stream,
           path: path,
           uploadToken: response.uploadToken
@@ -110,7 +119,7 @@ export class FileUploader implements IFileUploader {
           form = {...form, ...uploadRequest};
         }
 
-        this.httpClient.postForm(response.uploadUrl, form, null, doCallback);
+        this.httpClient.postForm(response.uploadUrl, form, undefined, doCallback);
       }
     );
 

@@ -41,7 +41,7 @@ export class FileManager {
    * @param {function(Error, UploadUrlResponse)} callback
    */
   getUploadUrl(uploadUrlRequest: UploadUrlRequest | undefined | null, callback: GetUploadURLCallback) {
-    this.fileUploader.getUploadUrl(uploadUrlRequest, callback);
+    this.fileUploader.getUploadUrl(uploadUrlRequest || null, callback);
   }
 
   /**
@@ -65,7 +65,7 @@ export class FileManager {
       'POST',
       this.baseUrl + '/_api/import/file',
       importFileRequest,
-      null,
+      undefined,
       function (error, response) {
         if (error) {
           callback(error, null);
@@ -82,7 +82,7 @@ export class FileManager {
    * @param {function(Error, FileDescriptor)} callback
    */
   createFile(fileDescriptor: FileDescriptor, callback: (error: Error | null, fileDescriptor: FileDescriptor | null) => void) {
-    this.httpClient.request('POST', this.apiUrl, fileDescriptor, null, function (error, response) {
+    this.httpClient.request('POST', this.apiUrl, fileDescriptor, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -101,7 +101,7 @@ export class FileManager {
       path: path
     };
 
-    this.httpClient.request('GET', this.apiUrl, params, null, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl, params, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -116,7 +116,7 @@ export class FileManager {
    * @param {function(Error, FileMetadata)} callback
    */
   getFileMetadataById(fileId: string, callback: (error: Error | null, fileMetadata: FileMetadata | null) => void) {
-    this.httpClient.request('GET', this.apiUrl + '/' + fileId + '/metadata', {}, null, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl + '/' + fileId + '/metadata', {}, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -131,13 +131,13 @@ export class FileManager {
    * @param {ListFilesRequest?} listFilesRequest
    * @param {function(Error, ListFilesResponse)} callback
    */
-  listFiles(path: string, listFilesRequest: ListFilesRequest, callback: (error: Error | null, listFilesResponse: ListFilesResponse | null) => void) {
+  listFiles(path: string, listFilesRequest: ListFilesRequest | null, callback: (error: Error | null, listFilesResponse: ListFilesResponse | null) => void) {
     const params = {
       path: path,
       ...listFilesRequest
     };
 
-    this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, null, function (error, response) {
+    this.httpClient.request('GET', this.apiUrl + '/ls_dir', params, undefined, function (error, response) {
       if (error) {
         callback(error, null);
         return;
@@ -156,7 +156,7 @@ export class FileManager {
       path: path
     };
 
-    this.httpClient.request('DELETE', this.apiUrl, params, null, function (error, response) {
+    this.httpClient.request('DELETE', this.apiUrl, params, undefined, function (error, response) {
       if (error) {
         callback(error);
         return;
@@ -171,7 +171,7 @@ export class FileManager {
    * @param {function(Error)} callback
    */
   deleteFileById(id: string, callback: (error: Error | null) => void) {
-    this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, null, function (error, response) {
+    this.httpClient.request('DELETE', this.apiUrl + '/' + id, null, undefined, function (error, response) {
       if (error) {
         callback(error);
         return;

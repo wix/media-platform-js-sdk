@@ -11,8 +11,8 @@ import {SerializedGeometry} from '../../types/image/geometry';
 
 export class Fit extends Geometry {
   public name = 'fit';
-  public x: number;
-  public y: number;
+  public x: number | null;
+  public y: number | null;
   public error: string | null = null;
 
   /**

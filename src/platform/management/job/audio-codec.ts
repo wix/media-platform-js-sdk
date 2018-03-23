@@ -1,9 +1,9 @@
 export interface IAudioCodec {
-  cbr: number;
-  name: string;
+  cbr: number | null;
+  name: string | null;
 }
 
-export class AudioCodec {
+export class AudioCodec implements IAudioCodec {
   public cbr: number | null = null;
   public name: string | null = null;
 

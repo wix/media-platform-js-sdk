@@ -2,14 +2,14 @@ export interface IColor {
   r: number;
   g: number;
   b: number;
-  pixelFraction: number;
-  score: number;
+  pixelFraction: number | null;
+  score: number | null;
 }
 
-export class Color {
-  public r: number | null = null;
-  public g: number | null = null;
-  public b: number | null = null;
+export class Color implements IColor {
+  public r: number;
+  public g: number;
+  public b: number;
   public pixelFraction: number | null = null;
   public score: number | null = null;
 

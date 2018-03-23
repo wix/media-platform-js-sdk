@@ -2,7 +2,7 @@ import {Source} from '../job/source';
 import {Destination} from '../job/destination';
 
 export class CreateArchiveRequest {
-  public sources: Source[] | null = [];
+  public sources: Source[] = [];
   public destination: Destination | null = null;
   public archiveType: string | null = null;
 

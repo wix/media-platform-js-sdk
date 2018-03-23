@@ -10,14 +10,14 @@ export interface IFlowIItems {
 }
 
 export interface IFlow {
-  id: string;
+  id: string | null;
   flow: IFlowIItems;
   invocation: IInvocation;
 }
 
-export class Flow {
+export class Flow implements IFlow {
   public id: string | null = null;
-  public invocation: Invocation | null = null;
+  public invocation: Invocation;
   public flow: IFlowItems = {};
 
   constructor(data?: IFlow) {

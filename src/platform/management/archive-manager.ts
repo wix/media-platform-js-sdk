@@ -23,7 +23,7 @@ export class ArchiveManager {
       'POST',
       this.baseUrl + '/_api/archive/create',
       createArchiveRequest,
-      null,
+      undefined,
       function (error, response) {
         if (error) {
           callback(error, null);
@@ -39,7 +39,7 @@ export class ArchiveManager {
    * @param {function(Error, Job)} callback
    */
   extractArchive(extractArchiveRequest: ExtractArchiveRequest, callback: ArchiveCallback) {
-    this.httpClient.request('POST', this.baseUrl + '/_api/archive/extract', extractArchiveRequest, null, function (error,
+    this.httpClient.request('POST', this.baseUrl + '/_api/archive/extract', extractArchiveRequest, undefined, function (error,
                                                                                                                    response) {
       if (error) {
         callback(error, null);

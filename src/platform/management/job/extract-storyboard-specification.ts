@@ -23,32 +23,32 @@ export class ExtractStoryboardSpecification implements IExtractStoryboardSpecifi
     }
   }
 
-  public setDestination(destination): this {
+  public setDestination(destination: Destination): this {
     this.destination = destination;
     return this;
   };
 
-  public setFormat(format): this {
+  public setFormat(format: string): this {
     this.format = format;
     return this;
   };
 
-  public setTileWidth(tileWidth): this {
+  public setTileWidth(tileWidth: number): this {
     this.tileWidth = tileWidth;
     return this;
   };
 
-  public setTileHeight(tileHeight): this {
+  public setTileHeight(tileHeight: number): this {
     this.tileHeight = tileHeight;
     return this;
   };
 
-  public setRows(rows): this {
+  public setRows(rows: number): this {
     this.rows = rows;
     return this;
   };
 
-  public setColumns(columns): this {
+  public setColumns(columns: number): this {
     this.columns = columns;
     return this;
   };

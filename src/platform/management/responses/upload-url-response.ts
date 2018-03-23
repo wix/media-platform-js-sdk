@@ -3,9 +3,9 @@ export interface IUploadUrlResponse {
   uploadUrl: string;
 }
 
-export class UploadUrlResponse {
-  public uploadToken: string | null = null;
-  public uploadUrl: string | null = null;
+export class UploadUrlResponse implements IUploadUrlResponse {
+  public uploadToken: string;
+  public uploadUrl: string;
 
   constructor(data?: IUploadUrlResponse) {
     if (data) {

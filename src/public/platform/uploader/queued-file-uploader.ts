@@ -16,7 +16,7 @@ export class QueuedFileUploader {
 
     this.queue = async.queue(uploadWorker, concurrency);
 
-    function uploadWorker(uploadJob, callback) {
+    function uploadWorker(uploadJob: UploadJob, callback) {
       uploadJob.once('upload-end', callback);
       uploadJob.run(fileUploader);
     }

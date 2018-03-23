@@ -7,10 +7,10 @@ export interface ICreateArchiveSpecification {
   archiveType: string;
 }
 
-export class CreateArchiveSpecification {
-  public sources: Source[] | null = null;
-  public destination: Destination | null = null;
-  public archiveType: string | null = null;
+export class CreateArchiveSpecification implements ICreateArchiveSpecification {
+  public sources: Source[];
+  public destination: Destination;
+  public archiveType: string;
 
   constructor(data?: ICreateArchiveSpecification) {
     if (data) {

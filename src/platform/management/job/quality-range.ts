@@ -1,13 +1,13 @@
 export interface IQualityRange {
-  minimum: string;
-  maximum: string;
+  minimum: string | null;
+  maximum: string | null;
 }
 
 export class QualityRange {
   public minimum: string | null = null;
   public maximum: string | null = null;
 
-  constructor(data?: IQualityRange) {
+  constructor(data?: IQualityRange | null) {
     if (data) {
       this.deserialize(data);
     }

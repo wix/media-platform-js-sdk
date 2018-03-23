@@ -28,7 +28,7 @@ describe('blur', function () {
   it('resets for null', function () {
     const blur = new Blur(new Image());
     blur.percentage(70);
-    blur.percentage(null);
+    blur.percentage();
 
     expect(blur.serialize()).to.deep.equal({params: '', error: null});
   });

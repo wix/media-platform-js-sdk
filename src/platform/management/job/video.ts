@@ -5,7 +5,7 @@ export interface IVideo {
 }
 
 export class Video {
-  public specification: VideoSpecification | null = null;
+  public specification: VideoSpecification;
 
   constructor(data?: IVideo) {
     if (data) {

@@ -1,16 +1,16 @@
 export interface IFileDescriptor {
-  id: string;
-  hash: string;
-  path: string;
-  mimeType: string;
-  type: string;
-  size: number;
-  acl: string;
-  dateCreated?: string;
-  dateUpdated?: string;
+  id: string | null;
+  hash: string | null;
+  path: string | null;
+  mimeType: string | null;
+  type: string | null;
+  size: number | null;
+  acl: string | null;
+  dateCreated?: string | null;
+  dateUpdated?: string | null;
 }
 
-export class FileDescriptor {
+export class FileDescriptor implements IFileDescriptor {
   /**
    * @description a system assigned unique id
    */
@@ -53,14 +53,14 @@ export class FileDescriptor {
    * @private
    */
   deserialize(data: Partial<IFileDescriptor>) {
-    this.id = data.id;
-    this.hash = data.hash;
-    this.path = data.path;
-    this.mimeType = data.mimeType;
-    this.type = data.type;
-    this.size = data.size;
-    this.acl = data.acl;
-    this.dateCreated = data.dateCreated;
-    this.dateUpdated = data.dateUpdated;
+    this.id = data.id || null;
+    this.hash = data.hash || null;
+    this.path = data.path || null;
+    this.mimeType = data.mimeType || null;
+    this.type = data.type || null;
+    this.size = data.size || null;
+    this.acl = data.acl || null;
+    this.dateCreated = data.dateCreated || null;
+    this.dateUpdated = data.dateUpdated || null;
   }
 }

@@ -11,7 +11,6 @@ import filesRoute from './src/routes/files';
 import authenticationRoute from './src/routes/authentication';
 
 var app = express();
-console.log('app', app);
 
 app.set('views', path.join(__dirname, '/src/views'));
 app.set('view engine', 'pug');

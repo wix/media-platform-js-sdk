@@ -3,16 +3,16 @@ import {AudioStream, IAudioStream} from './audio-stream';
 import {IVideoFormat, VideoFormat} from './video-format';
 
 export interface IVideoBasicMetadata {
-  interlaced: boolean;
+  interlaced: boolean | null;
   videoStreams: IVideoStream[];
   audioStreams: IAudioStream[];
-  format: IVideoFormat;
+  format: IVideoFormat | null;
 }
 
-export class VideoBasicMetadata {
+export class VideoBasicMetadata implements IVideoBasicMetadata {
   public interlaced: boolean | null = null;
-  public videoStreams: VideoStream[] | null = null;
-  public audioStreams: AudioStream[] | null = null;
+  public videoStreams: VideoStream[] = [];
+  public audioStreams: AudioStream[] = [];
   public format: VideoFormat | null = null;
 
   constructor(data?: IVideoBasicMetadata) {
@@ -33,6 +33,6 @@ export class VideoBasicMetadata {
     this.audioStreams = data.audioStreams.map(function (audioStream) {
       return new AudioStream(audioStream);
     });
-    this.format = new VideoFormat(data.format);
+    this.format = new VideoFormat(data.format || undefined);
   }
 }
