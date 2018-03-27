@@ -5,6 +5,7 @@ import {FileUploader} from './management/file-uploader';
 import {FileDownloader} from './management/file-downloader';
 import {FileManager} from './management/file-manager';
 import {ArchiveManager} from './management/archive-manager';
+import {ImageExtractionManager} from './management/image-extraction-manager';
 import {JobManager} from './management/job-manager';
 import {ImageManager} from './management/image-manager';
 import {TranscodeManager} from './management/transcode-manager';
@@ -34,6 +35,7 @@ export class MediaPlatform {
   public imageManager: ImageManager;
   public widgetInstancesManager: WidgetInstanceManager;
   public webhookDeserializer: WebhookDeserializer;
+  public imageExtractionManager: ImageExtractionManager;
 
   constructor(config) {
     // TODO: validate config
@@ -87,6 +89,11 @@ export class MediaPlatform {
      * @type {WebhookDeserializer}
      */
     this.webhookDeserializer = new WebhookDeserializer(this.authenticator);
+
+    /**
+     * @type {ImageExtractionManager}
+     */
+    this.imageExtractionManager = new ImageExtractionManager(configuration, httpClient);
   }
 
   public getAuthorizationHeader(token?: Token): AuthorizationHeader {
