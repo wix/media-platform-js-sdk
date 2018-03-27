@@ -18,7 +18,7 @@ export class ListFilesRequest {
    * @param nextPageToken
    * @returns {ListFilesRequest}
    */
-  setNextPageToken(nextPageToken: string): this {
+  setNextPageToken(nextPageToken: string | null): this {
     this.nextPageToken = nextPageToken;
     return this;
   }

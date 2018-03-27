@@ -26,6 +26,7 @@ import {ImageOperationSpecification} from './platform/management/job/image-opera
 import {ImageOperationRequest} from './platform/management/requests/image-operation-request';
 import {ExtractStoryboardSpecification} from './platform/management/job/extract-storyboard-specification';
 import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
+import {ExportedPublicMediaPlatform} from './types/media-platform/media-platform';
 
 export {Configuration};
 export {MediaPlatform};
@@ -77,7 +78,9 @@ export const transcode = {
   QualityRange
 };
 
-export const MP = {
+export {ExportedPublicMediaPlatform};
+
+export const MP: ExportedPublicMediaPlatform = {
   Configuration,
   MediaPlatform,
   Image,

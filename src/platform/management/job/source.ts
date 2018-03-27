@@ -1,6 +1,6 @@
 export interface ISource {
-  path: string | null;
-  fileId: string | null;
+  path?: string | null;
+  fileId?: string | null;
 }
 
 export class Source implements ISource {
@@ -36,7 +36,11 @@ export class Source implements ISource {
    * @private
    */
   deserialize(data: ISource) {
-    this.fileId = data.fileId;
-    this.path = data.path;
+    if (data.fileId !== undefined) {
+      this.fileId = data.fileId;
+    }
+    if (data.path !== undefined) {
+      this.path = data.path;
+    }
   }
 }

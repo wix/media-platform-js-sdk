@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "noErrorTruncation": true,
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "outDir": "./dist/",
