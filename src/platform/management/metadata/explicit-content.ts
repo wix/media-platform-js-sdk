@@ -1,13 +1,20 @@
+export enum Likelihood {
+  VERY_LIKELY = 'VERY_LIKELY',
+  POSSIBLE = 'POSSIBLE',
+  UNLIKELY = 'UNLIKELY',
+  VERY_UNLIKELY = 'VERY_UNLIKELY'
+}
+
 export interface IExplicitContent {
-  likelihood: string;
+  likelihood: Likelihood;
   name: string;
 }
 
 export class ExplicitContent implements IExplicitContent {
-  public likelihood: string;
+  public likelihood: Likelihood;
   public name: string;
 
-  constructor(data?: IExplicitContent) {
+  constructor(data: IExplicitContent) {
     if (data) {
       this.deserialize(data);
     }

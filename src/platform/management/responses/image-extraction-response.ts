@@ -1,34 +1,22 @@
 import {Color, IColor} from '../metadata/color';
-import { ExplicitContent, IExplicitContent } from '../metadata/explicit-content';
-import { Face, IFace } from '../metadata/face';
-import { ILabel, Label } from '../metadata/label';
+import {ExplicitContent, IExplicitContent} from '../metadata/explicit-content';
+import {Face, IFace} from '../metadata/face';
+import {ILabel, Label} from '../metadata/label';
 
-
-export interface IImageExtractionFace {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-export interface IImageExtractionExplicitContent {
-  name: string;
-  likelihood: string;
-}
 
 export interface IImageExtractionResponse {
   labels?: ILabel[];
-  faces?: IImageExtractionFace[];
+  faces?: IFace[];
   colors?: IColor[];
-  explicitContent?: IImageExtractionExplicitContent[];
+  explicitContent?: IExplicitContent[];
 }
 
 
 export class ImageExtractionResponse {
-  public labels: any;
-  public faces: any;
-  public colors: any;
-  public explicitContent: any;
+  public labels: ILabel[];
+  public faces: IFace[];
+  public colors: IColor[];
+  public explicitContent: IExplicitContent[];
 
   constructor(data?: IImageExtractionResponse) {
     if (data) {
@@ -50,7 +38,7 @@ export class ImageExtractionResponse {
     }
 
     if (data.faces && data.faces.length) {
-      this.faces = data.faces.map((face: IFace) => new Face(face));
+      this.faces = data.faces.map((face: IFace) => new Face(face.height, face.width, face.x, face.y));
     }
 
     if (data.explicitContent && data.explicitContent.length) {

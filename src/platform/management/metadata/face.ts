@@ -1,30 +1,6 @@
-export interface IFace {
-  width: number;
-  height: number;
-  x: number;
-  y: number;
-}
+import {IRectangle, Rectangle} from '../../../geometry/rectangle';
 
-export class Face implements IFace {
-  public width: number;
-  public height: number;
-  public x: number;
-  public y: number;
 
-  constructor(data?: IFace) {
-    if (data) {
-      this.deserialize(data);
-    }
-  }
+export interface IFace extends IRectangle {}
 
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IFace) {
-    this.width = data.width;
-    this.height = data.height;
-    this.x = data.x;
-    this.y = data.y;
-  }
-}
+export const Face = Rectangle;
