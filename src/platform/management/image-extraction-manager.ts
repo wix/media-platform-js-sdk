@@ -28,8 +28,8 @@ export class ImageExtractionManager {
   /**
    * @param {Array<string>} features -- list of supported extractors
    */
-  private getListOfSupportedExtractors(features: string[]): string {
-    if (features.length) {
+  private getListOfSupportedExtractors(features: string[] | null): string {
+    if (features && features.length) {
       return features.join(',');
     }
 
@@ -61,16 +61,15 @@ export class ImageExtractionManager {
       }
 
       return error as Error;
-    }
-  };
-
+    };
+  }
 
   /**
    * @param {string} fileId
    * @param {Array<string>} features -- list of supported extractors
    * @param {function(Error | null, IImageExtractionResponse | null)} callback
    */
-  extractImageById(fileId: string, features: string[], callback?: (error: Error | null, params: IImageExtractionResponse | null) => void): Promise<IImageExtractionResponse | Error> {
+  extractImageById(fileId: string, features: string[] | null, callback?: (error: Error | null, params: IImageExtractionResponse | null) => void): Promise<IImageExtractionResponse | Error> {
     const listOfFeatures = this.getListOfSupportedExtractors(features);
 
     return this.httpClient
@@ -86,7 +85,7 @@ export class ImageExtractionManager {
    * @param {Array<string>} features -- list of supported extractors
    * @param {function(Error | null, IImageExtractionResponse)} callback
    */
-  extractImageByFilePath(path: string, features: string[], callback?: (error: Error | null, params: IImageExtractionResponse | null) => void): Promise<IImageExtractionResponse | Error> {
+  extractImageByFilePath(path: string, features: string[] | null, callback?: (error: Error | null, params: IImageExtractionResponse | null) => void): Promise<IImageExtractionResponse | Error> {
     const listOfFeatures = this.getListOfSupportedExtractors(features);
 
     return this.httpClient
