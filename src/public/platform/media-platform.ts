@@ -1,3 +1,4 @@
+import {ImageExtractionManager} from '../../platform/management/image-extraction-manager';
 import {HTTPClient} from './http/browser-http-client';
 import {FileUploader} from './uploader/browser-file-uploader';
 import {QueuedFileUploader} from './uploader/queued-file-uploader';
@@ -31,6 +32,7 @@ class MediaPlatform {
   public flowManager: FlowManager;
   public imageManager: ImageManager;
   public widgetInstancesManager: WidgetInstanceManager;
+  public imageExtractionManager: ImageExtractionManager;
 
   constructor(configuration: Configuration) {
     this.browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
@@ -54,6 +56,7 @@ class MediaPlatform {
     this.flowManager = new FlowManager(configuration, this.browserHTTPClient);
     this.imageManager = new ImageManager(configuration, this.browserHTTPClient);
     this.widgetInstancesManager = new WidgetInstanceManager(configuration, this.browserHTTPClient);
+    this.imageExtractionManager = new ImageExtractionManager(configuration, this.browserHTTPClient);
   }
 
   /**

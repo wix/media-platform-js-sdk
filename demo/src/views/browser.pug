@@ -508,9 +508,47 @@ html()
                                 pre
                                     code.language-javascript#download-url-payload
 
+                h2#extract-image- Image Extraction
+                    h4 Manages the various feature extraction processors, such as face detection
+                    #extract-image-by-id-code
+                        .highlight
+                            pre
+                                code.language-javascript.
+                                    mediaPlatform.imageExtractionManager.extractImageById(fileId, null, function(error, response) {
+                                        // do something
+                                    });
+                        .demo-group
+                            input(id='extract-image-by-id-input' type='text' placeholder='Enter File Id').text-input
+                            br
+                            .executable-button
+                                button(id='extract-image-by-id-button').btn.
+                                    Execute
+                                .spinner
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#extract-image-by-id-payload
+
+                    h4 Manages the various feature extraction processors, such as face detection
+                    #extract-image-by-file-code
+                        .highlight
+                            pre
+                                code.language-javascript.
+                                    mediaPlatform.imageExtractionManager.extractImageByFilePath(filePath, null, function(error, response) {
+                                        // do something
+                                    });
+                        .demo-group
+                            input(id='extract-image-by-path-input' type='text' placeholder='Enter File Path').text-input
+                            br
+                            .executable-button
+                                button(id='extract-image-by-path-button').btn.
+                                    Execute
+                                .spinner
+                            .highlight.highlight-response
+                                pre
+                                    code.language-javascript#extract-image-by-path-payload
+
         script.
             var PATH_BASE = "/demo/";
-
 
             // FILE MANAGEMENT API
             (function() {
@@ -1332,3 +1370,47 @@ html()
                 }
             })();
 
+            // Image Extraction API
+            (function () {
+              // extract by file id
+              var extractImageByIdButton = document.getElementById('extract-image-by-id-button');
+              var extractImageByIdInput = document.getElementById('extract-image-by-id-input');
+              var extractImageByIdPayload = document.getElementById('extract-image-by-id-payload');
+
+              extractImageByIdButton.addEventListener('click', function () {
+                var id = extractImageByIdInput.value;
+                if (!id) {
+                  console.log('please specify file id');
+                  return
+                }
+
+                startLoading(extractImageByIdButton);
+                mediaPlatform.imageExtractionManager.extractImageById(id, null, function (error, response) {
+                  stopLoading(extractImageByIdButton);
+                  extractImageByIdPayload.innerHTML = Prism.highlight(
+                    JSON.stringify(response || error, null, 2),
+                    Prism.languages.js);
+                });
+              });
+
+              // extract by file path
+              var extractImageByPathButton = document.getElementById('extract-image-by-path-button');
+              var extractImageByPathInput = document.getElementById('extract-image-by-path-input');
+              var extractImageByPathPayload = document.getElementById('extract-image-by-path-payload');
+
+              extractImageByPathButton.addEventListener('click', function () {
+                var path = extractImageByPathInput.value;
+                if (!path) {
+                  console.log('please specify file path');
+                  return
+                }
+
+                startLoading(extractImageByPathButton);
+                mediaPlatform.imageExtractionManager.extractImageByFilePath(path, null, function (error, response) {
+                  stopLoading(extractImageByPathButton);
+                  extractImageByPathPayload.innerHTML = Prism.highlight(
+                    JSON.stringify(response || error, null, 2),
+                    Prism.languages.js);
+                });
+              })
+            })()

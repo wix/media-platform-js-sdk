@@ -1,3 +1,10 @@
+export interface IRectangle {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+}
+
 export class Rectangle {
   constructor(public width: number, public height: number, public x: number, public y: number) {
   }
