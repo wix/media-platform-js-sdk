@@ -57,7 +57,7 @@ It offers computing, storage and application services for web, mobile and backen
 
 
 [wix-url]: https://www.wix.com/
-[wixmp-url]: https://gcp.wixmp.com/
+[wixmp-url]: https://console.wixmp.com/
 [npm-image]: https://img.shields.io/npm/v/media-platform-js-sdk.svg
 [npm-url]: https://npmjs.org/package/media-platform-js-sdk
 [downloads-image]: https://img.shields.io/npm/dm/media-platform-js-sdk.svg
