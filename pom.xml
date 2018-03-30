@@ -34,6 +34,7 @@
             <email>aleksandrd@wix.com</email>
             <roles>
                 <role>owner</role>
+                <role>developer</role>
             </roles>
         </developer>
 
@@ -50,6 +51,7 @@
             <email>dmitriyb@wix.com</email>
             <roles>
                 <role>developer</role>
+                <role>owner</role>
             </roles>
         </developer>
 
