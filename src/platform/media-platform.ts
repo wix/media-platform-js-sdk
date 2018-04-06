@@ -1,4 +1,4 @@
-import {Configuration} from './configuration/configuration';
+import {Configuration, IConfiguration} from './configuration/configuration';
 import {Authenticator} from './authentication/authenticator';
 import {HTTPClient} from './http/http-client';
 import {FileUploader} from './management/file-uploader';
@@ -19,8 +19,9 @@ import {DownloadURLObject} from '../types/media-platform/media-platform';
 import {WidgetInstanceManager} from './management/widgets/widget-instance-manager/widget-instance-manager';
 
 /**
+ * Media Platform
  * @param {Configuration} config
- * @constructor
+ * @doc MediaPlatform
  */
 export class MediaPlatform {
   private authenticator: Authenticator;
@@ -37,7 +38,11 @@ export class MediaPlatform {
   public webhookDeserializer: WebhookDeserializer;
   public imageExtractionManager: ImageExtractionManager;
 
-  constructor(config) {
+  /**
+   * constructor
+   * @param {IConfiguration} config
+   */
+  constructor(config: IConfiguration) {
     // TODO: validate config
     const configuration = new Configuration(config.domain, config.sharedSecret, config.appId);
     this.authenticator = new Authenticator(configuration);

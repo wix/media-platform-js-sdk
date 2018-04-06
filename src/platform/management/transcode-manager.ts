@@ -11,7 +11,7 @@ export type ExtractStoryboardCallback = (error: Error | null, response: ExtractS
 /**
  * @param {Configuration} configuration
  * @param {HTTPClient} httpClient
- * @constructor
+ * @doc TranscodeManager
  */
 
 export class TranscodeManager {
@@ -30,6 +30,9 @@ export class TranscodeManager {
     this.apiUrl = this.baseUrl + '/_api/av';
   }
 
+  /**
+   * Transcode Video
+   */
   public transcodeVideo(transcodeRequest, callback) {
     const params = {...transcodeRequest};
 
@@ -43,6 +46,9 @@ export class TranscodeManager {
     });
   }
 
+  /**
+   * Extract Poster
+   */
   public extractPoster(extractPosterRequest, callback?: ExtractPosterCallback): Promise<ExtractPosterJobResponse> {
     const params = {...extractPosterRequest};
 
@@ -67,6 +73,9 @@ export class TranscodeManager {
       });
   };
 
+  /**
+   * Extract storyboard
+   */
   public extractStoryboard(extractStoryboardRequest, callback?: ExtractStoryboardCallback): Promise<ExtractStoryboardJobResponse> {
     const params = {...extractStoryboardRequest};
 

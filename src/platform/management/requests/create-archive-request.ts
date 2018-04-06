@@ -1,6 +1,10 @@
 import {Source} from '../job/source';
 import {Destination} from '../job/destination';
 
+/**
+ * Create Archive Request
+ * @doc CreateArchiveRequest
+ */
 export class CreateArchiveRequest {
   public sources: Source[] = [];
   public destination: Destination | null = null;

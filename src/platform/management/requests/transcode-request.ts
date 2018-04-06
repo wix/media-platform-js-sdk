@@ -1,6 +1,10 @@
 import {Source} from '../job/source';
 import {TranscodeSpecification} from '../job/transcode-specification';
 
+/**
+ * Transcode Request
+ * @doc TranscodeRequest
+ */
 export class TranscodeRequest {
   public sources: Source[] = [];
   public specifications: TranscodeSpecification[] = [];

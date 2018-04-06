@@ -17,10 +17,14 @@ interface HTTPRequest {
   qs?: string;
 }
 
+export interface HTTPRequestParams {
+  [key: string]: any;
+}
+
 export type RequestCallback = (error: Error | null, response: any) => void;
 
 export interface IHTTPClient {
-  request(httpMethod: string, url: string, params: any, token: Token | undefined, callback: RequestCallback);
+  request(httpMethod: string, url: string, params: any, token: Token | undefined, callback: RequestCallback): void;
 
   get<T>(url: string, params?: object, token?: Token | string): Promise<T>;
 
@@ -99,7 +103,7 @@ export class HTTPClient implements IHTTPClient {
     );
   }
 
-  get<T>(url: string, params: object = {}, token?: Token | string): Promise<T> {
+  get<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.request('GET', url, params, token, (error, response) => {
         if (error) {
@@ -111,7 +115,7 @@ export class HTTPClient implements IHTTPClient {
     });
   }
 
-  put<T>(url: string, params: object = {}, token?: Token | string): Promise<T> {
+  put<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.request('PUT', url, params, token, (error, response) => {
         if (error) {
@@ -123,7 +127,7 @@ export class HTTPClient implements IHTTPClient {
     });
   }
 
-  post<T>(url: string, params: object = {}, token?: Token | string): Promise<T> {
+  post<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.request('POST', url, params, token, (error, response) => {
         if (error) {

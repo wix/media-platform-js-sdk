@@ -7,6 +7,10 @@ import {ExtractArchiveRequest} from './requests/extract-archive-request';
 
 export type ArchiveCallback = (error: Error | null, job: Job | null) => void;
 
+/**
+ * Archive Manager
+ * @doc ArchiveManager
+ */
 export class ArchiveManager {
   public baseUrl: string;
 

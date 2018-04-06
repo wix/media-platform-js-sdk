@@ -13,6 +13,7 @@ export class Configuration implements IConfiguration {
    * @param {string} sharedSecret
    * @param {string} appId
    * @constructor
+   * @doc Configuration
    */
   constructor(public domain: string, public sharedSecret: string, public appId: string) {
   }
