@@ -1,3 +1,7 @@
+/**
+ * IFileDescriptor
+ * @doc FileDescriptor
+ */
 export interface IFileDescriptor {
   id: string | null;
   hash: string | null;
@@ -10,6 +14,10 @@ export interface IFileDescriptor {
   dateUpdated?: string | null;
 }
 
+/**
+ * FileDescriptor
+ * @doc FileDescriptor
+ */
 export class FileDescriptor implements IFileDescriptor {
   /**
    * @description a system assigned unique id

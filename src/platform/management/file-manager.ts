@@ -6,7 +6,7 @@ import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
 import {FileUploader, GetUploadURLCallback, IFileUploader, UploadFileCallback} from './file-uploader';
 import {UploadUrlResponse} from './responses/upload-url-response';
-import {UploadUrlRequest} from './requests/upload-url-request';
+import {IUploadUrlRequest, UploadUrlRequest} from './requests/upload-url-request';
 import * as Stream from 'stream';
 import {UploadFileRequest} from './requests/upload-file-request';
 import {ImportFileRequest} from './requests/import-file-request';
@@ -17,9 +17,8 @@ import {UploadJob} from '../../public/platform/uploader/upload-job';
  * @param {Configuration} configuration
  * @param {HTTPClient} httpClient
  * @param {FileUploader} fileUploader
- * @constructor
+ * @doc FileManager
  */
-
 export class FileManager {
   public baseUrl: string;
   public apiUrl: string;
@@ -37,11 +36,20 @@ export class FileManager {
   }
 
   /**
-   * @param {UploadUrlRequest?} uploadUrlRequest
-   * @param {function(Error, UploadUrlResponse)} callback
+   * Get Upload URL
+   * @example
+   * fileManager.getUploadUrl({
+   *   mimeType: 'Content-Type: image/gif',
+   *   path: '/path/to',
+   *   size: 12345, // in bytes
+   *   acl: 'public'
+   * })
+   * .then(response => {
+   *   console.log(response.uploadToken, response.uploadUrl);
+   * });
    */
-  getUploadUrl(uploadUrlRequest: UploadUrlRequest | undefined | null, callback: GetUploadURLCallback) {
-    this.fileUploader.getUploadUrl(uploadUrlRequest || null, callback);
+  getUploadUrl(uploadUrlRequest: IUploadUrlRequest | undefined | null, callback?: GetUploadURLCallback): Promise<UploadUrlResponse> {
+    return this.fileUploader.getUploadUrl(uploadUrlRequest || null, callback);
   }
 
   /**

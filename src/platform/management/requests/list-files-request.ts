@@ -1,3 +1,7 @@
+/**
+ * List Files Request
+ * @doc ListFilesRequest
+ */
 export class ListFilesRequest {
   public nextPageToken: string | null = null;
   public pageSize: number | null = 20;

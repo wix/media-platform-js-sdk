@@ -35,8 +35,14 @@ export interface DownloadURLObject {
   downloadUrl: string;
 }
 
+/**
+ * @doc Authentication
+ */
 export type TokenObjects = any[][];
 
+/**
+ * @doc Authentication
+ */
 export interface TokenClaims {
   sub: string | null;
   obj: string | TokenObjects | null;
