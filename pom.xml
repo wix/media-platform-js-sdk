@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <groupId>com.wixpress.prospero</groupId>
+    <artifactId>wix-media-platform-js-sdk</artifactId>
+    <name>wix-media-platform-js-sdk</name>
+    <modelVersion>4.0.0</modelVersion>
+    <version>5.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <description> </description>
+    
+    
+    <organization>
+      <name>Media Cloud</name>
+    </organization>
+
+    <scm>
+        <developerConnection>scm:git:ssh://git@github.com:wix/media-platform-js-sdk.git</developerConnection>
+        <url>scm:git:ssh://git@github.com:wix/media-platform-js-sdk.git</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Elad Laufer</name>
+            <email>elad@wix.com</email>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Alexander Davydov</name>
+            <email>aleksandrd@wix.com</email>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Alexander Gonchar</name>
+            <email>aleksandrg@wix.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Dmitry Bildin</name>
+            <email>dmitriyb@wix.com</email>
+            <roles>
+                <role>developer</role>
+                <role>owner</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <name>Artem Astakhov</name>
+            <email>artema@wix.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <parent>
+        <groupId>com.wixpress.common</groupId>
+        <artifactId>wix-master-parent</artifactId>
+        <version>100.0.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
+
+</project>

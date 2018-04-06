@@ -1,0 +1,236 @@
+mixin styles
+    style.
+        body {
+            width: 1000px;
+            margin: 0 auto;
+            font-family: sans-serif;
+        }
+
+        .content {
+            padding: 0 20px 20px 20px;
+            box-shadow: 0 2px 4px 0 rgba(16, 30, 42, 0.18);
+            display: flex;
+            background: rgb(255, 255, 240);
+        }
+
+        .group {
+            width: 100%;
+        }
+
+        .preview {
+            width: 100%;
+            text-align: center;
+        }
+
+        .demo-group {
+            margin-top: 14px;
+        }
+
+        .response {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .response .highlight {
+            width: 100%;
+        }
+
+        .response .output {
+            margin: 14px 0 0 30px;
+            width: 500px;
+            align-self: flex-start;
+            border: 1px solid #ccc;
+        }
+
+        .response .output img,
+        .response .output video {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .btn {
+            padding: 5px 20px;
+            border-radius: 18px;
+            font-size: 12px;
+            background-color: #3899ec;
+            color: white;
+            border: 0;
+            outline: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #2f9fff;
+        }
+
+        .btn:disabled,
+        .btn[disabled] {
+            background-color: #f8f5ec;
+        }
+
+        .executable-button {
+            display: flex;
+            align-items: center;
+        }
+
+        .executable-button .spinner {
+            display: none;
+            margin-left: 5px;
+            background: url('/assets/img/ring.svg');
+            width: 22px;
+            height: 22px;
+        }
+
+        .executable-button.loading .spinner {
+            display: block;
+        }
+
+        .text-input {
+            padding: 5px 20px;
+            border-radius: 0;
+            font-size: 12px;
+            background-color: #f8f5ec;
+            color: black;
+            border: 1px solid #ccc;
+            outline: none;
+            cursor: text;
+            margin-bottom: 10px;
+            width: 200px;
+        }
+
+        .path-to-file {
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /*.btn-pad {*/
+            /*margin-top: 10px;*/
+        /*}*/
+
+        .result {
+            min-height: 100px;
+            max-height: 200px;
+            min-width: 300px;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            padding: 2px;
+        }
+
+        pre {
+            margin: 0 !important;
+        }
+
+        #upload-result-container {
+           display: inline-block;
+           min-height: 100px;
+           max-height: 200px;
+           min-width: 300px;
+           border: 1px solid #dcdcdc;
+           border-radius: 5px;
+           padding: 2px;
+        }
+
+        #result-container img {
+            max-height: 200px;
+            border-radius: 5px;
+        }
+
+        .settings {
+            font-size: 12px;
+            width: 300px;
+            margin: 5px auto;
+            text-align: left;
+        }
+
+        .filters-select {
+            margin: 10px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        /* Change the link color to #111 (black) on hover */
+        li a:hover {
+            background-color: #111;
+        }
+
+        .string {
+            color: green;
+        }
+
+        .number {
+            color: darkorange;
+        }
+
+        .boolean {
+            color: blue;
+        }
+
+        .null {
+            color: magenta;
+        }
+
+        .key {
+            color: red;
+        }
+
+        .highlight {
+            position: relative;
+            font-size: 14px;
+            margin-top: 14px;
+            padding-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 0;
+            overflow: auto;
+            color: #333333;
+            background: #f8f5ec;
+            white-space: pre-line;
+        }
+
+        .highlight:after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            padding: 3px 7px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #c2c0bc;
+            background-color: #f1ede4;
+            content: 'Code';
+        }
+
+        .highlight-response:after {
+            content: 'Response';
+            background: rgb(205, 226, 203);
+            color: black;
+        }
+
+        .url-block code {
+            white-space: pre-line;
+            word-break: break-all;
+        }

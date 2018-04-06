@@ -1,0 +1,32 @@
+{
+  "message": "OK",
+  "code": 0,
+  "payload": {
+    "authentication": {
+      "custom": {
+        "url": "https://wix.com"
+      }
+    },
+    "widgetId": "widgetId",
+    "name": "First instance",
+    "settings": {
+      "maxFileSize": "228",
+      "outputPath": "/asdf",
+      "fileTypes": [
+        {
+          "id": "audio",
+          "label": "audio"
+        },
+        {
+          "id": "video",
+          "label": "video"
+        }
+      ],
+      "acl": "public"
+    },
+    "dateUpdated": "2018-02-20T11:49:14Z",
+    "applicationId": "appId",
+    "id": "widgetInstanceId",
+    "dateCreated": "2018-02-20T10:48:03Z"
+  }
+}

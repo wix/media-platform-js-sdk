@@ -1,0 +1,19 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "mimeType": "text/plain",
+    "hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "parent": "/",
+    "dateCreated": "2017-02-20T14:23:42Z",
+    "path": "/place-holder.txt",
+    "id": "d0e18fd468cd4e53bc2bbec3ca4a8676",
+    "size": 0,
+    "ancestors": [
+      "/"
+    ],
+    "acl": "public",
+    "dateUpdated": "2017-02-20T14:23:42Z",
+    "type": "-"
+  }
+}
