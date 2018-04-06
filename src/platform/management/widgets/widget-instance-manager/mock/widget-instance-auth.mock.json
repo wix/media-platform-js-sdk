@@ -1,7 +1,0 @@
-{
-  "message": "OK",
-  "code": 0,
-  "payload": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNTM2ZDAwMzFjMjciLCJvYmoiOltdLCJzdWIiOiJ1cm46YXBwOjZlODgzODFmZTdiZTQ3ZGI5ODNlZDEzZjdlODU3YjQ3IiwiZXhwIjoxNTIwNDQxMDU2LCJpc3MiOiJ1cm46YXBwOjZlODgzODFmZTdiZTQ3ZGI5ODNlZDEzZjdlODU3YjQ3IiwiaWF0IjoxNTIwNDQwOTk2LCJwYXlsb2FkIjp7fSwiYXVkIjpudWxsfQ.7y6PyV2KvxPOCdcnBD__lRDURrSiFHmFgTS3g6NFSp8"
-  }
-}
