@@ -1,6 +1,10 @@
 import {Destination} from '../job/destination';
 import {ExternalAuthorization} from './external-authorization';
 
+/**
+ * Import File Request
+ * @doc ImportFileRequest
+ */
 export class ImportFileRequest {
   public sourceUrl: string | null = null;
   public externalAuthorization: ExternalAuthorization | null = null;

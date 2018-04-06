@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import {UploadUrlRequest} from './requests/upload-url-request';
+import {IUploadUrlRequest, UploadUrlRequest} from './requests/upload-url-request';
 import {UploadUrlResponse} from './responses/upload-url-response';
 import {FileDescriptor} from './metadata/file-descriptor';
 import {Configuration, IConfigurationBase} from '../configuration/configuration';
@@ -21,9 +21,9 @@ export interface IFileUploader {
   configuration: IConfigurationBase;
   httpClient: IHTTPClient;
 
-  getUploadUrl(uploadUrlRequest: UploadUrlRequest | null | undefined, callback: GetUploadURLCallback);
+  getUploadUrl(uploadUrlRequest: IUploadUrlRequest | null | undefined, callback?: GetUploadURLCallback): Promise<UploadUrlResponse>;
 
-  uploadFile(path: string, file: string | Buffer | Stream | File, uploadRequest: UploadFileRequest | null | undefined, callback: UploadFileCallback)
+  uploadFile(path: string, file: string | Buffer | Stream | File, uploadRequest: UploadFileRequest | null | undefined, callback: UploadFileCallback): void;
 }
 
 /**
@@ -40,18 +40,18 @@ export class FileUploader implements IFileUploader {
 
   /**
    * @description retrieve a signed URL to which the file is uploaded
-   * @param {UploadUrlRequest?} uploadUrlRequest
-   * @param {function(Error, UploadUrlResponse)} callback
    */
-  getUploadUrl(uploadUrlRequest: UploadUrlRequest | null | undefined, callback: GetUploadURLCallback) {
-    this.httpClient.request('GET', this.apiUrl + '/url', uploadUrlRequest, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
+  getUploadUrl(uploadUrlRequest: IUploadUrlRequest | null | undefined, callback: GetUploadURLCallback) {
+    return this.httpClient
+      .get<{ payload: UploadUrlResponse }>(this.apiUrl + '/url', uploadUrlRequest || undefined)
+      .then((response) => {
 
-      callback(null, new UploadUrlResponse(response.payload));
-    });
+        callback(null, new UploadUrlResponse(response.payload));
+        return response.payload;
+      }, (error) => {
+        callback(error, null);
+        return Promise.reject(error);
+      });
   }
 
   /**

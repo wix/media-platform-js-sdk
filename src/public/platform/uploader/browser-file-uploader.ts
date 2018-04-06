@@ -4,7 +4,7 @@ import {Configuration} from '../configuration/configuration';
 import {HTTPClient} from '../http/browser-http-client';
 import {UploadFileRequest} from '../../../platform/management/requests/upload-file-request';
 import {IFileUploader} from '../../../platform/management/file-uploader';
-import {UploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
+import {IUploadUrlRequest, UploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
 
 
 export class FileUploader implements IFileUploader {
@@ -18,19 +18,18 @@ export class FileUploader implements IFileUploader {
   }
 
   /**
-   * retrieve a pre signed URL to which the file is uploaded
-   * @param {UploadUrlRequest?} uploadUrlRequest
-   * @param {function(Error, UploadUrlResponse)} callback
+   * Retrieve a pre signed URL to which the file is uploaded
    */
-  getUploadUrl(uploadUrlRequest: UploadUrlRequest | undefined, callback) {
-    this.browserHTTPClient.request('GET', this.uploadUrlEndpoint, uploadUrlRequest, undefined, function (error, body) {
-      if (error) {
+  getUploadUrl(uploadUrlRequest: IUploadUrlRequest | undefined, callback): Promise<UploadUrlResponse> {
+    return this.browserHTTPClient
+      .get<{ payload: UploadUrlResponse }>(this.uploadUrlEndpoint, uploadUrlRequest)
+      .then((body) => {
+        callback(null, new UploadUrlResponse(body.payload));
+        return body.payload;
+      }, (error) => {
         callback(error, null);
-        return;
-      }
-
-      callback(null, new UploadUrlResponse(body.payload));
-    });
+        return Promise.reject(error);
+      });
   }
 
   /**

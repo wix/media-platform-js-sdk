@@ -1,0 +1,28 @@
+docsPath: ./docs
+distPath: ./sitedist
+
+# https://www.gatsbyjs.org/docs/gatsby-config
+config:
+  siteMetadata:
+    title: Media Platform JS SDK
+  pathPrefix: /media-platform-js-sdk
+
+navigation:
+  - title: Media Platform JS SDK
+    path: /
+  - title: API reference
+    path: /api-reference
+  - title: Callback functions
+    path: /callback-functions
+  - title: File Management
+    path: /file-management
+  - title: Create and Extract archive files
+    path: /archive-files
+  - title: Images
+    path: /images
+  - title: Transcode video
+    path: /transcode-video
+  - title: Jobs
+    path: /jobs
+  - title: Metadata
+    path: /metadata

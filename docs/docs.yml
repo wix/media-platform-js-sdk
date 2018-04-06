@@ -1,0 +1,98 @@
+- path: partial/media-platform-public.md
+  title: Media Platform in browser
+  glob: src/**/*.ts
+  tag: MediaPlatformPublic
+
+- path: partial/media-platform.md
+  title: Media Platform API
+  glob: src/**/*.ts
+  tag: MediaPlatform
+
+- path: partial/configuration.md
+  title: Configuration
+  glob: src/**/configuration/**/*.ts
+  tag: Configuration
+
+- path: partial/authentication.md
+  title: Authentication
+  glob: src/platform/authentication/**/*.ts
+  tag: Authentication
+
+- path: partial/file-manager.md
+  title: File Manager
+  entry: src/platform/management/file-manager.ts
+  tag: FileManager
+
+- path: partial/job-manager.md
+  title: Job-Manager
+  entry: src/platform/management/job-manager.ts
+  tag: JobManager
+
+- path: partial/archive-manager.md
+  title: Archive Manager
+  tag: ArchiveManager
+  entry: src/platform/management/archive-manager.ts
+- path: partial/transcode-manager.md
+  title: Transcode Manager
+  tag: TranscodeManager
+  entry: src/platform/management/transcode-manager.ts
+- path: partial/create-archive-request.md
+  title: Create Archive Request
+  tag: CreateArchiveRequest
+  entry: src/platform/management/requests/create-archive-request.ts
+- path: partial/extract-archive-request.md
+  title: Extract Archive Request
+  tag: ExtractArchiveRequest
+  entry: src/platform/management/requests/extract-archive-request.ts
+- path: partial/upload-file-request.md
+  title: Upload File Request
+  tag: UploadFileRequest
+  entry: src/platform/management/requests/upload-file-request.ts
+- path: partial/upload-url-request.md
+  title: Upload Url Request
+  tag: UploadUrlRequest
+  entry: src/platform/management/requests/upload-url-request.ts
+- path: partial/download-url-request.md
+  title: Download Url Request
+  tag: DownloadUrlRequest
+  entry: src/platform/management/requests/download-url-request.ts
+- path: partial/import-file-request.md
+  title: Import File Request
+  tag: ImportFileRequest
+  entry: src/platform/management/requests/import-file-request.ts
+- path: partial/list-files-request.md
+  title: List Files Request
+  tag: ListFilesRequest
+  entry: src/platform/management/requests/list-files-request.ts
+- path: partial/transcode-request.md
+  title: Transcode Request
+  tag: TranscodeRequest
+  entry: src/platform/management/requests/transcode-request.ts
+- path: partial/search-jobs-request.md
+  title: Search Jobs Request
+  tag: SearchJobsRequest
+  entry: src/platform/management/requests/search-jobs-request.ts
+- path: partial/upload-url-response.md
+  title: Upload Url Response
+  tag: UploadUrlResponse
+  entry: src/platform/management/responses/upload-url-response.ts
+- path: partial/list-files-response.md
+  title: List Files Response
+  tag: ListFilesResponse
+  entry: src/platform/management/responses/list-files-response.ts
+- path: partial/transcode-job-response.md
+  title: Transcode Job Response
+  tag: TranscodeJobResponse
+  entry: src/platform/management/responses/transcode-job-response.ts
+- path: partial/search-jobs-response.md
+  title: Search Jobs Response
+  tag: SearchJobsResponse
+  entry: src/platform/management/responses/search-jobs-response.ts
+- path: partial/source.md
+  title: Source
+  tag: Source
+  entry: src/platform/management/job/source.ts
+- path: partial/destination.md
+  title: Destination
+  tag: Destination
+  entry: src/platform/management/job/destination.ts
