@@ -1,3 +1,7 @@
+/**
+ * Search Jobs Request
+ * @doc SearchJobsRequest
+ */
 export class SearchJobsRequest {
   public nextPageToken: string | null = null;
   public pageSize: number | null = null;

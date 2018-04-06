@@ -1,0 +1,28 @@
+---
+title: "API Reference"
+include:
+    - ./partial/media-platform.md
+    - ./partial/media-platform-public.md
+    - ./partial/authentication.md
+    - ./partial/configuration.md
+    - ./partial/file-manager.md
+    - ./partial/job-manager.md
+    - ./partial/archive-manager.md
+    - ./partial/transcode-manager.md
+    - ./partial/create-archive-request.md
+    - ./partial/extract-archive-request.md
+    - ./partial/upload-file-request.md
+    - ./partial/upload-url-request.md
+    - ./partial/download-url-request.md
+    - ./partial/import-file-request.md
+    - ./partial/list-files-request.md
+    - ./partial/transcode-request.md
+    - ./partial/search-jobs-request.md
+    - ./partial/upload-url-response.md
+    - ./partial/list-files-response.md
+    - ./partial/transcode-job-response.md
+    - ./partial/search-jobs-response.md
+    - ./partial/source.md
+    - ./partial/destination.md
+    - ./partial/jobs-specifications.md
+---
