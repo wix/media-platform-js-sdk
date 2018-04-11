@@ -1,18 +1,10 @@
 import {Job} from '../job/job';
 
-/**
- * Transcode Job Response interface
- * @doc TranscodeJobResponse
- */
 export interface ITranscodeJobResponse {
   jobs: Job[];
   groupId: string;
 }
 
-/**
- * Transcode Job Response
- * @doc TranscodeJobResponse
- */
 export class TranscodeJobResponse {
   public jobs: Job[] = [];
   public groupId: string | null = null;

@@ -1,7 +1,3 @@
-/**
- * Upload File Request
- * @doc UploadFileRequest
- */
 export class UploadFileRequest {
   public mimeType: string = 'application/octet-stream';
   public acl: string = 'public';

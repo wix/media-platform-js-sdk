@@ -43,4 +43,3 @@ node_modules
 # OSX
 .DS_Store
 /target/
-sitedist

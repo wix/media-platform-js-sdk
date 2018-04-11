@@ -17,11 +17,10 @@ import {DownloadUrlRequest} from '../../platform/management/requests/download-ur
 import {WidgetInstanceManager} from '../../platform/management/widgets/widget-instance-manager/widget-instance-manager';
 
 /**
- * Media Platform Public
  * @param {Configuration} configuration
  * @constructor
- * @doc MediaPlatformPublic
  */
+
 class MediaPlatform {
   private browserHTTPClient: HTTPClient;
   private fileDownloader: FileDownloader;
@@ -35,10 +34,6 @@ class MediaPlatform {
   public widgetInstancesManager: WidgetInstanceManager;
   public imageExtractionManager: ImageExtractionManager;
 
-  /**
-   * constructor
-   * @param {Configuration} configuration
-   */
   constructor(configuration: Configuration) {
     this.browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
     const fileUploader = new FileUploader(configuration, this.browserHTTPClient);
@@ -48,7 +43,6 @@ class MediaPlatform {
     this.fileManager = new FileManager(configuration, this.browserHTTPClient, fileUploader);
 
     /**
-     * queueFileUpload
      * @param {UploadJob} uploadJob
      * @returns {QueuedFileUploader}
      */
@@ -67,6 +61,7 @@ class MediaPlatform {
 
   /**
    * retrieve the auth header for the currently logged in user
+   * @param {function(Error, {Authorization: <string>} | null)} callback
    */
   public getAuthorizationHeader(callback: (error: Error | null, authorization: AuthorizationHeader | null) => void) {
     this.browserHTTPClient.getAuthorizationHeader(callback);
@@ -79,9 +74,6 @@ class MediaPlatform {
     this.browserHTTPClient.deauthorize();
   }
 
-  /**
-   * get download url
-   */
   getDownloadUrl(path: string, downloadUrlRequest: DownloadUrlRequest | undefined, callback: (error: Error | null, response: any) => void) {
     this.fileDownloader.getDownloadUrl(path, downloadUrlRequest, callback);
   }

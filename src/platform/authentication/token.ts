@@ -2,10 +2,6 @@ import * as crypto from 'crypto';
 import {TokenClaims, TokenObjects} from '../../types/media-platform/media-platform';
 import {deprecated} from 'core-decorators';
 
-/**
- * Token
- * @doc Authentication
- */
 export class Token {
   /**
    * @description the issuer of the token
@@ -97,6 +93,7 @@ export class Token {
 
   /**
    * @description sets the object, the entity on which the action is taken
+   * @param {Array<Array<{}>>} objects
    * @returns {Token}
    */
   setObjects(objects: TokenObjects): this {
