@@ -1,15 +1,7 @@
-/**
- * Attachment
- * @doc DownloadUrlRequest
- */
 export interface Attachment {
   filename?: string;
 }
 
-/**
- * Download Url Request
- * @doc DownloadUrlRequest
- */
 export class DownloadUrlRequest {
   /**
    * @description the token time to live in seconds

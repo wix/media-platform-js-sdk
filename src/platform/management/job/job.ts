@@ -23,7 +23,7 @@ export interface IJob {
   dateCreated: string | null;
   dateUpdated: string | null;
   sources: ISource[];
-  result: any;
+  result;
   specification: JobSpecification | null;
 }
 
@@ -36,7 +36,7 @@ export class Job implements IJob {
   public dateCreated: string | null = null;
   public dateUpdated: string | null = null;
   public sources: Source[] = [];
-  public result: any;
+  public result;
   public specification: JobSpecification | null;
 
   constructor(data?: IJob) {

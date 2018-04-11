@@ -1,10 +1,6 @@
 import {Source} from '../job/source';
 import {Destination} from '../job/destination';
 
-/**
- * Extract Archive Request
- * @doc ExtractArchiveRequest
- */
 export class ExtractArchiveRequest {
   public source: Source | null = null;
   public destination: Destination | null = null;

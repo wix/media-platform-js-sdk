@@ -9,7 +9,6 @@ export class Authenticator {
    * @description creates a client that can authenticate against WixMP
    * @param {Configuration} configuration
    * @constructor
-   * @doc Authentication
    */
   constructor(public configuration: Configuration) {
   }

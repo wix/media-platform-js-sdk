@@ -6,7 +6,7 @@ import {IHTTPClient} from '../http/http-client';
 /**
  * @param {Configuration} configuration
  * @param {HTTPClient} httpClient
- * @doc JobManager
+ * @constructor
  */
 
 export class JobManager {

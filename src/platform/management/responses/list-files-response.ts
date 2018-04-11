@@ -1,19 +1,10 @@
 import {FileDescriptor, IFileDescriptor} from '../metadata/file-descriptor';
 
-
-/**
- * List Files Response interface
- * @doc ListFilesResponse
- */
 export interface IListFilesResponse {
   nextPageToken: string;
   files: IFileDescriptor[];
 }
 
-/**
- * List Files Response
- * @doc ListFilesResponse
- */
 export class ListFilesResponse {
   public nextPageToken: string | null = null;
   public files: FileDescriptor[] = [];

@@ -1,16 +1,8 @@
-/**
- * Source interface
- * @doc Source
- */
 export interface ISource {
   path?: string | null;
   fileId?: string | null;
 }
 
-/**
- * Source
- * @doc Source
- */
 export class Source implements ISource {
   public path: string | null = null;
   public fileId: string | null = null;

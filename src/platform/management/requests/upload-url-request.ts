@@ -1,19 +1,4 @@
-/**
- * Upload URL request interface
- * @doc UploadUrlRequest
- */
-export interface IUploadUrlRequest {
-  mimeType?: string | null;
-  path?: string | null;
-  size?: number | null;
-  acl?: string | null;
-}
-
-/**
- * Upload URL request class
- * @doc UploadUrlRequest
- */
-export class UploadUrlRequest implements IUploadUrlRequest {
+export class UploadUrlRequest {
   public mimeType: string | null = null;
   public path: string | null = null;
   public size: number | null = null;

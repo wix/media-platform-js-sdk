@@ -1,17 +1,9 @@
-/**
- * Destination interface
- * @doc Destination
- */
 export interface IDestination {
   path: string | null;
   directory: string | null;
   acl: string;
 }
 
-/**
- * Destination
- * @doc Destination
- */
 export class Destination implements IDestination {
   public path: string | null = null;
   public directory: string | null = null;

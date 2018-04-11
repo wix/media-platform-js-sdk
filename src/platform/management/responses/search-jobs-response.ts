@@ -1,18 +1,10 @@
 import {IJob, Job} from '../job/job';
 
-/**
- * Search Jobs Response interface
- * @doc SearchJobsResponse
- */
 export interface ISearchJobsResponse {
   nextPageToken: string;
   jobs: IJob[];
 }
 
-/**
- * Search Jobs Response
- * @doc SearchJobsResponse
- */
 export class SearchJobsResponse {
   public nextPageToken: string | null = null;
   public jobs: Job[] | null = [];
