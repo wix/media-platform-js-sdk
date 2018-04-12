@@ -8,7 +8,6 @@ dist
 build
 jsdoc
 *.private.*
-**/*.js
 **/*.map
 package-lock.json
 
