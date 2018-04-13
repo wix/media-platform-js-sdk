@@ -36,10 +36,8 @@ export class LiveStream {
   public dateCreated: string | null = null;
   public dateUpdated: string | null = null;
 
-  constructor(data?: ILiveStream) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: ILiveStream) {
+    this.deserialize(data);
   }
 
   /**

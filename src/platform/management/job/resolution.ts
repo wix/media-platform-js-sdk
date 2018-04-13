@@ -3,9 +3,7 @@ export class Resolution {
   public height: number | null = null;
 
   constructor(data) {
-    if (data) {
-      this.deserialize(data);
-    }
+    this.deserialize(data);
   }
 
   /**

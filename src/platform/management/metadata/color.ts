@@ -13,10 +13,8 @@ export class Color implements IColor {
   public pixelFraction: number | null = null;
   public score: number | null = null;
 
-  constructor(data?: IColor) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IColor) {
+    this.deserialize(data);
   }
 
   /**

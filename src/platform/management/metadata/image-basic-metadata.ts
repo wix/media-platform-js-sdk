@@ -12,10 +12,8 @@ export class ImageBasicMetadata implements IImageBasicMetadata {
   public colorspace: string | null = null;
   public format: string | null = null;
 
-  constructor(data?: IImageBasicMetadata) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IImageBasicMetadata) {
+    this.deserialize(data);
   }
 
   /**

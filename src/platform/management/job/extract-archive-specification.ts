@@ -8,14 +8,10 @@ export interface IExtractArchiveSpecification {
 
 export class ExtractArchiveSpecification implements IExtractArchiveSpecification {
   public source: Source;
-  // TODO: is it a mistake?
-  public sources: Source;
   public destination: Destination;
 
-  constructor(data?: IExtractArchiveSpecification) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IExtractArchiveSpecification) {
+    this.deserialize(data);
   }
 
   /**
@@ -23,7 +19,7 @@ export class ExtractArchiveSpecification implements IExtractArchiveSpecification
    * @private
    */
   deserialize(data: IExtractArchiveSpecification) {
-    this.source = this.sources = new Source(data.source);
+    this.source = new Source(data.source);
     this.destination = new Destination(data.destination);
   }
 }

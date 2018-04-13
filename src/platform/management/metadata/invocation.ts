@@ -1,4 +1,5 @@
 import {ISource, Source} from '../job/source';
+import {deprecated} from 'core-decorators';
 
 export type EntryPoint = any;
 
@@ -18,10 +19,11 @@ export class Invocation implements IInvocation {
   }
 
   /**
-   *
+   * @deprecated pass data to constructor instead
    * @param sources
    * @returns {Invocation}
    */
+  @deprecated('pass data to constructor instead')
   setSources(sources: Source[]): this {
     this.sources = sources;
     return this;
@@ -41,10 +43,11 @@ export class Invocation implements IInvocation {
   }
 
   /**
-   *
+   * @deprecated pass data to constructor instead
    * @param entryPoints
    * @returns {Invocation}
    */
+  @deprecated('pass data to constructor instead')
   setEntryPoints(entryPoints: EntryPoint[]): this {
     this.entryPoints = entryPoints;
     return this;

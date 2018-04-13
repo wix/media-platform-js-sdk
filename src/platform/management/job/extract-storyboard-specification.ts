@@ -17,10 +17,8 @@ export class ExtractStoryboardSpecification implements IExtractStoryboardSpecifi
   public format: string;
   public destination: Destination;
 
-  constructor(data?: IExtractStoryboardSpecification) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IExtractStoryboardSpecification) {
+    this.deserialize(data);
   }
 
   public setDestination(destination: Destination): this {

@@ -12,10 +12,8 @@ export class CreateArchiveSpecification implements ICreateArchiveSpecification {
   public destination: Destination;
   public archiveType: string;
 
-  constructor(data?: ICreateArchiveSpecification) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: ICreateArchiveSpecification) {
+    this.deserialize(data);
   }
 
   /**

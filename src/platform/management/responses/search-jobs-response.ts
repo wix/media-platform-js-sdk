@@ -17,10 +17,8 @@ export class SearchJobsResponse {
   public nextPageToken: string | null = null;
   public jobs: Job[] | null = [];
 
-  constructor(data?: ISearchJobsResponse) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: ISearchJobsResponse) {
+    this.deserialize(data);
   }
 
   /**

@@ -17,10 +17,8 @@ export class TranscodeJobResponse {
   public jobs: Job[] = [];
   public groupId: string | null = null;
 
-  constructor(data?: ITranscodeJobResponse) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: ITranscodeJobResponse) {
+    this.deserialize(data);
   }
 
   /**

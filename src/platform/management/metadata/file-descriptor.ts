@@ -50,10 +50,8 @@ export class FileDescriptor implements IFileDescriptor {
   public dateCreated: string | null = null;
   public dateUpdated: string | null = null;
 
-  constructor(data?: Partial<IFileDescriptor>) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: Partial<IFileDescriptor>) {
+    this.deserialize(data);
   }
 
   /**

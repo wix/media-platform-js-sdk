@@ -20,10 +20,8 @@ export class ImageFeatures implements IImageFeatures {
   public faces: Rectangle[] = [];
   public colors: Color[] = [];
 
-  constructor(data?: IImageFeatures) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IImageFeatures) {
+    this.deserialize(data);
   }
 
   /**

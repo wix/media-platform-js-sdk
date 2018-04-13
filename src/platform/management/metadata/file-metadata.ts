@@ -14,10 +14,8 @@ export class FileMetadata implements IFileMetadata {
   public basic: ImageBasicMetadata | VideoBasicMetadata | null = null;
   public features: ImageFeatures | null = null;
 
-  constructor(data?: Partial<IFileMetadata>) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: Partial<IFileMetadata>) {
+    this.deserialize(data);
   }
 
   /**
@@ -25,8 +23,11 @@ export class FileMetadata implements IFileMetadata {
    * @private
    */
   deserialize(data: Partial<IFileMetadata>) {
+    if (!data.fileDescriptor) {
+      return;
+    }
     this.fileDescriptor = new FileDescriptor(data.fileDescriptor || undefined);
-    if (this.fileDescriptor === null || this.fileDescriptor.mimeType === null) {
+    if (!this.fileDescriptor.mimeType) {
       return;
     }
     const type = this.fileDescriptor.mimeType.split('/')[0].toLowerCase();

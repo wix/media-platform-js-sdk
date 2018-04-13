@@ -317,9 +317,12 @@ describe('file manager', function () {
       .once()
       .replyWithFile(200, repliesDir + 'import-file-pending-response.json');
 
-    const importFileRequest = new ImportFileRequest()
-      .setDestination(new Destination().setPath('/to/here/file.txt'))
-      .setSourceUrl('http://from/here/file.txt');
+    const importFileRequest = new ImportFileRequest({
+      destination: {
+        path: '/to/here/file.txt'
+      },
+      sourceUrl: 'http://from/here/file.txt'
+    });
 
     fileManager.importFile(importFileRequest, function (error, data) {
       expect(error).to.equal(null);

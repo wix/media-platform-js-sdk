@@ -87,17 +87,21 @@ describe('live manager', function () {
       .replyWithFile(200, repliesDir + 'livestream-response.json');
 
 
-    const livestreamRequest = new LivestreamRequest()
-      .setProtocol('rtmp')
-      .setMaxStreamingSec(3600)
-      .setGeo(new Geo().setIpAddress('127.0.0.1'))
-      .setConnectTimeout(60)
-      .setReconnectTimeout(60)
-      .setDvr(
-        new Dvr().setDestination(
-          new Destination()
-            .setAcl('public')
-            .setPath('/test')));
+    const livestreamRequest = new LivestreamRequest({
+      protocol: 'rtmp',
+      maxStreamingSec: 3600,
+      geo: {
+        ipAddress: '127.0.0.1'
+      },
+      connectTimeout: 60,
+      reconnectTimeout: 60,
+      dvr: {
+        destination: {
+          acl: 'public',
+          path: '/test'
+        }
+      }
+    });
 
 
     liveManager.openStream(livestreamRequest, function (error, data) {

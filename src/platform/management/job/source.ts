@@ -2,6 +2,8 @@
  * Source interface
  * @doc Source
  */
+import {deprecated} from 'core-decorators';
+
 export interface ISource {
   path?: string | null;
   fileId?: string | null;
@@ -15,25 +17,27 @@ export class Source implements ISource {
   public path: string | null = null;
   public fileId: string | null = null;
 
-  constructor(data?: ISource) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: ISource) {
+    this.deserialize(data);
   }
 
   /**
+   * @deprecated pass data to constructor instead
    * @param fileId
    * @returns {Source}
    */
+  @deprecated('pass data to constructor instead')
   setFileId(fileId: string): this {
     this.fileId = fileId;
     return this;
   }
 
   /**
+   * @deprecated pass data to constructor instead
    * @param path
    * @returns {Source}
    */
+  @deprecated('pass data to constructor instead')
   setPath(path: string): this {
     this.path = path;
     return this;

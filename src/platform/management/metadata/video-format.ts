@@ -11,10 +11,8 @@ export class VideoFormat implements IVideoFormat {
   public bitrate: number | null = null;
   public size: number | null = null;
 
-  constructor(data?: IVideoFormat) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IVideoFormat) {
+    this.deserialize(data);
   }
 
   /**

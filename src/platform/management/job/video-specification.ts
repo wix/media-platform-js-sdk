@@ -14,10 +14,8 @@ export class VideoSpecification implements IVideoSpecification {
   public codec: VideoCodec | null = null;
   public resolution: Resolution | null = null;
 
-  constructor(data?: IVideoSpecification) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IVideoSpecification) {
+    this.deserialize(data);
   }
 
   /**
@@ -27,7 +25,7 @@ export class VideoSpecification implements IVideoSpecification {
   deserialize(data: IVideoSpecification) {
     this.frameRate = data.frameRate;
     this.keyFrame = data.keyFrame;
-    this.codec = new VideoCodec(data.codec || undefined);
+    this.codec = data.codec ? new VideoCodec(data.codec) : null;
     this.resolution = new Resolution(data.resolution);
   }
 }
