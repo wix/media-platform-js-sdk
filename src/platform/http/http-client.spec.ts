@@ -6,9 +6,7 @@ import {Token} from '../authentication/token';
 
 describe('HTTP client', () => {
   const domain = 'https://manager.com';
-  const apiServer = nock(domain).defaultReplyHeaders({
-    'Content-Type': 'application/json'
-  });
+  let apiServer;
   let httpClient: HTTPClient;
   const sandbox = sinonSandbox.create();
 
@@ -18,11 +16,17 @@ describe('HTTP client', () => {
       sharedSecret: 'secret',
       appId: 'appId'
     });
+    apiServer = nock(domain).defaultReplyHeaders({
+      'Content-Type': 'application/json'
+    });
   });
 
   afterEach(() => {
-    nock.cleanAll();
     sandbox.verifyAndRestore();
+    if (!nock.isDone()) {
+      console.error('nock is not done', nock.pendingMocks());
+    }
+    nock.cleanAll();
   });
 
 
@@ -138,7 +142,7 @@ describe('HTTP client', () => {
     })
   });
 
-  it('should call request(\'GET\') on get()', () => {
+  it('should do \'GET\' request on get()', async () => {
     const uri = '/_api/test-get';
     apiServer
       .get(uri)
@@ -146,15 +150,13 @@ describe('HTTP client', () => {
       .reply(200, JSON.stringify({
         response: 'ok-get-11'
       }));
-    const requestSpy = sandbox.spy(httpClient, 'request');
-    const token = new Token();
-    return httpClient
+    const response = await httpClient
       .get(`${domain}${uri}`, {
         test: 'get'
-      }, token)
-      .then(() => {
-        expect(requestSpy).to.have.been.calledWith('GET', `${domain}${uri}`, {test: 'get'}, token);
       });
+    expect(response).to.deep.equal({
+      response: 'ok-get-11'
+    });
   });
 
   it('should resolve with what server replied', (done) => {
@@ -199,22 +201,20 @@ describe('HTTP client', () => {
       });
   });
 
-  it('should call request(\'PUT\') on put()', () => {
+  it('should do \'PUT\' request on put()', async () => {
     const uri = '/_api/test-put';
     apiServer
       .put(uri, {test: 'put'})
       .reply(200, JSON.stringify({
         response: 'ok-put-11'
       }));
-    const requestSpy = sandbox.spy(httpClient, 'request');
-    const token = new Token();
-    return httpClient
+    const response = await httpClient
       .put(`${domain}${uri}`, {
         test: 'put'
-      }, token)
-      .then(() => {
-        expect(requestSpy).to.have.been.calledWith('PUT', `${domain}${uri}`, {test: 'put'}, token);
       });
+    expect(response).to.deep.equal({
+      response: 'ok-put-11'
+    });
   });
 
   it('should resolve for put with what server replied', (done) => {
@@ -258,22 +258,21 @@ describe('HTTP client', () => {
   });
 
 
-  it('should call request(\'POST\') on post()', () => {
+  it('should do \'POST\' request on post()', async () => {
     const uri = '/_api/test-post';
     apiServer
       .post(uri, {test: 'post'})
       .reply(200, JSON.stringify({
         response: 'ok-post-11'
       }));
-    const requestSpy = sandbox.spy(httpClient, 'request');
-    const token = new Token();
-    return httpClient
+    // const token = new Token();
+    const response = await httpClient
       .post(`${domain}${uri}`, {
         test: 'post'
-      }, token)
-      .then(() => {
-        expect(requestSpy).to.have.been.calledWith('POST', `${domain}${uri}`, {test: 'post'}, token);
       });
+    expect(response).to.deep.equal({
+      response: 'ok-post-11'
+    });
   });
 
   it('should resolve for post with what server replied', (done) => {

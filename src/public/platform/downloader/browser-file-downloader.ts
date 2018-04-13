@@ -1,6 +1,8 @@
 import {Configuration} from '../configuration/configuration';
 import {HTTPClient} from '../http/browser-http-client';
 import {DownloadUrlRequest} from '../../../platform/management/requests/download-url-request';
+import {RawResponse} from '../../../types/response/response';
+import {deprecatedFn} from '../../../utils/deprecated/deprecated';
 
 export class FileDownloader {
   constructor(public configuration: Configuration, public httpClient: HTTPClient) {
@@ -9,11 +11,11 @@ export class FileDownloader {
   /**
    * @param {string} path
    * @param {DownloadUrlRequest?} downloadUrlRequest
-   * @param {function(Error|null, Object)} callback
+   * @param {function(Error|null, Object)} callback DEPRECATED! use promise response instead
    */
-  getDownloadUrl(path: string, downloadUrlRequest: DownloadUrlRequest | undefined | null, callback: (error: Error | null, payload: any) => void) {
+  getDownloadUrl(path: string, downloadUrlRequest: DownloadUrlRequest | undefined | null, callback?: (error: Error | null, payload: DownloadUrl | null) => void): Promise<DownloadUrl> {
     const params = {
-      path: path
+      path
     };
 
     // todo: seems redundant... already handled in the the HttpClient
@@ -28,20 +30,22 @@ export class FileDownloader {
         }
       }
     }
+    if (callback) {
+      callback = deprecatedFn('FileDownloader.getDownloadUrl. Use promise response instead')(callback);
+    }
 
-    this.httpClient.request(
-      'GET',
-      'https://' + this.configuration.domain + '/_api/download/secure_url',
-      params,
-      undefined,
-      function (error, body) {
-        if (error) {
-          callback(error, null);
-          return;
+    return this.httpClient
+      .get<RawResponse<DownloadUrl>>(`https://${this.configuration.domain}/_api/download/secure_url`, params)
+      .then(response => {
+        if (callback) {
+          callback(null, response.payload);
         }
-
-        callback(null, body.payload);
-      }
-    );
+        return response.payload;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 }

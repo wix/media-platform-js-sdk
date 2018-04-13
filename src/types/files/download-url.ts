@@ -1,0 +1,3 @@
+interface DownloadUrl {
+  downloadUrl: string;
+}

@@ -53,8 +53,7 @@ export class Authenticator {
         issuer: 'urn:app:' + this.configuration.appId
       });
     } catch (error) {
-      console.log(error);
-      console.log(jwt.decode(signedToken));
+      console.error(error, jwt.decode(signedToken));
       return null;
     }
   }

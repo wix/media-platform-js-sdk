@@ -9,16 +9,6 @@ export class ListFilesRequest {
   public orderDirection: string | null = null;
 
   /**
-   * @param cursor
-   * @returns {ListFilesRequest}
-   * @deprecated incorrect param name, use setNextPageToken
-   */
-  setCursor(cursor: string): this {
-    this.nextPageToken = cursor;
-    return this;
-  }
-
-  /**
    * @param nextPageToken
    * @returns {ListFilesRequest}
    */

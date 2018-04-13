@@ -1,10 +1,10 @@
 import * as nock from 'nock';
 import {expect} from 'chai';
-import { ImageExtractionManager } from '../../../../src/platform/management/image-extraction-manager';
+import {ImageExtractionManager} from '../../../../src/platform/management/image-extraction-manager';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
-import { Likelihood } from '../../../../src/platform/management/metadata/explicit-content';
+import {Likelihood} from '../../../../src/platform/management/metadata/explicit-content';
 import {
   IImageExtractionResponse,
   ImageExtractionResponse
@@ -18,8 +18,8 @@ describe('Image extraction manager', () => {
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
   const imageExtractionManager = new ImageExtractionManager(configuration, httpClient);
-  const extractImageresponse = {
-    colors:[
+  const extractImageResponse = {
+    colors: [
       {
         pixelFraction: 0.11535452,
         r: 186,
@@ -63,7 +63,7 @@ describe('Image extraction manager', () => {
         .replyWithFile(200, repliesDir + 'image-extraction.response.json');
 
       await imageExtractionManager.extractImageById('fileId', [], (error, data: IImageExtractionResponse) => {
-        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageresponse));
+        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageResponse));
       });
     });
 
@@ -76,8 +76,9 @@ describe('Image extraction manager', () => {
         })
         .replyWithFile(200, repliesDir + 'image-extraction.response.json');
 
-      await imageExtractionManager.extractImageById('fileId', []).then((data: IImageExtractionResponse) => {
-        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageresponse));
+      await imageExtractionManager.extractImageById('fileId')
+        .then((data: IImageExtractionResponse) => {
+        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageResponse));
       });
     });
   });
@@ -93,7 +94,7 @@ describe('Image extraction manager', () => {
         .replyWithFile(200, repliesDir + 'image-extraction.response.json');
 
       await imageExtractionManager.extractImageByFilePath('path', [], (error, data: IImageExtractionResponse) => {
-        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageresponse));
+        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageResponse));
       });
     });
 
@@ -107,7 +108,7 @@ describe('Image extraction manager', () => {
         .replyWithFile(200, repliesDir + 'image-extraction.response.json');
 
       await imageExtractionManager.extractImageByFilePath('path', []).then((data: IImageExtractionResponse) => {
-        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageresponse));
+        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageResponse));
       });
     });
   });

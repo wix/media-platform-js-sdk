@@ -1,6 +1,5 @@
 import * as crypto from 'crypto';
 import {TokenClaims, TokenObjects} from '../../types/media-platform/media-platform';
-import {deprecated} from 'core-decorators';
 
 /**
  * Token
@@ -16,13 +15,6 @@ export class Token {
    * @type {string}
    */
   public subject: string | null = null;
-
-  /**
-   * @description the object on which the operation is performed
-   * @type {string}
-   * @deprecated incorrect representation, use objects instead
-   */
-  public object: string | null = null;
 
   /**
    * @description a policy like objects array
@@ -83,19 +75,6 @@ export class Token {
   }
 
   /**
-   * @deprecated incorrect representation, use setObjects instead
-   * @description sets the object, the entity on which the action is taken
-   * @param {string} ns
-   * @param {string} pattern
-   * @returns {Token}
-   */
-  @deprecated
-  setObject(ns: string, pattern: string): this {
-    this.subject = ns + pattern;
-    return this;
-  }
-
-  /**
    * @description sets the object, the entity on which the action is taken
    * @returns {Token}
    */
@@ -151,7 +130,7 @@ export class Token {
   toClaims(): TokenClaims {
     let claims = {
       sub: this.subject,
-      obj: this.objects || this.object,
+      obj: this.objects,
       aud: this.verbs.length > 0 ? this.verbs : null,
       iss: this.issuer,
       iat: this.issuedAt,

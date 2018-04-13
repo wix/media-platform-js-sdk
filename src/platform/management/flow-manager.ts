@@ -1,7 +1,9 @@
-import {Flow} from './metadata/flow';
+import {Flow, IFlow} from './metadata/flow';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
 import {ICreateFlowRequest} from './requests/create-flow-request';
+import {RawResponse} from '../../types/response/response';
+import {deprecatedFn} from '../../utils/deprecated/deprecated';
 
 /**
  * @param {Configuration} configuration
@@ -20,38 +22,70 @@ export class FlowManager {
 
   /**
    * @param {string} flowId
-   * @param {function(Error, Flow)} callback
+   * @param {function(Error, Flow)} callback DEPRECATED! use promise response instead
    */
-  getFlow(flowId: string, callback: (error: Error | null, flow: Flow | null) => void) {
-    this.httpClient.request('GET', this.apiUrl + '/flow/' + flowId, {}, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      callback(null, new Flow(response.payload));
-    });
+  getFlow(flowId: string, callback?: (error: Error | null, flow: Flow | null) => void): Promise<Flow> {
+    if (callback) {
+      callback = deprecatedFn('FlowManager.getFlow use promise response instead')(callback);
+    }
+    return this.httpClient.get<RawResponse<IFlow>>(this.apiUrl + '/flow/' + flowId)
+      .then((response) => {
+        const flow = new Flow(response.payload);
+        if (callback) {
+          callback(null, flow);
+        }
+        return flow;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 
-  createFlow(createFlowRequest: ICreateFlowRequest, callback: (error: Error | null, flow: Flow | null) => void) {
-    this.httpClient.request('POST', this.apiUrl + '/flow', createFlowRequest, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      callback(null, new Flow(response.payload));
-    });
+  /**
+   * CreateFlow
+   * @param {ICreateFlowRequest} createFlowRequest
+   * @param {(error: (Error | null), flow: (Flow | null)) => void} callback DEPRECATED! use promise response instead
+   */
+  createFlow(createFlowRequest: ICreateFlowRequest, callback?: (error: Error | null, flow: Flow | null) => void): Promise<Flow> {
+    if (callback) {
+      callback = deprecatedFn('FlowManager.createFlow use promise response instead')(callback);
+    }
+    return this.httpClient.post<RawResponse<IFlow>>(this.apiUrl + '/flow', createFlowRequest)
+      .then((response) => {
+        const flow = new Flow(response.payload);
+        if (callback) {
+          callback(null, flow);
+        }
+        return flow;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 
-  deleteFlow(flowId, callback: (error: Error | null, response: any) => void) {
-    this.httpClient.request('DELETE', this.apiUrl + '/flow/' + flowId, {}, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      callback(null, response);
-    });
+  /**
+   * Delete flow
+   * @param flowId
+   * @param {(error: (Error | null), response: any) => void} callback DEPRECATED! use promise response instead
+   */
+  deleteFlow(flowId, callback?: (error: Error | null, response: any) => void): Promise<void> {
+    if (callback) {
+      callback = deprecatedFn('FlowManager.deleteFlow use promise response instead')(callback);
+    }
+    return this.httpClient.delete(this.apiUrl + '/flow/' + flowId)
+      .then((response) => {
+        if (callback) {
+          callback(null, response);
+        }
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 }
