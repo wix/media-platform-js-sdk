@@ -3,9 +3,6 @@ import {expect} from 'chai';
 import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 import {Image} from '../../../../src/image/image';
 import {ImageManager} from '../../../../src/platform/management/image-manager';
-import {Source} from '../../../../src/platform/management/job/source';
-import {Destination} from '../../../../src/platform/management/job/destination';
-import {ImageOperationSpecification} from '../../../../src/platform/management/job/image-operation-specification';
 import {ImageOperationRequest} from '../../../../src/platform/management/requests/image-operation-request';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
@@ -34,7 +31,6 @@ describe('image manager', function () {
       .query(true)
       .replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
-    const source = new Source().setPath('/fish.png');
     const fileDescriptor = new FileDescriptor({
       id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
       hash: 'd41d8cd98f00b204e9800998ecf8427e',
@@ -47,9 +43,15 @@ describe('image manager', function () {
       dateUpdated: '2017-02-20T14:23:42Z'
     });
     const command = new Image(fileDescriptor).fit(100, 200).toCommand().command as string;
-    const destination = new Destination().setPath('/orig.thumb.png').setAcl('private');
-    const specification = new ImageOperationSpecification().setCommand(command).setDestination(destination);
-    const request = new ImageOperationRequest(source, specification);
+    const request = new ImageOperationRequest({
+      path: '/fish.png'
+    }, {
+      command,
+      destination: {
+        path: '/orig.thumb.png',
+        acl: 'private'
+      }
+    });
 
     imageManager.imageOperation(request, function (error, data) {
       expect(data).to.deep.equal(new FileDescriptor({

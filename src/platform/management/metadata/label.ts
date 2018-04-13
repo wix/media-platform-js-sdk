@@ -7,10 +7,8 @@ export class Label implements ILabel {
   public name: string;
   public score: number;
 
-  constructor(data?: ILabel) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: ILabel) {
+    this.deserialize(data);
   }
 
   /**

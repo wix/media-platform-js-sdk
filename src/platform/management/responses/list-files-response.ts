@@ -18,10 +18,8 @@ export class ListFilesResponse {
   public nextPageToken: string | null = null;
   public files: FileDescriptor[] = [];
 
-  constructor(data?: IListFilesResponse) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IListFilesResponse) {
+    this.deserialize(data);
   }
 
   /**

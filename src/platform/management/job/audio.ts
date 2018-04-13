@@ -7,10 +7,8 @@ export interface IAudio {
 export class Audio implements IAudio {
   public specification: AudioSpecification;
 
-  constructor(data?: IAudio) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IAudio) {
+    this.deserialize(data);
   }
 
   /**

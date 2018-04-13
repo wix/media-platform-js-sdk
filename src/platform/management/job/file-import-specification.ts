@@ -9,10 +9,8 @@ export class FileImportSpecification implements IFileImportSpecification {
   public sourceUrl: string;
   public destination: Destination;
 
-  constructor(data?: IFileImportSpecification) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IFileImportSpecification) {
+    this.deserialize(data);
   }
 
   /**

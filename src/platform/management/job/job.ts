@@ -39,10 +39,8 @@ export class Job implements IJob {
   public result: any;
   public specification: JobSpecification | null;
 
-  constructor(data?: IJob) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IJob) {
+    this.deserialize(data);
   }
 
   isArchiveExtract(specification: JobSpecification): specification is ExtractArchiveSpecification {

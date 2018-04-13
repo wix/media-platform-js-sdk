@@ -1,7 +1,7 @@
+import {deprecated} from 'core-decorators';
+
 export interface Coordinates {
   latitude: string | number | null;
-  // was a typo, leaving it for backward-compatibility, will remove
-  longitute: string | number | null;
   longitude: string | number | null;
 }
 
@@ -14,10 +14,8 @@ export class Geo {
   public coordinates: Coordinates | null = null;
   public ipAddress: string | null = null;
 
-  constructor(data?: IGeo) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IGeo) {
+    this.deserialize(data);
   }
 
   /**
@@ -30,7 +28,6 @@ export class Geo {
     if (coordinates !== null) {
       this.coordinates = {
         latitude: coordinates.latitude || null,
-        longitute: coordinates.longitude || null,
         longitude: coordinates.longitude || null
       };
     }
@@ -38,20 +35,22 @@ export class Geo {
   }
 
   /**
-   *
+   * @deprecated pass data to constructor instead
    * @param coordinates
    * @returns {Geo}
    */
+  @deprecated('pass data to constructor instead')
   setCoordinates(coordinates: Coordinates): this {
     this.coordinates = coordinates;
     return this;
   }
 
   /**
-   *
+   * @deprecated pass data to constructor instead
    * @param ipAddress
    * @returns {Geo}
    */
+  @deprecated('pass data to constructor instead')
   setIpAddress(ipAddress: string): this {
     this.ipAddress = ipAddress;
     return this;

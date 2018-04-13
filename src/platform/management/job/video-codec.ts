@@ -12,10 +12,8 @@ export class VideoCodec implements IVideoCodec {
   public name: string | null = null;
   public level: string | null = null;
 
-  constructor(data?: IVideoCodec) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IVideoCodec) {
+    this.deserialize(data);
   }
 
   /**

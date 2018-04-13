@@ -5,12 +5,6 @@ import {TranscodeRequest} from '../../../../src/platform/management/requests/tra
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
-import {Destination} from '../../../../src/platform/management/job/destination';
-import {Source} from '../../../../src/platform/management/job/source';
-import {TranscodeSpecification} from '../../../../src/platform/management/job/transcode-specification';
-import {QualityRange} from '../../../../src/platform/management/job/quality-range';
-import {ExtractStoryboardSpecification} from '../../../../src/platform/management/job/extract-storyboard-specification';
-import {ExtractPosterSpecification} from '../../../../src/platform/management/job/extract-poster-specification';
 import {ExtractPosterRequest} from '../../../../src/platform/management/requests/extract-poster-request';
 import {ExtractStoryboardRequest} from '../../../../src/platform/management/requests/extract-storyboard-request';
 import {ExtractPosterJobResponse} from '../../../../src/platform/management/responses/extract-poster-job-response';
@@ -38,18 +32,21 @@ describe('transcode manager', function () {
       .once()
       .replyWithFile(200, repliesDir + 'transcode-response.json');
 
-    const source = new Source();
-    source.path = '/test/file.mp4';
-
-    const transcodeSpecification = new TranscodeSpecification();
-    transcodeSpecification.destination = new Destination()
-      .setDirectory('/test/output/')
-      .setAcl('public');
-    transcodeSpecification.qualityRange = new QualityRange({minimum: '240p', maximum: '1440p'});
-
-    const transcodeRequest = new TranscodeRequest()
-      .addSource(source)
-      .addSpecification(transcodeSpecification);
+    const transcodeRequest = new TranscodeRequest({
+      sources: [{
+        path: '/test/file.mp4'
+      }],
+      specifications: [{
+        destination: {
+          directory: '/test/output',
+          acl: 'public'
+        },
+        qualityRange: {
+          minimum: '240p',
+          maximum: '1440p'
+        }
+      }]
+    });
 
     transcodeManager.transcodeVideo(transcodeRequest, function (error, data) {
       expect(data.groupId).to.equal('fb79405a16434aab87ccbd1384563033');
@@ -64,19 +61,19 @@ describe('transcode manager', function () {
         .once()
         .replyWithFile(200, repliesDir + 'extract-poster-response.json');
 
-      const source = new Source();
-      source.path = '/test/file.mp4';
-
-      const extractPosterSpecification = new ExtractPosterSpecification();
-      extractPosterSpecification.destination = new Destination()
-        .setDirectory('/test/output/')
-        .setAcl('public');
-      extractPosterSpecification.setFormat('jpg');
-      extractPosterSpecification.setSecond(5);
-
-      const extractPosterRequest = new ExtractPosterRequest()
-        .addSource(source)
-        .addSpecification(extractPosterSpecification);
+      const extractPosterRequest = new ExtractPosterRequest({
+        sources: [{
+          path: '/test/file.mp4'
+        }],
+        specifications: [{
+          destination: {
+            directory: '/test/output/',
+            acl: 'public'
+          },
+          format: 'jpg',
+          second: 5
+        }]
+      });
 
       transcodeManager.extractPoster(extractPosterRequest, function (error, data) {
         expect((data as ExtractPosterJobResponse).groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
@@ -89,19 +86,19 @@ describe('transcode manager', function () {
         .once()
         .replyWithFile(200, repliesDir + 'extract-poster-response.json');
 
-      const source = new Source();
-      source.path = '/test/file.mp4';
-
-      const extractPosterSpecification = new ExtractPosterSpecification();
-      extractPosterSpecification.destination = new Destination()
-        .setDirectory('/test/output/')
-        .setAcl('public');
-      extractPosterSpecification.setFormat('jpg');
-      extractPosterSpecification.setSecond(5);
-
-      const extractPosterRequest = new ExtractPosterRequest()
-        .addSource(source)
-        .addSpecification(extractPosterSpecification);
+      const extractPosterRequest = new ExtractPosterRequest({
+        sources: [{
+          path: '/test/file.mp4'
+        }],
+        specifications: [{
+          destination: {
+            directory: '/test/output/',
+            acl: 'public'
+          },
+          format: 'jpg',
+          second: 5
+        }]
+      });
 
       return transcodeManager.extractPoster(extractPosterRequest)
         .then((data) => {
@@ -116,22 +113,22 @@ describe('transcode manager', function () {
         .once()
         .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
 
-      const source = new Source();
-      source.path = '/test/file.mp4';
-
-      const extractStoryboardSpecification = new ExtractStoryboardSpecification();
-      extractStoryboardSpecification.destination = new Destination()
-        .setDirectory('/test/output/')
-        .setAcl('public');
-      extractStoryboardSpecification.setFormat('jpg');
-      extractStoryboardSpecification.setColumns(5);
-      extractStoryboardSpecification.setRows(5);
-      extractStoryboardSpecification.setTileWidth(100);
-      extractStoryboardSpecification.setTileHeight(50);
-
-      const extractStoryboardRequest = new ExtractStoryboardRequest()
-        .addSource(source)
-        .addSpecification(extractStoryboardSpecification);
+      const extractStoryboardRequest = new ExtractStoryboardRequest({
+        sources: [{
+          path: '/test/file.mp4'
+        }],
+        specifications: [{
+          destination: {
+            directory: '/test/output/',
+            acl: 'public'
+          },
+          format: 'jpg',
+          columns: 5,
+          rows: 5,
+          tileWidth: 100,
+          tileHeight: 50
+        }]
+      });
 
       transcodeManager.extractStoryboard(extractStoryboardRequest, function (error, data) {
         expect((data as ExtractStoryboardJobResponse).groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
@@ -144,22 +141,22 @@ describe('transcode manager', function () {
         .once()
         .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
 
-      const source = new Source();
-      source.path = '/test/file.mp4';
-
-      const extractStoryboardSpecification = new ExtractStoryboardSpecification();
-      extractStoryboardSpecification.destination = new Destination()
-        .setDirectory('/test/output/')
-        .setAcl('public');
-      extractStoryboardSpecification.setFormat('jpg');
-      extractStoryboardSpecification.setColumns(5);
-      extractStoryboardSpecification.setRows(5);
-      extractStoryboardSpecification.setTileWidth(100);
-      extractStoryboardSpecification.setTileHeight(50);
-
-      const extractStoryboardRequest = new ExtractStoryboardRequest()
-        .addSource(source)
-        .addSpecification(extractStoryboardSpecification);
+      const extractStoryboardRequest = new ExtractStoryboardRequest({
+        sources: [{
+          path: '/test/file.mp4'
+        }],
+        specifications: [{
+          destination: {
+            directory: '/test/output/',
+            acl: 'public'
+          },
+          format: 'jpg',
+          columns: 5,
+          rows: 5,
+          tileWidth: 100,
+          tileHeight: 50
+        }]
+      });
 
       return transcodeManager.extractStoryboard(extractStoryboardRequest)
         .then(data => {

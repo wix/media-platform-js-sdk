@@ -15,9 +15,7 @@ export class ExplicitContent implements IExplicitContent {
   public name: string;
 
   constructor(data: IExplicitContent) {
-    if (data) {
-      this.deserialize(data);
-    }
+    this.deserialize(data);
   }
 
   /**

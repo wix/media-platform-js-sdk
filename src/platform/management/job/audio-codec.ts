@@ -7,10 +7,8 @@ export class AudioCodec implements IAudioCodec {
   public cbr: number | null = null;
   public name: string | null = null;
 
-  constructor(data?: IAudioCodec) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IAudioCodec) {
+    this.deserialize(data);
   }
 
   /**

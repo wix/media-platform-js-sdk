@@ -15,10 +15,8 @@ export class VideoBasicMetadata implements IVideoBasicMetadata {
   public audioStreams: AudioStream[] = [];
   public format: VideoFormat | null = null;
 
-  constructor(data?: IVideoBasicMetadata) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IVideoBasicMetadata) {
+    this.deserialize(data);
   }
 
   /**
@@ -33,6 +31,6 @@ export class VideoBasicMetadata implements IVideoBasicMetadata {
     this.audioStreams = data.audioStreams.map(function (audioStream) {
       return new AudioStream(audioStream);
     });
-    this.format = new VideoFormat(data.format || undefined);
+    this.format = data.format === null ? data.format : new VideoFormat(data.format || undefined);
   }
 }

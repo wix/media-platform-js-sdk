@@ -9,10 +9,8 @@ export class ExtractStoryboardJobResponse {
   public jobs: Job[] | null = [];
   public groupId: string | null = null;
 
-  constructor(data?: IExtractStoryboardJobResponse) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IExtractStoryboardJobResponse) {
+    this.deserialize(data);
   }
 
   /**

@@ -1,4 +1,5 @@
 import {Geo, IGeo} from './geo';
+import {deprecated} from 'core-decorators';
 
 export interface IPublishEndpoint {
   url: string;
@@ -11,10 +12,8 @@ export class PublishEndpoint {
   public protocol: string | null = null;
   public geo: Geo | null = null;
 
-  constructor(data?: IPublishEndpoint) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IPublishEndpoint) {
+    this.deserialize(data);
   }
 
   /**
@@ -28,30 +27,33 @@ export class PublishEndpoint {
   }
 
   /**
-   *
+   * @deprecated pass data to constructor instead
    * @param url
    * @returns {PublishEndpoint}
    */
+  @deprecated('pass data to constructor instead')
   setUrl(url: string): this {
     this.url = url;
     return this;
   }
 
   /**
-   *
+   * @deprecated pass data to constructor instead
    * @param protocol
    * @returns {PublishEndpoint}
    */
+  @deprecated('pass data to constructor instead')
   setProtocol(protocol: string): this {
     this.protocol = protocol;
     return this;
   }
 
   /**
-   *
+   * @deprecated pass data to constructor instead
    * @param geo
    * @returns {PublishEndpoint}
    */
+  @deprecated('pass data to constructor instead')
   setGeo(geo: Geo): this {
     this.geo = geo;
     return this;

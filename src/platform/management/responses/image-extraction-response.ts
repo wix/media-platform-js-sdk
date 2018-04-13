@@ -18,10 +18,8 @@ export class ImageExtractionResponse {
   public colors: IColor[];
   public explicitContent: IExplicitContent[];
 
-  constructor(data?: IImageExtractionResponse) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IImageExtractionResponse) {
+    this.deserialize(data);
   }
 
   /**

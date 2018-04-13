@@ -11,10 +11,8 @@ export class WebhookEvent {
   public type: string | null = null;
   public body: FileDescriptor | null = null;
 
-  constructor(data?: IWebhookEvent) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IWebhookEvent) {
+    this.deserialize(data);
   }
 
   /**

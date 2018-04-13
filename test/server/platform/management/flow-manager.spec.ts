@@ -4,14 +4,8 @@ import {FlowManager} from '../../../../src/platform/management/flow-manager';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
-import {ImportFileRequest} from '../../../../src/platform/management/requests/import-file-request';
 import {CreateFlowRequest} from '../../../../src/platform/management/requests/create-flow-request';
-import {Destination} from '../../../../src/platform/management/job/destination';
-import {Source} from '../../../../src/platform/management/job/source';
-import {TranscodeSpecification} from '../../../../src/platform/management/job/transcode-specification';
-import {QualityRange} from '../../../../src/platform/management/job/quality-range';
 import {Invocation} from '../../../../src/platform/management/metadata/invocation';
-import {FlowComponent} from '../../../../src/platform/management/metadata/flow-component';
 import {Flow} from '../../../../src/platform/management/metadata/flow';
 
 const repliesDir = __dirname + '/replies/';
@@ -55,35 +49,39 @@ describe('flow manager', function () {
       .once()
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
 
-
-    const invocation = new Invocation()
-      .addSource(new Source().setPath('/to/here/file.mp4'))
-      .addEntryPoint('import');
-
-    const importFileRequest = new ImportFileRequest()
-      .setDestination(new Destination().setPath('/to/here/file.mp4'))
-      .setSourceUrl('http://from/here/file.mp4');
-
-    const importComponent = new FlowComponent()
-      .setType('file.import')
-      .setSpecification(importFileRequest)
-      .addSuccessor('transcode');
-
-    const transcodeSpecification = new TranscodeSpecification()
-      .setDestination(new Destination()
-        .setDirectory('/test/output/')
-        .setAcl('public')
-      ).setQualityRange(new QualityRange({minimum: '240p', maximum: '1440p'}));
-
-    const transcodeComponent = new FlowComponent()
-      .setType('av.transcode')
-      .setSpecification(transcodeSpecification)
-      .setSuccessors([]);
-
-    const createFlowRequest = new CreateFlowRequest()
-      .setInvocation(invocation)
-      .addFlowComponent('import', importComponent)
-      .addFlowComponent('transcode', transcodeComponent);
+    const createFlowRequest = new CreateFlowRequest({
+      invocation: {
+        sources: [{
+          path: '/to/here/file.mp4'
+        }],
+        entryPoints: ['import']
+      },
+      flow: {
+        import: {
+          type: 'file.import',
+          specification: {
+            destination: {
+              path: '/to/here/file.mp4'
+            },
+            sourceUrl: 'http://from/here/file.mp4'
+          },
+          successors: ['transcode']
+        },
+        transcode: {
+          type: 'av.transcode',
+          specification: {
+            destination: {
+              directory: '/test/output/',
+              acl: 'public'
+            },
+            qualityRange: {
+              minimum: '240p',
+              maximum: '1440p'
+            }
+          }
+        }
+      }
+    });
 
 
     flowManager.createFlow(createFlowRequest, (error, data: Flow) => {

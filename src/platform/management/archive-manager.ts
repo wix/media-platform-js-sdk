@@ -2,7 +2,7 @@ import {IJob, Job} from './job/job';
 import {Configuration} from '../configuration/configuration';
 import {Configuration as BrowserConfiguration} from '../../public/platform/configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
-import {CreateArchiveRequest} from './requests/create-archive-request';
+import {CreateArchiveRequest, ICreateArchiveRequest} from './requests/create-archive-request';
 import {ExtractArchiveRequest} from './requests/extract-archive-request';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {RawResponse} from '../../types/response/response';
@@ -24,7 +24,7 @@ export class ArchiveManager {
    * @param {CreateArchiveRequest?} createArchiveRequest
    * @param {function(Error, Job)} callback DEPRECATED! use promise response instead
    */
-  createArchive(createArchiveRequest?: CreateArchiveRequest | undefined, callback?: ArchiveCallback): Promise<Job> {
+  createArchive(createArchiveRequest?: ICreateArchiveRequest | undefined, callback?: ArchiveCallback): Promise<Job> {
     if (callback) {
       callback = deprecatedFn('ArchiveManager.createArchive: use promise response instead')(callback);
     }

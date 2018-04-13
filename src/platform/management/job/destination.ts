@@ -1,11 +1,13 @@
+import {deprecated} from 'core-decorators';
+
 /**
  * Destination interface
  * @doc Destination
  */
 export interface IDestination {
-  path: string | null;
-  directory: string | null;
-  acl: string;
+  path?: string | null;
+  directory?: string | null;
+  acl?: string;
 }
 
 /**
@@ -17,16 +19,16 @@ export class Destination implements IDestination {
   public directory: string | null = null;
   public acl: string = 'public';
 
-  constructor(data?: IDestination) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IDestination) {
+    this.deserialize(data);
   }
 
   /**
+   * @deprecated pass data to constructor instead
    * @param {string} path
    * @returns {Destination}
    */
+  @deprecated('pass data to constructor instead')
   setPath(path) {
     this.path = path;
     this.directory = null;
@@ -34,9 +36,11 @@ export class Destination implements IDestination {
   }
 
   /**
+   * @deprecated pass data to constructor instead
    * @param {string} directory
    * @returns {Destination}
    */
+  @deprecated('pass data to constructor instead')
   setDirectory(directory) {
     this.directory = directory;
     this.path = null;
@@ -44,9 +48,11 @@ export class Destination implements IDestination {
   }
 
   /**
+   * @deprecated pass data to constructor instead
    * @param {string} acl
    * @returns {Destination}
    */
+  @deprecated('pass data to constructor instead')
   setAcl(acl) {
     this.acl = acl;
     return this;
@@ -57,8 +63,10 @@ export class Destination implements IDestination {
    * @private
    */
   deserialize(data: IDestination) {
-    this.path = data.path;
-    this.directory = data.directory;
-    this.acl = data.acl;
+    this.path = data.path ? data.path : null;
+    this.directory = data.directory ? data.directory : null;
+    if (data.acl) {
+      this.acl = data.acl;
+    }
   }
 }

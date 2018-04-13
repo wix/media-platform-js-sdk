@@ -28,10 +28,8 @@ export class VideoStream implements IVideoStream {
   public sampleAspectRatio: string | null = null;
   public displayAspectRatio: string | null = null;
 
-  constructor(data?: IVideoStream) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IVideoStream) {
+    this.deserialize(data);
   }
 
   /**

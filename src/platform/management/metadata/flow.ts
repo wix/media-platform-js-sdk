@@ -20,10 +20,8 @@ export class Flow implements IFlow {
   public invocation: Invocation;
   public flow: IFlowItems = {};
 
-  constructor(data?: IFlow) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IFlow) {
+    this.deserialize(data);
   }
 
   /**

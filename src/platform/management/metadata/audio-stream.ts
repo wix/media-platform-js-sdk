@@ -15,10 +15,8 @@ export class AudioStream implements IAudioStream {
   public bitrate: number | null = null;
   public index: number | null = null;
 
-  constructor(data?: IAudioStream) {
-    if (data) {
-      this.deserialize(data);
-    }
+  constructor(data: IAudioStream) {
+    this.deserialize(data);
   }
 
   /**
