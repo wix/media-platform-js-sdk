@@ -15,6 +15,7 @@ import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 import {UploadJob} from './uploader/upload-job';
 import {DownloadUrlRequest} from '../../platform/management/requests/download-url-request';
 import {WidgetInstanceManager} from '../../platform/management/widgets/widget-instance-manager/widget-instance-manager';
+import {deprecatedFn} from '../../utils/deprecated/deprecated';
 
 /**
  * Media Platform Public
@@ -67,9 +68,26 @@ class MediaPlatform {
 
   /**
    * retrieve the auth header for the currently logged in user
+   * @param callback DEPRECATED: use promise response instead
    */
-  public getAuthorizationHeader(callback: (error: Error | null, authorization: AuthorizationHeader | null) => void) {
-    this.browserHTTPClient.getAuthorizationHeader(callback);
+  public getAuthorizationHeader(callback?: (error: Error | null, authorization: AuthorizationHeader | null) => void): Promise<AuthorizationHeader> {
+    const authenticationHeaderPromise = this.browserHTTPClient.getAuthorizationHeader();
+    if (callback === undefined) {
+      return authenticationHeaderPromise;
+    }
+    callback = deprecatedFn('MediaPlatform.getAuthorizationHeader. Use promise response instead')(callback);
+    return authenticationHeaderPromise
+      .then(authorization => {
+        if (callback) {
+          callback(null, authorization);
+        }
+        return authorization;
+      }, (error) => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 
   /**
@@ -81,9 +99,26 @@ class MediaPlatform {
 
   /**
    * get download url
+   * @param path
+   * @param downloadUrlRequest
+   * @param callback DEPRECATED! use promise response instead
    */
-  getDownloadUrl(path: string, downloadUrlRequest: DownloadUrlRequest | undefined, callback: (error: Error | null, response: any) => void) {
-    this.fileDownloader.getDownloadUrl(path, downloadUrlRequest, callback);
+  getDownloadUrl(path: string, downloadUrlRequest: DownloadUrlRequest | undefined, callback?: (error: Error | null, payload: DownloadUrl | null) => void): Promise<DownloadUrl> {
+    if (callback) {
+      callback = deprecatedFn('MediaPlatform.getDownloadUrl. Use promise response instead')(callback);
+    }
+    return this.fileDownloader.getDownloadUrl(path, downloadUrlRequest)
+      .then(response => {
+        if (callback) {
+          callback(null, response);
+        }
+        return response;
+      }, (error) => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 }
 

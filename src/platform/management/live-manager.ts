@@ -1,6 +1,8 @@
-import {LiveStream} from './metadata/live-stream';
+import {ILiveStream, LiveStream} from './metadata/live-stream';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
+import {RawResponse} from '../../types/response/response';
+import {deprecatedFn} from '../../utils/deprecated/deprecated';
 
 /**
  * @param {Configuration} configuration
@@ -24,52 +26,98 @@ export class LiveManager {
     this.apiUrl = this.baseUrl + '/_api/live';
   }
 
-  openStream(liveStreamRequest, callback) {
-    this.httpClient.request('POST', this.apiUrl + '/stream', liveStreamRequest, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      callback(null, new LiveStream(response.payload));
-    });
+  /**
+   * Open stream
+   * @param liveStreamRequest
+   * @param callback DEPRECATED! use promise response instead
+   */
+  openStream(liveStreamRequest, callback?): Promise<LiveStream> {
+    if (callback) {
+      callback = deprecatedFn('LiveManager.openStream use promise response instead')(callback);
+    }
+    return this.httpClient
+      .post<RawResponse<ILiveStream>>(this.apiUrl + '/stream', liveStreamRequest)
+      .then((response) => {
+        const liveStream = new LiveStream(response.payload);
+        if (callback) {
+          callback(null, liveStream);
+        }
+        return liveStream;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 
-  getStream(streamId, callback) {
-    this.httpClient.request('GET', this.apiUrl + '/stream/' + streamId, null, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      callback(null, new LiveStream(response.payload));
-    });
+  /**
+   * Get stream
+   * @param streamId
+   * @param callback DEPRECATED! use promise response instead
+   */
+  getStream(streamId, callback?): Promise<LiveStream> {
+    if (callback) {
+      callback = deprecatedFn('LiveManager.getStream use promise response instead')(callback);
+    }
+    return this.httpClient.get<RawResponse<ILiveStream>>(this.apiUrl + '/stream/' + streamId)
+      .then((response) => {
+        const liveStream = new LiveStream(response.payload);
+        if (callback) {
+          callback(null, liveStream);
+        }
+        return liveStream;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 
-  closeStream(streamId, callback) {
-    this.httpClient.request('DELETE', this.apiUrl + '/stream/' + streamId, null, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      callback(null, response);
-    });
+  /**
+   * Close stream
+   * @param streamId
+   * @param callback DEPRECATED! use promise response instead
+   */
+  closeStream(streamId, callback?): Promise<void> {
+    if (callback) {
+      callback = deprecatedFn('LiveManager.closeStream use promise response instead')(callback);
+    }
+    return this.httpClient.delete(this.apiUrl + '/stream/' + streamId)
+      .then((response) => {
+        if (callback) {
+          callback(null, response);
+        }
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 
-  listStreams(callback) {
-    this.httpClient.request('GET', this.apiUrl + '/list_streams', null, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
+  /**
+   * List streams
+   * @param callback DEPRECATED! use promise response instead
+   */
+  listStreams(callback?): Promise<LiveStream[]> {
+    if (callback) {
+      callback = deprecatedFn('LiveManager.listStreams use promise response instead')(callback);
+    }
+    return this.httpClient.get<RawResponse<ILiveStream[]>>(this.apiUrl + '/list_streams')
+      .then((response) => {
+        const streams = response.payload.map(data => new LiveStream(data));
 
-      const streams: LiveStream[] = [];
-      for (const i in response.payload) {
-        streams.push(new LiveStream(response.payload[i]));
-      }
-
-      callback(null, streams);
-    });
+        if (callback) {
+          callback(null, streams);
+        }
+        return streams;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 }

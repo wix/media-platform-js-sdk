@@ -75,7 +75,7 @@ describe('file manager', function () {
 
     const listFilesRequest = new ListFilesRequest()
       .ascending()
-      .setCursor('c')
+      .setNextPageToken('c')
       .setOrderBy('date')
       .setPageSize(10);
 

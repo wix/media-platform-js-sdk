@@ -28,17 +28,4 @@ describe('token', function () {
     expect(token.toClaims().obj).to.equal(objects);
   });
 
-  it('prioritize objects over object', function () {
-    const objects = [
-      [
-        {'path': '/gold/fish/*'}
-      ]
-    ];
-    const token = new Token()
-      .setObject('bad', 'boy')
-      .setObjects(objects);
-
-    expect(token.toClaims().obj).to.equal(objects);
-  });
-
 });

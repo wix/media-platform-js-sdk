@@ -1,10 +1,12 @@
-import * as request from 'request';
+import * as request from 'request-promise-native';
 import {Authenticator} from '../authentication/authenticator';
 import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 import {Token} from '../authentication/token';
 import {Configuration, IConfiguration} from '../configuration/configuration';
 import {UploadFileRequest} from '../management/requests/upload-file-request';
 import {UploadFileStream} from '../management/file-uploader';
+import {deprecated} from 'core-decorators';
+import {deprecatedFn} from '../../utils/deprecated/deprecated';
 
 // require('request-debug')(request);
 
@@ -21,30 +23,25 @@ export interface HTTPRequestParams {
   [key: string]: any;
 }
 
-export type RequestCallback = (error: Error | null, response: any) => void;
+export type RequestCallback<T=any> = (error: Error | null, response: T) => void;
 
 export interface IHTTPClient {
   request(httpMethod: string, url: string, params: any, token: Token | undefined, callback: RequestCallback): void;
 
-  get<T>(url: string, params?: object, token?: Token | string): Promise<T>;
+  get<T>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
 
-  put<T>(url: string, params?: object, token?: Token | string): Promise<T>;
+  put<T>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
 
-  post<T>(url: string, params?: object, token?: Token | string): Promise<T>;
+  post<T>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
+
+  delete<T = void>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
 }
 
 export class HTTPClient implements IHTTPClient {
   constructor(public authenticator: Authenticator) {
   }
 
-  /**
-   * @param {string} httpMethod
-   * @param {string} url
-   * @param {Token | string?} token
-   * @param {*?} params
-   * @param {function(Error, *)} callback
-   */
-  request(httpMethod: string, url: string, params: any, token: Token | string | undefined, callback: RequestCallback) {
+  private _request(httpMethod: string, url: string, params: any, token: Token | string | undefined, callback: RequestCallback) {
     const header = this.authenticator.getHeader(token);
     const options: HTTPRequest = {method: httpMethod, url: url, headers: header, json: true};
 
@@ -72,40 +69,62 @@ export class HTTPClient implements IHTTPClient {
         callback(null, body);
       }
     );
+
+  }
+
+  /**
+   * @deprecated use one of get/post/put methods
+   * @param {string} httpMethod
+   * @param {string} url
+   * @param {Token | string?} token
+   * @param {*?} params
+   * @param {function(Error, *)} callback
+   */
+  @deprecated('use one of get/post/put methods')
+  request(httpMethod: string, url: string, params: any, token: Token | string | undefined, callback: RequestCallback) {
+    this._request(httpMethod, url, params, token, callback);
   }
 
   /**
    * @param {string} url
    * @param {{}} form
    * @param {Token?} token
-   * @param {function(Error, *)} callback
+   * @param {function(Error, *)} callback DEPRECATED! use promise response instead
    */
-  postForm(url: string, form: FormData | { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest>, token: Token | undefined, callback: RequestCallback) {
+  postForm<T=any>(url: string, form: FormData | { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest>, token?: Token | undefined, callback?: RequestCallback): Promise<T> {
     const header = this.authenticator.getHeader(token);
 
     const options = {method: 'POST', url: url, formData: form, headers: header, json: true};
+    if (callback) {
+      callback = deprecatedFn('HttpClient.postForm: use promise response instead')(callback);
+    }
 
-    request(
-      options,
-      (error, response, body) => {
-        if (error) {
-          callback(error, null);
-          return;
+    return request(options)
+      .then(
+        response => {
+          if (response.statusCode < 200 || response.statusCode >= 300) {
+            if (callback) {
+              callback(new Error(JSON.stringify(response.body)), null);
+            }
+            return Promise.reject(response.body);
+          }
+
+          if (callback) {
+            callback(null, response.body);
+          }
+          return response;
+        },
+        error => {
+          if (callback) {
+            callback(error, null);
+          }
         }
-
-        if (response.statusCode < 200 || response.statusCode >= 300) {
-          callback(new Error(JSON.stringify(response.body)), null);
-          return;
-        }
-
-        callback(null, body);
-      }
-    );
+      );
   }
 
   get<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      this.request('GET', url, params, token, (error, response) => {
+      this._request('GET', url, params, token, (error, response) => {
         if (error) {
           reject(error);
         } else {
@@ -117,7 +136,7 @@ export class HTTPClient implements IHTTPClient {
 
   put<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      this.request('PUT', url, params, token, (error, response) => {
+      this._request('PUT', url, params, token, (error, response) => {
         if (error) {
           reject(error);
         } else {
@@ -129,7 +148,19 @@ export class HTTPClient implements IHTTPClient {
 
   post<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      this.request('POST', url, params, token, (error, response) => {
+      this._request('POST', url, params, token, (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      });
+    });
+  }
+
+  delete<T = void>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      this._request('DELETE', url, params, token, (error, response) => {
         if (error) {
           reject(error);
         } else {

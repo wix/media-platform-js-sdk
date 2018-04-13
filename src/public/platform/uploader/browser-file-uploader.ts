@@ -4,7 +4,9 @@ import {Configuration} from '../configuration/configuration';
 import {HTTPClient} from '../http/browser-http-client';
 import {UploadFileRequest} from '../../../platform/management/requests/upload-file-request';
 import {IFileUploader} from '../../../platform/management/file-uploader';
-import {IUploadUrlRequest, UploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
+import {IUploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
+import {RawResponse} from '../../../types/response/response';
+import {deprecatedFn} from '../../../utils/deprecated/deprecated';
 
 
 export class FileUploader implements IFileUploader {
@@ -20,14 +22,21 @@ export class FileUploader implements IFileUploader {
   /**
    * Retrieve a pre signed URL to which the file is uploaded
    */
-  getUploadUrl(uploadUrlRequest: IUploadUrlRequest | undefined, callback): Promise<UploadUrlResponse> {
+  getUploadUrl(uploadUrlRequest: IUploadUrlRequest | undefined, callback?: (error: Error | null, payload: UploadUrlResponse | null) => void): Promise<UploadUrlResponse> {
+    if (callback) {
+      callback = deprecatedFn('FileUploader.getUploadUrl. Use promise response instead')(callback);
+    }
     return this.browserHTTPClient
-      .get<{ payload: UploadUrlResponse }>(this.uploadUrlEndpoint, uploadUrlRequest)
+      .get<RawResponse<UploadUrlResponse>>(this.uploadUrlEndpoint, uploadUrlRequest)
       .then((body) => {
-        callback(null, new UploadUrlResponse(body.payload));
+        if (callback) {
+          callback(null, new UploadUrlResponse(body.payload));
+        }
         return body.payload;
       }, (error) => {
-        callback(error, null);
+        if (callback) {
+          callback(error, null);
+        }
         return Promise.reject(error);
       });
   }

@@ -1,8 +1,10 @@
-import {TranscodeJobResponse} from './responses/transcode-job-response';
+import {ITranscodeJobResponse, TranscodeJobResponse} from './responses/transcode-job-response';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
 import {ExtractPosterJobResponse, IExtractPosterJobResponse} from './responses/extract-poster-job-response';
 import {ExtractStoryboardJobResponse, IExtractStoryboardJobResponse} from './responses/extract-storyboard-job-response';
+import {deprecatedFn} from '../../utils/deprecated/deprecated';
+import {RawResponse} from '../../types/response/response';
 
 
 export type ExtractPosterCallback = (error: Error | null, response: ExtractPosterJobResponse | null) => void;
@@ -32,28 +34,42 @@ export class TranscodeManager {
 
   /**
    * Transcode Video
+   * @param transcodeRequest
+   * @param callback DEPRECATED! use promise response instead
    */
-  public transcodeVideo(transcodeRequest, callback) {
+  public transcodeVideo(transcodeRequest, callback?) {
     const params = {...transcodeRequest};
+    if (callback) {
+      callback = deprecatedFn('TranscodeManager.transcodeVideo use promise response instead')(callback);
+    }
 
-    this.httpClient.request('POST', this.apiUrl + '/transcode', params, undefined, function (error, response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      callback(null, new TranscodeJobResponse(response.payload));
-    });
+    this.httpClient.post<RawResponse<ITranscodeJobResponse>>(this.apiUrl + '/transcode', params)
+      .then((response) => {
+        const transcodeJobResponse = new TranscodeJobResponse(response.payload);
+        if (callback) {
+          callback(null, transcodeJobResponse);
+        }
+        return transcodeJobResponse;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 
   /**
    * Extract Poster
+   * @param extractPosterRequest
+   * @param callback DEPRECATED! use promise response instead
    */
   public extractPoster(extractPosterRequest, callback?: ExtractPosterCallback): Promise<ExtractPosterJobResponse> {
     const params = {...extractPosterRequest};
-
+    if (callback) {
+      callback = deprecatedFn('TranscodeManager.transcodeVideo use promise response instead')(callback);
+    }
     return this.httpClient
-      .post<{ payload: IExtractPosterJobResponse }>(
+      .post<RawResponse<IExtractPosterJobResponse>>(
         `${this.apiUrl}/poster`,
         params
       )
@@ -75,12 +91,16 @@ export class TranscodeManager {
 
   /**
    * Extract storyboard
+   * @param extractStoryboardRequest
+   * @param callback DEPRECATED! use promise response instead
    */
   public extractStoryboard(extractStoryboardRequest, callback?: ExtractStoryboardCallback): Promise<ExtractStoryboardJobResponse> {
     const params = {...extractStoryboardRequest};
-
+    if (callback) {
+      callback = deprecatedFn('TranscodeManager.transcodeVideo use promise response instead')(callback);
+    }
     return this.httpClient
-      .post<{ payload: IExtractStoryboardJobResponse }>(
+      .post<RawResponse<IExtractStoryboardJobResponse>>(
         `${this.apiUrl}/storyboard`,
         params
       )

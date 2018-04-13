@@ -1,7 +1,8 @@
-import {FileDescriptor} from './metadata/file-descriptor';
+import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
 import {ImageOperationRequest} from './requests/image-operation-request';
+import {RawResponse} from '../../types/response/response';
 
 /**
  * @param {Configuration} configuration
@@ -27,17 +28,21 @@ export class ImageManager {
 
   /**
    * @param {ImageOperationRequest} imageOperationRequest
-   * @param {function(Error, FileDescriptor)} callback
+   * @param {function(Error, FileDescriptor)} callback DEPRECATED! use promise response instead
    */
-  imageOperation(imageOperationRequest: ImageOperationRequest, callback: (error: Error | null, fileDescriptor: FileDescriptor | null) => void) {
-    this.httpClient.request('POST', this.apiUrl + '/operations', imageOperationRequest, undefined, function (error,
-                                                                                                        response) {
-      if (error) {
-        callback(error, null);
-        return;
-      }
-
-      callback(null, new FileDescriptor(response.payload));
-    });
+  imageOperation(imageOperationRequest: ImageOperationRequest, callback?: (error: Error | null, fileDescriptor: FileDescriptor | null) => void): Promise<FileDescriptor> {
+    return this.httpClient.post<RawResponse<IFileDescriptor>>(this.apiUrl + '/operations', imageOperationRequest)
+      .then((response) => {
+        const fileDescriptor = new FileDescriptor(response.payload);
+        if (callback) {
+          callback(null, fileDescriptor);
+        }
+        return fileDescriptor
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
   }
 }

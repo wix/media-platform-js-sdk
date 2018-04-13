@@ -1,11 +1,13 @@
 import * as fs from 'fs';
 import {IUploadUrlRequest, UploadUrlRequest} from './requests/upload-url-request';
-import {UploadUrlResponse} from './responses/upload-url-response';
-import {FileDescriptor} from './metadata/file-descriptor';
+import {IUploadUrlResponse, UploadUrlResponse} from './responses/upload-url-response';
+import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
 import {Configuration, IConfigurationBase} from '../configuration/configuration';
 import {HTTPClient, IHTTPClient} from '../http/http-client';
 import * as Stream from 'stream';
 import {UploadFileRequest} from './requests/upload-file-request';
+import {deprecatedFn} from '../../utils/deprecated/deprecated';
+import {RawResponse} from '../../types/response/response';
 
 export type GetUploadURLCallback = (error: Error | null, response: UploadUrlResponse | null) => void;
 export type UploadFileCallback = (error: Error | null, response: FileDescriptor[] | null) => void;
@@ -23,7 +25,7 @@ export interface IFileUploader {
 
   getUploadUrl(uploadUrlRequest: IUploadUrlRequest | null | undefined, callback?: GetUploadURLCallback): Promise<UploadUrlResponse>;
 
-  uploadFile(path: string, file: string | Buffer | Stream | File, uploadRequest: UploadFileRequest | null | undefined, callback: UploadFileCallback): void;
+  uploadFile(path: string, file: string | Buffer | Stream | File, uploadRequest: UploadFileRequest | null | undefined, callback?: UploadFileCallback);
 }
 
 /**
@@ -40,16 +42,25 @@ export class FileUploader implements IFileUploader {
 
   /**
    * @description retrieve a signed URL to which the file is uploaded
+   * @param uploadUrlRequest
+   * @param callback DEPRECATED! use promise response instead
    */
-  getUploadUrl(uploadUrlRequest: IUploadUrlRequest | null | undefined, callback: GetUploadURLCallback) {
+  getUploadUrl(uploadUrlRequest?: IUploadUrlRequest | null | undefined, callback?: GetUploadURLCallback): Promise<UploadUrlResponse> {
+    if (callback) {
+      callback = deprecatedFn('use promise response instead')(callback);
+    }
     return this.httpClient
-      .get<{ payload: UploadUrlResponse }>(this.apiUrl + '/url', uploadUrlRequest || undefined)
+      .get<RawResponse<IUploadUrlResponse>>(this.apiUrl + '/url', uploadUrlRequest || undefined)
       .then((response) => {
-
-        callback(null, new UploadUrlResponse(response.payload));
-        return response.payload;
+        const uploadUrlResponse = new UploadUrlResponse(response.payload);
+        if (callback) {
+          callback(null, uploadUrlResponse);
+        }
+        return uploadUrlResponse;
       }, (error) => {
-        callback(error, null);
+        if (callback) {
+          callback(error, null);
+        }
         return Promise.reject(error);
       });
   }
@@ -59,24 +70,40 @@ export class FileUploader implements IFileUploader {
    * @param {string} path the destination to which the file will be uploaded
    * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
    * @param {UploadFileRequest?} uploadRequest
-   * @param {function(Error, Array<FileDescriptor>|null)} callback
+   * @param {function(Error, FileDescriptor[]|null)} callback DEPRECATED! use promise response instead
    */
-  uploadFile(path: string, file: string | Buffer | Stream, uploadRequest: UploadFileRequest, callback: UploadFileCallback) {
+  uploadFile(path: string, file: string | Buffer | Stream, uploadRequest: UploadFileRequest, callback?: UploadFileCallback): Promise<FileDescriptor[]> {
     let calledBack = false;
     let stream: UploadFileStream;
     let size: number | null = null;
+    if (callback) {
+      callback = deprecatedFn('FileUploader.uploadFile use promise response instead')(callback);
+    }
+    let streamErrorPromise = new Promise(() => {}); // never resolving;
 
     if (file instanceof Stream && typeof file.pipe === 'function') {
       stream = file;
-      stream.once('error', doCallback);
+      streamErrorPromise = new Promise((resolve, reject) => {
+        (stream as Stream).once('error', (error) => {
+          doCallback(error, null);
+          reject(error);
+        });
+      });
+
     } else if (typeof file === 'string') {
       try {
         size = fs.statSync(file).size;
       } catch (error) {
         doCallback(error, null);
+        return Promise.reject(error);
       }
       stream = fs.createReadStream(file);
-      stream.once('error', doCallback);
+      streamErrorPromise = new Promise((resolve, reject) => {
+        (stream as Stream).once('error', (error) => {
+          doCallback(error, null);
+          reject(error);
+        });
+      });
     } else if (file instanceof Buffer) {
       // noinspection JSUnresolvedVariable
       size = file.byteLength;
@@ -87,8 +114,9 @@ export class FileUploader implements IFileUploader {
         }
       };
     } else {
-      doCallback(new Error('unsupported source type: ' + typeof file), null);
-      return;
+      const error = new Error('unsupported source type: ' + typeof file);
+      doCallback(error, null);
+      return Promise.reject(error);
     }
 
     let uploadUrlRequest: UploadUrlRequest | null = null;
@@ -102,38 +130,45 @@ export class FileUploader implements IFileUploader {
       }
     }
 
-    this.getUploadUrl(
-      uploadUrlRequest,
-      (error, response) => {
-        if (error || response === null) {
+    return Promise.race([this.getUploadUrl(uploadUrlRequest), streamErrorPromise])
+      .then((response: UploadUrlResponse) => {
+
+          let form: { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest> = {
+            file: stream,
+            path: path,
+            uploadToken: response.uploadToken
+          };
+          if (uploadRequest) {
+            form = {...form, ...uploadRequest};
+          }
+
+          return this.httpClient.postForm<RawResponse<IFileDescriptor[]>>(response.uploadUrl, form);
+        }, error => {
           doCallback(error, null);
-          return;
+          return Promise.reject(error);
         }
-
-        let form: { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest> = {
-          file: stream,
-          path: path,
-          uploadToken: response.uploadToken
-        };
-        if (uploadRequest) {
-          form = {...form, ...uploadRequest};
-        }
-
-        this.httpClient.postForm(response.uploadUrl, form, undefined, doCallback);
-      }
-    );
+      )
+      .then(response => {
+        doCallback(null, response);
+        return response.payload.map(function (file) {
+          return new FileDescriptor(file);
+        });
+      });
 
     function doCallback(error, response) {
-      if (!calledBack) {
-        let fileDescriptors = null;
-        if (response) {
-          fileDescriptors = response.payload.map(function (file) {
-            return new FileDescriptor(file);
-          });
-        }
-        callback(error, fileDescriptors);
-        calledBack = true;
+      if (calledBack) {
+        return;
       }
+      let fileDescriptors = null;
+      if (response) {
+        fileDescriptors = response.payload.map(function (file) {
+          return new FileDescriptor(file);
+        });
+      }
+      if (callback) {
+        callback(error, fileDescriptors);
+      }
+      calledBack = true;
     }
   }
 }
