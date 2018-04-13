@@ -18,14 +18,14 @@ describe('Deprecated', () => {
     const func = (a: number, b: number) => a + b;
     const deprecatedFunc = deprecatedFn('Use something else instead.')(func);
     deprecatedFunc(1, 2);
-    expect(consoleWarnSpy).to.have.been.calledWith('DEPRECATED: "func" function is deprecated with message "Use something else instead."');
+    expect(consoleWarnSpy).to.have.been.calledWith(`DEPRECATED: "${func.name}" function is deprecated with message "Use something else instead."`);
   });
 
   it('should write console.warn when wrap function with message omitted', () => {
     const func = (a: number, b: number) => a + b;
     const deprecatedFunc = deprecatedFn()(func);
     deprecatedFunc(1, 2);
-    expect(consoleWarnSpy).to.have.been.calledWith('DEPRECATED: "func" function is deprecated');
+    expect(consoleWarnSpy).to.have.been.calledWith(`DEPRECATED: "${func.name}" function is deprecated`);
   });
 
   it('should return the same result', () => {
