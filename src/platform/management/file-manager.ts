@@ -66,11 +66,17 @@ export class FileManager {
    * @param {UploadFileRequest?} uploadRequest
    * @param {function(Error, Array<FileDescriptor>|null)} callback DEPRECATED! use promise response instead
    */
-  uploadFile(path: string, file: string | Buffer | Stream, uploadRequest: UploadFileRequest | null | undefined, callback?: UploadFileCallback): Promise<FileDescriptor[]> {
+  uploadFile(path: string, file: string | Buffer | Stream, uploadRequest: UploadFileRequest | null | undefined, callback?: UploadFileCallback): Promise<FileDescriptor[]> | UploadJob {
     if (callback) {
       callback = deprecatedFn('FileManager.uploadFile: use promise response instead')(callback);
     }
-    return this.fileUploader.uploadFile(path, file, uploadRequest)
+    const uploadFileResult = this.fileUploader.uploadFile(path, file, uploadRequest);
+    // TODO: do it in a right way
+    // Browser file uploader return `UploadJob` instead of promise
+    if (!uploadFileResult.then) {
+      return uploadFileResult;
+    }
+    return uploadFileResult
       .then(response => {
         if (callback) {
           callback(null, response);

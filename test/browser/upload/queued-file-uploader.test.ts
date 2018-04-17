@@ -7,6 +7,7 @@ import {UploadJob} from '../../../src/public/platform/uploader/upload-job';
 import {FileUploader} from '../../../src/public/platform/uploader/browser-file-uploader';
 import {QueuedFileUploader} from '../../../src/public/platform/uploader/queued-file-uploader';
 import {delay} from '../../helpers/delay';
+import {FileManager} from '../../../src/platform/management/file-manager';
 
 const UPLOAD_TIMEOUT = 100;
 
@@ -39,12 +40,14 @@ describe('queued file uploader', function () {
     }]
   };
   const sandbox = sinon.sandbox.create();
+  let fileManager: FileManager;
 
   beforeEach(() => {
     fauxJax.install();
     browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
     fileUploader = new FileUploader(configuration, browserHTTPClient);
     queuedFileUploader = new QueuedFileUploader(fileUploader);
+    fileManager = new FileManager(configuration, browserHTTPClient, fileUploader);
   });
 
   afterEach(() => {
@@ -123,6 +126,14 @@ describe('queued file uploader', function () {
     uploadJob.abort();
     await endPromise;
     expect(abortedSpy).to.have.been.called;
+  });
+
+  it('should upload', (done) => {
+    setResponse(fileUploadResponse);
+    const file = new FileAPI.File('../files/image.jpg');
+    (fileManager.uploadFile('upload/to/there/image.jpg', file, null) as UploadJob)
+      .on('upload-success', () => done())
+      .on('upload-error', error => done(error));
   });
 
   it('should raise when abort() called, but not run yet', () => {
