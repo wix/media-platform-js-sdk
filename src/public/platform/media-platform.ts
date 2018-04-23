@@ -16,6 +16,7 @@ import {UploadJob} from './uploader/upload-job';
 import {DownloadUrlRequest} from '../../platform/management/requests/download-url-request';
 import {WidgetInstanceManager} from '../../platform/management/widgets/widget-instance-manager/widget-instance-manager';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
+import {DownloadUrl} from '../../types/files/download-url';
 
 /**
  * Media Platform Public
