@@ -3,6 +3,7 @@ import {HTTPClient} from '../http/browser-http-client';
 import {DownloadUrlRequest} from '../../../platform/management/requests/download-url-request';
 import {RawResponse} from '../../../types/response/response';
 import {deprecatedFn} from '../../../utils/deprecated/deprecated';
+import {DownloadUrl} from '../../../types/files/download-url';
 
 export class FileDownloader {
   constructor(public configuration: Configuration, public httpClient: HTTPClient) {
