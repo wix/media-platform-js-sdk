@@ -3,7 +3,7 @@
  * @doc FileDescriptor
  */
 export interface IFileDescriptor {
-  id: string | null;
+  id: string;
   hash: string | null;
   path: string | null;
   mimeType: string | null;
@@ -22,7 +22,7 @@ export class FileDescriptor implements IFileDescriptor {
   /**
    * @description a system assigned unique id
    */
-  public id: string | null = null;
+  public id: string;
   /**
    * @description the file content hash (null for folders)
    */
@@ -59,7 +59,9 @@ export class FileDescriptor implements IFileDescriptor {
    * @private
    */
   deserialize(data: Partial<IFileDescriptor>) {
-    this.id = data.id || null;
+    if (data.id) {
+      this.id = data.id;
+    }
     this.hash = data.hash || null;
     this.path = data.path || null;
     this.mimeType = data.mimeType || null;
