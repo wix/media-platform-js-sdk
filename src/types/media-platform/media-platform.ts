@@ -124,6 +124,7 @@ export interface ExportedPublicMediaPlatform {
 }
 
 export enum OrderDirection {
+  None,
   ASC = 'asc',
   DES = 'des'
 }

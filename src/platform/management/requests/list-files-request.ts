@@ -1,10 +1,11 @@
 import {deprecated} from 'core-decorators';
+import {OrderDirection} from '../../../types/media-platform/media-platform';
 
 export interface IListFilesRequest {
   nextPageToken?: string | null;
   pageSize?: number;
   orderBy?: string | null;
-  orderDirection?: string | null;
+  orderDirection?: OrderDirection | null;
 }
 
 /**
@@ -15,7 +16,7 @@ export class ListFilesRequest implements IListFilesRequest {
   public nextPageToken: string | null = null;
   public pageSize: number = 20;
   public orderBy: string | null = null;
-  public orderDirection: string | null = null;
+  public orderDirection: OrderDirection | null = null;
 
   constructor(data: IListFilesRequest) {
     this.nextPageToken = data.nextPageToken || null;
@@ -61,7 +62,7 @@ export class ListFilesRequest implements IListFilesRequest {
    */
   @deprecated('pass data to constructor instead')
   ascending(): this {
-    this.orderDirection = 'acs';
+    this.orderDirection = OrderDirection.ASC;
     return this;
   }
 
@@ -70,7 +71,7 @@ export class ListFilesRequest implements IListFilesRequest {
    */
   @deprecated('pass data to constructor instead')
   descending(): this {
-    this.orderDirection = 'des';
+    this.orderDirection = OrderDirection.DES;
     return this;
   }
 }
