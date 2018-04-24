@@ -195,7 +195,7 @@ export class FileManager {
    * @param {ListFilesRequest?} listFilesRequest
    * @param {function(Error, ListFilesResponse)} callback DEPRECATED! use promise response instead
    */
-  listFiles(path: string, listFilesRequest: ListFilesRequest | null, callback: (error: Error | null, listFilesResponse: ListFilesResponse | null) => void): Promise<ListFilesResponse> {
+  listFiles(path: string, listFilesRequest: ListFilesRequest | null, callback?: (error: Error | null, listFilesResponse: ListFilesResponse | null) => void): Promise<ListFilesResponse> {
     const params = {
       path,
       ...listFilesRequest
