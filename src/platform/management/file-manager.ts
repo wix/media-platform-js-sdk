@@ -10,7 +10,7 @@ import {IUploadUrlRequest} from './requests/upload-url-request';
 import * as Stream from 'stream';
 import {UploadFileRequest} from './requests/upload-file-request';
 import {ImportFileRequest} from './requests/import-file-request';
-import {ListFilesRequest} from './requests/list-files-request';
+import {IListFilesRequest} from './requests/list-files-request';
 import {UploadJob} from '../../public/platform/uploader/upload-job';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {RawResponse} from '../../types/response/response';
@@ -192,10 +192,10 @@ export class FileManager {
 
   /**
    * @param {string} path
-   * @param {ListFilesRequest?} listFilesRequest
+   * @param {IListFilesRequest?} listFilesRequest
    * @param {function(Error, ListFilesResponse)} callback DEPRECATED! use promise response instead
    */
-  listFiles(path: string, listFilesRequest: ListFilesRequest | null, callback?: (error: Error | null, listFilesResponse: ListFilesResponse | null) => void): Promise<ListFilesResponse> {
+  listFiles(path: string, listFilesRequest: IListFilesRequest | null, callback?: (error: Error | null, listFilesResponse: ListFilesResponse | null) => void): Promise<ListFilesResponse> {
     const params = {
       path,
       ...listFilesRequest

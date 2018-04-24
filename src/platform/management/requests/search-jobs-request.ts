@@ -1,9 +1,5 @@
 import {deprecated} from 'core-decorators';
-
-export enum OrderDirection {
-  ASC = 'asc',
-  DES = 'des'
-}
+import {OrderDirection} from '../../../types/media-platform/media-platform';
 
 export interface ISearchJobsRequest {
   nextPageToken?: string | null;

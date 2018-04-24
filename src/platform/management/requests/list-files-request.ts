@@ -1,17 +1,36 @@
+import {deprecated} from 'core-decorators';
+
+export interface IListFilesRequest {
+  nextPageToken?: string | null;
+  pageSize?: number;
+  orderBy?: string | null;
+  orderDirection?: string | null;
+}
+
 /**
  * List Files Request
  * @doc ListFilesRequest
  */
-export class ListFilesRequest {
+export class ListFilesRequest implements IListFilesRequest {
   public nextPageToken: string | null = null;
-  public pageSize: number | null = 20;
+  public pageSize: number = 20;
   public orderBy: string | null = null;
   public orderDirection: string | null = null;
+
+  constructor(data: IListFilesRequest) {
+    this.nextPageToken = data.nextPageToken || null;
+    if (data.pageSize) {
+      this.pageSize = data.pageSize;
+    }
+    this.orderBy = data.orderBy || null;
+    this.orderDirection = data.orderDirection || null;
+  }
 
   /**
    * @param nextPageToken
    * @returns {ListFilesRequest}
    */
+  @deprecated('pass data to constructor instead')
   setNextPageToken(nextPageToken: string | null): this {
     this.nextPageToken = nextPageToken;
     return this;
@@ -21,6 +40,7 @@ export class ListFilesRequest {
    * @param pageSize
    * @returns {ListFilesRequest}
    */
+  @deprecated('pass data to constructor instead')
   setPageSize(pageSize: number): this {
     this.pageSize = pageSize;
     return this;
@@ -30,6 +50,7 @@ export class ListFilesRequest {
    * @param orderBy name or date
    * @returns {ListFilesRequest}
    */
+  @deprecated('pass data to constructor instead')
   setOrderBy(orderBy: string): this {
     this.orderBy = orderBy;
     return this;
@@ -38,6 +59,7 @@ export class ListFilesRequest {
   /**
    * @returns {ListFilesRequest}
    */
+  @deprecated('pass data to constructor instead')
   ascending(): this {
     this.orderDirection = 'acs';
     return this;
@@ -46,6 +68,7 @@ export class ListFilesRequest {
   /**
    * @returns {ListFilesRequest}
    */
+  @deprecated('pass data to constructor instead')
   descending(): this {
     this.orderDirection = 'des';
     return this;

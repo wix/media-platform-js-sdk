@@ -122,3 +122,8 @@ export interface ExportedPublicMediaPlatform {
   Destination: typeof Destination;
   QualityRange: typeof QualityRange;
 }
+
+export enum OrderDirection {
+  ASC = 'asc',
+  DES = 'des'
+}

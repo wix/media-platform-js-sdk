@@ -12,9 +12,8 @@ import {ListFilesResponse} from '../../../../src/platform/management/responses/l
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
-import {ListFilesRequest} from '../../../../src/platform/management/requests/list-files-request';
 import {ImportFileRequest} from '../../../../src/platform/management/requests/import-file-request';
-import {Destination} from '../../../../src/platform/management/job/destination';
+import {OrderDirection} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 const sourcesDir = __dirname + '/../../../sources/';
@@ -73,13 +72,12 @@ describe('file manager', function () {
   it('listFiles - page', function (done) {
     apiServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
 
-    const listFilesRequest = new ListFilesRequest()
-      .ascending()
-      .setNextPageToken('c')
-      .setOrderBy('date')
-      .setPageSize(10);
-
-    fileManager.listFiles('path', listFilesRequest, function (error, data) {
+    fileManager.listFiles('path', {
+      orderDirection: OrderDirection.ASC,
+      nextPageToken: 'c',
+      orderBy: 'date',
+      pageSize: 10
+    }, function (error, data) {
       done(error);
     });
   });
