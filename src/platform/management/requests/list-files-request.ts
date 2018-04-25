@@ -2,7 +2,7 @@ import {deprecated} from 'core-decorators';
 import {OrderDirection} from '../../../types/media-platform/media-platform';
 
 export interface IListFilesRequest {
-  nextPageToken?: string | null;
+  nextPageToken?: string;
   pageSize?: number;
   orderBy?: string | null;
   orderDirection?: OrderDirection | null;
@@ -13,13 +13,13 @@ export interface IListFilesRequest {
  * @doc ListFilesRequest
  */
 export class ListFilesRequest implements IListFilesRequest {
-  public nextPageToken: string | null = null;
+  public nextPageToken?: string;
   public pageSize: number = 20;
   public orderBy: string | null = null;
   public orderDirection: OrderDirection | null = null;
 
   constructor(data: IListFilesRequest) {
-    this.nextPageToken = data.nextPageToken || null;
+    this.nextPageToken = data.nextPageToken;
     if (data.pageSize) {
       this.pageSize = data.pageSize;
     }
@@ -32,7 +32,7 @@ export class ListFilesRequest implements IListFilesRequest {
    * @returns {ListFilesRequest}
    */
   @deprecated('pass data to constructor instead')
-  setNextPageToken(nextPageToken: string | null): this {
+  setNextPageToken(nextPageToken: string): this {
     this.nextPageToken = nextPageToken;
     return this;
   }

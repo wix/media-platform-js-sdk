@@ -6,7 +6,7 @@ import {FileDescriptor, IFileDescriptor} from '../metadata/file-descriptor';
  * @doc ListFilesResponse
  */
 export interface IListFilesResponse {
-  nextPageToken: string;
+  nextPageToken?: string;
   files: IFileDescriptor[];
 }
 
@@ -15,7 +15,7 @@ export interface IListFilesResponse {
  * @doc ListFilesResponse
  */
 export class ListFilesResponse {
-  public nextPageToken: string | null = null;
+  public nextPageToken?: string;
   public files: FileDescriptor[] = [];
 
   constructor(data: IListFilesResponse) {
