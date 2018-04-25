@@ -12,7 +12,7 @@ import {ExtractStoryboardJobResponse} from '../../../../src/platform/management/
 
 const repliesDir = __dirname + '/replies/';
 
-describe('transcode manager', function () {
+describe('transcode manager', () => {
 
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
@@ -23,11 +23,11 @@ describe('transcode manager', function () {
     'Content-Type': 'application/json'
   });
 
-  afterEach(function () {
+  afterEach(() => {
     nock.cleanAll();
   });
 
-  it('transcodeVideo - default', function (done) {
+  it('transcodeVideo - default', (done) => {
     apiServer.post('/_api/av/transcode')
       .once()
       .replyWithFile(200, repliesDir + 'transcode-response.json');
@@ -48,7 +48,7 @@ describe('transcode manager', function () {
       }]
     });
 
-    transcodeManager.transcodeVideo(transcodeRequest, function (error, data) {
+    transcodeManager.transcodeVideo(transcodeRequest, (error, data) => {
       expect(data.groupId).to.equal('fb79405a16434aab87ccbd1384563033');
       done();
     });
@@ -75,7 +75,7 @@ describe('transcode manager', function () {
         }]
       });
 
-      transcodeManager.extractPoster(extractPosterRequest, function (error, data) {
+      transcodeManager.extractPoster(extractPosterRequest, (error, data) => {
         expect((data as ExtractPosterJobResponse).groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
         done();
       });
@@ -130,7 +130,7 @@ describe('transcode manager', function () {
         }]
       });
 
-      transcodeManager.extractStoryboard(extractStoryboardRequest, function (error, data) {
+      transcodeManager.extractStoryboard(extractStoryboardRequest, (error, data) => {
         expect((data as ExtractStoryboardJobResponse).groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
         done();
       });
@@ -159,6 +159,32 @@ describe('transcode manager', function () {
       });
 
       return transcodeManager.extractStoryboard(extractStoryboardRequest)
+        .then(data => {
+          expect(data.groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
+        });
+    });
+  });
+
+  describe('Packaging', () => {
+    it('should resolve a promise', () => {
+      apiServer.post('/_api/av/storyboard')
+        .once()
+        .replyWithFile(200, repliesDir + 'packaging-response.json');
+
+      const requestParams = {
+        sources: [
+          {
+            path: '/sample.mp4',
+            name: 'sample'
+          }
+        ],
+        directory: '/demo',
+        acl: 'public',
+        chunkDuration: 2,
+        packageType: 'hls'
+      };
+
+      transcodeManager.packaging(requestParams)
         .then(data => {
           expect(data.groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
         });

@@ -1,6 +1,6 @@
 type FunctionDeclaration = (...args) => any;
 
-export const logDeprecated = (message: string):void => {
+export const logDeprecated = (message: string): void => {
   console.warn(`DEPRECATED: ${message}`);
 };
 

@@ -7,7 +7,7 @@ import {deprecated} from 'core-decorators';
 export interface IDestination {
   path?: string | null;
   directory?: string | null;
-  acl?: string;
+  acl?: string; // 'private' | 'public'
 }
 
 /**

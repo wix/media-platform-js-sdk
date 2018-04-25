@@ -23,4 +23,3 @@ export class ExtractArchiveSpecification implements IExtractArchiveSpecification
     this.destination = new Destination(data.destination);
   }
 }
-
