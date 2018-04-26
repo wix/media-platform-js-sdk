@@ -21,7 +21,7 @@
             "path": "/demo/sample.4837a5af4a224225b1b257b17ef22237.m3u8",
             "acl": "public"
           },
-          "chunkDuration": "2",
+          "chunkDuration": 2,
           "packageType": "hls"
         },
         "groupId": "4837a5af4a224225b1b257b17ef22237",

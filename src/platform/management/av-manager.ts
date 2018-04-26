@@ -1,4 +1,5 @@
 import {DestinationAcl} from './job/destination';
+import {PackageType} from './job/packaging-specification';
 import {IPackagingJobResponse, PackagingJobResponse} from './responses/packaging-job-response';
 import {ITranscodeJobResponse, TranscodeJobResponse} from './responses/transcode-job-response';
 import {IConfigurationBase} from '../configuration/configuration';
@@ -21,7 +22,7 @@ export interface PackagingParams {
   directory: string;
   acl: DestinationAcl;
   chunkDuration: number;
-  packageType: string;
+  packageType: PackageType;
 }
 
 /**
@@ -137,7 +138,7 @@ export class AVManager {
    * Packaging Service
    * @param {params} PackagingParams
    */
-  public package({sources, directory, acl, chunkDuration, packageType}: PackagingParams): Promise<PackagingJobResponse> {
+  public packageVideo({sources, directory, acl, chunkDuration, packageType}: PackagingParams): Promise<PackagingJobResponse> {
     const params = {
       sources,
       specification: {

@@ -2,6 +2,7 @@ import * as nock from 'nock';
 import {expect} from 'chai';
 import {AVManager} from '../../../../src/platform/management/av-manager';
 import {DestinationAcl} from '../../../../src/platform/management/job/destination';
+import {PackageType} from '../../../../src/platform/management/job/packaging-specification';
 import {TranscodeRequest} from '../../../../src/platform/management/requests/transcode-request';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
@@ -14,7 +15,7 @@ import {PackagingJobResponse} from '../../../../src/platform/management/response
 
 const repliesDir = __dirname + '/replies/';
 
-describe('transcode manager', () => {
+describe('AV Manager', () => {
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
@@ -28,7 +29,7 @@ describe('transcode manager', () => {
     nock.cleanAll();
   });
 
-  it('transcodeVideo - default', (done) => {
+  it('transcodeVideo - default', async () => {
     apiServer.post('/_api/av/transcode')
       .once()
       .replyWithFile(200, repliesDir + 'transcode-response.json');
@@ -49,15 +50,14 @@ describe('transcode manager', () => {
       }]
     });
 
-    avManager.transcodeVideo(transcodeRequest, (error, data) => {
+    await avManager.transcodeVideo(transcodeRequest, (error, data) => {
       expect(data.groupId).to.equal('fb79405a16434aab87ccbd1384563033');
-      done();
     });
   });
 
   describe('extract poster – default', () => {
 
-    it('should call a callback', done => {
+    it('should call a callback', async () => {
       apiServer.post('/_api/av/poster')
         .once()
         .replyWithFile(200, repliesDir + 'extract-poster-response.json');
@@ -76,13 +76,12 @@ describe('transcode manager', () => {
         }]
       });
 
-      avManager.extractPoster(extractPosterRequest, (error, data) => {
+      await avManager.extractPoster(extractPosterRequest, (error, data) => {
         expect((data as ExtractPosterJobResponse).groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
-        done();
       });
     });
 
-    it('should resolve a promise', () => {
+    it('should resolve a promise', async () => {
       apiServer.post('/_api/av/poster')
         .once()
         .replyWithFile(200, repliesDir + 'extract-poster-response.json');
@@ -101,7 +100,7 @@ describe('transcode manager', () => {
         }]
       });
 
-      return avManager.extractPoster(extractPosterRequest)
+      await avManager.extractPoster(extractPosterRequest)
         .then((data) => {
           expect(data.groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
         });
@@ -109,7 +108,7 @@ describe('transcode manager', () => {
   });
 
   describe('extractStoryboard - default', () => {
-    it('should call a callback', done => {
+    it('should call a callback', async () => {
       apiServer.post('/_api/av/storyboard')
         .once()
         .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
@@ -131,13 +130,12 @@ describe('transcode manager', () => {
         }]
       });
 
-      avManager.extractStoryboard(extractStoryboardRequest, (error, data) => {
+      await avManager.extractStoryboard(extractStoryboardRequest, (error, data) => {
         expect((data as ExtractStoryboardJobResponse).groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
-        done();
       });
     });
 
-    it('should resolve a promise', () => {
+    it('should resolve a promise', async () => {
       apiServer.post('/_api/av/storyboard')
         .once()
         .replyWithFile(200, repliesDir + 'extract-storyboard-response.json');
@@ -159,7 +157,7 @@ describe('transcode manager', () => {
         }]
       });
 
-      return avManager.extractStoryboard(extractStoryboardRequest)
+      await avManager.extractStoryboard(extractStoryboardRequest)
         .then(data => {
           expect(data.groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
         });
@@ -167,8 +165,8 @@ describe('transcode manager', () => {
   });
 
   describe('Packaging', () => {
-    it('should resolve a promise', () => {
-      apiServer.post('/_api/av/storyboard')
+    it('should resolve a promise', async () => {
+      apiServer.post('/_api/av/package')
         .once()
         .replyWithFile(200, repliesDir + 'packaging-response.json');
 
@@ -182,12 +180,41 @@ describe('transcode manager', () => {
         directory: '/demo',
         acl: DestinationAcl.PUBLIC,
         chunkDuration: 2,
-        packageType: 'hls'
+        packageType: PackageType.HLS
       };
 
-      avManager.packaging(requestParams)
+      await avManager.packageVideo(requestParams)
         .then(data => {
-          expect((data as PackagingJobResponse).groupId).to.equal('11111137a5af4a224225b1b257b17ef22237');
+          expect(data).to.deep.equal(new PackagingJobResponse({
+            jobs: [
+              {
+                status: 'pending',
+                dateCreated: '2018-04-25T13:00:54Z',
+                sources: [
+                  {
+                    path: '/sample.mp4',
+                    fileId: 'ed36df98d3bb4f60bda8062f98700a29'
+                  }
+                ],
+                result: null,
+                id: '4837a5af4a224225b1b257b17ef22237_6ef414ff3e9143c49927777a0c518c0a',
+                issuer: 'urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3',
+                specification: {
+                  destination: {
+                    directory: '/demo',
+                    path: '/demo/sample.4837a5af4a224225b1b257b17ef22237.m3u8',
+                    acl: DestinationAcl.PUBLIC
+                  },
+                  chunkDuration: 2,
+                  packageType: PackageType.HLS
+                },
+                groupId: '4837a5af4a224225b1b257b17ef22237',
+                dateUpdated: '2018-04-25T13:00:54Z',
+                type: 'urn:job:av.package'
+              }
+            ],
+            groupId: '11111137a5af4a224225b1b257b17ef22237'
+          }));
         });
     });
   });

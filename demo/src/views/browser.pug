@@ -552,7 +552,7 @@ html()
                             .highlight
                                 pre
                                     code.language-javascript.
-                                        mediaPlatform.avManager.packaging({ sources: [], directory: '/demo'..... })
+                                        mediaPlatform.avManager.packageVideo({ sources: [], directory: '/demo'..... })
                                             .then(function (response) {
                                                 // do something
                                             });
@@ -1468,7 +1468,7 @@ html()
                     startLoading(packagingServiceButton);
                     mediaPlatform
                       .avManager
-                      .package({
+                      .packageVideo({
                         sources: [{ path, name }],
                         directory: directory,
                         acl: acl,
