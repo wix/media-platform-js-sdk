@@ -32,7 +32,7 @@ Get Upload URL
           <code>uploadUrlRequest</code>
         </td>
         <td>
-            Possible values are IUploadUrlRequest, undefined, null.
+            <div class="type">(IUploadUrlRequest | undefined | null)</div>
         </td>
       </tr>
       <tr>
@@ -41,6 +41,7 @@ Get Upload URL
         </td>
         <td>
             <div class="type">GetUploadURLCallback</div>
+            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>
@@ -94,8 +95,8 @@ upload a file
           <code>file</code>
         </td>
         <td>
+            <div class="type">(string | Buffer | Stream)</div>
             <p>can be one of: string - path to file, memory buffer, stream</p>
-            Possible values are string, Buffer, Stream.
         </td>
       </tr>
       <tr>
@@ -112,6 +113,26 @@ upload a file
         </td>
         <td>
             <div class="type">UploadFileCallback</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">(Promise&#x3C;Array&#x3C;FileDescriptor>> | UploadJob)</div>
         </td>
       </tr>
     </tbody>
@@ -144,7 +165,27 @@ import a file from a source URL, returns a Job (see job manager)
           <code>callback</code>
         </td>
         <td>
-            <code>function(<code>error</code>: Possible values are Error, null., <code>job</code>: Possible values are Job, null.): void</code>
+            <code>function(<code>error</code>: (Error | null), <code>job</code>: (Job&#x3C;FileImportSpecification> | null)): void</code>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;Job&#x3C;FileImportSpecification>></div>
         </td>
       </tr>
     </tbody>
@@ -178,6 +219,27 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <code>function(Error, FileDescriptor)</code>
+            <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;FileDescriptor></div>
         </td>
       </tr>
     </tbody>
@@ -209,6 +271,27 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <code>function(Error, FileDescriptor)</code>
+            <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;FileDescriptor></div>
         </td>
       </tr>
     </tbody>
@@ -240,6 +323,27 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <code>function(Error, FileMetadata)</code>
+            <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;FileMetadata></div>
         </td>
       </tr>
     </tbody>
@@ -270,7 +374,7 @@ creates a file descriptor, use this to create an empty directory
           <code>listFilesRequest</code>
         </td>
         <td>
-            <div class="type">ListFilesRequest?</div>
+            <div class="type">IListFilesRequest?</div>
         </td>
       </tr>
       <tr>
@@ -279,6 +383,27 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <code>function(Error, ListFilesResponse)</code>
+            <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;ListFilesResponse></div>
         </td>
       </tr>
     </tbody>
@@ -310,6 +435,27 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <code>function(Error)</code>
+            <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;void></div>
         </td>
       </tr>
     </tbody>
@@ -341,6 +487,27 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <code>function(Error)</code>
+            <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;void></div>
         </td>
       </tr>
     </tbody>

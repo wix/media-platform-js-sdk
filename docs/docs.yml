@@ -32,10 +32,10 @@
   title: Archive Manager
   tag: ArchiveManager
   entry: src/platform/management/archive-manager.ts
-- path: partial/transcode-manager.md
-  title: Transcode Manager
-  tag: TranscodeManager
-  entry: src/platform/management/transcode-manager.ts
+- path: partial/av-manager.md
+  title: AV Manager
+  tag: AVManager
+  entry: src/platform/management/av-manager.ts
 - path: partial/create-archive-request.md
   title: Create Archive Request
   tag: CreateArchiveRequest
@@ -96,3 +96,7 @@
   title: Destination
   tag: Destination
   entry: src/platform/management/job/destination.ts
+- path: partial/packaging-specification.md
+  title: Packaging
+  tag: Packaging
+  entry: src/platform/management/job/packaging-specification.ts

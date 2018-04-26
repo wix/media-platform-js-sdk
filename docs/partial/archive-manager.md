@@ -27,6 +27,27 @@
         </td>
         <td>
             <code>function(Error, Job)</code>
+            <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;Job&#x3C;ExtractArchiveSpecification>></div>
         </td>
       </tr>
     </tbody>
@@ -58,6 +79,27 @@
         </td>
         <td>
             <code>function(Error, Job)</code>
+            <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;Job&#x3C;CreateArchiveSpecification>></div>
         </td>
       </tr>
     </tbody>

@@ -27,7 +27,7 @@ export class Source implements ISource {
    * @returns {Source}
    */
   @deprecated('pass data to constructor instead')
-  setFileId(fileId: string): this {
+  public setFileId(fileId: string): this {
     this.fileId = fileId;
     return this;
   }
@@ -38,7 +38,7 @@ export class Source implements ISource {
    * @returns {Source}
    */
   @deprecated('pass data to constructor instead')
-  setPath(path: string): this {
+  public setPath(path: string): this {
     this.path = path;
     return this;
   }
@@ -47,7 +47,7 @@ export class Source implements ISource {
    * @param data
    * @private
    */
-  deserialize(data: ISource) {
+  private deserialize(data: ISource) {
     if (data.fileId !== undefined) {
       this.fileId = data.fileId;
     }

@@ -1,6 +1,7 @@
 import * as nock from 'nock';
 import {expect} from 'chai';
-import {TranscodeManager} from '../../../../src/platform/management/transcode-manager';
+import {AVManager} from '../../../../src/platform/management/av-manager';
+import {DestinationAcl} from '../../../../src/platform/management/job/destination';
 import {TranscodeRequest} from '../../../../src/platform/management/requests/transcode-request';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
@@ -9,15 +10,15 @@ import {ExtractPosterRequest} from '../../../../src/platform/management/requests
 import {ExtractStoryboardRequest} from '../../../../src/platform/management/requests/extract-storyboard-request';
 import {ExtractPosterJobResponse} from '../../../../src/platform/management/responses/extract-poster-job-response';
 import {ExtractStoryboardJobResponse} from '../../../../src/platform/management/responses/extract-storyboard-job-response';
+import {PackagingJobResponse} from '../../../../src/platform/management/responses/packaging-job-response';
 
 const repliesDir = __dirname + '/replies/';
 
 describe('transcode manager', () => {
-
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
-  const transcodeManager = new TranscodeManager(configuration, httpClient);
+  const avManager = new AVManager(configuration, httpClient);
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'
@@ -39,7 +40,7 @@ describe('transcode manager', () => {
       specifications: [{
         destination: {
           directory: '/test/output',
-          acl: 'public'
+          acl: DestinationAcl.PUBLIC
         },
         qualityRange: {
           minimum: '240p',
@@ -48,7 +49,7 @@ describe('transcode manager', () => {
       }]
     });
 
-    transcodeManager.transcodeVideo(transcodeRequest, (error, data) => {
+    avManager.transcodeVideo(transcodeRequest, (error, data) => {
       expect(data.groupId).to.equal('fb79405a16434aab87ccbd1384563033');
       done();
     });
@@ -68,14 +69,14 @@ describe('transcode manager', () => {
         specifications: [{
           destination: {
             directory: '/test/output/',
-            acl: 'public'
+            acl: DestinationAcl.PUBLIC
           },
           format: 'jpg',
           second: 5
         }]
       });
 
-      transcodeManager.extractPoster(extractPosterRequest, (error, data) => {
+      avManager.extractPoster(extractPosterRequest, (error, data) => {
         expect((data as ExtractPosterJobResponse).groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
         done();
       });
@@ -93,14 +94,14 @@ describe('transcode manager', () => {
         specifications: [{
           destination: {
             directory: '/test/output/',
-            acl: 'public'
+            acl: DestinationAcl.PUBLIC
           },
           format: 'jpg',
           second: 5
         }]
       });
 
-      return transcodeManager.extractPoster(extractPosterRequest)
+      return avManager.extractPoster(extractPosterRequest)
         .then((data) => {
           expect(data.groupId).to.equal('31325609b28541e6afea56d0dd7649ba');
         });
@@ -120,7 +121,7 @@ describe('transcode manager', () => {
         specifications: [{
           destination: {
             directory: '/test/output/',
-            acl: 'public'
+            acl: DestinationAcl.PUBLIC
           },
           format: 'jpg',
           columns: 5,
@@ -130,7 +131,7 @@ describe('transcode manager', () => {
         }]
       });
 
-      transcodeManager.extractStoryboard(extractStoryboardRequest, (error, data) => {
+      avManager.extractStoryboard(extractStoryboardRequest, (error, data) => {
         expect((data as ExtractStoryboardJobResponse).groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
         done();
       });
@@ -148,7 +149,7 @@ describe('transcode manager', () => {
         specifications: [{
           destination: {
             directory: '/test/output/',
-            acl: 'public'
+            acl: DestinationAcl.PUBLIC
           },
           format: 'jpg',
           columns: 5,
@@ -158,7 +159,7 @@ describe('transcode manager', () => {
         }]
       });
 
-      return transcodeManager.extractStoryboard(extractStoryboardRequest)
+      return avManager.extractStoryboard(extractStoryboardRequest)
         .then(data => {
           expect(data.groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
         });
@@ -179,14 +180,14 @@ describe('transcode manager', () => {
           }
         ],
         directory: '/demo',
-        acl: 'public',
+        acl: DestinationAcl.PUBLIC,
         chunkDuration: 2,
         packageType: 'hls'
       };
 
-      transcodeManager.packaging(requestParams)
+      avManager.packaging(requestParams)
         .then(data => {
-          expect(data.groupId).to.equal('dd35054a57a0490aa67251777e0f9386');
+          expect((data as PackagingJobResponse).groupId).to.equal('11111137a5af4a224225b1b257b17ef22237');
         });
     });
   });

@@ -6,7 +6,7 @@ import {FileDownloader} from './downloader/browser-file-downloader';
 import {FileManager} from '../../platform/management/file-manager';
 import {ArchiveManager} from '../../platform/management/archive-manager';
 import {JobManager} from '../../platform/management/job-manager';
-import {TranscodeManager} from '../../platform/management/transcode-manager';
+import {TranscodeManager, AVManager} from '../../platform/management/av-manager';
 import {FlowManager} from '../../platform/management/flow-manager';
 import {LiveManager} from '../../platform/management/live-manager';
 import {ImageManager} from '../../platform/management/image-manager';
@@ -31,6 +31,7 @@ class MediaPlatform {
   public fileManager: FileManager;
   public jobManager: JobManager;
   public transcodeManager: TranscodeManager;
+  public avManager: AVManager;
   public liveManager: LiveManager;
   public flowManager: FlowManager;
   public imageManager: ImageManager;
@@ -54,12 +55,11 @@ class MediaPlatform {
      * @param {UploadJob} uploadJob
      * @returns {QueuedFileUploader}
      */
-    this.fileManager.queueFileUpload = function (uploadJob: UploadJob) {
-      return queuedFileUploader.enqueue(uploadJob);
-    };
+    this.fileManager.queueFileUpload = (uploadJob: UploadJob) => queuedFileUploader.enqueue(uploadJob);
 
     this.jobManager = new JobManager(configuration, this.browserHTTPClient);
     this.transcodeManager = new TranscodeManager(configuration, this.browserHTTPClient);
+    this.avManager = new AVManager(configuration, this.browserHTTPClient);
     this.liveManager = new LiveManager(configuration, this.browserHTTPClient);
     this.flowManager = new FlowManager(configuration, this.browserHTTPClient);
     this.imageManager = new ImageManager(configuration, this.browserHTTPClient);
@@ -73,10 +73,13 @@ class MediaPlatform {
    */
   public getAuthorizationHeader(callback?: (error: Error | null, authorization: AuthorizationHeader | null) => void): Promise<AuthorizationHeader> {
     const authenticationHeaderPromise = this.browserHTTPClient.getAuthorizationHeader();
+
     if (callback === undefined) {
       return authenticationHeaderPromise;
     }
+
     callback = deprecatedFn('MediaPlatform.getAuthorizationHeader. Use promise response instead')(callback);
+
     return authenticationHeaderPromise
       .then(authorization => {
         if (callback) {

@@ -1,3 +1,4 @@
+import {DestinationAcl} from './job/destination';
 import {IPackagingJobResponse, PackagingJobResponse} from './responses/packaging-job-response';
 import {ITranscodeJobResponse, TranscodeJobResponse} from './responses/transcode-job-response';
 import {IConfigurationBase} from '../configuration/configuration';
@@ -18,7 +19,7 @@ export interface PackagingSource {
 export interface PackagingParams {
   sources: PackagingSource[];
   directory: string;
-  acl: string;
+  acl: DestinationAcl;
   chunkDuration: number;
   packageType: string;
 }
@@ -26,7 +27,7 @@ export interface PackagingParams {
 /**
  * @param {Configuration} configuration
  * @param {HTTPClient} httpClient
- * @doc TranscodeManager
+ * @doc AVManager
  */
 
 export class AVManager {
@@ -134,9 +135,9 @@ export class AVManager {
 
   /**
    * Packaging Service
-   * @param PackagingParams
+   * @param {params} PackagingParams
    */
-  public packaging({sources, directory, acl, chunkDuration, packageType}: PackagingParams): Promise<PackagingJobResponse> {
+  public package({sources, directory, acl, chunkDuration, packageType}: PackagingParams): Promise<PackagingJobResponse> {
     const params = {
       sources,
       specification: {
@@ -157,7 +158,7 @@ export class AVManager {
 
 export class TranscodeManager extends AVManager {
   constructor(configuration, httpClient) {
-    super(configuration, httpClient);
     deprecatedFn('TranscodeManager: use AVManager class instead of TranscodeManager')(() => {});
+    super(configuration, httpClient);
   }
 }

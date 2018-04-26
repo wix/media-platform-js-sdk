@@ -5,6 +5,7 @@ import {Configuration} from '../../../../src/platform/configuration/configuratio
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
 import { CreateArchiveSpecification } from '../../../../src/platform/management/job/create-archive-specification';
+import { DestinationAcl } from '../../../../src/platform/management/job/destination';
 import { ExtractArchiveSpecification } from '../../../../src/platform/management/job/extract-archive-specification';
 import {ExtractArchiveRequest} from '../../../../src/platform/management/requests/extract-archive-request';
 import {CreateArchiveRequest} from '../../../../src/platform/management/requests/create-archive-request';
@@ -23,22 +24,20 @@ describe('archive manager', () => {
     'Content-Type': 'application/json'
   });
 
-  afterEach(function () {
+  afterEach(() => {
     nock.cleanAll();
   });
 
-  it('create archive', function (done) {
+  it('create archive', (done) => {
     apiServer.post('/_api/archive/create')
       .once()
       .query(true)
       .replyWithFile(200, repliesDir + 'create-archive-pending-response.json');
 
-
-
     const createArchiveRequest = new CreateArchiveRequest({
       destination: {
         directory: '/fish',
-        acl: '/public'
+        acl: DestinationAcl.PUBLIC
       },
       sources: [{
         fileId: 'archive-file'
@@ -64,7 +63,7 @@ describe('archive manager', () => {
       },
       destination: {
         directory: '/fish',
-        acl: '/public'
+        acl: DestinationAcl.PUBLIC
       }
     });
 
@@ -75,4 +74,3 @@ describe('archive manager', () => {
   });
 
 });
-

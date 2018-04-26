@@ -1,5 +1,6 @@
 import * as nock from 'nock';
 import {expect} from 'chai';
+import { DestinationAcl } from '../../../../src/platform/management/job/destination';
 import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 import {Image} from '../../../../src/image/image';
 import {ImageManager} from '../../../../src/platform/management/image-manager';
@@ -10,7 +11,7 @@ import {HTTPClient} from '../../../../src/platform/http/http-client';
 
 const repliesDir = __dirname + '/replies/';
 
-describe('image manager', function () {
+describe('image manager', () => {
 
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
@@ -21,11 +22,11 @@ describe('image manager', function () {
     'Content-Type': 'application/json'
   });
 
-  afterEach(function () {
+  afterEach(() => {
     nock.cleanAll();
   });
 
-  it('perform image operation', function (done) {
+  it('perform image operation', done => {
     apiServer.post('/_api/images/operations')
       .once()
       .query(true)
@@ -49,11 +50,11 @@ describe('image manager', function () {
       command,
       destination: {
         path: '/orig.thumb.png',
-        acl: 'private'
+        acl: DestinationAcl.PRIVATE
       }
     });
 
-    imageManager.imageOperation(request, function (error, data) {
+    imageManager.imageOperation(request, (error, data) => {
       expect(data).to.deep.equal(new FileDescriptor({
         id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
         hash: 'd41d8cd98f00b204e9800998ecf8427e',
@@ -69,4 +70,3 @@ describe('image manager', function () {
     });
   });
 });
-

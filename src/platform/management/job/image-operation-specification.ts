@@ -20,7 +20,7 @@ export class ImageOperationSpecification {
    * @returns {this}
    */
   @deprecated('pass data to constructor instead')
-  setCommand(command: string): this {
+  public setCommand(command: string): this {
     this.command = command;
     return this;
   }
@@ -31,7 +31,7 @@ export class ImageOperationSpecification {
    * @returns {this}
    */
   @deprecated('pass data to constructor instead')
-  setDestination(destination: Destination): this {
+  public setDestination(destination: Destination): this {
     this.destination = destination;
     return this;
   }
@@ -40,7 +40,7 @@ export class ImageOperationSpecification {
    * @param data
    * @private
    */
-  deserialize(data: IImageOperationSpecification) {
+  private deserialize(data: IImageOperationSpecification) {
     this.command = data.command;
     this.destination = new Destination(data.destination);
   }

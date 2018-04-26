@@ -29,7 +29,7 @@ export class TranscodeSpecification implements ITranscodeSpecification {
    * @returns {this}
    */
   @deprecated('pass data to constructor instead')
-  setDestination(destination: Destination): this {
+  public setDestination(destination: Destination): this {
     this.destination = destination;
     return this;
   }
@@ -40,7 +40,7 @@ export class TranscodeSpecification implements ITranscodeSpecification {
    * @returns {this}
    */
   @deprecated('pass data to constructor instead')
-  setQualityRange(qualityRange: QualityRange): this {
+  public setQualityRange(qualityRange: QualityRange): this {
     this.qualityRange = qualityRange;
     return this;
   }
@@ -49,7 +49,7 @@ export class TranscodeSpecification implements ITranscodeSpecification {
    * @param data
    * @private
    */
-  deserialize(data: ITranscodeSpecification) {
+  private deserialize(data: ITranscodeSpecification) {
     this.destination = new Destination(data.destination);
     this.quality = data.quality ? data.quality : null;
     this.qualityRange = new QualityRange(data.qualityRange ? data.qualityRange : {

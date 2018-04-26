@@ -36,30 +36,6 @@ export class Job<T> implements IJob<T> {
     this.deserialize(data);
   }
 
-  isArchiveExtract(): boolean {
-    return this.type === 'urn:job:archive.extract';
-  }
-
-  isArchiveCreate(): boolean {
-    return this.type === 'urn:job:archive.create';
-  }
-
-  isAvTranscode(): boolean {
-    return this.type === 'urn:job:av.transcode';
-  }
-
-  isAvPoster(): boolean {
-    return this.type === 'urn:job:av.poster';
-  }
-
-  isAvStoryboard(): boolean {
-    return this.type === 'urn:job:av.storyboard';
-  }
-
-  isImportFile(): boolean {
-    return this.type === 'urn:job:import.file';
-  }
-
   /**
    * @param data
    * @private

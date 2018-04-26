@@ -108,59 +108,6 @@ sets the subject (actor) of the operation
   </table>
 </div>
 
-## setObject()
-
-sets the object, the entity on which the action is taken
-
-<div class="method-list">
-  <table>
-    <thead>
-      <tr>
-        <th>ARGUMENTS</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="param">
-          <code>ns</code>
-        </td>
-        <td>
-            <div class="type">string</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="param">
-          <code>pattern</code>
-        </td>
-        <td>
-            <div class="type">string</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="method-list">
-  <table>
-    <thead>
-      <tr>
-        <th>RETURN VALUE</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="param">
-        </td>
-        <td>
-            <div class="type">Token</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
 ## setObjects()
 
 sets the object, the entity on which the action is taken

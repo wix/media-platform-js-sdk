@@ -345,7 +345,7 @@ html()
                                 .addSource(source)
                                 .addSpecification(transcodeSpecification);
 
-                            mediaPlatform.transcodeManager.transcodeVideo(transcodeRequest, function(error, response) {
+                            mediaPlatform.avManager.transcodeVideo(transcodeRequest, function(error, response) {
                                 // handle success
                             });
 
@@ -380,7 +380,7 @@ html()
                                 .addSource(source)
                                 .addSpecification(extractPosterSpecification);
 
-                            mediaPlatform.transcodeManager.extractPoster(extractPosterRequest, function(error, response) {
+                            mediaPlatform.avManager.extractPoster(extractPosterRequest, function(error, response) {
                                 // handle success
                             });
 
@@ -420,7 +420,7 @@ html()
                                 .addSource(source)
                                 .addSpecification(extractStoryboardSpecification);
 
-                            mediaPlatform.transcodeManager.extractStoryboard(extractStoryboardRequest, function(error, response) {
+                            mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest, function(error, response) {
                                 // handle success
                             });
 
@@ -552,7 +552,7 @@ html()
                             .highlight
                                 pre
                                     code.language-javascript.
-                                        mediaPlatform.transcodeManager.packaging({ sources: [], directory: '/demo'..... })
+                                        mediaPlatform.avManager.packaging({ sources: [], directory: '/demo'..... })
                                             .then(function (response) {
                                                 // do something
                                             });
@@ -1024,7 +1024,7 @@ html()
                         .addSource(source)
                         .addSpecification(transcodeSpecification);
 
-                    mediaPlatform.transcodeManager.transcodeVideo(transcodeRequest, function (error, response) {
+                    mediaPlatform.avManager.transcodeVideo(transcodeRequest, function (error, response) {
                         transcodeVideoPayload.innerHTML = Prism.highlight(
                             JSON.stringify(response, null, 2),
                             Prism.languages.js);
@@ -1099,7 +1099,7 @@ html()
                         .addSource(source)
                         .addSpecification(extractPosterSpecification);
 
-                    mediaPlatform.transcodeManager.extractPoster(extractPosterRequest, function (error, response) {
+                    mediaPlatform.avManager.extractPoster(extractPosterRequest, function (error, response) {
                         if(error) {
                             stopLoading(extractPosterVideoButton);
                             return;
@@ -1183,7 +1183,7 @@ html()
                         .addSource(source)
                         .addSpecification(extractStoryboardSpecification);
 
-                    mediaPlatform.transcodeManager.extractStoryboard(extractStoryboardRequest, function (error, response) {
+                    mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest, function (error, response) {
                         if(error) {
                             stopLoading(extractStoryboardVideoButton);
                             return;
@@ -1467,8 +1467,8 @@ html()
 
                     startLoading(packagingServiceButton);
                     mediaPlatform
-                      .transcodeManager
-                      .packaging({
+                      .avManager
+                      .package({
                         sources: [{ path, name }],
                         directory: directory,
                         acl: acl,

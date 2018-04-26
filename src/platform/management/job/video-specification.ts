@@ -29,4 +29,3 @@ export class VideoSpecification implements IVideoSpecification {
     this.resolution = new Resolution(data.resolution);
   }
 }
-

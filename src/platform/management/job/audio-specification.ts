@@ -17,9 +17,8 @@ export class AudioSpecification implements IAudioSpecification {
    * @param data
    * @private
    */
-  deserialize(data: IAudioSpecification) {
+  private deserialize(data: IAudioSpecification) {
     this.channels = data.channels;
     this.codec = data.codec === null ? data.codec : new AudioCodec(data.codec);
   }
 }
-

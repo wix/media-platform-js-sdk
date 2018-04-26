@@ -1,5 +1,6 @@
 import * as nock from 'nock';
 import {expect} from 'chai';
+import { DestinationAcl } from '../../../../src/platform/management/job/destination';
 import {IJob, Job} from '../../../../src/platform/management/job/job';
 import {JobManager} from '../../../../src/platform/management/job-manager';
 import {SearchJobsResponse} from '../../../../src/platform/management/responses/search-jobs-response';
@@ -11,7 +12,7 @@ import {SearchJobsRequest} from '../../../../src/platform/management/requests/se
 
 const repliesDir = __dirname + '/replies/';
 
-describe('job manager', function () {
+describe('job manager', () => {
 
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
@@ -22,21 +23,21 @@ describe('job manager', function () {
     'Content-Type': 'application/json'
   });
 
-  afterEach(function () {
+  afterEach(() => {
     if (!nock.isDone()) {
       console.error('nock is not done', nock.pendingMocks());
     }
     nock.cleanAll();
   });
 
-  it('get job', function (done) {
+  it('get job', done => {
 
     apiServer.get('/_api/jobs/job-id')
       .once()
       .query(true)
       .replyWithFile(200, repliesDir + 'get-job-response.json');
 
-    jobManager.getJob('job-id', function (error, data) {
+    jobManager.getJob('job-id', (error, data) => {
       expect(data).to.deep.equal(new Job({
         id: '71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f',
         type: 'urn:job:import.file',
@@ -48,7 +49,7 @@ describe('job manager', function () {
           destination: {
             directory: 'string',
             path: 'string',
-            acl: 'public'
+            acl: DestinationAcl.PUBLIC
           }
         }),
         sources: [],
