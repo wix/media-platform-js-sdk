@@ -49,7 +49,7 @@ export class HTTPClient implements IHTTPClient {
             default:
               queryString = '';
               for (const key in params) {
-                if (typeof params[key] === 'function' || params[key] === null) {
+                if (typeof params[key] === 'function' || params[key] === null || params[key] === undefined) {
                   continue;
                 }
 
