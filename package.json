@@ -1,6 +1,6 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "6.0.0-alpha.19",
+  "version": "6.0.0-alpha.20",
   "description": "The official Wix Media Platform Javascript SDK",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
@@ -76,6 +76,7 @@
     "@types/chai": "~4.0.0",
     "@types/mocha": "^2.2.48",
     "@types/nock": "^9.1.2",
+    "@types/node": "^9.6.7",
     "@types/request": "^2.47.0",
     "@types/request-promise-native": "^1.0.14",
     "@types/sinon": "^4.3.0",
