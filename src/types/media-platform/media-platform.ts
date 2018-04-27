@@ -128,3 +128,8 @@ export enum OrderDirection {
   ASC = 'asc',
   DES = 'des'
 }
+
+export enum ACL {
+  PRIVATE = 'private',
+  PUBLIC = 'public'
+}

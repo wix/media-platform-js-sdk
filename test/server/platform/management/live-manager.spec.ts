@@ -5,14 +5,15 @@ import {LivestreamRequest} from '../../../../src/platform/management/requests/li
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
-import {Destination, DestinationAcl} from '../../../../src/platform/management/job/destination';
+import {Destination} from '../../../../src/platform/management/job/destination';
 import {PublishEndpoint} from '../../../../src/platform/management/metadata/publish-endpoint';
 import {Dvr} from '../../../../src/platform/management/metadata/dvr';
 import {Geo} from '../../../../src/platform/management/metadata/geo';
+import {ACL} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 
-describe('live manager', function () {
+describe('live manager', () => {
 
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
@@ -95,7 +96,7 @@ describe('live manager', function () {
       reconnectTimeout: 60,
       dvr: {
         destination: {
-          acl: DestinationAcl.PUBLIC,
+          acl: ACL.PUBLIC,
           path: '/test'
         }
       }

@@ -1,6 +1,5 @@
 import * as nock from 'nock';
 import {expect} from 'chai';
-import { DestinationAcl } from '../../../../src/platform/management/job/destination';
 import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 import {Image} from '../../../../src/image/image';
 import {ImageManager} from '../../../../src/platform/management/image-manager';
@@ -8,6 +7,7 @@ import {ImageOperationRequest} from '../../../../src/platform/management/request
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
+import {ACL} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -50,7 +50,7 @@ describe('image manager', () => {
       command,
       destination: {
         path: '/orig.thumb.png',
-        acl: DestinationAcl.PRIVATE
+        acl: ACL.PRIVATE
       }
     });
 

@@ -1,4 +1,4 @@
-import {DestinationAcl} from './job/destination';
+import {ACL} from '../../types/media-platform/media-platform';
 import {PackageType} from './job/packaging-specification';
 import {IPackagingJobResponse, PackagingJobResponse} from './responses/packaging-job-response';
 import {ITranscodeJobResponse, TranscodeJobResponse} from './responses/transcode-job-response';
@@ -20,7 +20,7 @@ export interface PackagingSource {
 export interface PackagingParams {
   sources: PackagingSource[];
   directory: string;
-  acl: DestinationAcl;
+  acl: ACL;
   chunkDuration: number;
   packageType: PackageType;
 }

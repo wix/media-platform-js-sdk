@@ -1,6 +1,5 @@
 import * as nock from 'nock';
 import {expect} from 'chai';
-import { DestinationAcl } from '../../../../src/platform/management/job/destination';
 import {IJob, Job} from '../../../../src/platform/management/job/job';
 import {JobManager} from '../../../../src/platform/management/job-manager';
 import {SearchJobsResponse} from '../../../../src/platform/management/responses/search-jobs-response';
@@ -9,6 +8,7 @@ import {Configuration} from '../../../../src/platform/configuration/configuratio
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
 import {SearchJobsRequest} from '../../../../src/platform/management/requests/search-jobs-request';
+import {ACL} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -49,7 +49,7 @@ describe('job manager', () => {
           destination: {
             directory: 'string',
             path: 'string',
-            acl: DestinationAcl.PUBLIC
+            acl: ACL.PUBLIC
           }
         }),
         sources: [],

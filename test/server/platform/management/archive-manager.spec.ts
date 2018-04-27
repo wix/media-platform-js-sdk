@@ -4,12 +4,12 @@ import {ArchiveManager} from '../../../../src/platform/management/archive-manage
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
-import { CreateArchiveSpecification } from '../../../../src/platform/management/job/create-archive-specification';
-import { DestinationAcl } from '../../../../src/platform/management/job/destination';
-import { ExtractArchiveSpecification } from '../../../../src/platform/management/job/extract-archive-specification';
+import {CreateArchiveSpecification} from '../../../../src/platform/management/job/create-archive-specification';
+import {ExtractArchiveSpecification} from '../../../../src/platform/management/job/extract-archive-specification';
 import {ExtractArchiveRequest} from '../../../../src/platform/management/requests/extract-archive-request';
 import {CreateArchiveRequest} from '../../../../src/platform/management/requests/create-archive-request';
 import {Job} from '../../../../src/platform/management/job/job';
+import {ACL} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -37,7 +37,7 @@ describe('archive manager', () => {
     const createArchiveRequest = new CreateArchiveRequest({
       destination: {
         directory: '/fish',
-        acl: DestinationAcl.PUBLIC
+        acl: ACL.PUBLIC
       },
       sources: [{
         fileId: 'archive-file'
@@ -63,7 +63,7 @@ describe('archive manager', () => {
       },
       destination: {
         directory: '/fish',
-        acl: DestinationAcl.PUBLIC
+        acl: ACL.PUBLIC
       }
     });
 

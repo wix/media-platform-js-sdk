@@ -1,7 +1,6 @@
 import * as nock from 'nock';
 import {expect} from 'chai';
 import {AVManager} from '../../../../src/platform/management/av-manager';
-import {DestinationAcl} from '../../../../src/platform/management/job/destination';
 import {PackageType} from '../../../../src/platform/management/job/packaging-specification';
 import {TranscodeRequest} from '../../../../src/platform/management/requests/transcode-request';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
@@ -12,6 +11,7 @@ import {ExtractStoryboardRequest} from '../../../../src/platform/management/requ
 import {ExtractPosterJobResponse} from '../../../../src/platform/management/responses/extract-poster-job-response';
 import {ExtractStoryboardJobResponse} from '../../../../src/platform/management/responses/extract-storyboard-job-response';
 import {PackagingJobResponse} from '../../../../src/platform/management/responses/packaging-job-response';
+import {ACL} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -41,7 +41,7 @@ describe('AV Manager', () => {
       specifications: [{
         destination: {
           directory: '/test/output',
-          acl: DestinationAcl.PUBLIC
+          acl: ACL.PUBLIC
         },
         qualityRange: {
           minimum: '240p',
@@ -69,7 +69,7 @@ describe('AV Manager', () => {
         specifications: [{
           destination: {
             directory: '/test/output/',
-            acl: DestinationAcl.PUBLIC
+            acl: ACL.PUBLIC
           },
           format: 'jpg',
           second: 5
@@ -93,7 +93,7 @@ describe('AV Manager', () => {
         specifications: [{
           destination: {
             directory: '/test/output/',
-            acl: DestinationAcl.PUBLIC
+            acl: ACL.PUBLIC
           },
           format: 'jpg',
           second: 5
@@ -120,7 +120,7 @@ describe('AV Manager', () => {
         specifications: [{
           destination: {
             directory: '/test/output/',
-            acl: DestinationAcl.PUBLIC
+            acl: ACL.PUBLIC
           },
           format: 'jpg',
           columns: 5,
@@ -147,7 +147,7 @@ describe('AV Manager', () => {
         specifications: [{
           destination: {
             directory: '/test/output/',
-            acl: DestinationAcl.PUBLIC
+            acl: ACL.PUBLIC
           },
           format: 'jpg',
           columns: 5,
@@ -178,7 +178,7 @@ describe('AV Manager', () => {
           }
         ],
         directory: '/demo',
-        acl: DestinationAcl.PUBLIC,
+        acl: ACL.PUBLIC,
         chunkDuration: 2,
         packageType: PackageType.HLS
       };
@@ -203,7 +203,7 @@ describe('AV Manager', () => {
                   destination: {
                     directory: '/demo',
                     path: '/demo/sample.4837a5af4a224225b1b257b17ef22237.m3u8',
-                    acl: DestinationAcl.PUBLIC
+                    acl: ACL.PUBLIC
                   },
                   chunkDuration: 2,
                   packageType: PackageType.HLS

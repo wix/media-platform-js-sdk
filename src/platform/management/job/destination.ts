@@ -1,19 +1,15 @@
 import {deprecated} from 'core-decorators';
+import {ACL} from '../../../types/media-platform/media-platform';
 
 /**
  * Destination interface
  * @doc Destination
  */
 
-export enum DestinationAcl {
-  PRIVATE = 'private',
-  PUBLIC = 'public'
-}
-
 export interface IDestination {
   path?: string | null;
   directory?: string | null;
-  acl?: DestinationAcl;
+  acl?: ACL;
 }
 
 /**
@@ -23,7 +19,7 @@ export interface IDestination {
 export class Destination implements IDestination {
   public path: string | null = null;
   public directory: string | null = null;
-  public acl: DestinationAcl = DestinationAcl.PUBLIC;
+  public acl: ACL = ACL.PUBLIC;
 
   constructor(data: IDestination) {
     this.deserialize(data);
