@@ -4,10 +4,16 @@ import {deprecated} from 'core-decorators';
  * Destination interface
  * @doc Destination
  */
+
+export enum DestinationAcl {
+  PRIVATE = 'private',
+  PUBLIC = 'public'
+}
+
 export interface IDestination {
   path?: string | null;
   directory?: string | null;
-  acl?: string;
+  acl?: DestinationAcl;
 }
 
 /**
@@ -17,7 +23,7 @@ export interface IDestination {
 export class Destination implements IDestination {
   public path: string | null = null;
   public directory: string | null = null;
-  public acl: string = 'public';
+  public acl: DestinationAcl = DestinationAcl.PUBLIC;
 
   constructor(data: IDestination) {
     this.deserialize(data);
@@ -65,6 +71,7 @@ export class Destination implements IDestination {
   deserialize(data: IDestination) {
     this.path = data.path ? data.path : null;
     this.directory = data.directory ? data.directory : null;
+
     if (data.acl) {
       this.acl = data.acl;
     }

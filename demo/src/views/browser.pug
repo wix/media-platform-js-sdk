@@ -345,7 +345,7 @@ html()
                                 .addSource(source)
                                 .addSpecification(transcodeSpecification);
 
-                            mediaPlatform.transcodeManager.transcodeVideo(transcodeRequest, function(error, response) {
+                            mediaPlatform.avManager.transcodeVideo(transcodeRequest, function(error, response) {
                                 // handle success
                             });
 
@@ -380,7 +380,7 @@ html()
                                 .addSource(source)
                                 .addSpecification(extractPosterSpecification);
 
-                            mediaPlatform.transcodeManager.extractPoster(extractPosterRequest, function(error, response) {
+                            mediaPlatform.avManager.extractPoster(extractPosterRequest, function(error, response) {
                                 // handle success
                             });
 
@@ -420,7 +420,7 @@ html()
                                 .addSource(source)
                                 .addSpecification(extractStoryboardSpecification);
 
-                            mediaPlatform.transcodeManager.extractStoryboard(extractStoryboardRequest, function(error, response) {
+                            mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest, function(error, response) {
                                 // handle success
                             });
 
@@ -547,10 +547,41 @@ html()
                                 pre
                                     code.language-javascript#extract-image-by-path-payload
 
+                    h4 Packaging Service
+                        #packaging-service
+                            .highlight
+                                pre
+                                    code.language-javascript.
+                                        mediaPlatform.avManager.packageVideo({ sources: [], directory: '/demo'..... })
+                                            .then(function (response) {
+                                                // do something
+                                            });
+                            .demo-group
+                                input(id='packaging-service-input-file-path' type='text' placeholder='Enter File Path').text-input
+                                br
+                                input(id='packaging-service-input-file-name' type='text' placeholder='Enter File Name').text-input
+                                br
+                                input(id='packaging-service-input-directory' type='text' placeholder='Enter Directory').text-input
+                                br
+                                input(id='packaging-service-input-acl' type='text' placeholder='Enter ACL').text-input
+                                br
+                                input(id='packaging-service-input-chunk-duration' type='text' placeholder='Enter Chunk Duration').text-input
+                                br
+                                input(id='packaging-service-input-package-type' type='text' placeholder='Enter Package Type').text-input
+                                br
+                                .executable-button
+                                    button(id='packaging-service-button').btn.
+                                        Execute
+                                    .spinner
+                                .highlight.highlight-response
+                                    pre
+                                        code.language-javascript#packaging-service-payload
+
         script.
             var PATH_BASE = "/demo/";
 
             // FILE MANAGEMENT API
+
             (function() {
 
                 // upload file
@@ -993,7 +1024,7 @@ html()
                         .addSource(source)
                         .addSpecification(transcodeSpecification);
 
-                    mediaPlatform.transcodeManager.transcodeVideo(transcodeRequest, function (error, response) {
+                    mediaPlatform.avManager.transcodeVideo(transcodeRequest, function (error, response) {
                         transcodeVideoPayload.innerHTML = Prism.highlight(
                             JSON.stringify(response, null, 2),
                             Prism.languages.js);
@@ -1068,7 +1099,7 @@ html()
                         .addSource(source)
                         .addSpecification(extractPosterSpecification);
 
-                    mediaPlatform.transcodeManager.extractPoster(extractPosterRequest, function (error, response) {
+                    mediaPlatform.avManager.extractPoster(extractPosterRequest, function (error, response) {
                         if(error) {
                             stopLoading(extractPosterVideoButton);
                             return;
@@ -1152,7 +1183,7 @@ html()
                         .addSource(source)
                         .addSpecification(extractStoryboardSpecification);
 
-                    mediaPlatform.transcodeManager.extractStoryboard(extractStoryboardRequest, function (error, response) {
+                    mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest, function (error, response) {
                         if(error) {
                             stopLoading(extractStoryboardVideoButton);
                             return;
@@ -1413,4 +1444,43 @@ html()
                     Prism.languages.js);
                 });
               })
+            })();
+
+            // Packaging Service
+            (function () {
+                var packagingServiceInputFilePath = document.getElementById('packaging-service-input-file-path');
+                var packagingServiceInputFileName = document.getElementById('packaging-service-input-file-name');
+                var packagingServiceInputDirectory = document.getElementById('packaging-service-input-directory');
+                var packagingServiceInputAcl = document.getElementById('packaging-service-input-acl');
+                var packagingServiceInputChunkDuration = document.getElementById('packaging-service-input-chunk-duration');
+                var packagingServiceInputPackageType = document.getElementById('packaging-service-input-package-type');
+                var packagingServiceButton = document.getElementById('packaging-service-button');
+                var packagingServicePayload = document.getElementById('packaging-service-payload');
+
+                packagingServiceButton.addEventListener('click', function () {
+                    var path = packagingServiceInputFilePath.value;
+                    var name = packagingServiceInputFileName.value;
+                    var directory = packagingServiceInputDirectory.value;
+                    var acl = packagingServiceInputAcl.value;
+                    var chunkDuration = packagingServiceInputChunkDuration.value;
+                    var packageType = packagingServiceInputPackageType.value;
+
+                    startLoading(packagingServiceButton);
+                    mediaPlatform
+                      .avManager
+                      .packageVideo({
+                        sources: [{ path, name }],
+                        directory: directory,
+                        acl: acl,
+                        chunkDuration: chunkDuration,
+                        packageType: packageType
+                      })
+                      .then(function(response) {
+                        stopLoading(packagingServiceButton);
+                        packagingServicePayload.innerHTML = Prism.highlight(
+                          JSON.stringify(response || error, null, 2),
+                          Prism.languages.js
+                        );
+                    });
+                });
             })()

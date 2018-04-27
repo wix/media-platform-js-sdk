@@ -1,3 +1,6 @@
+import {DestinationAcl} from './job/destination';
+import {PackageType} from './job/packaging-specification';
+import {IPackagingJobResponse, PackagingJobResponse} from './responses/packaging-job-response';
 import {ITranscodeJobResponse, TranscodeJobResponse} from './responses/transcode-job-response';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
@@ -9,14 +12,26 @@ import {RawResponse} from '../../types/response/response';
 
 export type ExtractPosterCallback = (error: Error | null, response: ExtractPosterJobResponse | null) => void;
 export type ExtractStoryboardCallback = (error: Error | null, response: ExtractStoryboardJobResponse | null) => void;
+export interface PackagingSource {
+  path?: string;
+  fileId?: string;
+  name: string;
+}
+export interface PackagingParams {
+  sources: PackagingSource[];
+  directory: string;
+  acl: DestinationAcl;
+  chunkDuration: number;
+  packageType: PackageType;
+}
 
 /**
  * @param {Configuration} configuration
  * @param {HTTPClient} httpClient
- * @doc TranscodeManager
+ * @doc AVManager
  */
 
-export class TranscodeManager {
+export class AVManager {
   public baseUrl: string;
   public apiUrl: string;
 
@@ -87,7 +102,7 @@ export class TranscodeManager {
         }
         return Promise.reject(error);
       });
-  };
+  }
 
   /**
    * Extract storyboard
@@ -117,7 +132,34 @@ export class TranscodeManager {
         }
         return Promise.reject(error);
       });
-  };
+  }
 
+  /**
+   * Packaging Service
+   * @param {params} PackagingParams
+   */
+  public packageVideo({sources, directory, acl, chunkDuration, packageType}: PackagingParams): Promise<PackagingJobResponse> {
+    const params = {
+      sources,
+      specification: {
+        destination: {
+          directory,
+          acl
+        },
+        chunkDuration,
+        packageType
+      }
+    };
 
+    return this.httpClient
+      .post<RawResponse<IPackagingJobResponse>>(`${this.apiUrl}/package`, params)
+      .then(response => new PackagingJobResponse(response.payload));
+  }
+}
+
+export class TranscodeManager extends AVManager {
+  constructor(configuration, httpClient) {
+    deprecatedFn('TranscodeManager: use AVManager class instead of TranscodeManager')(() => {});
+    super(configuration, httpClient);
+  }
 }

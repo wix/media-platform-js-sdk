@@ -5,6 +5,7 @@ export interface IVideoCodec {
   name: string | null;
   level: string | null;
 }
+
 export class VideoCodec implements IVideoCodec {
   public profile: string | null = null;
   public maxRate: number | null = null;
@@ -20,7 +21,7 @@ export class VideoCodec implements IVideoCodec {
    * @param data
    * @private
    */
-  deserialize(data: IVideoCodec) {
+  private deserialize(data: IVideoCodec) {
     this.profile = data.profile;
     this.maxRate = data.maxRate;
     this.crf = data.crf;
@@ -28,4 +29,3 @@ export class VideoCodec implements IVideoCodec {
     this.level = data.level;
   }
 }
-

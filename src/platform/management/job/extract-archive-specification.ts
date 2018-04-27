@@ -18,9 +18,8 @@ export class ExtractArchiveSpecification implements IExtractArchiveSpecification
    * @param data
    * @private
    */
-  deserialize(data: IExtractArchiveSpecification) {
+  private deserialize(data: IExtractArchiveSpecification) {
     this.source = new Source(data.source);
     this.destination = new Destination(data.destination);
   }
 }
-

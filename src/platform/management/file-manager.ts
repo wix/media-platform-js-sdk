@@ -1,3 +1,4 @@
+import {FileImportSpecification} from './job/file-import-specification';
 import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
 import {FileMetadata, IFileMetadata} from './metadata/file-metadata';
 import {IListFilesResponse, ListFilesResponse} from './responses/list-files-response';
@@ -95,22 +96,25 @@ export class FileManager {
    * @param {ImportFileRequest} importFileRequest
    * @param {function(Error, Job|null)} callback DEPRECATED! use promise response instead
    */
-  importFile(importFileRequest: ImportFileRequest, callback?: (error: Error | null, job: Job | null) => void): Promise<Job> {
+  importFile(importFileRequest: ImportFileRequest, callback?: (error: Error | null, job: Job<FileImportSpecification> | null) => void): Promise<Job<FileImportSpecification>> {
     if (callback) {
       callback = deprecatedFn('FileManager.importFile: use promise response instead')(callback);
     }
     return this.httpClient
-      .post<RawResponse<IJob>>(this.baseUrl + '/_api/import/file', importFileRequest)
+      .post<RawResponse<IJob<FileImportSpecification>>>(this.baseUrl + '/_api/import/file', importFileRequest)
       .then((response) => {
         const job = new Job(response.payload);
+
         if (callback) {
           callback(null, job);
         }
+
         return job;
       }, error => {
         if (callback) {
           callback(error, null);
         }
+
         return Promise.reject(error);
       });
   }
@@ -127,14 +131,17 @@ export class FileManager {
     return this.httpClient.post<RawResponse<IFileDescriptor>>(this.apiUrl, fileDescriptor)
       .then((response) => {
         const fileDescriptor = new FileDescriptor(response.payload);
+
         if (callback) {
           callback(null, fileDescriptor);
         }
+
         return fileDescriptor;
       }, error => {
         if (callback) {
           callback(error, null);
         }
+
         return Promise.reject(error);
       });
   }
@@ -155,14 +162,17 @@ export class FileManager {
     return this.httpClient.get<RawResponse<FileDescriptor>>(this.apiUrl, params)
       .then((response) => {
         const fileDescriptor = new FileDescriptor(response.payload);
+
         if (callback) {
           callback(null, fileDescriptor);
         }
+
         return fileDescriptor;
       }, error => {
         if (callback) {
           callback(error, null);
         }
+
         return Promise.reject(error);
       });
   }
@@ -178,14 +188,17 @@ export class FileManager {
     return this.httpClient.get<RawResponse<IFileMetadata>>(`${this.apiUrl}/${fileId}/metadata`)
       .then((response) => {
         const fileMetadata = new FileMetadata(response.payload);
+
         if (callback) {
           callback(null, fileMetadata);
         }
+
         return fileMetadata;
       }, error => {
         if (callback) {
           callback(error, null);
         }
+
         return Promise.reject(error);
       });
   }
@@ -200,6 +213,7 @@ export class FileManager {
       path,
       ...listFilesRequest
     };
+
     if (callback) {
       callback = deprecatedFn('FileManager.listFiles: use promise response instead')(callback);
     }
@@ -207,14 +221,17 @@ export class FileManager {
     return this.httpClient.get<RawResponse<IListFilesResponse>>(`${this.apiUrl}/ls_dir`, params)
       .then((response) => {
         const listFilesResponse = new ListFilesResponse(response.payload);
+
         if (callback) {
           callback(null, listFilesResponse);
         }
+
         return listFilesResponse;
       }, error => {
         if (callback) {
           callback(error, null);
         }
+
         return Promise.reject(error);
       });
   }
@@ -227,6 +244,7 @@ export class FileManager {
     const params = {
       path
     };
+
     if (callback) {
       callback = deprecatedFn('FileManager.deleteFileByPath: use promise response instead')(callback);
     }
@@ -240,6 +258,7 @@ export class FileManager {
         if (callback) {
           callback(error);
         }
+
         return Promise.reject(error);
       });
   }
@@ -252,6 +271,7 @@ export class FileManager {
     if (callback) {
       callback = deprecatedFn('FileManager.deleteFileById: use promise response instead')(callback);
     }
+
     return this.httpClient.delete(`${this.apiUrl}/${id}`)
       .then(() => {
         if (callback) {
@@ -261,6 +281,7 @@ export class FileManager {
         if (callback) {
           callback(error);
         }
+
         return Promise.reject(error);
       });
   }

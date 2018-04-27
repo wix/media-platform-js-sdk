@@ -17,7 +17,7 @@ export class FileImportSpecification implements IFileImportSpecification {
    * @param data
    * @private
    */
-  deserialize(data: IFileImportSpecification) {
+  private deserialize(data: IFileImportSpecification) {
     this.sourceUrl = data.sourceUrl;
     this.destination = new Destination(data.destination);
   }

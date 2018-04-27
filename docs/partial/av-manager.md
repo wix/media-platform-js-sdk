@@ -1,6 +1,6 @@
 <!-- Generated automatically. Update this documentation by updating the source code. -->
 
-# Transcode Manager
+# AV Manager
 
 ## transcodeVideo()
 
@@ -20,6 +20,7 @@ Transcode Video
           <code>transcodeRequest</code>
         </td>
         <td>
+            <div class="type">any</div>
         </td>
       </tr>
       <tr>
@@ -27,6 +28,8 @@ Transcode Video
           <code>callback</code>
         </td>
         <td>
+            <div class="type">any</div>
+            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>
@@ -51,6 +54,7 @@ Extract Poster
           <code>extractPosterRequest</code>
         </td>
         <td>
+            <div class="type">any</div>
         </td>
       </tr>
       <tr>
@@ -59,6 +63,7 @@ Extract Poster
         </td>
         <td>
             <div class="type">ExtractPosterCallback</div>
+            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>
@@ -103,6 +108,7 @@ Extract storyboard
           <code>extractStoryboardRequest</code>
         </td>
         <td>
+            <div class="type">any</div>
         </td>
       </tr>
       <tr>
@@ -111,6 +117,7 @@ Extract storyboard
         </td>
         <td>
             <div class="type">ExtractStoryboardCallback</div>
+            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>
@@ -131,6 +138,51 @@ Extract storyboard
         </td>
         <td>
             <div class="type">Promise&#x3C;ExtractStoryboardJobResponse></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## packaging()
+
+Packaging Service
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>PackagingParams</code>
+        </td>
+        <td>
+            <div class="type">params</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;PackagingJobResponse></div>
         </td>
       </tr>
     </tbody>

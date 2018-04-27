@@ -11,7 +11,6 @@ export interface IImageExtractionResponse {
   explicitContent?: IExplicitContent[];
 }
 
-
 export class ImageExtractionResponse {
   public labels: ILabel[];
   public faces: IFace[];
@@ -44,4 +43,3 @@ export class ImageExtractionResponse {
     }
   }
 }
-

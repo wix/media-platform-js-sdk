@@ -31,11 +31,11 @@ export class JobManager {
    * @param {string} jobId
    * @param {function(Error, Job)} callback DEPRECATED! use promise response instead
    */
-  getJob(jobId, callback?: (error: Error | null, job: Job | null) => void): Promise<Job> {
+  getJob(jobId, callback?: (error: Error | null, job: Job<any> | null) => void): Promise<Job<any>> {
     if (callback) {
       callback = deprecatedFn('JobManager.getJob use promise response instead')(callback);
     }
-    return this.httpClient.get<RawResponse<IJob>>(this.apiUrl + '/' + jobId)
+    return this.httpClient.get<RawResponse<IJob<any>>>(this.apiUrl + '/' + jobId)
       .then((response) => {
         const job = new Job(response.payload);
         if (callback) {
@@ -54,16 +54,14 @@ export class JobManager {
    * @param {string} groupId
    * @param {function(Error, Job[])} callback DEPRECATED! use promise response instead
    */
-  getJobGroup(groupId, callback?: (error: Error | null, job: Job[] | null) => void): Promise<Job[]> {
+  getJobGroup(groupId, callback?: (error: Error | null, job: Job<any>[] | null) => void): Promise<Job<any>[]> {
     if (callback) {
       callback = deprecatedFn('JobManager.getJobGroup use promise response instead')(callback);
     }
     return this.httpClient
-      .get<RawResponse<IJob[]>>(this.apiUrl + '/groups/' + groupId, {})
+      .get<RawResponse<IJob<any>[]>>(this.apiUrl + '/groups/' + groupId, {})
       .then((response) => {
-        const jobs = response.payload.map(function (data) {
-          return new Job(data);
-        });
+        const jobs = response.payload.map(data => new Job(data));
 
         if (callback) {
           callback(null, jobs);
@@ -91,14 +89,17 @@ export class JobManager {
       .get<RawResponse<ISearchJobsResponse>>(this.apiUrl, params)
       .then((response) => {
         const searchJobsResponse = new SearchJobsResponse(response.payload);
+
         if (callback) {
           callback(null, searchJobsResponse);
         }
+
         return searchJobsResponse;
       }, error => {
         if (callback) {
           callback(error, null);
         }
+
         return Promise.reject(error);
       });
   }

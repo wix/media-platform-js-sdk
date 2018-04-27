@@ -18,7 +18,7 @@ export class Video {
    * @returns {this}
    */
   @deprecated('pass data to constructor instead')
-  setSpecification(specification: VideoSpecification): this {
+  public setSpecification(specification: VideoSpecification): this {
     this.specification = specification;
     return this;
   }
@@ -27,7 +27,7 @@ export class Video {
    * @param data
    * @private
    */
-  deserialize(data: IVideo) {
+  private deserialize(data: IVideo) {
     this.specification = new VideoSpecification(data.specification);
   }
 }

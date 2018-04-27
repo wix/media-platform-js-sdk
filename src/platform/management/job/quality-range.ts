@@ -19,7 +19,7 @@ export class QualityRange {
    * @returns {QualityRange}
    */
   @deprecated('pass data to constructor instead')
-  setMinimum(minimum: string): this {
+  public setMinimum(minimum: string): this {
     this.minimum = minimum;
     return this;
   }
@@ -30,7 +30,7 @@ export class QualityRange {
    * @returns {QualityRange}
    */
   @deprecated('pass data to constructor instead')
-  setMaximum(maximum: string): this {
+  public setMaximum(maximum: string): this {
     this.maximum = maximum;
     return this;
   }
@@ -39,9 +39,8 @@ export class QualityRange {
    * @param data
    * @private
    */
-  deserialize(data: IQualityRange) {
+  private deserialize(data: IQualityRange) {
     this.minimum = data.minimum || null;
     this.maximum = data.maximum || null;
   }
 }
-

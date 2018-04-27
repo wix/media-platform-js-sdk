@@ -6,7 +6,7 @@ import {IJob, Job} from '../job/job';
  */
 export interface ISearchJobsResponse {
   nextPageToken: string;
-  jobs: IJob[];
+  jobs: IJob<any>[];
 }
 
 /**
@@ -15,7 +15,7 @@ export interface ISearchJobsResponse {
  */
 export class SearchJobsResponse {
   public nextPageToken: string | null = null;
-  public jobs: Job[] | null = [];
+  public jobs: Job<any>[] | null = [];
 
   constructor(data: ISearchJobsResponse) {
     this.deserialize(data);
@@ -27,9 +27,8 @@ export class SearchJobsResponse {
    */
   deserialize(data: ISearchJobsResponse) {
     this.nextPageToken = data.nextPageToken;
-    this.jobs = data.jobs.map(function (job) {
+    this.jobs = data.jobs.map((job) => {
       return new Job(job);
     });
   }
 }
-
