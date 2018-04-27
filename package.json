@@ -100,7 +100,7 @@
     "karma-phantomjs-launcher": "latest",
     "mocha": "latest",
     "nock": "9.0.2",
-    "okidoc": "^1.4.2",
+    "okidoc": "^1.6.0",
     "prismjs": "^1.6.0",
     "pug": "latest",
     "puppeteer": "^1.1.0",

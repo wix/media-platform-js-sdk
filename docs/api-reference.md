@@ -8,7 +8,7 @@ include:
     - ./partial/file-manager.md
     - ./partial/job-manager.md
     - ./partial/archive-manager.md
-    - ./partial/transcode-manager.md
+    - ./partial/av-manager.md
     - ./partial/create-archive-request.md
     - ./partial/extract-archive-request.md
     - ./partial/upload-file-request.md

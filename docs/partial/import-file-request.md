@@ -4,6 +4,10 @@
 
 ## setSourceUrl()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -47,6 +51,10 @@
 
 ## setExternalAuthorization()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -89,6 +97,10 @@
 </div>
 
 ## setDestination()
+
+DEPRECATED!
+
+pass data to constructor instead
 
 <div class="method-list">
   <table>

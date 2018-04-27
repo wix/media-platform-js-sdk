@@ -4,6 +4,10 @@
 
 ## setSources()
 
+DEPRECATED!
+
+('pass data to constructor instead')
+
 <div class="method-list">
   <table>
     <thead>
@@ -90,6 +94,10 @@
 
 ## setDestination()
 
+DEPRECATED!
+
+('pass data to constructor instead')
+
 <div class="method-list">
   <table>
     <thead>
@@ -132,6 +140,10 @@
 </div>
 
 ## setArchiveType()
+
+DEPRECATED!
+
+('pass data to constructor instead')
 
 <div class="method-list">
   <table>

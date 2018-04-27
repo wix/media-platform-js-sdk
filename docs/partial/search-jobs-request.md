@@ -4,6 +4,10 @@
 
 ## setNextPageToken()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -47,6 +51,10 @@
 
 ## setPageSize()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -89,6 +97,10 @@
 </div>
 
 ## setOrderBy()
+
+DEPRECATED!
+
+pass data to constructor instead
 
 <div class="method-list">
   <table>
@@ -178,6 +190,10 @@
 
 ## setType()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -221,6 +237,10 @@
 </div>
 
 ## setStatus()
+
+DEPRECATED!
+
+pass data to constructor instead
 
 <div class="method-list">
   <table>
@@ -266,6 +286,10 @@
 
 ## setGroupId()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -310,6 +334,10 @@
 
 ## setFileId()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -353,6 +381,10 @@
 </div>
 
 ## setPath()
+
+DEPRECATED!
+
+pass data to constructor instead
 
 <div class="method-list">
   <table>

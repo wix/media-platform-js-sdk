@@ -4,6 +4,10 @@
 
 ## setFileId()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -46,6 +50,10 @@
 </div>
 
 ## setPath()
+
+DEPRECATED!
+
+pass data to constructor instead
 
 <div class="method-list">
   <table>

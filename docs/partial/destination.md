@@ -4,6 +4,10 @@
 
 ## setPath()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -47,6 +51,10 @@
 
 ## setDirectory()
 
+DEPRECATED!
+
+pass data to constructor instead
+
 <div class="method-list">
   <table>
     <thead>
@@ -89,6 +97,10 @@
 </div>
 
 ## setAcl()
+
+DEPRECATED!
+
+pass data to constructor instead
 
 <div class="method-list">
   <table>

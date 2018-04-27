@@ -144,7 +144,7 @@ Extract storyboard
   </table>
 </div>
 
-## packaging()
+## packageVideo()
 
 Packaging Service
 
