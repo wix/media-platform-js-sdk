@@ -216,7 +216,7 @@ add to the list of operations permitted by this token
           <code>verbs</code>
         </td>
         <td>
-            <div class="type">string</div>
+            <div class="type">Array&#x3C;string></div>
         </td>
       </tr>
     </tbody>
