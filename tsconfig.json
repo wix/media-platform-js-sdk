@@ -21,6 +21,6 @@
   "files": [
     "./src/external-types.d.ts",
     "./src/main.ts",
-    "./src/index.ts"
+    "./browser.ts"
   ]
 }

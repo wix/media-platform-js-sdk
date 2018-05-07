@@ -95,7 +95,7 @@ export class Token {
 
   /**
    * @description add to the list of operations permitted by this token
-   * @param {string[} verbs
+   * @param {string[]} verbs
    * @returns {Token}
    */
   addVerbs(...verbs: string[]): this {
@@ -105,7 +105,7 @@ export class Token {
 
   /**
    * @description set the list of operations permitted by this token
-   * @param {Array<string>} verbs
+   * @param {string[]} verbs
    * @returns {Token}
    */
   setVerbs(verbs: string[]) {

@@ -38,7 +38,7 @@
   ],
   "private": false,
   "main": "./dist/src/main.js",
-  "browser": "./dist/src/index.js",
+  "browser": "./dist/browser.js",
   "engines": {
     "node": ">= 4.0.0"
   },
@@ -113,7 +113,7 @@
     "typescript": "^2.7.1",
     "uuid": "^3.0.1",
     "wnpm-ci": "latest",
-    "yoshi": "^2.1.1"
+    "yoshi": "^2.1.7"
   },
   "babel": {
     "plugins": [

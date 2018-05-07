@@ -1,7 +1,7 @@
 import {mediaPlatform} from '../facades/media-platform-facade';
 import {ListFilesRequest} from '../../../src/platform/management/requests/list-files-request';
 import {ImportFileRequest} from '../../../src/platform/management/requests/import-file-request';
-import {Destination} from '../../../src';
+import {ACL} from '../../../src/types/media-platform/media-platform';
 
 
 export default function (app) {
@@ -36,7 +36,9 @@ export default function (app) {
 
   app.get('/media-platform/files', function (req, res) {
     var fileManager = mediaPlatform.fileManager;
-    var listFilesRequest = new ListFilesRequest().setPageSize(3);
+    var listFilesRequest = new ListFilesRequest({
+      pageSize: 3
+    });
     fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
 
       if (error) {
@@ -70,11 +72,13 @@ export default function (app) {
   app.get('/media-platform/file/import', function (req, res) {
     var rand = Math.floor((Math.random() * 100000) + 1);
     var fileManager = mediaPlatform.fileManager;
-    var importFileRequest = new ImportFileRequest()
-      .setSourceUrl('https://static.wixstatic.com/media/f31d7d0cfc554aacb1d737757c8d3f1b.jpg')
-      .setDestination(new Destination()
-        .setPath('/demo/import/' + rand + '.image.jpg')
-        .setAcl('public'));
+    var importFileRequest = new ImportFileRequest({
+      sourceUrl: 'https://static.wixstatic.com/media/f31d7d0cfc554aacb1d737757c8d3f1b.jpg',
+      destination: {
+        path: `/demo/import/${rand}.image.jpg`,
+        acl: ACL.PUBLIC
+      }
+    });
 
     fileManager.importFile(importFileRequest, function (error, response) {
       if (error) {
