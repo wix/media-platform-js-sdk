@@ -95,11 +95,11 @@ export class Token {
 
   /**
    * @description add to the list of operations permitted by this token
-   * @param {string} verbs
+   * @param {string[} verbs
    * @returns {Token}
    */
-  addVerbs(verbs: string[]): this {
-    this.verbs.concat(Array.from(arguments));
+  addVerbs(...verbs: string[]): this {
+    this.verbs.concat(verbs);
     return this;
   }
 
