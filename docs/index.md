@@ -31,13 +31,26 @@ const mediaPlatform = new MediaPlatform({
 ## Instantiating the Media Platform in the Browser
 
 ```javascript
-import {MediaPlatform} from 'media-platform-js-sdk';
+import {MediaPlatform} from 'media-platform-js-sdk/browser';
 
 const mediaPlatform = new MediaPlatform({
     domain: '<As appears in the application page>',
     authenticationUrl: '<your authentication url - see example below>'
 });
 ```
+
+### From CDN:
+```html
+<script src="https://static.parastorage.com/unpkg/media-platform-js-sdk@6.0.0-alpha.21/dist/statics/media-platform.bundle.min.js"></script>
+```
+
+```javascript
+const mediaPlatform = new MP.MediaPlatform({
+    domain: '<As appears in the application page>',
+    authenticationUrl: '<your authentication url - see example below>'
+});
+```
+
 Authentication URL Node.js (with express) example:
 
 ```javascript
