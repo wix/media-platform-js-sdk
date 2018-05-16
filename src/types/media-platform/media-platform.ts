@@ -133,3 +133,8 @@ export enum ACL {
   PRIVATE = 'private',
   PUBLIC = 'public'
 }
+
+export enum FileType {
+  FILE = '-',
+  FOLDER = 'd'
+}

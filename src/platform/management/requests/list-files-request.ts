@@ -1,11 +1,12 @@
 import {deprecated} from 'core-decorators';
-import {OrderDirection} from '../../../types/media-platform/media-platform';
+import {FileType, OrderDirection} from '../../../types/media-platform/media-platform';
 
 export interface IListFilesRequest {
   nextPageToken?: string;
   pageSize?: number;
   orderBy?: string | null;
   orderDirection?: OrderDirection | null;
+  type?: FileType | null;
 }
 
 /**
@@ -17,6 +18,7 @@ export class ListFilesRequest implements IListFilesRequest {
   public pageSize: number = 20;
   public orderBy: string | null = null;
   public orderDirection: OrderDirection | null = null;
+  public type: FileType | null;
 
   constructor(data: IListFilesRequest) {
     this.nextPageToken = data.nextPageToken;
@@ -25,6 +27,7 @@ export class ListFilesRequest implements IListFilesRequest {
     }
     this.orderBy = data.orderBy || null;
     this.orderDirection = data.orderDirection || null;
+    this.type = data.type || null;
   }
 
   /**

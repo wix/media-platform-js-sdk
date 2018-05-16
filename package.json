@@ -1,6 +1,6 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "6.0.0-alpha.22",
+  "version": "6.0.0-alpha.23",
   "description": "The official Wix Media Platform Javascript SDK",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
@@ -47,6 +47,7 @@
     "lint": "yoshi lint",
     "test": "yoshi test --mocha --karma --protractor",
     "test:karma": "yoshi test --karma",
+    "test:mocha": "yoshi test --mocha",
     "documentation": "okidoc-md ./docs/docs.yml ./docs",
     "documentation:gitadd": "npm run documentation && git add ./docs",
     "documentation:site": "okidoc-site develop ./docs/site.yml",
