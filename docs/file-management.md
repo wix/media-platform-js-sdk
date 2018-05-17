@@ -225,3 +225,14 @@ __Parameters__:
 - `callback` (function(error, response)) - a function that handles the HTTP response. This callback is only called on error,
 as a success result is returns `null`.
 
+```javascript
+fileManager.updateFileACL({ acl, id });
+// OR
+fileManager.updateFileACL({ acl, path });
+```
+__Parameters__: 
+- `acl` (string) - `public`, `private`.  
+- `id` (string) - the id of the file to be updated.  
+- `path` (string) - the path of the file to be updated.
+
+returns Promise

@@ -1,20 +1,36 @@
-import {FileImportSpecification} from './job/file-import-specification';
-import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
-import {FileMetadata, IFileMetadata} from './metadata/file-metadata';
-import {IListFilesResponse, ListFilesResponse} from './responses/list-files-response';
-import {IJob, Job} from './job/job';
+import * as Stream from 'stream';
+
+import {UploadJob} from '../../public/platform/uploader/upload-job';
+import {ACL} from '../../types/media-platform/media-platform';
+import {RawResponse} from '../../types/response/response';
+import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
+
 import {FileUploader, GetUploadURLCallback, IFileUploader, UploadFileCallback} from './file-uploader';
-import {UploadUrlResponse} from './responses/upload-url-response';
-import {IUploadUrlRequest} from './requests/upload-url-request';
-import * as Stream from 'stream';
-import {UploadFileRequest} from './requests/upload-file-request';
+import {FileImportSpecification} from './job/file-import-specification';
+import {IJob, Job} from './job/job';
+import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
+import {FileMetadata, IFileMetadata} from './metadata/file-metadata';
 import {ImportFileRequest} from './requests/import-file-request';
 import {IListFilesRequest} from './requests/list-files-request';
-import {UploadJob} from '../../public/platform/uploader/upload-job';
-import {deprecatedFn} from '../../utils/deprecated/deprecated';
-import {RawResponse} from '../../types/response/response';
+import {UploadFileRequest} from './requests/upload-file-request';
+import {IUploadUrlRequest} from './requests/upload-url-request';
+import {IListFilesResponse, ListFilesResponse} from './responses/list-files-response';
+import {UploadUrlResponse} from './responses/upload-url-response';
+
+
+export interface IUpdateFileACLById {
+  acl: ACL;
+  id: string;
+}
+
+export interface IUpdateFileACLByPath {
+  acl: ACL;
+  path: string;
+}
+
+export type UpdateFileACL = IUpdateFileACLById | IUpdateFileACLByPath;
 
 /**
  * @param {Configuration} configuration
@@ -284,5 +300,18 @@ export class FileManager {
 
         return Promise.reject(error);
       });
+  }
+
+  /**
+   * @param {UpdateFileACL} params
+   * @returns {Promise}
+   */
+  updateFileACL(params: UpdateFileACL): Promise<FileDescriptor> {
+    return this.httpClient.put<RawResponse<FileDescriptor>>(this.apiUrl, params)
+      .then(
+        response => {
+          return new FileDescriptor(response.payload);
+        }
+      );
   }
 }
