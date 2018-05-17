@@ -13,7 +13,7 @@ import {Configuration} from '../../../../src/platform/configuration/configuratio
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
 import {ImportFileRequest} from '../../../../src/platform/management/requests/import-file-request';
-import {FileType, OrderDirection} from '../../../../src/types/media-platform/media-platform';
+import {ACL, FileType, OrderDirection} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 const sourcesDir = __dirname + '/../../../sources/';
@@ -321,7 +321,6 @@ describe('file manager', function () {
   });
 
   it('file import', function (done) {
-
     apiServer.post('/_api/import/file')
       .once()
       .replyWithFile(200, repliesDir + 'import-file-pending-response.json');
@@ -342,5 +341,110 @@ describe('file manager', function () {
       done();
     });
   });
-});
 
+  describe('updateFileACL', () => {
+    describe('by id', () => {
+      it('should return public file', (done) => {
+        apiServer
+          .put('/_api/files')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+
+        fileManager.updateFileACL({acl: ACL.PUBLIC, id: 'd0e18fd468cd4e53bc2bbec3ca4a8676'})
+          .then((data) => {
+            expect(data).to.deep.equal(new FileDescriptor({
+              id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+              hash: 'd41d8cd98f00b204e9800998ecf8427e',
+              path: '/place-holder.txt',
+              mimeType: 'text/plain',
+              type: '-',
+              size: 0,
+              acl: 'public',
+              dateCreated: '2017-02-20T14:23:42Z',
+              dateUpdated: '2017-02-20T14:23:42Z'
+            }));
+
+            done();
+          });
+      });
+
+      it('should return private file', (done) => {
+        apiServer
+          .put('/_api/files')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'file-private-descriptor-response.json');
+
+        fileManager.updateFileACL({acl: ACL.PRIVATE, id: 'd0e18fd468cd4e53bc2bbec3ca4a8676'})
+          .then((data) => {
+            expect(data).to.deep.equal(new FileDescriptor({
+              id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+              hash: 'd41d8cd98f00b204e9800998ecf8427e',
+              path: '/place-holder.txt',
+              mimeType: 'text/plain',
+              type: '-',
+              size: 0,
+              acl: 'private',
+              dateCreated: '2017-02-20T14:23:42Z',
+              dateUpdated: '2017-02-20T14:23:42Z'
+            }));
+
+            done();
+          });
+      });
+    });
+
+    describe('by path', () => {
+      it('should return public file', (done) => {
+        apiServer
+          .put('/_api/files')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'file-descriptor-response.json');
+
+        fileManager.updateFileACL({acl: ACL.PUBLIC, path: '/place-holder.txt'})
+          .then((data) => {
+            expect(data).to.deep.equal(new FileDescriptor({
+              id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+              hash: 'd41d8cd98f00b204e9800998ecf8427e',
+              path: '/place-holder.txt',
+              mimeType: 'text/plain',
+              type: '-',
+              size: 0,
+              acl: 'public',
+              dateCreated: '2017-02-20T14:23:42Z',
+              dateUpdated: '2017-02-20T14:23:42Z'
+            }));
+
+            done();
+          });
+      });
+
+      it('should return private file', (done) => {
+        apiServer
+          .put('/_api/files')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'file-private-descriptor-response.json');
+
+        fileManager.updateFileACL({acl: ACL.PRIVATE, path: '/place-holder.txt'})
+          .then((data) => {
+            expect(data).to.deep.equal(new FileDescriptor({
+              id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+              hash: 'd41d8cd98f00b204e9800998ecf8427e',
+              path: '/place-holder.txt',
+              mimeType: 'text/plain',
+              type: '-',
+              size: 0,
+              acl: 'private',
+              dateCreated: '2017-02-20T14:23:42Z',
+              dateUpdated: '2017-02-20T14:23:42Z'
+            }));
+
+            done();
+          });
+      });
+    });
+  });
+});
