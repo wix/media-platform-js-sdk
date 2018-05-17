@@ -69,7 +69,7 @@ describe('file manager', function () {
     });
   });
 
-  it.only('listFiles - page', function (done) {
+  it('listFiles - page', function (done) {
     apiServer.get('/_api/files/ls_dir')
       .once()
       .query({
