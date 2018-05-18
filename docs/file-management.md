@@ -225,9 +225,15 @@ __Parameters__:
 - `callback` (function(error, response)) - a function that handles the HTTP response. This callback is only called on error,
 as a success result is returns `null`.
 
+
+## Update File ACL
+Update File ACL by file ID:
 ```javascript
 fileManager.updateFileACL({ acl, id });
-// OR
+```
+
+Update File ACL by file path:
+```javascript
 fileManager.updateFileACL({ acl, path });
 ```
 __Parameters__: 
