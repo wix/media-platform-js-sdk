@@ -23,7 +23,7 @@ export class PublishEndpoint {
   deserialize(data: IPublishEndpoint) {
     this.url = data.url;
     this.protocol = data.protocol;
-    this.geo = new Geo(data.geo);
+    this.geo = data.geo ? new Geo(data.geo) : null;
   }
 
   /**
