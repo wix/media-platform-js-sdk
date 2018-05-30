@@ -7,16 +7,16 @@ export interface Coordinates {
 
 export interface IGeo {
   coordinates?: Coordinates;
-  ipAddress: string;
-  city: string | null;
-  country: string | null;
+  ipAddress?: string;
+  city?: string;
+  country?: string;
 }
 
 export class Geo {
-  public coordinates: Coordinates | null = null;
-  public ipAddress: string | null = null;
-  public city: string | null = null;
-  public country: string | null = null;
+  public coordinates?: Coordinates;
+  public ipAddress?: string;
+  public city?: string;
+  public country?: string;
 
   constructor(data: IGeo) {
     this.deserialize(data);
