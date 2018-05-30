@@ -2,7 +2,40 @@
 
 # Create Archive Request
 
-## setSources()
+## CreateArchiveRequest
+
+Create Archive Request
+
+`new CreateArchiveRequest()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>data</code>
+        </td>
+        <td>
+            <div class="type">ICreateArchiveRequest</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### sources
+
+### destination
+
+### archiveType
+
+### setSources()
 
 DEPRECATED!
 
@@ -49,7 +82,7 @@ DEPRECATED!
   </table>
 </div>
 
-## addSource()
+### addSource()
 
 <div class="method-list">
   <table>
@@ -92,7 +125,7 @@ DEPRECATED!
   </table>
 </div>
 
-## setDestination()
+### setDestination()
 
 DEPRECATED!
 
@@ -139,7 +172,7 @@ DEPRECATED!
   </table>
 </div>
 
-## setArchiveType()
+### setArchiveType()
 
 DEPRECATED!
 

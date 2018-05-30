@@ -2,7 +2,56 @@
 
 # Media Platform in browser
 
-## getAuthorizationHeader()
+## MediaPlatform
+
+Media Platform Public
+
+`new MediaPlatform()`
+
+constructor
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>configuration</code>
+        </td>
+        <td>
+            <div class="type">Configuration</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### archiveManager
+
+### fileManager
+
+### jobManager
+
+### transcodeManager
+
+### avManager
+
+### liveManager
+
+### flowManager
+
+### imageManager
+
+### widgetInstancesManager
+
+### imageExtractionManager
+
+### getAuthorizationHeader()
 
 retrieve the auth header for the currently logged in user
 
@@ -49,11 +98,11 @@ retrieve the auth header for the currently logged in user
   </table>
 </div>
 
-## deauthorize()
+### deauthorize()
 
 log out the user
 
-## getDownloadUrl()
+### getDownloadUrl()
 
 get download url
 

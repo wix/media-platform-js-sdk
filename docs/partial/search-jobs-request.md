@@ -2,7 +2,55 @@
 
 # Search Jobs Request
 
-## setNextPageToken()
+## SearchJobsRequest
+
+Search Jobs Request
+
+`new SearchJobsRequest()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>$0</code>
+          <div class="optional">(Optional)</div>
+        </td>
+        <td>
+            <div class="type">any</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### nextPageToken
+
+### pageSize
+
+### orderBy
+
+### orderDirection
+
+### issuer
+
+### type
+
+### status
+
+### groupId
+
+### fileId
+
+### path
+
+### setNextPageToken()
 
 DEPRECATED!
 
@@ -49,7 +97,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setPageSize()
+### setPageSize()
 
 DEPRECATED!
 
@@ -96,7 +144,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setOrderBy()
+### setOrderBy()
 
 DEPRECATED!
 
@@ -144,7 +192,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## ascending()
+### ascending()
 
 <div class="method-list">
   <table>
@@ -166,7 +214,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## descending()
+### descending()
 
 <div class="method-list">
   <table>
@@ -188,7 +236,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setType()
+### setType()
 
 DEPRECATED!
 
@@ -236,7 +284,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setStatus()
+### setStatus()
 
 DEPRECATED!
 
@@ -284,7 +332,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setGroupId()
+### setGroupId()
 
 DEPRECATED!
 
@@ -332,7 +380,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setFileId()
+### setFileId()
 
 DEPRECATED!
 
@@ -380,7 +428,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setPath()
+### setPath()
 
 DEPRECATED!
 

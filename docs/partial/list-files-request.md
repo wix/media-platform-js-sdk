@@ -2,7 +2,44 @@
 
 # List Files Request
 
-## setNextPageToken()
+## ListFilesRequest
+
+List Files Request
+
+`new ListFilesRequest()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>data</code>
+        </td>
+        <td>
+            <div class="type">IListFilesRequest</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### nextPageToken
+
+### pageSize
+
+### orderBy
+
+### orderDirection
+
+### type
+
+### setNextPageToken()
 
 <div class="method-list">
   <table>
@@ -45,7 +82,7 @@
   </table>
 </div>
 
-## setPageSize()
+### setPageSize()
 
 <div class="method-list">
   <table>
@@ -88,7 +125,7 @@
   </table>
 </div>
 
-## setOrderBy()
+### setOrderBy()
 
 <div class="method-list">
   <table>
@@ -132,7 +169,7 @@
   </table>
 </div>
 
-## ascending()
+### ascending()
 
 <div class="method-list">
   <table>
@@ -154,7 +191,7 @@
   </table>
 </div>
 
-## descending()
+### descending()
 
 <div class="method-list">
   <table>

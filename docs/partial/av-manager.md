@@ -2,7 +2,44 @@
 
 # AV Manager
 
-## transcodeVideo()
+## AVManager
+
+`new AVManager()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>configuration</code>
+        </td>
+        <td>
+            <div class="type">Configuration</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="param">
+          <code>httpClient</code>
+        </td>
+        <td>
+            <div class="type">HTTPClient</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### baseUrl
+
+### apiUrl
+
+### transcodeVideo()
 
 Transcode Video
 
@@ -36,7 +73,7 @@ Transcode Video
   </table>
 </div>
 
-## extractPoster()
+### extractPoster()
 
 Extract Poster
 
@@ -90,7 +127,7 @@ Extract Poster
   </table>
 </div>
 
-## extractStoryboard()
+### extractStoryboard()
 
 Extract storyboard
 
@@ -144,7 +181,7 @@ Extract storyboard
   </table>
 </div>
 
-## packageVideo()
+### packageVideo()
 
 Packaging Service
 

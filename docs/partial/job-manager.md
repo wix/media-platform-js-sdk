@@ -2,7 +2,44 @@
 
 # Job-Manager
 
-## getJob()
+## JobManager
+
+`new JobManager()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>configuration</code>
+        </td>
+        <td>
+            <div class="type">Configuration</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="param">
+          <code>httpClient</code>
+        </td>
+        <td>
+            <div class="type">HTTPClient</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### baseUrl
+
+### apiUrl
+
+### getJob()
 
 <div class="method-list">
   <table>
@@ -54,7 +91,7 @@
   </table>
 </div>
 
-## getJobGroup()
+### getJobGroup()
 
 <div class="method-list">
   <table>
@@ -106,7 +143,7 @@
   </table>
 </div>
 
-## searchJobs()
+### searchJobs()
 
 <div class="method-list">
   <table>

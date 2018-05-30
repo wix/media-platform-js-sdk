@@ -2,7 +2,54 @@
 
 # File Manager
 
-## getUploadUrl()
+## FileManager
+
+`new FileManager()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>configuration</code>
+        </td>
+        <td>
+            <div class="type">Configuration</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="param">
+          <code>httpClient</code>
+        </td>
+        <td>
+            <div class="type">HTTPClient</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="param">
+          <code>fileUploader</code>
+        </td>
+        <td>
+            <div class="type">FileUploader</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### baseUrl
+
+### apiUrl
+
+### queueFileUpload
+
+### getUploadUrl()
 
 ```javascript
 fileManager.getUploadUrl({
@@ -68,7 +115,7 @@ Get Upload URL
   </table>
 </div>
 
-## uploadFile()
+### uploadFile()
 
 upload a file
 
@@ -139,7 +186,7 @@ upload a file
   </table>
 </div>
 
-## importFile()
+### importFile()
 
 import a file from a source URL, returns a Job (see job manager)
 
@@ -192,7 +239,7 @@ import a file from a source URL, returns a Job (see job manager)
   </table>
 </div>
 
-## createFile()
+### createFile()
 
 creates a file descriptor, use this to create an empty directory
 
@@ -246,7 +293,7 @@ creates a file descriptor, use this to create an empty directory
   </table>
 </div>
 
-## getFile()
+### getFile()
 
 <div class="method-list">
   <table>
@@ -298,7 +345,7 @@ creates a file descriptor, use this to create an empty directory
   </table>
 </div>
 
-## getFileMetadataById()
+### getFileMetadataById()
 
 <div class="method-list">
   <table>
@@ -350,7 +397,7 @@ creates a file descriptor, use this to create an empty directory
   </table>
 </div>
 
-## listFiles()
+### listFiles()
 
 <div class="method-list">
   <table>
@@ -410,7 +457,7 @@ creates a file descriptor, use this to create an empty directory
   </table>
 </div>
 
-## deleteFileByPath()
+### deleteFileByPath()
 
 <div class="method-list">
   <table>
@@ -462,7 +509,7 @@ creates a file descriptor, use this to create an empty directory
   </table>
 </div>
 
-## deleteFileById()
+### deleteFileById()
 
 <div class="method-list">
   <table>
@@ -514,7 +561,7 @@ creates a file descriptor, use this to create an empty directory
   </table>
 </div>
 
-## updateFileACL()
+### updateFileACL()
 
 <div class="method-list">
   <table>

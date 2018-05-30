@@ -4,15 +4,12 @@ import {NS} from './NS';
 import {Configuration} from '../configuration/configuration';
 import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 
+/**
+ * A client that can authenticate against WixMP
+ * @doc Authentication
+ */
 export class Authenticator {
-  /**
-   * @description creates a client that can authenticate against WixMP
-   * @param {Configuration} configuration
-   * @constructor
-   * @doc Authentication
-   */
-  constructor(public configuration: Configuration) {
-  }
+  constructor(public configuration: Configuration) {}
 
   /**
    * @summary Generates a provisional authentication header

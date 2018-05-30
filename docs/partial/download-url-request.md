@@ -2,7 +2,23 @@
 
 # Download Url Request
 
-## setTTL()
+## DownloadUrlRequest
+
+Download Url Request
+
+### ttl
+
+the token time to live in seconds
+
+### attachment
+
+Content-Disposition header, if provided the content disposition is set to attachment with the provided file name
+
+### onExpireRedirectTo
+
+if the token expired, will redirect to this provided url
+
+### setTTL()
 
 <div class="method-list">
   <table>
@@ -45,7 +61,7 @@
   </table>
 </div>
 
-## setAttachment()
+### setAttachment()
 
 <div class="method-list">
   <table>
@@ -88,7 +104,7 @@
   </table>
 </div>
 
-## setOnExpireRedirectTo()
+### setOnExpireRedirectTo()
 
 <div class="method-list">
   <table>
