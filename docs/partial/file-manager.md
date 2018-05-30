@@ -513,3 +513,46 @@ creates a file descriptor, use this to create an empty directory
     </tbody>
   </table>
 </div>
+
+## updateFileACL()
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>params</code>
+        </td>
+        <td>
+            <div class="type">UpdateFileACL</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

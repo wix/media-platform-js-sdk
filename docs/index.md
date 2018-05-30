@@ -5,6 +5,9 @@ layout: simple
 
 # Media Platform JS SDK
 
+_PLEASE NOTE: this docs are for the current version 6 and later. 
+You can find docs for versions 5- here: https://github.com/wix/media-platform-js-sdk/wiki ._
+
 Welcome to the Wix Media Platform - JavaScript SDK wiki!
 Here you can find the full documentation of the SDK's public methods.
 
@@ -41,7 +44,7 @@ const mediaPlatform = new MediaPlatform({
 
 ### From CDN:
 ```html
-<script src="https://static.parastorage.com/unpkg/media-platform-js-sdk@6.0.0-alpha.22/dist/statics/media-platform.bundle.min.js"></script>
+<script src="https://static.parastorage.com/unpkg/media-platform-js-sdk@6.0.0-alpha.25/dist/statics/media-platform.bundle.min.js"></script>
 ```
 
 ```javascript
