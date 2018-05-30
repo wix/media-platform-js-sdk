@@ -120,4 +120,28 @@ export class LiveManager {
         return Promise.reject(error);
       });
   }
+
+  /**
+   * List streams
+   * @param callback DEPRECATED! use promise response instead
+   */
+  listClosedStreams(callback?): Promise<LiveStream[]> {
+    if (callback) {
+      callback = deprecatedFn('LiveManager.listClosedStreams use promise response instead')(callback);
+    }
+    return this.httpClient.get<RawResponse<ILiveStream[]>>(this.apiUrl + '/list_streams?closed=1')
+      .then((response) => {
+        const streams = response.payload.map(data => new LiveStream(data));
+
+        if (callback) {
+          callback(null, streams);
+        }
+        return streams;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
+  }
 }

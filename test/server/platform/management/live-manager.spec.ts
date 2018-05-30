@@ -141,4 +141,16 @@ describe('live manager', () => {
       done();
     });
   });
+
+  it('List closed streams', done => {
+    apiServer.get('/_api/live/list_streams?closed=1')
+      .once()
+      .replyWithFile(200, repliesDir + 'livestream-list-closed-response.json');
+
+    liveManager.listClosedStreams((error, data) => {
+      expect(data.length).to.equal(3);
+      expect(data[0].id).to.equal('stream_id1');
+      done();
+    });
+  });
 });

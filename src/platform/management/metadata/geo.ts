@@ -8,11 +8,15 @@ export interface Coordinates {
 export interface IGeo {
   coordinates?: Coordinates;
   ipAddress: string;
+  city: string | null;
+  country: string | null;
 }
 
 export class Geo {
   public coordinates: Coordinates | null = null;
   public ipAddress: string | null = null;
+  public city: string | null = null;
+  public country: string | null = null;
 
   constructor(data: IGeo) {
     this.deserialize(data);
@@ -32,6 +36,8 @@ export class Geo {
       };
     }
     this.ipAddress = data.ipAddress;
+    this.country = data.country;
+    this.city = data.city;
   }
 
   /**

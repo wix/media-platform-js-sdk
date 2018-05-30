@@ -1,6 +1,7 @@
 import {IPublishEndpoint, PublishEndpoint} from './publish-endpoint';
 import {IPlaybackUrl, PlaybackUrl} from './playback-url';
 import {Dvr, IDvr} from './dvr';
+import {Geo, IGeo} from "./geo";
 
 
 export interface ILiveStream {
@@ -16,6 +17,7 @@ export interface ILiveStream {
   maxPublishDuration: number;
   state: string;
   dvr: IDvr;
+  publisherGeo: IGeo;
   dateCreated: string;
   dateUpdated: string;
 }
@@ -31,6 +33,7 @@ export class LiveStream {
   public enforcedWidth: number | null = null;
   public enforcedHeight: number | null = null;
   public maxPublishDuration: number | null = null;
+  public publisherGeo: Geo | null = null;
   public state: string | null = null;
   public dvr: Dvr | null = null;
   public dateCreated: string | null = null;
@@ -61,7 +64,8 @@ export class LiveStream {
     this.enforcedHeight = data.enforcedHeight;
     this.maxPublishDuration = data.maxPublishDuration;
     this.state = data.state;
-    this.dvr = new Dvr(data.dvr);
+    this.dvr = data.dvr ? new Dvr(data.dvr) : null;
+    this.publisherGeo = data.publisherGeo ? new Geo(data.publisherGeo) : null;
     this.dateCreated = data.dateCreated;
     this.dateUpdated = data.dateUpdated;
   }

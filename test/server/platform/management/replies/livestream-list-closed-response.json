@@ -35,7 +35,7 @@
       "connectTimeout": 60,
       "reconnectTimeout": 60,
       "maxPublishDuration": 3600,
-      "state": "created",
+      "state": "closed",
       "dvr": {
         "destination": {
           "path": "/live",
@@ -73,7 +73,7 @@
       "connectTimeout": 60,
       "reconnectTimeout": 60,
       "maxPublishDuration": 3600,
-      "state": "created",
+      "state": "dvr_processing",
       "dvr": {
         "destination": {
           "path": "/live",
@@ -88,14 +88,9 @@
       "publishEndpoint": {
         "url": "rtmp://example.com/live/test",
         "protocol": "rtmp",
-        "geo": {
-          "coordinates": {
-            "latitude": 33.66,
-            "longitude": 33.66
-          },
-          "ipAddress": "127.0.0.1"
-        }
+        "geo": null
       },
+      "publisherGeo": null,
       "playbackUrls": [
         {
           "packageName": "hls",
@@ -107,8 +102,7 @@
       "connectTimeout": 60,
       "reconnectTimeout": 60,
       "maxPublishDuration": 3600,
-      "publisherGeo": null,
-      "state": "created",
+      "state": "closed",
       "dvr": {
         "destination": {
           "path": "/live",
