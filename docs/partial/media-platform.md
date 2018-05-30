@@ -2,7 +2,58 @@
 
 # Media Platform API
 
-## getAuthorizationHeader()
+## MediaPlatform
+
+Media Platform
+
+`new MediaPlatform()`
+
+constructor
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>config</code>
+        </td>
+        <td>
+            <div class="type">IConfiguration</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### archiveManager
+
+### fileManager
+
+### transcodeManager
+
+### avManager
+
+### flowManager
+
+### liveManager
+
+### jobManager
+
+### imageManager
+
+### widgetInstancesManager
+
+### webhookDeserializer
+
+### imageExtractionManager
+
+### getAuthorizationHeader()
 
 <div class="method-list">
   <table>
@@ -46,7 +97,7 @@
   </table>
 </div>
 
-## getDownloadUrl()
+### getDownloadUrl()
 
 <div class="method-list">
   <table>

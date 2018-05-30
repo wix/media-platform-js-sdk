@@ -2,7 +2,15 @@
 
 # Upload File Request
 
-## setMimeType()
+## UploadFileRequest
+
+Upload File Request
+
+### mimeType
+
+### acl
+
+### setMimeType()
 
 <div class="method-list">
   <table>
@@ -45,7 +53,7 @@
   </table>
 </div>
 
-## setAcl()
+### setAcl()
 
 <div class="method-list">
   <table>

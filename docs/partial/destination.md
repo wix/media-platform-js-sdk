@@ -2,7 +2,40 @@
 
 # Destination
 
-## setPath()
+## Destination
+
+Destination
+
+`new Destination()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>data</code>
+        </td>
+        <td>
+            <div class="type">IDestination</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### path
+
+### directory
+
+### acl
+
+### setPath()
 
 DEPRECATED!
 
@@ -49,7 +82,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setDirectory()
+### setDirectory()
 
 DEPRECATED!
 
@@ -96,7 +129,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setAcl()
+### setAcl()
 
 DEPRECATED!
 

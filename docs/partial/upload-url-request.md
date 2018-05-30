@@ -2,7 +2,19 @@
 
 # Upload Url Request
 
-## setMimeType()
+## UploadUrlRequest
+
+Upload URL request class
+
+### mimeType
+
+### path
+
+### size
+
+### acl
+
+### setMimeType()
 
 <div class="method-list">
   <table>
@@ -45,7 +57,7 @@
   </table>
 </div>
 
-## setPath()
+### setPath()
 
 <div class="method-list">
   <table>
@@ -88,7 +100,7 @@
   </table>
 </div>
 
-## setSize()
+### setSize()
 
 Optional file size in bytes. Required for file size enforcement
 
@@ -133,7 +145,7 @@ Optional file size in bytes. Required for file size enforcement
   </table>
 </div>
 
-## setAcl()
+### setAcl()
 
 <div class="method-list">
   <table>

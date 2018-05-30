@@ -2,7 +2,44 @@
 
 # Archive Manager
 
-## createArchive()
+## ArchiveManager
+
+Archive Manager
+
+`new ArchiveManager()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>configuration</code>
+        </td>
+        <td>
+            <div class="type">(Configuration | BrowserConfiguration)</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="param">
+          <code>httpClient</code>
+        </td>
+        <td>
+            <div class="type">IHTTPClient</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### baseUrl
+
+### createArchive()
 
 <div class="method-list">
   <table>
@@ -54,7 +91,7 @@
   </table>
 </div>
 
-## extractArchive()
+### extractArchive()
 
 <div class="method-list">
   <table>

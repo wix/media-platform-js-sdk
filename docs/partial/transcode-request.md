@@ -2,7 +2,39 @@
 
 # Transcode Request
 
-## setSources()
+## TranscodeRequest
+
+Transcode Request
+
+`new TranscodeRequest()`
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>$0</code>
+          <div class="optional">(Optional)</div>
+        </td>
+        <td>
+            <div class="type">any</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### sources
+
+### specifications
+
+### setSources()
 
 DEPRECATED!
 
@@ -49,7 +81,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## setSpecifications()
+### setSpecifications()
 
 DEPRECATED!
 
@@ -96,7 +128,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## addSource()
+### addSource()
 
 <div class="method-list">
   <table>
@@ -139,7 +171,7 @@ pass data to constructor instead
   </table>
 </div>
 
-## addSpecification()
+### addSpecification()
 
 <div class="method-list">
   <table>
