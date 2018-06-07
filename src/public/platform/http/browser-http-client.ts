@@ -65,7 +65,8 @@ export class HTTPClient implements IHTTPClient {
             (event) => {
               let payload = null;
               try {
-                payload = JSON.parse(request.responseText);
+                // TODO: fix, '{}' is temporary solution
+                payload = JSON.parse(request.responseText || '{}');
               } catch (error) {
                 callback(error, null);
                 return;
@@ -158,7 +159,8 @@ export class HTTPClient implements IHTTPClient {
         'load',
         (event) => {
           try {
-            this.authorizationHeader = JSON.parse(request.responseText);
+            // TODO: fix, '{}' is temporary solution
+            this.authorizationHeader = JSON.parse(request.responseText || '{}');
           } catch (error) {
             if (callback) {
               callback(error, null);
