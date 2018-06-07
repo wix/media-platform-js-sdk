@@ -153,4 +153,11 @@ describe('live manager', () => {
       done();
     });
   });
+
+  it('Stream URL Generated successfully', done => {
+    const streamCoverUrl = liveManager.getStreamCoverUrl('streamId');
+    expect(streamCoverUrl).to.equal(`https://${configuration.domain}/_api/live/stream/streamId/frame`);
+    done();
+  });
+
 });

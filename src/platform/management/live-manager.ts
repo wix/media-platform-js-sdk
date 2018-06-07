@@ -144,4 +144,13 @@ export class LiveManager {
         return Promise.reject(error);
       });
   }
+
+  /**
+   * Get URL of stream cover
+   * @param {string} streamId
+   * @returns {string}
+   */
+  getStreamCoverUrl(streamId: string): string {
+    return this.apiUrl + `/stream/${streamId}/frame`;
+  }
 }
