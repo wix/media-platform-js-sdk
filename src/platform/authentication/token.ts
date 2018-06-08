@@ -108,17 +108,17 @@ export class Token {
    * @param {string[]} verbs
    * @returns {Token}
    */
-  setVerbs(verbs: string[]) {
+  setVerbs(verbs: string[]): this {
     this.verbs = verbs;
     return this;
   }
 
   /**
    * @description set any arbitrary claims in the token (be careful not override any of the standard claims)
-   * @param {{}} additionalClaims
+   * @param additionalClaims
    * @returns {Token}
    */
-  setAdditionalClaims(additionalClaims) {
+  setAdditionalClaims(additionalClaims): this {
     this.additionalClaims = additionalClaims;
     return this;
   }

@@ -9,7 +9,9 @@
 # JavaScript SDK
 
 This package is an isomorphic JavaScript library (works both in Node JS and in the browser) that provides a convenient API to access Wix Media Platform services.  
-Its documentation can be found in the [Wiki tab](https://github.com/wix/media-platform-js-sdk/wiki).
+Its documentation can be found [here](https://wix.github.io/media-platform-js-sdk).
+ 
+The docs for older versions (v5) can be found in [Wiki tab](https://github.com/wix/media-platform-js-sdk/wiki).
 
 
 ## Installation

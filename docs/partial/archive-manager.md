@@ -4,7 +4,7 @@
 
 ## ArchiveManager
 
-Archive Manager
+Archive Manager. Lets create and extract archives
 
 `new ArchiveManager()`
 

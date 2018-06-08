@@ -12,7 +12,7 @@ import {RawResponse} from '../../types/response/response';
 export type ArchiveCallback<T> = (error: Error | null, job: Job<T> | null) => void;
 
 /**
- * Archive Manager
+ * Archive Manager. Lets create and extract archives
  * @doc ArchiveManager
  */
 export class ArchiveManager {

@@ -1,6 +1,6 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "6.0.0-alpha.28",
+  "version": "6.0.0-alpha.29",
   "description": "The official Wix Media Platform Javascript SDK",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
@@ -67,19 +67,18 @@
     "core-decorators": "^0.20.0",
     "eventemitter3": "^2.0.2",
     "inherits": "^2.0.3",
-    "jsonwebtoken": "^8.0.0",
+    "jsonwebtoken": "^8.2.2",
     "request": "^2.81.0",
-    "request-promise-native": "^1.0.5",
-    "underscore": "^1.8.3"
+    "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
     "@types/async": "^2.0.47",
     "@types/chai": "~4.0.0",
     "@types/mocha": "^2.2.48",
     "@types/nock": "^9.1.2",
-    "@types/node": "^9.6.7",
+    "@types/node": "^9.6.20",
     "@types/request": "^2.47.0",
-    "@types/request-promise-native": "^1.0.14",
+    "@types/request-promise-native": "^1.0.15",
     "@types/sinon": "^4.3.0",
     "@types/sinon-chai": "^2.7.29",
     "babel-cli": "^6.26.0",
@@ -92,7 +91,7 @@
     "express": "latest",
     "faux-jax": "latest",
     "file-api": "latest",
-    "gh-pages": "^1.1.0",
+    "gh-pages": "^1.2.0",
     "husky": "~0.14.0",
     "jsdom": "^10.1.0",
     "jsdom-global": "^3.0.2",
@@ -111,10 +110,10 @@
     "sinon": "^4.3.0",
     "sinon-chai": "^2.14.0",
     "ts-node": "^5.0.0",
-    "typescript": "^2.8.3",
+    "typescript": "^2.9.1",
     "uuid": "^3.0.1",
     "wnpm-ci": "latest",
-    "yoshi": "^2.4.0"
+    "yoshi": "^2.8.1"
   },
   "babel": {
     "plugins": [

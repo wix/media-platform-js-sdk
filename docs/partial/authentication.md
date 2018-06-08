@@ -501,7 +501,7 @@ set any arbitrary claims in the token (be careful not override any of the standa
           <code>additionalClaims</code>
         </td>
         <td>
-            <div class="type">{}</div>
+            <div class="type">any</div>
         </td>
       </tr>
     </tbody>
