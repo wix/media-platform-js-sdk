@@ -7,7 +7,7 @@ import {UploadFileRequest} from '../management/requests/upload-file-request';
 import {UploadFileStream} from '../management/file-uploader';
 import {deprecated} from 'core-decorators';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
-
+import {URL} from 'url'
 // require('request-debug')(request);
 
 interface HTTPRequest {
@@ -35,6 +35,8 @@ export interface IHTTPClient {
   post<T>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
 
   delete<T = void>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
+
+  addAuthToUrl(url) : Promise<string>;
 }
 
 export class HTTPClient implements IHTTPClient {
@@ -167,6 +169,19 @@ export class HTTPClient implements IHTTPClient {
           resolve(response);
         }
       });
+    });
+  }
+
+  addAuthToUrl(url: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      try{
+        const parsedUrl = new URL(url);
+        const header = this.authenticator.getHeader();
+        parsedUrl.searchParams.set('Authorization', header.Authorization);
+        resolve(parsedUrl.toString());
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 }

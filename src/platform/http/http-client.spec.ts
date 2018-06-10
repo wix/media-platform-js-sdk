@@ -314,4 +314,36 @@ describe('HTTP client', () => {
         done();
       });
   });
+
+  it('should add auth header to URL', (done) => {
+    const uri = 'http://example.com/_api/test-post';
+
+    httpClient.addAuthToUrl(uri)
+      .then((response) => {
+        expect(response).to.include("http://example.com/_api/test-post?Authorization=");
+          done();
+      });
+  });
+
+
+  it('should add auth header to URL with existing query', (done) => {
+    const uri = 'http://example.com/_api/test-post?query=value';
+
+    httpClient.addAuthToUrl(uri)
+      .then((response) => {
+        expect(response).to.include("http://example.com/_api/test-post?query=value&Authorization=");
+          done();
+      });
+  });
+
+  it('should add auth header to URL will replace existing Authorization token', (done) => {
+    const uri = 'http://example.com/_api/test-post?Authorization=shouldnotbehere';
+
+    httpClient.addAuthToUrl(uri)
+      .then((response) => {
+        expect(response).to.not.include("?Authorization=shouldnotbehere");
+        expect(response).to.include("http://example.com/_api/test-post?Authorization=");
+        done();
+      });
+  });
 });

@@ -256,4 +256,20 @@ export class HTTPClient implements IHTTPClient {
       });
     });
   }
+
+  addAuthToUrl(url: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      try {
+        const parsedUrl = new URL(url);
+        this.getAuthorizationHeader().then((header) => {
+            parsedUrl.searchParams.set('Authorization', header.Authorization);
+            resolve(parsedUrl.toString());
+        }, (e) => {
+            reject(e);
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
 }

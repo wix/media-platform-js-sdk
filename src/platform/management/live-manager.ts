@@ -150,7 +150,7 @@ export class LiveManager {
    * @param {string} streamId
    * @returns {string}
    */
-  getStreamCoverUrl(streamId: string): string {
-    return this.apiUrl + `/stream/${streamId}/frame`;
+  async getStreamCoverUrl(streamId: string): Promise<string> {
+    return await this.httpClient.addAuthToUrl(this.apiUrl + `/stream/${streamId}/frame`);
   }
 }

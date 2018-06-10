@@ -155,9 +155,12 @@ describe('live manager', () => {
   });
 
   it('Stream URL Generated successfully', done => {
-    const streamCoverUrl = liveManager.getStreamCoverUrl('streamId');
-    expect(streamCoverUrl).to.equal(`https://${configuration.domain}/_api/live/stream/streamId/frame`);
-    done();
+    liveManager.getStreamCoverUrl('streamId').then((response) => {
+      expect(response).to.match(/https:\/\/.*\/_api\/live\/stream\/streamId\/frame\?Authorization=.+/);
+      done();
+    }, (e) => {
+      expect(e).to.equal(null);
+      done();
+    });
   });
-
 });
