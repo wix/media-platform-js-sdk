@@ -9,7 +9,8 @@ import {Destination} from '../../../../src/platform/management/job/destination';
 import {PublishEndpoint} from '../../../../src/platform/management/metadata/publish-endpoint';
 import {Dvr} from '../../../../src/platform/management/metadata/dvr';
 import {Geo} from '../../../../src/platform/management/metadata/geo';
-import {ACL} from '../../../../src/types/media-platform/media-platform';
+import {ACL, LiveStreamState} from '../../../../src/types/media-platform/media-platform';
+import {LiveStreamListRequest} from '../../../../src/platform/management/requests/live-stream-list-request';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -135,7 +136,8 @@ describe('live manager', () => {
       .once()
       .replyWithFile(200, repliesDir + 'livestream-list-response.json');
 
-    liveManager.listStreams((error, data) => {
+    const liveStreamListRequest = new LiveStreamListRequest();
+    liveManager.listStreams(liveStreamListRequest, (error, data) => {
       expect(data.length).to.equal(3);
       expect(data[0].id).to.equal('stream_id1');
       done();
@@ -143,11 +145,15 @@ describe('live manager', () => {
   });
 
   it('List closed streams', done => {
-    apiServer.get('/_api/live/list_streams?closed=1')
+    apiServer.get('/_api/live/list_streams?state=closed%2Cdvr_processing')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-list-closed-response.json');
 
-    liveManager.listClosedStreams((error, data) => {
+    const liveStreamListRequest = new LiveStreamListRequest({
+        state: [LiveStreamState.CLOSED, LiveStreamState.DVR_PROCESSING]
+    });
+
+    liveManager.listStreams(liveStreamListRequest, (error, data) => {
       expect(data.length).to.equal(3);
       expect(data[0].id).to.equal('stream_id1');
       done();

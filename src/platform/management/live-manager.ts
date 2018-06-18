@@ -99,37 +99,17 @@ export class LiveManager {
 
   /**
    * List streams
+   * @param {LiveStreamListRequest} liveStreamListRequest
    * @param callback DEPRECATED! use promise response instead
    */
-  listStreams(callback?): Promise<LiveStream[]> {
+  listStreams(liveStreamListRequest?, callback?): Promise<LiveStream[]> {
     if (callback) {
       callback = deprecatedFn('LiveManager.listStreams use promise response instead')(callback);
     }
-    return this.httpClient.get<RawResponse<ILiveStream[]>>(this.apiUrl + '/list_streams')
-      .then((response) => {
-        const streams = response.payload.map(data => new LiveStream(data));
 
-        if (callback) {
-          callback(null, streams);
-        }
-        return streams;
-      }, error => {
-        if (callback) {
-          callback(error, null);
-        }
-        return Promise.reject(error);
-      });
-  }
+    const query = liveStreamListRequest && liveStreamListRequest.toParams().length ? '?' + liveStreamListRequest.toParams() : '';
 
-  /**
-   * List streams
-   * @param callback DEPRECATED! use promise response instead
-   */
-  listClosedStreams(callback?): Promise<LiveStream[]> {
-    if (callback) {
-      callback = deprecatedFn('LiveManager.listClosedStreams use promise response instead')(callback);
-    }
-    return this.httpClient.get<RawResponse<ILiveStream[]>>(this.apiUrl + '/list_streams?closed=1')
+    return this.httpClient.get<RawResponse<ILiveStream[]>>(this.apiUrl + '/list_streams' + query)
       .then((response) => {
         const streams = response.payload.map(data => new LiveStream(data));
 

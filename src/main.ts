@@ -24,6 +24,7 @@ import {NS} from './platform/authentication/NS';
 import {VERB} from './platform/authentication/VERB';
 import {ExtractStoryboardSpecification} from './platform/management/job/extract-storyboard-specification';
 import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
+import {LiveStreamListRequest} from "./platform/management/requests/live-stream-list-request";
 
 export {
   /**
@@ -167,7 +168,11 @@ export const live = {
   /**
    * @type {LivestreamRequest}
    */
-  LivestreamRequest: LivestreamRequest
+  LivestreamRequest: LivestreamRequest,
+  /**
+   * @type {LiveStreamListRequest}
+   */
+  LiveStreamListRequest: LiveStreamListRequest
 };
 
 export const job = {

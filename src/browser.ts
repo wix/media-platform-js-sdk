@@ -27,6 +27,7 @@ import {ImageOperationRequest} from './platform/management/requests/image-operat
 import {ExtractStoryboardSpecification} from './platform/management/job/extract-storyboard-specification';
 import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
 import {ExportedPublicMediaPlatform} from './types/media-platform/media-platform';
+import {LiveStreamListRequest} from "./platform/management/requests/live-stream-list-request";
 
 export {Configuration};
 export {MediaPlatform};
@@ -56,6 +57,7 @@ export const job = {
 };
 export const live = {
   LivestreamRequest,
+  LiveStreamListRequest,
   LiveStream
 };
 export const flow = {
