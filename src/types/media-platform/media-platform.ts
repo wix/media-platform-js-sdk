@@ -138,3 +138,11 @@ export enum FileType {
   FILE = '-',
   FOLDER = 'd'
 }
+
+export enum LiveStreamState {
+  CREATED = 'created',
+  STREAMING = 'streaming',
+  PENDING_RECONNECT = 'pending_reconnect',
+  DVR_PROCESSING = 'dvr_processing',
+  CLOSED = 'closed'
+}
