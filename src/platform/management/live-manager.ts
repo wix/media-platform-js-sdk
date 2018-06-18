@@ -3,6 +3,7 @@ import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
 import {RawResponse} from '../../types/response/response';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
+import {ILiveStreamListResponse, LiveStreamListResponse} from './responses/live-stream-list-response';
 
 /**
  * @param {Configuration} configuration
@@ -102,19 +103,19 @@ export class LiveManager {
    * @param {LiveStreamListRequest} liveStreamListRequest
    * @param callback DEPRECATED! use promise response instead
    */
-  listStreams(liveStreamListRequest?, callback?): Promise<LiveStream[]> {
+  listStreams(liveStreamListRequest?, callback?): Promise<LiveStreamListResponse> {
     if (callback) {
       callback = deprecatedFn('LiveManager.listStreams use promise response instead')(callback);
     }
 
-    return this.httpClient.get<RawResponse<ILiveStream[]>>(this.apiUrl + '/list_streams', liveStreamListRequest.toParams())
+    return this.httpClient.get<RawResponse<ILiveStreamListResponse>>(this.apiUrl + '/list_streams', liveStreamListRequest.toParams())
       .then((response) => {
-        const streams = response.payload.map(data => new LiveStream(data));
+        const liveStreamListResponse = new LiveStreamListResponse(response.payload);
 
         if (callback) {
-          callback(null, streams);
+          callback(null, liveStreamListResponse);
         }
-        return streams;
+        return liveStreamListResponse;
       }, error => {
         if (callback) {
           callback(error, null);

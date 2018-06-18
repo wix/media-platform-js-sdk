@@ -138,8 +138,8 @@ describe('live manager', () => {
 
     const liveStreamListRequest = new LiveStreamListRequest();
     liveManager.listStreams(liveStreamListRequest, (error, data) => {
-      expect(data.length).to.equal(3);
-      expect(data[0].id).to.equal('stream_id1');
+      expect(data.streams.length).to.equal(3);
+      expect(data.streams[0].id).to.equal('stream_id1');
       done();
     });
   });
@@ -154,8 +154,8 @@ describe('live manager', () => {
     });
 
     liveManager.listStreams(liveStreamListRequest, (error, data) => {
-      expect(data.length).to.equal(3);
-      expect(data[0].id).to.equal('stream_id1');
+      expect(data.streams.length).to.equal(3);
+      expect(data.streams[0].id).to.equal('stream_id1');
       done();
     });
   });
