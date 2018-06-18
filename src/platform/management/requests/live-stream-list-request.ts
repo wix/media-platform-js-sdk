@@ -20,8 +20,8 @@ export class LiveStreamListRequest implements ILiveStreamListRequest {
   public state?: LiveStreamState[] | undefined;
 
   constructor(data?: ILiveStreamListRequest) {
-    if(!data) {
-      data = {}
+    if (!data) {
+      data = {};
     }
     this.nextPageToken = data.nextPageToken || undefined;
     this.pageSize = data.pageSize || undefined;
@@ -30,16 +30,29 @@ export class LiveStreamListRequest implements ILiveStreamListRequest {
     this.state = data.state || undefined;
   }
 
-  public toParams() : string {
-      const str: string[] = [];
-      for (const p in this)
-        if (this.hasOwnProperty(p) && typeof this[p] !== 'undefined' && this[p] != null) {
-          if(p === 'state') {
-            str.push(encodeURIComponent(p) + '=' + this[p].join(','))
-          } else {
-            str.push(encodeURIComponent(p) + '=' + this[p]);
-          }
-        }
-      return str.join("&");
+  public toParams(): object {
+      const params: object = {};
+
+      if (typeof this.nextPageToken !== 'undefined') {
+          params['nextPageToken'] = this.nextPageToken;
+      }
+
+      if (typeof this.pageSize !== 'undefined') {
+          params['pageSize'] = this.pageSize;
+      }
+
+      if (typeof this.orderBy !== 'undefined') {
+          params['orderBy'] = this.orderBy;
+      }
+
+      if (typeof this.orderDirection !== 'undefined') {
+          params['orderDirection'] = this.orderDirection;
+      }
+
+      if (typeof this.state !== 'undefined') {
+          params['state'] = this.state.join(',');
+      }
+
+      return params;
   }
 }

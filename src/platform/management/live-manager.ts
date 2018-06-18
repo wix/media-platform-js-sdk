@@ -107,9 +107,7 @@ export class LiveManager {
       callback = deprecatedFn('LiveManager.listStreams use promise response instead')(callback);
     }
 
-    const query = liveStreamListRequest && liveStreamListRequest.toParams().length ? '?' + liveStreamListRequest.toParams() : '';
-
-    return this.httpClient.get<RawResponse<ILiveStream[]>>(this.apiUrl + '/list_streams' + query)
+    return this.httpClient.get<RawResponse<ILiveStream[]>>(this.apiUrl + '/list_streams', liveStreamListRequest.toParams())
       .then((response) => {
         const streams = response.payload.map(data => new LiveStream(data));
 
