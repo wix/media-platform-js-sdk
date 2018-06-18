@@ -14,8 +14,8 @@ export interface ILiveStreamListResponse {
  * @doc LiveStreamListResponse
  */
 export class LiveStreamListResponse {
-  public nextPageToken: string | null = null;
-  public streams: LiveStream[] | null = [];
+  public nextPageToken: string | undefined = undefined;
+  public streams: LiveStream[] | undefined = [];
 
   constructor(data: ILiveStreamListResponse) {
     this.deserialize(data);
