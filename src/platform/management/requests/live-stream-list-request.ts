@@ -8,6 +8,14 @@ export interface ILiveStreamListRequest {
   state?: LiveStreamState[] | undefined;
 }
 
+export interface ILiveStreamListParams {
+    nextPageToken?: string;
+    pageSize?: string;
+    orderBy?: string | undefined;
+    orderDirection?: string | undefined;
+    state?: string | undefined;
+}
+
 /**
  * List Files Request
  * @doc ListFilesRequest
@@ -30,27 +38,27 @@ export class LiveStreamListRequest implements ILiveStreamListRequest {
     this.state = data.state || undefined;
   }
 
-  public toParams(): object {
-      const params: object = {};
+  public toParams(): ILiveStreamListParams {
+      const params: ILiveStreamListParams = {};
 
       if (typeof this.nextPageToken !== 'undefined') {
-          params['nextPageToken'] = this.nextPageToken;
+          params.nextPageToken = this.nextPageToken;
       }
 
       if (typeof this.pageSize !== 'undefined') {
-          params['pageSize'] = this.pageSize;
+          params.pageSize = this.pageSize.toString();
       }
 
       if (typeof this.orderBy !== 'undefined') {
-          params['orderBy'] = this.orderBy;
+          params.orderBy = this.orderBy;
       }
 
       if (typeof this.orderDirection !== 'undefined') {
-          params['orderDirection'] = this.orderDirection;
+          params.orderDirection = this.orderDirection.toString();
       }
 
       if (typeof this.state !== 'undefined') {
-          params['state'] = this.state.join(',');
+          params.state = this.state.join(',');
       }
 
       return params;
