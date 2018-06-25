@@ -133,7 +133,7 @@ export class LiveManager {
       callback = deprecatedFn('LiveManager.listStreams use promise response instead')(callback);
     }
 
-    return this.httpClient.get<RawResponse<ILiveStreamListResponse>>(this.apiUrl + '/list_streams', liveStreamListRequest.toParams())
+    return this.httpClient.get<RawResponse<ILiveStreamListResponse>>(this.apiUrl + '/streams', liveStreamListRequest.toParams())
       .then((response) => {
         const liveStreamListResponse = new LiveStreamListResponse(response.payload);
 
