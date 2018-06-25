@@ -145,7 +145,7 @@ describe('live manager', () => {
   });
 
   it('List streams', done => {
-    apiServer.get('/_api/live/list_streams')
+    apiServer.get('/_api/live/streams')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-list-response.json');
 
@@ -158,7 +158,7 @@ describe('live manager', () => {
   });
 
   it('List closed streams', done => {
-    apiServer.get('/_api/live/list_streams?state=closed%2Cdvr_processing')
+    apiServer.get('/_api/live/streams?state=closed%2Cdvr_processing')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-list-closed-response.json');
 
