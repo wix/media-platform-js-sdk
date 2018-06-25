@@ -4,6 +4,7 @@ import {IHTTPClient} from '../http/http-client';
 import {RawResponse} from '../../types/response/response';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {ILiveStreamListResponse, LiveStreamListResponse} from './responses/live-stream-list-response';
+import {ILiveStreamAnalytics, LiveStreamAnalytics} from "./metadata/live-stream-analytics";
 
 /**
  * @param {Configuration} configuration
@@ -68,6 +69,30 @@ export class LiveManager {
           callback(null, liveStream);
         }
         return liveStream;
+      }, error => {
+        if (callback) {
+          callback(error, null);
+        }
+        return Promise.reject(error);
+      });
+  }
+
+  /**
+   * Get stream
+   * @param streamId
+   * @param callback DEPRECATED! use promise response instead
+   */
+  getStreamAnalytics(streamId, callback?): Promise<LiveStreamAnalytics> {
+    if (callback) {
+      callback = deprecatedFn('LiveManager.getStream use promise response instead')(callback);
+    }
+    return this.httpClient.get<RawResponse<ILiveStreamAnalytics>>(this.apiUrl + '/stream/' + streamId + '/analytics')
+      .then((response) => {
+        const liveStreamAnalytics = new LiveStreamAnalytics(response.payload);
+        if (callback) {
+          callback(null, liveStreamAnalytics);
+        }
+        return liveStreamAnalytics;
       }, error => {
         if (callback) {
           callback(error, null);

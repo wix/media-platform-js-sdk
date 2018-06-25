@@ -42,6 +42,19 @@ describe('live manager', () => {
     });
   });
 
+  it('Analytics is parsing properly', done => {
+    apiServer.get('/_api/live/stream/stream_id/analytics')
+      .once()
+      .replyWithFile(200, repliesDir + 'livestream-analytics-response.json');
+
+    liveManager.getStreamAnalytics('stream_id', (error, data) => {
+      expect(data.streamId).to.equal('stream_id');
+      expect(data.stats).to.be.an.instanceof(Array);
+
+      done();
+    });
+  });
+
   it('Geo is parsing properly', done => {
     apiServer.get('/_api/live/stream/stream_id')
       .once()

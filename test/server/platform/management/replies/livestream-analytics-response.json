@@ -1,0 +1,13 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "streamId": "stream_id",
+    "projectId": "project_id",
+    "stats": [
+      {"bytes_in": 50, "bytes_out": 50},
+      {"bytes_in": 50, "bytes_out": 50},
+      {"bytes_in": 50, "bytes_out": 50}
+    ]
+  }
+}
