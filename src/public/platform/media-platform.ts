@@ -1,3 +1,4 @@
+import { FilesSearch } from '../../platform/management/files-search';
 import {ImageExtractionManager} from '../../platform/management/image-extraction-manager';
 import {HTTPClient} from './http/browser-http-client';
 import {FileUploader} from './uploader/browser-file-uploader';
@@ -37,6 +38,7 @@ class MediaPlatform {
   public imageManager: ImageManager;
   public widgetInstancesManager: WidgetInstanceManager;
   public imageExtractionManager: ImageExtractionManager;
+  public filesSearch: FilesSearch;
 
   /**
    * constructor
@@ -65,6 +67,7 @@ class MediaPlatform {
     this.imageManager = new ImageManager(configuration, this.browserHTTPClient);
     this.widgetInstancesManager = new WidgetInstanceManager(configuration, this.browserHTTPClient);
     this.imageExtractionManager = new ImageExtractionManager(configuration, this.browserHTTPClient);
+    this.filesSearch = new FilesSearch(configuration, this.browserHTTPClient);
   }
 
   /**

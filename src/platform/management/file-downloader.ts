@@ -6,7 +6,6 @@ import {DownloadURLObject} from '../../types/media-platform/media-platform';
 import {Configuration} from '../configuration/configuration';
 import {Authenticator} from '../authentication/authenticator';
 
-
 export class FileDownloader {
 
   /**
@@ -35,9 +34,7 @@ export class FileDownloader {
       .setSubject(NS.APPLICATION, this.configuration.appId)
       .setIssuer(NS.APPLICATION, this.configuration.appId)
       .setVerbs([VERB.FILE_DOWNLOAD])
-      .setAdditionalClaims({
-        payload: payload
-      });
+      .setAdditionalClaims({payload});
 
     if (downloadUrlRequest && downloadUrlRequest.ttl) {
       token.setExpiration(Math.round(new Date().getTime() / 1000) + downloadUrlRequest.ttl);

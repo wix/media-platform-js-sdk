@@ -5,6 +5,7 @@ import {FileUploader} from './management/file-uploader';
 import {FileDownloader} from './management/file-downloader';
 import {FileManager} from './management/file-manager';
 import {ArchiveManager} from './management/archive-manager';
+import {FilesSearch} from './management/files-search';
 import {ImageExtractionManager} from './management/image-extraction-manager';
 import {JobManager} from './management/job-manager';
 import {ImageManager} from './management/image-manager';
@@ -38,6 +39,7 @@ export class MediaPlatform {
   public widgetInstancesManager: WidgetInstanceManager;
   public webhookDeserializer: WebhookDeserializer;
   public imageExtractionManager: ImageExtractionManager;
+  public filesSearch: FilesSearch;
 
   /**
    * constructor
@@ -105,6 +107,11 @@ export class MediaPlatform {
      * @type {ImageExtractionManager}
      */
     this.imageExtractionManager = new ImageExtractionManager(configuration, httpClient);
+
+    /**
+     * @type {FilesSearch}
+     */
+    this.filesSearch = new FilesSearch(configuration, httpClient);
   }
 
   public getAuthorizationHeader(token?: Token): AuthorizationHeader {
