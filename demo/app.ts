@@ -1,7 +1,7 @@
-import * as express from 'express';
-import * as path from 'path';
-import * as cookieParser from 'cookie-parser';
-import * as bodyParser from 'body-parser';
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 /**
  * replace with your config
  */
@@ -13,7 +13,7 @@ import authenticationRoute from './src/routes/authentication';
 const app = express();
 
 app.set('views', path.join(__dirname, '/src/views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 app.disable('x-powered-by');
 app.use(bodyParser.json());
