@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wix Media Platform - SDK Server Demo</title>
+    <script src="/media-platform.bundle.js"></script>
+    <script src="/utils.js"></script>
+    <script src="/prismjs/prism.js"></script>
+    <link href="/prismjs/themes/prism.css" type="text/css" rel="stylesheet">
+    <link href="/assets/styles/styles.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+<%- include mixins/nav-bar.ejs %>
+<div class="content">
+    <div class="group">
+        <div class="actions">
+            <h2>Instantiation</h2>
+            <div id="instantiation">
+                <div id="instantiation-code">
+                    <div class="highlight">
+                            <pre><code class="language-javascript">var MediaPlatform = require('media-platform-js-sdk').MediaPlatform;
+
+var mediaPlatform = new MediaPlatform({
+    domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+    appId: '48fa9aa3e9d342a3a33e66af08cd7fe3',
+    sharedSecret: 'fad475d88786ab720b04f059ac674b0e'
+});
+
+var fileManager = mediaPlatform.fileManager;
+</code></pre>
+                    </div>
+                </div>
+            </div>
+            <h2 id="authorization">Authorization
+                <h4>Generating and signing an authorization token for use by the client (browser)</h4>
+                <div id="authorization-code">
+                    <div class="highlight">
+                            <pre><code class="language-javascript">var header = mediaPlatform.getAuthorizationHeader();
+res.send(header);</code></pre>
+                    </div>
+                    <div class="demo-group">
+                        <div class="executable-button">
+                            <button class="btn" id="authorization-button">Execute</button>
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="highlight highlight-response">
+                            <pre><code class="language-javascript" id="authorization-response"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </h2>
+            <div id="limited-authorization">
+                <h4>Limiting the authorization scope of the signed token</h4>
+                <div id="limited-authorization-code">
+                    <div class="highlight">
+                            <pre><code class="language-javascript">var Token = require('media-platform-js-sdk').auth.Token;
+var NS = require('media-platform-js-sdk').auth.NS;
+
+var token = new Token()
+    .setIssuer(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
+    .setSubject(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
+    .addVerbs('urn:service:file.get', 'urn:service:file.list');
+
+var header = mediaPlatform.getAuthorizationHeader(token);
+
+res.send(header);</code></pre>
+                    </div>
+                    <div class="demo-group">
+                        <div class="executable-button">
+                            <button class="btn" id="limited-authorization-button">Execute</button>
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="highlight highlight-response">
+                            <pre><code class="language-javascript" id="limited-authorization-response"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 id="upload">Files
+                <h4>Uploading a file directly from the server. Support streams, buffers and files</h4>
+                <div id="upload-code">
+                    <div class="highlight">
+                            <pre><code class="language-javascript">fileManager.uploadFile('/demo/image.jpg', __dirname + '/../files/image.jpg', null, function(error, response) {
+     // do something
+});
+</code></pre>
+                    </div>
+                    <div class="demo-group">
+                        <div class="executable-button">
+                            <button class="btn" id="upload-button">Execute</button>
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="highlight highlight-response">
+                            <pre><code class="language-javascript" id="upload-response"></code></pre>
+                        </div>
+                    </div>
+                </div>
+                <h4>Importing a file from a source URL</h4>
+                <div id="import-code">
+                    <div class="highlight">
+                            <pre><code class="language-javascript">var ImportFileRequest = require('media-platform-js-sdk').file.ImportFileRequest;
+var Destination = require('media-platform-js-sdk').file.Destination;
+
+var importFileRequest = new ImportFileRequest()
+            .setSourceUrl('https://static.wixstatic.com/media/f31d7d0cfc554aacb1d737757c8d3f1b.jpg')
+            .setDestination(new Destination()
+                .setPath('/demo/import/' + rand + '.image.jpg')
+                .setAcl('public'));
+
+fileManager.importFile(importFileRequest, function (error, response) {
+     // do something
+});
+</code></pre>
+                    </div>
+                    <div class="demo-group">
+                        <div class="executable-button">
+                            <button class="btn" id="import-button">Execute</button>
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="highlight highlight-response">
+                            <pre><code class="language-javascript" id="import-response"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </h2>
+            <div id="list">
+                <h4>List files under a specific directory</h4>
+                <div id="list-code">
+                    <div class="highlight">
+                            <pre><code class="language-javascript">var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
+
+var listFilesRequest = new ListFilesRequest().setPageSize(3);
+
+fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
+    // do something
+});
+</code></pre>
+                    </div>
+                    <div class="demo-group">
+                        <div class="executable-button">
+                            <button class="btn" id="list-button">Execute</button>
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="highlight highlight-response">
+                            <pre><code class="language-javascript" id="list-response"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="metadata">
+                <h4>Get all the accumulated file metadata, note that the available metadata depends on which services
+                    are active in the project</h4>
+                <div id="metadata-code">
+                    <div class="highlight">
+                            <pre><code class="language-javascript">fileManager.getFileMetadataById(id, function (error, response) {
+    // do something
+});</code></pre>
+                    </div>
+                    <div class="demo-group"><input class="text-input"
+                                                   id="file-id-input"
+                                                   type="text"
+                                                   placeholder="Enter File ID"><br>
+                        <div class="executable-button">
+                            <button class="btn" id="get-metadata-button">Execute</button>
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="highlight highlight-response">
+                            <pre><code class="language-javascript" id="get-metadata-response"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="download-url">
+                <h4>Get a signed URL that directs to a file, required for non-public file download</h4>
+                <div id="download-url-code">
+                    <div class="highlight">
+                            <pre><code class="language-javascript">var url = mediaPlatform.getDownloadUrl(req.query.path, null);
+
+res.send({url: url});</code></pre>
+                    </div>
+                    <div class="demo-group"><input class="text-input"
+                                                   id="file-path-input"
+                                                   type="text"
+                                                   placeholder="Enter File Path"><br>
+                        <div class="executable-button">
+                            <button class="btn" id="get-download-url-button">Execute</button>
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="highlight highlight-response">
+                            <pre><code class="language-javascript" id="get-download-url-response"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  var authorizationButton = document.getElementById('authorization-button');
+  var authorizationResponse = document.getElementById('authorization-response');
+  authorizationButton.addEventListener('click', function () {
+    doGet('http://' + location.host + '/media-platform/auth-header', authorizationResponse, this)
+  });
+  var limitedAuthorizationButton = document.getElementById('limited-authorization-button');
+  var limitedAuthorizationResponse = document.getElementById('limited-authorization-response');
+  limitedAuthorizationButton.addEventListener('click', function () {
+    doGet('http://' + location.host + '/media-platform/limited-auth-header', limitedAuthorizationResponse, this)
+  });
+  var uploadButton = document.getElementById('upload-button');
+  var uploadResponse = document.getElementById('upload-response');
+  uploadButton.addEventListener('click', function () {
+    doGet('http://' + location.host + '/media-platform/file/upload', uploadResponse, this)
+  });
+  var importButton = document.getElementById('import-button');
+  var importResponse = document.getElementById('import-response');
+  importButton.addEventListener('click', function () {
+    doGet('http://' + location.host + '/media-platform/file/import', importResponse, this)
+  });
+  var listButton = document.getElementById('list-button');
+  var listResponse = document.getElementById('list-response');
+  listButton.addEventListener('click', function () {
+    doGet('http://' + location.host + '/media-platform/files', listResponse, this)
+  });
+  var metadataButton = document.getElementById('get-metadata-button');
+  var metadataResponse = document.getElementById('get-metadata-response');
+  var fileIdInput = document.getElementById('file-id-input');
+  metadataButton.addEventListener('click', function () {
+    var id = fileIdInput.value;
+    doGet('http://' + location.host + '/media-platform/file/' + id + '/metadata', metadataResponse, this)
+  });
+  var downloadUrlButton = document.getElementById('get-download-url-button');
+  var downloadUrlResponse = document.getElementById('get-download-url-response');
+  var filePathInput = document.getElementById('file-path-input');
+  downloadUrlButton.addEventListener('click', function () {
+    var path = encodeURIComponent(filePathInput.value);
+    doGet('http://' + location.host + '/media-platform/file/download/url?path=' + path, downloadUrlResponse, this)
+  });
+
+  function doGet(url, resultContainer, el) {
+    var request = new XMLHttpRequest();
+    request.responseType = 'json';
+
+    startLoading(el);
+    request.addEventListener('load', function (event) {
+      stopLoading(el);
+      resultContainer.innerHTML = Prism.highlight(
+        JSON.stringify(event.target.response, null, 2),
+        Prism.languages.js);
+    });
+
+    request.addEventListener('error', function (event) {
+      stopLoading(el);
+      alert('Oops! Something went wrong.');
+    });
+
+    request.open('GET', url);
+    request.send();
+  }
+</script>
+</body>
+
+</html>

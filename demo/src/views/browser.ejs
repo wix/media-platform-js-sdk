@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wix Media Platform - SDK Browser Demo</title>
+    <script src="/media-platform.bundle.js"></script>
+    <script src="/utils.js"></script>
+    <script src="/prismjs/prism.js"></script>
+    <link href="/prismjs/themes/prism.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/styles/styles.css" rel="stylesheet">
+    <script>
+      var mediaPlatform = new MP.MediaPlatform({
+        domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+        authenticationUrl: 'http://' + location.host + '/media-platform/auth-header'
+      });
+
+      var Image = MP.Image;
+      var Source = MP.Source;
+      var Destination = MP.Destination;
+      var QualityRange = MP.QualityRange;
+      var UploadUrlRequest = MP.file.UploadUrlRequest;
+      var ImportFileRequest = MP.file.ImportFileRequest;
+      var TranscodeRequest = MP.transcode.TranscodeRequest;
+      var ExtractPosterRequest = MP.transcode.ExtractPosterRequest;
+      var ExtractStoryboardRequest = MP.transcode.ExtractStoryboardRequest;
+      var ExtractArchiveRequest = MP.archive.ExtractArchiveRequest;
+      var CreateArchiveRequest = MP.archive.CreateArchiveRequest;
+      var TranscodeSpecification = MP.transcode.TranscodeSpecification;
+      var ExtractPosterSpecification = MP.transcode.ExtractPosterSpecification;
+      var ExtractStoryboardSpecification = MP.transcode.ExtractStoryboardSpecification;
+      var CreateFlowRequest = MP.flow.CreateFlowRequest;
+      var Invocation = MP.flow.Invocation;
+      var FlowComponent = MP.flow.FlowComponent;
+
+      var fileHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+      var imagesHost = 'images-wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+      var videosHost = 'wixmp-410a67650b2f46baa5d003c6.wixmp.com';
+    </script>
+</head>
+
+<body>
+<%- include mixins/nav-bar.ejs %>
+<div class="content">
+    <div class="group">
+        <h2 id="Instantiation">Instantiation</h2>
+        <div class="highlight">
+                <pre><code class="language-javascript">var mediaPlatform = new MP.MediaPlatform({
+    domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+    authenticationUrl: 'http://localhost:3333/media-platform/auth-header'
+});
+</code></pre>
+        </div>
+        <h2 id="FileManagementApi">File Management API
+            <h4>Import a file from URL (any mime type)</h4>
+            <div class="highlight">
+                    <pre><code class="language-javascript">var importFileRequest = new ImportFileRequest()
+     .setDestination(
+        new Destination()
+            .setPath("/destination/file.ext")
+            .setAcl("public")
+     ).setSourceUrl(fileUrl);
+
+
+ mediaPlatform.fileManager.importFile(importFileRequest, function(error, data) {
+    // handle result
+ });</code></pre>
+            </div>
+            <div class="demo-group"><input class="text-input"
+                                           id="file-import-id-input"
+                                           type="text"
+                                           placeholder="Enter Remote File URL (http://)"><br>
+                <div class="executable-button">
+                    <button class="btn" id="file-import-button">Execute</button>
+                    <div class="spinner"></div>
+                    <span class="path-to-file" id="file-import-job-status"></span></div>
+                <div class="highlight highlight-response">
+                    <pre><code class="language-javascript" id="file-import-payload"></code></pre>
+                </div>
+            </div>
+            <h4>Upload a file (any mime type)</h4>
+            <div class="highlight">
+                    <pre><code class="language-javascript">mediaPlatform.fileManager.uploadFile(path, file)
+    .on('upload-progress', function(event) {
+        // handle progress
+    })
+    .on('upload-success', function(event) {
+        // handle success
+    })
+    .on('upload-error', function(event) {
+        // handle error
+    });
+</code></pre>
+            </div>
+            <div class="demo-group">
+                <div class="executable-button"><label class="btn" for="file-management" id="file-management-label">Upload
+                        File</label>
+                    <div class="spinner"></div>
+                    <span class="path-to-file" id="file-management-path"></span>
+                    <form enctype="multipart/form-data" action="" method="post" target="upload-result">
+                        <input id="file-management" name="file" type="file"></form>
+                </div>
+                <div class="highlight highlight-response">
+                    <pre><code class="language-javascript" id="file-management-payload"></code></pre>
+                </div>
+            </div>
+            <h4>Queued file upload (any MIME type)</h4>
+            <div class="highlight">
+                    <pre><code class="language-javascript">var uploadJob = new MP.upload.UploadJob();
+
+uploadJob
+    .setPath(path)
+    .setFile(file)
+    .on('upload-success', function (response) {
+        // handle success
+    });
+
+mediaPlatform.fileManager.queueFileUpload(uploadJob);</code></pre>
+            </div>
+            <div class="demo-group">
+                <div class="executable-button"><label class="btn"
+                                                      for="queued-file-management"
+                                                      id="queued-file-management-label">Upload File</label>
+                    <div class="spinner"></div>
+                    <span class="path-to-file" id="queued-file-management-path"></span>
+                    <form enctype="multipart/form-data" action="" method="post" target="upload-result">
+                        <input id="queued-file-management" name="file" type="file"></form>
+                </div>
+                <div class="highlight highlight-response">
+                    <pre><code class="language-javascript" id="queued-file-management-payload"></code></pre>
+                </div>
+            </div>
+            <h4>Retrieve a list of uploaded files</h4>
+            <div class="highlight">
+                    <pre><code class="language-javascript">var listFileRequest = new MP.file.ListFilesRequest().setPageSize(3);
+
+mediaPlatform.fileManager.listFiles(path, listFilesRequest, function(error, response) {
+    // do something
+});
+</code></pre>
+            </div>
+            <div class="demo-group">
+                <div class="executable-button">
+                    <button class="btn" id="file-list-button">Execute</button>
+                    <div class="spinner"></div>
+                </div>
+                <div class="highlight highlight-response">
+                    <pre><code class="language-javascript" id="file-list-payload"></code></pre>
+                </div>
+            </div>
+            <h4>Get file metadata by id</h4>
+            <div class="highlight">
+                    <pre><code class="language-javascript">mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
+    // do something
+});</code></pre>
+            </div>
+            <div class="demo-group"><input class="text-input"
+                                           id="file-metadata-id-input"
+                                           type="text"
+                                           placeholder="Enter File ID"><br>
+                <div class="executable-button">
+                    <button class="btn" id="file-metadata-button">Execute</button>
+                    <div class="spinner"></div>
+                </div>
+                <div class="highlight highlight-response">
+                    <pre><code class="language-javascript" id="file-metadata-payload"></code></pre>
+                </div>
+            </div>
+            <h4>Delete file by id</h4>
+            <div class="highlight">
+                    <pre><code class="language-javascript">mediaPlatform.fileManager.deleteFileById(fileId, function(error, response) {
+    // do something
+});</code></pre>
+            </div>
+            <div class="demo-group"><input class="text-input"
+                                           id="file-delete-id-input"
+                                           type="text"
+                                           placeholder="Enter File ID"><br>
+                <div class="executable-button">
+                    <button class="btn" id="file-delete-button">Execute</button>
+                    <div class="spinner"></div>
+                </div>
+                <div class="highlight highlight-response">
+                    <pre><code class="language-javascript" id="file-delete-payload"></code></pre>
+                </div>
+            </div>
+        </h2>
+        <h2 id="ImageApi">Image API
+            <H4>Upload image</H4>
+            <div class="highlight">
+                    <pre><code class="language-javascript" id="image-manipulation-code">mediaPlatform.fileManager.uploadFile(path, file)
+    .on('upload-success', function(event) {
+        var image = new MP.Image(event.fileDescriptors[0]);
+
+        image.crop(500, 500)
+            .jpeg(100, true)
+            .blur(50)
+            .toUrl()
+            .url;
+  });
+</code></pre>
+            </div>
+            <div class="demo-group">
+                <div class="executable-button"><label class="btn" for="image-file" id="image-file-label">Upload
+                        Image</label>
+                    <div class="spinner"></div>
+                    <span class="path-to-file" id="image-file-path"></span>
+                    <form enctype="multipart/form-data" action="" method="post" target="upload-result">
+                        <input id="image-file" name="file" type="file" accept="image/*"></form>
+                </div>
+                <select class="filters-select" id="image-manipulation-filters">
+                    <option value="blur;50" selected>Blur</option>
+                    <option value="brightness;50">Brightness</option>
+                    <option value="contrast;50">Contrast</option>
+                    <option value="hue;50">Hue</option>
+                    <option value="saturation;-70">Saturation</option>
+                    <option value="unsharpMask;5.5,4.23,9.56">Unsharp Mask</option>
+                </select>
+                <div
+                        class="response">
+                    <div class="highlight highlight-response url-block3">
+                        <pre><code class="language-javascript" id="image-payload"></code></pre>
+                    </div>
+                    <div class="output"><img id="image-output" src="/assets/img/no-preview.png"></div>
+                </div>
+            </div>
+        </h2>
+        <h2 id="VideoApi">Video API</h2>
+        <H4>Upload Video</H4>
+        <div class="highlight">
+            <pre><code class="language-javascript">mediaPlatform.fileManager.uploadFile(path, file)
+    .on('upload-success', function(response) {
+        // handle success
+    });
+</code></pre>
+        </div>
+        <div class="demo-group">
+            <div class="executable-button"><label class="btn" for="video-file" id="video-file-label">Upload
+                    Video</label>
+                <div class="spinner"></div>
+                <span class="path-to-file" id="video-file-path"></span>
+                <form enctype="multipart/form-data" action="" method="post" target="upload-result">
+                    <input id="video-file" name="file" type="file" accept="video/*"></form>
+            </div>
+            <div class="response">
+                <div class="highlight highlight-response">
+                    <pre><code class="language-javascript" id="video-payload"></code></pre>
+                </div>
+                <div class="output">
+                    <video id="video-output" controls></video>
+                </div>
+            </div>
+        </div>
+        <h2 id="ArchiveApi">Archive API</h2>
+        <H4>Create Archive</H4>
+        <div class="highlight">
+            <pre><code class="language-javascript">
+mediaPlatform.archiveManager
+  .createArchiveObservable({
+    destination: {
+      directory: destinationPath,
+      acl: destinationAcl
+    },
+    sources: [{
+      fileId: fileId
+    }],
+    archiveType: archiveType
+  })
+  .subscribe(
+    function (job) {
+      // handle job progress
+    },
+    function (error) {
+      // handle job error
+    },
+    function () {
+      // handle job completion
+    }
+  );</code></pre>
+        </div>
+        <form class="demo-group" id="create-archive-form">
+            <input class="text-input"
+                   id="create-archive-id-input"
+                   type="text"
+                   placeholder="Enter File ID"><br>
+            <input class="text-input"
+                   id="create-archive-destination-input"
+                   type="text"
+                   placeholder="Enter Destination Path"><br>
+            <input class="text-input"
+                   id="create-archive-destination-acl-input"
+                   type="text"
+                   placeholder="Enter Destination ACL"><br>
+            <input class="text-input"
+                   id="create-archive-type-input"
+                   type="text"
+                   placeholder="Enter Archive Type"><br>
+            <div class="executable-button">
+                <button class="btn" type="submit" id="create-archive-button">Execute</button>
+                <div class="spinner"></div>
+            </div>
+            <div class="highlight highlight-response">
+                <pre><code class="language-javascript" id="create-archive-payload"></code></pre>
+            </div>
+        </form>
+        <H4>Extract Archive</H4>
+        <div class="highlight">
+            <pre><code class="language-javascript">var extractArchiveRequest = new ExtractArchiveRequest({
+  destination: {
+    directory: '/fish',
+    acl: 'public'
+  },
+  sources: [
+    fileId: '#archive-file-id'
+  ],
+  archiveType: 'zip'
+});
+
+mediaPlatform.archiveManager.extractArchive(extractArchiveRequest, function(job, error) {
+    // handle job success
+});</code></pre>
+        </div>
+        <div class="demo-group"><input class="text-input"
+                                       id="extract-archive-id-input"
+                                       type="text"
+                                       placeholder="Enter File ID"><br><input class="text-input"
+                                                                              id="extract-archive-destination-input"
+                                                                              type="text"
+                                                                              placeholder="Enter Destination Path"><br><input
+                    class="text-input"
+                    id="extract-archive-destination-acl-input"
+                    type="text"
+                    placeholder="Enter Destination ACL"><br>
+            <div class="executable-button">
+                <button class="btn" id="extract-archive-button">Execute</button>
+                <div class="spinner"></div>
+            </div>
+            <div class="highlight highlight-response">
+                <pre><code class="language-javascript" id="extract-archive-payload"></code></pre>
+            </div>
+        </div>
+        <h2 id="TranscodeApi">Transcode API</h2>
+        <H4>Transcode Video</H4>
+        <div class="highlight">
+            <pre><code class="language-javascript">var source = new Source();
+source.fileId = fileId;
+
+var transcodeSpecification = new TranscodeSpecification();
+transcodeSpecification.destination = new Destination()
+    .setDirectory("/test/output")
+    .setAcl("public");
+
+transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
+
+var transcodeRequest = new TranscodeRequest()
+    .addSource(source)
+    .addSpecification(transcodeSpecification);
+
+mediaPlatform.avManager.transcodeVideo(transcodeRequest, function(error, response) {
+    // handle success
+});
+</code></pre>
+        </div>
+        <div class="demo-group"><input class="text-input"
+                                       id="transcode-video-id-input"
+                                       type="text"
+                                       placeholder="Enter File ID"><br>
+            <div class="executable-button">
+                <button class="btn" id="transcode-video-button">Execute</button>
+                <div class="spinner"></div>
+                <span class="path-to-file" id="transcode-job-status"></span></div>
+            <div class="highlight highlight-response">
+                <pre><code class="language-javascript" id="transcode-video-payload"></code></pre>
+            </div>
+        </div>
+        <H4>Extract Poster from Video</H4>
+        <div class="highlight">
+            <pre><code class="language-javascript">var source = new Source();
+source.fileId = fileId;
+
+var extractPosterSpecification = new ExtractPosterSpecification();
+extractPosterSpecification.destination = new Destination()
+    .setDirectory("/test/output")
+    .setAcl("public");
+
+extractPosterSpecification.format = "jpg";
+
+extractPosterSpecification.second = 1;
+
+var extractPosterRequest = new ExtractPosterRequest()
+    .addSource(source)
+    .addSpecification(extractPosterSpecification);
+
+mediaPlatform.avManager.extractPoster(extractPosterRequest, function(error, response) {
+    // handle success
+});
+</code></pre>
+        </div>
+        <div class="demo-group"><input class="text-input"
+                                       id="extract-poster-id-input"
+                                       type="text"
+                                       placeholder="Enter File ID"><br>
+            <div class="executable-button">
+                <button class="btn" id="extract-poster-button">Execute</button>
+                <div class="spinner"></div>
+                <span class="path-to-file" id="extract-poster-job-status"></span></div>
+            <div id="extract-poster-image"></div>
+            <div class="highlight highlight-response">
+                <pre><code class="language-javascript" id="extract-poster-payload"></code></pre>
+            </div>
+        </div>
+        <H4>Extract Storyboard from Video</H4>
+        <div class="highlight">
+            <pre><code class="language-javascript">var source = new Source();
+source.fileId = fileId;
+
+var extractStoryboardSpecification = new ExtractStoryboardSpecification();
+extractStoryboardSpecification.destination = new Destination()
+    .setDirectory("/test/output")
+    .setAcl("public");
+
+extractStoryboardSpecification.format = "jpg";
+
+extractStoryboardSpecification.columns = 6;
+extractStoryboardSpecification.rows = 4;
+extractStoryboardSpecification.tileWidth = 100;
+extractStoryboardSpecification.tileHeight = 40;
+
+var extractStoryboardRequest = new ExtractStoryboardRequest()
+    .addSource(source)
+    .addSpecification(extractStoryboardSpecification);
+
+mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest, function(error, response) {
+    // handle success
+});
+</code></pre>
+        </div>
+        <div class="demo-group"><input class="text-input"
+                                       id="extract-storyboard-id-input"
+                                       type="text"
+                                       placeholder="Enter File ID"><br>
+            <div class="executable-button">
+                <button class="btn" id="extract-storyboard-button">Execute</button>
+                <div class="spinner"></div>
+                <span class="path-to-file" id="extract-storyboard-job-status"></span></div>
+            <div id="extract-storyboard-image"></div>
+            <div class="highlight highlight-response">
+                <pre><code class="language-javascript" id="extract-storyboard-payload"></code></pre>
+            </div>
+        </div>
+        <h2 id="FlowManagerApi">Flow Manager API</h2>
+        <H4>Invoke Flow on Remote Url</H4>
+        <div class="highlight">
+            <pre><code class="language-javascript">var invocation = new Invocation()
+    .addEntryPoint("import");
+
+var importFileRequest = new ImportFileRequest()
+    .setDestination(new Destination().setPath("/testflow/imported/file_" + Date.now() + ".mp4").setAcl("public"))
+    .setSourceUrl(fileUrl);
+
+var importComponent = new FlowComponent()
+    .setType('file.import')
+    .setSpecification(importFileRequest)
+    .addSuccessor('transcode');
+
+var transcodeSpecification = new TranscodeSpecification()
+    .setDestination(new Destination()
+        .setDirectory("/testflow/transcoded")
+        .setAcl("public")
+).setQualityRange(new QualityRange({minimum: "240p", maximum: "1440p"} ));
+
+var transcodeComponent = new FlowComponent()
+.setType('av.transcode')
+    .setSpecification(transcodeSpecification)
+    .setSuccessors([]);
+
+var createFlowRequest = new CreateFlowRequest()
+    .setInvocation(invocation)
+    .addFlowComponent("import", importComponent)
+    .addFlowComponent("transcode", transcodeComponent);
+
+
+mediaPlatform.flowManager.createFlow(createFlowRequest, function(error, data) {
+    // handle success
+});
+</code></pre>
+        </div>
+        <div class="demo-group"><input class="text-input"
+                                       id="flow-manager-id-input"
+                                       type="text"
+                                       placeholder="Enter Remote File URL (http://)"><br>
+            <div class="executable-button">
+                <button class="btn" id="flow-manager-button">Execute</button>
+                <div class="spinner"></div>
+                <span class="path-to-file" id="flow-manager-job-status"></span></div>
+            <div class="highlight highlight-response">
+                <pre><code class="language-javascript" id="flow-manager-payload"></code></pre>
+            </div>
+        </div>
+        <h2 id="download-url">Signed URL
+            <h4>Get a signed URL that directs to a file, required for non-public file download</h4>
+            <div id="download-url-code">
+                <div class="highlight">
+                    <pre><code class="language-javascript">mediaPlatform.getDownloadUrl(path, null, function(error, response) {
+    // do something
+});</code></pre>
+                </div>
+                <div class="demo-group"><input class="text-input"
+                                               id="download-url-input"
+                                               type="text"
+                                               placeholder="Enter File Path"><br>
+                    <div class="executable-button">
+                        <button class="btn" id="download-url-button">Execute</button>
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="highlight highlight-response">
+                        <pre><code class="language-javascript" id="download-url-payload"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </h2>
+        <h2 id="extract-image-">Image Extraction
+            <h4>Manages the various feature extraction processors, such as face detection</h4>
+            <div id="extract-image-by-id-code">
+                <div class="highlight">
+                    <pre><code class="language-javascript">mediaPlatform.imageExtractionManager.extractImageById(fileId, null, function(error, response) {
+    // do something
+});</code></pre>
+                </div>
+                <div class="demo-group"><input class="text-input"
+                                               id="extract-image-by-id-input"
+                                               type="text"
+                                               placeholder="Enter File Id"><br>
+                    <div class="executable-button">
+                        <button class="btn" id="extract-image-by-id-button">Execute</button>
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="highlight highlight-response">
+                        <pre><code class="language-javascript" id="extract-image-by-id-payload"></code></pre>
+                    </div>
+                </div>
+            </div>
+            <h4>Manages the various feature extraction processors, such as face detection</h4>
+            <div id="extract-image-by-file-code">
+                <div class="highlight">
+                    <pre><code class="language-javascript">mediaPlatform.imageExtractionManager.extractImageByFilePath(filePath, null, function(error, response) {
+    // do something
+});</code></pre>
+                </div>
+                <div class="demo-group"><input class="text-input"
+                                               id="extract-image-by-path-input"
+                                               type="text"
+                                               placeholder="Enter File Path"><br>
+                    <div class="executable-button">
+                        <button class="btn" id="extract-image-by-path-button">Execute</button>
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="highlight highlight-response">
+                        <pre><code class="language-javascript" id="extract-image-by-path-payload"></code></pre>
+                    </div>
+                </div>
+            </div>
+            <h4>Packaging Service
+                <div id="packaging-service">
+                    <div class="highlight">
+                        <pre><code class="language-javascript">mediaPlatform.avManager.packageVideo({ sources: [], directory: '/demo'..... })
+    .then(function (response) {
+        // do something
+    });</code></pre>
+                    </div>
+                    <div class="demo-group"><input class="text-input"
+                                                   id="packaging-service-input-file-path"
+                                                   type="text"
+                                                   placeholder="Enter File Path"><br><input class="text-input"
+                                                                                            id="packaging-service-input-file-name"
+                                                                                            type="text"
+                                                                                            placeholder="Enter File Name"><br><input
+                                class="text-input"
+                                id="packaging-service-input-directory"
+                                type="text"
+                                placeholder="Enter Directory"><br><input class="text-input"
+                                                                         id="packaging-service-input-acl"
+                                                                         type="text"
+                                                                         placeholder="Enter ACL"><br><input class="text-input"
+                                                                                                            id="packaging-service-input-chunk-duration"
+                                                                                                            type="text"
+                                                                                                            placeholder="Enter Chunk Duration"><br><input
+                                class="text-input"
+                                id="packaging-service-input-package-type"
+                                type="text"
+                                placeholder="Enter Package Type"><br>
+                        <div class="executable-button">
+                            <button class="btn" id="packaging-service-button">Execute</button>
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="highlight highlight-response">
+                            <pre><code class="language-javascript" id="packaging-service-payload"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </h4>
+        </h2>
+    </div>
+</div>
+<script src="/assets/scripts/browser.js"></script>
+</body>
+
+</html>
