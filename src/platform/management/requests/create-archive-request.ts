@@ -19,6 +19,9 @@ export class CreateArchiveRequest implements ICreateArchiveRequest {
   public archiveType: string | null = null;
 
   constructor(data: ICreateArchiveRequest) {
+    if (!data) {
+      return;
+    }
     this.sources = data.sources.map(sourceData => new Source(sourceData));
     this.destination = data.destination ? new Destination(data.destination) : null;
     this.archiveType = data.archiveType;

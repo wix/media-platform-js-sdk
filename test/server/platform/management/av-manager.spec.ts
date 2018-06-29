@@ -1,5 +1,7 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import {expect} from 'chai';
+import path from 'path';
+import sinon from 'sinon';
 import {AVManager} from '../../../../src/platform/management/av-manager';
 import {PackageType} from '../../../../src/platform/management/job/packaging-specification';
 import {TranscodeRequest} from '../../../../src/platform/management/requests/transcode-request';
@@ -12,6 +14,7 @@ import {ExtractPosterJobResponse} from '../../../../src/platform/management/resp
 import {ExtractStoryboardJobResponse} from '../../../../src/platform/management/responses/extract-storyboard-job-response';
 import {PackagingJobResponse} from '../../../../src/platform/management/responses/packaging-job-response';
 import {ACL} from '../../../../src/types/media-platform/media-platform';
+import {JobStatus} from '../../../../src/platform/management/job/job';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -20,6 +23,7 @@ describe('AV Manager', () => {
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
   const avManager = new AVManager(configuration, httpClient);
+  const sandbox = sinon.sandbox.create();
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'
@@ -27,12 +31,13 @@ describe('AV Manager', () => {
 
   afterEach(() => {
     nock.cleanAll();
+    sandbox.verifyAndRestore();
   });
 
   it('transcodeVideo - default', async () => {
     apiServer.post('/_api/av/transcode')
       .once()
-      .replyWithFile(200, repliesDir + 'transcode-response.json');
+      .replyWithFile(200, repliesDir + 'transcode-pending-response.json');
 
     const transcodeRequest = new TranscodeRequest({
       sources: [{
@@ -53,6 +58,82 @@ describe('AV Manager', () => {
     await avManager.transcodeVideo(transcodeRequest, (error, data) => {
       expect(data.groupId).to.equal('fb79405a16434aab87ccbd1384563033');
     });
+  });
+
+  it('should transcode video observable', done => {
+    apiServer.post('/_api/av/transcode')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'transcode-pending-response.json'));
+
+    apiServer.get('/_api/jobs/groups/fb79405a16434aab87ccbd1384563033')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'transcode-success-response.json'));
+
+    const transcodeRequest = new TranscodeRequest({
+      sources: [{
+        path: '/test/file.mp4'
+      }],
+      specifications: [{
+        destination: {
+          directory: '/test/output',
+          acl: ACL.PUBLIC
+        },
+        qualityRange: {
+          minimum: '240p',
+          maximum: '1440p'
+        }
+      }]
+    });
+
+    const progressSpy = sandbox.spy();
+    avManager
+      .transcodeVideoObservable(transcodeRequest)
+      .subscribe(progressSpy, done, () => {
+        expect(progressSpy).to.have.been.calledTwice;
+        expect(progressSpy.firstCall.args[0].jobs[0].id).to.equal('fb79405a16434aab87ccbd1384563033_ae7ae8a47b114f45b8a75f53723e53dc');
+        expect(progressSpy.firstCall.args[0].jobs[0].status).to.equal('pending');
+        expect(progressSpy.secondCall.args[0].jobs[0].id).to.equal('fb79405a16434aab87ccbd1384563033_ae7ae8a47b114f45b8a75f53723e53dc');
+        expect(progressSpy.secondCall.args[0].jobs[0].status).to.equal('success');
+        done();
+      });
+  });
+
+  it('should transcode video observable error', done => {
+    apiServer.post('/_api/av/transcode')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'transcode-pending-response.json'));
+
+    apiServer.get('/_api/jobs/groups/fb79405a16434aab87ccbd1384563033')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'transcode-error-response.json'));
+
+    const transcodeRequest = new TranscodeRequest({
+      sources: [{
+        path: '/test/file.mp4'
+      }],
+      specifications: [{
+        destination: {
+          directory: '/test/output',
+          acl: ACL.PUBLIC
+        },
+        qualityRange: {
+          minimum: '240p',
+          maximum: '1440p'
+        }
+      }]
+    });
+
+    const progressSpy = sandbox.spy();
+    avManager
+      .transcodeVideoObservable(transcodeRequest)
+      .subscribe(progressSpy, (error) => {
+        expect(progressSpy).to.have.been.calledOnce;
+        expect(progressSpy.firstCall.args[0].jobs[0].id).to.equal('fb79405a16434aab87ccbd1384563033_ae7ae8a47b114f45b8a75f53723e53dc');
+        expect(progressSpy.firstCall.args[0].jobs[0].status).to.equal('pending');
+        expect(error.jobs[1].id).to.equal('fb79405a16434aab87ccbd1384563033_e20cde4ae73e4c4098534d8136e17324');
+        expect(error.jobs[1].status).to.equal('error');
+        done();
+      }, done);
   });
 
   describe('extract poster – default', () => {
@@ -188,7 +269,7 @@ describe('AV Manager', () => {
           expect(data).to.deep.equal(new PackagingJobResponse({
             jobs: [
               {
-                status: 'pending',
+                status: JobStatus.PENDING,
                 dateCreated: '2018-04-25T13:00:54Z',
                 sources: [
                   {

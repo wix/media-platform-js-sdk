@@ -8,15 +8,21 @@ import {ExtractPosterJobResponse, IExtractPosterJobResponse} from './responses/e
 import {ExtractStoryboardJobResponse, IExtractStoryboardJobResponse} from './responses/extract-storyboard-job-response';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {RawResponse} from '../../types/response/response';
+import {JobGroup} from './job/job-group';
+import {TranscodeSpecification} from './job/transcode-specification';
+import Observable from 'zen-observable';
+import {observeJobGroupCreator} from './job/job-observable';
 
 
 export type ExtractPosterCallback = (error: Error | null, response: ExtractPosterJobResponse | null) => void;
 export type ExtractStoryboardCallback = (error: Error | null, response: ExtractStoryboardJobResponse | null) => void;
+
 export interface PackagingSource {
   path?: string;
   fileId?: string;
   name: string;
 }
+
 export interface PackagingParams {
   sources: PackagingSource[];
   directory: string;
@@ -39,12 +45,23 @@ export class AVManager {
     /**
      * @type {string}
      */
-    this.baseUrl = 'https://' + configuration.domain;
+    this.baseUrl = `https://${configuration.domain}`;
 
     /**
      * @type {string}
      */
-    this.apiUrl = this.baseUrl + '/_api/av';
+    this.apiUrl = `${this.baseUrl}/_api/av`;
+  }
+
+  /**
+   * Transcode video
+   * @param transcodeRequest
+   * @returns {Observable<JobGroup<TranscodeSpecification>>}
+   */
+  public transcodeVideoObservable(transcodeRequest): Observable<JobGroup<TranscodeSpecification>> {
+    return observeJobGroupCreator(this.configuration, this.httpClient)(
+      () => this.transcodeVideo(transcodeRequest)
+    );
   }
 
   /**
@@ -52,13 +69,13 @@ export class AVManager {
    * @param transcodeRequest
    * @param callback DEPRECATED! use promise response instead
    */
-  public transcodeVideo(transcodeRequest, callback?) {
+  public transcodeVideo(transcodeRequest, callback?): Promise<TranscodeJobResponse> {
     const params = {...transcodeRequest};
     if (callback) {
       callback = deprecatedFn('TranscodeManager.transcodeVideo use promise response instead')(callback);
     }
 
-    this.httpClient.post<RawResponse<ITranscodeJobResponse>>(this.apiUrl + '/transcode', params)
+    return this.httpClient.post<RawResponse<ITranscodeJobResponse>>(`${this.apiUrl}/transcode`, params)
       .then((response) => {
         const transcodeJobResponse = new TranscodeJobResponse(response.payload);
         if (callback) {
@@ -159,7 +176,8 @@ export class AVManager {
 
 export class TranscodeManager extends AVManager {
   constructor(configuration, httpClient) {
-    deprecatedFn('TranscodeManager: use AVManager class instead of TranscodeManager')(() => {});
+    deprecatedFn('TranscodeManager: use AVManager class instead of TranscodeManager')(() => {
+    });
     super(configuration, httpClient);
   }
 }

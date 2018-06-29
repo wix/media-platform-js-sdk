@@ -1,4 +1,6 @@
-import * as nock from 'nock';
+import nock from 'nock';
+import sinon from 'sinon';
+import path from 'path';
 import {expect} from 'chai';
 import {ArchiveManager} from '../../../../src/platform/management/archive-manager';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
@@ -19,6 +21,7 @@ describe('archive manager', () => {
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
   const archiveManager = new ArchiveManager(configuration, httpClient);
+  const sandbox = sinon.sandbox.create();
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'
@@ -26,6 +29,7 @@ describe('archive manager', () => {
 
   afterEach(() => {
     nock.cleanAll();
+    sandbox.verifyAndRestore();
   });
 
   it('create archive', (done) => {
@@ -51,6 +55,70 @@ describe('archive manager', () => {
     });
   });
 
+  it('should create archive observable', (done) => {
+    apiServer.post('/_api/archive/create')
+      .once()
+      .query(true)
+      .replyWithFile(200, path.join(repliesDir, 'create-archive-pending-response.json'));
+
+    apiServer.get('/_api/jobs/6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'create-archive-success-response.json'));
+
+    const progressSpy = sandbox.spy();
+    archiveManager
+      .createArchiveObservable({
+        destination: {
+          directory: '/fish',
+          acl: ACL.PUBLIC
+        },
+        sources: [{
+          fileId: 'archive-file'
+        }],
+        archiveType: 'zip'
+      })
+      .subscribe(progressSpy, done, () => {
+        expect(progressSpy).to.have.been.calledTwice;
+        expect(progressSpy.firstCall.args[0].id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+        expect(progressSpy.firstCall.args[0].status).to.equal('pending');
+        expect(progressSpy.secondCall.args[0].id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+        expect(progressSpy.secondCall.args[0].status).to.equal('success');
+        done();
+      });
+  });
+
+  it('should create archive observable error', (done) => {
+    apiServer.post('/_api/archive/create')
+      .once()
+      .query(true)
+      .replyWithFile(200, path.join(repliesDir, 'create-archive-pending-response.json'));
+
+    apiServer.get('/_api/jobs/6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'create-archive-error-response.json'));
+
+    const progressSpy = sandbox.spy();
+    archiveManager
+      .createArchiveObservable({
+        destination: {
+          directory: '/fish',
+          acl: ACL.PUBLIC
+        },
+        sources: [{
+          fileId: 'archive-file'
+        }],
+        archiveType: 'zip'
+      })
+      .subscribe(progressSpy, (error) => {
+        expect(progressSpy).to.have.been.calledOnce;
+        expect(progressSpy.firstCall.args[0].id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+        expect(progressSpy.firstCall.args[0].status).to.equal('pending');
+        expect(error.id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+        expect(error.status).to.equal('error');
+        done();
+      }, done);
+  });
+
   it('extract archive', done => {
     apiServer.post('/_api/archive/extract')
       .once()
@@ -73,4 +141,64 @@ describe('archive manager', () => {
     });
   });
 
+  it('should extract archive observable', (done) => {
+    apiServer.post('/_api/archive/extract')
+      .once()
+      .query(true)
+      .replyWithFile(200, repliesDir + 'extract-archive-pending-response.json');
+
+    apiServer.get('/_api/jobs/6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'extract-archive-success-response.json'));
+
+    const progressSpy = sandbox.spy();
+    archiveManager
+      .extractArchiveObservable({
+        source: {
+          fileId: 'archive-file'
+        },
+        destination: {
+          directory: '/fish',
+          acl: ACL.PUBLIC
+        }
+      })
+      .subscribe(progressSpy, done, () => {
+        expect(progressSpy).to.have.been.calledTwice;
+        expect(progressSpy.firstCall.args[0].id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+        expect(progressSpy.firstCall.args[0].status).to.equal('pending');
+        expect(progressSpy.secondCall.args[0].id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+        expect(progressSpy.secondCall.args[0].status).to.equal('success');
+        done();
+      });
+  });
+  it('should extract archive observable error', (done) => {
+    apiServer.post('/_api/archive/extract')
+      .once()
+      .query(true)
+      .replyWithFile(200, repliesDir + 'extract-archive-pending-response.json');
+
+    apiServer.get('/_api/jobs/6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'extract-archive-error-response.json'));
+
+    const progressSpy = sandbox.spy();
+    archiveManager
+      .extractArchiveObservable({
+        source: {
+          fileId: 'archive-file'
+        },
+        destination: {
+          directory: '/fish',
+          acl: ACL.PUBLIC
+        }
+      })
+      .subscribe(progressSpy, (error) => {
+        expect(progressSpy).to.have.been.calledOnce;
+        expect(progressSpy.firstCall.args[0].id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+        expect(progressSpy.firstCall.args[0].status).to.equal('pending');
+        expect(error.id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+        expect(error.status).to.equal('error');
+        done();
+      }, done);
+  });
 });

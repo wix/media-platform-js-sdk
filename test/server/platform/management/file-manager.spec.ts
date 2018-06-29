@@ -1,5 +1,7 @@
-import * as fs from 'fs';
-import * as nock from 'nock';
+import fs from 'fs';
+import path from 'path';
+import nock from 'nock';
+import sinon from 'sinon';
 import {expect} from 'chai';
 import {FileUploader} from '../../../../src/platform/management/file-uploader';
 import {FileManager} from '../../../../src/platform/management/file-manager';
@@ -25,6 +27,7 @@ describe('file manager', function () {
   const httpClient = new HTTPClient(authenticator);
   const fileUploader = new FileUploader(configuration, httpClient);
   const fileManager = new FileManager(configuration, httpClient, fileUploader);
+  const sandbox = sinon.sandbox.create();
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'
@@ -32,6 +35,7 @@ describe('file manager', function () {
 
   afterEach(function () {
     nock.cleanAll();
+    sandbox.verifyAndRestore();
   });
 
   it('listFiles - default', function (done) {
@@ -340,6 +344,66 @@ describe('file manager', function () {
       expect(data.id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
       done();
     });
+  });
+
+  it('file import observable', done => {
+    apiServer.post('/_api/import/file')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'import-file-pending-response.json'));
+
+    apiServer.get('/_api/jobs/71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'import-file-success-response.json'));
+
+    const importFileRequest = new ImportFileRequest({
+      destination: {
+        path: '/to/here/file.txt'
+      },
+      sourceUrl: 'http://from/here/file.txt'
+    });
+
+    const progressSpy = sandbox.spy();
+
+    fileManager
+      .importFileObservable(importFileRequest)
+      .subscribe(progressSpy, (error) => done(error), () => {
+        expect(progressSpy).to.have.been.calledTwice;
+        expect(progressSpy.firstCall.args[0].id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
+        expect(progressSpy.firstCall.args[0].status).to.equal('pending');
+        expect(progressSpy.secondCall.args[0].id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
+        expect(progressSpy.secondCall.args[0].status).to.equal('success');
+        done();
+      });
+  });
+
+  it('file import observable error', done => {
+    apiServer.post('/_api/import/file')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'import-file-pending-response.json'));
+
+    apiServer.get('/_api/jobs/71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f')
+      .once()
+      .replyWithFile(200, path.join(repliesDir, 'import-file-error-response.json'));
+
+    const importFileRequest = new ImportFileRequest({
+      destination: {
+        path: '/to/here/file.txt'
+      },
+      sourceUrl: 'http://from/here/file.txt'
+    });
+
+    const progressSpy = sandbox.spy();
+
+    fileManager
+      .importFileObservable(importFileRequest)
+      .subscribe(progressSpy, (error) => {
+        expect(progressSpy).to.have.been.calledOnce;
+        expect(progressSpy.firstCall.args[0].id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
+        expect(progressSpy.firstCall.args[0].status).to.equal('pending');
+        expect(error.id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
+        expect(error.status).to.equal('error');
+        done();
+      }, done);
   });
 
   describe('updateFileACL', () => {

@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import {expect} from 'chai';
 import {LiveManager} from '../../../../src/platform/management/live-manager';
 import {LivestreamRequest} from '../../../../src/platform/management/requests/livestream-request';

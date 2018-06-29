@@ -2,9 +2,9 @@
 
 'use strict';
 
-import * as path from 'path';
-import * as fs from 'fs';
-import * as uuid from 'uuid';
+import path from 'path';
+import fs from 'fs';
+import uuid from 'uuid';
 import {expect} from 'chai';
 import {MediaPlatform} from '../../src/main';
 import {credentials} from '../server/credentials';
