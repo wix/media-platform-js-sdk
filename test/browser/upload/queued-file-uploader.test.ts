@@ -1,7 +1,7 @@
 import {expect} from 'chai';
-import * as sinon from 'sinon';
-import * as fauxJax from 'faux-jax';
-import * as FileAPI from 'file-api';
+import sinon from 'sinon';
+import fauxJax from 'faux-jax';
+import FileAPI from 'file-api';
 import {HTTPClient} from '../../../src/public/platform/http/browser-http-client';
 import {UploadJob} from '../../../src/public/platform/uploader/upload-job';
 import {FileUploader} from '../../../src/public/platform/uploader/browser-file-uploader';

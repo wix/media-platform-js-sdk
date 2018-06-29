@@ -1,6 +1,6 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import {expect} from 'chai';
-import {IJob, Job} from '../../../../src/platform/management/job/job';
+import {IJob, Job, JobStatus} from '../../../../src/platform/management/job/job';
 import {JobManager} from '../../../../src/platform/management/job-manager';
 import {SearchJobsResponse} from '../../../../src/platform/management/responses/search-jobs-response';
 import {FileImportSpecification} from '../../../../src/platform/management/job/file-import-specification';
@@ -43,7 +43,7 @@ describe('job manager', () => {
         type: 'urn:job:import.file',
         groupId: '71f0d3fde7f348ea89aa1173299146f8',
         issuer: 'urn:app:app-id-1',
-        status: 'success',
+        status: JobStatus.SUCCESS,
         specification: new FileImportSpecification({
           sourceUrl: 'string',
           destination: {

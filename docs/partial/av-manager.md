@@ -39,6 +39,51 @@
 
 ### apiUrl
 
+### transcodeVideoObservable()
+
+Transcode video
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>transcodeRequest</code>
+        </td>
+        <td>
+            <div class="type">any</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Observable&#x3C;JobGroup&#x3C;TranscodeSpecification>></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 ### transcodeVideo()
 
 Transcode Video
@@ -67,6 +112,26 @@ Transcode Video
         <td>
             <div class="type">any</div>
             <p>DEPRECATED! use promise response instead</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;TranscodeJobResponse></div>
         </td>
       </tr>
     </tbody>

@@ -1,4 +1,4 @@
-import * as Stream from 'stream';
+import Stream from 'stream';
 
 import {UploadJob} from '../../public/platform/uploader/upload-job';
 import {ACL} from '../../types/media-platform/media-platform';
@@ -18,6 +18,8 @@ import {UploadFileRequest} from './requests/upload-file-request';
 import {IUploadUrlRequest} from './requests/upload-url-request';
 import {IListFilesResponse, ListFilesResponse} from './responses/list-files-response';
 import {UploadUrlResponse} from './responses/upload-url-response';
+import Observable from 'zen-observable';
+import {observeJobCreator} from './job/job-observable';
 
 
 export interface IUpdateFileACLById {
@@ -108,6 +110,17 @@ export class FileManager {
   }
 
   /**
+   * import a file from a source URL, returns a Job Observable
+   * @param importFileRequest
+   * @returns {Observable<Job<FileImportSpecification>>}
+   */
+  importFileObservable(importFileRequest: ImportFileRequest): Observable<Job<FileImportSpecification>> {
+    return observeJobCreator<FileImportSpecification>(this.configuration, this.httpClient)(
+      () => this.importFile(importFileRequest)
+    );
+  }
+
+  /**
    * @description import a file from a source URL, returns a Job (see job manager)
    * @param {ImportFileRequest} importFileRequest
    * @param {function(Error, Job|null)} callback DEPRECATED! use promise response instead
@@ -117,9 +130,9 @@ export class FileManager {
       callback = deprecatedFn('FileManager.importFile: use promise response instead')(callback);
     }
     return this.httpClient
-      .post<RawResponse<IJob<FileImportSpecification>>>(this.baseUrl + '/_api/import/file', importFileRequest)
+      .post<RawResponse<IJob<FileImportSpecification>>>(`${this.baseUrl}/_api/import/file`, importFileRequest)
       .then((response) => {
-        const job = new Job(response.payload);
+        const job = new Job<FileImportSpecification>(response.payload);
 
         if (callback) {
           callback(null, job);

@@ -1,0 +1,351 @@
+{
+  "message": "OK",
+  "code": 0,
+  "payload": [
+    {
+      "status": "success",
+      "sources": [
+        {
+          "path": "/demo/upload/594f96d25fe65.video.mp4",
+          "fileId": "e75ce7b7c1b542edade3491675731793"
+        }
+      ],
+      "result": {
+        "message": "OK",
+        "code": 0,
+        "payload": {
+          "info": {
+            "audioBitrate": 3112,
+            "format": "mp4",
+            "videoBitrate": 6000000,
+            "quality": "480p",
+            "height": 480,
+            "width": 768,
+            "tag": "High",
+            "fps": "25.0",
+            "duration": 12000,
+            "type": "video",
+            "displayAspectRatio": "8:5"
+          }
+        }
+      },
+      "dateUpdated": "2017-06-25T12:13:32Z",
+      "dateCreated": "2017-06-25T12:13:32Z",
+      "specification": {
+        "quality": "480p",
+        "destination": {
+          "directory": null,
+          "path": "/demo/encodes/594f96d25fe65/480p/594f96d25fe65.video.mp4",
+          "acl": "public"
+        },
+        "video": {
+          "specification": {
+            "filter": "scale=768:480,setsar=1/1",
+            "frameRate": "25.0",
+            "codec": {
+              "profile": "main",
+              "maxRate": 6000000,
+              "crf": 20,
+              "name": "h.264",
+              "level": "3.1"
+            },
+            "resolution": {
+              "width": 768,
+              "height": 480
+            },
+            "keyFrame": 50
+          }
+        },
+        "audio": {
+          "specification": {
+            "channels": "stereo",
+            "codec": {
+              "cbr": 3112,
+              "name": "aac"
+            }
+          }
+        }
+      },
+      "issuer": "urn:app:b9cbd75c35264b329559be9abf5d2251",
+      "type": "urn:job:av.transcode",
+      "id": "fb79405a16434aab87ccbd1384563033_ae7ae8a47b114f45b8a75f53723e53dc",
+      "groupId": "fb79405a16434aab87ccbd1384563033"
+    },
+    {
+      "status": "success",
+      "sources": [
+        {
+          "path": "/demo/upload/594f96d25fe65.video.mp4",
+          "fileId": "e75ce7b7c1b542edade3491675731793"
+        }
+      ],
+      "result": {
+        "message": "OK",
+        "code": 0,
+        "payload": {
+          "info": {
+            "audioBitrate": 3112,
+            "format": "mp4",
+            "videoBitrate": 6000000,
+            "quality": "720p",
+            "height": 720,
+            "width": 1152,
+            "tag": "HD",
+            "fps": "25.0",
+            "duration": 12000,
+            "type": "video",
+            "displayAspectRatio": "8:5"
+          }
+        }
+      },
+      "dateUpdated": "2017-06-25T12:13:33Z",
+      "dateCreated": "2017-06-25T12:13:33Z",
+      "specification": {
+        "quality": "720p",
+        "destination": {
+          "directory": null,
+          "path": "/demo/encodes/594f96d25fe65//720p/594f96d25fe65.video.mp4",
+          "acl": "public"
+        },
+        "video": {
+          "specification": {
+            "filter": "scale=1152:720,setsar=1/1",
+            "frameRate": "25.0",
+            "codec": {
+              "profile": "high",
+              "maxRate": 6000000,
+              "crf": 20,
+              "name": "h.264",
+              "level": "4.1"
+            },
+            "resolution": {
+              "width": 1152,
+              "height": 720
+            },
+            "keyFrame": 50
+          }
+        },
+        "audio": {
+          "specification": {
+            "channels": "stereo",
+            "codec": {
+              "cbr": 3112,
+              "name": "aac"
+            }
+          }
+        }
+      },
+      "issuer": "urn:app:b9cbd75c35264b329559be9abf5d2251",
+      "type": "urn:job:av.transcode",
+      "id": "fb79405a16434aab87ccbd1384563033_e20cde4ae73e4c4098534d8136e17324",
+      "groupId": "fb79405a16434aab87ccbd1384563033"
+    },
+    {
+      "status": "success",
+      "sources": [
+        {
+          "path": "/demo/upload/594f96d25fe65.video.mp4",
+          "fileId": "e75ce7b7c1b542edade3491675731793"
+        }
+      ],
+      "result": {
+        "message": "OK",
+        "code": 0,
+        "payload": {
+          "info": {
+            "audioBitrate": 3112,
+            "format": "mp4",
+            "videoBitrate": 6000000,
+            "quality": "1080p",
+            "height": 1080,
+            "width": 1728,
+            "tag": "HD",
+            "fps": "25.0",
+            "duration": 12000,
+            "type": "video",
+            "displayAspectRatio": "8:5"
+          }
+        }
+      },
+      "dateUpdated": "2017-06-25T12:13:33Z",
+      "dateCreated": "2017-06-25T12:13:33Z",
+      "specification": {
+        "quality": "1080p",
+        "destination": {
+          "directory": null,
+          "path": "/demo/encodes/594f96d25fe65/1080p/594f96d25fe65.video.mp4",
+          "acl": "public"
+        },
+        "video": {
+          "specification": {
+            "filter": "scale=1728:1080,setsar=1/1",
+            "frameRate": "25.0",
+            "codec": {
+              "profile": "high",
+              "maxRate": 6000000,
+              "crf": 20,
+              "name": "h.264",
+              "level": "4.1"
+            },
+            "resolution": {
+              "width": 1728,
+              "height": 1080
+            },
+            "keyFrame": 50
+          }
+        },
+        "audio": {
+          "specification": {
+            "channels": "stereo",
+            "codec": {
+              "cbr": 3112,
+              "name": "aac"
+            }
+          }
+        }
+      },
+      "issuer": "urn:app:b9cbd75c35264b329559be9abf5d2251",
+      "type": "urn:job:av.transcode",
+      "id": "fb79405a16434aab87ccbd1384563033_37f089f3deb943d88cf44753267eb454",
+      "groupId": "fb79405a16434aab87ccbd1384563033"
+    },
+    {
+      "status": "success",
+      "sources": [
+        {
+          "path": "/demo/upload/594f96d25fe65.video.mp4",
+          "fileId": "e75ce7b7c1b542edade3491675731793"
+        }
+      ],
+      "result": {
+        "message": "OK",
+        "code": 0,
+        "payload": {
+          "info": {
+            "audioBitrate": 3112,
+            "format": "mp4",
+            "videoBitrate": 6000000,
+            "quality": "240p",
+            "height": 240,
+            "width": 384,
+            "tag": "Low",
+            "fps": "25.0",
+            "duration": 12000,
+            "type": "video",
+            "displayAspectRatio": "8:5"
+          }
+        }
+      },
+      "dateUpdated": "2017-06-25T12:13:33Z",
+      "dateCreated": "2017-06-25T12:13:33Z",
+      "specification": {
+        "quality": "240p",
+        "destination": {
+          "directory": null,
+          "path": "/demo/encodes/594f96d25fe65/240p/594f96d25fe65.video.mp4",
+          "acl": "public"
+        },
+        "video": {
+          "specification": {
+            "filter": "scale=384:240,setsar=1/1",
+            "frameRate": "25.0",
+            "codec": {
+              "profile": "main",
+              "maxRate": 6000000,
+              "crf": 20,
+              "name": "h.264",
+              "level": "3.1"
+            },
+            "resolution": {
+              "width": 384,
+              "height": 240
+            },
+            "keyFrame": 50
+          }
+        },
+        "audio": {
+          "specification": {
+            "channels": "stereo",
+            "codec": {
+              "cbr": 3112,
+              "name": "aac"
+            }
+          }
+        }
+      },
+      "issuer": "urn:app:b9cbd75c35264b329559be9abf5d2251",
+      "type": "urn:job:av.transcode",
+      "id": "fb79405a16434aab87ccbd1384563033_4d0c073b094a47d6b32d8b74e3432006",
+      "groupId": "fb79405a16434aab87ccbd1384563033"
+    },
+    {
+      "status": "success",
+      "sources": [
+        {
+          "path": "/demo/upload/594f96d25fe65.video.mp4",
+          "fileId": "e75ce7b7c1b542edade3491675731793"
+        }
+      ],
+      "result": {
+        "message": "OK",
+        "code": 0,
+        "payload": {
+          "info": {
+            "audioBitrate": 3112,
+            "format": "mp4",
+            "videoBitrate": 6000000,
+            "quality": "360p",
+            "height": 360,
+            "width": 576,
+            "tag": "Low",
+            "fps": "25.0",
+            "duration": 12000,
+            "type": "video",
+            "displayAspectRatio": "8:5"
+          }
+        }
+      },
+      "dateUpdated": "2017-06-25T12:13:33Z",
+      "dateCreated": "2017-06-25T12:13:33Z",
+      "specification": {
+        "quality": "360p",
+        "destination": {
+          "directory": null,
+          "path": "/demo/encodes/594f96d25fe65/360p/594f96d25fe65.video.mp4",
+          "acl": "public"
+        },
+        "video": {
+          "specification": {
+            "filter": "scale=576:360,setsar=1/1",
+            "frameRate": "25.0",
+            "codec": {
+              "profile": "main",
+              "maxRate": 6000000,
+              "crf": 20,
+              "name": "h.264",
+              "level": "3.1"
+            },
+            "resolution": {
+              "width": 576,
+              "height": 360
+            },
+            "keyFrame": 50
+          }
+        },
+        "audio": {
+          "specification": {
+            "channels": "stereo",
+            "codec": {
+              "cbr": 3112,
+              "name": "aac"
+            }
+          }
+        }
+      },
+      "issuer": "urn:app:b9cbd75c35264b329559be9abf5d2251",
+      "type": "urn:job:av.transcode",
+      "id": "fb79405a16434aab87ccbd1384563033_03b1e82d0bc043459210c977db2c22d3",
+      "groupId": "fb79405a16434aab87ccbd1384563033"
+    }
+  ]
+}

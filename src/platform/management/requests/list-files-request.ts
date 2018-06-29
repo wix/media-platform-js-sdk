@@ -20,8 +20,10 @@ export class ListFilesRequest implements IListFilesRequest {
   public orderDirection: OrderDirection | null = null;
   public type: FileType | null;
 
-  constructor(data: IListFilesRequest) {
-    this.nextPageToken = data.nextPageToken;
+  constructor(data: IListFilesRequest = {}) {
+    if (data.nextPageToken) {
+      this.nextPageToken = data.nextPageToken;
+    }
     if (data.pageSize) {
       this.pageSize = data.pageSize;
     }

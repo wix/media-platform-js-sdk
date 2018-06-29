@@ -5,6 +5,7 @@
     "noErrorTruncation": true,
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
+    "esModuleInterop": true,
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": false,

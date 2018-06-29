@@ -20,6 +20,7 @@ List Files Request
       <tr>
         <td class="param">
           <code>data</code>
+          <div class="optional">(Optional)</div>
         </td>
         <td>
             <div class="type">IListFilesRequest</div>

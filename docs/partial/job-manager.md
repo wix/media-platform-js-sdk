@@ -84,7 +84,7 @@
         <td class="param">
         </td>
         <td>
-            <div class="type">Promise&#x3C;Job&#x3C;any>></div>
+            <div class="type">Promise&#x3C;Job&#x3C;T>></div>
         </td>
       </tr>
     </tbody>

@@ -48,6 +48,9 @@ export class Source implements ISource {
    * @private
    */
   private deserialize(data: ISource) {
+    if (!data) {
+      return;
+    }
     if (data.fileId !== undefined) {
       this.fileId = data.fileId;
     }

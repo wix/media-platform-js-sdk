@@ -24,20 +24,20 @@ export class JobManager {
     /**
      * @type {string}
      */
-    this.apiUrl = this.baseUrl + '/_api/jobs';
+    this.apiUrl = `${this.baseUrl}/_api/jobs`;
   }
 
   /**
    * @param {string} jobId
    * @param {function(Error, Job)} callback DEPRECATED! use promise response instead
    */
-  getJob(jobId, callback?: (error: Error | null, job: Job<any> | null) => void): Promise<Job<any>> {
+  getJob<T = any>(jobId, callback?: (error: Error | null, job: Job<T> | null) => void): Promise<Job<T>> {
     if (callback) {
       callback = deprecatedFn('JobManager.getJob use promise response instead')(callback);
     }
-    return this.httpClient.get<RawResponse<IJob<any>>>(this.apiUrl + '/' + jobId)
+    return this.httpClient.get<RawResponse<IJob<T>>>(`${this.apiUrl}/${jobId}`)
       .then((response) => {
-        const job = new Job(response.payload);
+        const job = new Job<T>(response.payload);
         if (callback) {
           callback(null, job);
         }
@@ -54,12 +54,14 @@ export class JobManager {
    * @param {string} groupId
    * @param {function(Error, Job[])} callback DEPRECATED! use promise response instead
    */
-  getJobGroup(groupId, callback?: (error: Error | null, job: Job<any>[] | null) => void): Promise<Job<any>[]> {
+  getJobGroup<T = any>(groupId, callback?: (error: Error | null, job: Job<any>[] | null) => void): Promise<Job<any>[]> {
+    // TODO: convert Job<any>[] to a more typed solution
+    // For this will need to move specifications to discriminated unions
     if (callback) {
       callback = deprecatedFn('JobManager.getJobGroup use promise response instead')(callback);
     }
     return this.httpClient
-      .get<RawResponse<IJob<any>[]>>(this.apiUrl + '/groups/' + groupId, {})
+      .get<RawResponse<IJob<any>[]>>(`${this.apiUrl}/groups/${groupId}`, {})
       .then((response) => {
         const jobs = response.payload.map(data => new Job(data));
 

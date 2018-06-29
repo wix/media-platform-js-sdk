@@ -186,6 +186,51 @@ upload a file
   </table>
 </div>
 
+### importFileObservable()
+
+import a file from a source URL, returns a Job Observable
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>importFileRequest</code>
+        </td>
+        <td>
+            <div class="type">ImportFileRequest</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Observable&#x3C;Job&#x3C;FileImportSpecification>></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 ### importFile()
 
 import a file from a source URL, returns a Job (see job manager)

@@ -11,7 +11,7 @@ export interface IJob<T> {
   id: string | null;
   type: string;
   issuer: string | null;
-  status: string | null;
+  status?: JobStatus;
   groupId: string | null;
   dateCreated: string | null;
   dateUpdated: string | null;
@@ -20,11 +20,18 @@ export interface IJob<T> {
   specification: T | null;
 }
 
+export enum JobStatus {
+  PENDING = 'pending',
+  WORKING = 'working',
+  SUCCESS = 'success',
+  ERROR = 'error'
+}
+
 export class Job<T> implements IJob<T> {
   public id: string | null = null;
   public type: string;
   public issuer: string | null = null;
-  public status: string | null = null;
+  public status: JobStatus = JobStatus.PENDING;
   public groupId: string | null = null;
   public dateCreated: string | null = null;
   public dateUpdated: string | null = null;
@@ -37,6 +44,30 @@ export class Job<T> implements IJob<T> {
   }
 
   /**
+   * If job is pending or working
+   * @returns {boolean}
+   */
+  public isWaiting(): boolean {
+    return this.status === JobStatus.PENDING || this.status === JobStatus.WORKING;
+  }
+
+  /**
+   * If job has successfully finished
+   * @returns {boolean}
+   */
+  public isSuccess(): boolean {
+    return this.status === JobStatus.SUCCESS;
+  }
+
+  /**
+   * If job failed
+   * @returns {boolean}
+   */
+  public isError(): boolean {
+    return this.status === JobStatus.ERROR;
+  }
+
+  /**
    * @param data
    * @private
    */
@@ -44,7 +75,9 @@ export class Job<T> implements IJob<T> {
     this.id = data.id;
     this.type = data.type;
     this.issuer = data.issuer;
-    this.status = data.status;
+    if (data.status) {
+      this.status = data.status;
+    }
     this.groupId = data.groupId;
     this.result = data.result;
 

@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import {expect} from 'chai';
 import {ImageExtractionManager} from '../../../../src/platform/management/image-extraction-manager';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
