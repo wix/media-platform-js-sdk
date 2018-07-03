@@ -1,8 +1,8 @@
 import {deprecated} from 'core-decorators';
 
 export interface Coordinates {
-  latitude: string | number | null;
-  longitude: string | number | null;
+  latitude: string | number;
+  longitude: string | number;
 }
 
 export interface IGeo {
@@ -27,12 +27,12 @@ export class Geo {
    * @private
    */
   deserialize(data: IGeo) {
-    const coordinates = data.coordinates || null;
+    const coordinates = data.coordinates;
 
-    if (coordinates !== null) {
+    if (coordinates) {
       this.coordinates = {
-        latitude: coordinates.latitude || null,
-        longitude: coordinates.longitude || null
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude
       };
     }
     this.ipAddress = data.ipAddress;

@@ -6,7 +6,7 @@ export interface IDvr {
 }
 
 export class Dvr {
-  public destination: Destination | null = null;
+  public destination: Destination | undefined;
 
   constructor(data: IDvr) {
     this.deserialize(data);
