@@ -23,9 +23,9 @@ Now you can instantiate the Media Platform in your project:
 ## Instantiating the Media Platform in the Server
 
 ```javascript
-import {MediaPlatform} from 'media-platform-js-sdk';
+import {createMediaPlatform} from 'media-platform-js-sdk';
 
-const mediaPlatform = new MediaPlatform({
+const mediaPlatform = createMediaPlatform({
     domain: '<As appears in the application page>',
     appId: '<As appears in the application page>',
     sharedSecret: '<As appears in the application page>'
@@ -34,9 +34,9 @@ const mediaPlatform = new MediaPlatform({
 ## Instantiating the Media Platform in the Browser
 
 ```javascript
-import {MediaPlatform} from 'media-platform-js-sdk/browser';
+import {createMediaPlatform} from 'media-platform-js-sdk';
 
-const mediaPlatform = new MediaPlatform({
+const mediaPlatform = createMediaPlatform({
     domain: '<As appears in the application page>',
     authenticationUrl: '<your authentication url - see example below>'
 });
@@ -44,7 +44,7 @@ const mediaPlatform = new MediaPlatform({
 
 ### From CDN:
 ```html
-<script src="https://static.parastorage.com/unpkg/media-platform-js-sdk@6.0.0-alpha.25/dist/statics/media-platform.bundle.min.js"></script>
+<script src="https://static.parastorage.com/unpkg/media-platform-js-sdk@6.0.0-alpha.36/dist/statics/media-platform.bundle.min.js"></script>
 ```
 
 ```javascript

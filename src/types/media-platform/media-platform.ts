@@ -26,6 +26,7 @@ import {QualityRange} from '../../platform/management/job/quality-range';
 import {TranscodeRequest} from '../../platform/management/requests/transcode-request';
 import {ExtractPosterRequest} from '../../platform/management/requests/extract-poster-request';
 import {ExtractStoryboardRequest} from '../../platform/management/requests/extract-storyboard-request';
+import {createMediaPlatform} from '../../media-platform-factory';
 
 export interface AuthorizationHeader {
   Authorization: string;
@@ -107,6 +108,7 @@ export interface ExportedTranscode {
 }
 
 export interface ExportedPublicMediaPlatform {
+  createMediaPlatform: typeof createMediaPlatform;
   Configuration: typeof PublicConfiguration;
   MediaPlatform: typeof MediaPlatform;
   Image: typeof Image;
