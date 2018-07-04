@@ -11,7 +11,7 @@ export interface IJob<T> {
   id: string | null;
   type: string;
   issuer: string | null;
-  status?: JobStatus;
+  status: JobStatus;
   groupId: string | null;
   dateCreated: string | null;
   dateUpdated: string | null;
