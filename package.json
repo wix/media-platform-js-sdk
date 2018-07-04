@@ -102,6 +102,7 @@
     "karma-chrome-launcher": "latest",
     "karma-mocha": "latest",
     "karma-phantomjs-launcher": "latest",
+    "karma-teamcity-reporter": "^1.1.0",
     "mocha": "latest",
     "nock": "9.0.2",
     "okidoc": "^2.0.0-beta.3",
