@@ -25,10 +25,8 @@ import {VERB} from './platform/authentication/VERB';
 import {ExtractStoryboardSpecification} from './platform/management/job/extract-storyboard-specification';
 import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
 import {LiveStreamListRequest} from "./platform/management/requests/live-stream-list-request";
-import {createMediaPlatform} from './media-platform-factory';
 
 export {
-  createMediaPlatform,
   /**
    * @type {MediaPlatform}
    */
