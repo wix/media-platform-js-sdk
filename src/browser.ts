@@ -28,8 +28,10 @@ import {ExtractStoryboardSpecification} from './platform/management/job/extract-
 import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
 import {ExportedPublicMediaPlatform} from './types/media-platform/media-platform';
 import {LiveStreamListRequest} from "./platform/management/requests/live-stream-list-request";
+import {createMediaPlatform} from './media-platform-factory';
 
 export {Configuration};
+export {createMediaPlatform};
 export {MediaPlatform};
 export {Image};
 export {Source};
@@ -83,6 +85,7 @@ export const transcode = {
 export {ExportedPublicMediaPlatform};
 
 export const MP: ExportedPublicMediaPlatform = {
+  createMediaPlatform,
   Configuration,
   MediaPlatform,
   Image,
