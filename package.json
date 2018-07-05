@@ -55,6 +55,7 @@
     "documentation:deploy": "gh-pages -d ./sitedist",
     "release": "node scripts/npm-release.js",
     "version": "node scripts/npm-version.js && standard-version",
+    "push-release": "git push --follow-tags origin master",
     "start": "yoshi start",
     "start:demo": "NODE_ENV=production npm run build && ts-node ./demo/bin/www ",
     "e2e": "yoshi test --protractor",

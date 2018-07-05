@@ -44,7 +44,7 @@ const mediaPlatform = new MediaPlatform({
 
 ### From CDN:
 ```html
-<script src="https://static.parastorage.com/unpkg/media-platform-js-sdk@6.0.0-alpha.25/dist/statics/media-platform.bundle.min.js"></script>
+<script src="https://static.parastorage.com/unpkg/media-platform-js-sdk@6.0.0/dist/statics/media-platform.bundle.min.js"></script>
 ```
 
 ```javascript
