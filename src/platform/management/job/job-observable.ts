@@ -2,7 +2,7 @@ import {Job} from './job';
 import {JobManager} from '../job-manager';
 import {IConfigurationBase} from '../../configuration/configuration';
 import {IHTTPClient} from '../../http/http-client';
-import Observable from 'zen-observable';
+import * as Observable from 'zen-observable';
 import {JobGroup} from './job-group';
 
 export type CreateJob<T> = () => Promise<Job<T>>;

@@ -1,4 +1,4 @@
-import request from 'request-promise-native';
+import * as request from 'request-promise-native';
 import {Authenticator} from '../authentication/authenticator';
 import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 import {Token} from '../authentication/token';

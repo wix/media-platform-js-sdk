@@ -1,14 +1,14 @@
-import express from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
+import * as express from 'express';
+import * as path from 'path';
+import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
 /**
  * replace with your config
  */
 import {init} from './src/facades/media-platform-facade';
-import indexRoute from './src/routes/index';
-import filesRoute from './src/routes/files';
-import authenticationRoute from './src/routes/authentication';
+import * as indexRoute from './src/routes/index';
+import * as filesRoute from './src/routes/files';
+import * as authenticationRoute from './src/routes/authentication';
 
 const app = express();
 

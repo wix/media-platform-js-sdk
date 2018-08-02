@@ -1,4 +1,4 @@
-import nock from 'nock';
+import * as nock from 'nock';
 import {expect} from 'chai';
 import {FlowManager} from '../../../../src/platform/management/flow-manager';
 import {Configuration} from '../../../../src/platform/configuration/configuration';

@@ -1,10 +1,10 @@
-import nock from 'nock';
-import path from 'path';
+import * as nock from 'nock';
+import * as path from 'path';
 import {expect} from 'chai';
 import {createHTTPClient} from '../../../http/http-client';
 import {WidgetInstance, WidgetInstanceManager} from './widget-instance-manager';
 import {Configuration} from '../../../configuration/configuration';
-import widgetInstanceMock from './mock/widget-instance.mock.json';
+import * as widgetInstanceMock from './mock/widget-instance.mock.json';
 
 describe('widget instances', () => {
   const domain = 'manager.com';

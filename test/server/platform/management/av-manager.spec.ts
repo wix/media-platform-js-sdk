@@ -1,7 +1,7 @@
-import nock from 'nock';
+import * as nock from 'nock';
 import {expect} from 'chai';
-import path from 'path';
-import sinon from 'sinon';
+import * as path from 'path';
+import * as sinon from 'sinon';
 import {AVManager} from '../../../../src/platform/management/av-manager';
 import {PackageType} from '../../../../src/platform/management/job/packaging-specification';
 import {TranscodeRequest} from '../../../../src/platform/management/requests/transcode-request';

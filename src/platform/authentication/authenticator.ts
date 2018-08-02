@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import {Token} from './token';
 import {NS} from './NS';
 import {Configuration} from '../configuration/configuration';

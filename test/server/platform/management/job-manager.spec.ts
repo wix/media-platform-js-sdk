@@ -1,4 +1,4 @@
-import nock from 'nock';
+import * as nock from 'nock';
 import {expect} from 'chai';
 import {IJob, Job, JobStatus} from '../../../../src/platform/management/job/job';
 import {JobManager} from '../../../../src/platform/management/job-manager';

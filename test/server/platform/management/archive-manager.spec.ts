@@ -1,6 +1,6 @@
-import nock from 'nock';
-import sinon from 'sinon';
-import path from 'path';
+import * as nock from 'nock';
+import * as sinon from 'sinon';
+import * as path from 'path';
 import {expect} from 'chai';
 import {ArchiveManager} from '../../../../src/platform/management/archive-manager';
 import {Configuration} from '../../../../src/platform/configuration/configuration';

@@ -1,10 +1,10 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import {IUploadUrlRequest, UploadUrlRequest} from './requests/upload-url-request';
 import {IUploadUrlResponse, UploadUrlResponse} from './responses/upload-url-response';
 import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
 import {Configuration, IConfigurationBase} from '../configuration/configuration';
 import {HTTPClient, IHTTPClient} from '../http/http-client';
-import Stream from 'stream';
+import * as Stream from 'stream';
 import {UploadFileRequest} from './requests/upload-file-request';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {RawResponse} from '../../types/response/response';

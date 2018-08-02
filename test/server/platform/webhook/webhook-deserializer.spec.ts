@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import {WebhookDeserializer} from '../../../../src/platform/webhook/webhook-deserializer';
 import {WebhookEvent} from '../../../../src/platform/webhook/webhook-event';
 import {Configuration} from '../../../../src/platform/configuration/configuration';

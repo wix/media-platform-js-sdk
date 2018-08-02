@@ -10,7 +10,7 @@ import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {RawResponse} from '../../types/response/response';
 import {JobGroup} from './job/job-group';
 import {TranscodeSpecification} from './job/transcode-specification';
-import Observable from 'zen-observable';
+import * as Observable from 'zen-observable';
 import {observeJobGroupCreator} from './job/job-observable';
 
 

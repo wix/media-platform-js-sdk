@@ -1,4 +1,4 @@
-import nock from 'nock';
+import * as nock from 'nock';
 import {expect} from 'chai';
 import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 import {Image} from '../../../../src/image/image';

@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 import {TokenClaims, TokenObjects} from '../../types/media-platform/media-platform';
 
 /**

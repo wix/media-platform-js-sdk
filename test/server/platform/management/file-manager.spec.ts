@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import nock from 'nock';
-import sinon from 'sinon';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as nock from 'nock';
+import * as sinon from 'sinon';
 import {expect} from 'chai';
 import {FileUploader} from '../../../../src/platform/management/file-uploader';
 import {FileManager} from '../../../../src/platform/management/file-manager';

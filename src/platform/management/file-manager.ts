@@ -1,4 +1,4 @@
-import Stream from 'stream';
+import * as Stream from 'stream';
 
 import {UploadJob} from '../../public/platform/uploader/upload-job';
 import {ACL} from '../../types/media-platform/media-platform';
@@ -18,7 +18,7 @@ import {UploadFileRequest} from './requests/upload-file-request';
 import {IUploadUrlRequest} from './requests/upload-url-request';
 import {IListFilesResponse, ListFilesResponse} from './responses/list-files-response';
 import {UploadUrlResponse} from './responses/upload-url-response';
-import Observable from 'zen-observable';
+import * as Observable from 'zen-observable';
 import {observeJobCreator} from './job/job-observable';
 
 

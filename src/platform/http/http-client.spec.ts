@@ -1,4 +1,4 @@
-import nock from 'nock';
+import * as nock from 'nock';
 import {sandbox as sinonSandbox} from 'sinon';
 import {expect} from 'chai';
 import {createHTTPClient, HTTPClient} from './http-client';
