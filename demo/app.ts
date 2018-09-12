@@ -6,9 +6,9 @@ import * as bodyParser from 'body-parser';
  * replace with your config
  */
 import {init} from './src/facades/media-platform-facade';
-import * as indexRoute from './src/routes/index';
-import * as filesRoute from './src/routes/files';
-import * as authenticationRoute from './src/routes/authentication';
+import indexRoute from './src/routes/index';
+import filesRoute from './src/routes/files';
+import authenticationRoute from './src/routes/authentication';
 
 const app = express();
 
