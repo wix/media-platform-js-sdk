@@ -53,7 +53,7 @@
     "documentation:site": "okidoc-site develop ./docs/site.yml",
     "documentation:site:build": "npm run documentation && okidoc-site build ./docs/site.yml",
     "documentation:deploy": "gh-pages -d ./sitedist",
-    "release": "node scripts/npm-release.js && npx teamcity-surge-autorelease@^1.0.0 --dist=dist/demo --domain media-platform-js-sdk",
+    "release": "node scripts/npm-release.js",
     "version": "node scripts/npm-version.js && standard-version",
     "push-release": "git push --follow-tags origin master",
     "start": "yoshi start",
