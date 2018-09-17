@@ -17,13 +17,11 @@
   },
   "include": [
     "./src/**/*",
-    "./demo/**/*",
     "./test/**/*.ts"
   ],
   "files": [
     "./src/external-types.d.ts",
     "./src/main.ts",
-    "./demo/app.ts",
     "./browser.ts"
   ]
 }
