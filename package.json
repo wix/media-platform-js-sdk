@@ -43,7 +43,7 @@
     "node": ">= 4.0.0"
   },
   "scripts": {
-    "build": "yoshi build",
+    "build": "yoshi build && echo '$NODE_ENV:' && echo $NODE_ENV && ls -la && cd dist && ls -la",
     "lint": "yoshi lint",
     "test": "yoshi test --mocha --karma --protractor",
     "test:karma": "yoshi test --karma",
@@ -57,7 +57,7 @@
     "version": "node scripts/npm-version.js && standard-version",
     "push-release": "git push --follow-tags origin master",
     "start": "yoshi start",
-    "start:demo": "NODE_ENV=production npm run build && ts-node ./demo/bin/www ",
+    "start:demo": "NODE_ENV=production npm run build && ts-node ./demo/bin/www",
     "e2e": "yoshi test --protractor",
     "karma": "yoshi test --karma",
     "travis-script": "npm run travis-test",
