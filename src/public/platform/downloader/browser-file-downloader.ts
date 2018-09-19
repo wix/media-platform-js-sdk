@@ -1,9 +1,9 @@
+import {DownloadUrlRequest} from '../../../platform/management/requests/download-url-request';
+import {DownloadUrl} from '../../../types/files/download-url';
+import {RawResponse} from '../../../types/response/response';
 import {Configuration} from '../configuration/configuration';
 import {HTTPClient} from '../http/browser-http-client';
-import {DownloadUrlRequest} from '../../../platform/management/requests/download-url-request';
-import {RawResponse} from '../../../types/response/response';
-import {deprecatedFn} from '../../../utils/deprecated/deprecated';
-import {DownloadUrl} from '../../../types/files/download-url';
+
 
 export class FileDownloader {
   constructor(public configuration: Configuration, public httpClient: HTTPClient) {
@@ -12,9 +12,9 @@ export class FileDownloader {
   /**
    * @param {string} path
    * @param {DownloadUrlRequest?} downloadUrlRequest
-   * @param {function(Error|null, Object)} callback DEPRECATED! use promise response instead
+   * @returns {Promise<DownloadUrl>>}
    */
-  getDownloadUrl(path: string, downloadUrlRequest: DownloadUrlRequest | undefined | null, callback?: (error: Error | null, payload: DownloadUrl | null) => void): Promise<DownloadUrl> {
+  getDownloadUrl(path: string, downloadUrlRequest?: DownloadUrlRequest): Promise<DownloadUrl> {
     const params = {
       path
     };
@@ -31,21 +31,12 @@ export class FileDownloader {
         }
       }
     }
-    if (callback) {
-      callback = deprecatedFn('FileDownloader.getDownloadUrl. Use promise response instead')(callback);
-    }
 
     return this.httpClient
       .get<RawResponse<DownloadUrl>>(`https://${this.configuration.domain}/_api/download/secure_url`, params)
       .then(response => {
-        if (callback) {
-          callback(null, response.payload);
-        }
         return response.payload;
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }

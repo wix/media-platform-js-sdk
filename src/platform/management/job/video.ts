@@ -1,5 +1,7 @@
-import {VideoSpecification} from './video-specification';
 import {deprecated} from 'core-decorators';
+
+import {VideoSpecification} from './video-specification';
+
 
 export interface IVideo {
   specification: VideoSpecification;

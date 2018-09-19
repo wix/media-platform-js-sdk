@@ -47,17 +47,14 @@ __Parameters__:
 You can provide the source file either by its path (string), or as a buffer or stream.  
 
 To upload the file:
-```javascript
-fileManager.uploadFile(path, file, uploadRequest, callback);
+```typescript
+fileManager.uploadFile(path: string, file: string | Buffer | Stream, uploadRequest?: UploadFileRequest);
 ```
 
 __Parameters__:
 - `path` (string): the destination path to which the file will be uploaded.
-- `file` (string || buffer || stream): the source file to be uploaded (either its path as a string or the file itself as a buffer/stream).
+- `file` (string || Buffer || Stream): the source file to be uploaded (either its path as a string or the file itself as a buffer/stream).
 - `uploadRequest` (UploadFileRequest): defines the uploaded file's mime type and ACL.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On 
-success, the callback function is called with an `Array<FileDescriptor>` as the _response_ parameter,
-that includes the uploaded file's fileDescriptor.  
 
 ### From Browser
 
@@ -93,10 +90,10 @@ that includes the uploaded file's fileDescriptor.
 
 Creates a [job](https://support.wixmp.com/en/article/jobs) that imports an existing file from an external URL to the Wix Media Platform file manager.
 
-```javascript
-var ImportFileRequest = require('media-platform-js-sdk').file.ImportFileRequest;
+```typescript
+const ImportFileRequest = require('media-platform-js-sdk').file.ImportFileRequest;
 
-var importFileRequest = new ImportFileRequest()
+const importFileRequest = new ImportFileRequest()
     .setSourceUrl(url)
     .setExternalAuthorization(new ExternalAuthorization()
         .setHeaders(headers)
@@ -105,7 +102,7 @@ var importFileRequest = new ImportFileRequest()
         .setPath(path)
         .setAcl(acl));
 
-fileManager.importFile(importFileRequest, callback);
+fileManager.importFile(importFileRequest: ImportFileRequest): Promise<Job<FileImportSpecification>>
 ```
 __Parameters__:
 - `url` (string) - the external URL to import the file from.
@@ -113,8 +110,8 @@ __Parameters__:
 - `name, value` (string, string) - a key-value pair to be added to the request's authorization headers.
 - `path` (string) - the destination path for the imported file in Wix Media Platform file manager (example: `"/to/file.ext"`).
 - `acl` (string) - Valid options are `"private"` or `"public"`.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-the `Job` object that was created.
+
+returns Promise
 
 
 ## Download a Secure File
@@ -139,8 +136,8 @@ __Parameters__:
 - `onExpireRedirectTo` (string) - if the token expired, the page will redirect to this URL.
 
 To get the download URL:
-```javascript
-var downloadUrl = mediaPlatform.getDownloadUrl(path, downloadUrlRequest);
+```typescript
+var downloadUrl = mediaPlatform.getDownloadUrl(path: string, downloadUrlRequest?: DownloadUrlRequest): Promise<DownloadUrl>
 ```
 __Parameters__:
 - `path` (string) - the requested file's path in WixMP file manager (example: `"path/to/file.ext"`).
@@ -169,61 +166,50 @@ __Parameters__:
 - `directory` (string) - the required directory (example: `"/images/"`).
 
 To request the files:
-```javascript
-fileManager.listFiles(directory, listFilesRequest, callback);
+```typescript
+fileManager.listFiles(directory, listFilesRequest);
 ```
 __Parameters__: 
 - `directory` (string) - the path of the required directory (example: `"/images/"`).
 - `listFilesRequest` (ListFilesRequest) - as described above.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-a `ListFilesResponse` object, which has the following properties:
-  - `.nextPageToken` (string) - can be passed as a parameter to the `setNextPageToken` method.
-  - `.files` (Array\<FileDescriptor>) - the fileDescriptor objects of the files in the specified directory.
 
 
 ## Get File Descriptor
 Retrieves a file's [fileDescriptor](https://support.wixmp.com/en/article/file-management#filedescriptor-object) object by path.
 
-```javascript
-fileManager.getFile(path, callback);
+```typescript
+fileManager.getFile(path: string): Promise<FileDescriptor>
 ```
 __Parameters__: 
 - `path` (string) - the path of the required file (example: `"/images/porcupine.jpg"`).
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-the requested `FileDescriptor` object.
 
 ## Get File Metadata
 [File Metadata API Documentation](https://support.wixmp.com/en/article/file-metadata)  
 
 Retrieves a file's [metadata object](https://support.wixmp.com/en/article/file-metadata#metadata-objects)
  by its file ID.
-```javascript
-fileManager.getFileMetadataById(fileId, callback);
+```typescript
+fileManager.getFileMetadataById(fileId: string): Promise<FileMetadata>
 ```
+returns Promise
 
 __Parameters__: 
 - `fileId` (string) - the required file's ID.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-the requested `FileMetadata` object.
 
 ## Delete File
 Deletes a file by either file ID or path.
-```javascript
-fileManager.deleteFileById(id, callback);
+```typescript
+fileManager.deleteFileById(id): Promise<void>
 ```
 __Parameters__: 
 - `fileId` (string) - the file ID of the file to be deleted.  
-- `callback` (function(error, response)) - a function that handles the HTTP response. This callback is only called on error,
-as a success result is returns `null`.
 
 
-```javascript
-fileManager.deleteFileByPath(path, callback);
+```typescript
+fileManager.deleteFileByPath(path: string): Promise<void>
 ```
 __Parameters__: 
-- `path` (string) - the path of the file to be deleted.  
-- `callback` (function(error, response)) - a function that handles the HTTP response. This callback is only called on error,
-as a success result is returns `null`.
+- `path` (string) - the path of the file to be deleted.
 
 
 ## Update File ACL

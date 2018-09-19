@@ -1,12 +1,12 @@
+import {IFileUploader} from '../../../platform/management/file-uploader';
+import {UploadFileRequest} from '../../../platform/management/requests/upload-file-request';
+import {IUploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
 import {UploadUrlResponse} from '../../../platform/management/responses/upload-url-response';
-import {UploadJob} from './upload-job';
+import {RawResponse} from '../../../types/response/response';
 import {Configuration} from '../configuration/configuration';
 import {HTTPClient} from '../http/browser-http-client';
-import {UploadFileRequest} from '../../../platform/management/requests/upload-file-request';
-import {IFileUploader} from '../../../platform/management/file-uploader';
-import {IUploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
-import {RawResponse} from '../../../types/response/response';
-import {deprecatedFn} from '../../../utils/deprecated/deprecated';
+
+import {UploadJob} from './upload-job';
 
 
 export class FileUploader implements IFileUploader {
@@ -22,21 +22,12 @@ export class FileUploader implements IFileUploader {
   /**
    * Retrieve a pre signed URL to which the file is uploaded
    */
-  getUploadUrl(uploadUrlRequest: IUploadUrlRequest | undefined, callback?: (error: Error | null, payload: UploadUrlResponse | null) => void): Promise<UploadUrlResponse> {
-    if (callback) {
-      callback = deprecatedFn('FileUploader.getUploadUrl. Use promise response instead')(callback);
-    }
+  getUploadUrl(uploadUrlRequest?: IUploadUrlRequest): Promise<UploadUrlResponse> {
     return this.browserHTTPClient
       .get<RawResponse<UploadUrlResponse>>(this.uploadUrlEndpoint, uploadUrlRequest)
       .then((body) => {
-        if (callback) {
-          callback(null, new UploadUrlResponse(body.payload));
-        }
         return body.payload;
       }, (error) => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
@@ -54,4 +45,3 @@ export class FileUploader implements IFileUploader {
     return uploadJob.run(this);
   }
 }
-

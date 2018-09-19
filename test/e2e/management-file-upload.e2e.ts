@@ -2,10 +2,11 @@
 
 'use strict';
 
-import * as path from 'path';
-import * as fs from 'fs';
-import * as uuid from 'uuid';
 import {expect} from 'chai';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as uuid from 'uuid';
+
 import {MediaPlatform} from '../../src/main';
 import {credentials} from '../server/credentials';
 
@@ -24,19 +25,20 @@ describe('E2E > File Management > File Upload', function () {
   });
 
   afterEach('clean up after test', function (done) {
-    this.fileManager.deleteFileByPath(this.testPath, () => done());
+    this.fileManager.deleteFileByPath(this.testPath)
+      .then(() => done());
   });
 
   describe('data as string path', function () {
 
     it('should be uploaded correctly', function (done) {
-      this.fileManager.uploadFile(this.testPath, DEFAULT_FIXTURE_PATH, null, (err, files) => {
-        expect(err).to.equal(null);
-        expect(files).to.be.an('array');
-        expect(files[0].path).to.equal(this.testPath);
+      this.fileManager.uploadFile(this.testPath, DEFAULT_FIXTURE_PATH)
+        .then(files => {
+          expect(files).to.be.an('array');
+          expect(files[0].path).to.equal(this.testPath);
 
-        done();
-      });
+          done();
+        });
     });
 
   });
@@ -48,14 +50,14 @@ describe('E2E > File Management > File Upload', function () {
     });
 
     it('should be uploaded correctly', function (done) {
-      this.fileManager.uploadFile(this.testPath, this.testBuffer, null, (err, files) => {
-        expect(err).to.equal(null);
-        expect(files).to.be.an('array');
-        expect(files[0].path).to.equal(this.testPath);
-        expect(files[0].size).to.equal(this.testBuffer.length);
+      this.fileManager.uploadFile(this.testPath, this.testBuffer)
+        .then(files => {
+          expect(files).to.be.an('array');
+          expect(files[0].path).to.equal(this.testPath);
+          expect(files[0].size).to.equal(this.testBuffer.length);
 
-        done();
-      });
+          done();
+        });
     });
 
   });
@@ -67,13 +69,13 @@ describe('E2E > File Management > File Upload', function () {
     });
 
     it('should be uploaded correctly', function (done) {
-      this.fileManager.uploadFile(this.testPath, this.testStream, null, (err, files) => {
-        expect(err).to.equal(null);
-        expect(files).to.be.an('array');
-        expect(files[0].path).to.equal(this.testPath);
+      this.fileManager.uploadFile(this.testPath, this.testStream)
+        .then(files => {
+          expect(files).to.be.an('array');
+          expect(files[0].path).to.equal(this.testPath);
 
-        done();
-      });
+          done();
+        });
     });
 
   });

@@ -12,7 +12,7 @@ import {UploadFileRequest} from '../../platform/management/requests/upload-file-
 import {ImportFileRequest} from '../../platform/management/requests/import-file-request';
 import {SearchJobsRequest} from '../../platform/management/requests/search-jobs-request';
 import {LiveStream} from '../../platform/management/metadata/live-stream';
-import {LivestreamRequest} from '../../platform/management/requests/livestream-request';
+import {LiveStreamRequest} from '../../platform/management/requests/live-stream-request';
 import {CreateFlowRequest} from '../../platform/management/requests/create-flow-request';
 import {FlowComponent} from '../../platform/management/metadata/flow-component';
 import {Invocation} from '../../platform/management/metadata/invocation';
@@ -80,7 +80,7 @@ export interface ExportedJob {
 }
 
 export interface ExportedLive {
-  LivestreamRequest: typeof LivestreamRequest;
+  LivestreamRequest: typeof LiveStreamRequest;
   LiveStream: typeof LiveStream;
 }
 

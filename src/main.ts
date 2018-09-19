@@ -11,7 +11,7 @@ import {ExtractArchiveRequest} from './platform/management/requests/extract-arch
 import {CreateArchiveRequest} from './platform/management/requests/create-archive-request';
 import {ImportFileRequest} from './platform/management/requests/import-file-request';
 import {TranscodeRequest} from './platform/management/requests/transcode-request';
-import {LivestreamRequest} from './platform/management/requests/livestream-request';
+import {LiveStreamRequest} from './platform/management/requests/live-stream-request';
 import {CreateFlowRequest} from './platform/management/requests/create-flow-request';
 import {ImageOperationSpecification} from './platform/management/job/image-operation-specification';
 import {ImageOperationRequest} from './platform/management/requests/image-operation-request';
@@ -166,9 +166,9 @@ export const flow = {
 
 export const live = {
   /**
-   * @type {LivestreamRequest}
+   * @type {LiveStreamRequest}
    */
-  LivestreamRequest: LivestreamRequest,
+  LivestreamRequest: LiveStreamRequest,
   /**
    * @type {LiveStreamListRequest}
    */

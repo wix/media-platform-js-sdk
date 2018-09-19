@@ -1,22 +1,22 @@
+import {ArchiveManager} from '../../platform/management/archive-manager';
+import {AVManager, TranscodeManager} from '../../platform/management/av-manager';
+import {FileManager} from '../../platform/management/file-manager';
+import {FlowManager} from '../../platform/management/flow-manager';
 import {ImageExtractionManager} from '../../platform/management/image-extraction-manager';
+import {ImageManager} from '../../platform/management/image-manager';
+import {JobManager} from '../../platform/management/job-manager';
+import {LiveManager} from '../../platform/management/live-manager';
+import {DownloadUrlRequest} from '../../platform/management/requests/download-url-request';
+import {WidgetInstanceManager} from '../../platform/management/widgets/widget-instance-manager/widget-instance-manager';
+import {DownloadUrl} from '../../types/files/download-url';
+import {AuthorizationHeader} from '../../types/media-platform/media-platform';
+
+import {Configuration} from './configuration/configuration';
+import {FileDownloader} from './downloader/browser-file-downloader';
 import {HTTPClient} from './http/browser-http-client';
 import {FileUploader} from './uploader/browser-file-uploader';
 import {QueuedFileUploader} from './uploader/queued-file-uploader';
-import {FileDownloader} from './downloader/browser-file-downloader';
-import {FileManager} from '../../platform/management/file-manager';
-import {ArchiveManager} from '../../platform/management/archive-manager';
-import {JobManager} from '../../platform/management/job-manager';
-import {TranscodeManager, AVManager} from '../../platform/management/av-manager';
-import {FlowManager} from '../../platform/management/flow-manager';
-import {LiveManager} from '../../platform/management/live-manager';
-import {ImageManager} from '../../platform/management/image-manager';
-import {Configuration} from './configuration/configuration';
-import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 import {UploadJob} from './uploader/upload-job';
-import {DownloadUrlRequest} from '../../platform/management/requests/download-url-request';
-import {WidgetInstanceManager} from '../../platform/management/widgets/widget-instance-manager/widget-instance-manager';
-import {deprecatedFn} from '../../utils/deprecated/deprecated';
-import {DownloadUrl} from '../../types/files/download-url';
 
 /**
  * Media Platform Public
@@ -69,29 +69,16 @@ class MediaPlatform {
 
   /**
    * retrieve the auth header for the currently logged in user
-   * @param callback DEPRECATED: use promise response instead
+   * @returns {Promise<AuthorizationHeader>}
    */
-  public getAuthorizationHeader(callback?: (error: Error | null, authorization: AuthorizationHeader | null) => void): Promise<AuthorizationHeader> {
+  public getAuthorizationHeader(): Promise<AuthorizationHeader> {
     const authenticationHeaderPromise = this.browserHTTPClient.getAuthorizationHeader();
 
-    if (callback === undefined) {
-      return authenticationHeaderPromise;
-    }
-
-    callback = deprecatedFn('MediaPlatform.getAuthorizationHeader. Use promise response instead')(callback);
-
     return authenticationHeaderPromise
-      .then(authorization => {
-        if (callback) {
-          callback(null, authorization);
+      .catch(error => {
+          return Promise.reject(error);
         }
-        return authorization;
-      }, (error) => {
-        if (callback) {
-          callback(error, null);
-        }
-        return Promise.reject(error);
-      });
+      );
   }
 
   /**
@@ -103,24 +90,15 @@ class MediaPlatform {
 
   /**
    * get download url
-   * @param path
-   * @param downloadUrlRequest
-   * @param callback DEPRECATED! use promise response instead
+   * @param {string} path
+   * @param {DownloadUrlRequest?} downloadUrlRequest
+   * @returns {Promise<DownloadUrl>}
    */
-  getDownloadUrl(path: string, downloadUrlRequest: DownloadUrlRequest | undefined, callback?: (error: Error | null, payload: DownloadUrl | null) => void): Promise<DownloadUrl> {
-    if (callback) {
-      callback = deprecatedFn('MediaPlatform.getDownloadUrl. Use promise response instead')(callback);
-    }
+  getDownloadUrl(path: string, downloadUrlRequest?: DownloadUrlRequest): Promise<DownloadUrl> {
     return this.fileDownloader.getDownloadUrl(path, downloadUrlRequest)
       .then(response => {
-        if (callback) {
-          callback(null, response);
-        }
         return response;
       }, (error) => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }

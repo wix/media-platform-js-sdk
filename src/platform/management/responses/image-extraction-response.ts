@@ -4,20 +4,20 @@ import {Face, IFace} from '../metadata/face';
 import {ILabel, Label} from '../metadata/label';
 
 
-export interface IImageExtractionResponse {
+export interface ImageExtractionResponse {
   labels?: ILabel[];
   faces?: IFace[];
   colors?: IColor[];
   explicitContent?: IExplicitContent[];
 }
 
-export class ImageExtractionResponse {
-  public labels: ILabel[];
-  public faces: IFace[];
-  public colors: IColor[];
-  public explicitContent: IExplicitContent[];
+export class ImageExtraction {
+  public labels?: ILabel[];
+  public faces?: IFace[];
+  public colors?: IColor[];
+  public explicitContent?: IExplicitContent[];
 
-  constructor(data: IImageExtractionResponse) {
+  constructor(data: ImageExtractionResponse) {
     this.deserialize(data);
   }
 
@@ -25,7 +25,7 @@ export class ImageExtractionResponse {
    * @param data
    * @private
    */
-  deserialize(data: IImageExtractionResponse): void {
+  deserialize(data: ImageExtractionResponse): void {
     if (data.colors && data.colors.length) {
       this.colors = data.colors.map((color: IColor) => new Color(color));
     }

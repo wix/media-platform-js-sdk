@@ -1,20 +1,21 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as nock from 'nock';
-import * as sinon from 'sinon';
 import {expect} from 'chai';
-import {FileUploader} from '../../../../src/platform/management/file-uploader';
+import * as fs from 'fs';
+import * as nock from 'nock';
+import * as path from 'path';
+import * as sinon from 'sinon';
+
+import {Authenticator} from '../../../../src/platform/authentication/authenticator';
+import {Configuration} from '../../../../src/platform/configuration/configuration';
+import {HTTPClient} from '../../../../src/platform/http/http-client';
 import {FileManager} from '../../../../src/platform/management/file-manager';
+import {FileUploader} from '../../../../src/platform/management/file-uploader';
+import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 import {FileMetadata} from '../../../../src/platform/management/metadata/file-metadata';
 import {ImageBasicMetadata} from '../../../../src/platform/management/metadata/image-basic-metadata';
-import {VideoBasicMetadata} from '../../../../src/platform/management/metadata/video-basic-metadata';
 import {ImageFeatures} from '../../../../src/platform/management/metadata/image-features';
-import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
-import {ListFilesResponse} from '../../../../src/platform/management/responses/list-files-response';
-import {Configuration} from '../../../../src/platform/configuration/configuration';
-import {Authenticator} from '../../../../src/platform/authentication/authenticator';
-import {HTTPClient} from '../../../../src/platform/http/http-client';
+import {VideoBasicMetadata} from '../../../../src/platform/management/metadata/video-basic-metadata';
 import {ImportFileRequest} from '../../../../src/platform/management/requests/import-file-request';
+import {ListFilesResponse} from '../../../../src/platform/management/responses/list-files-response';
 import {ACL, FileType, OrderDirection} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
@@ -41,36 +42,38 @@ describe('file manager', function () {
   it('listFiles - default', function (done) {
     apiServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
 
-    fileManager.listFiles('path', null, function (error, data) {
-      expect(data).to.deep.equal(new ListFilesResponse({
-        nextPageToken: 'next',
-        files: [
-          {
-            id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
-            hash: 'd41d8cd98f00b204e9800998ecf8427e',
-            path: '/place-holder.txt',
-            mimeType: 'text/plain',
-            type: '-',
-            size: 0,
-            acl: 'public',
-            dateCreated: '2017-02-20T14:23:42Z',
-            dateUpdated: '2017-02-20T14:23:42Z'
-          },
-          {
-            id: 'f65c0c70bec44b86bb543cc166800f03',
-            hash: null,
-            path: '/kb',
-            mimeType: 'application/vnd.wix-media.dir',
-            type: 'd',
-            size: 0,
-            acl: 'public',
-            dateCreated: '2017-02-20T14:22:51Z',
-            dateUpdated: '2017-02-20T14:22:51Z'
-          }
-        ].map(fileDescriptorData => new FileDescriptor(fileDescriptorData))
-      }));
-      done(error);
-    });
+    fileManager.listFiles('path')
+      .then(data => {
+        expect(data).to.deep.equal(new ListFilesResponse({
+          nextPageToken: 'next',
+          files: [
+            {
+              id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+              hash: 'd41d8cd98f00b204e9800998ecf8427e',
+              path: '/place-holder.txt',
+              mimeType: 'text/plain',
+              type: '-',
+              size: 0,
+              acl: 'public',
+              dateCreated: '2017-02-20T14:23:42Z',
+              dateUpdated: '2017-02-20T14:23:42Z'
+            },
+            {
+              id: 'f65c0c70bec44b86bb543cc166800f03',
+              hash: null,
+              path: '/kb',
+              mimeType: 'application/vnd.wix-media.dir',
+              type: 'd',
+              size: 0,
+              acl: 'public',
+              dateCreated: '2017-02-20T14:22:51Z',
+              dateUpdated: '2017-02-20T14:22:51Z'
+            }
+          ].map(fileDescriptorData => new FileDescriptor(fileDescriptorData))
+        }));
+
+        done();
+      });
   });
 
   it('listFiles - page', function (done) {
@@ -92,29 +95,32 @@ describe('file manager', function () {
       orderBy: 'date',
       pageSize: 10,
       type: FileType.FOLDER
-    }, function (error, data) {
-      done(error);
-    });
+    })
+      .then(() => {
+        done();
+      });
   });
 
   it('getFile', function (done) {
 
     apiServer.get('/_api/files').once().query(true).replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
-    fileManager.getFile('path/of/file', function (error, data) {
-      expect(data).to.deep.equal(new FileDescriptor({
-        id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
-        hash: 'd41d8cd98f00b204e9800998ecf8427e',
-        path: '/place-holder.txt',
-        mimeType: 'text/plain',
-        type: '-',
-        size: 0,
-        acl: 'public',
-        dateCreated: '2017-02-20T14:23:42Z',
-        dateUpdated: '2017-02-20T14:23:42Z'
-      }));
-      done(error);
-    });
+    fileManager.getFile('path/of/file')
+      .then(data => {
+        expect(data).to.deep.equal(new FileDescriptor({
+          id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+          hash: 'd41d8cd98f00b204e9800998ecf8427e',
+          path: '/place-holder.txt',
+          mimeType: 'text/plain',
+          type: '-',
+          size: 0,
+          acl: 'public',
+          dateCreated: '2017-02-20T14:23:42Z',
+          dateUpdated: '2017-02-20T14:23:42Z'
+        }));
+
+        done();
+      });
   });
 
   it('getFileMetadata - Image', function (done) {
@@ -123,63 +129,65 @@ describe('file manager', function () {
       .once()
       .replyWithFile(200, repliesDir + 'file-metadata-image-response.json');
 
-    fileManager.getFileMetadataById('file-id', function (error, data) {
-      expect(data).to.deep.equal(new FileMetadata({
-        fileDescriptor: new FileDescriptor({
-          id: '2145ae56cd5c47c79c05d4cfef5f1078',
-          hash: null,
-          path: '/images/animals/cat.jpg',
-          mimeType: 'image/jpg',
-          type: '-',
-          size: 15431,
-          acl: 'private',
-          dateCreated: undefined,
-          dateUpdated: undefined
-        }),
-        basic: new ImageBasicMetadata({
-          height: 600,
-          width: 500,
-          colorspace: null,
-          format: 'jpeg'
-        }),
-        features: new ImageFeatures({
-          labels: [
-            {
-              name: 'cat',
-              score: 0.9
-            },
-            {
-              name: 'animal',
-              score: 0.933
-            }
-          ],
-          faces: [
-            {
-              height: 180,
-              width: 155,
-              x: 383,
-              y: 393
-            },
-            {
-              height: 173,
-              width: 145,
-              x: 460,
-              y: 385
-            }
-          ],
-          colors: [
-            {
-              b: 244,
-              g: 218,
-              pixelFraction: 0.38548386,
-              r: 138,
-              score: 0.688166
-            }
-          ]
-        })
-      }));
-      done(error);
-    });
+    fileManager.getFileMetadataById('file-id')
+      .then(data => {
+        expect(data).to.deep.equal(new FileMetadata({
+          fileDescriptor: new FileDescriptor({
+            id: '2145ae56cd5c47c79c05d4cfef5f1078',
+            hash: null,
+            path: '/images/animals/cat.jpg',
+            mimeType: 'image/jpg',
+            type: '-',
+            size: 15431,
+            acl: 'private',
+            dateCreated: undefined,
+            dateUpdated: undefined
+          }),
+          basic: new ImageBasicMetadata({
+            height: 600,
+            width: 500,
+            colorspace: null,
+            format: 'jpeg'
+          }),
+          features: new ImageFeatures({
+            labels: [
+              {
+                name: 'cat',
+                score: 0.9
+              },
+              {
+                name: 'animal',
+                score: 0.933
+              }
+            ],
+            faces: [
+              {
+                height: 180,
+                width: 155,
+                x: 383,
+                y: 393
+              },
+              {
+                height: 173,
+                width: 145,
+                x: 460,
+                y: 385
+              }
+            ],
+            colors: [
+              {
+                b: 244,
+                g: 218,
+                pixelFraction: 0.38548386,
+                r: 138,
+                score: 0.688166
+              }
+            ]
+          })
+        }));
+
+        done();
+      });
   });
 
   it('getFileMetadata - Video', function (done) {
@@ -188,58 +196,60 @@ describe('file manager', function () {
       .once()
       .replyWithFile(200, repliesDir + 'file-metadata-video-response.json');
 
-    fileManager.getFileMetadataById('file-id', function (error, data) {
-      expect(data).to.deep.equal(new FileMetadata({
-        basic: new VideoBasicMetadata({
-          audioStreams: [
-            {
-              bitrate: 128322,
-              codecLongName: 'AAC (Advanced Audio Coding)',
-              codecName: 'aac',
-              codecTag: 'mp4a',
+    fileManager.getFileMetadataById('file-id')
+      .then(data => {
+        expect(data).to.deep.equal(new FileMetadata({
+          basic: new VideoBasicMetadata({
+            audioStreams: [
+              {
+                bitrate: 128322,
+                codecLongName: 'AAC (Advanced Audio Coding)',
+                codecName: 'aac',
+                codecTag: 'mp4a',
+                duration: 59351,
+                index: 1
+              }
+            ],
+            format: {
+              bitrate: 2085272,
               duration: 59351,
-              index: 1
-            }
-          ],
-          format: {
-            bitrate: 2085272,
-            duration: 59351,
-            formatLongName: 'QuickTime / MOV',
-            size: 15476893
-          },
-          interlaced: false,
-          videoStreams: [
-            {
-              avgFrameRate: '2997/100',
-              bitrate: 1950467,
-              codecLongName: 'MPEG-4 part 2',
-              codecName: 'mpeg4',
-              codecTag: 'mp4v',
-              displayAspectRatio: '16:9',
-              duration: 59351,
-              height: 720,
-              index: 0,
-              rFrameRate: '3000/100',
-              sampleAspectRatio: '1:1',
-              width: 1280
-            }
-          ]
-        }),
-        features: null,
-        fileDescriptor: new FileDescriptor({
-          acl: 'private',
-          dateCreated: undefined,
-          dateUpdated: undefined,
-          hash: null,
-          id: '2de4305552004e0b9076183651030646',
-          mimeType: 'video/mp4',
-          path: '/videos/animals/cat.mp4',
-          size: 15431333,
-          type: '-'
-        })
-      }));
-      done(error);
-    });
+              formatLongName: 'QuickTime / MOV',
+              size: 15476893
+            },
+            interlaced: false,
+            videoStreams: [
+              {
+                avgFrameRate: '2997/100',
+                bitrate: 1950467,
+                codecLongName: 'MPEG-4 part 2',
+                codecName: 'mpeg4',
+                codecTag: 'mp4v',
+                displayAspectRatio: '16:9',
+                duration: 59351,
+                height: 720,
+                index: 0,
+                rFrameRate: '3000/100',
+                sampleAspectRatio: '1:1',
+                width: 1280
+              }
+            ]
+          }),
+          features: null,
+          fileDescriptor: new FileDescriptor({
+            acl: 'private',
+            dateCreated: undefined,
+            dateUpdated: undefined,
+            hash: null,
+            id: '2de4305552004e0b9076183651030646',
+            mimeType: 'video/mp4',
+            path: '/videos/animals/cat.mp4',
+            size: 15431333,
+            type: '-'
+          })
+        }));
+
+        done();
+      });
   });
 
   describe('file upload', () => {
@@ -249,30 +259,33 @@ describe('file manager', function () {
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
-      //path, file, uploadRequest, callback
-      fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
-        done(error);
-      });
+      //path, file, uploadRequest
+      (fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg') as Promise<FileDescriptor[]>)
+        .then(() => {
+          done();
+        })
     });
 
     it('should handle path (string) errors', function (done) {
-      fileManager.uploadFile('upload/to/there/image.jpg', 'nothing here', null, function (error, data) {
-        expect(error).to.be.an.instanceof(Error);
-        expect(data).to.equal(null);
-        done();
-      });
+      (fileManager.uploadFile('upload/to/there/image.jpg', 'nothing here') as Promise<FileDescriptor[]>)
+        .catch(error => {
+          expect(error).to.be.an.instanceof(Error);
+          expect(error).to.be.an.instanceof(Error).with.property('message', 'ENOENT: no such file or directory, stat \'nothing here\'');
+
+          done();
+        });
     });
 
     it('should accept stream as source', function (done) {
-
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
       const stream = fs.createReadStream(sourcesDir + 'audio.mp3');
 
-      fileManager.uploadFile('upload/to/there/image.jpg', stream, null, function (error, data) {
-        done(error);
-      });
+      (fileManager.uploadFile('upload/to/there/image.jpg', stream) as Promise<FileDescriptor[]>)
+        .then(() => {
+          done();
+        });
     });
 
     it('should accept buffer as source', function (done) {
@@ -282,9 +295,10 @@ describe('file manager', function () {
 
       const buffer = fs.readFileSync(sourcesDir + 'document.xlsx');
 
-      fileManager.uploadFile('upload/to/there/image.jpg', buffer, null, function (error, data) {
-        done(error);
-      });
+      (fileManager.uploadFile('upload/to/there/image.jpg', buffer) as Promise<FileDescriptor[]>)
+        .then(() => {
+          done();
+        });
     });
 
     it('should reject unsupported source', function (done) {
@@ -292,22 +306,25 @@ describe('file manager', function () {
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
-      (fileManager.uploadFile as any)('upload/to/there/image.jpg', 1111, null, function (error, data) {
-        expect(error).to.be.an.instanceof(Error);
-        expect(data).to.equal(null);
-        done();
-      });
+      ((fileManager.uploadFile as any)('upload/to/there/image.jpg', 1111, null) as Promise<FileDescriptor[]>)
+        .catch(error => {
+          expect(error).to.be.an.instanceof(Error);
+          expect(error).to.be.an.instanceof(Error).with.property('message', 'unsupported source type: number');
+
+          done();
+        });
     });
 
     it('should handle auth errors', function (done) {
 
       apiServer.get('/_api/upload/url').once().query(true).reply(403, {});
 
-      fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
-        expect(error).to.be.an.instanceof(Error);
-        expect(data).to.equal(null);
-        done();
-      });
+      (fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg') as Promise<FileDescriptor[]>)
+        .catch(error => {
+          expect(error).to.be.an.instanceof(Error);
+
+          done();
+        });
     });
 
     it('should handle upload errors', function (done) {
@@ -315,13 +332,12 @@ describe('file manager', function () {
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().reply(500, {});
 
-      fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg', null, function (error, data) {
-        expect(error).to.be.an.instanceof(Error);
-        expect(data).to.equal(null);
-        done();
-      });
+      (fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg') as Promise<FileDescriptor[]>)
+        .catch(error => {
+          expect(error).to.be.an.instanceof(Error);
+          done();
+        });
     });
-
   });
 
   it('file import', function (done) {
@@ -336,14 +352,16 @@ describe('file manager', function () {
       sourceUrl: 'http://from/here/file.txt'
     });
 
-    fileManager.importFile(importFileRequest, function (error, data) {
-      expect(error).to.equal(null);
-      if (data === null) {
-        throw Error('something is wrong');
-      }
-      expect(data.id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
-      done();
-    });
+    fileManager.importFile(importFileRequest)
+      .then(data => {
+        if (data === null) {
+          throw Error('something is wrong');
+        }
+
+        expect(data.id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
+
+        done();
+      });
   });
 
   it('file import observable', done => {

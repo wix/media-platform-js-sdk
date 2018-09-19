@@ -12,8 +12,6 @@ navigation:
     path: /
   - title: API reference
     path: /api-reference
-  - title: Callback functions
-    path: /callback-functions
   - title: File Management
     path: /file-management
   - title: Create and Extract archive files

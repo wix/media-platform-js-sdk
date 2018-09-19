@@ -1,6 +1,8 @@
+import {deprecated} from 'core-decorators';
+
 import {ISource, Source} from '../job/source';
 import {ITranscodeSpecification, TranscodeSpecification} from '../job/transcode-specification';
-import {deprecated} from 'core-decorators';
+
 
 export interface ITranscodeRequest {
   sources?: ISource[];

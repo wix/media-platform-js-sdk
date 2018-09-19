@@ -105,15 +105,6 @@ Transcode Video
             <div class="type">any</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <div class="type">any</div>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -159,15 +150,6 @@ Extract Poster
             <div class="type">any</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <div class="type">ExtractPosterCallback</div>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -211,15 +193,6 @@ Extract storyboard
         </td>
         <td>
             <div class="type">any</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <div class="type">ExtractStoryboardCallback</div>
-            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>

@@ -1,16 +1,17 @@
-import * as nock from 'nock';
-import * as sinon from 'sinon';
-import * as path from 'path';
 import {expect} from 'chai';
-import {ArchiveManager} from '../../../../src/platform/management/archive-manager';
-import {Configuration} from '../../../../src/platform/configuration/configuration';
+import * as nock from 'nock';
+import * as path from 'path';
+import * as sinon from 'sinon';
+
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
+import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
+import {ArchiveManager} from '../../../../src/platform/management/archive-manager';
 import {CreateArchiveSpecification} from '../../../../src/platform/management/job/create-archive-specification';
 import {ExtractArchiveSpecification} from '../../../../src/platform/management/job/extract-archive-specification';
-import {ExtractArchiveRequest} from '../../../../src/platform/management/requests/extract-archive-request';
-import {CreateArchiveRequest} from '../../../../src/platform/management/requests/create-archive-request';
 import {Job} from '../../../../src/platform/management/job/job';
+import {CreateArchiveRequest} from '../../../../src/platform/management/requests/create-archive-request';
+import {ExtractArchiveRequest} from '../../../../src/platform/management/requests/extract-archive-request';
 import {ACL} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
@@ -49,10 +50,13 @@ describe('archive manager', () => {
       archiveType: 'zip'
     });
 
-    archiveManager.createArchive(createArchiveRequest, (error, job) => {
-      expect((job as Job<CreateArchiveSpecification>).id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
-      done(error);
-    });
+    archiveManager.createArchive(createArchiveRequest)
+      .then(
+        (job: Job<CreateArchiveSpecification>) => {
+          expect(job.id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+          done();
+        }
+      );
   });
 
   it('should create archive observable', (done) => {
@@ -135,10 +139,12 @@ describe('archive manager', () => {
       }
     });
 
-    archiveManager.extractArchive(extractArchiveRequest, (error, job) => {
-      expect((job as Job<ExtractArchiveSpecification>).id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
-      done(error);
-    });
+    archiveManager.extractArchive(extractArchiveRequest)
+      .then((job: Job<ExtractArchiveSpecification>) => {
+          expect(job.id).to.equal('6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b');
+          done();
+        }
+      );
   });
 
   it('should extract archive observable', (done) => {

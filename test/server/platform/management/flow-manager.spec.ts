@@ -1,12 +1,12 @@
-import * as nock from 'nock';
 import {expect} from 'chai';
-import {FlowManager} from '../../../../src/platform/management/flow-manager';
-import {Configuration} from '../../../../src/platform/configuration/configuration';
+import * as nock from 'nock';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
+import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
-import {CreateFlowRequest} from '../../../../src/platform/management/requests/create-flow-request';
-import {Invocation} from '../../../../src/platform/management/metadata/invocation';
+import {FlowManager} from '../../../../src/platform/management/flow-manager';
 import {Flow} from '../../../../src/platform/management/metadata/flow';
+import {Invocation} from '../../../../src/platform/management/metadata/invocation';
+import {CreateFlowRequest} from '../../../../src/platform/management/requests/create-flow-request';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -31,17 +31,15 @@ describe('flow manager', function () {
       .once()
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
 
-    flowManager.getFlow('flow_id', function (error, data) {
-      if (data === null) {
-        return;
-      }
-      expect(data.invocation).to.be.an.instanceof(Invocation);
-      expect(data.invocation.entryPoints).to.be.an.instanceof(Array);
-      expect(data.invocation.entryPoints[0]).to.equal('import');
-      expect(data.flow.import.type).to.equal('file.import');
+    flowManager.getFlow('flow_id')
+      .then(data => {
+        expect(data.invocation).to.be.an.instanceof(Invocation);
+        expect(data.invocation.entryPoints).to.be.an.instanceof(Array);
+        expect(data.invocation.entryPoints[0]).to.equal('import');
+        expect(data.flow.import.type).to.equal('file.import');
 
-      done();
-    });
+        done();
+      });
   });
 
   it('Create Flow', function (done) {
@@ -84,11 +82,13 @@ describe('flow manager', function () {
     });
 
 
-    flowManager.createFlow(createFlowRequest, (error, data: Flow) => {
-      expect(data !== null).to.be.true;
-      expect(data.id).to.equal('flow_id');
-      done();
-    });
+    flowManager.createFlow(createFlowRequest)
+      .then((data: Flow) => {
+        expect(data !== null).to.be.true;
+        expect(data.id).to.equal('flow_id');
+
+        done();
+      });
   });
 
   it('Delete Flow', function (done) {
@@ -96,10 +96,8 @@ describe('flow manager', function () {
       .once()
       .replyWithFile(200, repliesDir + 'flow-delete-response.json');
 
-    flowManager.deleteFlow('flow_id', function (error, data) {
-      expect(data.message).to.equal('OK');
-      done();
-    });
+    flowManager.deleteFlow('flow_id')
+      .then(() => done());
   });
 
 });

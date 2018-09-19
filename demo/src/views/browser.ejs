@@ -133,10 +133,15 @@ mediaPlatform.fileManager.queueFileUpload(uploadJob);</code></pre>
             <div class="highlight">
                     <pre><code class="language-javascript">var listFileRequest = new MP.file.ListFilesRequest().setPageSize(3);
 
-mediaPlatform.fileManager.listFiles(path, listFilesRequest, function(error, response) {
-    // do something
-});
-</code></pre>
+mediaPlatform.fileManager.listFiles(path, listFilesRequest)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
             </div>
             <div class="demo-group">
                 <div class="executable-button">
@@ -149,9 +154,15 @@ mediaPlatform.fileManager.listFiles(path, listFilesRequest, function(error, resp
             </div>
             <h4>Get file metadata by id</h4>
             <div class="highlight">
-                    <pre><code class="language-javascript">mediaPlatform.fileManager.getFileMetadataById(fileId, function(error, response) {
-    // do something
-});</code></pre>
+                    <pre><code class="language-javascript">mediaPlatform.fileManager.getFileMetadataById(fileId)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
             </div>
             <div class="demo-group"><input class="text-input"
                                            id="file-metadata-id-input"
@@ -167,9 +178,15 @@ mediaPlatform.fileManager.listFiles(path, listFilesRequest, function(error, resp
             </div>
             <h4>Delete file by id</h4>
             <div class="highlight">
-                    <pre><code class="language-javascript">mediaPlatform.fileManager.deleteFileById(fileId, function(error, response) {
-    // do something
-});</code></pre>
+                    <pre><code class="language-javascript">mediaPlatform.fileManager.deleteFileById(fileId)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
             </div>
             <div class="demo-group"><input class="text-input"
                                            id="file-delete-id-input"
@@ -315,9 +332,15 @@ mediaPlatform.archiveManager
   archiveType: 'zip'
 });
 
-mediaPlatform.archiveManager.extractArchive(extractArchiveRequest, function(job, error) {
-    // handle job success
-});</code></pre>
+mediaPlatform.archiveManager.extractArchive(extractArchiveRequest)
+  .then(
+    (job) => {
+      // handle job success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
         </div>
         <div class="demo-group"><input class="text-input"
                                        id="extract-archive-id-input"
@@ -355,10 +378,15 @@ var transcodeRequest = new TranscodeRequest()
     .addSource(source)
     .addSpecification(transcodeSpecification);
 
-mediaPlatform.avManager.transcodeVideo(transcodeRequest, function(error, response) {
-    // handle success
-});
-</code></pre>
+mediaPlatform.avManager.transcodeVideo(transcodeRequest)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
         </div>
         <div class="demo-group"><input class="text-input"
                                        id="transcode-video-id-input"
@@ -379,21 +407,26 @@ source.fileId = fileId;
 
 var extractPosterSpecification = new ExtractPosterSpecification();
 extractPosterSpecification.destination = new Destination()
-    .setDirectory("/test/output")
-    .setAcl("public");
+  .setDirectory("/test/output")
+  .setAcl("public");
 
 extractPosterSpecification.format = "jpg";
 
 extractPosterSpecification.second = 1;
 
 var extractPosterRequest = new ExtractPosterRequest()
-    .addSource(source)
-    .addSpecification(extractPosterSpecification);
+  .addSource(source)
+  .addSpecification(extractPosterSpecification);
 
-mediaPlatform.avManager.extractPoster(extractPosterRequest, function(error, response) {
-    // handle success
-});
-</code></pre>
+mediaPlatform.avManager.extractPoster(extractPosterRequest)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
         </div>
         <div class="demo-group"><input class="text-input"
                                        id="extract-poster-id-input"
@@ -429,10 +462,15 @@ var extractStoryboardRequest = new ExtractStoryboardRequest()
     .addSource(source)
     .addSpecification(extractStoryboardSpecification);
 
-mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest, function(error, response) {
-    // handle success
-});
-</code></pre>
+mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
         </div>
         <div class="demo-group"><input class="text-input"
                                        id="extract-storyboard-id-input"
@@ -500,9 +538,15 @@ mediaPlatform.flowManager.createFlow(createFlowRequest, function(error, data) {
             <h4>Get a signed URL that directs to a file, required for non-public file download</h4>
             <div id="download-url-code">
                 <div class="highlight">
-                    <pre><code class="language-javascript">mediaPlatform.getDownloadUrl(path, null, function(error, response) {
-    // do something
-});</code></pre>
+                    <pre><code class="language-javascript">mediaPlatform.getDownloadUrl(path)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
                 </div>
                 <div class="demo-group"><input class="text-input"
                                                id="download-url-input"
@@ -522,9 +566,15 @@ mediaPlatform.flowManager.createFlow(createFlowRequest, function(error, data) {
             <h4>Manages the various feature extraction processors, such as face detection</h4>
             <div id="extract-image-by-id-code">
                 <div class="highlight">
-                    <pre><code class="language-javascript">mediaPlatform.imageExtractionManager.extractImageById(fileId, null, function(error, response) {
-    // do something
-});</code></pre>
+                    <pre><code class="language-javascript">mediaPlatform.imageExtractionManager.extractImageById(fileId)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
                 </div>
                 <div class="demo-group"><input class="text-input"
                                                id="extract-image-by-id-input"
@@ -542,9 +592,15 @@ mediaPlatform.flowManager.createFlow(createFlowRequest, function(error, data) {
             <h4>Manages the various feature extraction processors, such as face detection</h4>
             <div id="extract-image-by-file-code">
                 <div class="highlight">
-                    <pre><code class="language-javascript">mediaPlatform.imageExtractionManager.extractImageByFilePath(filePath, null, function(error, response) {
-    // do something
-});</code></pre>
+                    <pre><code class="language-javascript">mediaPlatform.imageExtractionManager.extractImageByFilePath(filePath)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
                 </div>
                 <div class="demo-group"><input class="text-input"
                                                id="extract-image-by-path-input"
