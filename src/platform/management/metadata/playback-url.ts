@@ -1,5 +1,6 @@
 import {deprecated} from 'core-decorators';
 
+
 export interface IPlaybackUrl {
   path: string;
   packageName: string;

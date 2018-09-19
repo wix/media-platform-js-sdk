@@ -1,21 +1,23 @@
+import * as Observable from 'zen-observable';
+
 import {ACL} from '../../types/media-platform/media-platform';
-import {PackageType} from './job/packaging-specification';
-import {IPackagingJobResponse, PackagingJobResponse} from './responses/packaging-job-response';
-import {ITranscodeJobResponse, TranscodeJobResponse} from './responses/transcode-job-response';
+import {RawResponse} from '../../types/response/response';
+import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
+
+import {JobGroup} from './job/job-group';
+import {observeJobGroupCreator} from './job/job-observable';
+import {PackageType} from './job/packaging-specification';
+import {TranscodeSpecification} from './job/transcode-specification';
+import {ExtractPosterRequest} from './requests/extract-poster-request';
+import {ExtractStoryboardRequest} from './requests/extract-storyboard-request';
+import {TranscodeRequest} from './requests/transcode-request';
 import {ExtractPosterJobResponse, IExtractPosterJobResponse} from './responses/extract-poster-job-response';
 import {ExtractStoryboardJobResponse, IExtractStoryboardJobResponse} from './responses/extract-storyboard-job-response';
-import {deprecatedFn} from '../../utils/deprecated/deprecated';
-import {RawResponse} from '../../types/response/response';
-import {JobGroup} from './job/job-group';
-import {TranscodeSpecification} from './job/transcode-specification';
-import * as Observable from 'zen-observable';
-import {observeJobGroupCreator} from './job/job-observable';
+import {IPackagingJobResponse, PackagingJobResponse} from './responses/packaging-job-response';
+import {ITranscodeJobResponse, TranscodeJobResponse} from './responses/transcode-job-response';
 
-
-export type ExtractPosterCallback = (error: Error | null, response: ExtractPosterJobResponse | null) => void;
-export type ExtractStoryboardCallback = (error: Error | null, response: ExtractStoryboardJobResponse | null) => void;
 
 export interface PackagingSource {
   path?: string;
@@ -55,10 +57,10 @@ export class AVManager {
 
   /**
    * Transcode video
-   * @param transcodeRequest
+   * @param {TranscodeRequest} transcodeRequest
    * @returns {Observable<JobGroup<TranscodeSpecification>>}
    */
-  public transcodeVideoObservable(transcodeRequest): Observable<JobGroup<TranscodeSpecification>> {
+  public transcodeVideoObservable(transcodeRequest: TranscodeRequest): Observable<JobGroup<TranscodeSpecification>> {
     return observeJobGroupCreator(this.configuration, this.httpClient)(
       () => this.transcodeVideo(transcodeRequest)
     );
@@ -66,87 +68,57 @@ export class AVManager {
 
   /**
    * Transcode Video
-   * @param transcodeRequest
-   * @param callback DEPRECATED! use promise response instead
+   * @param {TranscodeRequest} transcodeRequest
+   * @returns {Promise<TranscodeJobResponse>}
    */
-  public transcodeVideo(transcodeRequest, callback?): Promise<TranscodeJobResponse> {
+  public transcodeVideo(transcodeRequest: TranscodeRequest): Promise<TranscodeJobResponse> {
     const params = {...transcodeRequest};
-    if (callback) {
-      callback = deprecatedFn('TranscodeManager.transcodeVideo use promise response instead')(callback);
-    }
 
     return this.httpClient.post<RawResponse<ITranscodeJobResponse>>(`${this.apiUrl}/transcode`, params)
       .then((response) => {
-        const transcodeJobResponse = new TranscodeJobResponse(response.payload);
-        if (callback) {
-          callback(null, transcodeJobResponse);
-        }
-        return transcodeJobResponse;
+        return new TranscodeJobResponse(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
 
   /**
    * Extract Poster
-   * @param extractPosterRequest
-   * @param callback DEPRECATED! use promise response instead
+   * @param {ExtractPosterRequest} extractPosterRequest
+   * @returns {Promise<ExtractPosterJobResponse>}
    */
-  public extractPoster(extractPosterRequest, callback?: ExtractPosterCallback): Promise<ExtractPosterJobResponse> {
+  public extractPoster(extractPosterRequest: ExtractPosterRequest): Promise<ExtractPosterJobResponse> {
     const params = {...extractPosterRequest};
-    if (callback) {
-      callback = deprecatedFn('TranscodeManager.transcodeVideo use promise response instead')(callback);
-    }
+
     return this.httpClient
       .post<RawResponse<IExtractPosterJobResponse>>(
         `${this.apiUrl}/poster`,
         params
       )
       .then(response => {
-        const extractPosterJobResponse = new ExtractPosterJobResponse(response.payload);
-        // the callback is for consistency compatibility with the old style
-        // will be removed soon.
-        if (callback) {
-          callback(null, extractPosterJobResponse);
-        }
-        return extractPosterJobResponse;
+        return new ExtractPosterJobResponse(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
 
   /**
    * Extract storyboard
-   * @param extractStoryboardRequest
-   * @param callback DEPRECATED! use promise response instead
+   * @param {ExtractStoryboardRequest} extractStoryboardRequest
+   * @returns {Promise<ExtractStoryboardJobResponse>}
    */
-  public extractStoryboard(extractStoryboardRequest, callback?: ExtractStoryboardCallback): Promise<ExtractStoryboardJobResponse> {
+  public extractStoryboard(extractStoryboardRequest: ExtractStoryboardRequest): Promise<ExtractStoryboardJobResponse> {
     const params = {...extractStoryboardRequest};
-    if (callback) {
-      callback = deprecatedFn('TranscodeManager.transcodeVideo use promise response instead')(callback);
-    }
+
     return this.httpClient
       .post<RawResponse<IExtractStoryboardJobResponse>>(
         `${this.apiUrl}/storyboard`,
         params
       )
       .then((response) => {
-        const extractStoryboardJobResponse = new ExtractStoryboardJobResponse(response.payload);
-        if (callback) {
-          callback(null, extractStoryboardJobResponse);
-        }
-        return extractStoryboardJobResponse;
+        return new ExtractStoryboardJobResponse(response.payload);
       })
       .catch(error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
@@ -154,6 +126,7 @@ export class AVManager {
   /**
    * Packaging Service
    * @param {params} PackagingParams
+   * @returns {Promise<PackagingJobResponse>}
    */
   public packageVideo({sources, directory, acl, chunkDuration, packageType}: PackagingParams): Promise<PackagingJobResponse> {
     const params = {

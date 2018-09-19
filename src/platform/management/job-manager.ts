@@ -1,9 +1,9 @@
-import {IJob, Job} from './job/job';
-import {ISearchJobsResponse, SearchJobsResponse} from './responses/search-jobs-response';
-import {IConfigurationBase} from '../configuration/configuration';
-import {IHTTPClient} from '../http/http-client';
 import {RawResponse} from '../../types/response/response';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
+import {IConfigurationBase} from '../configuration/configuration';
+import {IHTTPClient} from '../http/http-client';
+import {IJob, Job} from './job/job';
+import {ISearchJobsResponse, SearchJobsResponse} from './responses/search-jobs-response';
 
 /**
  * @param {Configuration} configuration
@@ -29,79 +29,46 @@ export class JobManager {
 
   /**
    * @param {string} jobId
-   * @param {function(Error, Job)} callback DEPRECATED! use promise response instead
+   * @returns {Promise<Job<T>>}
    */
-  getJob<T = any>(jobId, callback?: (error: Error | null, job: Job<T> | null) => void): Promise<Job<T>> {
-    if (callback) {
-      callback = deprecatedFn('JobManager.getJob use promise response instead')(callback);
-    }
+  getJob<T = any>(jobId: string): Promise<Job<T>> {
     return this.httpClient.get<RawResponse<IJob<T>>>(`${this.apiUrl}/${jobId}`)
       .then((response) => {
-        const job = new Job<T>(response.payload);
-        if (callback) {
-          callback(null, job);
-        }
-        return job;
+        return new Job<T>(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
 
   /**
    * @param {string} groupId
-   * @param {function(Error, Job[])} callback DEPRECATED! use promise response instead
+   * @returns {Promise<Job<T>[]}
    */
-  getJobGroup<T = any>(groupId, callback?: (error: Error | null, job: Job<any>[] | null) => void): Promise<Job<any>[]> {
+  getJobGroup<T = any>(groupId: string): Promise<Job<T>[]> {
     // TODO: convert Job<any>[] to a more typed solution
     // For this will need to move specifications to discriminated unions
-    if (callback) {
-      callback = deprecatedFn('JobManager.getJobGroup use promise response instead')(callback);
-    }
+
     return this.httpClient
       .get<RawResponse<IJob<any>[]>>(`${this.apiUrl}/groups/${groupId}`, {})
       .then((response) => {
-        const jobs = response.payload.map(data => new Job(data));
-
-        if (callback) {
-          callback(null, jobs);
-        }
-        return jobs;
+        return response.payload.map(data => new Job(data));
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
 
   /**
    * @param {SearchJobsRequest} searchJobsRequest
-   * @param {function(Error, SearchJobsResponse)} callback DEPRECATED! use promise response instead
+   * @returns {Promise<SearchJobsResponse>}
    */
-  searchJobs(searchJobsRequest, callback?: (error: Error | null, job: SearchJobsResponse | null) => void): Promise<SearchJobsResponse> {
+  searchJobs(searchJobsRequest): Promise<SearchJobsResponse> {
     const params = {...searchJobsRequest};
-    if (callback) {
-      callback = deprecatedFn('JobManager.searchJobs use promise response instead')(callback);
-    }
 
     return this.httpClient
       .get<RawResponse<ISearchJobsResponse>>(this.apiUrl, params)
       .then((response) => {
-        const searchJobsResponse = new SearchJobsResponse(response.payload);
-
-        if (callback) {
-          callback(null, searchJobsResponse);
-        }
-
-        return searchJobsResponse;
+        return new SearchJobsResponse(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
-
         return Promise.reject(error);
       });
   }

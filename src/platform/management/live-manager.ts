@@ -1,10 +1,13 @@
-import {ILiveStream, LiveStream} from './metadata/live-stream';
+import {RawResponse} from '../../types/response/response';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
-import {RawResponse} from '../../types/response/response';
-import {deprecatedFn} from '../../utils/deprecated/deprecated';
+
+import {ILiveStream, LiveStream} from './metadata/live-stream';
+import {ILiveStreamAnalytics, LiveStreamAnalytics} from './metadata/live-stream-analytics';
+import {LiveStreamListRequest} from './requests/live-stream-list-request';
+import {LiveStreamRequest} from './requests/live-stream-request';
 import {ILiveStreamListResponse, LiveStreamListResponse} from './responses/live-stream-list-response';
-import {ILiveStreamAnalytics, LiveStreamAnalytics} from "./metadata/live-stream-analytics";
+
 
 /**
  * @param {Configuration} configuration
@@ -30,95 +33,55 @@ export class LiveManager {
 
   /**
    * Open stream
-   * @param liveStreamRequest
-   * @param callback DEPRECATED! use promise response instead
+   * @param {LiveStreamRequest} liveStreamRequest
+   * @returns {Promise<LiveStream>}
    */
-  openStream(liveStreamRequest, callback?): Promise<LiveStream> {
-    if (callback) {
-      callback = deprecatedFn('LiveManager.openStream use promise response instead')(callback);
-    }
+  openStream(liveStreamRequest: LiveStreamRequest): Promise<LiveStream> {
     return this.httpClient
       .post<RawResponse<ILiveStream>>(this.apiUrl + '/stream', liveStreamRequest)
       .then((response) => {
-        const liveStream = new LiveStream(response.payload);
-        if (callback) {
-          callback(null, liveStream);
-        }
-        return liveStream;
+        return new LiveStream(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
 
   /**
    * Get stream
-   * @param streamId
-   * @param callback DEPRECATED! use promise response instead
+   * @param {string} streamId
+   * @returns {Promise<LiveStream>}
    */
-  getStream(streamId, callback?): Promise<LiveStream> {
-    if (callback) {
-      callback = deprecatedFn('LiveManager.getStream use promise response instead')(callback);
-    }
+  getStream(streamId: string): Promise<LiveStream> {
     return this.httpClient.get<RawResponse<ILiveStream>>(this.apiUrl + '/stream/' + streamId)
       .then((response) => {
-        const liveStream = new LiveStream(response.payload);
-        if (callback) {
-          callback(null, liveStream);
-        }
-        return liveStream;
+        return new LiveStream(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
 
   /**
    * Get stream
-   * @param streamId
-   * @param callback DEPRECATED! use promise response instead
+   * @param {string} streamId
+   * @returns {Promise<LiveStreamAnalytics>}
    */
-  getStreamAnalytics(streamId, callback?): Promise<LiveStreamAnalytics> {
-    if (callback) {
-      callback = deprecatedFn('LiveManager.getStream use promise response instead')(callback);
-    }
+  getStreamAnalytics(streamId: string): Promise<LiveStreamAnalytics> {
     return this.httpClient.get<RawResponse<ILiveStreamAnalytics>>(this.apiUrl + '/stream/' + streamId + '/analytics')
       .then((response) => {
-        const liveStreamAnalytics = new LiveStreamAnalytics(response.payload);
-        if (callback) {
-          callback(null, liveStreamAnalytics);
-        }
-        return liveStreamAnalytics;
+        return new LiveStreamAnalytics(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
 
   /**
    * Close stream
-   * @param streamId
-   * @param callback DEPRECATED! use promise response instead
+   * @param {string} streamId
+   * @returns {Promise<void>}
    */
-  closeStream(streamId, callback?): Promise<void> {
-    if (callback) {
-      callback = deprecatedFn('LiveManager.closeStream use promise response instead')(callback);
-    }
+  closeStream(streamId: string): Promise<void> {
     return this.httpClient.delete(this.apiUrl + '/stream/' + streamId)
-      .then((response) => {
-        if (callback) {
-          callback(null, response);
-        }
-      }, error => {
-        if (callback) {
-          callback(error, null);
-        }
+      .catch(error => {
         return Promise.reject(error);
       });
   }
@@ -126,25 +89,18 @@ export class LiveManager {
   /**
    * List streams
    * @param {LiveStreamListRequest} liveStreamListRequest
-   * @param callback DEPRECATED! use promise response instead
+   * @returns {Promise<LiveStreamListResponse>}
    */
-  listStreams(liveStreamListRequest?, callback?): Promise<LiveStreamListResponse> {
-    if (callback) {
-      callback = deprecatedFn('LiveManager.listStreams use promise response instead')(callback);
-    }
+  listStreams(liveStreamListRequest?: LiveStreamListRequest): Promise<LiveStreamListResponse> {
+    const params = liveStreamListRequest && liveStreamListRequest.toParams();
 
-    return this.httpClient.get<RawResponse<ILiveStreamListResponse>>(this.apiUrl + '/streams', liveStreamListRequest.toParams())
+    return this.httpClient.get<RawResponse<ILiveStreamListResponse>>(
+      this.apiUrl + '/streams',
+      params
+    )
       .then((response) => {
-        const liveStreamListResponse = new LiveStreamListResponse(response.payload);
-
-        if (callback) {
-          callback(null, liveStreamListResponse);
-        }
-        return liveStreamListResponse;
+        return new LiveStreamListResponse(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
@@ -152,7 +108,7 @@ export class LiveManager {
   /**
    * Get URL of stream cover
    * @param {string} streamId
-   * @returns {string}
+   * @returns {Promise<string>}
    */
   async getStreamCoverUrl(streamId: string): Promise<string> {
     return await this.httpClient.addAuthToUrl(this.apiUrl + `/stream/${streamId}/frame`);

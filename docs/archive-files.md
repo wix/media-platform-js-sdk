@@ -20,7 +20,7 @@ var createArchiveRequest = new CreateArchiveRequest()
                     .setDestination(new Destination().setPath("/fish/file.zip").setAcl("public"))
                     .setArchiveType("zip");
 
-mediaPlatform.archiveManager.createArchive(createArchiveRequest, callback);
+mediaPlatform.archiveManager.createArchive(createArchiveRequest);
 ```
 
 ### `Source` - Set Archive Source Files
@@ -69,16 +69,16 @@ var createArchiveRequest = new CreateArchiveRequest()
       
 ### Creating the Archive
 The _CreateArchiveRequest_ is passed as a parameter to the `createArchive` method.  
-Creating an archive is an asynchronous action that creates a [job][job-docs] in Wix Media Platform. 
-Therefore, the `createArchive` method receives a callback function as a parameter. 
+Creating an archive is an asynchronous action that creates a [job][job-docs] in Wix Media Platform.  
+The `createArchive` object is passed to the resolved Promise.
 
-```javascript
-archiveManager.createArchive(createArchiveRequest, callback); 
+```typescript
+archiveManager.createArchive(createArchiveRequest?: ICreateArchiveRequest): Promise<Job<CreateArchiveSpecification>> 
 ```
 __Parameters__: 
 - `createArchiveRequest` (CreateArchiveRequest) - as described above.  
-- `callback` (function(error, response)) - a function that handles the HTTP response. 
-On success, it's called with the `Job` object that was created.
+
+returns Promise
 ***
 
 ## Extract Archive
@@ -100,7 +100,11 @@ var extractArchiveRequest = new ExtractArchiveRequest()
                     .setDestination(new Destination().setDirectory("/porcupines/porcupine_images/").setAcl("public"))
                     .setExtractedFilesReport(extractedFilesReport);
                     
-mediaPlatform.archiveManager.extractArchive(extractArchiveRequest, callback);
+mediaPlatform.archiveManager.extractArchive(extractArchiveRequest)
+  .then(
+    response => {},
+    error => {}
+  );
 ```
 
 ### `Source` - Set Source Archive File
@@ -164,16 +168,15 @@ var extractArchiveRequest = new ExtractArchiveRequest()
 
 ### Extracting the Archive
 The `ExtractArchiveRequest` is passed as a parameter to the `extractArchive` method.  
-Extracting an archive is an asynchronous action that creates a [job][job-docs] in Wix Media Platform. 
-Therefore, the `extractArchive` method receives a callback function as a parameter. 
+Extracting an archive is an asynchronous action that creates a [job][job-docs] in Wix Media Platform.
+The `extractArchive` object is passed to the resolved Promise. 
 
-```javascript
-archiveManager.extractArchive(extractArchiveRequest, callback);
+
+```typescript
+archiveManager.extractArchive(extractArchiveRequest: IExtractArchiveRequest): Promise<Job<ExtractArchiveSpecification>>
 ```
 - `extractArchiveRequest` (CreateArchiveRequest) - as described above.  
 
-- `callback` (function(error, response)) - a function that handles the HTTP response.
-On success, it's called with the `Job` object that was created.
-
+returns Promise
 
 [job-docs]: https://support.wixmp.com/en/article/jobs

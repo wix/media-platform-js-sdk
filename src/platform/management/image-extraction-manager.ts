@@ -1,8 +1,10 @@
 import {RawResponse} from '../../types/response/response';
+import {logDeprecated} from '../../utils/deprecated/deprecated';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
-import {IImageExtractionResponse, ImageExtractionResponse} from './responses/image-extraction-response';
-import {deprecatedFn, logDeprecated} from '../../utils/deprecated/deprecated';
+
+import {ImageExtraction, ImageExtractionResponse} from './responses/image-extraction-response';
+
 
 /**
  * @param {Configuration} configuration
@@ -29,7 +31,7 @@ export class ImageExtractionManager {
   /**
    * @param {Array<string>} features -- list of supported extractors
    */
-  private getListOfSupportedExtractors(features?: string[] | null): string {
+  private getListOfSupportedExtractors(features?: string[]): string {
     if (features && features.length) {
       return features.join(',');
     }
@@ -38,67 +40,53 @@ export class ImageExtractionManager {
   }
 
   /**
-   * @param {function(null, IImageExtractionResponse)} callback DEPRECATED! Use promise return value instance
+   * @returns {(response: RawResponse<ImageExtraction>) => ImageExtraction}
    */
-  private parseResponse(callback?: (error: null, params: IImageExtractionResponse) => void): (response: RawResponse<ImageExtractionResponse>) => ImageExtractionResponse {
+  private parseResponse(): (response: RawResponse<ImageExtractionResponse>) => ImageExtraction {
     return (response: RawResponse<ImageExtractionResponse>) => {
-      const imageExtractionResponse = new ImageExtractionResponse(response.payload);
-
-      if (callback) {
-        callback = deprecatedFn('use promise response')(callback);
-        callback(null, imageExtractionResponse);
-      }
-
-      return imageExtractionResponse;
+      return new ImageExtraction(response.payload);
     };
   }
 
   /**
-   * @param {function(Error, null)} callback
+   * @returns {(error) => Error}
    */
-  private errorHandler(callback?: (error: Error, params: null) => void): (error) => Error {
-    return (error) => {
-      if (callback) {
-        callback = deprecatedFn('use promise response')(callback);
-        callback(error, null);
-      }
-
-      return error as Error;
-    };
+  private errorHandler(): (error) => Error {
+    return (error) => error as Error;
   }
 
   /**
    * @param {string} fileId
    * @param {Array<string>} features -- list of supported extractors
-   * @param {function(Error | null, IImageExtractionResponse | null)} callback DEPRECATED! Use promise response instead
+   * @returns {Promise<ImageExtractionResponse | Error>}
    */
-  extractImageById(fileId: string, features?: string[] | null, callback?: (error: Error | null, params: IImageExtractionResponse | null) => void): Promise<IImageExtractionResponse | Error> {
+  extractImageById(fileId: string, features?: string[]): Promise<ImageExtraction | Error> {
     const listOfFeatures = this.getListOfSupportedExtractors(features);
     if (features === null) {
       logDeprecated('passing features as null in extractImageById');
     }
 
     return this.httpClient
-      .get<RawResponse<IImageExtractionResponse>>(`${this.apiUrl}/features?fileId=${fileId}&features=${listOfFeatures}`)
-      .then<IImageExtractionResponse, Error>(
-        this.parseResponse(callback),
-        this.errorHandler(callback)
+      .get<RawResponse<ImageExtractionResponse>>(`${this.apiUrl}/features?fileId=${fileId}&features=${listOfFeatures}`)
+      .then<ImageExtraction, Error>(
+        this.parseResponse(),
+        this.errorHandler()
       );
   }
 
   /**
    * @param {string} path
    * @param {Array<string>} features -- list of supported extractors
-   * @param {function(Error | null, IImageExtractionResponse)} callback DEPRECATED! use promise response instead
+   * @returns {Promise<ImageExtractionResponse | Error>}
    */
-  extractImageByFilePath(path: string, features?: string[] | null, callback?: (error: Error | null, params: IImageExtractionResponse | null) => void): Promise<IImageExtractionResponse | Error> {
+  extractImageByFilePath(path: string, features?: string[]): Promise<ImageExtraction | Error> {
     const listOfFeatures = this.getListOfSupportedExtractors(features);
 
     return this.httpClient
       .get<RawResponse<ImageExtractionResponse>>(`${this.apiUrl}/features?path=${path}&features=${listOfFeatures}`)
-      .then<IImageExtractionResponse, Error>(
-        this.parseResponse(callback),
-        this.errorHandler(callback)
+      .then<ImageExtraction, Error>(
+        this.parseResponse(),
+        this.errorHandler()
       );
   }
 }

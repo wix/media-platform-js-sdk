@@ -1,4 +1,5 @@
 import {EventEmitter} from 'eventemitter3';
+
 import {UploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
 import {FileDescriptor} from '../../../platform/management/metadata/file-descriptor';
 import {UploadStartedEvent} from './events/upload-started-event';
@@ -7,6 +8,7 @@ import {UploadSuccessEvent} from './events/upload-success-event';
 import {UploadErrorEvent} from './events/upload-error-event';
 import {UploadAbortedEvent} from './events/upload-aborted-event';
 import {UploadFileRequest} from '../../../platform/management/requests/upload-file-request';
+
 import {FileUploader} from './browser-file-uploader';
 
 

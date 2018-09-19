@@ -1,5 +1,7 @@
-import {Destination, IDestination} from './destination';
 import {deprecated} from 'core-decorators';
+
+import {Destination, IDestination} from './destination';
+
 
 export interface IExtractPosterSpecification {
   second: number;

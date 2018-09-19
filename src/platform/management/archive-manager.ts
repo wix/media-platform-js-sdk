@@ -1,17 +1,17 @@
+import * as Observable from 'zen-observable';
+
+import {Configuration as BrowserConfiguration} from '../../public/platform/configuration/configuration';
+import {RawResponse} from '../../types/response/response';
+import {Configuration} from '../configuration/configuration';
+import {IHTTPClient} from '../http/http-client';
+
 import {CreateArchiveSpecification} from './job/create-archive-specification';
 import {ExtractArchiveSpecification} from './job/extract-archive-specification';
 import {IJob, Job} from './job/job';
-import {Configuration} from '../configuration/configuration';
-import {Configuration as BrowserConfiguration} from '../../public/platform/configuration/configuration';
-import {IHTTPClient} from '../http/http-client';
+import {observeJobCreator} from './job/job-observable';
 import {CreateArchiveRequest, ICreateArchiveRequest} from './requests/create-archive-request';
 import {ExtractArchiveRequest, IExtractArchiveRequest} from './requests/extract-archive-request';
-import {deprecatedFn} from '../../utils/deprecated/deprecated';
-import {RawResponse} from '../../types/response/response';
-import * as Observable from 'zen-observable';
-import {observeJobCreator} from './job/job-observable';
 
-export type ArchiveCallback<T> = (error: Error | null, job: Job<T> | null) => void;
 
 /**
  * Archive Manager. Lets create and extract archives
@@ -26,24 +26,14 @@ export class ArchiveManager {
 
   /**
    * @param {CreateArchiveRequest?} createArchiveRequest
-   * @param {function(Error, Job)} callback DEPRECATED! use promise response instead
+   * @returns {Promise<Job<CreateArchiveSpecification>>}
    */
-  createArchive(createArchiveRequest?: ICreateArchiveRequest | undefined, callback?: ArchiveCallback<CreateArchiveSpecification>): Promise<Job<CreateArchiveSpecification>> {
-    if (callback) {
-      callback = deprecatedFn('ArchiveManager.createArchive: use promise response instead')(callback);
-    }
+  createArchive(createArchiveRequest?: ICreateArchiveRequest): Promise<Job<CreateArchiveSpecification>> {
     return this.httpClient
       .post<RawResponse<IJob<CreateArchiveSpecification>>>(`${this.baseUrl}/_api/archive/create`, createArchiveRequest)
       .then(response => {
-        const job = new Job<CreateArchiveSpecification>(response.payload);
-        if (callback) {
-          callback(null, job);
-        }
-        return job;
+        return new Job<CreateArchiveSpecification>(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }
@@ -87,23 +77,13 @@ export class ArchiveManager {
 
   /**
    * @param {ExtractArchiveRequest?} extractArchiveRequest
-   * @param {function(Error, Job)} callback DEPRECATED! use promise response instead
+   * @returns {Promise<Job<ExtractArchiveSpecification>>}
    */
-  extractArchive(extractArchiveRequest: IExtractArchiveRequest, callback?: ArchiveCallback<ExtractArchiveSpecification>): Promise<Job<ExtractArchiveSpecification>> {
-    if (callback) {
-      callback = deprecatedFn('ArchiveManager.extractArchive: use promise response instead')(callback);
-    }
+  extractArchive(extractArchiveRequest: IExtractArchiveRequest): Promise<Job<ExtractArchiveSpecification>> {
     return this.doExtractArchive(extractArchiveRequest)
       .then(response => {
-        const job = new Job<ExtractArchiveSpecification>(response.payload);
-        if (callback) {
-          callback(null, job);
-        }
-        return job;
+        return new Job<ExtractArchiveSpecification>(response.payload);
       }, error => {
-        if (callback) {
-          callback(error, null);
-        }
         return Promise.reject(error);
       });
   }

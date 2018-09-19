@@ -11,13 +11,13 @@ Uploaded media files (images and video) are submitted for further processing, ex
 
 ## Get File Metadata
 
-```javascript
-fileManager.getFileMetadataById(fileId, callback);
+```typescript
+fileManager.getFileMetadataById(fileId: string): Promise<FileMetadata>
 ```
 #### Parameters: 
 - `fileId` (string) - the required file's ID.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-the requested `FileMetadata` object.
+
+returns Promise
 
 ## `FileMetadata` properties
 A file's metadata also provides its [`FileDescriptor`](/file-Management#filedescriptor): 
