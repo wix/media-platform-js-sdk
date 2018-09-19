@@ -1,16 +1,15 @@
-import * as nock from 'nock';
 import {expect} from 'chai';
-import {ImageExtractionManager} from '../../../../src/platform/management/image-extraction-manager';
-import {Configuration} from '../../../../src/platform/configuration/configuration';
+import * as nock from 'nock';
+
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
+import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
+import {ImageExtractionManager} from '../../../../src/platform/management/image-extraction-manager';
 import {Likelihood} from '../../../../src/platform/management/metadata/explicit-content';
-import {
-  IImageExtractionResponse,
-  ImageExtractionResponse
-} from '../../../../src/platform/management/responses/image-extraction-response';
+import {ImageExtraction} from '../../../../src/platform/management/responses/image-extraction-response';
 
 const repliesDir = __dirname + '/replies/';
+
 
 describe('Image extraction manager', () => {
 
@@ -52,21 +51,7 @@ describe('Image extraction manager', () => {
   });
 
 
-  describe('image extraction by id', () => {
-    it('should extract image and call callback function with extracted data', async () => {
-      apiServer.get('/_api/images/features')
-        .once()
-        .query({
-          fileId: 'fileId',
-          features: 'colors,labels,explicit_content,faces'
-        })
-        .replyWithFile(200, repliesDir + 'image-extraction.response.json');
-
-      await imageExtractionManager.extractImageById('fileId', [], (error, data: IImageExtractionResponse) => {
-        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageResponse));
-      });
-    });
-
+  describe('extractImageById', () => {
     it('should extract image and return promise with extracted data', async () => {
       apiServer.get('/_api/images/features')
         .once()
@@ -77,27 +62,13 @@ describe('Image extraction manager', () => {
         .replyWithFile(200, repliesDir + 'image-extraction.response.json');
 
       await imageExtractionManager.extractImageById('fileId')
-        .then((data: IImageExtractionResponse) => {
-        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageResponse));
-      });
+        .then((data: ImageExtraction) => {
+          expect(data).to.be.deep.equal(new ImageExtraction(extractImageResponse));
+        });
     });
   });
 
-  describe('image extraction by path', () => {
-    it('should extract image and call callback function with extracted data', async () => {
-      apiServer.get('/_api/images/features')
-        .once()
-        .query({
-          path: 'path',
-          features: 'colors,labels,explicit_content,faces'
-        })
-        .replyWithFile(200, repliesDir + 'image-extraction.response.json');
-
-      await imageExtractionManager.extractImageByFilePath('path', [], (error, data: IImageExtractionResponse) => {
-        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageResponse));
-      });
-    });
-
+  describe('extractImageByFilePath', () => {
     it('should extract image and return promise with extracted data', async () => {
       apiServer.get('/_api/images/features')
         .once()
@@ -107,10 +78,10 @@ describe('Image extraction manager', () => {
         })
         .replyWithFile(200, repliesDir + 'image-extraction.response.json');
 
-      await imageExtractionManager.extractImageByFilePath('path', []).then((data: IImageExtractionResponse) => {
-        expect(data).to.be.deep.equal(new ImageExtractionResponse(extractImageResponse));
-      });
+      await imageExtractionManager.extractImageByFilePath('path')
+        .then((data: ImageExtraction) => {
+          expect(data).to.be.deep.equal(new ImageExtraction(extractImageResponse));
+        });
     });
   });
 });
-

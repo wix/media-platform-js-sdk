@@ -84,25 +84,25 @@ The job's `Specification` is casted to this object when `job.type === urn:job:av
 You can track job either by getting a specific job or job group, searching for a job, or creating a [webhook](https://support.wixmp.com/en/article/about-webhooks).  
 
 ### Get Job
-```javascript
-jobManager.getJob(jobId, callback);
+```typescript
+jobManager.getJob<T = any>(jobId: string): Promise<Job<T>>
 ```
 
 #### Parameters: 
 - `jobId` (string): ID of the requested job.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-the `Job` object that was requested.  
+
+returns Promise;  
   
 ### Get Job Group
 
-```javascript
-jobManager.getJobGroup(jobGroupId, callback);
+```typescript
+jobManager.getJobGroup<T = any>(groupId: string): Promise<Job<T>[]>
 ```
 
 #### Parameters: 
 - `jobGroupId` (string): ID of the requested job group.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-the `Array<Job>` object that was requested.  
+
+returns Promise
 
 ### Search Jobs
 You can search for jobs based on their issuer, file sources, type, status and more.  
@@ -118,17 +118,19 @@ const searchJobsRequest = new SearchJobsRequest()
 		.setStatus("success")
 		.setPath("/video/output/porcupines/");
 
-jobManager.searchJobs(searchJobsRequest, function (error, searchJobsResponse) {
-     if (error) {
-        console.error('job search failed: ' + error.message);
-        return;
-    }
-
-    console.log('job search successful: next token is ' + searchJobsResponse.nextPageToken);
-    for (let x in searchJobsResponse.jobs) {
+jobManager.searchJobs(searchJobsRequest)
+  .then(
+    searchJobsResponse => {
+      console.log('job search successful: next token is ' + searchJobsResponse.nextPageToken);
+      for (let x in searchJobsResponse.jobs) {
         // TODO: handle jobs
+      }
+    },
+    error => {
+      console.error('job search failed: ' + error.message);
+      return Promise.reject(error);
     } 
-});
+);
 
 ```
 
@@ -164,17 +166,17 @@ The _SearchJobsRequest_ is passed as a parameter to the `searchJobs` method.
 #### `searchJobs()` - Send the Request
 
 Once you have created a `SearchJobsRequest`, pass it as a parameter to the `searchJobs()` method:  
-```javascript
-jobManager.searchJobs(searchJobsRequest, callback);
+```typescript
+jobManager.searchJobs(searchJobsRequest): Promise<SearchJobsResponse>
 ```
 
 #### Parameters: 
 - `searchJobsRequest` (SearchJobsRequest): the search request parameters, as described above.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-the `SearchJobsResponse` object that is returned (see below).  
+
+returns Promise 
 
 #### `SearchJobsResponse` - Handle the Response
-The `SearchJobsResponse` object is passed to the callback function on success. 
+The `SearchJobsResponse` object is passed to the resolved Promise. 
 It includes the list of jobs that matched the query parameters and the query's next page token, if the number of results
  exceeds the page size.
 

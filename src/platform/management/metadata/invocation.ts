@@ -1,5 +1,7 @@
-import {ISource, Source} from '../job/source';
 import {deprecated} from 'core-decorators';
+
+import {ISource, Source} from '../job/source';
+
 
 export type EntryPoint = any;
 

@@ -1,13 +1,14 @@
 import {expect} from 'chai';
-import * as sinon from 'sinon';
 import * as fauxJax from 'faux-jax';
 import * as FileAPI from 'file-api';
+import * as sinon from 'sinon';
+
+import {FileManager} from '../../../src/platform/management/file-manager';
 import {HTTPClient} from '../../../src/public/platform/http/browser-http-client';
-import {UploadJob} from '../../../src/public/platform/uploader/upload-job';
 import {FileUploader} from '../../../src/public/platform/uploader/browser-file-uploader';
 import {QueuedFileUploader} from '../../../src/public/platform/uploader/queued-file-uploader';
+import {UploadJob} from '../../../src/public/platform/uploader/upload-job';
 import {delay} from '../../helpers/delay';
-import {FileManager} from '../../../src/platform/management/file-manager';
 
 const UPLOAD_TIMEOUT = 100;
 
@@ -131,7 +132,8 @@ describe('queued file uploader', function () {
   it('should upload', (done) => {
     setResponse(fileUploadResponse);
     const file = new FileAPI.File('../files/image.jpg');
-    (fileManager.uploadFile('upload/to/there/image.jpg', file, null) as UploadJob)
+
+    (fileManager.uploadFile('upload/to/there/image.jpg', file) as UploadJob)
       .on('upload-success', () => done())
       .on('upload-error', error => done(error));
   });

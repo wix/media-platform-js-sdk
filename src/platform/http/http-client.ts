@@ -1,14 +1,14 @@
+import {deprecated} from 'core-decorators';
 import * as request from 'request-promise-native';
-import {Authenticator} from '../authentication/authenticator';
+import {URL} from 'url'
+
 import {AuthorizationHeader} from '../../types/media-platform/media-platform';
+import {Authenticator} from '../authentication/authenticator';
 import {Token} from '../authentication/token';
 import {Configuration, IConfiguration} from '../configuration/configuration';
-import {UploadFileRequest} from '../management/requests/upload-file-request';
 import {UploadFileStream} from '../management/file-uploader';
-import {deprecated} from 'core-decorators';
-import {deprecatedFn} from '../../utils/deprecated/deprecated';
-import {URL} from 'url'
-// require('request-debug')(request);
+import {UploadFileRequest} from '../management/requests/upload-file-request';
+
 
 interface HTTPRequest {
   method: string;
@@ -23,7 +23,7 @@ export interface HTTPRequestParams {
   [key: string]: any;
 }
 
-export type RequestCallback<T=any> = (error: Error | null, response: T) => void;
+export type RequestCallback<T = any> = (error: Error | null, response: T) => void;
 
 export interface IHTTPClient {
   request(httpMethod: string, url: string, params: any, token: Token | undefined, callback: RequestCallback): void;
@@ -36,7 +36,7 @@ export interface IHTTPClient {
 
   delete<T = void>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
 
-  addAuthToUrl(url) : Promise<string>;
+  addAuthToUrl(url): Promise<string>;
 }
 
 export class HTTPClient implements IHTTPClient {
@@ -91,35 +91,29 @@ export class HTTPClient implements IHTTPClient {
    * @param {string} url
    * @param {{}} form
    * @param {Token?} token
-   * @param {function(Error, *)} callback DEPRECATED! use promise response instead
    */
-  postForm<T=any>(url: string, form: FormData | { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest>, token?: Token | undefined, callback?: RequestCallback): Promise<T> {
+  postForm<T = any>(url: string, form: FormData | { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest>, token?: Token | undefined): Promise<T> {
     const header = this.authenticator.getHeader(token);
 
-    const options = {method: 'POST', url: url, formData: form, headers: header, json: true};
-    if (callback) {
-      callback = deprecatedFn('HttpClient.postForm: use promise response instead')(callback);
-    }
+    const options = {
+      method: 'POST',
+      url: url,
+      formData: form,
+      headers: header,
+      json: true
+    };
 
     return request(options)
       .then(
         response => {
           if (response.statusCode < 200 || response.statusCode >= 300) {
-            if (callback) {
-              callback(new Error(JSON.stringify(response.body)), null);
-            }
             return Promise.reject(response.body);
           }
 
-          if (callback) {
-            callback(null, response.body);
-          }
           return response;
         },
         error => {
-          if (callback) {
-            callback(error, null);
-          }
+          return Promise.reject(error);
         }
       );
   }
@@ -174,7 +168,7 @@ export class HTTPClient implements IHTTPClient {
 
   addAuthToUrl(url: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      try{
+      try {
         const parsedUrl = new URL(url);
         const header = this.authenticator.getHeader();
         parsedUrl.searchParams.set('Authorization', header.Authorization);

@@ -55,27 +55,6 @@ constructor
 
 retrieve the auth header for the currently logged in user
 
-<div class="method-list">
-  <table>
-    <thead>
-      <tr>
-        <th>ARGUMENTS</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(<code>error</code>: (Error | null), <code>authorization</code>: (AuthorizationHeader | null)): void</code>
-            <p>DEPRECATED: use promise response instead</p>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
 
 <div class="method-list">
   <table>
@@ -129,15 +108,6 @@ get download url
         </td>
         <td>
             <div class="type">(DownloadUrlRequest | undefined)</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(<code>error</code>: (Error | null), <code>payload</code>: (DownloadUrl | null)): void</code>
-            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>

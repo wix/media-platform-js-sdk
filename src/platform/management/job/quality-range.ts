@@ -1,5 +1,6 @@
 import {deprecated} from 'core-decorators';
 
+
 export interface IQualityRange {
   minimum: string | null;
   maximum: string | null;

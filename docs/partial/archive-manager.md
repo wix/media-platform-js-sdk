@@ -58,15 +58,6 @@ Archive Manager. Lets create and extract archives
             <div class="type">CreateArchiveRequest?</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, Job)</code>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -210,15 +201,6 @@ archiveManager
         </td>
         <td>
             <div class="type">ExtractArchiveRequest?</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, Job)</code>
-            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>

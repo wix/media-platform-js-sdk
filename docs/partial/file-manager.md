@@ -82,15 +82,6 @@ Get Upload URL
             <div class="type">(IUploadUrlRequest | undefined | null)</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <div class="type">GetUploadURLCallback</div>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -152,14 +143,6 @@ upload a file
         </td>
         <td>
             <div class="type">UploadFileRequest?</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <div class="type">UploadFileCallback</div>
         </td>
       </tr>
     </tbody>
@@ -252,14 +235,6 @@ import a file from a source URL, returns a Job (see job manager)
             <div class="type">ImportFileRequest</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(<code>error</code>: (Error | null), <code>job</code>: (Job&#x3C;FileImportSpecification> | null)): void</code>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -305,15 +280,6 @@ creates a file descriptor, use this to create an empty directory
             <div class="type">FileDescriptor</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, FileDescriptor)</code>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -357,15 +323,6 @@ creates a file descriptor, use this to create an empty directory
             <div class="type">string</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, FileDescriptor)</code>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -407,15 +364,6 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <div class="type">string</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, FileMetadata)</code>
-            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>
@@ -469,15 +417,6 @@ creates a file descriptor, use this to create an empty directory
             <div class="type">IListFilesRequest?</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, ListFilesResponse)</code>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -521,15 +460,6 @@ creates a file descriptor, use this to create an empty directory
             <div class="type">string</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error)</code>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -571,15 +501,6 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <div class="type">string</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error)</code>
-            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>

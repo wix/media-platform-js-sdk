@@ -17,7 +17,7 @@ export interface ILivestreamRequest {
   stateNotification?: StateNotification;
 }
 
-export class LivestreamRequest {
+export class LiveStreamRequest {
   public protocol: string | null = null;
   public maxStreamingSec: number | null = null;
   public geo: Geo | null = null;
@@ -36,7 +36,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param protocol
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setProtocol(protocol: string): this {
@@ -47,7 +47,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param maxStreamingSec
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setMaxStreamingSec(maxStreamingSec: number): this {
@@ -58,7 +58,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param geo
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setGeo(geo: Geo | IGeo): this {
@@ -73,7 +73,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param connectTimeout
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setConnectTimeout(connectTimeout: number): this {
@@ -84,7 +84,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param reconnectTimeout
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   setReconnectTimeout(reconnectTimeout: number): this {
     this.reconnectTimeout = reconnectTimeout;
@@ -94,7 +94,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param enforcedWidth
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setEnforcedWidth(enforcedWidth: number): this {
@@ -105,7 +105,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param enforcedHeight
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setEnforcedHeight(enforcedHeight: number): this {
@@ -116,7 +116,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param streamType
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setStreamType(streamType: string): this {
@@ -127,7 +127,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param dvr
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setDvr(dvr: Dvr | IDvr): this {
@@ -143,7 +143,7 @@ export class LivestreamRequest {
   /**
    * @deprecated pass data to constructor instead
    * @param stateNotification
-   * @returns {LivestreamRequest}
+   * @returns {LiveStreamRequest}
    */
   @deprecated('pass data to constructor instead')
   setStateNotification(stateNotification: StateNotification) {
