@@ -1,18 +1,20 @@
-import * as nock from 'nock';
 import {expect} from 'chai';
-import {IJob, Job, JobStatus} from '../../../../src/platform/management/job/job';
-import {JobManager} from '../../../../src/platform/management/job-manager';
-import {SearchJobsResponse} from '../../../../src/platform/management/responses/search-jobs-response';
-import {FileImportSpecification} from '../../../../src/platform/management/job/file-import-specification';
-import {Configuration} from '../../../../src/platform/configuration/configuration';
+import * as nock from 'nock';
+
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
+import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
+import {JobManager} from '../../../../src/platform/management/job-manager';
+import {FileImportSpecification} from '../../../../src/platform/management/job/file-import-specification';
+import {IJob, Job, JobStatus} from '../../../../src/platform/management/job/job';
 import {SearchJobsRequest} from '../../../../src/platform/management/requests/search-jobs-request';
+import {SearchJobsResponse} from '../../../../src/platform/management/responses/search-jobs-response';
 import {ACL} from '../../../../src/types/media-platform/media-platform';
+
 
 const repliesDir = __dirname + '/replies/';
 
-describe('job manager', () => {
+describe('jobManager', () => {
 
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
@@ -30,46 +32,50 @@ describe('job manager', () => {
     nock.cleanAll();
   });
 
-  it('get job', done => {
+  describe('getJob', () => {
+    it('get job', done => {
 
-    apiServer.get('/_api/jobs/job-id')
-      .once()
-      .query(true)
-      .replyWithFile(200, repliesDir + 'get-job-response.json');
+      apiServer.get('/_api/jobs/job-id')
+        .once()
+        .query(true)
+        .replyWithFile(200, repliesDir + 'get-job-response.json');
 
-    jobManager.getJob('job-id', (error, data) => {
-      expect(data).to.deep.equal(new Job({
-        id: '71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f',
-        type: 'urn:job:import.file',
-        groupId: '71f0d3fde7f348ea89aa1173299146f8',
-        issuer: 'urn:app:app-id-1',
-        status: JobStatus.SUCCESS,
-        specification: new FileImportSpecification({
-          sourceUrl: 'string',
-          destination: {
-            directory: 'string',
-            path: 'string',
-            acl: ACL.PUBLIC
-          }
-        }),
-        sources: [],
-        result: {
-          code: 0,
-          message: 'OK',
-          payload: {
-            id: 'string',
-            hash: 'string',
-            path: 'string',
-            mimeType: 'string',
-            type: 'string',
-            size: 100,
-            acl: 'private'
-          }
-        },
-        dateCreated: '2017-05-23T08:34:43Z',
-        dateUpdated: '2017-05-23T08:34:43Z'
-      }));
-      done(error);
+      jobManager.getJob('job-id')
+        .then(data => {
+          expect(data).to.deep.equal(new Job({
+            id: '71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f',
+            type: 'urn:job:import.file',
+            groupId: '71f0d3fde7f348ea89aa1173299146f8',
+            issuer: 'urn:app:app-id-1',
+            status: JobStatus.SUCCESS,
+            specification: new FileImportSpecification({
+              sourceUrl: 'string',
+              destination: {
+                directory: 'string',
+                path: 'string',
+                acl: ACL.PUBLIC
+              }
+            }),
+            sources: [],
+            result: {
+              code: 0,
+              message: 'OK',
+              payload: {
+                id: 'string',
+                hash: 'string',
+                path: 'string',
+                mimeType: 'string',
+                type: 'string',
+                size: 100,
+                acl: 'private'
+              }
+            },
+            dateCreated: '2017-05-23T08:34:43Z',
+            dateUpdated: '2017-05-23T08:34:43Z'
+          }));
+
+          done();
+        });
     });
   });
 
@@ -79,9 +85,46 @@ describe('job manager', () => {
       .query(true)
       .replyWithFile(200, repliesDir + 'get-job-group-response.json');
 
-    jobManager.getJobGroup('group-id', (error, data) => {
-      done(error);
-    });
+    jobManager.getJobGroup('group-id')
+      .then(data => {
+        console.log('data', data);
+
+        expect(data).to.deep.equal([
+          new Job({
+            id: '71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f',
+            type: 'urn:job:import.file',
+            groupId: '71f0d3fde7f348ea89aa1173299146f8',
+            issuer: 'urn:app:app-id-1',
+            status: JobStatus.SUCCESS,
+            specification: new FileImportSpecification({
+              sourceUrl: 'string',
+              destination: {
+                directory: 'string',
+                path: 'string',
+                acl: ACL.PUBLIC
+              }
+            }),
+            sources: [],
+            result: {
+              code: 0,
+              message: 'OK',
+              payload: {
+                id: 'string',
+                hash: 'string',
+                path: 'string',
+                mimeType: 'string',
+                type: 'string',
+                size: 100,
+                acl: 'private'
+              }
+            },
+            dateCreated: '2017-05-23T08:34:43Z',
+            dateUpdated: '2017-05-23T08:34:43Z'
+          })
+        ]);
+
+        done();
+      });
   });
 
   it('should search jobs', async () => {

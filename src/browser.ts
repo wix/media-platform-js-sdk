@@ -16,7 +16,7 @@ import {ExtractPosterRequest} from './platform/management/requests/extract-poste
 import {ExtractStoryboardRequest} from './platform/management/requests/extract-storyboard-request';
 import {CreateArchiveRequest} from './platform/management/requests/create-archive-request';
 import {CreateFlowRequest} from './platform/management/requests/create-flow-request';
-import {LivestreamRequest} from './platform/management/requests/livestream-request';
+import {LiveStreamRequest} from './platform/management/requests/live-stream-request';
 import {Flow} from './platform/management/metadata/flow';
 import {Invocation} from './platform/management/metadata/invocation';
 import {FlowComponent} from './platform/management/metadata/flow-component';
@@ -56,7 +56,7 @@ export const job = {
   SearchJobsRequest
 };
 export const live = {
-  LivestreamRequest,
+  LivestreamRequest: LiveStreamRequest,
   LiveStreamListRequest,
   LiveStream
 };

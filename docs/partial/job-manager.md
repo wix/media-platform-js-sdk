@@ -58,15 +58,6 @@
             <div class="type">string</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, Job)</code>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -110,15 +101,6 @@
             <div class="type">string</div>
         </td>
       </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, Array&#x3C;Job>)</code>
-            <p>DEPRECATED! use promise response instead</p>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
@@ -160,15 +142,6 @@
         </td>
         <td>
             <div class="type">SearchJobsRequest</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="param">
-          <code>callback</code>
-        </td>
-        <td>
-            <code>function(Error, SearchJobsResponse)</code>
-            <p>DEPRECATED! use promise response instead</p>
         </td>
       </tr>
     </tbody>

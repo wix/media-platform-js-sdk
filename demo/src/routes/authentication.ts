@@ -1,5 +1,5 @@
-import {mediaPlatform} from '../facades/media-platform-facade';
 import {auth} from '../../../src/main';
+import {mediaPlatform} from '../facades/media-platform-facade';
 
 const {Token, NS} = auth;
 
@@ -13,7 +13,7 @@ export default function (app) {
      * @description by default, the header authorizes all the application verbs
      * @type {{Authorization}}
      */
-    var header = mediaPlatform.getAuthorizationHeader();
+    const header = mediaPlatform.getAuthorizationHeader();
 
     res.send(header);
   });
@@ -23,7 +23,7 @@ export default function (app) {
    */
   app.get('/media-platform/limited-auth-header', function (req, res, next) {
 
-    var token = new Token()
+    const token = new Token()
       .setIssuer(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
       .setSubject(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
       .addVerbs('urn:service:file.get', 'urn:service:file.list');
@@ -32,7 +32,7 @@ export default function (app) {
      * @description you can limit the token to certain verbs
      * @type {{Authorization}}
      */
-    var header = mediaPlatform.getAuthorizationHeader(token);
+    const header = mediaPlatform.getAuthorizationHeader(token);
 
     res.send(header);
   });

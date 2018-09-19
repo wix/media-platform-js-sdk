@@ -1,5 +1,7 @@
-import {Geo, IGeo} from './geo';
 import {deprecated} from 'core-decorators';
+
+import {Geo, IGeo} from './geo';
+
 
 export interface IPublishEndpoint {
   url: string;

@@ -1,8 +1,10 @@
-import {Destination, IDestination} from './destination';
-import {IVideo, Video} from './video';
-import {Audio, IAudio} from './audio';
-import {IQualityRange, QualityRange} from './quality-range';
 import {deprecated} from 'core-decorators';
+
+import {Audio, IAudio} from './audio';
+import {Destination, IDestination} from './destination';
+import {IQualityRange, QualityRange} from './quality-range';
+import {IVideo, Video} from './video';
+
 
 export interface ITranscodeSpecification {
   destination: IDestination;

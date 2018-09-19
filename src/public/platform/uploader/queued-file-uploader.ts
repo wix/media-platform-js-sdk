@@ -1,6 +1,8 @@
 import async, {AsyncQueue} from 'async';
+
 import {FileUploader} from './browser-file-uploader';
 import {UploadJob} from './upload-job';
+
 
 /**
  * @param {FileUploader} fileUploader

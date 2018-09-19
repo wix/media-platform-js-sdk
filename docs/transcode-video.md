@@ -26,17 +26,18 @@ const transcodeRequest = new TranscodeRequest()
                             .addSource(new Source().setPath("/video/porcupine_movie.mp4"))
                             .addSpecification(transcodeSpecification);
 
-transcodeManager.transcodeVideo(transcodeRequest, function(error, transcodeJobResponse) {
-    if (error) {
-        console.error('video transcoding failed: ' + error.message);
-        return;
-    }
-
-    console.log('video transcoding successful: jobGroupID is ' + transcodeJobResponse.groupId);
-    for (let x in transcodeJobResponse.jobs) {
+transcodeManager.transcodeVideo(transcodeRequest)
+  .then(
+    (transcodeJobResponse) => {
+      console.log('video transcoding successful: jobGroupID is ' + transcodeJobResponse.groupId);
+      for (let x in transcodeJobResponse.jobs) {
         // TODO: handle transcoding jobs
-    } 
-});
+      }
+    },
+    (error) => {
+      console.error('video transcoding failed: ' + error.message);
+    }
+   );
 ```
 
 ## `Source` - Set Video Source
@@ -113,17 +114,17 @@ the information needed to transcode the video.
 ## `transcodeVideo()` - Send the Transcode Request 
 Once you have created a `TranscodeRequest`, pass it as a parameter to the `transcodeVideo()` method:  
 
-```javascript
-transcodeManager.transcodeVideo(transcodeRequest, callback);
+```typescript
+transcodeManager.transcodeVideo(transcodeRequest: TranscodeRequest): Promise<TranscodeJobResponse>
 ```
 #### Parameters: 
 - `transcodeRequest` (TranscodeRequest): the transcode request parameters, as described above.
-- `callback` (function(error, response)) - a function that handles the HTTP response. On success, it's called with
-the `TranscodeJobsResponse` object that is returned (see below).  
+
+returns Promise  
 
 ## `TranscodeJobsResponse` - Handle the Response
 
-The `TranscodeJobsResponse` object is passed to the callback function on success. 
+The `TranscodeJobsResponse` object is passed to the resolved Promise. 
 It includes the list of jobs that matched the query parameters and the query's next page token, if the number of results exceeds the page size.
 
 | Field Name   | Type        | Description                             |

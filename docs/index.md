@@ -75,5 +75,3 @@ app.get('/media-platform/auth-header', function (req, res, next) {
 [wixmp-url]: https://console.wixmp.com/
 [org-and-project-start]: https://support.wixmp.com/en/article/creating-your-organization-and-project
 [application-start]: https://support.wixmp.com/en/article/creating-your-first-application
-
-

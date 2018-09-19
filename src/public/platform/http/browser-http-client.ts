@@ -1,8 +1,9 @@
-import {AuthorizationHeader, TokenClaims} from '../../../types/media-platform/media-platform';
-import {IHTTPClient, RequestCallback} from '../../../platform/http/http-client';
-import {Token} from '../../../platform/authentication/token';
-import {deprecatedFn} from '../../../utils/deprecated/deprecated';
 import {deprecated} from 'core-decorators';
+
+import {Token} from '../../../platform/authentication/token';
+import {IHTTPClient, RequestCallback} from '../../../platform/http/http-client';
+import {AuthorizationHeader, TokenClaims} from '../../../types/media-platform/media-platform';
+
 
 const isAuthorizationHeaderValid = (authorizationHeader: AuthorizationHeader | null): authorizationHeader is AuthorizationHeader => {
   let valid = false;
@@ -138,59 +139,40 @@ export class HTTPClient implements IHTTPClient {
     this._request(httpMethod, url, params, token, callback, noRetry);
   }
 
-  /**
-   * @param {function(Error, string|null)} callback DEPRECATED: use promise response instead
-   */
-  getAuthorizationHeader(callback?: (error: Error | null, authorization: AuthorizationHeader | null) => void): Promise<AuthorizationHeader> {
+  getAuthorizationHeader(): Promise<AuthorizationHeader> {
     const authorizationHeader = this.authorizationHeader;
-    if (callback) {
-      callback = deprecatedFn('HttpClient.getAuthorizationHeader. Use promise response instead')(callback);
-    }
     if (isAuthorizationHeaderValid(authorizationHeader)) {
-      if (callback) {
-        callback(null, authorizationHeader);
-      }
       return Promise.resolve(authorizationHeader);
     }
+
     return new Promise((resolve, reject) => {
       const request = new XMLHttpRequest();
 
       request.addEventListener(
         'load',
-        (event) => {
+        () => {
           try {
             // TODO: fix, '{}' is temporary solution
             this.authorizationHeader = JSON.parse(request.responseText || '{}');
           } catch (error) {
-            if (callback) {
-              callback(error, null);
-            }
             return reject(error);
           }
-          if (callback) {
-            callback(null, this.authorizationHeader);
-          }
+
           return resolve(this.authorizationHeader as AuthorizationHeader);
         }
       );
+
       request.addEventListener(
         'error',
-        (event) => {
-          const error = new Error(request.statusText);
-          if (callback) {
-            callback(error, null);
-          }
-          reject(error);
+        () => {
+          reject(new Error(request.statusText));
         }
       );
+
       request.addEventListener(
         'abort',
-        (event) => {
-          const error = new Error(request.statusText);
-          if (callback) {
-            callback(error, null);
-          }
-          reject(error);
+        () => {
+          reject(new Error(request.statusText));
         }
       );
 

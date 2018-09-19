@@ -81,10 +81,15 @@ res.send(header);</code></pre>
                 <h4>Uploading a file directly from the server. Support streams, buffers and files</h4>
                 <div id="upload-code">
                     <div class="highlight">
-                            <pre><code class="language-javascript">fileManager.uploadFile('/demo/image.jpg', __dirname + '/../files/image.jpg', null, function(error, response) {
-     // do something
-});
-</code></pre>
+                            <pre><code class="language-javascript">fileManager.uploadFile('/demo/image.jpg', __dirname + '/../files/image.jpg')
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
                     </div>
                     <div class="demo-group">
                         <div class="executable-button">
@@ -108,10 +113,15 @@ var importFileRequest = new ImportFileRequest()
                 .setPath('/demo/import/' + rand + '.image.jpg')
                 .setAcl('public'));
 
-fileManager.importFile(importFileRequest, function (error, response) {
-     // do something
-});
-</code></pre>
+fileManager.importFile(importFileRequest)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
                     </div>
                     <div class="demo-group">
                         <div class="executable-button">
@@ -153,9 +163,15 @@ fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesRespo
                     are active in the project</h4>
                 <div id="metadata-code">
                     <div class="highlight">
-                            <pre><code class="language-javascript">fileManager.getFileMetadataById(id, function (error, response) {
-    // do something
-});</code></pre>
+                            <pre><code class="language-javascript">fileManager.getFileMetadataById(id)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
                     </div>
                     <div class="demo-group"><input class="text-input"
                                                    id="file-id-input"
@@ -175,7 +191,7 @@ fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesRespo
                 <h4>Get a signed URL that directs to a file, required for non-public file download</h4>
                 <div id="download-url-code">
                     <div class="highlight">
-                            <pre><code class="language-javascript">var url = mediaPlatform.getDownloadUrl(req.query.path, null);
+                            <pre><code class="language-javascript">var url = mediaPlatform.getDownloadUrl(req.query.path);
 
 res.send({url: url});</code></pre>
                     </div>

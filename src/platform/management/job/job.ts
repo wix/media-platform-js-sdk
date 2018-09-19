@@ -1,14 +1,15 @@
-import {PackagingSpecification} from './packaging-specification';
-import {ISource, Source} from './source';
-import {ExtractArchiveSpecification} from './extract-archive-specification';
 import {CreateArchiveSpecification} from './create-archive-specification';
-import {FileImportSpecification} from './file-import-specification';
-import {TranscodeSpecification} from './transcode-specification';
+import {ExtractArchiveSpecification} from './extract-archive-specification';
 import {ExtractPosterSpecification} from './extract-poster-specification';
 import {ExtractStoryboardSpecification} from './extract-storyboard-specification';
+import {FileImportSpecification} from './file-import-specification';
+import {PackagingSpecification} from './packaging-specification';
+import {ISource, Source} from './source';
+import {TranscodeSpecification} from './transcode-specification';
+
 
 export interface IJob<T> {
-  id: string | null;
+  id: string;
   type: string;
   issuer: string | null;
   status: JobStatus;
@@ -28,7 +29,7 @@ export enum JobStatus {
 }
 
 export class Job<T> implements IJob<T> {
-  public id: string | null = null;
+  public id: string;
   public type: string;
   public issuer: string | null = null;
   public status: JobStatus = JobStatus.PENDING;
