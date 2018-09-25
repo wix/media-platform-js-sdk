@@ -37,8 +37,6 @@ constructor
 
 ### jobManager
 
-### transcodeManager
-
 ### avManager
 
 ### liveManager
