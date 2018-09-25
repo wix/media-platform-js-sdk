@@ -16,14 +16,6 @@ export class UploadUrlResponse implements IUploadUrlResponse {
   public uploadUrl: string;
 
   constructor(data: IUploadUrlResponse) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IUploadUrlResponse) {
     this.uploadToken = data.uploadToken;
     this.uploadUrl = data.uploadUrl;
   }

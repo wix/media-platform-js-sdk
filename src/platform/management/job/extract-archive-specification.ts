@@ -12,14 +12,6 @@ export class ExtractArchiveSpecification implements IExtractArchiveSpecification
   public destination: Destination;
 
   constructor(data: IExtractArchiveSpecification) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  private deserialize(data: IExtractArchiveSpecification) {
     this.source = new Source(data.source);
     this.destination = new Destination(data.destination);
   }

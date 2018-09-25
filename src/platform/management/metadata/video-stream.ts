@@ -29,14 +29,6 @@ export class VideoStream implements IVideoStream {
   public displayAspectRatio: string | null = null;
 
   constructor(data: IVideoStream) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IVideoStream) {
     this.codecLongName = data.codecLongName;
     this.codecTag = data.codecTag;
     this.codecName = data.codecName;
@@ -51,4 +43,3 @@ export class VideoStream implements IVideoStream {
     this.displayAspectRatio = data.displayAspectRatio;
   }
 }
-

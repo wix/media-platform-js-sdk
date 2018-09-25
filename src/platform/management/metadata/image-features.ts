@@ -1,6 +1,8 @@
-import {ILabel, Label} from './label';
-import {Color, IColor} from './color';
 import {Rectangle} from '../../../geometry/rectangle';
+
+import {Color, IColor} from './color';
+import {ILabel, Label} from './label';
+
 
 export interface IFace {
   width: number;
@@ -21,20 +23,14 @@ export class ImageFeatures implements IImageFeatures {
   public colors: Color[] = [];
 
   constructor(data: IImageFeatures) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IImageFeatures) {
     this.labels = data.labels.map(function (label) {
       return new Label(label);
     });
+
     this.faces = data.faces.map(function (face) {
       return new Rectangle(face.width, face.height, face.x, face.y);
     });
+
     this.colors = data.colors.map(function (color) {
       return new Color(color);
     });

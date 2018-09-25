@@ -8,14 +8,6 @@ export class Label implements ILabel {
   public score: number;
 
   constructor(data: ILabel) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: ILabel) {
     this.name = data.name;
     this.score = data.score;
   }

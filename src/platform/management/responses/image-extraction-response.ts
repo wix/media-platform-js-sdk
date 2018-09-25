@@ -18,14 +18,6 @@ export class ImageExtraction {
   public explicitContent?: IExplicitContent[];
 
   constructor(data: ImageExtractionResponse) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: ImageExtractionResponse): void {
     if (data.colors && data.colors.length) {
       this.colors = data.colors.map((color: IColor) => new Color(color));
     }

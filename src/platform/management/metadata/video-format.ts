@@ -12,14 +12,6 @@ export class VideoFormat implements IVideoFormat {
   public size: number | null = null;
 
   constructor(data: IVideoFormat) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IVideoFormat) {
     this.formatLongName = data.formatLongName;
     this.duration = data.duration;
     this.bitrate = data.bitrate;

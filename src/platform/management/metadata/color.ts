@@ -14,14 +14,6 @@ export class Color implements IColor {
   public score: number | null = null;
 
   constructor(data: IColor) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IColor) {
     this.r = data.r;
     this.g = data.g;
     this.b = data.b;

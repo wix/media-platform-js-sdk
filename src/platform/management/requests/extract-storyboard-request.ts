@@ -1,5 +1,3 @@
-import {deprecated} from 'core-decorators';
-
 import {ExtractStoryboardSpecification, IExtractStoryboardSpecification} from '../job/extract-storyboard-specification';
 import {ISource, Source} from '../job/source';
 

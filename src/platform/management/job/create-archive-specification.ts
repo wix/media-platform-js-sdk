@@ -14,14 +14,6 @@ export class CreateArchiveSpecification implements ICreateArchiveSpecification {
   public archiveType: string;
 
   constructor(data: ICreateArchiveSpecification) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: ICreateArchiveSpecification) {
     this.sources = data.sources.map(function (source) {
       return new Source(source);
     });

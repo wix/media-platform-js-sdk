@@ -1,6 +1,7 @@
-import {IVideoStream, VideoStream} from './video-stream';
 import {AudioStream, IAudioStream} from './audio-stream';
 import {IVideoFormat, VideoFormat} from './video-format';
+import {IVideoStream, VideoStream} from './video-stream';
+
 
 export interface IVideoBasicMetadata {
   interlaced: boolean | null;
@@ -16,21 +17,16 @@ export class VideoBasicMetadata implements IVideoBasicMetadata {
   public format: VideoFormat | null = null;
 
   constructor(data: IVideoBasicMetadata) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IVideoBasicMetadata) {
     this.interlaced = data.interlaced;
+
     this.videoStreams = data.videoStreams.map(function (videoStream) {
       return new VideoStream(videoStream);
     });
+
     this.audioStreams = data.audioStreams.map(function (audioStream) {
       return new AudioStream(audioStream);
     });
+
     this.format = data.format === null ? data.format : new VideoFormat(data.format || undefined);
   }
 }
