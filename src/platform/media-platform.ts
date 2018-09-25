@@ -1,22 +1,21 @@
-import {Configuration, IConfiguration} from './configuration/configuration';
+import {AuthorizationHeader, DownloadURLObject} from '../types/media-platform/media-platform';
 import {Authenticator} from './authentication/authenticator';
+import {Token} from './authentication/token';
+import {Configuration, IConfiguration} from './configuration/configuration';
 import {HTTPClient} from './http/http-client';
-import {FileUploader} from './management/file-uploader';
+import {ArchiveManager} from './management/archive-manager';
+import {AVManager} from './management/av-manager';
 import {FileDownloader} from './management/file-downloader';
 import {FileManager} from './management/file-manager';
-import {ArchiveManager} from './management/archive-manager';
-import {ImageExtractionManager} from './management/image-extraction-manager';
-import {JobManager} from './management/job-manager';
-import {ImageManager} from './management/image-manager';
-import {TranscodeManager, AVManager} from './management/av-manager';
+import {FileUploader} from './management/file-uploader';
 import {FlowManager} from './management/flow-manager';
+import {ImageExtractionManager} from './management/image-extraction-manager';
+import {ImageManager} from './management/image-manager';
+import {JobManager} from './management/job-manager';
 import {LiveManager} from './management/live-manager';
-import {WebhookDeserializer} from './webhook/webhook-deserializer';
-import {Token} from './authentication/token';
-import {AuthorizationHeader} from '../types/media-platform/media-platform';
 import {DownloadUrlRequest} from './management/requests/download-url-request';
-import {DownloadURLObject} from '../types/media-platform/media-platform';
 import {WidgetInstanceManager} from './management/widgets/widget-instance-manager/widget-instance-manager';
+import {WebhookDeserializer} from './webhook/webhook-deserializer';
 
 /**
  * Media Platform
@@ -29,7 +28,6 @@ export class MediaPlatform {
 
   public archiveManager: ArchiveManager;
   public fileManager: FileManager;
-  public transcodeManager: TranscodeManager;
   public avManager: AVManager;
   public flowManager: FlowManager;
   public liveManager: LiveManager;
@@ -60,11 +58,6 @@ export class MediaPlatform {
      * @type {FileManager}
      */
     this.fileManager = new FileManager(configuration, httpClient, fileUploader);
-
-    /**
-     * @type {TranscodeManager}
-     */
-    this.transcodeManager = new TranscodeManager(configuration, httpClient);
 
     /**
      * @type {AVManager}

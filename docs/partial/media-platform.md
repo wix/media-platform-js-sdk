@@ -35,8 +35,6 @@ constructor
 
 ### fileManager
 
-### transcodeManager
-
 ### avManager
 
 ### flowManager

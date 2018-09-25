@@ -1,5 +1,5 @@
 import {ArchiveManager} from '../../platform/management/archive-manager';
-import {AVManager, TranscodeManager} from '../../platform/management/av-manager';
+import {AVManager} from '../../platform/management/av-manager';
 import {FileManager} from '../../platform/management/file-manager';
 import {FlowManager} from '../../platform/management/flow-manager';
 import {ImageExtractionManager} from '../../platform/management/image-extraction-manager';
@@ -30,7 +30,6 @@ class MediaPlatform {
   public archiveManager: ArchiveManager;
   public fileManager: FileManager;
   public jobManager: JobManager;
-  public transcodeManager: TranscodeManager;
   public avManager: AVManager;
   public liveManager: LiveManager;
   public flowManager: FlowManager;
@@ -58,7 +57,6 @@ class MediaPlatform {
     this.fileManager.queueFileUpload = (uploadJob: UploadJob) => queuedFileUploader.enqueue(uploadJob);
 
     this.jobManager = new JobManager(configuration, this.browserHTTPClient);
-    this.transcodeManager = new TranscodeManager(configuration, this.browserHTTPClient);
     this.avManager = new AVManager(configuration, this.browserHTTPClient);
     this.liveManager = new LiveManager(configuration, this.browserHTTPClient);
     this.flowManager = new FlowManager(configuration, this.browserHTTPClient);

@@ -2,7 +2,6 @@ import * as Observable from 'zen-observable';
 
 import {ACL} from '../../types/media-platform/media-platform';
 import {RawResponse} from '../../types/response/response';
-import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
 
@@ -144,13 +143,5 @@ export class AVManager {
     return this.httpClient
       .post<RawResponse<IPackagingJobResponse>>(`${this.apiUrl}/package`, params)
       .then(response => new PackagingJobResponse(response.payload));
-  }
-}
-
-export class TranscodeManager extends AVManager {
-  constructor(configuration, httpClient) {
-    deprecatedFn('TranscodeManager: use AVManager class instead of TranscodeManager')(() => {
-    });
-    super(configuration, httpClient);
   }
 }

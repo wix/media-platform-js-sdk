@@ -1,5 +1,4 @@
 import {RawResponse} from '../../types/response/response';
-import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {IConfigurationBase} from '../configuration/configuration';
 import {IHTTPClient} from '../http/http-client';
 import {IJob, Job} from './job/job';
