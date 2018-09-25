@@ -52,11 +52,10 @@ const PATH_BASE = '/demo/';
     mediaPlatform.fileManager.deleteFileByPath(path)
       .then(
         () => {
-          const uploadJob = new MP.upload.UploadJob();
-
-          uploadJob
-            .setPath(path)
-            .setFile(file)
+          const uploadJob = new MP.upload.UploadJob({
+            file,
+            path
+          })
             .on('upload-success', function (response) {
               stopLoading(queuedFileManagementLabel);
 
@@ -78,7 +77,9 @@ const PATH_BASE = '/demo/';
   const fileListPayload = document.getElementById('file-list-payload');
 
   fileListButton.addEventListener('click', function () {
-    const listFileRequest = new MP.file.ListFilesRequest().setPageSize(3);
+    const listFileRequest = new MP.file.ListFilesRequest({
+      pageSize: 3
+    });
 
     startLoading(fileListButton);
     mediaPlatform.fileManager
@@ -493,9 +494,14 @@ const PATH_BASE = '/demo/';
       }
     });
 
-    const transcodeRequest = new TranscodeRequest()
-      .addSource(source)
-      .addSpecification(transcodeSpecification);
+    const transcodeRequest = new TranscodeRequest({
+      sources: [
+        source
+      ],
+      specifications: [
+        transcodeSpecification
+      ]
+    });
 
     function render(response) {
       transcodeVideoPayload.innerHTML = Prism.highlight(
@@ -569,22 +575,29 @@ const PATH_BASE = '/demo/';
 
     startLoading(extractPosterVideoButton);
 
-    const source = new Source();
-    source.fileId = fileId;
+    const source = new Source({
+      fileId: fileId
+    });
 
-    const extractPosterSpecification = new ExtractPosterSpecification();
     const posterFilePath = '/test/poster/file_' + Date.now() + '.jpg';
-    extractPosterSpecification.destination = new Destination()
-      .setPath(posterFilePath)
-      .setAcl('public');
 
-    extractPosterSpecification.format = 'jpg';
+    const extractPosterSpecification = new ExtractPosterSpecification({
+      destination: new Destination({
+        acl: 'public',
+        path: posterFilePath
+      }),
+      format: 'jpg',
+      second: 1
+    });
 
-    extractPosterSpecification.second = 1;
-
-    const extractPosterRequest = new ExtractPosterRequest()
-      .addSource(source)
-      .addSpecification(extractPosterSpecification);
+    const extractPosterRequest = new ExtractPosterRequest({
+      sources: [
+        source
+      ],
+      specifications: [
+        extractPosterSpecification
+      ]
+    });
 
     mediaPlatform.avManager.extractPoster(extractPosterRequest)
       .then(
@@ -658,24 +671,24 @@ const PATH_BASE = '/demo/';
 
     startLoading(extractStoryboardVideoButton);
 
-    const source = new Source();
-    source.fileId = fileId;
+    const source = new Source({
+      fileId: fileId
+    });
 
-    const extractStoryboardSpecification = new ExtractStoryboardSpecification();
-    const storyboardFilePath = '/test/storyboard/file_' + Date.now() + '.jpg';
-    extractStoryboardSpecification.destination = new Destination()
-      .setPath(storyboardFilePath)
-      .setAcl('public');
-
-    extractStoryboardSpecification.format = 'jpg';
-
-    extractStoryboardSpecification.columns = 6;
-    extractStoryboardSpecification.rows = 4;
-    extractStoryboardSpecification.tileWidth = 200;
-    extractStoryboardSpecification.tileHeight = 100;
-    const extractStoryboardRequest = new ExtractStoryboardRequest()
-      .addSource(source)
-      .addSpecification(extractStoryboardSpecification);
+    const extractStoryboardRequest = new ExtractStoryboardRequest({
+      source: source,
+      specifications: [{
+        destination: {
+          acl: 'public',
+          path: '/test/storyboard/file_' + Date.now() + '.jpg'
+        },
+        format: 'jpg',
+        columns: 6,
+        rows: 4,
+        tileWidth: 200,
+        tileHeight: 100
+      }]
+    });
 
     mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest)
       .then(
@@ -748,37 +761,52 @@ const PATH_BASE = '/demo/';
 
     startLoading(flowManagerButton);
 
-    const invocation = new Invocation()
-      .addEntryPoint('import');
+    const invocation = new Invocation({
+      entryPoints: [
+        'import'
+      ]
+    });
 
-    const importFileRequest = new ImportFileRequest()
-      .setDestination(new Destination().setPath('/testflow/imported/file_' + Date.now() + '.mp4').setAcl('public'))
-      .setSourceUrl(fileUrl);
+    const importFileRequest = new ImportFileRequest({
+      destination: new Destination({
+        acl: 'public',
+        path: '/testflow/imported/file_' + Date.now() + '.mp4'
+      }),
+      sourceUrl: fileUrl
+    });
 
-    const importComponent = new FlowComponent()
-      .setType('file.import')
-      .setSpecification(importFileRequest)
-      .addSuccessor('transcode');
+    const importComponent = new FlowComponent({
+      type: 'file.import',
+      specification: importFileRequest,
+      successors: [
+        'transcode'
+      ]
+    });
 
-    const transcodeSpecification = new TranscodeSpecification()
-      .setDestination(new Destination()
-        .setDirectory('/testflow/transcoded')
-        .setAcl('public')
-      ).setQualityRange(new QualityRange({
+    const transcodeSpecification = new TranscodeSpecification({
+      destination: new Destination({
+        acl: 'public',
+        directory: '/testflow/transcoded'
+      }),
+      qualityRange: new QualityRange({
         minimum: '240p',
         maximum: '1440p'
-      }));
+      })
+    });
 
-    const transcodeComponent = new FlowComponent()
-      .setType('av.transcode')
-      .setSpecification(transcodeSpecification)
-      .setSuccessors([]);
+    const transcodeComponent = new FlowComponent({
+      type: 'av.transcode',
+      specification: transcodeSpecification,
+      successors: []
+    });
 
-    const createFlowRequest = new CreateFlowRequest()
-      .setInvocation(invocation)
-      .addFlowComponent('import', importComponent)
-      .addFlowComponent('transcode', transcodeComponent);
-
+    const createFlowRequest = new CreateFlowRequest({
+      flow: {
+        import: importComponent,
+        transcode: transcodeComponent
+      },
+      invocation: invocation
+    });
 
     mediaPlatform.flowManager.createFlow(createFlowRequest)
       .then(data => {
@@ -853,13 +881,13 @@ const PATH_BASE = '/demo/';
 
     startLoading(fileImportButton);
 
-    const importFileRequest = new ImportFileRequest()
-      .setDestination(
-        new Destination()
-          .setPath('/testimport/file_' + Date.now() + '.mp4')
-          .setAcl('public')
-      )
-      .setSourceUrl(fileUrl);
+    const importFileRequest = new ImportFileRequest({
+      destination: new Destination({
+        acl: 'public',
+        path: '/testimport/file_' + Date.now() + '.mp4'
+      }),
+      sourceUrl: fileUrl
+    });
 
 
     mediaPlatform.fileManager.importFile(importFileRequest)

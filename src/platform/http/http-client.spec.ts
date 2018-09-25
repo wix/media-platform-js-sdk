@@ -1,8 +1,7 @@
+import {expect} from 'chai';
 import * as nock from 'nock';
 import {sandbox as sinonSandbox} from 'sinon';
-import {expect} from 'chai';
 import {createHTTPClient, HTTPClient} from './http-client';
-import {Token} from '../authentication/token';
 
 describe('HTTP client', () => {
   const domain = 'https://manager.com';
@@ -38,12 +37,16 @@ describe('HTTP client', () => {
         response: 'ok'
       }));
 
-    httpClient.request('POST', `${domain}${uri}`, {}, undefined, (error, response) => {
-      expect(response).to.deep.equal({
-        response: 'ok'
-      });
-      done();
-    })
+    httpClient.post(`${domain}${uri}`, {})
+      .then(
+        (response) => {
+          expect(response).to.deep.equal({
+            response: 'ok'
+          });
+
+          done();
+        }
+      );
   });
 
   it('should send post request with body', (done) => {
@@ -56,30 +59,38 @@ describe('HTTP client', () => {
         response: 'ok-post-11'
       }));
 
-    httpClient.request('POST', `${domain}${uri}`, {
+    httpClient.post(`${domain}${uri}`, {
       testPost: 11
-    }, undefined, (error, response) => {
-      expect(response).to.deep.equal({
-        response: 'ok-post-11'
-      });
-      done();
     })
+      .then(
+        (response) => {
+          expect(response).to.deep.equal({
+            response: 'ok-post-11'
+          });
+          done();
+        }
+      );
   });
 
   it('should send get request', (done) => {
     const uri = '/_api/test-get';
+
     apiServer
       .get(uri)
       .reply(200, JSON.stringify({
         response: 'ok'
       }));
 
-    httpClient.request('GET', `${domain}${uri}`, {}, undefined, (error, response) => {
-      expect(response).to.deep.equal({
-        response: 'ok'
-      });
-      done();
-    })
+    httpClient.get(`${domain}${uri}`)
+      .then(
+        (response) => {
+          expect(response).to.deep.equal({
+            response: 'ok'
+          });
+
+          done();
+        }
+      );
   });
 
   it('should send get request with query', (done) => {
@@ -91,17 +102,20 @@ describe('HTTP client', () => {
         response: 'ok-get-11'
       }));
 
-    httpClient.request(
-      'GET',
+    httpClient.get(
       `${domain}${uri}`,
-      {test: 11},
-      undefined,
-      (error, response) => {
-        expect(response).to.deep.equal({
-          response: 'ok-get-11'
-        });
-        done();
-      })
+      {
+        test: 11
+      }
+    )
+      .then(
+        (response) => {
+          expect(response).to.deep.equal({
+            response: 'ok-get-11'
+          });
+          done();
+        }
+      );
   });
 
   it('should send put request', (done) => {
@@ -113,12 +127,16 @@ describe('HTTP client', () => {
         response: 'ok'
       }));
 
-    httpClient.request('PUT', `${domain}${uri}`, {}, undefined, (error, response) => {
-      expect(response).to.deep.equal({
-        response: 'ok'
-      });
-      done();
-    })
+    httpClient.put(`${domain}${uri}`)
+      .then(
+        (response) => {
+          expect(response).to.deep.equal({
+            response: 'ok'
+          });
+
+          done();
+        }
+      );
   });
 
   it('should send put request with body', (done) => {
@@ -132,14 +150,18 @@ describe('HTTP client', () => {
         response: 'ok-put-11'
       }));
 
-    httpClient.request('PUT', `${domain}${uri}`, {
+    httpClient.put(`${domain}${uri}`, {
       testPost: 11
-    }, undefined, (error, response) => {
-      expect(response).to.deep.equal({
-        response: 'ok-put-11'
-      });
-      done();
     })
+      .then(
+        (response) => {
+          expect(response).to.deep.equal({
+            response: 'ok-put-11'
+          });
+
+          done();
+        }
+      );
   });
 
   it('should do \'GET\' request on get()', async () => {
@@ -320,8 +342,8 @@ describe('HTTP client', () => {
 
     httpClient.addAuthToUrl(uri)
       .then((response) => {
-        expect(response).to.include("http://example.com/_api/test-post?Authorization=");
-          done();
+        expect(response).to.include('http://example.com/_api/test-post?Authorization=');
+        done();
       });
   });
 
@@ -331,8 +353,8 @@ describe('HTTP client', () => {
 
     httpClient.addAuthToUrl(uri)
       .then((response) => {
-        expect(response).to.include("http://example.com/_api/test-post?query=value&Authorization=");
-          done();
+        expect(response).to.include('http://example.com/_api/test-post?query=value&Authorization=');
+        done();
       });
   });
 
@@ -341,8 +363,8 @@ describe('HTTP client', () => {
 
     httpClient.addAuthToUrl(uri)
       .then((response) => {
-        expect(response).to.not.include("?Authorization=shouldnotbehere");
-        expect(response).to.include("http://example.com/_api/test-post?Authorization=");
+        expect(response).to.not.include('?Authorization=shouldnotbehere');
+        expect(response).to.include('http://example.com/_api/test-post?Authorization=');
         done();
       });
   });

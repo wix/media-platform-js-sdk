@@ -1,5 +1,3 @@
-import {deprecated} from 'core-decorators';
-
 import {Token} from '../../../platform/authentication/token';
 import {IHTTPClient, RequestCallback} from '../../../platform/http/http-client';
 import {AuthorizationHeader, TokenClaims} from '../../../types/media-platform/media-platform';
@@ -76,7 +74,7 @@ export class HTTPClient implements IHTTPClient {
               if (!(request.status === 200 || request.status === 201)) {
                 if (request.status === 401) {
                   if (!noRetry) {
-                    this.request(httpMethod, url, params, token, callback, true);
+                    this._request(httpMethod, url, params, token, callback, true);
                     return;
                   }
                 }
@@ -94,7 +92,7 @@ export class HTTPClient implements IHTTPClient {
               if (request.status === 403 || request.status === 401) {
                 this.authorizationHeader = null;
                 if (request.status === 401 && !noRetry) {
-                  this.request(httpMethod, url, params, token, callback, true);
+                  this._request(httpMethod, url, params, token, callback, true);
                   return;
                 }
               }
@@ -123,20 +121,6 @@ export class HTTPClient implements IHTTPClient {
           return Promise.reject(error);
         }
       );
-  }
-
-  /**
-   * @deprecated use one of get/post/put methods
-   * @param {string} httpMethod
-   * @param {string} url
-   * @param {{}} params
-   * @param {string?} token
-   * @param {function(Error, *)} callback
-   * @param noRetry
-   */
-  @deprecated('use one of get/post/put methods')
-  request(httpMethod: string, url: string, params: any, token: Token | undefined, callback: RequestCallback, noRetry = false) {
-    this._request(httpMethod, url, params, token, callback, noRetry);
   }
 
   getAuthorizationHeader(): Promise<AuthorizationHeader> {

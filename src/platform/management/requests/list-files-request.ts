@@ -1,5 +1,5 @@
-import {deprecated} from 'core-decorators';
 import {FileType, OrderDirection} from '../../../types/media-platform/media-platform';
+
 
 export interface IListFilesRequest {
   nextPageToken?: string;
@@ -30,53 +30,5 @@ export class ListFilesRequest implements IListFilesRequest {
     this.orderBy = data.orderBy || null;
     this.orderDirection = data.orderDirection || null;
     this.type = data.type || null;
-  }
-
-  /**
-   * @param nextPageToken
-   * @returns {ListFilesRequest}
-   */
-  @deprecated('pass data to constructor instead')
-  setNextPageToken(nextPageToken: string): this {
-    this.nextPageToken = nextPageToken;
-    return this;
-  }
-
-  /**
-   * @param pageSize
-   * @returns {ListFilesRequest}
-   */
-  @deprecated('pass data to constructor instead')
-  setPageSize(pageSize: number): this {
-    this.pageSize = pageSize;
-    return this;
-  }
-
-  /**
-   * @param orderBy name or date
-   * @returns {ListFilesRequest}
-   */
-  @deprecated('pass data to constructor instead')
-  setOrderBy(orderBy: string): this {
-    this.orderBy = orderBy;
-    return this;
-  }
-
-  /**
-   * @returns {ListFilesRequest}
-   */
-  @deprecated('pass data to constructor instead')
-  ascending(): this {
-    this.orderDirection = OrderDirection.ASC;
-    return this;
-  }
-
-  /**
-   * @returns {ListFilesRequest}
-   */
-  @deprecated('pass data to constructor instead')
-  descending(): this {
-    this.orderDirection = OrderDirection.DES;
-    return this;
   }
 }
