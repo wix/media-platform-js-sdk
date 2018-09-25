@@ -2,6 +2,7 @@ import {EventEmitter} from 'eventemitter3';
 
 import {UploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
 import {FileDescriptor} from '../../../platform/management/metadata/file-descriptor';
+import {ACL} from '../../../types/media-platform/media-platform';
 import {UploadStartedEvent} from './events/upload-started-event';
 import {UploadProgressEvent} from './events/upload-progress-event';
 import {UploadSuccessEvent} from './events/upload-success-event';
@@ -17,6 +18,12 @@ export enum UploadJobState {
   RUNNING = 'running',
 }
 
+export interface IUploadJob {
+  path?: string;
+  file?: File;
+  uploadFileRequest?: UploadFileRequest;
+}
+
 /**
  * @param {string?} path
  * @param {File?} file
@@ -27,36 +34,16 @@ export enum UploadJobState {
 export class UploadJob extends EventEmitter {
   public state: UploadJobState = UploadJobState.STOPPED;
   private request: XMLHttpRequest;
+  private file;
+  private path;
+  private uploadFileRequest;
 
-  constructor(public path: string | undefined = undefined, public file?: File, public uploadFileRequest?: UploadFileRequest) {
+  constructor({ path, file, uploadFileRequest }: IUploadJob) {
     super();
-  }
 
-  /**
-   * @param {string} path
-   * @returns {UploadJob}
-   */
-  setPath(path: string): this {
-    this.path = path;
-    return this;
-  }
-
-  /**
-   * @param {File} file
-   * @returns {UploadJob}
-   */
-  setFile(file: File): this {
     this.file = file;
-    return this;
-  }
-
-  /**
-   * @param {UploadFileRequest} uploadFileRequest
-   * @returns {UploadJob}
-   */
-  setUploadFileRequest(uploadFileRequest: UploadFileRequest): this {
+    this.path = path;
     this.uploadFileRequest = uploadFileRequest;
-    return this;
   }
 
   /**
@@ -68,23 +55,29 @@ export class UploadJob extends EventEmitter {
       console.warn('job already running');
       return this;
     }
+
     if (!this.file) {
       throw Error('no file');
     }
+
     this.state = UploadJobState.RUNNING;
 
-    let acl = 'public';
+    let acl = ACL.PUBLIC;
+
     if (this.uploadFileRequest && this.uploadFileRequest.acl) {
       acl = this.uploadFileRequest.acl;
     }
 
-    const e = new UploadStartedEvent(this);
-    this.emit(e.name, e);
-    const uploadUrlRequest = new UploadUrlRequest()
-      .setPath(this.path as string)
-      .setAcl(acl)
-      .setMimeType(this.file.type)
-      .setSize(this.file.size);
+    const event = new UploadStartedEvent(this);
+    this.emit(event.name, event);
+
+    const uploadUrlRequest = new UploadUrlRequest({
+      acl: acl,
+      mimeType: this.file.type,
+      path: this.path,
+      size: this.file.size
+    });
+
     fileUploader
       .getUploadUrl(uploadUrlRequest)
       .then(response => {
@@ -186,4 +179,3 @@ export class UploadJob extends EventEmitter {
     }
   }
 }
-

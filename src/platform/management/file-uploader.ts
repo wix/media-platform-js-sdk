@@ -103,14 +103,12 @@ export class FileUploader implements IFileUploader {
     let uploadUrlRequest: UploadUrlRequest | undefined = undefined;
 
     if (uploadRequest) {
-      uploadUrlRequest = new UploadUrlRequest()
-        .setMimeType(uploadRequest.mimeType)
-        .setPath(path)
-        .setAcl(uploadRequest.acl);
-
-      if (size !== null) {
-        uploadUrlRequest.setSize(size);
-      }
+      uploadUrlRequest = new UploadUrlRequest({
+        acl: uploadRequest.acl,
+        mimeType: uploadRequest.mimeType,
+        path: path,
+        size: size
+      });
     }
 
     return Promise.race([this.getUploadUrl(uploadUrlRequest), streamErrorPromise])

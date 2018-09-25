@@ -1,7 +1,7 @@
-import {IPublishEndpoint, PublishEndpoint} from './publish-endpoint';
-import {IPlaybackUrl, PlaybackUrl} from './playback-url';
 import {Dvr, IDvr} from './dvr';
-import {Geo, IGeo} from "./geo";
+import {Geo, IGeo} from './geo';
+import {IPlaybackUrl, PlaybackUrl} from './playback-url';
+import {IPublishEndpoint, PublishEndpoint} from './publish-endpoint';
 
 
 export interface ILiveStream {
@@ -70,4 +70,3 @@ export class LiveStream {
     this.dateUpdated = data.dateUpdated;
   }
 }
-

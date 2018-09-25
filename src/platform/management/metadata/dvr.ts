@@ -1,33 +1,14 @@
-import {Destination, IDestination} from '../job/destination';
-import {deprecated} from 'core-decorators';
+import {Destination} from '../job/destination';
+
 
 export interface IDvr {
-  destination: IDestination;
+  destination: Destination;
 }
 
 export class Dvr {
-  public destination: Destination | undefined;
+  public destination: Destination;
 
   constructor(data: IDvr) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IDvr) {
     this.destination = new Destination(data.destination);
-  }
-
-  /**
-   * @deprecated pass data to constructor instead
-   * @param {Destination} destination
-   * @returns {this}
-   */
-  @deprecated('pass data to constructor instead')
-  setDestination(destination: Destination): this {
-    this.destination = destination;
-    return this;
   }
 }

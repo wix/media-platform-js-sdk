@@ -8,15 +8,16 @@ export default function (app) {
 
   app.get('/media-platform/file/upload/url', function (req, res) {
     const fileManager = mediaPlatform.fileManager;
-    fileManager.getUploadUrl(null, function (error, uploadCredentials) {
 
-      if (error) {
-        res.status(500).send(error.message);
-        return;
-      }
-
-      res.send(uploadCredentials);
-    });
+    fileManager.getUploadUrl()
+      .then(
+        (uploadCredentials) => {
+          res.send(uploadCredentials);
+        },
+        (error) => {
+          res.status(500).send(error.message);
+        }
+      );
   });
 
   app.get('/media-platform/file/upload', function (req, res) {
@@ -41,15 +42,17 @@ export default function (app) {
     const listFilesRequest = new ListFilesRequest({
       pageSize: 3
     });
-    fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
 
-      if (error) {
-        res.status(500).send(error.message);
-        return;
-      }
-
-      res.send(listFilesResponse);
-    });
+    fileManager.listFiles('/demo', listFilesRequest)
+      .then(
+        (listFilesResponse) => {
+          res.send(listFilesResponse);
+        },
+        (error) => {
+          res
+            .status(500)
+            .send(error.message);
+        });
   });
 
   app.get('/media-platform/file/:id/metadata', function (req, res) {

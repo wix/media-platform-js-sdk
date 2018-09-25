@@ -107,11 +107,13 @@ res.send(header);</code></pre>
                             <pre><code class="language-javascript">var ImportFileRequest = require('media-platform-js-sdk').file.ImportFileRequest;
 var Destination = require('media-platform-js-sdk').file.Destination;
 
-var importFileRequest = new ImportFileRequest()
-            .setSourceUrl('https://static.wixstatic.com/media/f31d7d0cfc554aacb1d737757c8d3f1b.jpg')
-            .setDestination(new Destination()
-                .setPath('/demo/import/' + rand + '.image.jpg')
-                .setAcl('public'));
+var importFileRequest = new ImportFileRequest({
+  destination: {
+    acl: 'public',
+    path: '/demo/import/' + rand + '.image.jpg'
+  },
+  sourceUrl: 'https://static.wixstatic.com/media/f31d7d0cfc554aacb1d737757c8d3f1b.jpg'
+});
 
 fileManager.importFile(importFileRequest)
   .then(
@@ -138,14 +140,21 @@ fileManager.importFile(importFileRequest)
                 <h4>List files under a specific directory</h4>
                 <div id="list-code">
                     <div class="highlight">
-                            <pre><code class="language-javascript">var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
+                        <pre><code class="language-javascript">var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
 
-var listFilesRequest = new ListFilesRequest().setPageSize(3);
-
-fileManager.listFiles('/demo', listFilesRequest, function (error, listFilesResponse) {
-    // do something
+var listFilesRequest = new ListFilesRequest({
+  pageSize: 3
 });
-</code></pre>
+
+fileManager.listFiles('/demo', listFilesRequest)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
                     </div>
                     <div class="demo-group">
                         <div class="executable-button">

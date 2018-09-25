@@ -14,11 +14,18 @@ Below you'll find a step-by-step guide.
 ```javascript
 var CreateArchiveRequest = require("media-platform-js-sdk").archive.CreateArchiveRequest;
 
-var createArchiveRequest = new CreateArchiveRequest()
-                    .setSources(sources)
-                    .addSource(new Source().setFileId("file-id"))
-                    .setDestination(new Destination().setPath("/fish/file.zip").setAcl("public"))
-                    .setArchiveType("zip");
+var createArchiveRequest = new CreateArchiveRequest({
+  archiveType: 'zip',
+  destination: new Destination({
+    acl: "public",
+    path: "/fish/file.zip"
+  }),
+  sources: [
+    new Source({
+      fileId: 'file-id'
+    })
+  ]
+});
 
 mediaPlatform.archiveManager.createArchive(createArchiveRequest);
 ```
@@ -28,10 +35,14 @@ The files that you wish to archive can be represented by either their file ID or
 Create an array of `Source` and add the files you wish to archive to the list, as follows:
 
 ```javascript
-var sources = [];
-
-sources.push(new Source().setFileId(fileId));
-sources.push(new Source().setPath(path));
+var sources = [
+  new Source({
+    fileId: fileId
+  }),
+  new Source({
+    path: path
+  })
+];
 //...
 ```
 __Parameters__:
@@ -40,30 +51,43 @@ __Parameters__:
 
 ### `Destination` - Set the Archive File's Destination
 Define the directory to which the archive file will be uploaded, and whether it is private or public.
+Use directory or path.
 
 ```javascript
-var destination = new Destination()
-        .setDirectory(directory)
-        .setAcl(acl);
+var destination = new Destination({
+  acl: acl,
+  directory: directory
+});
 ```
+
+or
+
+```javascript
+var destination = new Destination({
+  acl: acl,
+  path: path
+});
+```
+
 __Parameters__:
-- `directory` (string) - the destination directory (example: `"/to/here/"`).  
 - `acl` (string) - can be either `"public"` or `"private"`.
+- `directory` (string) - the destination directory (example: `"/to/here/"`).
+- `path` (string) - the destination path (example: `"/destination/file.ext"`).  
 
 
 ### `CreateArchiveRequest` - Create the Archive Request
 Now create a _createArchiveRequest_, that will be passed as a parameter to the `createArchive` method later.
 
-```javascript
-var createArchiveRequest = new CreateArchiveRequest()
-        .setSources(sources)
-        .addSource(source)
-        .setDestination(destination)
-        .setArchiveType(archiveType);
-```     
+```typescript
+var createArchiveRequest = new CreateArchiveRequest({
+  sources: sources,
+  destination: destination,
+  archiveType: archiveType
+});
+```
+
   __Parameters__:
-- `sources` (array\<Source>) - contains the files to be archived, as described above.  
-- `source` (Source) - the file to be added, as described above. 
+- `sources` (array of <Source>) - contains the files to be archived, as described above.  
 - `destination` (Destination) - an object that defines the archive file's destination path and ACL.
 - `archiveType` (string) - the required file extension of the archive file (example: `"zip"`).
       
@@ -93,13 +117,18 @@ Below you'll find a step-by-step guide.
 
 ```javascript
 
-var ExtractArchiveRequest = require("media-platform-js-sdk").archive.ExtractArchiveRequest;
+var ExtractArchiveRequest = require('media-platform-js-sdk').archive.ExtractArchiveRequest;
 
-var extractArchiveRequest = new ExtractArchiveRequest()
-                    .setSource(new Source().setFileId("file-id"))
-                    .setDestination(new Destination().setDirectory("/porcupines/porcupine_images/").setAcl("public"))
-                    .setExtractedFilesReport(extractedFilesReport);
-                    
+var extractArchiveRequest = new ExtractArchiveRequest({
+  destination: new Destination({
+    acl: 'public',
+    directory: '/porcupines/porcupine_images/'
+  }),
+  source: new Source({
+    fileId: 'file-id'
+  })
+});
+
 mediaPlatform.archiveManager.extractArchive(extractArchiveRequest)
   .then(
     response => {},
@@ -111,10 +140,14 @@ mediaPlatform.archiveManager.extractArchive(extractArchiveRequest)
 The archive file that you wish to extract can be represented by either its file ID or its path. 
 Create a `Source` and specify the file you wish to extract:
 
-```javascript
-var source = new Source().setFileId(fileId);
+```typescript
+var source = new Source({
+  fileId: fileId
+});
 // OR
-var source = new Source().setPath(path);
+var source = new Source({
+  path: path
+});
 ```
 
 __Parameters__:
@@ -123,47 +156,42 @@ __Parameters__:
 
 ### `Destination` - Set the Extracted Files' Destination
 Define the directory to which the extracted files will be uploaded, and whether they are private or public.
+Use directory or path.
 
 ```javascript
-var destination = new Destination()
-            .setDirectory(directory)
-            .setAcl(acl);
+var destination = new Destination({
+  acl: acl,
+  directory: directory
+});
+```
+
+or
+
+```javascript
+var destination = new Destination({
+  acl: acl,
+  path: path
+});
 ```
 __Parameters__:
-- `directory` (string) - the destination directory (example: `"/this/directory/"`).  
 - `acl` (string) - can be either `"public"` or `"private"`.
+- `directory` (string) - the destination directory (example: `"/to/here/"`).
+- `path` (string) - the destination path (example: `"/destination/file.ext"`).
 
-### `ExtractedFilesReport` - Set an Extracted Files Report
-If you wish to create an extracted files report, create an `ExtractedFilesReport` and pass it as a parameter to the `setExtractedFilesReport` method:
-
-```javascript
-var ExtractedFilesReport = require("media-platform-js-sdk").archive.ExtractedFilesReport;
-
-var extractedFilesReport = new ExtractedFilesReport()
-                    .setDestination(destination)
-                    .setFormat(format);
-```
-__Parameters__:
-- `destination` (Destination) - sets the destination path and ACL of the report file. 
-The path and ACL may be different than those of the extracted files.
-- `format` (string) - the file extension of the report, either "zip" or "csv". 
 
 ### `ExtractArchiveRequest`- Create the Extract Archive Request
 Create an `ExtractArchiveRequest` that will be passed as a parameter to the `extractArchive` method later.  
 
 ```javascript
-var extractArchiveRequest = new ExtractArchiveRequest()
-        .setSource(source)
-        .setDestination(destination)
-        .setExtractedFilesReport(extractedFilesReport);
+var extractArchiveRequest = new ExtractArchiveRequest({
+  source: source,
+  destination: destination
+});
 ```
-
->Only call setExtractedFilesReport() if you require a report and have defined one.
 
   __Parameters__:
 - `source` (Source) - specifies the archive file to be extracted.
 - `destination` (Destination) - sets the destination path of the extracted files. 
-- `extractedFilesReport` (ExtractedFilesReport) - an object that defines the report file's destination path and format.
 
 
 ### Extracting the Archive

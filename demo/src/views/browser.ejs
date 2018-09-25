@@ -53,17 +53,23 @@
         <h2 id="FileManagementApi">File Management API
             <h4>Import a file from URL (any mime type)</h4>
             <div class="highlight">
-                    <pre><code class="language-javascript">var importFileRequest = new ImportFileRequest()
-     .setDestination(
-        new Destination()
-            .setPath("/destination/file.ext")
-            .setAcl("public")
-     ).setSourceUrl(fileUrl);
+                    <pre><code class="language-javascript">var importFileRequest = new ImportFileRequest({
+  destination: {
+    acl: "public",
+    path: "/destination/file.ext"
+  },
+  sourceUrl: fileUrl
+});
 
-
- mediaPlatform.fileManager.importFile(importFileRequest, function(error, data) {
-    // handle result
- });</code></pre>
+mediaPlatform.fileManager.importFile(importFileRequest)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
             </div>
             <div class="demo-group"><input class="text-input"
                                            id="file-import-id-input"
@@ -105,14 +111,13 @@
             </div>
             <h4>Queued file upload (any MIME type)</h4>
             <div class="highlight">
-                    <pre><code class="language-javascript">var uploadJob = new MP.upload.UploadJob();
-
-uploadJob
-    .setPath(path)
-    .setFile(file)
-    .on('upload-success', function (response) {
-        // handle success
-    });
+                    <pre><code class="language-javascript">var uploadJob = new MP.upload.UploadJob({
+  file,
+  path
+})
+  .on('upload-success', function (response) {
+    // handle success
+  });
 
 mediaPlatform.fileManager.queueFileUpload(uploadJob);</code></pre>
             </div>
@@ -131,7 +136,9 @@ mediaPlatform.fileManager.queueFileUpload(uploadJob);</code></pre>
             </div>
             <h4>Retrieve a list of uploaded files</h4>
             <div class="highlight">
-                    <pre><code class="language-javascript">var listFileRequest = new MP.file.ListFilesRequest().setPageSize(3);
+                <pre><code class="language-javascript">var listFileRequest = new MP.file.ListFilesRequest({
+  pageSize: 3
+});
 
 mediaPlatform.fileManager.listFiles(path, listFilesRequest)
   .then(
@@ -364,19 +371,30 @@ mediaPlatform.archiveManager.extractArchive(extractArchiveRequest)
         <h2 id="TranscodeApi">Transcode API</h2>
         <H4>Transcode Video</H4>
         <div class="highlight">
-            <pre><code class="language-javascript">var source = new Source();
-source.fileId = fileId;
+            <pre><code class="language-javascript">var source = new Source({
+  fileId: fileId
+});
 
-var transcodeSpecification = new TranscodeSpecification();
-transcodeSpecification.destination = new Destination()
-    .setDirectory("/test/output")
-    .setAcl("public");
+var transcodeSpecification = new TranscodeSpecification({
+  destination: new Destination({
+    acl: "public",
+    directory: "/test/output"
+  }),
+  qualityRange: new QualityRange({
+    minimum: '240p',
+    maximum: '1440p'
+  });
+});
 
-transcodeSpecification.qualityRange = new QualityRange({minimum: "240p", maximum: "1440p"});
 
-var transcodeRequest = new TranscodeRequest()
-    .addSource(source)
-    .addSpecification(transcodeSpecification);
+var transcodeRequest = new TranscodeRequest({
+  sources: [
+    source
+  ],
+  specifications: [
+    transcodeSpecification
+  ]
+});
 
 mediaPlatform.avManager.transcodeVideo(transcodeRequest)
   .then(
@@ -402,21 +420,27 @@ mediaPlatform.avManager.transcodeVideo(transcodeRequest)
         </div>
         <H4>Extract Poster from Video</H4>
         <div class="highlight">
-            <pre><code class="language-javascript">var source = new Source();
-source.fileId = fileId;
+            <pre><code class="language-javascript">var source = new Source({
+  fileId: fileId
+});
 
-var extractPosterSpecification = new ExtractPosterSpecification();
-extractPosterSpecification.destination = new Destination()
-  .setDirectory("/test/output")
-  .setAcl("public");
+var extractPosterSpecification = new ExtractPosterSpecification({
+  destination: new Destination({
+    acl: "public",
+    directory: "/test/output"
+  }),
+  format: 'jpg',
+  second: 1
+});
 
-extractPosterSpecification.format = "jpg";
-
-extractPosterSpecification.second = 1;
-
-var extractPosterRequest = new ExtractPosterRequest()
-  .addSource(source)
-  .addSpecification(extractPosterSpecification);
+var extractPosterRequest = new ExtractPosterRequest({
+  sources: [
+    source
+  ],
+  specifications: [
+    extractPosterSpecification
+  ]
+});
 
 mediaPlatform.avManager.extractPoster(extractPosterRequest)
   .then(
@@ -443,24 +467,28 @@ mediaPlatform.avManager.extractPoster(extractPosterRequest)
         </div>
         <H4>Extract Storyboard from Video</H4>
         <div class="highlight">
-            <pre><code class="language-javascript">var source = new Source();
-source.fileId = fileId;
+            <pre><code class="language-javascript">var source = new Source({
+  fileId: fileId
+});
 
-var extractStoryboardSpecification = new ExtractStoryboardSpecification();
-extractStoryboardSpecification.destination = new Destination()
-    .setDirectory("/test/output")
-    .setAcl("public");
+var extractStoryboardSpecification = new ExtractStoryboardSpecification({
+  destination: {
+    acl: "public",
+    directory: "/test/output"
+  },
+  format: "jpg",
+  columns: 6,
+  rows: 4,
+  tileWidth: 100,
+  tileHeight: 40
+});
 
-extractStoryboardSpecification.format = "jpg";
-
-extractStoryboardSpecification.columns = 6;
-extractStoryboardSpecification.rows = 4;
-extractStoryboardSpecification.tileWidth = 100;
-extractStoryboardSpecification.tileHeight = 40;
-
-var extractStoryboardRequest = new ExtractStoryboardRequest()
-    .addSource(source)
-    .addSpecification(extractStoryboardSpecification);
+var extractStoryboardRequest = new ExtractStoryboardRequest({
+  source: source,
+  specifications: [
+    extractStoryboardSpecification
+  ]
+});
 
 mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest)
   .then(
@@ -488,39 +516,63 @@ mediaPlatform.avManager.extractStoryboard(extractStoryboardRequest)
         <h2 id="FlowManagerApi">Flow Manager API</h2>
         <H4>Invoke Flow on Remote Url</H4>
         <div class="highlight">
-            <pre><code class="language-javascript">var invocation = new Invocation()
-    .addEntryPoint("import");
-
-var importFileRequest = new ImportFileRequest()
-    .setDestination(new Destination().setPath("/testflow/imported/file_" + Date.now() + ".mp4").setAcl("public"))
-    .setSourceUrl(fileUrl);
-
-var importComponent = new FlowComponent()
-    .setType('file.import')
-    .setSpecification(importFileRequest)
-    .addSuccessor('transcode');
-
-var transcodeSpecification = new TranscodeSpecification()
-    .setDestination(new Destination()
-        .setDirectory("/testflow/transcoded")
-        .setAcl("public")
-).setQualityRange(new QualityRange({minimum: "240p", maximum: "1440p"} ));
-
-var transcodeComponent = new FlowComponent()
-.setType('av.transcode')
-    .setSpecification(transcodeSpecification)
-    .setSuccessors([]);
-
-var createFlowRequest = new CreateFlowRequest()
-    .setInvocation(invocation)
-    .addFlowComponent("import", importComponent)
-    .addFlowComponent("transcode", transcodeComponent);
-
-
-mediaPlatform.flowManager.createFlow(createFlowRequest, function(error, data) {
-    // handle success
+            <pre><code class="language-javascript">var invocation = new Invocation({
+  entryPoints: [
+    'import'
+  ]
 });
-</code></pre>
+
+var importFileRequest = new ImportFileRequest({
+  destination: new Destination({
+    acl: "public",
+    path: "/testflow/imported/file_" + Date.now() + ".mp4"
+  }),
+  sourceUrl: fileUrl
+});
+
+var importComponent = new FlowComponent({
+  type: 'file.import',
+  specification: importFileRequest,
+  successors: [
+    'transcode'
+  ]
+});
+
+var transcodeSpecification = new TranscodeSpecification({
+  destination: new Destination({
+    acl: "public",
+    directory: "/testflow/transcoded"
+  }),
+  qualityRange: new QualityRange({
+    minimum: "240p",
+    maximum: "1440p"
+  })
+});
+
+var transcodeComponent = new FlowComponent({
+  type: 'av.transcode',
+  specification: transcodeSpecification,
+  successors: []
+});
+
+var createFlowRequest = new CreateFlowRequest({
+  flow: {
+    import: importComponent,
+    transcode: transcodeComponent
+  },
+  invocation: invocation
+});
+
+
+mediaPlatform.flowManager.createFlow(createFlowRequest)
+  .then(
+    (response) => {
+      // handle success
+    },
+    (error) => {
+      // handle error
+    }
+  );</code></pre>
         </div>
         <div class="demo-group"><input class="text-input"
                                        id="flow-manager-id-input"

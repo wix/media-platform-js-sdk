@@ -54,7 +54,6 @@ The job's `Specification` is casted to this object when `job.type === urn:job:ar
 |----------------------|----------------------| ------------------------------------------------------|
 | source               | Source               | The source archive file that is extracted             |
 | destination          | Destination          | The destination path to which the files are extracted |
-| extractedFilesReport | ExtractedFilesReport | The [extracted files report](extracted-files-report) (`null` if a report wasn't requested)           |
 
 
 
@@ -109,14 +108,15 @@ You can search for jobs based on their issuer, file sources, type, status and mo
 Following is a code example - searching for all of the successful transcoding jobs in which the output was uploaded to /video/output/porcupines/.
  Below is the full reference.
 
-```javascript
-const searchJobsRequest = new SearchJobsRequest()
-		.setPageSize(40)
-		.setOrderBy("date")
-		.descending()
-		.setType("urn:job:av.transcode")
-		.setStatus("success")
-		.setPath("/video/output/porcupines/");
+```typescript
+const searchJobsRequest = new SearchJobsRequest({
+  pageSize: 40,
+  orderBy: 'date',
+  orderDirection: OrderDirection.ASC, // 'asc' or 'des'
+  type: 'urn:job:av.transcode',
+  status: 'success',
+  path: '/video/output/porcupines/'
+});
 
 jobManager.searchJobs(searchJobsRequest)
   .then(
@@ -131,22 +131,27 @@ jobManager.searchJobs(searchJobsRequest)
       return Promise.reject(error);
     } 
 );
-
 ```
+
+> You can choose between `OrderDirection.ASC` -  and `OrderDirection.DES` to define the list's order direction. 
+The list is provided in a descending order by default.
+
 
 #### `SearchJobsRequest` - Create the Search Request
 
-```javascript
-const searchJobsRequest = new SearchJobsRequest()
-		.setPageSize(pageSize)
-		.setOrderBy(orderBy)
-		.ascending()        // or .descending()
-		.setIssuer(issuer)
-		.setType(type)
-		.setStatus(status)
-		.setGroupId(groupId)
-		.setFileID(fileId)
-		.setPath(path);
+```typescript
+const searchJobsRequest = new SearchJobsRequest({
+  nextPageToken: nextPageToken,
+  pageSize: pageSize,
+  orderBy: orderBy,
+  orderDirection: OrderDirection.ASC, // 'asc' or 'des'
+  issuer: issuer,
+  type: type,
+  status: status,
+  groupId: groupId,
+  fileId: fileId,
+  path: path
+});
 ```
 
 
@@ -199,5 +204,3 @@ A successful job's result structure is
   }
 }
 ```
- 
-[extracted-files-report]: /archive-files#extractedfilesreport---set-an-extracted-files-report

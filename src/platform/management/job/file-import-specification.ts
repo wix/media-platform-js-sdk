@@ -1,8 +1,8 @@
-import {Destination, IDestination} from './destination';
+import {Destination} from './destination';
 
 export interface IFileImportSpecification {
   sourceUrl: string;
-  destination: IDestination;
+  destination: Destination;
 }
 
 export class FileImportSpecification implements IFileImportSpecification {
@@ -19,6 +19,6 @@ export class FileImportSpecification implements IFileImportSpecification {
    */
   private deserialize(data: IFileImportSpecification) {
     this.sourceUrl = data.sourceUrl;
-    this.destination = new Destination(data.destination);
+    this.destination = data.destination;
   }
 }

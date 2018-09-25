@@ -1,4 +1,3 @@
-import {deprecated} from 'core-decorators';
 import * as request from 'request-promise-native';
 import {URL} from 'url'
 
@@ -26,8 +25,6 @@ export interface HTTPRequestParams {
 export type RequestCallback<T = any> = (error: Error | null, response: T) => void;
 
 export interface IHTTPClient {
-  request(httpMethod: string, url: string, params: any, token: Token | undefined, callback: RequestCallback): void;
-
   get<T>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
 
   put<T>(url: string, params?: HTTPRequestParams, token?: Token | string): Promise<T>;
@@ -72,19 +69,6 @@ export class HTTPClient implements IHTTPClient {
       }
     );
 
-  }
-
-  /**
-   * @deprecated use one of get/post/put methods
-   * @param {string} httpMethod
-   * @param {string} url
-   * @param {Token | string?} token
-   * @param {*?} params
-   * @param {function(Error, *)} callback
-   */
-  @deprecated('use one of get/post/put methods')
-  request(httpMethod: string, url: string, params: any, token: Token | string | undefined, callback: RequestCallback) {
-    this._request(httpMethod, url, params, token, callback);
   }
 
   /**

@@ -13,18 +13,28 @@ that allows it to transcode videos and to upload files to the destination path.
 The following code example shows all the steps required for a video transcode request. 
 Below you'll find a step-by-step guide. 
  
-```javascript
-const transcodeSpecification = new TranscodeSpecification()
-                            .setDestination(new Destination()
-                                .setDirectory("/video/output/")
-                                .setAcl("public"))
-                            .setQualityRange(new QualityRange()
-                                .setMinimum("240p")
-                                .setMaximum("1440p"));
+```typescript
+const transcodeSpecification = new TranscodeSpecification({
+  destination: new Destination({
+    acl: ACL.PUBLIC, // 'public' or 'private'
+    directory: '/video/output/'
+  }),
+  qualityRange: new QualityRange({
+    minimum: '240p',                            
+    maximum: '1440p'
+  })
+});
 
-const transcodeRequest = new TranscodeRequest()
-                            .addSource(new Source().setPath("/video/porcupine_movie.mp4"))
-                            .addSpecification(transcodeSpecification);
+const transcodeRequest = new TranscodeRequest({
+  sources: [
+    new Source({
+      path: '/video/porcupine_movie.mp4'
+    })
+  ],
+  specifications: [
+    transcodeSpecification
+  ]
+});
 
 transcodeManager.transcodeVideo(transcodeRequest)
   .then(
@@ -43,11 +53,15 @@ transcodeManager.transcodeVideo(transcodeRequest)
 ## `Source` - Set Video Source
 Define what source video file you wish to transcode, either by its path:
 ```javascript
-const videoSource = new Source().setPath("/video/porcupine_movie.mp4");
+const videoSource = new Source({
+  path: '/video/porcupine_movie.mp4'
+});
 ```
 or by its file ID:
 ```javascript
-const videoSource = new Source().setFileId(fileId);
+const videoSource = new Source({
+  fileId: fileId
+});
 ```
 Both methods receive a string parameter and return the updated Source instance.
 
@@ -55,13 +69,15 @@ Both methods receive a string parameter and return the updated Source instance.
 Define the directory to which the transcoded video files will be uploaded, and whether they are private or public.
 
 ```javascript
-const destination = new Destination()
-                    .setDirectory(directory)
-                    .setAcl(acl);
+const destination = new Destination({
+  acl: acl,
+  directory: directory
+});
 ```
+
 #### Parameters:
-- `directory` (string) - the destination directory.  
 - `acl` (string) - can be either `"public"` or `"private"`.
+- `directory` (string) - the destination directory.  
 
 ## `QualityRange` - Set Quality Range  
 Specify the range of qualities to which the video will be transcoded. The supported qualities are:
@@ -72,9 +88,10 @@ For example, to create 480p, 720p and 1080p versions of your video, set the rang
 (the range limits are inclusive).
 
 ```javascript
-const qualityRange = new QualityRange()
-                            .setMinimum(minimum)
-                            .setMaximum(maximum);
+const qualityRange = new QualityRange({
+  minimum: minimum,                            
+  maximum: maximum
+});
 ```
 
 #### Parameters:
@@ -87,11 +104,13 @@ The job's `Specification` is casted to this object when `job.type === urn:job:av
 
 The parameters you define when creating a `TranscodeSpecification` instance are the ones that are sent in the HTTP request, as detailed in the [API documentation](https://support.wixmp.com/en/article/video-transcoding-5054232#video-specifications).  
 
-```javascript
-const specification = new TranscodeSpecification()
-                                    .setDestination(destination)
-                                    .setQualityRange(qualityRange)
+```typescript
+const specification = new TranscodeSpecification({
+  destination: destination,
+  qualityRange: qualityRange
+});
 ```
+
 #### Parameters:
 - `destination` ([Destination](/transcode-video#set-destination)) - 
 an object describing the directory to which the transcoded video files will be uploaded and their ACL.  
@@ -100,11 +119,17 @@ the range of qualities to which the video will be transcoded.
 
 ## `TranscodeRequest` - Create the Transcode Request
 
-```javascript
-const transcodeRequest = new TranscodeRequest()
-                                    .addSource(source)
-                                    .addSpecification(specification);
+```typescript
+const transcodeRequest = new TranscodeRequest({
+  sources: [
+    source
+  ],
+  specifications: [
+    specification
+  ]
+});
 ```
+
 #### Parameters:
 - `source` ([Source](/transcode-video#set-video-source)) - 
 the video file to be transcoded.  

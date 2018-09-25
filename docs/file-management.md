@@ -31,17 +31,18 @@ a `POST` request to that URL with the relevant file information.
 
 First, create an `UploadFileRequest`. This object defines the uploaded file's mime type and ACL.
 
-```javascript
+```typescript
 var UploadFileRequest = require('media-platform-js-sdk').file.UploadFileRequest;
 
-var uploadRequest = new UploadFileRequest().setMimeType(mimeType).setAcl(acl);
+var uploadRequest = new UploadFileRequest({
+  acl: acl,
+  mimeType: mimeType
+});
 ```
 __Parameters__:  
-   - `mimeType` (string): for example, `"image/jpeg"`. If the source file is provided by its path (and not as a stream or buffer), the mime type is determined automatically, 
-   so you don't have to call `setMimeType`.
+   - `mimeType` (string): for example, `"image/jpeg"`. If the source file is provided by its path (and not as a stream or buffer), the mime type is determined automatically, so you don't have to call `setMimeType`.
+   - `acl` (string): can be either `"private"` or `"public"` (default value is "public").
 
-   - `acl` (string): can be either `"private"` or `"public"` (default value is "public"). 
-   
 
 ### From Server
 You can provide the source file either by its path (string), or as a buffer or stream.  
@@ -68,11 +69,14 @@ __Parameters__:
     var fileUploadButton = document.getElementById('upload-button');
     var file = document.getElementById('file');
     var path = file.value.split("\\").pop();
-    
+
     // Optional:
     var UploadFileRequest = require('media-platform-js-sdk').file.UploadFileRequest;
-    var uploadRequest = new UploadFileRequest().setMimeType("image/jpeg").setAcl("private");    
-    
+    var uploadRequest = new UploadFileRequest({
+      acl: 'private',
+      mimeType: 'image/jpeg'
+    });
+
     fileUploadButton.addEventListener('click', function() {
         mediaPlatform.fileManager.uploadFile(path, file, uploadRequest)
             .on('upload-success', function(response) {
@@ -93,14 +97,16 @@ Creates a [job](https://support.wixmp.com/en/article/jobs) that imports an exist
 ```typescript
 const ImportFileRequest = require('media-platform-js-sdk').file.ImportFileRequest;
 
-const importFileRequest = new ImportFileRequest()
-    .setSourceUrl(url)
-    .setExternalAuthorization(new ExternalAuthorization()
-        .setHeaders(headers)
-        .addHeader(name, value))
-    .setDestination(new Destination().
-        .setPath(path)
-        .setAcl(acl));
+const importFileRequest = new ImportFileRequest({
+  externalAuthorization: new ExternalAuthorization({
+    headers: headers
+  }),
+  destination: new Destination({
+    acl: acl,
+    path: path
+  }),
+  sourceUrl: url
+});
 
 fileManager.importFile(importFileRequest: ImportFileRequest): Promise<Job<FileImportSpecification>>
 ```
@@ -146,18 +152,19 @@ __Parameters__:
 ## List Files in a Directory
 Retrieves a list of the files in the specified directory.
 First, create a `ListFilesRequest`, which determines the query's parameters, as follows:
-```javascript
-var ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
+```typescript
+const ListFilesRequest = require('media-platform-js-sdk').file.ListFilesRequest;
 
-var listFilesRequest = new ListFilesRequest()
-    .setNextPageToken(nextPageToken)
-    .setPageSize(pageSize)
-    .setOrderBy(orderBy)
-    .ascending();
+const listFilesRequest = new ListFilesRequest({
+  nextPageToken: nextPageToken,
+  orderBy: orderBy,
+  orderDirection: OrderDirection.ASC, // 'asc' or 'des'
+  pageSize: pageSize
+});
 ```
 
-> You can choose between calling `ascending()` and `descending()` to define the list's order direction. 
-The list is provided in a descending order by default.  
+> You can choose between `OrderDirection.ASC` and `OrderDirection.DES` to define the list's order direction. 
+The list is provided in a descending order by default.
 
 __Parameters__: 
 - `nextPageToken` (string) - optional. The next page cursor, as provided in a previous `listFiles` response.

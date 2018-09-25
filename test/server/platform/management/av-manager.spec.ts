@@ -155,8 +155,8 @@ describe('AV Manager', () => {
         }],
         specifications: [{
           destination: {
-            directory: '/test/output/',
-            acl: ACL.PUBLIC
+            acl: ACL.PUBLIC,
+            directory: '/test/output/'
           },
           format: 'jpg',
           second: 5
@@ -182,8 +182,8 @@ describe('AV Manager', () => {
         }],
         specifications: [{
           destination: {
-            directory: '/test/output/',
-            acl: ACL.PUBLIC
+            acl: ACL.PUBLIC,
+            directory: '/test/output/'
           },
           format: 'jpg',
           columns: 5,
