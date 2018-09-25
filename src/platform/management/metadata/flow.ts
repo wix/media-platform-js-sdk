@@ -1,5 +1,6 @@
-import {IInvocation, Invocation} from './invocation';
 import {FlowComponent, IFlowComponent} from './flow-component';
+import {IInvocation, Invocation} from './invocation';
+
 
 export interface IFlowItems {
   [key: string]: FlowComponent;
@@ -21,19 +22,11 @@ export class Flow implements IFlow {
   public flow: IFlowItems = {};
 
   constructor(data: IFlow) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IFlow) {
     this.id = data.id;
     this.invocation = new Invocation(data.invocation);
+
     for (const i in data.flow) {
       this.flow[i] = new FlowComponent(data.flow[i]);
     }
   }
 }
-

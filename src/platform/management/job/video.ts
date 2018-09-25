@@ -1,5 +1,3 @@
-import {deprecated} from 'core-decorators';
-
 import {VideoSpecification} from './video-specification';
 
 
@@ -12,17 +10,6 @@ export class Video {
 
   constructor(data: IVideo) {
     this.deserialize(data);
-  }
-
-  /**
-   * @deprecated pass data to constructor instead
-   * @param {VideoSpecification} specification
-   * @returns {this}
-   */
-  @deprecated('pass data to constructor instead')
-  public setSpecification(specification: VideoSpecification): this {
-    this.specification = specification;
-    return this;
   }
 
   /**

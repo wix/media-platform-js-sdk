@@ -48,12 +48,6 @@ describe('flow manager', function () {
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
 
     const createFlowRequest = new CreateFlowRequest({
-      invocation: {
-        sources: [{
-          path: '/to/here/file.mp4'
-        }],
-        entryPoints: ['import']
-      },
       flow: {
         import: {
           type: 'file.import',
@@ -78,7 +72,13 @@ describe('flow manager', function () {
             }
           }
         }
-      }
+      },
+      invocation: {
+        sources: [{
+          path: '/to/here/file.mp4'
+        }],
+        entryPoints: ['import']
+      },
     });
 
 

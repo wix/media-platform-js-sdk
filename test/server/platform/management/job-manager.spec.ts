@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import * as nock from 'nock';
 
+import {Destination} from '../../../../src';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {HTTPClient} from '../../../../src/platform/http/http-client';
@@ -50,11 +51,11 @@ describe('jobManager', () => {
             status: JobStatus.SUCCESS,
             specification: new FileImportSpecification({
               sourceUrl: 'string',
-              destination: {
+              destination: new Destination({
                 directory: 'string',
                 path: 'string',
                 acl: ACL.PUBLIC
-              }
+              })
             }),
             sources: [],
             result: {
@@ -87,7 +88,6 @@ describe('jobManager', () => {
 
     jobManager.getJobGroup('group-id')
       .then(data => {
-        console.log('data', data);
 
         expect(data).to.deep.equal([
           new Job({
@@ -98,11 +98,11 @@ describe('jobManager', () => {
             status: JobStatus.SUCCESS,
             specification: new FileImportSpecification({
               sourceUrl: 'string',
-              destination: {
+              destination: new Destination({
                 directory: 'string',
                 path: 'string',
                 acl: ACL.PUBLIC
-              }
+              })
             }),
             sources: [],
             result: {

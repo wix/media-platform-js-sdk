@@ -1,26 +1,21 @@
+import {ACL} from '../../../types/media-platform/media-platform';
+
+
+export interface IUploadFileRequest {
+  acl?: ACL | null;
+  mimeType?: string | null;
+}
+
 /**
  * Upload File Request
  * @doc UploadFileRequest
  */
 export class UploadFileRequest {
-  public mimeType: string = 'application/octet-stream';
-  public acl: string = 'public';
+  public acl?: ACL | null = ACL.PUBLIC;
+  public mimeType?: string | null = 'application/octet-stream';
 
-  /**
-   * @param mimeType
-   * @returns {UploadFileRequest}
-   */
-  setMimeType(mimeType: string): this {
-    this.mimeType = mimeType;
-    return this;
-  }
-
-  /**
-   * @param acl
-   * @returns {UploadFileRequest}
-   */
-  setAcl(acl: string): this {
-    this.acl = acl;
-    return this;
+  constructor(data: IUploadFileRequest) {
+    this.acl = data.acl;
+    this.mimeType = data.mimeType;
   }
 }

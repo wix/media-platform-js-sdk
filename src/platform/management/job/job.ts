@@ -28,6 +28,16 @@ export enum JobStatus {
   ERROR = 'error'
 }
 
+const specifications = {
+  'urn:job:archive.extract': ExtractArchiveSpecification,
+  'urn:job:archive.create': CreateArchiveSpecification,
+  'urn:job:av.transcode': TranscodeSpecification,
+  'urn:job:av.poster': ExtractPosterSpecification,
+  'urn:job:av.storyboard': ExtractStoryboardSpecification,
+  'urn:job:import.file': FileImportSpecification,
+  'urn:job:av.package': PackagingSpecification
+};
+
 export class Job<T> implements IJob<T> {
   public id: string;
   public type: string;
@@ -41,7 +51,25 @@ export class Job<T> implements IJob<T> {
   public specification: T | null;
 
   constructor(data: IJob<T>) {
-    this.deserialize(data);
+    this.id = data.id;
+    this.type = data.type;
+    this.issuer = data.issuer;
+    if (data.status) {
+      this.status = data.status;
+    }
+    this.groupId = data.groupId;
+    this.result = data.result;
+
+    if (typeof data.sources !== 'undefined') {
+      this.sources = data.sources.map((source) => {
+        return new Source(source);
+      });
+    }
+
+    const Specification = specifications[this.type];
+    this.specification = new Specification(data.specification);
+    this.dateCreated = data.dateCreated;
+    this.dateUpdated = data.dateUpdated;
   }
 
   /**
@@ -66,41 +94,5 @@ export class Job<T> implements IJob<T> {
    */
   public isError(): boolean {
     return this.status === JobStatus.ERROR;
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IJob<T>) {
-    this.id = data.id;
-    this.type = data.type;
-    this.issuer = data.issuer;
-    if (data.status) {
-      this.status = data.status;
-    }
-    this.groupId = data.groupId;
-    this.result = data.result;
-
-    if (typeof data.sources !== 'undefined') {
-      this.sources = data.sources.map((source) => {
-        return new Source(source);
-      });
-    }
-
-    const specifications = {
-      'urn:job:archive.extract': ExtractArchiveSpecification,
-      'urn:job:archive.create': CreateArchiveSpecification,
-      'urn:job:av.transcode': TranscodeSpecification,
-      'urn:job:av.poster': ExtractPosterSpecification,
-      'urn:job:av.storyboard': ExtractStoryboardSpecification,
-      'urn:job:import.file': FileImportSpecification,
-      'urn:job:av.package': PackagingSpecification
-    };
-
-    const Specification = specifications[this.type];
-    this.specification = new Specification(data.specification);
-    this.dateCreated = data.dateCreated;
-    this.dateUpdated = data.dateUpdated;
   }
 }

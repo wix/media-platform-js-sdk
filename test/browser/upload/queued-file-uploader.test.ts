@@ -12,6 +12,7 @@ import {delay} from '../../helpers/delay';
 
 const UPLOAD_TIMEOUT = 100;
 
+
 describe('queued file uploader', function () {
 
   this.timeout(50000);
@@ -66,16 +67,21 @@ describe('queued file uploader', function () {
     });
 
     const file = new FileAPI.File('../../sources/image.jpg');
-    const uploadJob = new UploadJob()
-      .setPath('/fish/file.mp3')
-      .setFile(file);
+    const uploadJob = new UploadJob({
+      file: file,
+      path: '/fish/file.mp3'
+    });
+
     uploadJob.on('upload-started', () => {
     });
+
     uploadJob.on('upload-progress', () => {
       progress = true;
     });
+
     uploadJob.on('upload-error', () => {
     });
+
     uploadJob.on('upload-success', () => {
     });
 
@@ -94,7 +100,10 @@ describe('queued file uploader', function () {
     });
 
     const file = new FileAPI.File('../files/image.jpg');
-    const uploadJob = new UploadJob().setFile(file);
+    const uploadJob = new UploadJob({
+      file
+    });
+
     uploadJob.on('upload-error', function (event) {
     });
     uploadJob.on('upload-success', function (event) {
@@ -117,9 +126,11 @@ describe('queued file uploader', function () {
     });
 
     const file = new FileAPI.File('../../sources/image.jpg');
-    const uploadJob = new UploadJob()
-      .setPath('/fish/file.mp3')
-      .setFile(file);
+    const uploadJob = new UploadJob({
+      file,
+      path: '/fish/file.mp3'
+    });
+
     const abortedSpy = sinon.spy();
     uploadJob.on('upload-aborted', abortedSpy);
     queuedFileUploader.enqueue(uploadJob);
@@ -142,9 +153,10 @@ describe('queued file uploader', function () {
     setResponse(fileUploadResponse);
 
     const file = new FileAPI.File('../../sources/image.jpg');
-    const uploadJob = new UploadJob()
-      .setPath('/fish/file.mp3')
-      .setFile(file);
+    const uploadJob = new UploadJob({
+      file,
+      path: '/fish/file.mp3'
+    });
 
     expect(() => uploadJob.abort()).to.throw('Job is not running');
   });
@@ -158,7 +170,11 @@ describe('queued file uploader', function () {
     });
 
     const file = new FileAPI.File('../files/file.json');
-    const uploadJob = new UploadJob().setFile(file);
+
+    const uploadJob = new UploadJob({
+      file
+    });
+
     uploadJob.on('upload-error', function (event) {
     });
     uploadJob.on('upload-success', function (event) {

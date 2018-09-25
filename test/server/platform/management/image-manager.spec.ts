@@ -14,7 +14,6 @@ import {ACL} from '../../../../src/types/media-platform/media-platform';
 const repliesDir = __dirname + '/replies/';
 
 describe('image manager', () => {
-
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
@@ -45,14 +44,22 @@ describe('image manager', () => {
       dateCreated: '2017-02-20T14:23:42Z',
       dateUpdated: '2017-02-20T14:23:42Z'
     });
-    const command = new Image(fileDescriptor).fit(100, 200).toCommand().command as string;
+
+    const command = new Image(fileDescriptor)
+      .fit(100, 200)
+      .toCommand()
+      .command as string;
+
     const request = new ImageOperationRequest({
-      path: '/fish.png'
-    }, {
-      command,
-      destination: {
-        path: '/orig.thumb.png',
-        acl: ACL.PRIVATE
+      source: {
+        path: '/fish.png'
+      },
+      specification: {
+        command,
+        destination: {
+          path: '/orig.thumb.png',
+          acl: ACL.PRIVATE
+        }
       }
     });
 

@@ -51,14 +51,6 @@ export class FileDescriptor implements IFileDescriptor {
   public dateUpdated: string | null = null;
 
   constructor(data: Partial<IFileDescriptor>) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: Partial<IFileDescriptor>) {
     if (data.id) {
       this.id = data.id;
     }

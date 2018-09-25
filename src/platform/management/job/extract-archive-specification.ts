@@ -1,5 +1,6 @@
-import {ISource, Source} from './source';
 import {Destination, IDestination} from './destination';
+import {ISource, Source} from './source';
+
 
 export interface IExtractArchiveSpecification {
   source: ISource;

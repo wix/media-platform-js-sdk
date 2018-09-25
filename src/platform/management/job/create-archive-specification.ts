@@ -1,9 +1,10 @@
+import {Destination} from './destination';
 import {ISource, Source} from './source';
-import {Destination, IDestination} from './destination';
+
 
 export interface ICreateArchiveSpecification {
   sources: ISource[];
-  destination: IDestination;
+  destination: Destination;
   archiveType: string;
 }
 
@@ -24,8 +25,8 @@ export class CreateArchiveSpecification implements ICreateArchiveSpecification {
     this.sources = data.sources.map(function (source) {
       return new Source(source);
     });
-    this.destination = new Destination(data.destination);
+
+    this.destination = data.destination;
     this.archiveType = data.archiveType;
   }
 }
-
