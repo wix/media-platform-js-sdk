@@ -15,14 +15,6 @@ export class ExplicitContent implements IExplicitContent {
   public name: string;
 
   constructor(data: IExplicitContent) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IExplicitContent) {
     this.likelihood = data.likelihood;
     this.name = data.name;
   }

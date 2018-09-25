@@ -19,10 +19,6 @@ export class ExtractStoryboardSpecification implements IExtractStoryboardSpecifi
   public destination: Destination;
 
   constructor(data: IExtractStoryboardSpecification) {
-    this.deserialize(data);
-  }
-
-  private deserialize(data: IExtractStoryboardSpecification): void {
     this.destination = new Destination(data.destination);
     this.format = data.format;
     this.columns = data.columns;

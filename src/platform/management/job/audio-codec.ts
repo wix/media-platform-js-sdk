@@ -8,14 +8,6 @@ export class AudioCodec implements IAudioCodec {
   public name: string | null = null;
 
   constructor(data: IAudioCodec) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IAudioCodec) {
     this.cbr = data.cbr;
     this.name = data.name;
   }

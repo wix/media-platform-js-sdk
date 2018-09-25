@@ -14,14 +14,6 @@ export class VideoCodec implements IVideoCodec {
   public level: string | null = null;
 
   constructor(data: IVideoCodec) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  private deserialize(data: IVideoCodec) {
     this.profile = data.profile;
     this.maxRate = data.maxRate;
     this.crf = data.crf;

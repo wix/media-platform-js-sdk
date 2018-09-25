@@ -12,14 +12,6 @@ export class PackagingJobResponse {
   public jobs: Job<IPackagingSpecification>[] | null = [];
 
   constructor(data: IPackagingJobResponse) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  private deserialize(data: IPackagingJobResponse): void {
     this.groupId = data.groupId;
     this.jobs = data.jobs.map(job => new Job(job));
   }

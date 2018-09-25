@@ -16,14 +16,6 @@ export class AudioStream implements IAudioStream {
   public index: number | null = null;
 
   constructor(data: IAudioStream) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IAudioStream) {
     this.codecLongName = data.codecLongName;
     this.codecTag = data.codecTag;
     this.codecName = data.codecName;
@@ -32,4 +24,3 @@ export class AudioStream implements IAudioStream {
     this.index = data.index;
   }
 }
-

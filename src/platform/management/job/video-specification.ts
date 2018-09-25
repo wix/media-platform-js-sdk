@@ -1,5 +1,6 @@
-import {VideoCodec} from './video-codec';
 import {Resolution} from './resolution';
+import {VideoCodec} from './video-codec';
+
 
 export interface IVideoSpecification {
   frameRate: string | null;
@@ -15,14 +16,6 @@ export class VideoSpecification implements IVideoSpecification {
   public resolution: Resolution | null = null;
 
   constructor(data: IVideoSpecification) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IVideoSpecification) {
     this.frameRate = data.frameRate;
     this.keyFrame = data.keyFrame;
     this.codec = data.codec ? new VideoCodec(data.codec) : null;

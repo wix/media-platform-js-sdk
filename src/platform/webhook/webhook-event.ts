@@ -1,5 +1,6 @@
 import {FileDescriptor, IFileDescriptor} from '../management/metadata/file-descriptor';
 
+
 export interface IWebhookEvent {
   id: string;
   type: string;
@@ -12,25 +13,23 @@ export class WebhookEvent {
   public body: FileDescriptor | null = null;
 
   constructor(data: IWebhookEvent) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: IWebhookEvent) {
     this.id = data.id;
     this.type = data.type;
+
     switch (this.type) {
       case 'file_deleted':
       case 'file_created':
         this.body = new FileDescriptor(data.body);
         break;
+
       case 'metadata_updated':
         break;
+
       case 'file_transcode_completed':
         break;
+
+      default:
+        return;
     }
   }
 }

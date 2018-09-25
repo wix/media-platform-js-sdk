@@ -9,14 +9,6 @@ export class Video {
   public specification: VideoSpecification;
 
   constructor(data: IVideo) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  private deserialize(data: IVideo) {
     this.specification = new VideoSpecification(data.specification);
   }
 }

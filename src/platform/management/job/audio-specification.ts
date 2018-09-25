@@ -10,14 +10,6 @@ export class AudioSpecification implements IAudioSpecification {
   public codec: AudioCodec | null = null;
 
   constructor(data: IAudioSpecification) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  private deserialize(data: IAudioSpecification) {
     this.channels = data.channels;
     this.codec = data.codec === null ? data.codec : new AudioCodec(data.codec);
   }
