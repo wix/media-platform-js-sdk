@@ -120,6 +120,8 @@ export class HTTPClient implements IHTTPClient {
           if (callback) {
             callback(error, null);
           }
+
+          return Promise.reject(error);
         }
       );
   }
