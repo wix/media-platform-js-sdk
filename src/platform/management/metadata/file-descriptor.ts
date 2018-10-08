@@ -3,15 +3,17 @@
  * @doc FileDescriptor
  */
 export interface IFileDescriptor {
-  id: string;
-  hash: string | null;
-  path: string;
-  mimeType: string | null;
-  type: string | null;
-  size: number;
   acl: string | null;
   dateCreated?: string | null;
   dateUpdated?: string | null;
+  id: string;
+  hash?: string | null;
+  lifecycle?: null;
+  mimeType: string | null;
+  path: string;
+  size?: number | null;
+  type?: string | null;
+  urn?: string;
 }
 
 /**
@@ -26,7 +28,7 @@ export class FileDescriptor implements IFileDescriptor {
   /**
    * @description the file content hash (null for folders)
    */
-  public hash: string | null = null;
+  public hash?: string | null = null;
   /**
    * @description the file location
    */
@@ -38,11 +40,11 @@ export class FileDescriptor implements IFileDescriptor {
   /**
    * @description file or directory
    */
-  public type: string | null = null;
+  public type?: string | null = null;
   /**
    * @description the file size (content-length) in bytes, null for folders
    */
-  public size: number;
+  public size?: number | null = null;
   /**
    * @description whether the file has public access or not
    */
@@ -51,20 +53,28 @@ export class FileDescriptor implements IFileDescriptor {
   public dateUpdated: string | null = null;
 
   constructor(data: Partial<IFileDescriptor>) {
+    this.acl = data.acl || null;
+
+    this.dateCreated = data.dateCreated || null;
+
+    this.dateUpdated = data.dateUpdated || null;
+
     if (data.id) {
       this.id = data.id;
     }
+
     this.hash = data.hash || null;
+
+    this.mimeType = data.mimeType || null;
+
     if (data.path) {
       this.path = data.path;
     }
-    this.mimeType = data.mimeType || null;
-    this.type = data.type || null;
+
     if (data.size !== undefined) {
       this.size = data.size;
     }
-    this.acl = data.acl || null;
-    this.dateCreated = data.dateCreated || null;
-    this.dateUpdated = data.dateUpdated || null;
+
+    this.type = data.type || null;
   }
 }

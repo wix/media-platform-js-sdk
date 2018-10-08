@@ -121,7 +121,7 @@
     "typescript": "^2.9.1",
     "uuid": "^3.0.1",
     "wnpm-ci": "latest",
-    "yoshi": "^3.0.0"
+    "yoshi": "^3.14.1"
   },
   "babel": {
     "plugins": [
