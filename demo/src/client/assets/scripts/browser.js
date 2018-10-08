@@ -82,6 +82,7 @@ const PATH_BASE = '/demo/';
     });
 
     startLoading(fileListButton);
+
     mediaPlatform.fileManager
       .listFiles('/demo', listFileRequest)
       .then((response) => {
@@ -93,6 +94,8 @@ const PATH_BASE = '/demo/';
           );
         },
         error => {
+          stopLoading(fileListButton);
+
           console.error('error', error);
           return Promise.reject(error);
         }

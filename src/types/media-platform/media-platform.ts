@@ -139,6 +139,10 @@ export enum FileType {
   FOLDER = 'd'
 }
 
+export enum DescriptorMimeType {
+  Folder = 'application/vnd.wix-media.dir'
+}
+
 export enum LiveStreamState {
   CREATED = 'created',
   STREAMING = 'streaming',

@@ -1,0 +1,17 @@
+{
+  "message": "OK",
+  "code": 0,
+  "payload": {
+    "mimeType": "application/vnd.wix-media.dir",
+    "hash": null,
+    "dateCreated": "2018-10-08T13:18:17Z",
+    "id": "3900db2ce3894b53b21e7e73433ffa6c",
+    "path": "/bla",
+    "lifecycle": null,
+    "size": 0,
+    "urn": "urn:file:3900db2ce3894b53b21e7e73433ffa6c",
+    "acl": "public",
+    "dateUpdated": "2018-10-08T13:18:17Z",
+    "type": "d"
+  }
+}

@@ -16,12 +16,13 @@ import {ImageFeatures} from '../../../../src/platform/management/metadata/image-
 import {VideoBasicMetadata} from '../../../../src/platform/management/metadata/video-basic-metadata';
 import {ImportFileRequest} from '../../../../src/platform/management/requests/import-file-request';
 import {ListFilesResponse} from '../../../../src/platform/management/responses/list-files-response';
-import {ACL, FileType, OrderDirection} from '../../../../src/types/media-platform/media-platform';
+import {ACL, FileType, DescriptorMimeType, OrderDirection} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 const sourcesDir = __dirname + '/../../../sources/';
 
-describe('file manager', function () {
+
+describe('File Manager', function () {
 
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
@@ -62,7 +63,7 @@ describe('file manager', function () {
               id: 'f65c0c70bec44b86bb543cc166800f03',
               hash: null,
               path: '/kb',
-              mimeType: 'application/vnd.wix-media.dir',
+              mimeType: DescriptorMimeType.Folder,
               type: 'd',
               size: 0,
               acl: 'public',
@@ -99,6 +100,85 @@ describe('file manager', function () {
       .then(() => {
         done();
       });
+  });
+
+  describe('createFolder', () => {
+    it('should return resolved promise with public folder(acl set with public by default)', function (done) {
+      apiServer
+        .post('/_api/files')
+        .once()
+        .query(true)
+        .replyWithFile(200, repliesDir + 'create-folder-success-response.json');
+
+      fileManager.createFolder({path: 'bla'})
+        .then(data => {
+          expect(data).to.deep.equal(new FileDescriptor({
+            mimeType: DescriptorMimeType.Folder,
+            hash: null,
+            dateCreated: '2018-10-08T13:18:17Z',
+            id: '3900db2ce3894b53b21e7e73433ffa6c',
+            path: '/bla',
+            lifecycle: null,
+            size: 0,
+            urn: 'urn:file:3900db2ce3894b53b21e7e73433ffa6c',
+            acl: 'public',
+            dateUpdated: '2018-10-08T13:18:17Z',
+            type: 'd'
+          }));
+
+          done();
+        });
+    });
+
+    it('should return resolved promise with private folder', function (done) {
+      apiServer
+        .post('/_api/files')
+        .once()
+        .query(true)
+        .replyWithFile(200, repliesDir + 'create-private-folder-success-response.json');
+
+      fileManager.createFolder({acl: ACL.PRIVATE, path: 'path/of/file'})
+        .then(data => {
+          expect(data).to.deep.equal(new FileDescriptor({
+            mimeType: DescriptorMimeType.Folder,
+            hash: null,
+            dateCreated: '2018-10-08T13:39:48Z',
+            id: 'df46065dce7b4ae9a54542fc7aa48753',
+            path: '/private_folder',
+            lifecycle: null,
+            size: 0,
+            urn: 'urn:file:df46065dce7b4ae9a54542fc7aa48753',
+            acl: 'private',
+            dateUpdated: '2018-10-08T13:39:48Z',
+            type: 'd'
+          }));
+
+          done();
+        });
+    });
+
+    it('should return rejected promise when no `path` passed', function (done) {
+      apiServer
+        .post('/_api/files')
+        .once()
+        .query(true)
+        .replyWithFile(400, repliesDir + 'create-folder-path-error-response.json');
+
+      // use any for execute method with empty arguments
+      (fileManager as any).createFolder({})
+        .catch(error => {
+          expect(error)
+            .to.be.an.instanceOf(Error)
+            .with.property('message', JSON.stringify({
+              message: '\'path\'',
+              code: 400,
+              payload: null
+            })
+          );
+
+          done();
+        });
+    });
   });
 
   it('getFile', function (done) {
