@@ -1,7 +1,7 @@
 import * as Stream from 'stream';
 
 import {UploadJob} from '../../public/platform/uploader/upload-job';
-import {ACL} from '../../types/media-platform/media-platform';
+import {ACL, FileType} from '../../types/media-platform/media-platform';
 import {RawResponse} from '../../types/response/response';
 import {deprecatedFn} from '../../utils/deprecated/deprecated';
 import {IConfigurationBase} from '../configuration/configuration';
@@ -29,6 +29,11 @@ export interface IUpdateFileACLById {
 
 export interface IUpdateFileACLByPath {
   acl: ACL;
+  path: string;
+}
+
+export interface FolderDescriptor {
+  acl?: ACL;
   path: string;
 }
 
@@ -171,6 +176,26 @@ export class FileManager {
           callback(error, null);
         }
 
+        return Promise.reject(error);
+      });
+  }
+
+  /**
+   * @description creates a folder descriptor, use this to create an empty directory
+   * @param {FolderDescriptor} folderDescriptor
+   * @returns {Promise<FileDescriptor>}
+   */
+  createFolder({acl, path}: FolderDescriptor): Promise<FileDescriptor> {
+    return this.httpClient.post<RawResponse<IFileDescriptor>>(this.apiUrl, {
+      acl,
+      mimeType: 'application/vnd.wix-media.dir',
+      path,
+      size: 0,
+      type: FileType.FOLDER
+    })
+      .then((response) => {
+        return new FileDescriptor(response.payload);
+      }, error => {
         return Promise.reject(error);
       });
   }
