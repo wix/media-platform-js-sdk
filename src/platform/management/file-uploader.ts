@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as _ from 'lodash';
 import * as Stream from 'stream';
 
 import {RawResponse} from '../../types/response/response';
@@ -63,8 +64,8 @@ export class FileUploader implements IFileUploader {
     let calledBack = false;
     let stream: UploadFileStream;
     let size: number | null = null;
-    let streamErrorPromise = new Promise(() => {
-    }); // never resolving;
+
+    let streamErrorPromise = new Promise(_.noop); // never resolving;
 
     if (file instanceof Stream && typeof file.pipe === 'function') {
       stream = file;
@@ -106,8 +107,8 @@ export class FileUploader implements IFileUploader {
       uploadUrlRequest = new UploadUrlRequest({
         acl: uploadRequest.acl,
         mimeType: uploadRequest.mimeType,
-        path: path,
-        size: size
+        path,
+        size
       });
     }
 
@@ -116,7 +117,7 @@ export class FileUploader implements IFileUploader {
 
           let form: { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest> = {
             file: stream,
-            path: path,
+            path,
             uploadToken: response.uploadToken
           };
 
@@ -130,8 +131,8 @@ export class FileUploader implements IFileUploader {
         }
       )
       .then(response => {
-        return response.payload.map(function (file) {
-          return new FileDescriptor(file);
+        return response.payload.map((fileResponse: Partial<IFileDescriptor>) => {
+          return new FileDescriptor(fileResponse);
         });
       });
   }

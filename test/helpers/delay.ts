@@ -3,5 +3,5 @@ export const delay = (timeout: number = 0): Promise<void> => {
     setTimeout(() => {
       resolve();
     }, timeout);
-  })
+  });
 };

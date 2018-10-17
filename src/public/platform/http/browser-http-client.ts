@@ -15,6 +15,7 @@ const isAuthorizationHeaderValid = (authorizationHeader: AuthorizationHeader | n
       tokenString = window.atob(parts[1]);
       token = JSON.parse(tokenString);
     } catch (error) {
+      // tslint:disable-next-line
       console.error('invalid token structure', tokenString);
     }
     if (token !== null && token.exp && token.exp * 1000 > Date.now()) {

@@ -66,7 +66,7 @@ export class ArchiveManager {
 
   private doExtractArchive(extractArchiveRequest: IExtractArchiveRequest): Promise<RawResponse<IJob<ExtractArchiveSpecification>>> {
     return this.httpClient
-      .post<RawResponse<IJob<ExtractArchiveSpecification>>>(`${this.baseUrl}/_api/archive/extract`, extractArchiveRequest)
+      .post<RawResponse<IJob<ExtractArchiveSpecification>>>(`${this.baseUrl}/_api/archive/extract`, extractArchiveRequest);
   }
 
   extractArchiveObservable(extractArchiveRequest: IExtractArchiveRequest): Observable<Job<ExtractArchiveSpecification>> {

@@ -1,30 +1,30 @@
-import {MediaPlatform} from './platform/media-platform';
 import {Image} from './image/image';
-import {UploadFileRequest} from './platform/management/requests/upload-file-request';
+import {NS} from './platform/authentication/NS';
+import {Token} from './platform/authentication/token';
+import {VERB} from './platform/authentication/VERB';
+import {Destination} from './platform/management/job/destination';
+import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
+import {ExtractStoryboardSpecification} from './platform/management/job/extract-storyboard-specification';
+import {ImageOperationSpecification} from './platform/management/job/image-operation-specification';
+import {QualityRange} from './platform/management/job/quality-range';
+import {Source} from './platform/management/job/source';
+import {TranscodeSpecification} from './platform/management/job/transcode-specification';
+import {CreateArchiveRequest} from './platform/management/requests/create-archive-request';
+import {CreateFlowRequest} from './platform/management/requests/create-flow-request';
 import {DownloadUrlRequest} from './platform/management/requests/download-url-request';
-import {UploadUrlRequest} from './platform/management/requests/upload-url-request';
-import {ListFilesRequest} from './platform/management/requests/list-files-request';
-import {SearchJobsRequest} from './platform/management/requests/search-jobs-request';
+import {ExtractArchiveRequest} from './platform/management/requests/extract-archive-request';
 import {ExtractPosterRequest} from './platform/management/requests/extract-poster-request';
 import {ExtractStoryboardRequest} from './platform/management/requests/extract-storyboard-request';
-import {ExtractArchiveRequest} from './platform/management/requests/extract-archive-request';
-import {CreateArchiveRequest} from './platform/management/requests/create-archive-request';
-import {ImportFileRequest} from './platform/management/requests/import-file-request';
-import {TranscodeRequest} from './platform/management/requests/transcode-request';
-import {LiveStreamRequest} from './platform/management/requests/live-stream-request';
-import {CreateFlowRequest} from './platform/management/requests/create-flow-request';
-import {ImageOperationSpecification} from './platform/management/job/image-operation-specification';
 import {ImageOperationRequest} from './platform/management/requests/image-operation-request';
-import {TranscodeSpecification} from './platform/management/job/transcode-specification';
-import {QualityRange} from './platform/management/job/quality-range';
-import {Destination} from './platform/management/job/destination';
-import {Source} from './platform/management/job/source';
-import {Token} from './platform/authentication/token';
-import {NS} from './platform/authentication/NS';
-import {VERB} from './platform/authentication/VERB';
-import {ExtractStoryboardSpecification} from './platform/management/job/extract-storyboard-specification';
-import {ExtractPosterSpecification} from './platform/management/job/extract-poster-specification';
-import {LiveStreamListRequest} from "./platform/management/requests/live-stream-list-request";
+import {ImportFileRequest} from './platform/management/requests/import-file-request';
+import {ListFilesRequest} from './platform/management/requests/list-files-request';
+import {LiveStreamListRequest} from './platform/management/requests/live-stream-list-request';
+import {LiveStreamRequest} from './platform/management/requests/live-stream-request';
+import {SearchJobsRequest} from './platform/management/requests/search-jobs-request';
+import {TranscodeRequest} from './platform/management/requests/transcode-request';
+import {UploadFileRequest} from './platform/management/requests/upload-file-request';
+import {UploadUrlRequest} from './platform/management/requests/upload-url-request';
+import {MediaPlatform} from './platform/media-platform';
 
 export {
   /**
@@ -53,80 +53,80 @@ export const image = {
   /**
    * @type {Image}
    */
-  Image: Image,
+  Image,
 
   /**
    * @type {ImageOperationSpecification}
    */
-  ImageOperationSpecification: ImageOperationSpecification,
+  ImageOperationSpecification,
 
   /**
    * @type {ImageOperationRequest}
    */
-  ImageOperationRequest: ImageOperationRequest
+  ImageOperationRequest
 };
 
 export const file = {
   /**
    * @type {UploadFileRequest}
    */
-  UploadFileRequest: UploadFileRequest,
+  UploadFileRequest,
 
   /**
    * @type {UploadUrlRequest}
    */
-  UploadUrlRequest: UploadUrlRequest,
+  UploadUrlRequest,
 
   /**
    * @type {DownloadUrlRequest}
    */
-  DownloadUrlRequest: DownloadUrlRequest,
+  DownloadUrlRequest,
 
   /**
    * @type {ListFilesRequest}
    */
-  ListFilesRequest: ListFilesRequest,
+  ListFilesRequest,
 
   /**
    * @type {ImportFileRequest}
    */
-  ImportFileRequest: ImportFileRequest,
+  ImportFileRequest,
 
   /**
    *  @type {Source}
    */
-  Source: Source,
+  Source,
 
   /**
    * @type {Destination}
    */
-  Destination: Destination
+  Destination
 };
 
 export const archive = {
   /**
    * @type {CreateArchiveRequest}
    */
-  CreateArchiveRequest: CreateArchiveRequest,
+  CreateArchiveRequest,
 
   /**
    * @type {ExtractArchiveRequest}
    */
-  ExtractArchiveRequest: ExtractArchiveRequest
+  ExtractArchiveRequest
 };
 
 export const auth = {
   /**
    * @type {Token}
    */
-  Token: Token,
+  Token,
 
   /**
    * @type {{SERVICE: string, MEMBER: string, APPLICATION: string, FILE: string}}
    */
-  NS: NS,
+  NS,
 
-  VERB: VERB
+  VERB
 };
 
 export const transcode = {
@@ -161,7 +161,7 @@ export const flow = {
   /**
    * @type {CreateFlowRequest}
    */
-  CreateFlowRequest: CreateFlowRequest
+  CreateFlowRequest
 };
 
 export const live = {
@@ -172,12 +172,12 @@ export const live = {
   /**
    * @type {LiveStreamListRequest}
    */
-  LiveStreamListRequest: LiveStreamListRequest
+  LiveStreamListRequest
 };
 
 export const job = {
   /**
    * @type {SearchJobsRequest}
    */
-  SearchJobsRequest: SearchJobsRequest
+  SearchJobsRequest
 };

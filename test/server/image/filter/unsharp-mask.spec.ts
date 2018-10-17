@@ -2,16 +2,16 @@ import {expect} from 'chai';
 import {UnsharpMask} from '../../../../src/image/filter/unsharp-mask';
 import {Image} from '../../../../src';
 
-describe('unsharp mask', function () {
+describe('unsharp mask', () => {
 
-  it('serializes', function () {
+  it('serializes', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(128, 10, 255);
 
     expect(unsharpMask.serialize()).to.deep.equal({params: 'usm_128.00_10.00_255.00', error: null});
   });
 
-  it('reject radius values smaller than 0.1', function () {
+  it('reject radius values smaller than 0.1', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(0.09, 10, 255);
 
@@ -21,7 +21,7 @@ describe('unsharp mask', function () {
     });
   });
 
-  it('reject radius values greater than 129', function () {
+  it('reject radius values greater than 129', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(129, 10, 255);
 
@@ -31,7 +31,7 @@ describe('unsharp mask', function () {
     });
   });
 
-  it('reject amount values smaller than 0', function () {
+  it('reject amount values smaller than 0', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(128, -1, 255);
 
@@ -41,7 +41,7 @@ describe('unsharp mask', function () {
     });
   });
 
-  it('reject amount values greater than 10', function () {
+  it('reject amount values greater than 10', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(128, 11, 255);
 
@@ -51,7 +51,7 @@ describe('unsharp mask', function () {
     });
   });
 
-  it('reject threshold values smaller than 0', function () {
+  it('reject threshold values smaller than 0', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(128, 5, -1);
 
@@ -61,7 +61,7 @@ describe('unsharp mask', function () {
     });
   });
 
-  it('reject threshold values greater than 255', function () {
+  it('reject threshold values greater than 255', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(128, 9, 256);
 
@@ -71,7 +71,7 @@ describe('unsharp mask', function () {
     });
   });
 
-  it('resets for undefined', function () {
+  it('resets for undefined', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(128, 10, -1);
     unsharpMask.configuration();

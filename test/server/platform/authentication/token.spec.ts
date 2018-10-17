@@ -2,12 +2,12 @@ import {expect} from 'chai';
 import {Token} from '../../../../src/platform/authentication/token';
 
 
-describe('token', function () {
+describe('token', () => {
 
-  it('serializes objects into obj claim', function () {
+  it('serializes objects into obj claim', () => {
     const objects = [
       [
-        {'path': '/gold/fish/*'}
+        {path: '/gold/fish/*'}
       ]
     ];
     const token = new Token().setObjects(objects);
@@ -15,10 +15,10 @@ describe('token', function () {
     expect(token.toClaims().obj).to.equal(objects);
   });
 
-  it('takes forcibly injected object', function () {
+  it('takes forcibly injected object', () => {
     const objects = [
       [
-        {'path': '/gold/fish/*'}
+        {path: '/gold/fish/*'}
       ]
     ];
     const token = new Token();

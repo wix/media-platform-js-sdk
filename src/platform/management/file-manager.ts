@@ -217,9 +217,7 @@ export class FileManager {
     };
 
     return this.httpClient.delete(this.apiUrl, params)
-      .then(
-        () => {
-        },
+      .catch(
         error => {
           return Promise.reject(error);
         });
@@ -230,8 +228,7 @@ export class FileManager {
    */
   deleteFileById(id: string): Promise<void> {
     return this.httpClient.delete(`${this.apiUrl}/${id}`)
-      .then(() => {
-      }, error => {
+      .catch(error => {
         return Promise.reject(error);
       });
   }

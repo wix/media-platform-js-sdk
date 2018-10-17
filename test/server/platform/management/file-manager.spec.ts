@@ -22,7 +22,7 @@ const repliesDir = __dirname + '/replies/';
 const sourcesDir = __dirname + '/../../../sources/';
 
 
-describe('File Manager', function () {
+describe('File Manager', () => {
 
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
@@ -35,12 +35,12 @@ describe('File Manager', function () {
     'Content-Type': 'application/json'
   });
 
-  afterEach(function () {
+  afterEach(() => {
     nock.cleanAll();
     sandbox.verifyAndRestore();
   });
 
-  it('listFiles - default', function (done) {
+  it('listFiles - default', (done) => {
     apiServer.get('/_api/files/ls_dir').once().query(true).replyWithFile(200, repliesDir + 'list-files-response.json');
 
     fileManager.listFiles('path')
@@ -77,7 +77,7 @@ describe('File Manager', function () {
       });
   });
 
-  it('listFiles - page', function (done) {
+  it('listFiles - page', (done) => {
     apiServer.get('/_api/files/ls_dir')
       .once()
       .query({
@@ -103,7 +103,7 @@ describe('File Manager', function () {
   });
 
   describe('createFolder', () => {
-    it('should return resolved promise with public folder(acl set with public by default)', function (done) {
+    it('should return resolved promise with public folder(acl set with public by default)', (done) => {
       apiServer
         .post('/_api/files')
         .once()
@@ -130,7 +130,7 @@ describe('File Manager', function () {
         });
     });
 
-    it('should return resolved promise with private folder', function (done) {
+    it('should return resolved promise with private folder', (done) => {
       apiServer
         .post('/_api/files')
         .once()
@@ -157,7 +157,7 @@ describe('File Manager', function () {
         });
     });
 
-    it('should return rejected promise when no `path` passed', function (done) {
+    it('should return rejected promise when no `path` passed', (done) => {
       apiServer
         .post('/_api/files')
         .once()
@@ -181,7 +181,7 @@ describe('File Manager', function () {
     });
   });
 
-  it('getFile', function (done) {
+  it('getFile', (done) => {
 
     apiServer.get('/_api/files').once().query(true).replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
@@ -203,7 +203,7 @@ describe('File Manager', function () {
       });
   });
 
-  it('getFileMetadata - Image', function (done) {
+  it('getFileMetadata - Image', (done) => {
 
     apiServer.get('/_api/files/file-id/metadata')
       .once()
@@ -270,7 +270,7 @@ describe('File Manager', function () {
       });
   });
 
-  it('getFileMetadata - Video', function (done) {
+  it('getFileMetadata - Video', (done) => {
 
     apiServer.get('/_api/files/file-id/metadata')
       .once()
@@ -334,7 +334,7 @@ describe('File Manager', function () {
 
   describe('file upload', () => {
 
-    it('should accept path (string) as source', function (done) {
+    it('should accept path (string) as source', (done) => {
 
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
@@ -343,10 +343,10 @@ describe('File Manager', function () {
       (fileManager.uploadFile('upload/to/there/image.jpg', sourcesDir + 'image.jpg') as Promise<FileDescriptor[]>)
         .then(() => {
           done();
-        })
+        });
     });
 
-    it('should handle path (string) errors', function (done) {
+    it('should handle path (string) errors', (done) => {
       (fileManager.uploadFile('upload/to/there/image.jpg', 'nothing here') as Promise<FileDescriptor[]>)
         .catch(error => {
           expect(error).to.be.an.instanceof(Error);
@@ -356,7 +356,7 @@ describe('File Manager', function () {
         });
     });
 
-    it('should accept stream as source', function (done) {
+    it('should accept stream as source', (done) => {
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -368,7 +368,7 @@ describe('File Manager', function () {
         });
     });
 
-    it('should accept buffer as source', function (done) {
+    it('should accept buffer as source', (done) => {
 
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-upload-response.json');
@@ -381,7 +381,7 @@ describe('File Manager', function () {
         });
     });
 
-    it('should reject unsupported source', function (done) {
+    it('should reject unsupported source', (done) => {
 
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().replyWithFile(200, repliesDir + 'file-descriptor-response.json');
@@ -395,7 +395,7 @@ describe('File Manager', function () {
         });
     });
 
-    it('should handle auth errors', function (done) {
+    it('should handle auth errors', (done) => {
 
       apiServer.get('/_api/upload/url').once().query(true).reply(403, {});
 
@@ -407,7 +407,7 @@ describe('File Manager', function () {
         });
     });
 
-    it('should handle upload errors', function (done) {
+    it('should handle upload errors', (done) => {
 
       apiServer.get('/_api/upload/url').once().query(true).replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer.post('/_api/upload/file').once().reply(500, {});
@@ -420,7 +420,7 @@ describe('File Manager', function () {
     });
   });
 
-  it('file import', function (done) {
+  it('file import', (done) => {
     apiServer.post('/_api/import/file')
       .once()
       .replyWithFile(200, repliesDir + 'import-file-pending-response.json');

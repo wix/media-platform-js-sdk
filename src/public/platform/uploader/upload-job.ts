@@ -1,16 +1,16 @@
 import {EventEmitter} from 'eventemitter3';
 
-import {UploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
 import {FileDescriptor} from '../../../platform/management/metadata/file-descriptor';
-import {ACL} from '../../../types/media-platform/media-platform';
-import {UploadStartedEvent} from './events/upload-started-event';
-import {UploadProgressEvent} from './events/upload-progress-event';
-import {UploadSuccessEvent} from './events/upload-success-event';
-import {UploadErrorEvent} from './events/upload-error-event';
-import {UploadAbortedEvent} from './events/upload-aborted-event';
 import {UploadFileRequest} from '../../../platform/management/requests/upload-file-request';
+import {UploadUrlRequest} from '../../../platform/management/requests/upload-url-request';
+import {ACL} from '../../../types/media-platform/media-platform';
 
 import {FileUploader} from './browser-file-uploader';
+import {UploadAbortedEvent} from './events/upload-aborted-event';
+import {UploadErrorEvent} from './events/upload-error-event';
+import {UploadProgressEvent} from './events/upload-progress-event';
+import {UploadStartedEvent} from './events/upload-started-event';
+import {UploadSuccessEvent} from './events/upload-success-event';
 
 
 export enum UploadJobState {
@@ -38,7 +38,7 @@ export class UploadJob extends EventEmitter {
   private path;
   private uploadFileRequest;
 
-  constructor({ path, file, uploadFileRequest }: IUploadJob) {
+  constructor({path, file, uploadFileRequest}: IUploadJob) {
     super();
 
     this.file = file;
@@ -68,11 +68,11 @@ export class UploadJob extends EventEmitter {
       acl = this.uploadFileRequest.acl;
     }
 
-    const event = new UploadStartedEvent(this);
-    this.emit(event.name, event);
+    const uploadStartedEvent = new UploadStartedEvent(this);
+    this.emit(uploadStartedEvent.name, uploadStartedEvent);
 
     const uploadUrlRequest = new UploadUrlRequest({
-      acl: acl,
+      acl,
       mimeType: this.file.type,
       path: this.path,
       size: this.file.size
@@ -95,12 +95,13 @@ export class UploadJob extends EventEmitter {
                 typeof event.target.response === 'string'
                   ? JSON.parse(event.target.response).payload
                   : event.target.response.payload;
-              const fileDescriptors = payload.map(function (file) {
+              const fileDescriptors = payload.map((file) => {
                 return new FileDescriptor(file);
               });
 
               e = new UploadSuccessEvent(this, event.target.response, fileDescriptors);
             }
+
             this.emit(e.name, e);
           };
 

@@ -1,5 +1,5 @@
 import * as request from 'request-promise-native';
-import {URL} from 'url'
+import {URL} from 'url';
 
 import {AuthorizationHeader} from '../../types/media-platform/media-platform';
 import {Authenticator} from '../authentication/authenticator';
@@ -42,7 +42,12 @@ export class HTTPClient implements IHTTPClient {
 
   private _request(httpMethod: string, url: string, params: any, token: Token | string | undefined, callback: RequestCallback) {
     const header = this.authenticator.getHeader(token);
-    const options: HTTPRequest = {method: httpMethod, url: url, headers: header, json: true};
+    const options: HTTPRequest = {
+      method: httpMethod,
+      url,
+      headers: header,
+      json: true
+    };
 
     switch (httpMethod) {
       case 'POST':
@@ -81,7 +86,7 @@ export class HTTPClient implements IHTTPClient {
 
     const options = {
       method: 'POST',
-      url: url,
+      url,
       formData: form,
       headers: header,
       json: true

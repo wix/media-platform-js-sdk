@@ -2,16 +2,16 @@ import {expect} from 'chai';
 import {Hue} from '../../../../src/image/filter/hue';
 import {Image} from '../../../../src';
 
-describe('hue', function () {
+describe('hue', () => {
 
-  it('serializes', function () {
+  it('serializes', () => {
     const hue = new Hue(new Image());
     hue.hue(100);
 
     expect(hue.serialize()).to.deep.equal({params: 'hue_100', error: null});
   });
 
-  it('reject values greater than 100', function () {
+  it('reject values greater than 100', () => {
     const hue = new Hue(new Image());
     hue.hue(101);
 
@@ -21,7 +21,7 @@ describe('hue', function () {
     });
   });
 
-  it('reject values smaller than -100', function () {
+  it('reject values smaller than -100', () => {
     const hue = new Hue(new Image());
     hue.hue(-101);
 
@@ -31,7 +31,7 @@ describe('hue', function () {
     });
   });
 
-  it('resets for null', function () {
+  it('resets for null', () => {
     const hue = new Hue(new Image());
     hue.hue(-101);
     hue.hue();
@@ -39,7 +39,7 @@ describe('hue', function () {
     expect(hue.serialize()).to.deep.equal({params: '', error: null});
   });
 
-  it('resets for undefined', function () {
+  it('resets for undefined', () => {
     const hue = new Hue(new Image());
     hue.hue(70);
     hue.hue();
@@ -47,7 +47,7 @@ describe('hue', function () {
     expect(hue.serialize()).to.deep.equal({params: '', error: null});
   });
 
-  it('resets for 0', function () {
+  it('resets for 0', () => {
     const hue = new Hue(new Image());
     hue.hue(-1);
     hue.hue(0);

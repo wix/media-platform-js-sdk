@@ -3,9 +3,9 @@ import {expect} from 'chai';
 import {Image} from '../../../../src/image/image';
 
 
-describe('image url parsing', function () {
+describe('image url parsing', () => {
 
-  it('parses crop geometry', function () {
+  it('parses crop geometry', () => {
     const image = new Image('http://media.wixapps.net/1234/images/file.png/v1/crop/w_50,h_50,q_75,usm_0.5_0.2_0.0/file.png#w_100,h_200,mt_image%2Fpng');
 
     expect(image.toUrl()).to.deep.equal({
@@ -14,7 +14,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('correctly handles schemes - http', function () {
+  it('correctly handles schemes - http', () => {
     const image = new Image('http://test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#w_100,h_200,mt_video%2Fmp4');
 
     expect(image.toUrl()).to.deep.equal({
@@ -23,7 +23,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('correctly handles schemes - https', function () {
+  it('correctly handles schemes - https', () => {
     const image = new Image('https://test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#w_100,h_200,mt_video%2Fmp4');
 
     expect(image.toUrl()).to.deep.equal({
@@ -32,7 +32,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('correctly handles schemes - without', function () {
+  it('correctly handles schemes - without', () => {
     const image = new Image('//test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#w_100,h_200,mt_video%2Fmp4');
 
     expect(image.toUrl()).to.deep.equal({
@@ -41,7 +41,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('metadata - handles mimeType that were not encoded', function () {
+  it('metadata - handles mimeType that were not encoded', () => {
     const image = new Image('http://test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#w_100,h_200,mt_video/mp4');
 
     expect(image.toUrl()).to.deep.equal({
@@ -50,7 +50,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('metadata - decodes mimeType', function () {
+  it('metadata - decodes mimeType', () => {
     const image = new Image('http://test.wix.com/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#w_100,h_200,mt_video%2Fmp4');
 
     expect(image.toUrl()).to.deep.equal({
@@ -59,7 +59,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('metadata - ignores malformed fragment - without separator', function () {
+  it('metadata - ignores malformed fragment - without separator', () => {
     const image = new Image('http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100/fish.jpeg#w,h_200,mt_video%2Fmp4');
 
     expect(image.toUrl()).to.deep.equal({
@@ -68,7 +68,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('metadata - ignores malformed fragment - with separator', function () {
+  it('metadata - ignores malformed fragment - with separator', () => {
     const image = new Image('http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100/fish.jpeg#w_,h_200,mt_video%2Fmp4');
 
     expect(image.toUrl()).to.deep.equal({
@@ -77,7 +77,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('metadata - ignores malformed fragment - missing param', function () {
+  it('metadata - ignores malformed fragment - missing param', () => {
     const image = new Image('http://test.wix.com/user/bucket/fish.jpeg/v1/crop/w_100,h_100/fish.jpeg#h_200,mt_video%2Fmp4');
 
     expect(image.toUrl()).to.deep.equal({
@@ -86,7 +86,7 @@ describe('image url parsing', function () {
     });
   });
 
-  it('correctly handles ports', function () {
+  it('correctly handles ports', () => {
     const image = new Image('http://test.wix.com:8080/user/bucket/imageId/v1/crop/w_100,h_100/fish.jpeg#w_10,h_10,mt_image%2Fjpeg');
 
     expect(image.toUrl()).to.deep.equal({

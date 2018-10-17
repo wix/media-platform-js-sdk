@@ -23,6 +23,7 @@ describe('HTTP client', () => {
   afterEach(() => {
     sandbox.verifyAndRestore();
     if (!nock.isDone()) {
+      // tslint:disable-next-line
       console.error('nock is not done', nock.pendingMocks());
     }
     nock.cleanAll();

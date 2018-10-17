@@ -79,13 +79,13 @@ function explodeUrl(url) {
 
   return {
     host: (scheme ? scheme + '://' : '//') + host + (port ? ':' + port : '') + '/',
-    path: path,
-    version: version,
-    geometry: geometry,
-    transformations: transformations,
-    fileName: fileName,
-    query: query,
-    fragment: fragment
+    path,
+    version,
+    geometry,
+    transformations,
+    fileName,
+    query,
+    fragment
   };
 }
 
@@ -97,7 +97,7 @@ function explodeUrl(url) {
 function explodeTransformations(transformations) {
   const parts = transformations.split(',');
   const exploded = {};
-  parts.forEach(function (transformation) {
+  parts.forEach((transformation) => {
     const params = transformation.split('_');
     exploded[params[0]] = params.slice(1);
   });
@@ -123,9 +123,11 @@ function parseFragment(fragment: string): Metadata | null {
 
   const parts = fragment.split(',');
   const exploded: Partial<ExplodedFragment> = {};
-  parts.forEach(function (part) {
+
+  parts.forEach((part) => {
     const params = part.split('_');
-    if (params.length >= 2 && params[1] != '') {
+
+    if (params.length >= 2 && params[1] !== '') {
       exploded[params[0]] = params.slice(1)[0];
     }
   });
@@ -166,7 +168,9 @@ function applyFilters(image, explodedTransformations) {
   for (const key in explodedTransformations) {
     if (explodedTransformations.hasOwnProperty(key)) {
       const handler = handlers[key];
+
       if (handler) {
+        // tslint:disable-next-line
         image[handler].apply(this, explodedTransformations[key]);
       }
     }

@@ -43,7 +43,7 @@
     "node": ">= 4.0.0"
   },
   "scripts": {
-    "build": "yoshi build",
+    "build": "yoshi lint && yoshi build",
     "lint": "yoshi lint",
     "test": "yoshi test --mocha --karma --protractor",
     "test:karma": "yoshi test --karma",
@@ -60,6 +60,7 @@
     "start:demo": "NODE_ENV=production npm run build && ts-node ./demo/bin/www",
     "e2e": "yoshi test --protractor",
     "karma": "yoshi test --karma",
+    "precommit": "yoshi lint",
     "travis-script": "npm run travis-test",
     "travis-test": "npm run travis-test:mocha",
     "travis-test:mocha": "mocha --require ts-node/register test/mocha-setup.ts {test,src}/**/*.spec.ts --no-timeouts"
@@ -118,10 +119,11 @@
     "sinon-chai": "^2.14.0",
     "standard-version": "^4.4.0",
     "ts-node": "^5.0.0",
-    "typescript": "^3.1.1",
+    "tslint-config-wix": "^1.0.31",
+    "typescript": "^3.1.3",
     "uuid": "^3.0.1",
     "wnpm-ci": "latest",
-    "yoshi": "^3.14.1"
+    "yoshi": "^3.15.4"
   },
   "babel": {
     "plugins": [

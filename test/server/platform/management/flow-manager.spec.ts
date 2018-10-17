@@ -10,7 +10,7 @@ import {CreateFlowRequest} from '../../../../src/platform/management/requests/cr
 
 const repliesDir = __dirname + '/replies/';
 
-describe('flow manager', function () {
+describe('flow manager', () => {
 
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
@@ -21,12 +21,12 @@ describe('flow manager', function () {
     'Content-Type': 'application/json'
   });
 
-  afterEach(function () {
+  afterEach(() => {
     nock.cleanAll();
   });
 
 
-  it('Get flow request is parsing properly', function (done) {
+  it('Get flow request is parsing properly', (done) => {
     apiServer.get('/_api/flow_control/flow/flow_id')
       .once()
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
@@ -42,7 +42,7 @@ describe('flow manager', function () {
       });
   });
 
-  it('Create Flow', function (done) {
+  it('Create Flow', (done) => {
     apiServer.post('/_api/flow_control/flow')
       .once()
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
@@ -91,7 +91,7 @@ describe('flow manager', function () {
       });
   });
 
-  it('Delete Flow', function (done) {
+  it('Delete Flow', (done) => {
     apiServer.delete('/_api/flow_control/flow/flow_id')
       .once()
       .replyWithFile(200, repliesDir + 'flow-delete-response.json');

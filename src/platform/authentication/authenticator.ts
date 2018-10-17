@@ -50,6 +50,7 @@ export class Authenticator {
         issuer: 'urn:app:' + this.configuration.appId
       });
     } catch (error) {
+      // tslint:disable-next-line
       console.error(error, jwt.decode(signedToken));
       return null;
     }

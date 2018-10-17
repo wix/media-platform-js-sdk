@@ -33,9 +33,13 @@ export class FileMetadata implements IFileMetadata {
         case 'image':
           this.basic = new ImageBasicMetadata(data.basic as IImageBasicMetadata);
           break;
+
         case 'video':
           this.basic = new VideoBasicMetadata(data.basic as IVideoBasicMetadata);
           break;
+
+        default:
+          return;
       }
     }
 
@@ -44,6 +48,9 @@ export class FileMetadata implements IFileMetadata {
         case 'image':
           this.features = new ImageFeatures(data.features);
           break;
+
+        default:
+          return;
       }
     }
   }

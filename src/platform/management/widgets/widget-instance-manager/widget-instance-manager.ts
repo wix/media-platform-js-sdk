@@ -17,7 +17,7 @@ export interface WidgetInstance {
 interface WidgetInstanceAuthResponse {
   payload: {
     token: string;
-  }
+  };
 }
 
 interface WidgetInstanceResponse {
@@ -41,6 +41,7 @@ export class WidgetInstanceManager {
   private auth(widgetInstanceId: string): Promise<string> {
     return this.httpClient.get<WidgetInstanceAuthResponse>(this.getAuthURL(widgetInstanceId))
       .then(response => response.payload.token, error => {
+        // tslint:disable-next-line
         console.error('Error while auth', error);
         return '';
       });
@@ -52,6 +53,7 @@ export class WidgetInstanceManager {
     return httpClient.get<WidgetInstanceResponse>(instanceURL)
       .then(response => response.payload)
       .catch(error => {
+        // tslint:disable-next-line
         console.error('error while fetching widget instance id', error);
         throw error;
       });

@@ -1,23 +1,25 @@
-import {parseUrl} from './parser/image-url-parser';
-import {parseFileDescriptor} from './parser/file-descriptor-parser';
-import {parseFileMetadata} from './parser/file-metadata-parser';
+import {Dimension} from '../geometry/dimension';
+import {Rectangle} from '../geometry/rectangle';
 import {FileDescriptor} from '../platform/management/metadata/file-descriptor';
 import {FileMetadata} from '../platform/management/metadata/file-metadata';
-import {Crop} from './framing/crop';
-import {SmartCrop} from './framing/smartcrop';
-import {Fill} from './framing/fill';
-import {Fit} from './framing/fit';
-import {Rectangle} from '../geometry/rectangle';
-import {Dimension} from '../geometry/dimension';
-import {UnsharpMask, UnsharpNumber} from './filter/unsharp-mask';
+
+import {JPEG} from './encoder/jpeg';
 import {Blur} from './filter/blur';
 import {Brightness} from './filter/brightness';
 import {Contrast} from './filter/contrast';
 import {Hue} from './filter/hue';
 import {Saturation} from './filter/saturation';
-import {JPEG} from './encoder/jpeg';
-import {Metadata} from './metadata';
+import {UnsharpMask, UnsharpNumber} from './filter/unsharp-mask';
+import {Crop} from './framing/crop';
+import {Fill} from './framing/fill';
+import {Fit} from './framing/fit';
 import {GeometryBase} from './framing/geometry-base';
+import {SmartCrop} from './framing/smartcrop';
+import {Metadata} from './metadata';
+import {parseFileDescriptor} from './parser/file-descriptor-parser';
+import {parseFileMetadata} from './parser/file-metadata-parser';
+import {parseUrl} from './parser/image-url-parser';
+
 
 export interface ImageParams {
   params: string | null;
@@ -73,7 +75,7 @@ export class Image {
      * @type {Blur}
      */
     const blur = new Blur(this);
-    this.blur = (function () {
+    this.blur = (() => {
       return blur.percentage;
     })();
 
@@ -81,7 +83,7 @@ export class Image {
      * @type {Brightness}
      */
     const brightness = new Brightness(this);
-    this.brightness = (function () {
+    this.brightness = (() => {
       return brightness.brightness;
     })();
 
@@ -89,7 +91,7 @@ export class Image {
      * @type {Contrast}
      */
     const contrast = new Contrast(this);
-    this.contrast = (function () {
+    this.contrast = (() => {
       return contrast.contrast;
     })();
 
@@ -97,7 +99,7 @@ export class Image {
      * @type {Hue}
      */
     const hue = new Hue(this);
-    this.hue = (function () {
+    this.hue = (() => {
       return hue.hue;
     })();
 
@@ -105,7 +107,7 @@ export class Image {
      * @type {Saturation}
      */
     const saturation = new Saturation(this);
-    this.saturation = (function () {
+    this.saturation = (() => {
       return saturation.saturation;
     })();
 
@@ -113,7 +115,7 @@ export class Image {
      * @type {JPEG}
      */
     const jpeg = new JPEG(this);
-    this.jpeg =  jpeg.compression;
+    this.jpeg = jpeg.compression;
 
     if (data) {
       if (typeof data === 'string') {
@@ -291,7 +293,7 @@ export class Image {
       url += '#' + this.metadata.serialize();
     }
     return {
-      url: url,
+      url,
       error: null
     };
   }
@@ -326,7 +328,7 @@ export class Image {
     const command = '/' + this.version + '/' + geometryParams.params + filtersAndEncoderParams.params;
 
     return {
-      command: command,
+      command,
       error: null
     };
   }
@@ -339,23 +341,27 @@ export class Image {
     let out = '';
     let part;
     const errors: (Error | string)[] = [];
-    this.serializationOrder.forEach(function concat(op) {
+    this.serializationOrder.forEach((op) => {
       part = op.serialize();
+
       if (part.error) {
         errors.push(part.error);
       }
+
       if (out.length > 0 && part.params && part.params.length > 0) {
         out += ',';
       }
+
       out += part.params;
     });
 
     if (out.length > 0) {
       out = ',' + out;
     }
+
     return {
       params: out,
-      errors: errors
+      errors
     };
   }
 }

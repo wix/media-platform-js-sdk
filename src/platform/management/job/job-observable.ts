@@ -1,9 +1,12 @@
-import {Job} from './job';
-import {JobManager} from '../job-manager';
+import * as Observable from 'zen-observable';
+
 import {IConfigurationBase} from '../../configuration/configuration';
 import {IHTTPClient} from '../../http/http-client';
-import * as Observable from 'zen-observable';
+import {JobManager} from '../job-manager';
+
+import {Job} from './job';
 import {JobGroup} from './job-group';
+
 
 export type CreateJob<T> = () => Promise<Job<T>>;
 export type ObserveJob<T> = (createJob: CreateJob<T>, pollingInterval?: number) => Observable<Job<T>>;
@@ -16,10 +19,10 @@ export type ObserveJobGroup = (createJobGroup: CreateJobGroup, pollingInterval?:
 export function observeJobCreator<T>(configuration: IConfigurationBase, httpClient: IHTTPClient): ObserveJob<T> {
   const jobManager = new JobManager(configuration, httpClient);
 
-  function observeJob<T>(createJob: CreateJob<T>, pollingInterval = 500): Observable<Job<T>> {
-    return new Observable<Job<T>>(observer => {
+  function observeJob<K>(createJob: CreateJob<K>, pollingInterval = 500): Observable<Job<K>> {
+    return new Observable<Job<K>>(observer => {
 
-      const pollJob = (updatedJob: Job<T>) => {
+      const pollJob = (updatedJob: Job<K>) => {
         if (updatedJob.isError()) {
           observer.error(updatedJob);
           return;
@@ -41,8 +44,8 @@ export function observeJobCreator<T>(configuration: IConfigurationBase, httpClie
         observer.error(error);
       };
 
-      function fetchJob(job: Job<T>) {
-        jobManager.getJob<T>(job.id)
+      function fetchJob(job: Job<K>) {
+        jobManager.getJob<K>(job.id)
           .then(pollJob)
           .catch(onFailure);
       }
@@ -100,5 +103,4 @@ export const observeJobGroupCreator = (configuration: IConfigurationBase, httpCl
         .catch(onFailure);
     });
   };
-
 };

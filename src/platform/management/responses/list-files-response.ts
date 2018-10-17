@@ -20,7 +20,8 @@ export class ListFilesResponse {
 
   constructor(data: IListFilesResponse) {
     this.nextPageToken = data.nextPageToken;
-    this.files = data.files.map(function (file) {
+
+    this.files = data.files.map((file) => {
       return new FileDescriptor(file);
     });
   }

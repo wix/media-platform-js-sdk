@@ -1,10 +1,12 @@
-import {FileMetadata} from '../../../../src/platform/management/metadata/file-metadata';
-import {Image} from '../../../../src/image/image';
 import {expect} from 'chai';
 
-describe('image file descriptor parsing', function () {
+import {Image} from '../../../../src/image/image';
+import {FileMetadata} from '../../../../src/platform/management/metadata/file-metadata';
 
-  it('creates a new Image from FileMetadata', function () {
+
+describe('image file descriptor parsing', () => {
+
+  it('creates a new Image from FileMetadata', () => {
 
     const fileMetadata = new FileMetadata({
       // mediaType: 'image',

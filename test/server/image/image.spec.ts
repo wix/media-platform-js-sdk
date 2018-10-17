@@ -1,14 +1,15 @@
 import {expect} from 'chai';
+
 import {Image} from '../../../src';
-import {Rectangle} from '../../../src/geometry/rectangle';
 import {Dimension} from '../../../src/geometry/dimension';
+import {Rectangle} from '../../../src/geometry/rectangle';
 
-describe('image url construction', function () {
 
+describe('image url construction', () => {
   const imageUrl = '//test.com/1111/images/324234/v1/crop/w_709,h_400,x_1,y_2,scl_1,q_75,usm_0.5_0.2_0.0/file.png#w_1000,h_2000,mt_image%2Fpng';
 
-  describe('handles input errors', function () {
-    it('collects errors into a single Error instance', function () {
+  describe('handles input errors', () => {
+    it('collects errors into a single Error instance', () => {
       const result = new Image(imageUrl)
         .saturation(500)
         .unsharpMask(-1, 10, 10)
@@ -27,11 +28,11 @@ describe('image url construction', function () {
     });
   });
 
-  describe('geometry', function () {
+  describe('geometry', () => {
 
     const image = new Image(imageUrl);
 
-    it('rounds w values down', function () {
+    it('rounds w values down', () => {
       const result = image.crop(100.4, 200, 0, 0, 1).toUrl();
 
       expect(result).to.deep.equal({
@@ -40,7 +41,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds w values up', function () {
+    it('rounds w values up', () => {
       const result = image.crop(99.5, 200).toUrl();
 
       expect(result).to.deep.equal({
@@ -49,7 +50,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds height values down', function () {
+    it('rounds height values down', () => {
       const result = image.crop(100, 200.4).toUrl();
 
       expect(result).to.deep.equal({
@@ -58,7 +59,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds height values up', function () {
+    it('rounds height values up', () => {
       const result = image.crop(100, 199.5).toUrl();
 
       expect(result).to.deep.equal({
@@ -67,21 +68,21 @@ describe('image url construction', function () {
       });
     });
 
-    it('reject width values smaller than 1', function () {
+    it('reject width values smaller than 1', () => {
       const result = image.crop(0.4, 100).toUrl();
 
       expect(result.url).to.equal(null);
       expect((result.error as Error).message).to.equal('width: 0 is not a number greater than 1');
     });
 
-    it('reject height values smaller than 1', function () {
+    it('reject height values smaller than 1', () => {
       const result = image.crop(100, -1).toUrl();
 
       expect(result.url).to.equal(null);
       expect((result.error as Error).message).to.equal('height: -1 is not a number greater than 1');
     });
 
-    it('requires height to be set', function () {
+    it('requires height to be set', () => {
       const result = (image.crop as any)(100).toUrl();
 
       expect(result.url).to.equal(null);
@@ -89,11 +90,11 @@ describe('image url construction', function () {
     });
   });
 
-  describe('fills a container with region of interest', function () {
+  describe('fills a container with region of interest', () => {
 
     const image = new Image('//fish.com/1234/5678/file.png/v1/crop/w_709,h_400/file.png#w_1926,h_1086,mt_image/png');
 
-    it('scale to width - without ROI', function () {
+    it('scale to width - without ROI', () => {
       const result = image.scaleToWidth(1000).toUrl();
 
       expect(result).to.deep.equal({
@@ -102,7 +103,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('scale to width - with ROI', function () {
+    it('scale to width - with ROI', () => {
       const roi = new Rectangle(600, 250, 1100, 225);
       const result = image.scaleToWidth(1000, roi).toUrl();
 
@@ -112,14 +113,14 @@ describe('image url construction', function () {
       });
     });
 
-    it('scale to width - illegal width argument', function () {
+    it('scale to width - illegal width argument', () => {
       const result = image.scaleToWidth(-1).toUrl();
 
       expect(result.url).to.equal(null);
       expect((result.error as Error).message).to.equal('crop scale factor: -0.0009208103130755065 is not a number between 0 to 100,width: -1 is not a number greater than 1,height: -1 is not a number greater than 1');
     });
 
-    it('scale to height - without ROI', function () {
+    it('scale to height - without ROI', () => {
       const result = image.scaleToHeight(500).toUrl();
 
       expect(result).to.deep.equal({
@@ -128,7 +129,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('scale to height - with ROI', function () {
+    it('scale to height - with ROI', () => {
       const roi = new Rectangle(250, 600, 415, 350);
 
       const result = image.scaleToHeight(500, roi).toUrl();
@@ -139,13 +140,13 @@ describe('image url construction', function () {
       });
     });
 
-    it('scale to height - illegal height argument', function () {
+    it('scale to height - illegal height argument', () => {
       const result = image.scaleToHeight(-300).toUrl();
       expect(result.url).to.equal(null);
       expect((result.error as Error).message).to.equal('crop scale factor: -0.27624309392265195 is not a number between 0 to 100,width: -532 is not a number greater than 1,height: -300 is not a number greater than 1');
     });
 
-    it('roi - landscape -> portrait', function () {
+    it('roi - landscape -> portrait', () => {
       const roi = new Rectangle(600, 250, 1100, 225);
       const container = new Dimension()
         .setWidth(200)
@@ -159,7 +160,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - landscape -> landscape', function () {
+    it('roi - landscape -> landscape', () => {
       const roi = new Rectangle(600, 250, 1100, 225);
       const container = new Dimension()
         .setWidth(300)
@@ -173,7 +174,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - portrait -> landscape', function () {
+    it('roi - portrait -> landscape', () => {
       const roi = new Rectangle(250, 600, 415, 350);
       const container = new Dimension()
         .setWidth(300)
@@ -187,7 +188,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - portrait -> portrait', function () {
+    it('roi - portrait -> portrait', () => {
       const roi = new Rectangle(250, 600, 415, 350);
       const container = new Dimension()
         .setWidth(400)
@@ -201,7 +202,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - square -> portrait', function () {
+    it('roi - square -> portrait', () => {
       const roi = new Rectangle(400, 400, 1240, 590);
       const container = new Dimension()
         .setWidth(900)
@@ -215,7 +216,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - square -> landscape', function () {
+    it('roi - square -> landscape', () => {
       const roi = new Rectangle(400, 400, 1240, 590);
       const container = new Dimension()
         .setWidth(1000)
@@ -229,7 +230,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - square -> square', function () {
+    it('roi - square -> square', () => {
       const roi = new Rectangle(400, 400, 1240, 590)
         .setX(1240)
         .setWidth(400)
@@ -247,7 +248,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - full image -> square', function () {
+    it('roi - full image -> square', () => {
       const roi = new Rectangle(1926, 1086, 0, 0)
         .setX(0)
         .setWidth(1926)
@@ -265,7 +266,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - handles bleeding bottom, left', function () {
+    it('roi - handles bleeding bottom, left', () => {
       const roi = new Rectangle(100, 100, 0, 986);
       const container = new Dimension()
         .setWidth(200)
@@ -280,7 +281,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('roi - handles bleeding top, right', function () {
+    it('roi - handles bleeding top, right', () => {
       const roi = new Rectangle(100, 100, 1826, 0);
       const container = new Dimension()
         .setWidth(200)
@@ -295,21 +296,22 @@ describe('image url construction', function () {
       });
     });
 
-    it('scale to width - missing image basic data', function () {
-      const image = new Image('//fish.com/1234/5678/file.png/v1/crop/w_709,h_400/file.png');
+    it('scale to width - missing image basic data', () => {
+      const scaledImage = new Image('//fish.com/1234/5678/file.png/v1/crop/w_709,h_400/file.png');
+
       try {
-        image.scaleToWidth(1000).toUrl();
+        scaledImage.scaleToWidth(1000).toUrl();
       } catch (e) {
-        expect(e.message).to.equal('client side manipulation requires image basic metadata')
+        expect(e.message).to.equal('client side manipulation requires image basic metadata');
       }
     });
   });
 
-  describe('crop geometry', function () {
+  describe('crop geometry', () => {
 
     const image = new Image(imageUrl);
 
-    it('scale is optional', function () {
+    it('scale is optional', () => {
 
       const crop = image.crop(90, 91, 100, 101);
 
@@ -319,7 +321,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('scale default (1) is omitted', function () {
+    it('scale default (1) is omitted', () => {
       const crop = image.crop(90, 91, 100, 101, 1);
 
       expect(crop.toUrl()).to.deep.equal({
@@ -328,7 +330,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds x values down', function () {
+    it('rounds x values down', () => {
       const crop = image.crop(90, 91, 100.4, 101);
 
       expect(crop.toUrl()).to.deep.equal({
@@ -337,7 +339,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds x values up', function () {
+    it('rounds x values up', () => {
       const crop = image.crop(90, 91, 99.5, 101);
 
       expect(crop.toUrl()).to.deep.equal({
@@ -346,7 +348,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds y values down', function () {
+    it('rounds y values down', () => {
       const crop = image.crop(90, 91, 100, 101.4);
 
       expect(crop.toUrl()).to.deep.equal({
@@ -355,7 +357,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds y values up', function () {
+    it('rounds y values up', () => {
       const crop = image.crop(90, 91, 100, 100.5);
 
       expect(crop.toUrl()).to.deep.equal({
@@ -364,14 +366,14 @@ describe('image url construction', function () {
       });
     });
 
-    it('reject x values smaller than 0', function () {
+    it('reject x values smaller than 0', () => {
       const crop = image.crop(90, 91, -0.6, 101);
       const result = crop.toUrl();
       expect(result.url).to.equal(null);
       expect((result.error as Error).message).to.equal('crop x: -1 is not a number greater than 0');
     });
 
-    it('reject y values smaller than 0', function () {
+    it('reject y values smaller than 0', () => {
       const crop = image.crop(90, 91, 100, -1);
       const result = crop.toUrl();
 
@@ -379,7 +381,7 @@ describe('image url construction', function () {
       expect((result.error as Error).message).to.equal('crop y: -1 is not a number greater than 0');
     });
 
-    it('all options', function () {
+    it('all options', () => {
       const result = image.crop(101, 102, 81, 82, 1.2)
         .jpeg(100, true)
         .unsharpMask(10, 8, 9)
@@ -398,11 +400,11 @@ describe('image url construction', function () {
     });
   });
 
-  describe('smart crop geometry', function () {
+  describe('smart crop geometry', () => {
 
     const image = new Image(imageUrl);
 
-    it('all options', function () {
+    it('all options', () => {
       const result = image.smartCrop(101, 102)
         .jpeg(100, true)
         .unsharpMask(10, 8, 9)
@@ -420,11 +422,11 @@ describe('image url construction', function () {
     });
   });
 
-  describe('fill geometry', function () {
+  describe('fill geometry', () => {
 
     const image = new Image(imageUrl);
 
-    it('fill', function () {
+    it('fill', () => {
 
       const fill = image.fill(90, 91);
 
@@ -434,7 +436,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds w values down', function () {
+    it('rounds w values down', () => {
       const fill = image.fill(90.2, 91);
 
       expect(fill.toUrl()).to.deep.equal({
@@ -443,7 +445,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds w values up', function () {
+    it('rounds w values up', () => {
       const fill = image.fill(89.8, 91);
 
       expect(fill.toUrl()).to.deep.equal({
@@ -452,7 +454,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds h values down', function () {
+    it('rounds h values down', () => {
       const fill = image.fill(90, 91.2);
 
       expect(fill.toUrl()).to.deep.equal({
@@ -461,7 +463,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds h values up', function () {
+    it('rounds h values up', () => {
       const fill = image.fill(90, 90.9);
 
       expect(fill.toUrl()).to.deep.equal({
@@ -470,7 +472,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('reject w values smaller than 1', function () {
+    it('reject w values smaller than 1', () => {
       const fill = image.fill(0, 91);
       const result = fill.toUrl();
       expect(result.url).to.equal(null);
@@ -478,7 +480,7 @@ describe('image url construction', function () {
 
     });
 
-    it('reject h values smaller than 1', function () {
+    it('reject h values smaller than 1', () => {
       const fill = image.fill(90, 0);
       const result = fill.toUrl();
       expect(result.url).to.equal(null);
@@ -486,11 +488,11 @@ describe('image url construction', function () {
     });
   });
 
-  describe('fit geometry', function () {
+  describe('fit geometry', () => {
 
     const image = new Image(imageUrl);
 
-    it('fit', function () {
+    it('fit', () => {
 
       const fit = image.fit(90, 91);
 
@@ -500,7 +502,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds w values down', function () {
+    it('rounds w values down', () => {
       const fit = image.fit(90.2, 91);
 
       expect(fit.toUrl()).to.deep.equal({
@@ -509,7 +511,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds w values up', function () {
+    it('rounds w values up', () => {
       const fit = image.fit(89.8, 91);
 
       expect(fit.toUrl()).to.deep.equal({
@@ -518,7 +520,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds h values down', function () {
+    it('rounds h values down', () => {
       const fit = image.fit(90, 91.2);
 
       expect(fit.toUrl()).to.deep.equal({
@@ -527,7 +529,7 @@ describe('image url construction', function () {
       });
     });
 
-    it('rounds h values up', function () {
+    it('rounds h values up', () => {
       const fit = image.fit(90, 90.9);
 
       expect(fit.toUrl()).to.deep.equal({
@@ -536,14 +538,14 @@ describe('image url construction', function () {
       });
     });
 
-    it('reject w values smaller than 1', function () {
+    it('reject w values smaller than 1', () => {
       const fit = image.fit(0, 91);
       const result = fit.toUrl();
       expect(result.url).to.equal(null);
       expect((result.error as Error).message).to.equal('width: 0 is not a number greater than 1');
     });
 
-    it('reject h values smaller than 1', function () {
+    it('reject h values smaller than 1', () => {
       const fit = image.fit(90, 0);
       const result = fit.toUrl();
       expect(result.url).to.equal(null);
@@ -551,11 +553,11 @@ describe('image url construction', function () {
     });
   });
 
-  describe('url normalization', function () {
+  describe('url normalization', () => {
 
     const image = new Image(imageUrl);
 
-    it('preserves parameter order', function () {
+    it('preserves parameter order', () => {
       const result1 = image.crop(100, 200, 1, 2, 3)
         .jpeg(10)
         .unsharpMask(1, 2, 3)

@@ -1,7 +1,5 @@
 /* global describe, it, before, beforeEach, afterEach */
 
-'use strict';
-
 import {expect} from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -13,71 +11,73 @@ import {credentials} from '../server/credentials';
 const DEFAULT_FIXTURE_PATH = path.join(__dirname, '..', 'sources', 'image.jpg');
 const DEFAULT_PATH_PREFIX = '/test/';
 
+
 describe('E2E > File Management > File Upload', function () {
+  let fileManager;
+  let testPath;
+
+  // tslint:disable-next-line
   this.timeout(30000);
 
-  before('init test object', function () {
-    this.fileManager = new MediaPlatform(credentials).fileManager;
+  before('init test object', () => {
+    fileManager = new MediaPlatform(credentials).fileManager;
   });
 
-  beforeEach('test unique path', function () {
-    this.testPath = DEFAULT_PATH_PREFIX + uuid.v4() + '.jpg';
+  beforeEach('test unique path', () => {
+    testPath = DEFAULT_PATH_PREFIX + uuid.v4() + '.jpg';
   });
 
-  afterEach('clean up after test', function (done) {
-    this.fileManager.deleteFileByPath(this.testPath)
+  afterEach('clean up after test', (done) => {
+    fileManager.deleteFileByPath(testPath)
       .then(() => done());
   });
 
-  describe('data as string path', function () {
-
-    it('should be uploaded correctly', function (done) {
-      this.fileManager.uploadFile(this.testPath, DEFAULT_FIXTURE_PATH)
+  describe('data as string path', () => {
+    it('should be uploaded correctly', (done) => {
+      fileManager.uploadFile(testPath, DEFAULT_FIXTURE_PATH)
         .then(files => {
           expect(files).to.be.an('array');
-          expect(files[0].path).to.equal(this.testPath);
+          expect(files[0].path).to.equal(testPath);
 
           done();
         });
     });
-
   });
 
-  describe('data as Buffer', function () {
+  describe('data as Buffer', () => {
+    let testBuffer;
 
-    beforeEach('test buffer data', function () {
-      this.testBuffer = fs.readFileSync(DEFAULT_FIXTURE_PATH);
+    beforeEach('test buffer data', () => {
+      testBuffer = fs.readFileSync(DEFAULT_FIXTURE_PATH);
     });
 
-    it('should be uploaded correctly', function (done) {
-      this.fileManager.uploadFile(this.testPath, this.testBuffer)
+    it('should be uploaded correctly', (done) => {
+      fileManager.uploadFile(testPath, testBuffer)
         .then(files => {
           expect(files).to.be.an('array');
-          expect(files[0].path).to.equal(this.testPath);
-          expect(files[0].size).to.equal(this.testBuffer.length);
+          expect(files[0].path).to.equal(testPath);
+          expect(files[0].size).to.equal(testBuffer.length);
 
           done();
         });
     });
-
   });
 
-  describe('data as Stream', function () {
+  describe('data as Stream', () => {
+    let testStream;
 
-    beforeEach('test stream data', function () {
-      this.testStream = fs.createReadStream(DEFAULT_FIXTURE_PATH);
+    beforeEach('test stream data', () => {
+      testStream = fs.createReadStream(DEFAULT_FIXTURE_PATH);
     });
 
-    it('should be uploaded correctly', function (done) {
-      this.fileManager.uploadFile(this.testPath, this.testStream)
+    it('should be uploaded correctly', (done) => {
+      fileManager.uploadFile(testPath, testStream)
         .then(files => {
           expect(files).to.be.an('array');
-          expect(files[0].path).to.equal(this.testPath);
+          expect(files[0].path).to.equal(testPath);
 
           done();
         });
     });
-
   });
-
 });

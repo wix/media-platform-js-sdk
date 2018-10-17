@@ -1,10 +1,12 @@
-import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
-import {Image} from '../../../../src';
 import {expect} from 'chai';
 
-describe('image file descriptor parsing', function () {
+import {Image} from '../../../../src';
+import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 
-  it('creates a new Image from FileDescriptor', function () {
+
+describe('image file descriptor parsing', () => {
+
+  it('creates a new Image from FileDescriptor', () => {
 
     const fileDescriptor = new FileDescriptor({
       id: 'id',
@@ -18,9 +20,11 @@ describe('image file descriptor parsing', function () {
     });
 
     const image = new Image(fileDescriptor);
+    const imageUrl = image
+      .crop(500, 500)
+      .toUrl('//www.domain.com')
+      .url;
 
-    console.log(image.crop(500, 500).toUrl('//www.domain.com').error);
-    expect(image.crop(500, 500).toUrl('//www.domain.com').url)
-      .to.equal('//www.domain.com/images/1234/image.png/v1/crop/w_500,h_500,x_0,y_0/image.png');
+    expect(imageUrl).to.equal('//www.domain.com/images/1234/image.png/v1/crop/w_500,h_500,x_0,y_0/image.png');
   });
 });

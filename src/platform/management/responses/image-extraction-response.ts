@@ -31,7 +31,7 @@ export class ImageExtraction {
     }
 
     if (data.explicitContent && data.explicitContent.length) {
-      this.explicitContent = data.explicitContent.map((explicitContent: IExplicitContent) => new ExplicitContent(explicitContent))
+      this.explicitContent = data.explicitContent.map((explicitContent: IExplicitContent) => new ExplicitContent(explicitContent));
     }
   }
 }

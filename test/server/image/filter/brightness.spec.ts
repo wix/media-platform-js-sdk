@@ -2,16 +2,16 @@ import {expect} from 'chai';
 import {Brightness} from '../../../../src/image/filter/brightness';
 import {Image} from '../../../../src';
 
-describe('brightness', function () {
+describe('brightness', () => {
 
-  it('serializes', function () {
+  it('serializes', () => {
     const brightness = new Brightness(new Image());
     brightness.brightness(-100);
 
     expect(brightness.serialize()).to.deep.equal({params: 'br_-100', error: null});
   });
 
-  it('reject values greater than 100', function () {
+  it('reject values greater than 100', () => {
     const brightness = new Brightness(new Image());
     brightness.brightness(101);
 
@@ -21,7 +21,7 @@ describe('brightness', function () {
     });
   });
 
-  it('reject values smaller than -100', function () {
+  it('reject values smaller than -100', () => {
     const brightness = new Brightness(new Image());
     brightness.brightness(-101);
 
@@ -31,7 +31,7 @@ describe('brightness', function () {
     });
   });
 
-  it('resets for null', function () {
+  it('resets for null', () => {
     const brightness = new Brightness(new Image());
     brightness.brightness(70);
     brightness.brightness();
@@ -39,7 +39,7 @@ describe('brightness', function () {
     expect(brightness.serialize()).to.deep.equal({params: '', error: null});
   });
 
-  it('resets for undefined', function () {
+  it('resets for undefined', () => {
     const brightness = new Brightness(new Image());
     brightness.brightness(-9970);
     brightness.brightness();
@@ -47,7 +47,7 @@ describe('brightness', function () {
     expect(brightness.serialize()).to.deep.equal({params: '', error: null});
   });
 
-  it('resets for 0', function () {
+  it('resets for 0', () => {
     const brightness = new Brightness(new Image());
     brightness.brightness(-1);
     brightness.brightness(0);

@@ -1,10 +1,11 @@
-import {Token} from '../authentication/token';
-import {NS} from '../authentication/NS';
-import {VERB} from '../authentication/VERB';
-import {DownloadUrlRequest} from './requests/download-url-request';
 import {DownloadURLObject} from '../../types/media-platform/media-platform';
-import {Configuration} from '../configuration/configuration';
 import {Authenticator} from '../authentication/authenticator';
+import {NS} from '../authentication/NS';
+import {Token} from '../authentication/token';
+import {VERB} from '../authentication/VERB';
+import {Configuration} from '../configuration/configuration';
+
+import {DownloadUrlRequest} from './requests/download-url-request';
 
 
 export class FileDownloader {
@@ -23,7 +24,7 @@ export class FileDownloader {
    * @returns {{downloadUrl: string}}
    */
   getDownloadUrl(path: string, downloadUrlRequest?: DownloadUrlRequest): DownloadURLObject {
-    let payload: {path: string} & Partial<DownloadUrlRequest> = {
+    let payload: { path: string } & Partial<DownloadUrlRequest> = {
       path
     };
 
@@ -35,9 +36,7 @@ export class FileDownloader {
       .setSubject(NS.APPLICATION, this.configuration.appId)
       .setIssuer(NS.APPLICATION, this.configuration.appId)
       .setVerbs([VERB.FILE_DOWNLOAD])
-      .setAdditionalClaims({
-        payload: payload
-      });
+      .setAdditionalClaims({payload});
 
     if (downloadUrlRequest && downloadUrlRequest.ttl) {
       token.setExpiration(Math.round(new Date().getTime() / 1000) + downloadUrlRequest.ttl);

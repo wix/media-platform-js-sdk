@@ -23,15 +23,15 @@ export class ImageFeatures implements IImageFeatures {
   public colors: Color[] = [];
 
   constructor(data: IImageFeatures) {
-    this.labels = data.labels.map(function (label) {
+    this.labels = data.labels.map((label) => {
       return new Label(label);
     });
 
-    this.faces = data.faces.map(function (face) {
+    this.faces = data.faces.map((face) => {
       return new Rectangle(face.width, face.height, face.x, face.y);
     });
 
-    this.colors = data.colors.map(function (color) {
+    this.colors = data.colors.map((color) => {
       return new Color(color);
     });
   }

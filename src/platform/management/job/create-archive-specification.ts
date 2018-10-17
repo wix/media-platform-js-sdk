@@ -14,7 +14,7 @@ export class CreateArchiveSpecification implements ICreateArchiveSpecification {
   public archiveType: string;
 
   constructor(data: ICreateArchiveSpecification) {
-    this.sources = data.sources.map(function (source) {
+    this.sources = data.sources.map((source: ISource) => {
       return new Source(source);
     });
 

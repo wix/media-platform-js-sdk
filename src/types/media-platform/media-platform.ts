@@ -57,7 +57,7 @@ export interface TokenClaims {
 export type Successor = any;
 
 export interface ExportedImage {
-  Image: typeof Image,
+  Image: typeof Image;
   ImageOperationSpecification: typeof ImageOperationSpecification;
   ImageOperationRequest: typeof ImageOperationRequest;
 }
