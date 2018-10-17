@@ -25,6 +25,7 @@ cd media-platform-js-sdk
 npm update
 ```
 [Click here](https://docs.npmjs.com/getting-started/updating-local-packages) for more info.
+
 ## Running the Demo
 
 ```bash
@@ -42,6 +43,12 @@ and open http://localhost:3333/ in the browser
 ## Reporting Issues
 
 Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issues) to report issues related to this library, or to the Wix Media Platform API in general.
+
+## Develop
+If you want to help make Media Platform JS SDK better - you are welcome and **you are awesome**!
+
+- Create an issue or make a Pull Request
+- Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/) for commits names.
 
 ## License
 
