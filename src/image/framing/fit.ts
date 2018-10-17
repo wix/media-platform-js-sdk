@@ -1,6 +1,7 @@
-import {validator} from '../validation/validator';
-import {Geometry} from './geometry-base';
 import {SerializedGeometry} from '../../types/image/geometry';
+import {validator} from '../validation/validator';
+
+import {Geometry} from './geometry-base';
 
 /**
  * @description Uses only part of the image that fills the given dimensions. Only part of the original image might be visible if the required proportions are different than the original ones.
@@ -11,8 +12,8 @@ import {SerializedGeometry} from '../../types/image/geometry';
 
 export class Fit extends Geometry {
   public name = 'fit';
-  public x: number | null;
-  public y: number | null;
+  public x: number | null = null;
+  public y: number | null = null;
   public error: string | null = null;
 
   /**

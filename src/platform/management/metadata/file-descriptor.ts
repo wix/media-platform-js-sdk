@@ -6,11 +6,11 @@ export interface IFileDescriptor {
   acl: string | null;
   dateCreated?: string | null;
   dateUpdated?: string | null;
-  id: string;
+  id: string | undefined;
   hash?: string | null;
   lifecycle?: null;
   mimeType: string | null;
-  path: string;
+  path: string | undefined;
   size?: number | null;
   type?: string | null;
   urn?: string;
@@ -24,7 +24,7 @@ export class FileDescriptor implements IFileDescriptor {
   /**
    * @description a system assigned unique id
    */
-  public id: string;
+  public id: string | undefined = undefined;
   /**
    * @description the file content hash (null for folders)
    */
@@ -32,7 +32,7 @@ export class FileDescriptor implements IFileDescriptor {
   /**
    * @description the file location
    */
-  public path: string;
+  public path: string | undefined = undefined;
   /**
    * @description the file mime type
    */

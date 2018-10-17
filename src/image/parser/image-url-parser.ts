@@ -170,8 +170,7 @@ function applyFilters(image, explodedTransformations) {
       const handler = handlers[key];
 
       if (handler) {
-        // tslint:disable-next-line
-        image[handler].apply(this, explodedTransformations[key]);
+        image[handler].apply(image, explodedTransformations[key]);
       }
     }
   }

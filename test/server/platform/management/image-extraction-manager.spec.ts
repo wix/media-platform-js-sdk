@@ -62,7 +62,7 @@ describe('Image extraction manager', () => {
         .replyWithFile(200, repliesDir + 'image-extraction.response.json');
 
       await imageExtractionManager.extractImageById('fileId')
-        .then((data: ImageExtraction) => {
+        .then((data: ImageExtraction | Error) => {
           expect(data).to.be.deep.equal(new ImageExtraction(extractImageResponse));
         });
     });
@@ -79,7 +79,7 @@ describe('Image extraction manager', () => {
         .replyWithFile(200, repliesDir + 'image-extraction.response.json');
 
       await imageExtractionManager.extractImageByFilePath('path')
-        .then((data: ImageExtraction) => {
+        .then((data: ImageExtraction | Error) => {
           expect(data).to.be.deep.equal(new ImageExtraction(extractImageResponse));
         });
     });

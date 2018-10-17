@@ -47,7 +47,7 @@ export type UpdateFileACL = IUpdateFileACLById | IUpdateFileACLByPath;
 export class FileManager {
   public baseUrl: string;
   public apiUrl: string;
-  public queueFileUpload: (uploadJob: UploadJob) => void;
+  public queueFileUpload: ((uploadJob: UploadJob) => void) | undefined = undefined;
 
   constructor(public configuration: IConfigurationBase, public httpClient: IHTTPClient, public fileUploader: IFileUploader) {
     /**

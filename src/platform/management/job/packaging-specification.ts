@@ -11,9 +11,9 @@ export enum PackageType {
 }
 
 export interface IPackagingSpecification {
-  destination: IDestination;
-  chunkDuration: number;
-  packageType: PackageType;
+  destination: IDestination | undefined;
+  chunkDuration: number | undefined;
+  packageType: PackageType | undefined;
 }
 
 /**
@@ -21,21 +21,17 @@ export interface IPackagingSpecification {
  * @doc Packaging
  */
 export class PackagingSpecification implements IPackagingSpecification {
-  public destination: Destination;
-  public chunkDuration: number;
-  public packageType: PackageType;
+  public destination: Destination | undefined = undefined;
+  public chunkDuration: number | undefined = undefined;
+  public packageType: PackageType | undefined = undefined;
 
   constructor(data: IPackagingSpecification) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  private deserialize(data: IPackagingSpecification) {
-    this.destination = new Destination(data.destination);
     this.chunkDuration = data.chunkDuration;
+
+    if (data.destination) {
+      this.destination = new Destination(data.destination);
+    }
+
     this.packageType = data.packageType;
   }
 }

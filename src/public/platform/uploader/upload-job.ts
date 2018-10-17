@@ -33,7 +33,7 @@ export interface IUploadJob {
  */
 export class UploadJob extends EventEmitter {
   public state: UploadJobState = UploadJobState.STOPPED;
-  private request: XMLHttpRequest;
+  private request: XMLHttpRequest | undefined = undefined;
   private file;
   private path;
   private uploadFileRequest;
@@ -175,6 +175,7 @@ export class UploadJob extends EventEmitter {
     if (this.state !== UploadJobState.RUNNING) {
       throw Error('Job is not running');
     }
+
     if (this.request) {
       this.request.abort();
     }

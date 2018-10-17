@@ -1,6 +1,8 @@
-import {validator} from '../validation/validator';
-import {Image} from '../image';
 import {autobind} from 'core-decorators';
+
+import {Image} from '../image';
+import {validator} from '../validation/validator';
+
 
 export interface JPEGSettings {
   quality: number | null;
@@ -13,7 +15,7 @@ export interface JPEGSettings {
  */
 
 class JPEG {
-  public error: string | null;
+  public error: string | null = null;
   public settings: JPEGSettings = {
     quality: null,
     baseline: null

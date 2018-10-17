@@ -1,13 +1,15 @@
-import {validator} from '../validation/validator';
-import {Image} from '../image';
 import {autobind} from 'core-decorators';
+
+import {Image} from '../image';
+import {validator} from '../validation/validator';
+
 
 export interface SaturationSettings {
   saturation: number | null;
 }
 
 class Saturation {
-  public error: string | null;
+  public error: string | null = null;
   public settings: SaturationSettings = {
     saturation: null
   };

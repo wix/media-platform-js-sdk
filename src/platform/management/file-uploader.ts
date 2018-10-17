@@ -113,19 +113,24 @@ export class FileUploader implements IFileUploader {
     }
 
     return Promise.race([this.getUploadUrl(uploadUrlRequest), streamErrorPromise])
-      .then((response: UploadUrlResponse) => {
+      .then((response: UploadUrlResponse | {}) => {
+          if (!(response as UploadUrlResponse).uploadToken || !(response as UploadUrlResponse).uploadUrl) {
+            return Promise.reject('No `getUploadUrl` response');
+          }
+
+          const uploadResponse = response as UploadUrlResponse;
 
           let form: { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest> = {
             file: stream,
             path,
-            uploadToken: response.uploadToken
+            uploadToken: uploadResponse.uploadToken
           };
 
           if (uploadRequest) {
             form = {...form, ...uploadRequest};
           }
 
-          return this.httpClient.postForm<RawResponse<IFileDescriptor[]>>(response.uploadUrl, form);
+          return this.httpClient.postForm<RawResponse<IFileDescriptor[]>>(uploadResponse.uploadUrl, form);
         }, error => {
           return Promise.reject(error);
         }

@@ -40,14 +40,6 @@ export class LiveStream {
   public dateUpdated: string | undefined;
 
   constructor(data: ILiveStream) {
-    this.deserialize(data);
-  }
-
-  /**
-   * @param data
-   * @private
-   */
-  deserialize(data: ILiveStream) {
     this.id = data.id;
 
     this.publishEndpoint = new PublishEndpoint(data.publishEndpoint);
