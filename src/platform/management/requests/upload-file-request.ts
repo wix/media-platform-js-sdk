@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import {ACL, Lifecycle} from '../../../types/media-platform/media-platform';
 
 
@@ -24,7 +26,7 @@ export class UploadFileRequest {
     if (data.age) {
       this.lifecycle = JSON.stringify({
         action: Lifecycle.Delete,
-        age: data.age,
+        age: _.toInteger(data.age),
       });
     }
 

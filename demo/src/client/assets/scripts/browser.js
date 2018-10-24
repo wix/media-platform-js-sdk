@@ -2,35 +2,52 @@ const PATH_BASE = '/demo/';
 
 // FILE MANAGEMENT API
 
-(function () {
+(function() {
 
   // upload file
   const fileUploadButton = document.getElementById('file-management');
   const fileManagementLabel = document.getElementById('file-management-label');
   const fileUploadPayload = document.getElementById('file-management-payload');
   const fileUploadPath = document.getElementById('file-management-path');
+  const fileUploadAclInput = document.getElementById('file-upload-acl');
+  const fileUploadAgeInput = document.getElementById('file-upload-age-input');
+  const fileUploadPathInput = document.getElementById('file-upload-path-input');
 
-  fileUploadButton.addEventListener('change', function () {
-    const path = PATH_BASE + this.value.split('\\').pop();
+  fileUploadButton.addEventListener('change', function() {
+    const acl = fileUploadAclInput.value;
+    const age = fileUploadAgeInput.value;
     const file = this.files[0];
+    const path = `${fileUploadPathInput.value || '/'}${file.name}`;
 
     fileUploadPath.innerHTML = path;
 
-    startLoading(fileManagementLabel);
-    mediaPlatform.fileManager.deleteFileByPath(path)
-      .then(() => {
-        mediaPlatform.fileManager
-          .uploadFile(path, file)
-          .on('upload-success', function (response) {
-            stopLoading(fileManagementLabel);
+    const uploadFileRequest = new UploadFileRequest({
+      acl,
+      age
+    });
 
-            fileUploadPayload.innerHTML = Prism.highlight(
-              JSON.stringify(response.fileDescriptors, null, 2),
-              Prism.languages.js);
-          })
-          .on('upload-error', function () {
-            stopLoading(fileManagementLabel);
-          });
+    startLoading(fileManagementLabel);
+    fileUploadPayload.innerHTML = Prism.highlight(
+      '',
+      Prism.languages.js
+    );
+
+    mediaPlatform.fileManager.uploadFile(path, file, uploadFileRequest)
+      .on('upload-success', function(response) {
+        stopLoading(fileManagementLabel);
+
+        fileUploadPayload.innerHTML = Prism.highlight(
+          JSON.stringify(response.fileDescriptors, null, 2),
+          Prism.languages.js
+        );
+      })
+      .on('upload-error', function(error) {
+        stopLoading(fileManagementLabel);
+
+        fileUploadPayload.innerHTML = Prism.highlight(
+          JSON.stringify(error.response, null, 2),
+          Prism.languages.js
+        );
       });
   });
 
@@ -41,50 +58,59 @@ const PATH_BASE = '/demo/';
   const queuedFileUploadPayload = document.getElementById('queued-file-management-payload');
   const queuedFileUploadPath = document.getElementById('queued-file-management-path');
 
-  queuedFileUploadButton.addEventListener('change', function () {
+  queuedFileUploadButton.addEventListener('change', function() {
     const path = PATH_BASE + this.value.split('\\').pop();
     const file = this.files[0];
 
     queuedFileUploadPath.innerHTML = path;
 
-
     startLoading(queuedFileManagementLabel);
-    mediaPlatform.fileManager.deleteFileByPath(path)
-      .then(
-        () => {
-          const uploadJob = new MP.upload.UploadJob({
-            file,
-            path
-          })
-            .on('upload-success', function (response) {
-              stopLoading(queuedFileManagementLabel);
+    queuedFileUploadPayload.innerHTML = Prism.highlight(
+      '',
+      Prism.languages.js
+    );
 
-              queuedFileUploadPayload.innerHTML = Prism.highlight(
-                JSON.stringify(response.fileDescriptors, null, 2),
-                Prism.languages.js
-              );
-            })
-            .on('upload-error', function () {
-              stopLoading(queuedFileManagementLabel);
-            });
+    mediaPlatform.fileManager.uploadFile(path, file)
+      .on('upload-success', function(response) {
+        stopLoading(queuedFileManagementLabel);
 
-          mediaPlatform.fileManager.queueFileUpload(uploadJob);
-        });
+        queuedFileUploadPayload.innerHTML = Prism.highlight(
+          JSON.stringify(response.fileDescriptors, null, 2),
+          Prism.languages.js
+        );
+      })
+      .on('upload-error', function(error) {
+        stopLoading(queuedFileManagementLabel);
+
+        queuedFileUploadPayload.innerHTML = Prism.highlight(
+          JSON.stringify(error.response, null, 2),
+          Prism.languages.js
+        );
+      });
   });
 
   // get list of files
   const fileListButton = document.getElementById('file-list-button');
+  const fileListPathInput = document.getElementById('file-list-path-input');
+  const fileListPageSizeInput = document.getElementById('file-list-page-size-input');
   const fileListPayload = document.getElementById('file-list-payload');
 
-  fileListButton.addEventListener('click', function () {
+  fileListButton.addEventListener('click', function() {
+    const path = fileListPathInput.value || '/';
+    const pageSize = fileListPageSizeInput.value || 3;
+
     const listFileRequest = new MP.file.ListFilesRequest({
-      pageSize: 3
+      pageSize
     });
 
     startLoading(fileListButton);
+    fileListPayload.innerHTML = Prism.highlight(
+      '',
+      Prism.languages.js
+    );
 
     mediaPlatform.fileManager
-      .listFiles('/demo', listFileRequest)
+      .listFiles(path, listFileRequest)
       .then((response) => {
           stopLoading(fileListButton);
 
@@ -107,7 +133,7 @@ const PATH_BASE = '/demo/';
   const fileMetadataInput = document.getElementById('file-metadata-id-input');
   const fileMetadataPayload = document.getElementById('file-metadata-payload');
 
-  fileMetadataButton.addEventListener('click', function () {
+  fileMetadataButton.addEventListener('click', function() {
     const fileId = fileMetadataInput.value;
     if (!fileId) {
       console.log('please specify fileId');
@@ -115,14 +141,30 @@ const PATH_BASE = '/demo/';
     }
 
     startLoading(fileMetadataButton);
-    mediaPlatform.fileManager.getFileMetadataById(fileId)
-      .then((response) => {
-        stopLoading(fileMetadataButton);
+    fileMetadataPayload.innerHTML = Prism.highlight(
+      '',
+      Prism.languages.js
+    );
 
-        fileMetadataPayload.innerHTML = Prism.highlight(
-          JSON.stringify(response, null, 2),
-          Prism.languages.js);
-      });
+    mediaPlatform.fileManager.getFileMetadataById(fileId)
+      .then(
+        (response) => {
+          stopLoading(fileMetadataButton);
+
+          fileMetadataPayload.innerHTML = Prism.highlight(
+            JSON.stringify(response, null, 2),
+            Prism.languages.js
+          );
+        },
+        (error) => {
+          stopLoading(fileMetadataButton);
+
+          fileMetadataPayload.innerHTML = Prism.highlight(
+            JSON.stringify(error, null, 2),
+            Prism.languages.js
+          );
+        }
+      );
   });
 
   // delete file by id
@@ -130,7 +172,7 @@ const PATH_BASE = '/demo/';
   const fileDeleteInput = document.getElementById('file-delete-id-input');
   const fileDeletePayload = document.getElementById('file-delete-payload');
 
-  fileDeleteButton.addEventListener('click', function () {
+  fileDeleteButton.addEventListener('click', function() {
     const fileId = fileDeleteInput.value;
     if (!fileId) {
       console.log('please specify fileId');
@@ -138,17 +180,26 @@ const PATH_BASE = '/demo/';
     }
 
     startLoading(fileDeleteButton);
+    fileDeletePayload.innerHTML = Prism.highlight(
+      '',
+      Prism.languages.js
+    );
+
     mediaPlatform.fileManager.deleteFileById(fileId)
       .then(
         (response) => {
           stopLoading(fileDeleteButton);
 
           fileDeletePayload.innerHTML = Prism.highlight(
-            JSON.stringify(
-              response,
-              null,
-              2
-            ),
+            JSON.stringify(response, null, 2),
+            Prism.languages.js
+          );
+        },
+        (error) => {
+          stopLoading(fileDeleteButton);
+
+          fileDeletePayload.innerHTML = Prism.highlight(
+            JSON.stringify(error, null, 2),
             Prism.languages.js
           );
         }
@@ -160,7 +211,7 @@ const PATH_BASE = '/demo/';
   const downloadUrlInput = document.getElementById('download-url-input');
   const downloadUrlPayload = document.getElementById('download-url-payload');
 
-  downloadUrlButton.addEventListener('click', function () {
+  downloadUrlButton.addEventListener('click', function() {
     const path = downloadUrlInput.value;
     if (!path) {
       console.log('please specify file path');
@@ -187,7 +238,7 @@ const PATH_BASE = '/demo/';
 
 
 // IMAGE API
-(function () {
+(function() {
   const imageFile = document.getElementById('image-file');
   const imageFileLabel = document.getElementById('image-file-label');
   const imageOutput = document.getElementById('image-output');
@@ -219,14 +270,14 @@ const PATH_BASE = '/demo/';
   function parseFilterValue(filterValue) {
     const fnName = filterValue.split(';')[0];
     // to array with numbers
-    const args = filterValue.split(';')[1].split(',').map(function (val) {
+    const args = filterValue.split(';')[1].split(',').map(function(val) {
       return +val
     });
 
     return [fnName, args];
   }
 
-  imageFile.addEventListener('change', function () {
+  imageFile.addEventListener('change', function() {
     const path = PATH_BASE + this.value.split('\\').pop();
     const file = this.files[0];
     const filterValueArr = parseFilterValue(imageManipulationFilters.value);
@@ -245,7 +296,7 @@ const PATH_BASE = '/demo/';
 
     mediaPlatform.fileManager
       .uploadFile(path, file)
-      .on('upload-success', function (response) {
+      .on('upload-success', function(response) {
         stopLoading(imageFileLabel);
         const descriptors = response.fileDescriptors;
         const descriptor = imageDescriptor = descriptors[0];
@@ -253,7 +304,8 @@ const PATH_BASE = '/demo/';
         // set payload
         imagePayload.innerHTML = Prism.highlight(
           JSON.stringify(descriptor, null, 2),
-          Prism.languages.js);
+          Prism.languages.js
+        );
 
         const image = new MP.Image(descriptor);
 
@@ -269,13 +321,13 @@ const PATH_BASE = '/demo/';
         // set image
         imageOutput.setAttribute('src', url);
       })
-      .on('upload-error', function (error) {
+      .on('upload-error', function(error) {
         console.error('upload error:', error);
         stopLoading(imageFileLabel);
       });
   });
 
-  imageManipulationFilters.addEventListener('change', function () {
+  imageManipulationFilters.addEventListener('change', function() {
 
     imageManipulationCode.innerHTML = Prism.highlight(getImageManipulationCode(), Prism.languages.js)
 
@@ -305,14 +357,14 @@ const PATH_BASE = '/demo/';
 
 
 // VIDEO API
-(function () {
+(function() {
   const videoFile = document.getElementById('video-file');
   const videoFileLabel = document.getElementById('video-file-label');
   const videoOutput = document.getElementById('video-output');
   const videoPayload = document.getElementById('video-payload');
   const videoFilePath = document.getElementById('video-file-path');
 
-  videoFile.addEventListener('change', function () {
+  videoFile.addEventListener('change', function() {
     const path = PATH_BASE + this.value.split('\\').pop();
     const file = this.files[0];
 
@@ -323,17 +375,19 @@ const PATH_BASE = '/demo/';
       .then(() => {
         mediaPlatform.fileManager
           .uploadFile(path, file)
-          .on('upload-success', function (event) {
+          .on('upload-success', function(event) {
             stopLoading(videoFileLabel);
             const videos = event.fileDescriptors;
             const video = videos[0];
             const url = 'http://' + videosHost + video.path;
-            const html = Prism.highlight(JSON.stringify(video, null, 2), Prism.languages.js);
 
             videoOutput.setAttribute('src', url);
-            videoPayload.innerHTML = html;
+            videoPayload.innerHTML = Prism.highlight(
+              JSON.stringify(video, null, 2),
+              Prism.languages.js
+            );
           })
-          .on('upload-error', function (err) {
+          .on('upload-error', function(err) {
             stopLoading(videoFileLabel);
             console.error('upload error:', err);
           });
@@ -342,7 +396,7 @@ const PATH_BASE = '/demo/';
 })();
 
 // ARCHIVE API
-(function () {
+(function() {
   // create archive by id
   const createArchiveForm = document.getElementById('create-archive-form');
   const createArchiveButton = document.getElementById('create-archive-button');
@@ -352,7 +406,7 @@ const PATH_BASE = '/demo/';
   const createArchiveType = document.getElementById('create-archive-type-input');
   const createArchivePayload = document.getElementById('create-archive-payload');
 
-  createArchiveForm.addEventListener('submit', function (event) {
+  createArchiveForm.addEventListener('submit', function(event) {
     event.preventDefault();
     const fileId = createArchiveInput.value;
     if (!fileId) {
@@ -383,7 +437,8 @@ const PATH_BASE = '/demo/';
     function render(data) {
       createArchivePayload.innerHTML = Prism.highlight(
         JSON.stringify(data, null, 2),
-        Prism.languages.js);
+        Prism.languages.js
+      );
     }
 
     mediaPlatform.archiveManager
@@ -399,12 +454,12 @@ const PATH_BASE = '/demo/';
       })
       .subscribe(
         render,
-        function (error) {
+        function(error) {
           render(error);
           console.error(error);
           stopLoading(createArchiveButton);
         },
-        function () {
+        function() {
           console.info('Stopped loading');
           stopLoading(createArchiveButton);
         });
@@ -418,7 +473,7 @@ const PATH_BASE = '/demo/';
   const extractArchiveDestinationAcl = document.getElementById('extract-archive-destination-acl-input');
   const extractArchivePayload = document.getElementById('extract-archive-payload');
 
-  extractArchiveButton.addEventListener('click', function () {
+  extractArchiveButton.addEventListener('click', function() {
     const fileId = extractArchiveInput.value;
     if (!fileId) {
       console.log('please specify fileId');
@@ -466,14 +521,14 @@ const PATH_BASE = '/demo/';
 
 
 // TRANSCODE API
-(function () {
+(function() {
   // transcode video file by id
   const transcodeVideoButton = document.getElementById('transcode-video-button');
   const transcodeVideoInput = document.getElementById('transcode-video-id-input');
   const transcodeVideoPayload = document.getElementById('transcode-video-payload');
   const transcodeJobStatus = document.getElementById('transcode-job-status');
 
-  transcodeVideoButton.addEventListener('click', function () {
+  transcodeVideoButton.addEventListener('click', function() {
     const fileId = transcodeVideoInput.value;
     if (!fileId) {
       console.log('please specify fileId');
@@ -509,19 +564,20 @@ const PATH_BASE = '/demo/';
     function render(response) {
       transcodeVideoPayload.innerHTML = Prism.highlight(
         JSON.stringify(response, null, 2),
-        Prism.languages.js);
+        Prism.languages.js
+      );
     }
 
     mediaPlatform.avManager
       .transcodeVideoObservable(transcodeRequest)
       .subscribe(
         render,
-        function (error) {
+        function(error) {
           render(error);
           console.error(error);
           stopLoading(transcodeVideoButton);
         },
-        function () {
+        function() {
           console.info('Stopped loading');
           stopLoading(transcodeVideoButton);
         }
@@ -534,7 +590,8 @@ const PATH_BASE = '/demo/';
         transcodeJobStatus.innerText = 'Polling';
         transcodeVideoPayload.innerHTML = Prism.highlight(
           JSON.stringify(response, null, 2),
-          Prism.languages.js);
+          Prism.languages.js
+        );
 
         if (response.length) {
           let success = true;
@@ -550,7 +607,7 @@ const PATH_BASE = '/demo/';
             stopLoading(transcodeVideoButton);
             transcodeJobStatus.innerText = 'Success';
           } else {
-            setTimeout(function () {
+            setTimeout(function() {
               pollTranscodeJobStatus(jobGroupId);
             }, 5000);
           }
@@ -561,7 +618,7 @@ const PATH_BASE = '/demo/';
 
 
 // EXTRACT POSTER API
-(function () {
+(function() {
   // extractPoster video file by id
   const extractPosterVideoButton = document.getElementById('extract-poster-button');
   const extractPosterVideoInput = document.getElementById('extract-poster-id-input');
@@ -569,7 +626,7 @@ const PATH_BASE = '/demo/';
   const extractPosterImage = document.getElementById('extract-poster-image');
   const extractPosterJobStatus = document.getElementById('extract-poster-job-status');
 
-  extractPosterVideoButton.addEventListener('click', function () {
+  extractPosterVideoButton.addEventListener('click', function() {
     const fileId = extractPosterVideoInput.value;
     if (!fileId) {
       console.log('please specify fileId');
@@ -629,7 +686,8 @@ const PATH_BASE = '/demo/';
 
         extractPosterVideoPayload.innerHTML = Prism.highlight(
           JSON.stringify(response, null, 2),
-          Prism.languages.js);
+          Prism.languages.js
+        );
 
         if (response.length) {
           let success = true;
@@ -647,7 +705,7 @@ const PATH_BASE = '/demo/';
             const path = response[0].specification.destination.path;
             extractPosterImage.innerHTML = '<img src=\'//' + imagesHost + path + '\' width=\'400\'/>'
           } else {
-            setTimeout(function () {
+            setTimeout(function() {
               pollExtractPosterJobStatus(jobGroupId);
             }, 5000);
           }
@@ -657,7 +715,7 @@ const PATH_BASE = '/demo/';
 })();
 
 // EXTRACT STORYBOARD API
-(function () {
+(function() {
   // extractStoryboard video file by id
   const extractStoryboardVideoButton = document.getElementById('extract-storyboard-button');
   const extractStoryboardVideoInput = document.getElementById('extract-storyboard-id-input');
@@ -665,7 +723,7 @@ const PATH_BASE = '/demo/';
   const extractStoryboardImage = document.getElementById('extract-storyboard-image');
   const extractStoryboardJobStatus = document.getElementById('extract-storyboard-job-status');
 
-  extractStoryboardVideoButton.addEventListener('click', function () {
+  extractStoryboardVideoButton.addEventListener('click', function() {
     const fileId = extractStoryboardVideoInput.value;
     if (!fileId) {
       console.log('please specify fileId');
@@ -720,7 +778,8 @@ const PATH_BASE = '/demo/';
 
         extractStoryboardVideoPayload.innerHTML = Prism.highlight(
           JSON.stringify(response, null, 2),
-          Prism.languages.js);
+          Prism.languages.js
+        );
 
         if (response.length) {
           let success = true;
@@ -738,7 +797,7 @@ const PATH_BASE = '/demo/';
             const path = response[0].specification.destination.path;
             extractStoryboardImage.innerHTML = '<img src=\'//' + imagesHost + path + '\' width=\'400\'/>'
           } else {
-            setTimeout(function () {
+            setTimeout(function() {
               pollExtractStoryboardJobStatus(jobGroupId);
             }, 5000);
           }
@@ -748,14 +807,14 @@ const PATH_BASE = '/demo/';
 })();
 
 // FLOW Manager API
-(function () {
+(function() {
   // flow manager file by id
   const flowManagerButton = document.getElementById('flow-manager-button');
   const flowManagerInput = document.getElementById('flow-manager-id-input');
   const flowManagerPayload = document.getElementById('flow-manager-payload');
   const flowManagerJobStatus = document.getElementById('flow-manager-job-status');
 
-  flowManagerButton.addEventListener('click', function () {
+  flowManagerButton.addEventListener('click', function() {
     const fileUrl = flowManagerInput.value;
     if (!fileUrl) {
       console.log('please specify URL');
@@ -828,14 +887,15 @@ const PATH_BASE = '/demo/';
       .then((response) => {
         flowManagerJobStatus.innerText = 'Polling';
 
-        const t = setTimeout(function () {
+        const t = setTimeout(function() {
           pollFlowManagerJobStatus(flowId);
         }, 5000);
 
         if (response && response.flow && Object.keys(response.flow).length) {
           flowManagerPayload.innerHTML = Prism.highlight(
             JSON.stringify(response, null, 2),
-            Prism.languages.js);
+            Prism.languages.js
+          );
 
           let success = true;
           let failed = false;
@@ -868,14 +928,14 @@ const PATH_BASE = '/demo/';
 })();
 
 // File Import API
-(function () {
+(function() {
   // import file from url
   const fileImportButton = document.getElementById('file-import-button');
   const fileImportInput = document.getElementById('file-import-id-input');
   const fileImportPayload = document.getElementById('file-import-payload');
   const fileImportJobStatus = document.getElementById('file-import-job-status');
 
-  fileImportButton.addEventListener('click', function () {
+  fileImportButton.addEventListener('click', function() {
     const fileUrl = fileImportInput.value;
     if (!fileUrl) {
       console.log('please specify URL');
@@ -910,7 +970,7 @@ const PATH_BASE = '/demo/';
       .then((response) => {
         fileImportJobStatus.innerText = 'Polling';
 
-        const t = setTimeout(function () {
+        const t = setTimeout(function() {
           pollFileImportJobStatus(jobId);
         }, 5000);
 
@@ -918,7 +978,8 @@ const PATH_BASE = '/demo/';
         if (response && response.id) {
           fileImportPayload.innerHTML = Prism.highlight(
             JSON.stringify(response, null, 2),
-            Prism.languages.js);
+            Prism.languages.js
+          );
 
           let failed = false;
           let success = false;
@@ -946,13 +1007,13 @@ const PATH_BASE = '/demo/';
 })();
 
 // Image Extraction API
-(function () {
+(function() {
   // extract by file id
   const extractImageByIdButton = document.getElementById('extract-image-by-id-button');
   const extractImageByIdInput = document.getElementById('extract-image-by-id-input');
   const extractImageByIdPayload = document.getElementById('extract-image-by-id-payload');
 
-  extractImageByIdButton.addEventListener('click', function () {
+  extractImageByIdButton.addEventListener('click', function() {
     const id = extractImageByIdInput.value;
     if (!id) {
       console.log('please specify file id');
@@ -981,7 +1042,7 @@ const PATH_BASE = '/demo/';
   const extractImageByPathInput = document.getElementById('extract-image-by-path-input');
   const extractImageByPathPayload = document.getElementById('extract-image-by-path-payload');
 
-  extractImageByPathButton.addEventListener('click', function () {
+  extractImageByPathButton.addEventListener('click', function() {
     const path = extractImageByPathInput.value;
     if (!path) {
       console.error('please specify file path');
@@ -1007,7 +1068,7 @@ const PATH_BASE = '/demo/';
 })();
 
 // Packaging Service
-(function () {
+(function() {
   const packagingServiceInputFilePath = document.getElementById('packaging-service-input-file-path');
   const packagingServiceInputFileName = document.getElementById('packaging-service-input-file-name');
   const packagingServiceInputDirectory = document.getElementById('packaging-service-input-directory');
@@ -1017,7 +1078,7 @@ const PATH_BASE = '/demo/';
   const packagingServiceButton = document.getElementById('packaging-service-button');
   const packagingServicePayload = document.getElementById('packaging-service-payload');
 
-  packagingServiceButton.addEventListener('click', function () {
+  packagingServiceButton.addEventListener('click', function() {
     const path = packagingServiceInputFilePath.value;
     const name = packagingServiceInputFileName.value;
     const directory = packagingServiceInputDirectory.value;
@@ -1038,7 +1099,7 @@ const PATH_BASE = '/demo/';
         chunkDuration: chunkDuration,
         packageType: packageType
       })
-      .then(function (response) {
+      .then(function(response) {
         stopLoading(packagingServiceButton);
         packagingServicePayload.innerHTML = Prism.highlight(
           JSON.stringify(response || error, null, 2),

@@ -19,6 +19,7 @@
       var Destination = MP.Destination;
       var QualityRange = MP.QualityRange;
       var UploadUrlRequest = MP.file.UploadUrlRequest;
+      var UploadFileRequest = MP.file.UploadFileRequest;
       var ImportFileRequest = MP.file.ImportFileRequest;
       var TranscodeRequest = MP.transcode.TranscodeRequest;
       var ExtractPosterRequest = MP.transcode.ExtractPosterRequest;
@@ -83,9 +84,33 @@ mediaPlatform.fileManager.importFile(importFileRequest)
                     <pre><code class="language-javascript" id="file-import-payload"></code></pre>
                 </div>
             </div>
+
+
             <h4>Upload a file (any mime type)</h4>
+            <div class="demo-group">
+                <input class="text-input"
+                       id="file-upload-path-input"
+                       type="text"
+                       placeholder="Enter upload file path">
+                <br/>
+
+                <select class="acl-select" id="file-upload-acl">
+                    <option value="public" selected>Public</option>
+                    <option value="private">Private</option>
+                </select>
+                <span class="optionalInputLabel">Optional</span>
+                <br/>
+
+                <input class="text-input inputWithValidation"
+                       id="file-upload-age-input"
+                       type="number"
+                       step="1"
+                       min="31"
+                       max="31536000"
+                       placeholder="Enter age(in seconds)"><span class="optionalInputLabel">Optional</span>
+            </div>
             <div class="highlight">
-                    <pre><code class="language-javascript">mediaPlatform.fileManager.uploadFile(path, file)
+                    <pre><code class="language-javascript">mediaPlatform.fileManager.uploadFile(path, file, uploadFileRequest)
     .on('upload-progress', function(event) {
         // handle progress
     })
@@ -109,6 +134,8 @@ mediaPlatform.fileManager.importFile(importFileRequest)
                     <pre><code class="language-javascript" id="file-management-payload"></code></pre>
                 </div>
             </div>
+
+
             <h4>Queued file upload (any MIME type)</h4>
             <div class="highlight">
                     <pre><code class="language-javascript">var uploadJob = new MP.upload.UploadJob({
@@ -134,7 +161,21 @@ mediaPlatform.fileManager.queueFileUpload(uploadJob);</code></pre>
                     <pre><code class="language-javascript" id="queued-file-management-payload"></code></pre>
                 </div>
             </div>
-            <h4>Retrieve a list of uploaded files</h4>
+
+
+            <h4>Get a list of files from folder</h4>
+            <div class="demo-group">
+                <input class="text-input"
+                       id="file-list-path-input"
+                       type="text"
+                       placeholder="Enter folder path">
+                <br/>
+
+                <input class="text-input"
+                       id="file-list-page-size-input"
+                       type="text"
+                       placeholder="Enter page size">
+            </div>
             <div class="highlight">
                 <pre><code class="language-javascript">var listFileRequest = new MP.file.ListFilesRequest({
   pageSize: 3
