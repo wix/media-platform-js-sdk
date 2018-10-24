@@ -8,7 +8,8 @@ script:
   - npm run travis-script
 
 node_js:
+  - "10"
+  - "9"
   - "8"
   - "7"
   - "6"
-  - "4"
