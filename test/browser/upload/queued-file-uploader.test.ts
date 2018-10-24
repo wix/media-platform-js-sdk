@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import * as sinon from 'sinon';
 
 import {FileManager} from '../../../src/platform/management/file-manager';
+import {UploadFileRequest} from '../../../src/platform/management/requests/upload-file-request';
 import {HTTPClient} from '../../../src/public/platform/http/browser-http-client';
 import {FileUploader} from '../../../src/public/platform/uploader/browser-file-uploader';
 import {QueuedFileUploader} from '../../../src/public/platform/uploader/queued-file-uploader';
@@ -22,6 +23,9 @@ describe('queued file uploader', function () {
     domain: 'www.domain.com',
     authenticationUrl: 'https://www.myapp.com/auth'
   };
+
+  const uploadToken = 'token';
+
   let browserHTTPClient;
   let fileUploader;
   let queuedFileUploader: QueuedFileUploader;
@@ -39,7 +43,8 @@ describe('queued file uploader', function () {
       ancestors: ['/'],
       acl: 'public',
       dateUpdated: '2017-02-20T14:23:42Z',
-      type: '-'
+      type: '-',
+      lifecycle: null
     }]
   };
   const sandbox = sinon.sandbox.create();
@@ -147,6 +152,94 @@ describe('queued file uploader', function () {
       .on('upload-error', error => done(error));
   });
 
+  describe('lifecycle(age)', () => {
+    it('should upload file with default(none) lifecycle', (done) => {
+      setResponse(fileUploadResponse);
+
+      fauxJax.on('request', (request) => {
+        if (request.requestURL.indexOf('https://www.domain.com/_api/upload/url') === 0) {
+          expect(request.requestURL).to.equal('https://www.domain.com/_api/upload/url?acl=public&mimeType=image%2Fjpeg&path=upload%2Fto%2Fthere%2Fimage.jpg');
+          return;
+        }
+
+        if (request.requestURL === 'https://www.domain.com/_api/upload') {
+          expect(request.requestBody.get('acl')).to.eq('public');
+          expect(request.requestBody.get('lifecycle')).to.eq(null);
+          expect(request.requestBody.get('mimeType')).to.eq(null);
+          expect(request.requestBody.get('path')).to.eql('upload/to/there/image.jpg');
+          expect(request.requestBody.get('uploadToken')).to.eql(uploadToken);
+
+          return;
+        }
+      });
+
+      const file = new FileAPI.File('../files/image.jpg');
+
+      (fileManager.uploadFile('upload/to/there/image.jpg', file) as UploadJob)
+        .on('upload-success', () => done())
+        .on('upload-error', error => done(error));
+    });
+
+    it('should upload file with delete lifecycle', (done) => {
+      const uploadFileResponse = {
+        code: 0,
+        message: 'OK',
+        payload: [{
+          mimeType: 'text/plain',
+          hash: 'd41d8cd98f00b204e9800998ecf8427e',
+          parent: '/',
+          dateCreated: '2017-02-20T14:23:42Z',
+          path: '/place-holder.txt',
+          id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+          size: 0,
+          ancestors: ['/'],
+          acl: 'public',
+          dateUpdated: '2017-02-20T14:23:42Z',
+          type: '-',
+          lifecycle: {
+            action: 'delete',
+            age: 33
+          }
+        }]
+      };
+
+      setResponse(uploadFileResponse);
+
+      fauxJax.on('request', (request) => {
+        if (request.requestURL.indexOf('https://www.domain.com/_api/upload/url') === 0) {
+          expect(request.requestURL).to.equal('https://www.domain.com/_api/upload/url?acl=public&mimeType=image%2Fjpeg&path=upload%2Fto%2Fthere%2Fimage.jpg');
+          return;
+        }
+
+        if (request.requestURL === 'https://www.domain.com/_api/upload') {
+          expect(request.requestBody.get('acl')).to.equal('public');
+          expect(request.requestBody.get('lifecycle')).to.eq(JSON.stringify({
+            action: 'delete',
+            age: 33
+          }));
+          expect(request.requestBody.get('mimeType')).to.eq(null);
+          expect(request.requestBody.get('path')).to.eql('upload/to/there/image.jpg');
+          expect(request.requestBody.get('uploadToken')).to.eql(uploadToken);
+
+          return;
+        }
+      });
+
+      const file = new FileAPI.File('../files/image.jpg');
+      const uploadFileRequest = new UploadFileRequest({
+        age: 33
+      });
+
+      (fileManager.uploadFile('upload/to/there/image.jpg', file, uploadFileRequest) as UploadJob)
+        .on('upload-success', response => {
+          expect(response.payload).to.eql(response.payload);
+
+          return done();
+        })
+        .on('upload-error', error => done(error));
+    });
+  });
+
   it('should raise when abort() called, but not run yet', () => {
     setResponse(fileUploadResponse);
 
@@ -200,7 +293,7 @@ describe('queued file uploader', function () {
             message: 'OK',
             payload: {
               uploadUrl: 'https://www.domain.com/_api/upload',
-              uploadToken: 'token'
+              uploadToken
             }
           }));
         return;
@@ -210,7 +303,6 @@ describe('queued file uploader', function () {
         setTimeout(() => {
           request.respond(responseStatus, {'Content-Type': 'application/json'}, JSON.stringify(responseBody));
         }, UPLOAD_TIMEOUT);
-
       }
     });
   }

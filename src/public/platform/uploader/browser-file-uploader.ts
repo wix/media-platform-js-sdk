@@ -41,9 +41,9 @@ export class FileUploader implements IFileUploader {
    */
   uploadFile(path: string, file: File, uploadFileRequest?: UploadFileRequest) {
     const uploadJob = new UploadJob({
-      path,
       file,
-      uploadFileRequest
+      path,
+      uploadFileRequest,
     });
 
     return uploadJob.run(this);

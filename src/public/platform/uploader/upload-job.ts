@@ -36,9 +36,9 @@ export class UploadJob extends EventEmitter {
   private request: XMLHttpRequest | undefined = undefined;
   private file;
   private path;
-  private uploadFileRequest;
+  private uploadFileRequest?: UploadFileRequest;
 
-  constructor({path, file, uploadFileRequest}: IUploadJob) {
+  constructor({file, path, uploadFileRequest}: IUploadJob) {
     super();
 
     this.file = file;
@@ -135,13 +135,20 @@ export class UploadJob extends EventEmitter {
 
           const formData = new FormData();
           formData.append('uploadToken', response.uploadToken);
+
           if (this.path !== undefined) {
             formData.append('path', this.path);
           }
+
           if (this.file !== undefined) {
             formData.append('file', this.file);
           }
+
           formData.append('acl', acl);
+
+          if (this.uploadFileRequest && this.uploadFileRequest.lifecycle) {
+            formData.append('lifecycle', this.uploadFileRequest.lifecycle);
+          }
 
           const request = this.request = new XMLHttpRequest();
 

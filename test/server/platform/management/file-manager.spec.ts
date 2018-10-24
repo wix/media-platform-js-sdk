@@ -15,8 +15,15 @@ import {ImageBasicMetadata} from '../../../../src/platform/management/metadata/i
 import {ImageFeatures} from '../../../../src/platform/management/metadata/image-features';
 import {VideoBasicMetadata} from '../../../../src/platform/management/metadata/video-basic-metadata';
 import {ImportFileRequest} from '../../../../src/platform/management/requests/import-file-request';
+import {UploadFileRequest} from '../../../../src/platform/management/requests/upload-file-request';
 import {ListFilesResponse} from '../../../../src/platform/management/responses/list-files-response';
-import {ACL, FileType, DescriptorMimeType, OrderDirection} from '../../../../src/types/media-platform/media-platform';
+import {
+  ACL,
+  DescriptorMimeType,
+  FileType,
+  Lifecycle,
+  OrderDirection
+} from '../../../../src/types/media-platform/media-platform';
 
 const repliesDir = __dirname + '/replies/';
 const sourcesDir = __dirname + '/../../../sources/';
@@ -417,6 +424,138 @@ describe('File Manager', () => {
           expect(error).to.be.an.instanceof(Error);
           done();
         });
+    });
+
+    describe('acl', () => {
+      it('should upload file with default(public) ACL', (done) => {
+        apiServer
+          .get('/_api/upload/url')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(200, repliesDir + 'file-upload-response.json');
+
+        (fileManager.uploadFile(
+          'upload/to/there/image.jpg',
+          sourcesDir + 'image.jpg',
+        ) as Promise<FileDescriptor[]>)
+          .then((response) => {
+            expect(response[0].acl).to.be.eql(ACL.PUBLIC);
+            done();
+          });
+      });
+
+      it('should upload file with public ACL', (done) => {
+        apiServer
+          .get('/_api/upload/url')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(200, repliesDir + 'file-upload-response.json');
+
+        const uploadFileRequest = new UploadFileRequest({
+          acl: ACL.PUBLIC
+        });
+
+        (fileManager.uploadFile(
+          'upload/to/there/image.jpg',
+          sourcesDir + 'image.jpg',
+          uploadFileRequest,
+        ) as Promise<FileDescriptor[]>)
+          .then((response) => {
+            expect(response[0].acl).to.be.eql(ACL.PUBLIC);
+            done();
+          });
+      });
+
+      it('should upload file with private ACL', (done) => {
+        apiServer
+          .get('/_api/upload/url')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(200, repliesDir + 'file-upload-private-response.json');
+
+        const uploadFileRequest = new UploadFileRequest({
+          acl: ACL.PRIVATE
+        });
+
+        (fileManager.uploadFile(
+          'upload/to/there/image.jpg',
+          sourcesDir + 'image.jpg',
+          uploadFileRequest
+        ) as Promise<FileDescriptor[]>)
+          .then((response) => {
+            expect(response[0].acl).to.be.eql(ACL.PRIVATE);
+            done();
+          });
+      });
+    });
+
+    describe('lifecycle(age)', () => {
+      it('should upload file with default(none) lifecycle', (done) => {
+        apiServer
+          .get('/_api/upload/url')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(200, repliesDir + 'file-upload-response.json');
+
+        (fileManager.uploadFile(
+          'upload/to/there/image.jpg',
+          sourcesDir + 'image.jpg',
+        ) as Promise<FileDescriptor[]>)
+          .then((response) => {
+            expect(response[0].lifecycle).to.be.eql(null);
+            done();
+          });
+      });
+
+      it('should upload file with delete lifecycle', (done) => {
+        apiServer
+          .get('/_api/upload/url')
+          .once()
+          .query(true)
+          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(200, repliesDir + 'file-upload-lifecycle-delete-response.json');
+
+        const uploadFileRequest = new UploadFileRequest({
+          age: 50,
+        });
+
+        (fileManager.uploadFile(
+          'upload/to/there/image.jpg',
+          sourcesDir + 'image.jpg',
+          uploadFileRequest,
+        ) as Promise<FileDescriptor[]>)
+          .then((response) => {
+            expect(response[0].lifecycle).to.be.eql({
+              action: Lifecycle.Delete,
+              age: 50,
+            });
+            done();
+          });
+      });
     });
   });
 

@@ -52,7 +52,8 @@ describe('webhook deserializer', () => {
         size: 0,
         acl: 'public',
         dateCreated: '2017-02-20T14:23:42Z',
-        dateUpdated: '2017-02-20T14:23:42Z'
+        dateUpdated: '2017-02-20T14:23:42Z',
+        lifecycle: null,
       }
     }));
   });
@@ -96,7 +97,8 @@ describe('webhook deserializer', () => {
         size: 0,
         acl: 'public',
         dateCreated: '2017-02-20T14:23:42Z',
-        dateUpdated: '2017-02-20T14:23:42Z'
+        dateUpdated: '2017-02-20T14:23:42Z',
+        lifecycle: null,
       }
     }));
   });

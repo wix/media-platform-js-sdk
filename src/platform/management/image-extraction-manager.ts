@@ -9,7 +9,6 @@ import {ImageExtraction, ImageExtractionResponse} from './responses/image-extrac
 /**
  * @param {Configuration} configuration
  * @param {HTTPClient} httpClient
- * @param {FileUploader} fileUploader
  * @constructor
  */
 

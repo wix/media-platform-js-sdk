@@ -2,13 +2,19 @@
  * IFileDescriptor
  * @doc FileDescriptor
  */
+import {Lifecycle} from '../../../types/media-platform/media-platform';
+
+
 export interface IFileDescriptor {
   acl: string | null;
   dateCreated?: string | null;
   dateUpdated?: string | null;
   id: string | undefined;
   hash?: string | null;
-  lifecycle?: null;
+  lifecycle: {
+    action: Lifecycle;
+    age: number;
+  } | null;
   mimeType: string | null;
   path: string | undefined;
   size?: number | null;
@@ -25,30 +31,45 @@ export class FileDescriptor implements IFileDescriptor {
    * @description a system assigned unique id
    */
   public id: string | undefined = undefined;
+
   /**
    * @description the file content hash (null for folders)
    */
   public hash?: string | null = null;
+
   /**
    * @description the file location
    */
   public path: string | undefined = undefined;
+
   /**
    * @description the file mime type
    */
   public mimeType: string | null = null;
+
   /**
    * @description file or directory
    */
   public type?: string | null = null;
+
   /**
    * @description the file size (content-length) in bytes, null for folders
    */
   public size?: number | null = null;
+
   /**
    * @description whether the file has public access or not
    */
   public acl: string | null = null;
+
+  /**
+   * @description lifecycle - delete action: how long the file should leave in seconds
+   */
+  public lifecycle: {
+    action: Lifecycle;
+    age: number
+  } | null = null;
+
   public dateCreated: string | null = null;
   public dateUpdated: string | null = null;
 
@@ -64,6 +85,8 @@ export class FileDescriptor implements IFileDescriptor {
     }
 
     this.hash = data.hash || null;
+
+    this.lifecycle = data.lifecycle || null;
 
     this.mimeType = data.mimeType || null;
 

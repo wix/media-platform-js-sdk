@@ -16,7 +16,10 @@
       "acl": "public",
       "dateUpdated": "2017-03-08T12:57:38Z",
       "type": "-",
-      "lifecycle": null
+      "lifecycle": {
+        "action": "delete",
+        "age": 50
+      }
     }
   ]
 }

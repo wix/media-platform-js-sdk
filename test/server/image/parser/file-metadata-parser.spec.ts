@@ -17,7 +17,8 @@ describe('image file descriptor parsing', () => {
         path: '/images/animals/cat.jpg',
         type: '-',
         id: '2145ae56cd5c47c79c05d4cfef5f1078',
-        size: 15431
+        size: 15431,
+        lifecycle: null
       },
       basic: {
         height: 600,

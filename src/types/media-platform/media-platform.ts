@@ -150,3 +150,7 @@ export enum LiveStreamState {
   DVR_PROCESSING = 'dvr_processing',
   CLOSED = 'closed'
 }
+
+export enum Lifecycle {
+  Delete = 'delete',
+}

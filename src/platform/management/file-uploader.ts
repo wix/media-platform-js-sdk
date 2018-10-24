@@ -23,9 +23,15 @@ export interface IFileUploader {
   configuration: IConfigurationBase;
   httpClient: IHTTPClient;
 
-  getUploadUrl(uploadUrlRequest?: IUploadUrlRequest): Promise<UploadUrlResponse>;
+  getUploadUrl(
+    uploadUrlRequest?: IUploadUrlRequest
+  ): Promise<UploadUrlResponse>;
 
-  uploadFile(path: string, file: string | Buffer | Stream | File, uploadRequest?: UploadFileRequest);
+  uploadFile(
+    path: string,
+    file: string | Buffer | Stream | File,
+    uploadRequest?: UploadFileRequest
+  );
 }
 
 /**
@@ -58,10 +64,13 @@ export class FileUploader implements IFileUploader {
    * @description upload a file
    * @param {string} path the destination to which the file will be uploaded
    * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
-   * @param {UploadFileRequest?} uploadRequest
+   * @param {UploadFileRequest?} uploadFileRequest
    */
-  uploadFile(path: string, file: string | Buffer | Stream, uploadRequest: UploadFileRequest): Promise<FileDescriptor[]> {
-    let calledBack = false;
+  uploadFile(
+    path: string,
+    file: string | Buffer | Stream,
+    uploadFileRequest: UploadFileRequest
+  ): Promise<FileDescriptor[]> {
     let stream: UploadFileStream;
     let size: number | null = null;
 
@@ -74,13 +83,13 @@ export class FileUploader implements IFileUploader {
           reject(error);
         });
       });
-
     } else if (typeof file === 'string') {
       try {
         size = fs.statSync(file).size;
       } catch (error) {
         return Promise.reject(error);
       }
+
       stream = fs.createReadStream(file);
       streamErrorPromise = new Promise((resolve, reject) => {
         (stream as Stream).once('error', (error) => {
@@ -103,10 +112,10 @@ export class FileUploader implements IFileUploader {
 
     let uploadUrlRequest: UploadUrlRequest | undefined = undefined;
 
-    if (uploadRequest) {
+    if (uploadFileRequest) {
       uploadUrlRequest = new UploadUrlRequest({
-        acl: uploadRequest.acl,
-        mimeType: uploadRequest.mimeType,
+        acl: uploadFileRequest.acl,
+        mimeType: uploadFileRequest.mimeType,
         path,
         size
       });
@@ -126,8 +135,11 @@ export class FileUploader implements IFileUploader {
             uploadToken: uploadResponse.uploadToken
           };
 
-          if (uploadRequest) {
-            form = {...form, ...uploadRequest};
+          if (uploadFileRequest) {
+            form = {
+              ...form,
+              ...uploadFileRequest
+            };
           }
 
           return this.httpClient.postForm<RawResponse<IFileDescriptor[]>>(uploadResponse.uploadUrl, form);

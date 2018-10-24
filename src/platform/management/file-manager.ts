@@ -83,10 +83,14 @@ export class FileManager {
    * @description upload a file
    * @param {string} path the destination to which the file will be uploaded
    * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
-   * @param {UploadFileRequest?} uploadRequest
+   * @param {UploadFileRequest?} uploadFileRequest
    */
-  uploadFile(path: string, file: string | Buffer | Stream, uploadRequest?: UploadFileRequest): Promise<FileDescriptor[]> | UploadJob {
-    const uploadFileResult = this.fileUploader.uploadFile(path, file, uploadRequest);
+  uploadFile(
+    path: string,
+    file: string | Buffer | Stream,
+    uploadFileRequest?: UploadFileRequest
+  ): Promise<FileDescriptor[]> | UploadJob {
+    const uploadFileResult = this.fileUploader.uploadFile(path, file, uploadFileRequest);
     // TODO: do it in a right way
     // Browser file uploader return `UploadJob` instead of promise
     if (!uploadFileResult.then) {

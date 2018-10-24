@@ -29,19 +29,21 @@ var fileDateUpdated = fileDescriptor.dateUpdated;
 Uploads a file to WixMP by requesting an upload URL and upload token from the application, and performing 
 a `POST` request to that URL with the relevant file information.
 
-First, create an `UploadFileRequest`. This object defines the uploaded file's mime type and ACL.
+First, create an `UploadFileRequest`. This object defines the uploaded file's ACL, age(how long the file should leave in seconds) and mime type.
 
 ```typescript
 var UploadFileRequest = require('media-platform-js-sdk').file.UploadFileRequest;
 
 var uploadRequest = new UploadFileRequest({
   acl: acl,
+  age: 40,
   mimeType: mimeType
 });
 ```
 __Parameters__:  
-   - `mimeType` (string): for example, `"image/jpeg"`. If the source file is provided by its path (and not as a stream or buffer), the mime type is determined automatically, so you don't have to call `setMimeType`.
    - `acl` (string): can be either `"private"` or `"public"` (default value is "public").
+   - `age` (number): how long the file should leave in seconds, can be greater than `30` and less than `31536000(365 days)`. default value is `null`
+   - `mimeType` (string): for example, `"image/jpeg"`. If the source file is provided by its path (and not as a stream or buffer), the mime type is determined automatically, so you don't have to set `mimeType`.
 
 
 ### From Server
