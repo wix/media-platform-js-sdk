@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as _ from 'lodash';
 import * as Stream from 'stream';
 
 import {RawResponse} from '../../types/response/response';
@@ -74,7 +73,9 @@ export class FileUploader implements IFileUploader {
     let stream: UploadFileStream;
     let size: number | null = null;
 
-    let streamErrorPromise = new Promise(_.noop); // never resolving;
+    let streamErrorPromise = new Promise(() => {
+      // empty function
+    }); // never resolving;
 
     if (file instanceof Stream && typeof file.pipe === 'function') {
       stream = file;

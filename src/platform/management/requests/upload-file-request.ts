@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 import {ACL, Lifecycle} from '../../../types/media-platform/media-platform';
 
 
@@ -24,9 +22,12 @@ export class UploadFileRequest {
     }
 
     if (data.age) {
+      // strong validation of age type
+      const age = typeof data.age === 'string' ? parseInt(data.age, 10) : data.age;
+
       this.lifecycle = JSON.stringify({
         action: Lifecycle.Delete,
-        age: _.toInteger(data.age),
+        age,
       });
     }
 

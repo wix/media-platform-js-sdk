@@ -1,7 +1,6 @@
 import {expect} from 'chai';
 import * as fauxJax from 'faux-jax';
 import * as FileAPI from 'file-api';
-import * as _ from 'lodash';
 import * as sinon from 'sinon';
 
 import {FileManager} from '../../../src/platform/management/file-manager';
@@ -80,15 +79,21 @@ describe('queued file uploader', function () {
       path: '/fish/file.mp3'
     });
 
-    uploadJob.on('upload-started', _.noop);
+    uploadJob.on('upload-started', () => {
+      // handle upload started
+    });
 
     uploadJob.on('upload-progress', () => {
       progress = true;
     });
 
-    uploadJob.on('upload-error', _.noop);
+    uploadJob.on('upload-error', () => {
+      // handle error
+    });
 
-    uploadJob.on('upload-success', _.noop);
+    uploadJob.on('upload-success', () => {
+      // handle success
+    });
 
     queuedFileUploader.enqueue(uploadJob);
     await endPromise;
@@ -109,8 +114,12 @@ describe('queued file uploader', function () {
       file
     });
 
-    uploadJob.on('upload-error', _.noop);
-    uploadJob.on('upload-success', _.noop);
+    uploadJob.on('upload-error', () => {
+      // handle error
+    });
+    uploadJob.on('upload-success', () => {
+      // handle success
+    });
 
     queuedFileUploader.enqueue(uploadJob);
     queuedFileUploader.enqueue(uploadJob);
@@ -266,8 +275,12 @@ describe('queued file uploader', function () {
       file
     });
 
-    uploadJob.on('upload-error', _.noop);
-    uploadJob.on('upload-success', _.noop);
+    uploadJob.on('upload-error', () => {
+      // handle error
+    });
+    uploadJob.on('upload-success', () => {
+      // handle success
+    });
 
     queuedFileUploader.enqueue(uploadJob);
     await endPromise;

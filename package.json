@@ -1,6 +1,6 @@
 {
   "name": "media-platform-js-sdk",
-  "version": "7.0.0-alpha.5",
+  "version": "7.0.0-alpha.6",
   "description": "The official Wix Media Platform Javascript SDK",
   "author": "Wix Media Platform",
   "homepage": "https://github.com/wix/media-platform-js-sdk",
@@ -44,6 +44,7 @@
   },
   "scripts": {
     "build": "yoshi lint && yoshi build",
+    "build:analyze": "yoshi build --analyze",
     "lint": "yoshi lint",
     "test": "yoshi test --mocha --karma --protractor",
     "test:karma": "yoshi test --karma",
