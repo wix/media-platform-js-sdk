@@ -133,15 +133,16 @@ and content disposition header (for more information, see the [API documentation
 ```javascript
 var DownloadUrlRequest = require('media-platform-js-sdk').file.DownloadUrlRequest;
 
-var downloadUrlRequest = new DownloadUrlRequest()
-                            .setTTL(ttl)
-                            .setAttachment(filename)
-                            .setOnExpireRedirectTo(onExpireRedirectTo);
+var downloadUrlRequest = new DownloadUrlRequest({
+  expirationRedirectUrl,
+  expriry,
+  saveAs
+})
 ```
 __Parameters__:
-- `ttl` (integer) - the token time to live in seconds.
-- `filename` (string) - Content-Disposition header, if provided the content disposition is set to attachment with the provided file name.
-- `onExpireRedirectTo` (string) - if the token expired, the page will redirect to this URL.
+- `expirationRedirectUrl` (string) (optional) - if the token expired, the page will redirect to this URL.
+- `expiry` (integer) (optional) (default - 600) - the token time to live in seconds.
+- `saveAs` (string) (optional) - the file will save with name
 
 To get the download URL:
 ```typescript

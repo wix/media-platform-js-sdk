@@ -1,10 +1,9 @@
-/**
- * Attachment
- * @doc DownloadUrlRequest
- */
-export interface Attachment {
-  filename?: string;
+export interface IDownloadUrlRequest {
+  expirationRedirectUrl?: string;
+  expiry?: number;
+  saveAs?: string;
 }
+
 
 /**
  * Download Url Request
@@ -12,49 +11,34 @@ export interface Attachment {
  */
 export class DownloadUrlRequest {
   /**
-   * @description the token time to live in seconds
-   * @type {number}
-   */
-  public ttl: number = 600;
-  /**
-   * @description Content-Disposition header, if provided the content disposition is set to attachment with the provided file name
-   * @type {{filename: <string>}}
-   */
-  public attachment: Attachment | null = null;
-  /**
    * @description if the token expired, will redirect to this provided url
    * @type {string | null}
    */
-  public onExpireRedirectTo: string | null = null;
+  public expirationRedirectUrl: string | undefined;
 
   /**
-   * @param {number} ttl
-   * @returns {DownloadUrlRequest}
+   * @description the token time to live in seconds
+   * @type {number}
    */
-  setTTL(ttl: number): this {
-    this.ttl = ttl;
-    return this;
-  }
+  public expiry: number | undefined;
 
   /**
-   * @param {string?} filename
-   * @returns {DownloadUrlRequest}
+   * @description the file name will save as
+   * @type {string}
    */
-  setAttachment(filename: string): this {
-    this.attachment = {};
-    if (filename) {
-      this.attachment.filename = filename;
+  public saveAs: string = 'true';
+
+  constructor(data: IDownloadUrlRequest) {
+    if (data.expirationRedirectUrl) {
+      this.expirationRedirectUrl = data.expirationRedirectUrl;
     }
 
-    return this;
-  }
+    if (data.expiry) {
+      this.expiry = data.expiry;
+    }
 
-  /**
-   * @param {string} onExpireRedirectTo
-   * @returns {DownloadUrlRequest}
-   */
-  setOnExpireRedirectTo(onExpireRedirectTo: string): this {
-    this.onExpireRedirectTo = onExpireRedirectTo;
-    return this;
+    if (data.saveAs) {
+      this.saveAs = data.saveAs;
+    }
   }
 }

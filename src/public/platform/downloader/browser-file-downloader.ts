@@ -6,8 +6,7 @@ import {HTTPClient} from '../http/browser-http-client';
 
 
 export class FileDownloader {
-  constructor(public configuration: Configuration, public httpClient: HTTPClient) {
-  }
+  constructor(public configuration: Configuration, public httpClient: HTTPClient) {}
 
   /**
    * @param {string} path
@@ -15,21 +14,15 @@ export class FileDownloader {
    * @returns {Promise<DownloadUrl>>}
    */
   getDownloadUrl(path: string, downloadUrlRequest?: DownloadUrlRequest): Promise<DownloadUrl> {
-    const params = {
+    let params = {
       path
     };
 
-    // todo: seems redundant... already handled in the the HttpClient
     if (downloadUrlRequest) {
-      for (const key in downloadUrlRequest) {
-        if (downloadUrlRequest.hasOwnProperty(key)) {
-          if (typeof downloadUrlRequest[key] === 'function' || downloadUrlRequest[key] === null) {
-            continue;
-          }
-
-          params[key] = downloadUrlRequest[key];
-        }
-      }
+      params = {
+        ...params,
+        ...downloadUrlRequest
+      };
     }
 
     return this.httpClient

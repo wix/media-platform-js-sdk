@@ -8,6 +8,7 @@ import {Configuration} from '../configuration/configuration';
 import {DownloadUrlRequest} from './requests/download-url-request';
 
 
+// TODO: add tests
 export class FileDownloader {
 
   /**
@@ -29,7 +30,10 @@ export class FileDownloader {
     };
 
     if (downloadUrlRequest) {
-      payload = {...payload, ...downloadUrlRequest};
+      payload = {
+        ...payload,
+        ...downloadUrlRequest
+      };
     }
 
     const token = new Token()
@@ -38,8 +42,8 @@ export class FileDownloader {
       .setVerbs([VERB.FILE_DOWNLOAD])
       .setAdditionalClaims({payload});
 
-    if (downloadUrlRequest && downloadUrlRequest.ttl) {
-      token.setExpiration(Math.round(new Date().getTime() / 1000) + downloadUrlRequest.ttl);
+    if (downloadUrlRequest && downloadUrlRequest.expiry) {
+      token.setExpiration(Math.round(new Date().getTime() / 1000) + downloadUrlRequest.expiry);
     }
 
     const signedToken = this.authenticator.encode(token);
