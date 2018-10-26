@@ -9,6 +9,7 @@ import {Configuration} from '../../../../src/platform/configuration/configuratio
 import {HTTPClient} from '../../../../src/platform/http/http-client';
 import {FileManager} from '../../../../src/platform/management/file-manager';
 import {FileUploader} from '../../../../src/platform/management/file-uploader';
+import {Likelihood} from '../../../../src/platform/management/metadata/explicit-content';
 import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 import {FileMetadata} from '../../../../src/platform/management/metadata/file-metadata';
 import {ImageBasicMetadata} from '../../../../src/platform/management/metadata/image-basic-metadata';
@@ -237,16 +238,22 @@ describe('File Manager', () => {
             format: 'jpeg'
           }),
           features: new ImageFeatures({
-            labels: [
+            colors: [
               {
-                name: 'cat',
-                score: 0.9
-              },
-              {
-                name: 'animal',
-                score: 0.933
+                b: 244,
+                g: 218,
+                pixelFraction: 0.38548386,
+                r: 138,
+                score: 0.688166
               }
             ],
+            explicitContent: [{
+              likelihood: Likelihood.UNLIKELY,
+              name: 'medical'
+            }, {
+              likelihood: Likelihood.VERY_UNLIKELY,
+              name: 'adult'
+            }],
             faces: [
               {
                 height: 180,
@@ -261,15 +268,16 @@ describe('File Manager', () => {
                 y: 385
               }
             ],
-            colors: [
+            labels: [
               {
-                b: 244,
-                g: 218,
-                pixelFraction: 0.38548386,
-                r: 138,
-                score: 0.688166
+                name: 'cat',
+                score: 0.9
+              },
+              {
+                name: 'animal',
+                score: 0.933
               }
-            ]
+            ],
           })
         }));
 

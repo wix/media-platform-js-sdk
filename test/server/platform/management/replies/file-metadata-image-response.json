@@ -19,16 +19,22 @@
       "format": "jpeg"
     },
     "features": {
-      "labels": [
+      "colors": [
         {
-          "name": "cat",
-          "score": 0.9
-        },
-        {
-          "name": "animal",
-          "score": 0.933
+          "r": 138,
+          "g": 218,
+          "b": 244,
+          "pixelFraction": 0.38548386,
+          "score": 0.688166
         }
       ],
+      "explicitContent": [{
+        "likelihood": "UNLIKELY",
+        "name": "medical"
+      }, {
+        "likelihood": "VERY_UNLIKELY",
+        "name": "adult"
+      }],
       "faces": [
         {
           "x": 383,
@@ -43,13 +49,14 @@
           "height": 173
         }
       ],
-      "colors": [
+      "labels": [
         {
-          "r": 138,
-          "g": 218,
-          "b": 244,
-          "pixelFraction": 0.38548386,
-          "score": 0.688166
+          "name": "cat",
+          "score": 0.9
+        },
+        {
+          "name": "animal",
+          "score": 0.933
         }
       ]
     }
