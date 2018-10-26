@@ -31,13 +31,12 @@ const sourcesDir = __dirname + '/../../../sources/';
 
 
 describe('File Manager', () => {
-
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
   const fileUploader = new FileUploader(configuration, httpClient);
   const fileManager = new FileManager(configuration, httpClient, fileUploader);
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'

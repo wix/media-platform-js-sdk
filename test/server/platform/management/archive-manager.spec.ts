@@ -22,7 +22,7 @@ describe('archive manager', () => {
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
   const archiveManager = new ArchiveManager(configuration, httpClient);
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'

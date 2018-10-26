@@ -46,7 +46,7 @@ describe('queued file uploader', function () {
       lifecycle: null
     }]
   };
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
   let fileManager: FileManager;
 
   beforeEach(() => {

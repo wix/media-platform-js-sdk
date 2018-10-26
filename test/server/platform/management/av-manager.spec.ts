@@ -25,7 +25,7 @@ describe('AV Manager', () => {
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
   const avManager = new AVManager(configuration, httpClient);
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json'

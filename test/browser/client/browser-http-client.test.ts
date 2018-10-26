@@ -15,7 +15,7 @@ describe('browser http client', function () {
     authenticationUrl: 'https://www.myapp.com/auth'
   };
   let browserHTTPClient;
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
   const authResponse = 'Authorization: auth';
 
   beforeEach(() => {
