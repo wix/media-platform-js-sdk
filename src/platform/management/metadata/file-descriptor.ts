@@ -8,6 +8,7 @@ import {Lifecycle} from '../../../types/media-platform/media-platform';
 export interface IFileDescriptor {
   acl: string | null;
   dateCreated?: string | null;
+  dateExpired?: string | null;
   dateUpdated?: string | null;
   id: string;
   hash?: string | null;
@@ -71,12 +72,22 @@ export class FileDescriptor implements IFileDescriptor {
   } | null = null;
 
   public dateCreated: string | null = null;
+
+  /**
+   * @description dateExpired - date and time when file will be removed
+   */
+  public dateExpired: string | null = null;
+
   public dateUpdated: string | null = null;
 
   constructor(data: Partial<IFileDescriptor>) {
     this.acl = data.acl || null;
 
     this.dateCreated = data.dateCreated || null;
+
+    if (data.dateCreated && data.lifecycle) {
+      this.dateExpired = new Date(new Date(data.dateCreated).getTime() + data.lifecycle.age * 1000).toISOString();
+    }
 
     this.dateUpdated = data.dateUpdated || null;
 

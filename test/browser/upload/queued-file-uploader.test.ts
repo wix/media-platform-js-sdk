@@ -212,6 +212,23 @@ describe('queued file uploader', function () {
         }]
       };
 
+      const fileDescriptors = [{
+        mimeType: 'text/plain',
+        hash: 'd41d8cd98f00b204e9800998ecf8427e',
+        dateCreated: '2017-02-20T14:23:42Z',
+        dateExpired: '2017-02-20T14:24:15.000Z',
+        path: '/place-holder.txt',
+        id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+        size: 0,
+        acl: 'public',
+        dateUpdated: '2017-02-20T14:23:42Z',
+        type: '-',
+        lifecycle: {
+          action: 'delete',
+          age: 33
+        }
+      }];
+
       setResponse(uploadFileResponse);
 
       fauxJax.on('request', (request) => {
@@ -241,7 +258,8 @@ describe('queued file uploader', function () {
 
       (fileManager.uploadFile('upload/to/there/image.jpg', file, uploadFileRequest) as UploadJob)
         .on('upload-success', response => {
-          expect(response.payload).to.eql(response.payload);
+          expect(response.response.payload).to.eql(uploadFileResponse.payload);
+          expect(response.fileDescriptors).to.eql(fileDescriptors);
 
           return done();
         })
