@@ -57,7 +57,7 @@ Transcode video
           <code>transcodeRequest</code>
         </td>
         <td>
-            <div class="type">any</div>
+            <div class="type">TranscodeRequest</div>
         </td>
       </tr>
     </tbody>
@@ -102,7 +102,7 @@ Transcode Video
           <code>transcodeRequest</code>
         </td>
         <td>
-            <div class="type">any</div>
+            <div class="type">TranscodeRequest</div>
         </td>
       </tr>
     </tbody>
@@ -147,7 +147,7 @@ Extract Poster
           <code>extractPosterRequest</code>
         </td>
         <td>
-            <div class="type">any</div>
+            <div class="type">ExtractPosterRequest</div>
         </td>
       </tr>
     </tbody>
@@ -192,7 +192,7 @@ Extract storyboard
           <code>extractStoryboardRequest</code>
         </td>
         <td>
-            <div class="type">any</div>
+            <div class="type">ExtractStoryboardRequest</div>
         </td>
       </tr>
     </tbody>

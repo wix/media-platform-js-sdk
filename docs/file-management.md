@@ -209,7 +209,7 @@ __Parameters__:
 ## Delete File
 Deletes a file by either file ID or path.
 ```typescript
-fileManager.deleteFileById(id): Promise<void>
+fileManager.deleteFileById(id: string): Promise<void>
 ```
 __Parameters__: 
 - `fileId` (string) - the file ID of the file to be deleted.  

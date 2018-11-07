@@ -79,7 +79,7 @@ Get Upload URL
           <code>uploadUrlRequest</code>
         </td>
         <td>
-            <div class="type">(IUploadUrlRequest | undefined | null)</div>
+            <div class="type">IUploadUrlRequest</div>
         </td>
       </tr>
     </tbody>
@@ -139,7 +139,7 @@ upload a file
       </tr>
       <tr>
         <td class="param">
-          <code>uploadRequest</code>
+          <code>uploadFileRequest</code>
         </td>
         <td>
             <div class="type">UploadFileRequest?</div>
@@ -261,7 +261,7 @@ import a file from a source URL, returns a Job (see job manager)
 
 ### createFile()
 
-creates a file descriptor, use this to create an empty directory
+creates a file descriptor
 
 <div class="method-list">
   <table>
@@ -278,6 +278,51 @@ creates a file descriptor, use this to create an empty directory
         </td>
         <td>
             <div class="type">FileDescriptor</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;FileDescriptor></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### createFolder()
+
+creates a folder descriptor, use this to create an empty directory
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th>ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>folderDescriptor</code>
+        </td>
+        <td>
+            <div class="type">FolderDescriptor</div>
         </td>
       </tr>
     </tbody>

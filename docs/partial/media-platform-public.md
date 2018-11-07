@@ -53,7 +53,6 @@ constructor
 
 retrieve the auth header for the currently logged in user
 
-
 <div class="method-list">
   <table>
     <thead>
@@ -105,7 +104,7 @@ get download url
           <code>downloadUrlRequest</code>
         </td>
         <td>
-            <div class="type">(DownloadUrlRequest | undefined)</div>
+            <div class="type">DownloadUrlRequest?</div>
         </td>
       </tr>
     </tbody>
