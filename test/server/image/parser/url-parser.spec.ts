@@ -94,5 +94,4 @@ describe('image url parsing', () => {
       error: null
     });
   });
-
 });

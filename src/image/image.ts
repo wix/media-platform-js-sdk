@@ -269,6 +269,7 @@ export class Image {
     let baseUrl = host || this.host || '';
 
     let url = '';
+
     if (baseUrl.length !== 0 && baseUrl.indexOf('http') !== 0 && baseUrl.indexOf('//') !== 0) {
       url += '//';
     }
@@ -278,20 +279,28 @@ export class Image {
     }
 
     let path = this.path;
+
     if (path === null || this.fileName === null) {
       return {
         url: null,
         error: new Error('path or filename is missing')
       };
     }
+
     if (path.indexOf('/') === 0) {
       path = path.slice(1);
     }
 
-    url += baseUrl + '/' + path + command.command + '/' + encodeURIComponent(this.fileName);
+    if (command.command) {
+      url += baseUrl + '/' + path + command.command + '/' + encodeURIComponent(this.fileName);
+    } else {
+      url += baseUrl + '/' + path;
+    }
+
     if (this.metadata) {
       url += '#' + this.metadata.serialize();
     }
+
     return {
       url,
       error: null
@@ -305,8 +314,8 @@ export class Image {
   toCommand() {
     if (!this.geometry) {
       return {
-        url: null,
-        error: new Error('geometry not defined')
+        url: '',
+        error: null
       };
     }
 
