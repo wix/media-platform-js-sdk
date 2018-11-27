@@ -13,9 +13,11 @@ interface HTTPRequest {
   method: string;
   url: string;
   headers: AuthorizationHeader;
+  resolveWithFullResponse?: boolean;
   json: boolean;
   body?: string;
   qs?: string;
+  simple?: boolean;
 }
 
 export interface HTTPRequestParams {
@@ -40,13 +42,15 @@ export class HTTPClient implements IHTTPClient {
   constructor(public authenticator: Authenticator) {
   }
 
-  private _request(httpMethod: string, url: string, params: any, token: Token | string | undefined, callback: RequestCallback) {
+  private _request<T = any>(httpMethod: string, url: string, params: any, token: Token | string | undefined): Promise<T> {
     const header = this.authenticator.getHeader(token);
     const options: HTTPRequest = {
       method: httpMethod,
       url,
       headers: header,
-      json: true
+      json: true,
+      resolveWithFullResponse: true,
+      simple: false
     };
 
     switch (httpMethod) {
@@ -58,22 +62,16 @@ export class HTTPClient implements IHTTPClient {
         options.qs = params;
     }
 
-    request(
-      options,
-      (error, response, body) => {
-        if (error) {
-          callback(error, null);
-          return;
-        }
+    return request(options)
+      .then(
+        (response) => {
+          if (response.statusCode < 200 || response.statusCode >= 300) {
+            return Promise.reject(new Error(JSON.stringify(response.body)));
+          }
 
-        if (response.statusCode < 200 || response.statusCode >= 300) {
-          callback(new Error(JSON.stringify(response.body)), null);
-          return;
+          return response.body;
         }
-        callback(null, body);
-      }
-    );
-
+      );
   }
 
   /**
@@ -108,51 +106,19 @@ export class HTTPClient implements IHTTPClient {
   }
 
   get<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this._request('GET', url, params, token, (error, response) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(response);
-        }
-      });
-    });
+    return this._request<T>('GET', url, params, token);
   }
 
   put<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this._request('PUT', url, params, token, (error, response) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(response);
-        }
-      });
-    });
+    return this._request('PUT', url, params, token);
   }
 
   post<T>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this._request('POST', url, params, token, (error, response) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(response);
-        }
-      });
-    });
+    return this._request('POST', url, params, token);
   }
 
   delete<T = void>(url: string, params: HTTPRequestParams = {}, token?: Token | string): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this._request('DELETE', url, params, token, (error, response) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(response);
-        }
-      });
-    });
+    return this._request('DELETE', url, params, token);
   }
 
   addAuthToUrl(url: string): Promise<string> {
@@ -174,4 +140,3 @@ export const createHTTPClient = (config: IConfiguration): HTTPClient => {
   const authenticator = new Authenticator(configuration);
   return new HTTPClient(authenticator);
 };
-

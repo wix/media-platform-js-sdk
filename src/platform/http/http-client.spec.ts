@@ -1,7 +1,9 @@
 import {expect} from 'chai';
 import * as nock from 'nock';
 import {sandbox as sinonSandbox} from 'sinon';
+
 import {createHTTPClient, HTTPClient} from './http-client';
+
 
 describe('HTTP client', () => {
   const domain = 'https://manager.com';
@@ -265,7 +267,7 @@ describe('HTTP client', () => {
     apiServer
       .put(uri, {test: 11})
       .reply(500, JSON.stringify({
-        response: 'error-put-11'
+        response: 'error-put-112'
       }));
 
     httpClient
@@ -274,7 +276,7 @@ describe('HTTP client', () => {
       })
       .catch(error => {
         expect(JSON.parse(error.message)).to.deep.equal({
-          response: 'error-put-11'
+          response: 'error-put-112'
         });
         done();
       });
@@ -368,5 +370,49 @@ describe('HTTP client', () => {
         expect(response).to.include('http://example.com/_api/test-post?Authorization=');
         done();
       });
+  });
+
+  describe('DELETE', () => {
+    it('should get 200', (done) => {
+      const uri = '/_api/test-delete';
+
+      apiServer
+        .delete(uri)
+        .reply(200, JSON.stringify({
+          response: 'ok'
+        }));
+
+      httpClient.delete(`${domain}${uri}`)
+        .then(
+          (response) => {
+            expect(response).to.deep.equal({
+              response: 'ok'
+            });
+
+            done();
+          }
+        );
+    });
+
+    it('should get 400', (done) => {
+      const uri = '/_api/test-delete';
+
+      apiServer
+        .delete(uri)
+        .reply(400, JSON.stringify({
+          response: 'delete-error'
+        }));
+
+      httpClient.delete(`${domain}${uri}`)
+        .catch(
+          (error) => {
+            expect(JSON.parse(error.message)).to.deep.equal({
+              response: 'delete-error'
+            });
+
+            done();
+          }
+        );
+    });
   });
 });
