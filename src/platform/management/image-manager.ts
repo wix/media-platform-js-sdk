@@ -4,6 +4,8 @@ import {IHTTPClient} from '../http/http-client';
 
 import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
 import {ImageOperationRequest} from './requests/image-operation-request';
+import {ImageWatermarkRequest} from './requests/image-watermark-request';
+import {IWatermarkManifest, WatermarkManifest} from './metadata/watermark-manifest';
 
 
 /**
@@ -35,6 +37,15 @@ export class ImageManager {
     return this.httpClient.post<RawResponse<IFileDescriptor>>(this.apiUrl + '/operations', imageOperationRequest)
       .then((response) => {
         return new FileDescriptor(response.payload);
+      }, error => {
+        return Promise.reject(error);
+      });
+  }
+
+  createWatermarkManifest(watermarkManifestRequest: ImageWatermarkRequest): Promise<WatermarkManifest> {
+    return this.httpClient.post<RawResponse<IWatermarkManifest>>(this.apiUrl + '/watermark', watermarkManifestRequest)
+      .then((response) => {
+        return new WatermarkManifest(response.payload);
       }, error => {
         return Promise.reject(error);
       });

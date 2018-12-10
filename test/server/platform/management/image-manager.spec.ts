@@ -9,6 +9,9 @@ import {ImageManager} from '../../../../src/platform/management/image-manager';
 import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 import {ImageOperationRequest} from '../../../../src/platform/management/requests/image-operation-request';
 import {ACL} from '../../../../src/types/media-platform/media-platform';
+import {ImageWatermarkRequest} from '../../../../src/platform/management/requests/image-watermark-request';
+import {ImageWatermarkPosition} from '../../../../src/platform/management/job/image-watermark-specification';
+import {WatermarkManifest} from '../../../../src/platform/management/metadata/watermark-manifest';
 
 
 const repliesDir = __dirname + '/replies/';
@@ -79,5 +82,35 @@ describe('image manager', () => {
 
         done();
       });
+  });
+
+  it('perform watermark manifest request', done => {
+    apiServer.post('/_api/images/watermark')
+      .once()
+      .query(true)
+      .replyWithFile(200, repliesDir + 'image-watermark.json');
+
+    const request = new ImageWatermarkRequest({
+      source: {
+        path: '/fish.png'
+      },
+      specification: {
+        opacity: 50,
+        position: ImageWatermarkPosition.NORTH,
+        scale: 1,
+        watermark: {
+          path: '/watermark.png'
+        }
+      }
+    });
+
+    imageManager.createWatermarkManifest(request)
+      .then(data => {
+        expect(data).to.deep.equal(new WatermarkManifest({
+          id: 'd252b7d2561e4e79bb79c9b18252cde3'
+        }));
+        done();
+      });
+
   });
 });
