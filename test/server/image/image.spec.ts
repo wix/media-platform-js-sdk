@@ -422,6 +422,24 @@ describe('image url construction', () => {
     });
   });
 
+  describe('watermark manifest', () => {
+    const image = new Image(imageUrl);
+
+    it('watermark', () => {
+      const watermark = image.watermark('manifest');
+      expect(watermark.toUrl()).to.deep.equal({
+        url: '//test.com/1111/images/324234/v1/crop/w_400,h_709,x_1,y_2,scl_1,usm_0.50_0.20_0.00,wm_manifest/324234#w_1000,h_2000,mt_image%2Fpng',
+        error: null
+      });
+    });
+
+    it('parse url with watermark', () => {
+      const url = '//test.com/1111/images/324234/v1/crop/w_400,h_709,x_1,y_2,scl_1,usm_0.50_0.20_0.00,wm_manifest/324234#w_1000,h_2000,mt_image%2Fpng';
+      const img = new Image(url);
+      expect(img.collectParams().params).to.contain('wm_manifest');
+    });
+  });
+
   describe('fill geometry', () => {
 
     const image = new Image(imageUrl);

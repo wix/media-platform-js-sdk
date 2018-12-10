@@ -6,7 +6,8 @@ const handlers = {
   hue: 'hue',
   sat: 'saturation',
   blur: 'blur',
-  usm: 'unsharpMask'
+  usm: 'unsharpMask',
+  wm: 'watermark'
   // TODO: add support for JPEG
 };
 

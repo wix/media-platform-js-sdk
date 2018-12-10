@@ -19,6 +19,7 @@ import {Metadata} from './metadata';
 import {parseFileDescriptor} from './parser/file-descriptor-parser';
 import {parseFileMetadata} from './parser/file-metadata-parser';
 import {parseUrl} from './parser/image-url-parser';
+import {Watermark} from './filter/watermark';
 
 
 export interface ImageParams {
@@ -57,7 +58,8 @@ export class Image {
   public hue: (hue?: number) => Image;
   public saturation: (saturation?: number) => Image;
   public jpeg: (quality?: number, baseline?: boolean) => Image;
-  public serializationOrder: [Blur, Brightness, Contrast, Hue, JPEG, Saturation, UnsharpMask];
+  public watermark: (manifest: string) => Image;
+  public serializationOrder: [Blur, Brightness, Contrast, Hue, JPEG, Saturation, UnsharpMask, Watermark];
 
   /**
    * @description a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
@@ -117,6 +119,9 @@ export class Image {
     const jpeg = new JPEG(this);
     this.jpeg = jpeg.compression;
 
+    const watermark = new Watermark(this);
+    this.watermark = watermark.manifest;
+
     if (data) {
       if (typeof data === 'string') {
         parseUrl(this, data);
@@ -127,7 +132,7 @@ export class Image {
       }
     }
 
-    this.serializationOrder = [blur, brightness, contrast, hue, jpeg, saturation, unsharpMask];
+    this.serializationOrder = [blur, brightness, contrast, hue, jpeg, saturation, unsharpMask, watermark];
   }
 
   /**
