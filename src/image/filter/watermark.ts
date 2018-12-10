@@ -12,7 +12,7 @@ export interface WatermarkSettings {
  */
 
 class Watermark {
-  public error: string | null = null;
+  public error: string = '';
   public settings: WatermarkSettings = {
     manifest: null
   };
@@ -28,11 +28,12 @@ class Watermark {
   @autobind
   manifest(manifest?: string): Image {
     this.settings.manifest = manifest || null;
+    this.error = '';
     return this.image;
   }
 
   /**
-   * @returns {string}
+   * @returns {params: string, error: string}
    */
   serialize() {
     let out = '';

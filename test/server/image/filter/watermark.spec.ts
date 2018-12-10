@@ -8,7 +8,7 @@ describe('watermark', () => {
     const watermark = new Watermark(new Image());
     watermark.manifest('manifest');
 
-    expect(watermark.serialize()).to.deep.equal({params: 'wm_manifest', error: null});
+    expect(watermark.serialize()).to.deep.equal({params: 'wm_manifest', error: ''});
   });
 
   it('resets for null', () => {
@@ -16,7 +16,7 @@ describe('watermark', () => {
     watermark.manifest('manifest');
     watermark.manifest();
 
-    expect(watermark.serialize()).to.deep.equal({params: '', error: null});
+    expect(watermark.serialize()).to.deep.equal({params: '', error: ''});
   });
 
   it('resets for undefined', () => {
@@ -24,7 +24,7 @@ describe('watermark', () => {
     watermark.manifest('manifest');
     watermark.manifest(undefined);
 
-    expect(watermark.serialize()).to.deep.equal({params: '', error: null});
+    expect(watermark.serialize()).to.deep.equal({params: '', error: ''});
   });
 
   it('resets for empty string', () => {
@@ -32,6 +32,6 @@ describe('watermark', () => {
     watermark.manifest('manifest');
     watermark.manifest('');
 
-    expect(watermark.serialize()).to.deep.equal({params: '', error: null});
+    expect(watermark.serialize()).to.deep.equal({params: '', error: ''});
   });
 });

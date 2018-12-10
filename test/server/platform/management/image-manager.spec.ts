@@ -9,7 +9,6 @@ import {ImageManager} from '../../../../src/platform/management/image-manager';
 import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 import {ImageOperationRequest} from '../../../../src/platform/management/requests/image-operation-request';
 import {ACL} from '../../../../src/types/media-platform/media-platform';
-import {ImageWatermarkRequest} from '../../../../src/platform/management/requests/image-watermark-request';
 import {ImageWatermarkPosition} from '../../../../src/platform/management/job/image-watermark-specification';
 import {WatermarkManifest} from '../../../../src/platform/management/metadata/watermark-manifest';
 
@@ -90,7 +89,7 @@ describe('image manager', () => {
       .query(true)
       .replyWithFile(200, repliesDir + 'image-watermark.json');
 
-    const request = new ImageWatermarkRequest({
+    const request = {
       source: {
         path: '/fish.png'
       },
@@ -102,7 +101,7 @@ describe('image manager', () => {
           path: '/watermark.png'
         }
       }
-    });
+    };
 
     imageManager.createWatermarkManifest(request)
       .then(data => {
