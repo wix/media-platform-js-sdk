@@ -1,4 +1,4 @@
-import {ISource, Source} from './source';
+import {ISource} from './source';
 
 export enum ImageWatermarkPosition {
   NORTHWEST = 1,
@@ -18,18 +18,4 @@ export interface IImageWatermarkSpecification {
   position: ImageWatermarkPosition;
   opacity: number;
   scale: number;
-}
-
-export class ImageWatermarkSpecification {
-  public watermark: ISource | null = null;
-  public position: ImageWatermarkPosition | null = null;
-  public opacity: number | null = null;
-  public scale: number | null = null;
-
-  constructor(data: IImageWatermarkSpecification) {
-    this.watermark = new Source(data.watermark);
-    this.position = data.position;
-    this.opacity = data.opacity;
-    this.scale = data.scale;
-  }
 }
