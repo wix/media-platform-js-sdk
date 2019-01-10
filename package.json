@@ -67,6 +67,10 @@
     "travis-test:mocha": "mocha --require ts-node/register test/mocha-setup.ts {test,src}/**/*.spec.ts --no-timeouts"
   },
   "dependencies": {
+    "@types/async": "^2.0.47",
+    "@types/request": "^2.47.0",
+    "@types/request-promise-native": "^1.0.15",
+    "@types/zen-observable": "^0.8.0",
     "async": "^2.1.4",
     "core-decorators": "^0.20.0",
     "eventemitter3": "^2.0.2",
@@ -79,16 +83,12 @@
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^7.1.2",
-    "@types/async": "^2.0.47",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
     "@types/nock": "^9.1.2",
     "@types/node": "^9.6.35",
-    "@types/request": "^2.47.0",
-    "@types/request-promise-native": "^1.0.15",
     "@types/sinon": "^5.0.5",
     "@types/sinon-chai": "^2.7.29",
-    "@types/zen-observable": "^0.8.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
