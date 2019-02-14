@@ -20,7 +20,7 @@ export enum UploadJobState {
 
 export interface IUploadJob {
   path?: string;
-  file?: File;
+  file?: Blob;
   uploadFileRequest?: UploadFileRequest;
 }
 
@@ -34,7 +34,7 @@ export interface IUploadJob {
 export class UploadJob extends EventEmitter {
   public state: UploadJobState = UploadJobState.STOPPED;
   private request: XMLHttpRequest | undefined = undefined;
-  private file;
+  private file: Blob | undefined;
   private path;
   private uploadFileRequest?: UploadFileRequest;
 
