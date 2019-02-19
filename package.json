@@ -114,7 +114,7 @@
     "karma-mocha": "latest",
     "karma-phantomjs-launcher": "latest",
     "karma-teamcity-reporter": "^1.1.0",
-    "mocha": "latest",
+    "mocha": "^5.2.0",
     "nock": "^10.0.1",
     "prismjs": "^1.6.0",
     "pug": "latest",
