@@ -7,6 +7,7 @@ import {Lifecycle} from '../../../types/media-platform/media-platform';
 
 export interface IFileDescriptor {
   acl: string | null;
+  bucket?: string | null;
   dateCreated?: string | null;
   dateExpired?: string | null;
   dateUpdated?: string | null;
@@ -64,6 +65,12 @@ export class FileDescriptor implements IFileDescriptor {
   public acl: string | null = null;
 
   /**
+   * @description bucket - bucket name
+   */
+
+  public bucket: string | null = null;
+
+  /**
    * @description lifecycle - delete action: how long the file should leave in seconds
    */
   public lifecycle: {
@@ -82,6 +89,8 @@ export class FileDescriptor implements IFileDescriptor {
 
   constructor(data: Partial<IFileDescriptor>) {
     this.acl = data.acl || null;
+
+    this.bucket = data.bucket || null;
 
     this.dateCreated = data.dateCreated || null;
 

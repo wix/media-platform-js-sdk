@@ -14,7 +14,8 @@ describe('image file descriptor parsing', () => {
       type: '-',
       size: 1000,
       dateCreated: 'dateCreated',
-      dateUpdated: 'dateUpdated'
+      dateUpdated: 'dateUpdated',
+      bucket: null
     });
 
     const image = new Image(fileDescriptor);
@@ -37,7 +38,8 @@ describe('image file descriptor parsing', () => {
       type: '-',
       size: 1000,
       dateCreated: 'dateCreated',
-      dateUpdated: 'dateUpdated'
+      dateUpdated: 'dateUpdated',
+      bucket: null
     });
 
     const image = new Image(fileDescriptor);

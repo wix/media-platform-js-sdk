@@ -63,6 +63,7 @@ describe('File Manager', () => {
               type: '-',
               size: 0,
               acl: 'public',
+              bucket: 'bucket-name',
               dateCreated: '2017-02-20T14:23:42Z',
               dateUpdated: '2017-02-20T14:23:42Z'
             },
@@ -74,6 +75,7 @@ describe('File Manager', () => {
               type: 'd',
               size: 0,
               acl: 'public',
+              bucket: null,
               dateCreated: '2017-02-20T14:22:51Z',
               dateUpdated: '2017-02-20T14:22:51Z'
             }
@@ -203,7 +205,8 @@ describe('File Manager', () => {
           size: 0,
           acl: 'public',
           dateCreated: '2017-02-20T14:23:42Z',
-          dateUpdated: '2017-02-20T14:23:42Z'
+          dateUpdated: '2017-02-20T14:23:42Z',
+          bucket: null
         }));
 
         done();
@@ -228,7 +231,8 @@ describe('File Manager', () => {
             size: 15431,
             acl: 'private',
             dateCreated: undefined,
-            dateUpdated: undefined
+            dateUpdated: undefined,
+            bucket: null
           }),
           basic: new ImageBasicMetadata({
             height: 600,
@@ -331,6 +335,7 @@ describe('File Manager', () => {
           features: null,
           fileDescriptor: new FileDescriptor({
             acl: 'private',
+            bucket: null,
             dateCreated: undefined,
             dateUpdated: undefined,
             hash: null,
@@ -669,6 +674,7 @@ describe('File Manager', () => {
               type: '-',
               size: 0,
               acl: 'public',
+              bucket: null,
               dateCreated: '2017-02-20T14:23:42Z',
               dateUpdated: '2017-02-20T14:23:42Z'
             }));
@@ -694,6 +700,7 @@ describe('File Manager', () => {
               type: '-',
               size: 0,
               acl: 'private',
+              bucket: null,
               dateCreated: '2017-02-20T14:23:42Z',
               dateUpdated: '2017-02-20T14:23:42Z'
             }));
@@ -721,6 +728,7 @@ describe('File Manager', () => {
               type: '-',
               size: 0,
               acl: 'public',
+              bucket: null,
               dateCreated: '2017-02-20T14:23:42Z',
               dateUpdated: '2017-02-20T14:23:42Z'
             }));
@@ -746,6 +754,7 @@ describe('File Manager', () => {
               type: '-',
               size: 0,
               acl: 'private',
+              bucket: null,
               dateCreated: '2017-02-20T14:23:42Z',
               dateUpdated: '2017-02-20T14:23:42Z'
             }));

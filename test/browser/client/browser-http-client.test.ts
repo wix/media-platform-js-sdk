@@ -1,6 +1,5 @@
 import {expect} from 'chai';
 import * as fauxJax from 'faux-jax';
-import {ISuiteCallbackContext} from 'mocha';
 import * as sinon from 'sinon';
 
 import {HTTPClient} from '../../../src/public/platform/http/browser-http-client';

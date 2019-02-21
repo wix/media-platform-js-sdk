@@ -226,7 +226,8 @@ describe('queued file uploader', function () {
         lifecycle: {
           action: 'delete',
           age: 33
-        }
+        },
+        bucket: null
       }];
 
       setResponse(uploadFileResponse);
