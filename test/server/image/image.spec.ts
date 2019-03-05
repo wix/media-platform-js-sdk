@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 
-import {Image} from '../../../src';
+import {Image} from '../../../src/server';
 import {Dimension} from '../../../src/geometry/dimension';
 import {Rectangle} from '../../../src/geometry/rectangle';
 

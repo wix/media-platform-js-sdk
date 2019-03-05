@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {Blur} from '../../../../src/image/filter/blur';
-import {Image} from '../../../../src';
+import {Image} from '../../../../src/server';
 
 describe('blur', () => {
 

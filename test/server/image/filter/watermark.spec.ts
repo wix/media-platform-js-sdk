@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Image} from '../../../../src';
+import {Image} from '../../../../src/server';
 import {Watermark} from '../../../../src/image/filter/watermark';
 
 describe('watermark', () => {

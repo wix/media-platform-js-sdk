@@ -48,12 +48,6 @@ class MediaPlatform {
     this.fileDownloader = new FileDownloader(configuration, this.browserHTTPClient);
     this.archiveManager = new ArchiveManager(configuration, this.browserHTTPClient);
     this.fileManager = new FileManager(configuration, this.browserHTTPClient, fileUploader);
-
-    /**
-     * queueFileUpload
-     * @param {UploadJob} uploadJob
-     * @returns {QueuedFileUploader}
-     */
     this.fileManager.queueFileUpload = (uploadJob: UploadJob) => queuedFileUploader.enqueue(uploadJob);
 
     this.jobManager = new JobManager(configuration, this.browserHTTPClient);

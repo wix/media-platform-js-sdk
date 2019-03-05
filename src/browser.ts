@@ -98,4 +98,3 @@ export const MP: ExportedPublicMediaPlatform = {
   Destination,
   QualityRange
 };
-export default MP;

@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {JPEG} from '../../../../src/image/encoder/jpeg';
-import {Image} from '../../../../src';
+import {Image} from '../../../../src/server';
 
 describe('jpeg', () => {
 

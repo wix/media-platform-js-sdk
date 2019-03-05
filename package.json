@@ -9,9 +9,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "files": [
+    "browser",
+    "server",
     "dist",
-    "src",
-    "public",
     "README.md",
     "LICENSE.md"
   ],
@@ -37,8 +37,7 @@
     "streaming"
   ],
   "private": false,
-  "main": "./dist/src/main.js",
-  "browser": "./dist/browser.js",
+  "main": "./dist/src/index.js",
   "engines": {
     "node": ">= 4.0.0"
   },
@@ -148,11 +147,7 @@
       "cdn": {
         "port": 3211
       }
-    },
-    "entry": {
-      "media-platform": "index"
-    },
-    "exports": "MP"
+    }
   },
   "husky": {
     "hooks": {

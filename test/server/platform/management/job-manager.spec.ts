@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import * as nock from 'nock';
 
-import {Destination} from '../../../../src';
+import {Destination} from '../../../../src/server';
 import {Authenticator} from '../../../../src/platform/authentication/authenticator';
 import {Configuration} from '../../../../src/platform/configuration/configuration';
 import {HTTPClient} from '../../../../src/platform/http/http-client';

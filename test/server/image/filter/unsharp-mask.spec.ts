@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {UnsharpMask} from '../../../../src/image/filter/unsharp-mask';
-import {Image} from '../../../../src';
+import {Image} from '../../../../src/server';
 
 describe('unsharp mask', () => {
 

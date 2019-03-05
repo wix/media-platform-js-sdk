@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {Saturation} from '../../../../src/image/filter/saturation';
-import {Image} from '../../../../src';
+import {Image} from '../../../../src/server';
 
 describe('saturation', () => {
 

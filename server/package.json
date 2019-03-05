@@ -1,0 +1,6 @@
+{
+  "name": "media-platform-js-sdk/server",
+  "private": true,
+  "main": "../dist/src/server.js",
+  "types": "../dist/src/server.d.ts"
+}

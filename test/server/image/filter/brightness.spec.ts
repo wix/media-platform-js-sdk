@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {Brightness} from '../../../../src/image/filter/brightness';
-import {Image} from '../../../../src';
+import {Image} from '../../../../src/server';
 
 describe('brightness', () => {
 

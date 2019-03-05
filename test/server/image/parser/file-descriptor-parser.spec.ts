@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 
-import {Image} from '../../../../src';
+import {Image} from '../../../../src/server';
 import {FileDescriptor} from '../../../../src/platform/management/metadata/file-descriptor';
 
 

@@ -1,0 +1,6 @@
+{
+  "name": "media-platform-js-sdk/browser",
+  "private": true,
+  "main": "../dist/src/browser.js",
+  "types": "../dist/src/browser.d.ts"
+}

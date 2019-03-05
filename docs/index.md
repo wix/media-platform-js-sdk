@@ -23,7 +23,7 @@ Now you can instantiate the Media Platform in your project:
 ## Instantiating the Media Platform in the Server
 
 ```javascript
-import {MediaPlatform} from 'media-platform-js-sdk';
+import {MediaPlatform} from 'media-platform-js-sdk/server';
 
 const mediaPlatform = new MediaPlatform({
     domain: '<As appears in the application page>',

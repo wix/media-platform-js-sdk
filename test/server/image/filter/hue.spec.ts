@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {Hue} from '../../../../src/image/filter/hue';
-import {Image} from '../../../../src';
+import {Image} from '../../../../src/server';
 
 describe('hue', () => {
 

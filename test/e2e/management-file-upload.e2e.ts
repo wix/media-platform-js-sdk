@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as uuid from 'uuid';
 
-import {MediaPlatform} from '../../src/main';
+import {MediaPlatform} from '../../src/server';
 import {credentials} from '../server/credentials';
 
 const DEFAULT_FIXTURE_PATH = path.join(__dirname, '..', 'sources', 'image.jpg');

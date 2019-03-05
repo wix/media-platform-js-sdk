@@ -21,8 +21,6 @@
     "./test/**/*.ts"
   ],
   "files": [
-    "./src/external-types.d.ts",
-    "./src/main.ts",
-    "./browser.ts"
+    "./src/external-types.d.ts"
   ]
 }
