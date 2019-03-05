@@ -39,7 +39,7 @@
   "private": false,
   "main": "./dist/src/index.js",
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 6.0.0"
   },
   "scripts": {
     "build": "yoshi lint && yoshi build",
