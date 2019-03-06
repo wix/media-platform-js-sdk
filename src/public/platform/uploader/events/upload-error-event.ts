@@ -1,4 +1,4 @@
-import {UploadEvent} from './upload-event';
+import { UploadEvent } from './upload-event';
 
 /**
  * @param {UploadJob} target
@@ -20,4 +20,4 @@ class UploadErrorEvent extends UploadEvent {
 /**
  * @type {UploadErrorEvent}
  */
-export {UploadErrorEvent};
+export { UploadErrorEvent };

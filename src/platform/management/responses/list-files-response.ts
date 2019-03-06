@@ -1,5 +1,4 @@
-import {FileDescriptor, IFileDescriptor} from '../metadata/file-descriptor';
-
+import { FileDescriptor, IFileDescriptor } from '../metadata/file-descriptor';
 
 /**
  * List Files Response interface
@@ -21,7 +20,7 @@ export class ListFilesResponse {
   constructor(data: IListFilesResponse) {
     this.nextPageToken = data.nextPageToken;
 
-    this.files = data.files.map((file) => {
+    this.files = data.files.map(file => {
       return new FileDescriptor(file);
     });
   }

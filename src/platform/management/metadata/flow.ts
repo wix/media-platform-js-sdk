@@ -1,6 +1,5 @@
-import {FlowComponent, IFlowComponent} from './flow-component';
-import {IInvocation, Invocation} from './invocation';
-
+import { FlowComponent, IFlowComponent } from './flow-component';
+import { IInvocation, Invocation } from './invocation';
 
 export interface IFlowItems {
   [key: string]: FlowComponent;

@@ -1,4 +1,4 @@
-import {Metadata} from '../metadata';
+import { Metadata } from '../metadata';
 
 const handlers = {
   br: 'brightness',
@@ -7,7 +7,7 @@ const handlers = {
   sat: 'saturation',
   blur: 'blur',
   usm: 'unsharpMask',
-  wm: 'watermark'
+  wm: 'watermark',
   // TODO: add support for JPEG
 };
 
@@ -17,7 +17,9 @@ const handlers = {
  */
 function parseUrl(image, url) {
   const explodedUrl = explodeUrl(url);
-  const explodedTransformations = explodeTransformations(explodedUrl.transformations);
+  const explodedTransformations = explodeTransformations(
+    explodedUrl.transformations,
+  );
 
   image.host = explodedUrl.host;
   image.path = explodedUrl.path;
@@ -79,14 +81,14 @@ function explodeUrl(url) {
   path = parts.splice(1, parts.length - 5).join('/');
 
   return {
-    host: (scheme ? scheme + '://' : '//') + host + (port ? ':' + port : '') + '/',
+    host: `${scheme ? `${scheme}://` : '//'}${host}${port ? `:${port}` : ''}/`,
     path,
     version,
     geometry,
     transformations,
     fileName,
     query,
-    fragment
+    fragment,
   };
 }
 
@@ -98,7 +100,7 @@ function explodeUrl(url) {
 function explodeTransformations(transformations) {
   const parts = transformations.split(',');
   const exploded = {};
-  parts.forEach((transformation) => {
+  parts.forEach(transformation => {
     const params = transformation.split('_');
     exploded[params[0]] = params.slice(1);
   });
@@ -125,7 +127,7 @@ function parseFragment(fragment: string): Metadata | null {
   const parts = fragment.split(',');
   const exploded: Partial<ExplodedFragment> = {};
 
-  parts.forEach((part) => {
+  parts.forEach(part => {
     const params = part.split('_');
 
     if (params.length >= 2 && params[1] !== '') {
@@ -137,7 +139,11 @@ function parseFragment(fragment: string): Metadata | null {
     return null;
   }
 
-  return new Metadata(parseInt(exploded.w, 10), parseInt(exploded.h, 10), decodeURIComponent(exploded.mt));
+  return new Metadata(
+    parseInt(exploded.w, 10),
+    parseInt(exploded.h, 10),
+    decodeURIComponent(exploded.mt),
+  );
 }
 
 /**
@@ -157,7 +163,13 @@ function applyGeometry(image, geometry, explodedTransformations) {
   const y = explodedTransformations.y;
   const scl = explodedTransformations.scl;
 
-  image[geometry](h[0], w[0], x ? x[0] : undefined, y ? y[0] : undefined, scl ? scl[0] : undefined);
+  image[geometry](
+    h[0],
+    w[0],
+    x ? x[0] : undefined,
+    y ? y[0] : undefined,
+    scl ? scl[0] : undefined,
+  );
 }
 
 /**
@@ -180,5 +192,4 @@ function applyFilters(image, explodedTransformations) {
 /**
  * @type {parseUrl}
  */
-export default parseUrl;
-export {parseUrl};
+export { parseUrl };

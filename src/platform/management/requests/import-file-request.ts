@@ -1,7 +1,9 @@
-import {Destination, IDestination} from '../job/destination';
+import { Destination, IDestination } from '../job/destination';
 
-import {ExternalAuthorization, IExternalAuthorization} from './external-authorization';
-
+import {
+  ExternalAuthorization,
+  IExternalAuthorization,
+} from './external-authorization';
 
 export interface IImportFileRequest {
   sourceUrl: string | null;
@@ -20,7 +22,9 @@ export class ImportFileRequest implements IImportFileRequest {
 
   constructor(data: IImportFileRequest) {
     this.sourceUrl = data.sourceUrl;
-    this.externalAuthorization = data.externalAuthorization ? new ExternalAuthorization(data.externalAuthorization) : null;
+    this.externalAuthorization = data.externalAuthorization
+      ? new ExternalAuthorization(data.externalAuthorization)
+      : null;
     this.destination = new Destination(data.destination);
   }
 }

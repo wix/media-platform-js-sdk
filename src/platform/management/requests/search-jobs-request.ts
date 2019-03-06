@@ -1,5 +1,4 @@
-import {OrderDirection} from '../../../types/media-platform/media-platform';
-
+import { OrderDirection } from '../../../types/media-platform/media-platform';
 
 export interface ISearchJobsRequest {
   nextPageToken?: string | null;
@@ -31,17 +30,17 @@ export class SearchJobsRequest {
   public path: string | null = null;
 
   constructor({
-                nextPageToken,
-                pageSize,
-                orderBy,
-                orderDirection,
-                issuer,
-                type,
-                status,
-                groupId,
-                fileId,
-                path
-              }: ISearchJobsRequest = {}) {
+    nextPageToken,
+    pageSize,
+    orderBy,
+    orderDirection,
+    issuer,
+    type,
+    status,
+    groupId,
+    fileId,
+    path,
+  }: ISearchJobsRequest = {}) {
     this.nextPageToken = nextPageToken || null;
     this.pageSize = pageSize || null;
     this.orderBy = orderBy || null;

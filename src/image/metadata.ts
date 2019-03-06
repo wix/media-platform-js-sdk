@@ -5,19 +5,19 @@
  * @constructor
  */
 
-class Metadata {
-  constructor(public width: number, public height: number, public mimeType: string) {
-  }
+export class Metadata {
+  constructor(
+    public width: number,
+    public height: number,
+    public mimeType: string,
+  ) {}
 
   /**
    * @returns {string}
    */
   serialize(): string {
-    return 'w_' + this.width + ',h_' + this.height + ',mt_' + encodeURIComponent(this.mimeType);
+    return `w_${this.width},h_${this.height},mt_${encodeURIComponent(
+      this.mimeType,
+    )}`;
   }
 }
-
-/**
- * @type {Metadata}
- */
-export {Metadata};

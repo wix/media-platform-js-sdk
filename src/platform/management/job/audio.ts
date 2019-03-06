@@ -1,5 +1,4 @@
-import {AudioSpecification, IAudioSpecification} from './audio-specification';
-
+import { AudioSpecification, IAudioSpecification } from './audio-specification';
 
 export interface IAudio {
   specification: IAudioSpecification;

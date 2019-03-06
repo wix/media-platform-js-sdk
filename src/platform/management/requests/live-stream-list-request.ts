@@ -1,5 +1,7 @@
-import {LiveStreamState, OrderDirection} from '../../../types/media-platform/media-platform';
-
+import {
+  LiveStreamState,
+  OrderDirection,
+} from '../../../types/media-platform/media-platform';
 
 export interface ILiveStreamListRequest {
   nextPageToken?: string;
@@ -10,11 +12,11 @@ export interface ILiveStreamListRequest {
 }
 
 export interface ILiveStreamListParams {
-    nextPageToken?: string;
-    pageSize?: string;
-    orderBy?: string | undefined;
-    orderDirection?: string | undefined;
-    state?: string | undefined;
+  nextPageToken?: string;
+  pageSize?: string;
+  orderBy?: string | undefined;
+  orderDirection?: string | undefined;
+  state?: string | undefined;
 }
 
 /**
@@ -40,28 +42,28 @@ export class LiveStreamListRequest implements ILiveStreamListRequest {
   }
 
   public toParams(): ILiveStreamListParams {
-      const params: ILiveStreamListParams = {};
+    const params: ILiveStreamListParams = {};
 
-      if (typeof this.nextPageToken !== 'undefined') {
-          params.nextPageToken = this.nextPageToken;
-      }
+    if (typeof this.nextPageToken !== 'undefined') {
+      params.nextPageToken = this.nextPageToken;
+    }
 
-      if (typeof this.pageSize !== 'undefined') {
-          params.pageSize = this.pageSize.toString();
-      }
+    if (typeof this.pageSize !== 'undefined') {
+      params.pageSize = this.pageSize.toString();
+    }
 
-      if (typeof this.orderBy !== 'undefined') {
-          params.orderBy = this.orderBy;
-      }
+    if (typeof this.orderBy !== 'undefined') {
+      params.orderBy = this.orderBy;
+    }
 
-      if (typeof this.orderDirection !== 'undefined') {
-          params.orderDirection = this.orderDirection.toString();
-      }
+    if (typeof this.orderDirection !== 'undefined') {
+      params.orderDirection = this.orderDirection.toString();
+    }
 
-      if (typeof this.state !== 'undefined') {
-          params.state = this.state.join(',');
-      }
+    if (typeof this.state !== 'undefined') {
+      params.state = this.state.join(',');
+    }
 
-      return params;
+    return params;
   }
 }

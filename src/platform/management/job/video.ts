@@ -1,5 +1,4 @@
-import {VideoSpecification} from './video-specification';
-
+import { VideoSpecification } from './video-specification';
 
 export interface IVideo {
   specification: VideoSpecification;

@@ -1,6 +1,6 @@
-import {Job} from '../job/job';
-import {ITranscodeSpecification} from '../job/transcode-specification';
-import {JobGroup} from '../job/job-group';
+import { Job } from '../job/job';
+import { ITranscodeSpecification } from '../job/transcode-specification';
+import { JobGroup } from '../job/job-group';
 
 /**
  * Transcode Job Response interface
@@ -15,5 +15,4 @@ export interface ITranscodeJobResponse {
  * Transcode Job Response
  * @doc TranscodeJobResponse
  */
-export class TranscodeJobResponse extends JobGroup<ITranscodeSpecification> {
-}
+export class TranscodeJobResponse extends JobGroup<ITranscodeSpecification> {}

@@ -1,13 +1,13 @@
 export interface ILiveStreamAnalytics {
   projectId: string;
   streamId: string;
-  stats: Array<object>;
+  stats: object[];
 }
 
 export class LiveStreamAnalytics {
   projectId: string;
   streamId: string;
-  stats: Array<object>;
+  stats: object[];
 
   constructor(data: ILiveStreamAnalytics) {
     this.projectId = data.projectId;

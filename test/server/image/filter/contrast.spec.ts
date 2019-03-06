@@ -1,14 +1,16 @@
-import {expect} from 'chai';
-import {Contrast} from '../../../../src/image/filter/contrast';
-import {Image} from '../../../../src/server';
+import { expect } from 'chai';
+import { Contrast } from '../../../../src/image/filter/contrast';
+import { Image } from '../../../../src/server';
 
 describe('contrast', () => {
-
   it('serializes', () => {
     const contrast = new Contrast(new Image());
     contrast.contrast(100);
 
-    expect(contrast.serialize()).to.deep.equal({params: 'con_100', error: null});
+    expect(contrast.serialize()).to.deep.equal({
+      params: 'con_100',
+      error: null,
+    });
   });
 
   it('reject values greater than 100', () => {
@@ -17,7 +19,7 @@ describe('contrast', () => {
 
     expect(contrast.serialize()).to.deep.equal({
       params: '',
-      error: 'contrast: 101 is not a number between -100 to 100'
+      error: 'contrast: 101 is not a number between -100 to 100',
     });
   });
 
@@ -27,7 +29,7 @@ describe('contrast', () => {
 
     expect(contrast.serialize()).to.deep.equal({
       params: '',
-      error: 'contrast: -101 is not a number between -100 to 100'
+      error: 'contrast: -101 is not a number between -100 to 100',
     });
   });
 
@@ -36,7 +38,7 @@ describe('contrast', () => {
     contrast.contrast(70);
     contrast.contrast();
 
-    expect(contrast.serialize()).to.deep.equal({params: '', error: null});
+    expect(contrast.serialize()).to.deep.equal({ params: '', error: null });
   });
 
   it('resets for undefined', () => {
@@ -44,7 +46,7 @@ describe('contrast', () => {
     contrast.contrast('aaa');
     contrast.contrast();
 
-    expect(contrast.serialize()).to.deep.equal({params: '', error: null});
+    expect(contrast.serialize()).to.deep.equal({ params: '', error: null });
   });
 
   it('resets for 0', () => {
@@ -52,6 +54,6 @@ describe('contrast', () => {
     contrast.contrast(-1);
     contrast.contrast(0);
 
-    expect(contrast.serialize()).to.deep.equal({params: '', error: null});
+    expect(contrast.serialize()).to.deep.equal({ params: '', error: null });
   });
 });

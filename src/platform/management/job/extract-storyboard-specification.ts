@@ -1,5 +1,4 @@
-import {Destination, IDestination} from './destination';
-
+import { Destination, IDestination } from './destination';
 
 export interface IExtractStoryboardSpecification {
   rows: number;
@@ -10,7 +9,8 @@ export interface IExtractStoryboardSpecification {
   destination: IDestination;
 }
 
-export class ExtractStoryboardSpecification implements IExtractStoryboardSpecification {
+export class ExtractStoryboardSpecification
+  implements IExtractStoryboardSpecification {
   public rows: number;
   public columns: number;
   public tileHeight: number;

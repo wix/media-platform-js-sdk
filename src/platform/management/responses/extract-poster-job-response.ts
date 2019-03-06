@@ -1,6 +1,5 @@
-import {IExtractPosterSpecification} from '../job/extract-poster-specification';
-import {IJob, Job} from '../job/job';
-
+import { IExtractPosterSpecification } from '../job/extract-poster-specification';
+import { IJob, Job } from '../job/job';
 
 export interface IExtractPosterJobResponse {
   groupId: string;

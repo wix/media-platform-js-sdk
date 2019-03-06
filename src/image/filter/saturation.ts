@@ -1,8 +1,7 @@
-import {autobind} from 'core-decorators';
+import { autobind } from 'core-decorators';
 
-import {Image} from '../image';
-import {validator} from '../validation/validator';
-
+import { Image } from '../image';
+import { validator } from '../validation/validator';
 
 export interface SaturationSettings {
   saturation: number | null;
@@ -11,11 +10,10 @@ export interface SaturationSettings {
 class Saturation {
   public error: string | null = null;
   public settings: SaturationSettings = {
-    saturation: null
+    saturation: null,
   };
 
-  constructor(public image: Image) {
-  }
+  constructor(public image: Image) {}
 
   /**
    * @summary saturation of the image.
@@ -24,7 +22,12 @@ class Saturation {
    */
   @autobind
   saturation(saturation?: number): Image {
-    this.error = validator.numberNotInRange('saturation', saturation, -100, 100);
+    this.error = validator.numberNotInRange(
+      'saturation',
+      saturation,
+      -100,
+      100,
+    );
     if (this.error) {
       return this.image;
     }
@@ -40,12 +43,12 @@ class Saturation {
     let out = '';
 
     if (this.settings.saturation) {
-      out += 'sat_' + this.settings.saturation;
+      out += `sat_${this.settings.saturation}`;
     }
 
     return {
       params: out,
-      error: this.error
+      error: this.error,
     };
   }
 }
@@ -53,4 +56,4 @@ class Saturation {
 /**
  * @type {Saturation}
  */
-export {Saturation};
+export { Saturation };

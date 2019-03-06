@@ -1,5 +1,4 @@
-import {ISource, Source} from '../job/source';
-
+import { ISource, Source } from '../job/source';
 
 export type EntryPoint = any;
 
@@ -16,6 +15,7 @@ export class Invocation implements IInvocation {
     if (data) {
       this.sources = [];
 
+      // tslint:disable-next-line
       for (const i in data.sources) {
         this.sources[i] = new Source(data.sources[i]);
       }

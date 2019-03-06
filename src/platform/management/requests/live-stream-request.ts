@@ -1,6 +1,5 @@
-import {Dvr, IDvr} from '../metadata/dvr';
-import {Geo, IGeo} from '../metadata/geo';
-
+import { Dvr, IDvr } from '../metadata/dvr';
+import { Geo, IGeo } from '../metadata/geo';
 
 export interface StateNotification {
   [key: string]: any;

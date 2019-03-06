@@ -1,17 +1,16 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as fauxJax from 'faux-jax';
 import * as sinon from 'sinon';
 
-import {HTTPClient} from '../../../src/public/platform/http/browser-http-client';
+import { HTTPClient } from '../../../src/public/platform/http/browser-http-client';
 
-
-describe('browser http client', function () {
+describe('browser http client', function() {
   // tslint:disable-next-line
   this.timeout(50000);
 
   const configuration = {
     domain: 'www.domain.com',
-    authenticationUrl: 'https://www.myapp.com/auth'
+    authenticationUrl: 'https://www.myapp.com/auth',
   };
   let browserHTTPClient;
   const sandbox = sinon.createSandbox();
@@ -33,14 +32,15 @@ describe('browser http client', function () {
     expect(url).to.contain('?Authorization=');
   });
 
-
   function setResponse(responseBody, responseStatus = 200) {
-    fauxJax.on('request', (request) => {
+    fauxJax.on('request', request => {
       if (request.requestURL === 'https://www.myapp.com/auth') {
-        request.respond(200, {'Content-Type': 'application/json'},
+        request.respond(
+          200,
+          { 'Content-Type': 'application/json' },
           JSON.stringify({
-            Authorization: 'auth'
-          })
+            Authorization: 'auth',
+          }),
         );
         return;
       }

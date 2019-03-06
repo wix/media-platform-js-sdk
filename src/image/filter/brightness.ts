@@ -1,6 +1,7 @@
-import {validator} from '../validation/validator';
-import {Image} from '../image';
-import {autobind} from 'core-decorators';
+import { autobind } from 'core-decorators';
+
+import { Image } from '../image';
+import { validator } from '../validation/validator';
 
 export interface BrightnessSettings {
   brightness: number | null;
@@ -14,11 +15,10 @@ export interface BrightnessSettings {
 class Brightness {
   public error: string | null = null;
   public settings: BrightnessSettings = {
-    brightness: null
+    brightness: null,
   };
 
-  constructor(public image: Image) {
-  }
+  constructor(public image: Image) {}
 
   /**
    * @summary brightness of the image
@@ -28,7 +28,12 @@ class Brightness {
    */
   @autobind
   brightness(brightness?: number): Image {
-    this.error = validator.numberNotInRange('brightness', brightness, -100, 100);
+    this.error = validator.numberNotInRange(
+      'brightness',
+      brightness,
+      -100,
+      100,
+    );
     if (this.error) {
       return this.image;
     }
@@ -44,12 +49,12 @@ class Brightness {
     let out = '';
 
     if (this.settings.brightness) {
-      out += 'br_' + this.settings.brightness;
+      out += `br_${this.settings.brightness}`;
     }
 
     return {
       params: out,
-      error: this.error
+      error: this.error,
     };
   }
 }
@@ -57,4 +62,4 @@ class Brightness {
 /**
  * @type {Brightness}
  */
-export {Brightness};
+export { Brightness };

@@ -1,5 +1,6 @@
-import {validator} from '../validation/validator';
-import {GeometryBase} from './geometry-base';
+import { validator } from '../validation/validator';
+
+import { GeometryBase } from './geometry-base';
 
 /**
  * @description Crops the image intelligently using width and height options.
@@ -8,7 +9,7 @@ import {GeometryBase} from './geometry-base';
  * @constructor SmartCrop
  */
 
-class SmartCrop extends GeometryBase {
+export class SmartCrop extends GeometryBase {
   public name = 'scrop';
 
   /**
@@ -16,25 +17,24 @@ class SmartCrop extends GeometryBase {
    */
   serialize() {
     const badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-    const badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
+    const badHeight = validator.numberIsNotGreaterThan(
+      'height',
+      this.height,
+      1,
+    );
 
     if (badWidth || badHeight) {
       return {
         params: null,
-        error: new Error([badWidth, badHeight].filter(msg => msg).join(','))
+        error: new Error([badWidth, badHeight].filter(msg => msg).join(',')),
       };
     }
 
-    const out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+    const out = `${this.name}/w_${this.width},h_${this.height}`;
 
     return {
       params: out,
-      error: null
+      error: null,
     };
   }
 }
-
-/**
- * @type {SmartCrop}
- */
-export {SmartCrop};

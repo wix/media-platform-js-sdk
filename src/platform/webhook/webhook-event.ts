@@ -1,5 +1,7 @@
-import {FileDescriptor, IFileDescriptor} from '../management/metadata/file-descriptor';
-
+import {
+  FileDescriptor,
+  IFileDescriptor,
+} from '../management/metadata/file-descriptor';
 
 export interface IWebhookEvent {
   id: string;

@@ -1,6 +1,5 @@
-import {Destination} from './destination';
-import {ISource, Source} from './source';
-
+import { Destination } from './destination';
+import { ISource, Source } from './source';
 
 export interface ICreateArchiveSpecification {
   sources: ISource[];

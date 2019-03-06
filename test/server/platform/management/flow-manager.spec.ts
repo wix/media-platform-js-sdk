@@ -1,49 +1,49 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as nock from 'nock';
-import {Authenticator} from '../../../../src/platform/authentication/authenticator';
-import {Configuration} from '../../../../src/platform/configuration/configuration';
-import {HTTPClient} from '../../../../src/platform/http/http-client';
-import {FlowManager} from '../../../../src/platform/management/flow-manager';
-import {Flow} from '../../../../src/platform/management/metadata/flow';
-import {Invocation} from '../../../../src/platform/management/metadata/invocation';
-import {CreateFlowRequest} from '../../../../src/platform/management/requests/create-flow-request';
+
+import { Authenticator } from '../../../../src/platform/authentication/authenticator';
+import { Configuration } from '../../../../src/platform/configuration/configuration';
+import { HTTPClient } from '../../../../src/platform/http/http-client';
+import { FlowManager } from '../../../../src/platform/management/flow-manager';
+import { Flow } from '../../../../src/platform/management/metadata/flow';
+import { Invocation } from '../../../../src/platform/management/metadata/invocation';
+import { CreateFlowRequest } from '../../../../src/platform/management/requests/create-flow-request';
 
 const repliesDir = __dirname + '/replies/';
 
 describe('flow manager', () => {
-
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
   const flowManager = new FlowManager(configuration, httpClient);
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   });
 
   afterEach(() => {
     nock.cleanAll();
   });
 
-
-  it('Get flow request is parsing properly', (done) => {
-    apiServer.get('/_api/flow_control/flow/flow_id')
+  it('Get flow request is parsing properly', done => {
+    apiServer
+      .get('/_api/flow_control/flow/flow_id')
       .once()
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
 
-    flowManager.getFlow('flow_id')
-      .then(data => {
-        expect(data.invocation).to.be.an.instanceof(Invocation);
-        expect(data.invocation.entryPoints).to.be.an.instanceof(Array);
-        expect(data.invocation.entryPoints[0]).to.equal('import');
-        expect(data.flow.import.type).to.equal('file.import');
+    flowManager.getFlow('flow_id').then(data => {
+      expect(data.invocation).to.be.an.instanceof(Invocation);
+      expect(data.invocation.entryPoints).to.be.an.instanceof(Array);
+      expect(data.invocation.entryPoints[0]).to.equal('import');
+      expect(data.flow.import.type).to.equal('file.import');
 
-        done();
-      });
+      done();
+    });
   });
 
-  it('Create Flow', (done) => {
-    apiServer.post('/_api/flow_control/flow')
+  it('Create Flow', done => {
+    apiServer
+      .post('/_api/flow_control/flow')
       .once()
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
 
@@ -53,51 +53,50 @@ describe('flow manager', () => {
           type: 'file.import',
           specification: {
             destination: {
-              path: '/to/here/file.mp4'
+              path: '/to/here/file.mp4',
             },
-            sourceUrl: 'http://from/here/file.mp4'
+            sourceUrl: 'http://from/here/file.mp4',
           },
-          successors: ['transcode']
+          successors: ['transcode'],
         },
         transcode: {
           type: 'av.transcode',
           specification: {
             destination: {
               directory: '/test/output/',
-              acl: 'public'
+              acl: 'public',
             },
             qualityRange: {
               minimum: '240p',
-              maximum: '1440p'
-            }
-          }
-        }
+              maximum: '1440p',
+            },
+          },
+        },
       },
       invocation: {
-        sources: [{
-          path: '/to/here/file.mp4'
-        }],
-        entryPoints: ['import']
+        sources: [
+          {
+            path: '/to/here/file.mp4',
+          },
+        ],
+        entryPoints: ['import'],
       },
     });
 
+    flowManager.createFlow(createFlowRequest).then((data: Flow) => {
+      expect(data !== null).to.be.true;
+      expect(data.id).to.equal('flow_id');
 
-    flowManager.createFlow(createFlowRequest)
-      .then((data: Flow) => {
-        expect(data !== null).to.be.true;
-        expect(data.id).to.equal('flow_id');
-
-        done();
-      });
+      done();
+    });
   });
 
-  it('Delete Flow', (done) => {
-    apiServer.delete('/_api/flow_control/flow/flow_id')
+  it('Delete Flow', done => {
+    apiServer
+      .delete('/_api/flow_control/flow/flow_id')
       .once()
       .replyWithFile(200, repliesDir + 'flow-delete-response.json');
 
-    flowManager.deleteFlow('flow_id')
-      .then(() => done());
+    flowManager.deleteFlow('flow_id').then(() => done());
   });
-
 });

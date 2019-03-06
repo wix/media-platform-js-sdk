@@ -1,5 +1,4 @@
-import {Destination, IDestination} from './destination';
-
+import { Destination, IDestination } from './destination';
 
 export interface IExtractPosterSpecification {
   second: number;

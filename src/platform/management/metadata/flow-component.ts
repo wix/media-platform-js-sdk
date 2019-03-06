@@ -1,5 +1,4 @@
-import {Successor} from '../../../types/media-platform/media-platform';
-
+import { Successor } from '../../../types/media-platform/media-platform';
 
 export interface IFlowComponent {
   type: string;

@@ -1,10 +1,9 @@
-import {RawResponse} from '../../types/response/response';
-import {IConfigurationBase} from '../configuration/configuration';
-import {IHTTPClient} from '../http/http-client';
+import { RawResponse } from '../../types/response/response';
+import { IConfigurationBase } from '../configuration/configuration';
+import { IHTTPClient } from '../http/http-client';
 
-import {Flow, IFlow} from './metadata/flow';
-import {ICreateFlowRequest} from './requests/create-flow-request';
-
+import { Flow, IFlow } from './metadata/flow';
+import { ICreateFlowRequest } from './requests/create-flow-request';
 
 /**
  * @param {Configuration} configuration
@@ -16,7 +15,10 @@ export class FlowManager {
   public baseUrl: string;
   public apiUrl: string;
 
-  constructor(public configuration: IConfigurationBase, public httpClient: IHTTPClient) {
+  constructor(
+    public configuration: IConfigurationBase,
+    public httpClient: IHTTPClient,
+  ) {
     this.baseUrl = 'https://' + configuration.domain;
     this.apiUrl = this.baseUrl + '/_api/flow_control';
   }
@@ -26,12 +28,16 @@ export class FlowManager {
    * @returns {Promise<Flow>>}
    */
   getFlow(flowId: string): Promise<Flow> {
-    return this.httpClient.get<RawResponse<IFlow>>(this.apiUrl + '/flow/' + flowId)
-      .then((response) => {
-        return new Flow(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .get<RawResponse<IFlow>>(this.apiUrl + '/flow/' + flowId)
+      .then(
+        response => {
+          return new Flow(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -40,12 +46,16 @@ export class FlowManager {
    * @returns {Promise<Flow>}
    */
   createFlow(createFlowRequest: ICreateFlowRequest): Promise<Flow> {
-    return this.httpClient.post<RawResponse<IFlow>>(this.apiUrl + '/flow', createFlowRequest)
-      .then((response) => {
-        return new Flow(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .post<RawResponse<IFlow>>(this.apiUrl + '/flow', createFlowRequest)
+      .then(
+        response => {
+          return new Flow(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -54,7 +64,8 @@ export class FlowManager {
    * @returns {Promise<void>}
    */
   deleteFlow(flowId: string): Promise<void> {
-    return this.httpClient.delete(this.apiUrl + '/flow/' + flowId)
+    return this.httpClient
+      .delete(this.apiUrl + '/flow/' + flowId)
       .catch(error => {
         return Promise.reject(error);
       });

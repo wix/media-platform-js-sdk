@@ -1,7 +1,7 @@
-import {IHTTPClient} from '../../../http/http-client';
-import {Configuration as BrowserConfiguration} from '../../../../public/platform/configuration/configuration';
-import {Configuration} from '../../../configuration/configuration';
-import {Token} from '../../../authentication/token';
+import { IHTTPClient } from '../../../http/http-client';
+import { Configuration as BrowserConfiguration } from '../../../../public/platform/configuration/configuration';
+import { Configuration } from '../../../configuration/configuration';
+import { Token } from '../../../authentication/token';
 
 export interface WidgetInstance {
   name: string;
@@ -9,7 +9,7 @@ export interface WidgetInstance {
   authentication: {
     custom: {
       url: string;
-    }
+    };
   };
   settings: any;
 }
@@ -25,13 +25,16 @@ interface WidgetInstanceResponse {
 }
 
 export class WidgetInstanceManager {
-
-  constructor(private configuration: Configuration | BrowserConfiguration, private httpClient: IHTTPClient) {
-  }
+  constructor(
+    private readonly configuration: Configuration | BrowserConfiguration,
+    private readonly httpClient: IHTTPClient,
+  ) {}
 
   private getInstanceURL(widgetInstanceId: string) {
-    const {configuration} = this;
-    return `https://${configuration.domain}/_api/widgetInstances/${widgetInstanceId}`;
+    const { configuration } = this;
+    return `https://${
+      configuration.domain
+    }/_api/widgetInstances/${widgetInstanceId}`;
   }
 
   private getAuthURL(widgetInstanceId: string) {
@@ -39,18 +42,25 @@ export class WidgetInstanceManager {
   }
 
   private auth(widgetInstanceId: string): Promise<string> {
-    return this.httpClient.get<WidgetInstanceAuthResponse>(this.getAuthURL(widgetInstanceId))
-      .then(response => response.payload.token, error => {
-        // tslint:disable-next-line
+    return this.httpClient
+      .get<WidgetInstanceAuthResponse>(this.getAuthURL(widgetInstanceId))
+      .then(
+        response => response.payload.token,
+        error => {
+          // tslint:disable-next-line
         console.error('Error while auth', error);
-        return '';
-      });
+          return '';
+        },
+      );
   }
 
-  public fetchWidgetInstance(widgetInstanceId: string): Promise<WidgetInstance> {
-    const {httpClient} = this;
+  public fetchWidgetInstance(
+    widgetInstanceId: string,
+  ): Promise<WidgetInstance> {
+    const { httpClient } = this;
     const instanceURL = this.getInstanceURL(widgetInstanceId);
-    return httpClient.get<WidgetInstanceResponse>(instanceURL)
+    return httpClient
+      .get<WidgetInstanceResponse>(instanceURL)
       .then(response => response.payload)
       .catch(error => {
         // tslint:disable-next-line

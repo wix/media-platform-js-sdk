@@ -1,6 +1,6 @@
-import {autobind} from 'core-decorators';
-import {validator} from '../validation/validator';
-import {Image} from '../image';
+import { autobind } from 'core-decorators';
+import { validator } from '../validation/validator';
+import { Image } from '../image';
 
 export interface UnsharpMaskSettings {
   radius: number | null;
@@ -19,13 +19,11 @@ class UnsharpMask {
   public settings: UnsharpMaskSettings = {
     radius: null,
     amount: null,
-    threshold: null
+    threshold: null,
   };
   public error: string | null = null;
 
-  constructor(public image: Image) {
-  }
-
+  constructor(public image: Image) {}
 
   /**
    * @summary Sharpens the image using radius, amount & threshold parameters
@@ -35,7 +33,11 @@ class UnsharpMask {
    * @returns {*} the operation
    */
   @autobind
-  configuration(radius: UnsharpNumber = null, amount: UnsharpNumber = null, threshold: UnsharpNumber = null): Image {
+  configuration(
+    radius: UnsharpNumber = null,
+    amount: UnsharpNumber = null,
+    threshold: UnsharpNumber = null,
+  ): Image {
     if (!radius) {
       this.settings.radius = null;
       this.settings.amount = null;
@@ -44,7 +46,8 @@ class UnsharpMask {
       return this.image;
     }
 
-    const floatify = (param: string | number | null) => typeof param === 'string' ? parseFloat(param) : param;
+    const floatify = (param: string | number | null) =>
+      typeof param === 'string' ? parseFloat(param) : param;
     const r = floatify(radius);
     const a = floatify(amount);
     const t = floatify(threshold);
@@ -54,7 +57,12 @@ class UnsharpMask {
       this.error = validator.numberNotInRange('unsharp mask amount', a, 0, 10);
     }
     if (!this.error) {
-      this.error = validator.numberNotInRange('unsharp mask threshold', t, 0, 255);
+      this.error = validator.numberNotInRange(
+        'unsharp mask threshold',
+        t,
+        0,
+        255,
+      );
     }
 
     this.settings.radius = r;
@@ -70,13 +78,17 @@ class UnsharpMask {
     if (this.error) {
       return {
         params: null,
-        error: this.error
+        error: this.error,
       };
     }
 
     let out = '';
 
-    if (this.settings.radius !== null && this.settings.amount !== null && this.settings.threshold !== null) {
+    if (
+      this.settings.radius !== null &&
+      this.settings.amount !== null &&
+      this.settings.threshold !== null
+    ) {
       out +=
         'usm_' +
         this.settings.radius.toFixed(2) +
@@ -88,9 +100,9 @@ class UnsharpMask {
 
     return {
       params: out,
-      error: this.error
+      error: this.error,
     };
   }
 }
 
-export {UnsharpMask};
+export { UnsharpMask };

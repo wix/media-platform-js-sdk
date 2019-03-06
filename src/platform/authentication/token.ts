@@ -1,7 +1,9 @@
 import * as crypto from 'crypto';
 
-import {TokenClaims, TokenObjects} from '../../types/media-platform/media-platform';
-
+import {
+  TokenClaims,
+  TokenObjects,
+} from '../../types/media-platform/media-platform';
 
 /**
  * Token
@@ -137,10 +139,10 @@ export class Token {
       iss: this.issuer,
       iat: this.issuedAt,
       jti: this.tokenId,
-      exp: this.expiration
+      exp: this.expiration,
     };
     if (this.additionalClaims) {
-      claims = {...claims, ...this.additionalClaims};
+      claims = { ...claims, ...this.additionalClaims };
     }
 
     return claims;

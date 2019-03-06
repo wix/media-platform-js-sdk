@@ -1,8 +1,13 @@
-import {FileDescriptor, IFileDescriptor} from './file-descriptor';
-import {IImageBasicMetadata, ImageBasicMetadata} from './image-basic-metadata';
-import {IImageFeatures, ImageFeatures} from './image-features';
-import {IVideoBasicMetadata, VideoBasicMetadata} from './video-basic-metadata';
-
+import { FileDescriptor, IFileDescriptor } from './file-descriptor';
+import {
+  IImageBasicMetadata,
+  ImageBasicMetadata,
+} from './image-basic-metadata';
+import { IImageFeatures, ImageFeatures } from './image-features';
+import {
+  IVideoBasicMetadata,
+  VideoBasicMetadata,
+} from './video-basic-metadata';
 
 export interface IFileMetadata {
   fileDescriptor: IFileDescriptor | null;
@@ -31,11 +36,15 @@ export class FileMetadata implements IFileMetadata {
     if (data.basic) {
       switch (type) {
         case 'image':
-          this.basic = new ImageBasicMetadata(data.basic as IImageBasicMetadata);
+          this.basic = new ImageBasicMetadata(
+            data.basic as IImageBasicMetadata,
+          );
           break;
 
         case 'video':
-          this.basic = new VideoBasicMetadata(data.basic as IVideoBasicMetadata);
+          this.basic = new VideoBasicMetadata(
+            data.basic as IVideoBasicMetadata,
+          );
           break;
 
         default:

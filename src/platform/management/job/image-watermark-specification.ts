@@ -1,4 +1,4 @@
-import {ISource} from './source';
+import { ISource } from './source';
 
 export enum ImageWatermarkPosition {
   NORTHWEST = 1,

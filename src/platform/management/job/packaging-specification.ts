@@ -1,4 +1,4 @@
-import {Destination, IDestination} from './destination';
+import { Destination, IDestination } from './destination';
 
 /**
  * Packaging interface
@@ -7,7 +7,7 @@ import {Destination, IDestination} from './destination';
 
 export enum PackageType {
   HLS = 'hls',
-  DASH = 'dash'
+  DASH = 'dash',
 }
 
 export interface IPackagingSpecification {

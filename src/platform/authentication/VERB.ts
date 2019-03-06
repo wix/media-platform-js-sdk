@@ -1,4 +1,4 @@
-import {NS} from './NS';
+import { NS } from './NS';
 
 /**
  * @type {{FILE_UPLOAD: string, FILE_IMPORT: string, FILE_CREATE: string, FILE_GET: string, FILE_LIST: string, FILE_DOWNLOAD: string, FILE_DELETE: string, AV_TRANSCODE: string, AV_REPACKAGE: string, JOB_GET: string, JOB_SEARCH: string, ARCHIVE_CREATE: string, ARCHIVE_EXTRACT: string}}
@@ -19,5 +19,5 @@ export const VERB = {
   JOB_SEARCH: NS.SERVICE + 'job.search',
 
   ARCHIVE_CREATE: NS.SERVICE + 'archive.create',
-  ARCHIVE_EXTRACT: NS.SERVICE + 'archive.extract'
+  ARCHIVE_EXTRACT: NS.SERVICE + 'archive.extract',
 };

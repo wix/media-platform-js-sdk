@@ -1,5 +1,4 @@
-import {UploadEvent} from './upload-event';
-
+import { UploadEvent } from './upload-event';
 
 export class UploadAbortedEvent extends UploadEvent {
   public name: string = 'upload-aborted';

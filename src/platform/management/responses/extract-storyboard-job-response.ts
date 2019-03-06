@@ -1,6 +1,5 @@
-import {IExtractStoryboardSpecification} from '../job/extract-storyboard-specification';
-import {IJob, Job} from '../job/job';
-
+import { IExtractStoryboardSpecification } from '../job/extract-storyboard-specification';
+import { IJob, Job } from '../job/job';
 
 export interface IExtractStoryboardJobResponse {
   groupId: string;

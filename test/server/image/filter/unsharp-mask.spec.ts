@@ -1,14 +1,16 @@
-import {expect} from 'chai';
-import {UnsharpMask} from '../../../../src/image/filter/unsharp-mask';
-import {Image} from '../../../../src/server';
+import { expect } from 'chai';
+import { UnsharpMask } from '../../../../src/image/filter/unsharp-mask';
+import { Image } from '../../../../src/server';
 
 describe('unsharp mask', () => {
-
   it('serializes', () => {
     const unsharpMask = new UnsharpMask(new Image());
     unsharpMask.configuration(128, 10, 255);
 
-    expect(unsharpMask.serialize()).to.deep.equal({params: 'usm_128.00_10.00_255.00', error: null});
+    expect(unsharpMask.serialize()).to.deep.equal({
+      params: 'usm_128.00_10.00_255.00',
+      error: null,
+    });
   });
 
   it('reject radius values smaller than 0.1', () => {
@@ -17,7 +19,7 @@ describe('unsharp mask', () => {
 
     expect(unsharpMask.serialize()).to.deep.equal({
       params: null,
-      error: 'unsharp mask radius: 0.09 is not a number between 0.1 to 128'
+      error: 'unsharp mask radius: 0.09 is not a number between 0.1 to 128',
     });
   });
 
@@ -27,7 +29,7 @@ describe('unsharp mask', () => {
 
     expect(unsharpMask.serialize()).to.deep.equal({
       params: null,
-      error: 'unsharp mask radius: 129 is not a number between 0.1 to 128'
+      error: 'unsharp mask radius: 129 is not a number between 0.1 to 128',
     });
   });
 
@@ -37,7 +39,7 @@ describe('unsharp mask', () => {
 
     expect(unsharpMask.serialize()).to.deep.equal({
       params: null,
-      error: 'unsharp mask amount: -1 is not a number between 0 to 10'
+      error: 'unsharp mask amount: -1 is not a number between 0 to 10',
     });
   });
 
@@ -47,7 +49,7 @@ describe('unsharp mask', () => {
 
     expect(unsharpMask.serialize()).to.deep.equal({
       params: null,
-      error: 'unsharp mask amount: 11 is not a number between 0 to 10'
+      error: 'unsharp mask amount: 11 is not a number between 0 to 10',
     });
   });
 
@@ -57,7 +59,7 @@ describe('unsharp mask', () => {
 
     expect(unsharpMask.serialize()).to.deep.equal({
       params: null,
-      error: 'unsharp mask threshold: -1 is not a number between 0 to 255'
+      error: 'unsharp mask threshold: -1 is not a number between 0 to 255',
     });
   });
 
@@ -67,7 +69,7 @@ describe('unsharp mask', () => {
 
     expect(unsharpMask.serialize()).to.deep.equal({
       params: null,
-      error: 'unsharp mask threshold: 256 is not a number between 0 to 255'
+      error: 'unsharp mask threshold: 256 is not a number between 0 to 255',
     });
   });
 
@@ -76,6 +78,6 @@ describe('unsharp mask', () => {
     unsharpMask.configuration(128, 10, -1);
     unsharpMask.configuration();
 
-    expect(unsharpMask.serialize()).to.deep.equal({params: '', error: null});
+    expect(unsharpMask.serialize()).to.deep.equal({ params: '', error: null });
   });
 });

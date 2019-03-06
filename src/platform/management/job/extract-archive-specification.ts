@@ -1,13 +1,13 @@
-import {Destination, IDestination} from './destination';
-import {ISource, Source} from './source';
-
+import { Destination, IDestination } from './destination';
+import { ISource, Source } from './source';
 
 export interface IExtractArchiveSpecification {
   source: ISource;
   destination: IDestination;
 }
 
-export class ExtractArchiveSpecification implements IExtractArchiveSpecification {
+export class ExtractArchiveSpecification
+  implements IExtractArchiveSpecification {
   public source: Source;
   public destination: Destination;
 

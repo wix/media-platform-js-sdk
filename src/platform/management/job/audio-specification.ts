@@ -1,4 +1,4 @@
-import {AudioCodec, IAudioCodec} from './audio-codec';
+import { AudioCodec, IAudioCodec } from './audio-codec';
 
 export interface IAudioSpecification {
   channels: string | null;

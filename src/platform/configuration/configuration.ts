@@ -15,6 +15,9 @@ export class Configuration implements IConfiguration {
    * @constructor
    * @doc Configuration
    */
-  constructor(public domain: string, public sharedSecret: string, public appId: string) {
-  }
+  constructor(
+    public domain: string,
+    public sharedSecret: string,
+    public appId: string,
+  ) {}
 }

@@ -1,5 +1,5 @@
-import {validator} from '../validation/validator';
-import {GeometryBase} from './geometry-base';
+import { validator } from '../validation/validator';
+import { GeometryBase } from './geometry-base';
 
 /**
  * @description Crops the image starting at the x, y pixel coordinates, along with the width and height options. The image is scaled according to the scale factor parameter before crop.
@@ -15,7 +15,13 @@ export class Crop implements GeometryBase {
   public name = 'crop';
   public error: string | null = null;
 
-  constructor(public width: number, public height: number, public x: number | null = null, public y: number | null = null, public scale: number | null = null) {
+  constructor(
+    public width: number,
+    public height: number,
+    public x: number | null = null,
+    public y: number | null = null,
+    public scale: number | null = null,
+  ) {
     this.width = Math.round(this.width);
     this.height = Math.round(this.height);
     this.coordinates(x, y, scale);
@@ -58,45 +64,57 @@ export class Crop implements GeometryBase {
    * @returns {{params: string | null, error: Error | null}}
    */
   serialize() {
-    const badScale = validator.numberNotInRange('crop scale factor', this.scale, 0, 100);
+    const badScale = validator.numberNotInRange(
+      'crop scale factor',
+      this.scale,
+      0,
+      100,
+    );
     const badX = validator.numberIsNotGreaterThan('crop x', this.x, 0);
     const badY = validator.numberIsNotGreaterThan('crop y', this.y, 0);
     const badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
     const badHeight =
-      validator.numberIsRequired('height', this.height) || validator.numberIsNotGreaterThan('height', this.height, 1);
+      validator.numberIsRequired('height', this.height) ||
+      validator.numberIsNotGreaterThan('height', this.height, 1);
 
     if (badScale || badX || badY || badWidth || badHeight) {
       return {
         params: null,
-        error: new Error([badScale, badX, badY, badWidth, badHeight].filter(error => error).join(','))
+        error: new Error(
+          [badScale, badX, badY, badWidth, badHeight]
+            .filter(error => error)
+            .join(','),
+        ),
       };
     }
 
-    let out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+    let out = `${this.name}/w_${this.width},h_${this.height}`;
 
-    out += ',x_' + (this.x || 0);
+    out += `,x_${this.x || 0}`;
 
     if (out.length > 0) {
       out += ',';
     }
 
-    out += 'y_' + (this.y || 0);
+    out += `y_${this.y || 0}`;
 
     if (this.scale && this.scale !== 1) {
       if (out.length > 0) {
         out += ',';
       }
+
       let str = this.scale.toString();
+
       if (this.scale === Math.floor(this.scale)) {
         str = this.scale.toFixed(1);
       }
 
-      out += 'scl_' + str;
+      out += `scl_${str}`;
     }
 
     return {
       params: out,
-      error: null
+      error: null,
     };
   }
 }

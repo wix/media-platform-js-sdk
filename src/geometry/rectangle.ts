@@ -6,8 +6,12 @@ export interface IRectangle {
 }
 
 export class Rectangle {
-  constructor(public width: number, public height: number, public x: number, public y: number) {
-  }
+  constructor(
+    public width: number,
+    public height: number,
+    public x: number,
+    public y: number,
+  ) {}
 
   /**
    * @param {number} x
@@ -45,4 +49,3 @@ export class Rectangle {
     return this;
   }
 }
-

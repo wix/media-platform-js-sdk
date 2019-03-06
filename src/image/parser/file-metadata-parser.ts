@@ -1,5 +1,5 @@
-import {Metadata} from '../metadata';
-import {parseFileDescriptor} from './file-descriptor-parser';
+import { Metadata } from '../metadata';
+import { parseFileDescriptor } from './file-descriptor-parser';
 
 /**
  * @param {Image} image
@@ -13,7 +13,7 @@ export function parseFileMetadata(image, fileMetadata) {
     image.metadata = new Metadata(
       fileMetadata.basic.width,
       fileMetadata.basic.height,
-      fileMetadata.fileDescriptor.mimeType
+      fileMetadata.fileDescriptor.mimeType,
     );
   }
 }

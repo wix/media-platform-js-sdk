@@ -1,6 +1,7 @@
-import {validator} from '../validation/validator';
-import {Image} from '../image';
-import {autobind} from 'core-decorators';
+import { autobind } from 'core-decorators';
+
+import { Image } from '../image';
+import { validator } from '../validation/validator';
 
 export interface HueSettings {
   hue: number | null;
@@ -14,11 +15,10 @@ export interface HueSettings {
 class Hue {
   public error: string | null = null;
   public settings: HueSettings = {
-    hue: null
+    hue: null,
   };
 
-  constructor(public image: Image) {
-  }
+  constructor(public image: Image) {}
 
   /**
    * @summary hue of the image.
@@ -44,12 +44,12 @@ class Hue {
     let out = '';
 
     if (this.settings.hue) {
-      out += 'hue_' + this.settings.hue;
+      out += `hue_${this.settings.hue}`;
     }
 
     return {
       params: out,
-      error: this.error
+      error: this.error,
     };
   }
 }
@@ -57,5 +57,4 @@ class Hue {
 /**
  * @type {Hue}
  */
-export default Hue;
-export {Hue};
+export { Hue };

@@ -1,14 +1,16 @@
-import {expect} from 'chai';
-import {Saturation} from '../../../../src/image/filter/saturation';
-import {Image} from '../../../../src/server';
+import { expect } from 'chai';
+import { Saturation } from '../../../../src/image/filter/saturation';
+import { Image } from '../../../../src/server';
 
 describe('saturation', () => {
-
   it('serializes', () => {
     const saturation = new Saturation(new Image());
     saturation.saturation(-100);
 
-    expect(saturation.serialize()).to.deep.equal({params: 'sat_-100', error: null});
+    expect(saturation.serialize()).to.deep.equal({
+      params: 'sat_-100',
+      error: null,
+    });
   });
 
   it('reject values greater than 100', () => {
@@ -17,7 +19,7 @@ describe('saturation', () => {
 
     expect(saturation.serialize()).to.deep.equal({
       params: '',
-      error: 'saturation: 101 is not a number between -100 to 100'
+      error: 'saturation: 101 is not a number between -100 to 100',
     });
   });
 
@@ -27,7 +29,7 @@ describe('saturation', () => {
 
     expect(saturation.serialize()).to.deep.equal({
       params: '',
-      error: 'saturation: -101 is not a number between -100 to 100'
+      error: 'saturation: -101 is not a number between -100 to 100',
     });
   });
 
@@ -36,7 +38,7 @@ describe('saturation', () => {
     saturation.saturation(70);
     saturation.saturation();
 
-    expect(saturation.serialize()).to.deep.equal({params: '', error: null});
+    expect(saturation.serialize()).to.deep.equal({ params: '', error: null });
   });
 
   it('resets for undefined', () => {
@@ -44,7 +46,7 @@ describe('saturation', () => {
     saturation.saturation(-9970);
     saturation.saturation();
 
-    expect(saturation.serialize()).to.deep.equal({params: '', error: null});
+    expect(saturation.serialize()).to.deep.equal({ params: '', error: null });
   });
 
   it('resets for 0', () => {
@@ -52,6 +54,6 @@ describe('saturation', () => {
     saturation.saturation(-1);
     saturation.saturation(0);
 
-    expect(saturation.serialize()).to.deep.equal({params: '', error: null});
+    expect(saturation.serialize()).to.deep.equal({ params: '', error: null });
   });
 });

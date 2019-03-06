@@ -1,9 +1,8 @@
-import {Rectangle} from '../../../geometry/rectangle';
+import { Rectangle } from '../../../geometry/rectangle';
 
-import {Color, IColor} from './color';
-import {ExplicitContent, IExplicitContent} from './explicit-content';
-import {ILabel, Label} from './label';
-
+import { Color, IColor } from './color';
+import { ExplicitContent, IExplicitContent } from './explicit-content';
+import { ILabel, Label } from './label';
 
 export interface IFace {
   width: number;
@@ -26,19 +25,21 @@ export class ImageFeatures implements IImageFeatures {
   public labels: Label[] = [];
 
   constructor(data: IImageFeatures) {
-    this.colors = data.colors.map((color) => {
+    this.colors = data.colors.map(color => {
       return new Color(color);
     });
 
-    this.explicitContent = data.explicitContent.map((explicitContent: IExplicitContent) => {
-      return new ExplicitContent(explicitContent);
-    });
+    this.explicitContent = data.explicitContent.map(
+      (explicitContent: IExplicitContent) => {
+        return new ExplicitContent(explicitContent);
+      },
+    );
 
-    this.faces = data.faces.map((face) => {
+    this.faces = data.faces.map(face => {
       return new Rectangle(face.width, face.height, face.x, face.y);
     });
 
-    this.labels = data.labels.map((label) => {
+    this.labels = data.labels.map(label => {
       return new Label(label);
     });
   }

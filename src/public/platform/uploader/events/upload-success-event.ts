@@ -1,8 +1,12 @@
-import {UploadEvent, UploadEventResponse} from './upload-event';
-import {FileDescriptor} from '../../../../platform/management/metadata/file-descriptor';
+import { UploadEvent, UploadEventResponse } from './upload-event';
+import { FileDescriptor } from '../../../../platform/management/metadata/file-descriptor';
 
 class UploadSuccessEvent extends UploadEvent {
-  constructor(target, response: UploadEventResponse, public fileDescriptors: FileDescriptor[]) {
+  constructor(
+    target,
+    response: UploadEventResponse,
+    public fileDescriptors: FileDescriptor[],
+  ) {
     super(target, response);
 
     this.name = 'upload-success';
@@ -13,4 +17,4 @@ class UploadSuccessEvent extends UploadEvent {
 /**
  * @type {UploadSuccessEvent}
  */
-export {UploadSuccessEvent};
+export { UploadSuccessEvent };

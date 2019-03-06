@@ -1,5 +1,7 @@
-import {FileType, OrderDirection} from '../../../types/media-platform/media-platform';
-
+import {
+  FileType,
+  OrderDirection,
+} from '../../../types/media-platform/media-platform';
 
 export interface IListFilesRequest {
   nextPageToken?: string;

@@ -5,5 +5,5 @@ export const NS = {
   SERVICE: 'urn:service:',
   MEMBER: 'urn:member:',
   APPLICATION: 'urn:app:',
-  FILE: 'urn:file:'
+  FILE: 'urn:file:',
 };

@@ -2,8 +2,7 @@
  * IFileDescriptor
  * @doc FileDescriptor
  */
-import {Lifecycle} from '../../../types/media-platform/media-platform';
-
+import { Lifecycle } from '../../../types/media-platform/media-platform';
 
 export interface IFileDescriptor {
   acl: string | null;
@@ -75,7 +74,7 @@ export class FileDescriptor implements IFileDescriptor {
    */
   public lifecycle: {
     action: Lifecycle;
-    age: number
+    age: number;
   } | null = null;
 
   public dateCreated: string | null = null;
@@ -95,7 +94,9 @@ export class FileDescriptor implements IFileDescriptor {
     this.dateCreated = data.dateCreated || null;
 
     if (data.dateCreated && data.lifecycle) {
-      this.dateExpired = new Date(new Date(data.dateCreated).getTime() + data.lifecycle.age * 1000).toISOString();
+      this.dateExpired = new Date(
+        new Date(data.dateCreated).getTime() + data.lifecycle.age * 1000,
+      ).toISOString();
     }
 
     this.dateUpdated = data.dateUpdated || null;

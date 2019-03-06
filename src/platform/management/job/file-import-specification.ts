@@ -1,5 +1,4 @@
-import {Destination} from './destination';
-
+import { Destination } from './destination';
 
 export interface IFileImportSpecification {
   sourceUrl: string;

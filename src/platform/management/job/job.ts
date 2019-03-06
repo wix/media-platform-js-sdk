@@ -1,12 +1,11 @@
-import {CreateArchiveSpecification} from './create-archive-specification';
-import {ExtractArchiveSpecification} from './extract-archive-specification';
-import {ExtractPosterSpecification} from './extract-poster-specification';
-import {ExtractStoryboardSpecification} from './extract-storyboard-specification';
-import {FileImportSpecification} from './file-import-specification';
-import {PackagingSpecification} from './packaging-specification';
-import {ISource, Source} from './source';
-import {TranscodeSpecification} from './transcode-specification';
-
+import { CreateArchiveSpecification } from './create-archive-specification';
+import { ExtractArchiveSpecification } from './extract-archive-specification';
+import { ExtractPosterSpecification } from './extract-poster-specification';
+import { ExtractStoryboardSpecification } from './extract-storyboard-specification';
+import { FileImportSpecification } from './file-import-specification';
+import { PackagingSpecification } from './packaging-specification';
+import { ISource, Source } from './source';
+import { TranscodeSpecification } from './transcode-specification';
 
 export interface IJob<T> {
   id: string;
@@ -25,7 +24,7 @@ export enum JobStatus {
   PENDING = 'pending',
   WORKING = 'working',
   SUCCESS = 'success',
-  ERROR = 'error'
+  ERROR = 'error',
 }
 
 const specifications = {
@@ -35,7 +34,7 @@ const specifications = {
   'urn:job:av.poster': ExtractPosterSpecification,
   'urn:job:av.storyboard': ExtractStoryboardSpecification,
   'urn:job:import.file': FileImportSpecification,
-  'urn:job:av.package': PackagingSpecification
+  'urn:job:av.package': PackagingSpecification,
 };
 
 export class Job<T> implements IJob<T> {
@@ -61,7 +60,7 @@ export class Job<T> implements IJob<T> {
     this.result = data.result;
 
     if (typeof data.sources !== 'undefined') {
-      this.sources = data.sources.map((source) => {
+      this.sources = data.sources.map(source => {
         return new Source(source);
       });
     }
@@ -77,7 +76,9 @@ export class Job<T> implements IJob<T> {
    * @returns {boolean}
    */
   public isWaiting(): boolean {
-    return this.status === JobStatus.PENDING || this.status === JobStatus.WORKING;
+    return (
+      this.status === JobStatus.PENDING || this.status === JobStatus.WORKING
+    );
   }
 
   /**

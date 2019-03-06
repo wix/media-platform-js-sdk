@@ -1,7 +1,6 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {FileDescriptor} from './file-descriptor';
-
+import { FileDescriptor } from './file-descriptor';
 
 describe('FileDescriptor:', () => {
   it('should return correct file descriptor', () => {
@@ -16,7 +15,7 @@ describe('FileDescriptor:', () => {
       path: '/media/19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
       size: 106764,
       type: '-',
-      urn: 'urn:file:19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg'
+      urn: 'urn:file:19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
     });
 
     expect(fileDescriptor).to.deep.equal({
@@ -31,7 +30,7 @@ describe('FileDescriptor:', () => {
       mimeType: 'image/jpeg',
       path: '/media/19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
       size: 106764,
-      type: '-'
+      type: '-',
     });
   });
 
@@ -48,7 +47,7 @@ describe('FileDescriptor:', () => {
         path: '/media/19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
         size: 106764,
         type: '-',
-        urn: 'urn:file:19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg'
+        urn: 'urn:file:19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
       });
 
       expect(fileDescriptor).to.deep.equal({
@@ -63,7 +62,7 @@ describe('FileDescriptor:', () => {
         mimeType: 'image/jpeg',
         path: '/media/19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
         size: 106764,
-        type: '-'
+        type: '-',
       });
     });
 
@@ -80,7 +79,7 @@ describe('FileDescriptor:', () => {
         path: '/media/19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
         size: 106764,
         type: '-',
-        urn: 'urn:file:19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg'
+        urn: 'urn:file:19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
       });
 
       expect(fileDescriptor).to.deep.equal({
@@ -95,7 +94,7 @@ describe('FileDescriptor:', () => {
         mimeType: 'image/jpeg',
         path: '/media/19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
         size: 106764,
-        type: '-'
+        type: '-',
       });
     });
 
@@ -112,7 +111,7 @@ describe('FileDescriptor:', () => {
         path: '/media/19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
         size: 106764,
         type: '-',
-        urn: 'urn:file:19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg'
+        urn: 'urn:file:19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
       });
 
       expect(fileDescriptor).to.deep.equal({
@@ -127,7 +126,7 @@ describe('FileDescriptor:', () => {
         mimeType: 'image/jpeg',
         path: '/media/19fc1a_b1738e3616b645bd90ab7097a1c0f904.jpg',
         size: 106764,
-        type: '-'
+        type: '-',
       });
     });
   });

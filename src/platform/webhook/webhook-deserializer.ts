@@ -1,9 +1,8 @@
-import {WebhookEvent} from './webhook-event';
-import {Authenticator} from '../authentication/authenticator';
+import { WebhookEvent } from './webhook-event';
+import { Authenticator } from '../authentication/authenticator';
 
 export class WebhookDeserializer {
-  constructor(public authenticator: Authenticator) {
-  }
+  constructor(public authenticator: Authenticator) {}
 
   /**
    * @param {String} signedToken

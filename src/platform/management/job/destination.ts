@@ -1,4 +1,4 @@
-import {ACL} from '../../../types/media-platform/media-platform';
+import { ACL } from '../../../types/media-platform/media-platform';
 
 /**
  * Destination interface

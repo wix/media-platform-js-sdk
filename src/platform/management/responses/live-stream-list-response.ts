@@ -1,5 +1,4 @@
-import {ILiveStream, LiveStream} from '../metadata/live-stream';
-
+import { ILiveStream, LiveStream } from '../metadata/live-stream';
 
 /**
  * Live Stream List Response interface
@@ -21,7 +20,7 @@ export class LiveStreamListResponse {
   constructor(data: ILiveStreamListResponse) {
     this.nextPageToken = data.nextPageToken;
 
-    this.streams = data.streams.map((liveStream) => {
+    this.streams = data.streams.map(liveStream => {
       return new LiveStream(liveStream);
     });
   }

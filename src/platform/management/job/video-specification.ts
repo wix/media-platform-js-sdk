@@ -1,6 +1,5 @@
-import {Resolution} from './resolution';
-import {VideoCodec} from './video-codec';
-
+import { Resolution } from './resolution';
+import { VideoCodec } from './video-codec';
 
 export interface IVideoSpecification {
   frameRate: string | null;

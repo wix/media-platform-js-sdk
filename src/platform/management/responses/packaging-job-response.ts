@@ -1,6 +1,5 @@
-import {IJob, Job} from '../job/job';
-import {IPackagingSpecification} from '../job/packaging-specification';
-
+import { IJob, Job } from '../job/job';
+import { IPackagingSpecification } from '../job/packaging-specification';
 
 export interface IPackagingJobResponse {
   groupId: string;

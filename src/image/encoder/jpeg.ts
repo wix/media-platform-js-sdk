@@ -1,8 +1,7 @@
-import {autobind} from 'core-decorators';
+import { autobind } from 'core-decorators';
 
-import {Image} from '../image';
-import {validator} from '../validation/validator';
-
+import { Image } from '../image';
+import { validator } from '../validation/validator';
 
 export interface JPEGSettings {
   quality: number | null;
@@ -18,11 +17,10 @@ class JPEG {
   public error: string | null = null;
   public settings: JPEGSettings = {
     quality: null,
-    baseline: null
+    baseline: null,
   };
 
-  constructor(public image: Image) {
-  }
+  constructor(public image: Image) {}
 
   /**
    * @summary The quality constraint, if the image is a jpg
@@ -33,7 +31,12 @@ class JPEG {
   @autobind
   compression(quality?: number, baseline?: boolean): Image {
     quality = Math.round(quality || 0);
-    this.error = validator.numberNotInRange('jpeg compression quality', quality, 0, 100);
+    this.error = validator.numberNotInRange(
+      'jpeg compression quality',
+      quality,
+      0,
+      100,
+    );
     if (this.error) {
       return this.image;
     }
@@ -55,7 +58,7 @@ class JPEG {
     let out = '';
 
     if (this.settings.quality) {
-      out += 'q_' + this.settings.quality;
+      out += `q_${this.settings.quality}`;
     }
 
     if (this.settings.baseline) {
@@ -68,7 +71,7 @@ class JPEG {
 
     return {
       params: out,
-      error: this.error
+      error: this.error,
     };
   }
 }
@@ -76,4 +79,4 @@ class JPEG {
 /**
  * @type {JPEG}
  */
-export {JPEG};
+export { JPEG };

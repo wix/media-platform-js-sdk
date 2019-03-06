@@ -1,4 +1,4 @@
-import {UploadEvent} from './upload-event';
+import { UploadEvent } from './upload-event';
 
 export class UploadProgressEvent extends UploadEvent {
   constructor(target, public loaded: number, public total: number) {
@@ -14,4 +14,3 @@ export class UploadProgressEvent extends UploadEvent {
     this.total = total;
   }
 }
-

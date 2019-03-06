@@ -1,13 +1,18 @@
-import {RawResponse} from '../../types/response/response';
-import {IConfigurationBase} from '../configuration/configuration';
-import {IHTTPClient} from '../http/http-client';
+import { RawResponse } from '../../types/response/response';
+import { IConfigurationBase } from '../configuration/configuration';
+import { IHTTPClient } from '../http/http-client';
 
-import {ILiveStream, LiveStream} from './metadata/live-stream';
-import {ILiveStreamAnalytics, LiveStreamAnalytics} from './metadata/live-stream-analytics';
-import {LiveStreamListRequest} from './requests/live-stream-list-request';
-import {LiveStreamRequest} from './requests/live-stream-request';
-import {ILiveStreamListResponse, LiveStreamListResponse} from './responses/live-stream-list-response';
-
+import { ILiveStream, LiveStream } from './metadata/live-stream';
+import {
+  ILiveStreamAnalytics,
+  LiveStreamAnalytics,
+} from './metadata/live-stream-analytics';
+import { LiveStreamListRequest } from './requests/live-stream-list-request';
+import { LiveStreamRequest } from './requests/live-stream-request';
+import {
+  ILiveStreamListResponse,
+  LiveStreamListResponse,
+} from './responses/live-stream-list-response';
 
 /**
  * @param {Configuration} configuration
@@ -19,7 +24,10 @@ export class LiveManager {
   public baseUrl: string;
   public apiUrl: string;
 
-  constructor(public configuration: IConfigurationBase, public httpClient: IHTTPClient) {
+  constructor(
+    public configuration: IConfigurationBase,
+    public httpClient: IHTTPClient,
+  ) {
     /**
      * @type {string}
      */
@@ -38,12 +46,18 @@ export class LiveManager {
    */
   openStream(liveStreamRequest: LiveStreamRequest): Promise<LiveStream> {
     return this.httpClient
-      .post<RawResponse<ILiveStream>>(this.apiUrl + '/stream', liveStreamRequest)
-      .then((response) => {
-        return new LiveStream(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+      .post<RawResponse<ILiveStream>>(
+        this.apiUrl + '/stream',
+        liveStreamRequest,
+      )
+      .then(
+        response => {
+          return new LiveStream(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -52,12 +66,16 @@ export class LiveManager {
    * @returns {Promise<LiveStream>}
    */
   getStream(streamId: string): Promise<LiveStream> {
-    return this.httpClient.get<RawResponse<ILiveStream>>(this.apiUrl + '/stream/' + streamId)
-      .then((response) => {
-        return new LiveStream(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .get<RawResponse<ILiveStream>>(this.apiUrl + '/stream/' + streamId)
+      .then(
+        response => {
+          return new LiveStream(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -66,12 +84,18 @@ export class LiveManager {
    * @returns {Promise<LiveStreamAnalytics>}
    */
   getStreamAnalytics(streamId: string): Promise<LiveStreamAnalytics> {
-    return this.httpClient.get<RawResponse<ILiveStreamAnalytics>>(this.apiUrl + '/stream/' + streamId + '/analytics')
-      .then((response) => {
-        return new LiveStreamAnalytics(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .get<RawResponse<ILiveStreamAnalytics>>(
+        this.apiUrl + '/stream/' + streamId + '/analytics',
+      )
+      .then(
+        response => {
+          return new LiveStreamAnalytics(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -80,7 +104,8 @@ export class LiveManager {
    * @returns {Promise<void>}
    */
   closeStream(streamId: string): Promise<void> {
-    return this.httpClient.delete(this.apiUrl + '/stream/' + streamId)
+    return this.httpClient
+      .delete(this.apiUrl + '/stream/' + streamId)
       .catch(error => {
         return Promise.reject(error);
       });
@@ -91,18 +116,24 @@ export class LiveManager {
    * @param {LiveStreamListRequest} liveStreamListRequest
    * @returns {Promise<LiveStreamListResponse>}
    */
-  listStreams(liveStreamListRequest?: LiveStreamListRequest): Promise<LiveStreamListResponse> {
+  listStreams(
+    liveStreamListRequest?: LiveStreamListRequest,
+  ): Promise<LiveStreamListResponse> {
     const params = liveStreamListRequest && liveStreamListRequest.toParams();
 
-    return this.httpClient.get<RawResponse<ILiveStreamListResponse>>(
-      this.apiUrl + '/streams',
-      params
-    )
-      .then((response) => {
-        return new LiveStreamListResponse(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .get<RawResponse<ILiveStreamListResponse>>(
+        this.apiUrl + '/streams',
+        params,
+      )
+      .then(
+        response => {
+          return new LiveStreamListResponse(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -111,6 +142,8 @@ export class LiveManager {
    * @returns {Promise<string>}
    */
   async getStreamCoverUrl(streamId: string): Promise<string> {
-    return await this.httpClient.addAuthToUrl(this.apiUrl + `/stream/${streamId}/frame`);
+    return this.httpClient.addAuthToUrl(
+      this.apiUrl + `/stream/${streamId}/frame`,
+    );
   }
 }

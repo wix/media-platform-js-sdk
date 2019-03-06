@@ -1,6 +1,5 @@
-import {Destination, IDestination} from '../job/destination';
-import {ISource, Source} from '../job/source';
-
+import { Destination, IDestination } from '../job/destination';
+import { ISource, Source } from '../job/source';
 
 export interface IExtractArchiveRequest {
   destination: IDestination;

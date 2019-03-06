@@ -1,4 +1,4 @@
-import {IGeometryBase, SerializedGeometry} from '../../types/image/geometry';
+import { IGeometryBase, SerializedGeometry } from '../../types/image/geometry';
 
 export class GeometryBase implements IGeometryBase {
   public name = 'Base';

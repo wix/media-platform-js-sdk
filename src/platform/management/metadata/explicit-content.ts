@@ -2,7 +2,7 @@ export enum Likelihood {
   VERY_LIKELY = 'VERY_LIKELY',
   POSSIBLE = 'POSSIBLE',
   UNLIKELY = 'UNLIKELY',
-  VERY_UNLIKELY = 'VERY_UNLIKELY'
+  VERY_UNLIKELY = 'VERY_UNLIKELY',
 }
 
 export interface IExplicitContent {

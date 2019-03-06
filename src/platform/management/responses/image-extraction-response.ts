@@ -1,8 +1,10 @@
-import {Color, IColor} from '../metadata/color';
-import {ExplicitContent, IExplicitContent} from '../metadata/explicit-content';
-import {Face, IFace} from '../metadata/face';
-import {ILabel, Label} from '../metadata/label';
-
+import { Color, IColor } from '../metadata/color';
+import {
+  ExplicitContent,
+  IExplicitContent,
+} from '../metadata/explicit-content';
+import { Face, IFace } from '../metadata/face';
+import { ILabel, Label } from '../metadata/label';
 
 export interface ImageExtractionResponse {
   labels?: ILabel[];
@@ -27,11 +29,16 @@ export class ImageExtraction {
     }
 
     if (data.faces && data.faces.length) {
-      this.faces = data.faces.map((face: IFace) => new Face(face.height, face.width, face.x, face.y));
+      this.faces = data.faces.map(
+        (face: IFace) => new Face(face.height, face.width, face.x, face.y),
+      );
     }
 
     if (data.explicitContent && data.explicitContent.length) {
-      this.explicitContent = data.explicitContent.map((explicitContent: IExplicitContent) => new ExplicitContent(explicitContent));
+      this.explicitContent = data.explicitContent.map(
+        (explicitContent: IExplicitContent) =>
+          new ExplicitContent(explicitContent),
+      );
     }
   }
 }

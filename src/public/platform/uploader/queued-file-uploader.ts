@@ -1,8 +1,7 @@
-import async, {AsyncQueue} from 'async';
+import async, { AsyncQueue } from 'async';
 
-import {FileUploader} from './browser-file-uploader';
-import {UploadJob} from './upload-job';
-
+import { FileUploader } from './browser-file-uploader';
+import { UploadJob } from './upload-job';
 
 /**
  * @param {FileUploader} fileUploader
@@ -13,7 +12,10 @@ export class QueuedFileUploader {
   public queue: AsyncQueue<UploadJob>;
   public jobs: UploadJob[] = [];
 
-  constructor(public fileUploader: FileUploader, public concurrency: number = 4) {
+  constructor(
+    public fileUploader: FileUploader,
+    public concurrency: number = 4,
+  ) {
     this.fileUploader = fileUploader;
 
     this.queue = async.queue(uploadWorker, concurrency);
@@ -37,15 +39,12 @@ export class QueuedFileUploader {
     }
 
     this.jobs.push(uploadJob);
-    this.queue.push(
-      uploadJob,
-      () => {
-        const i = this.jobs.indexOf(uploadJob);
-        if (i > -1) {
-          this.jobs.splice(i, 1);
-        }
+    this.queue.push(uploadJob, () => {
+      const i = this.jobs.indexOf(uploadJob);
+      if (i > -1) {
+        this.jobs.splice(i, 1);
       }
-    );
+    });
 
     return this;
   }

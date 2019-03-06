@@ -1,6 +1,5 @@
 export class Dimension {
-  constructor(public width: number = 0, public height: number = 0) {
-  }
+  constructor(public width: number = 0, public height: number = 0) {}
 
   setWidth(width: number): Dimension {
     this.width = width;

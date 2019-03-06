@@ -1,25 +1,31 @@
 import * as Stream from 'stream';
 import * as Observable from 'zen-observable';
 
-import {UploadJob} from '../../public/platform/uploader/upload-job';
-import {ACL, DescriptorMimeType, FileType} from '../../types/media-platform/media-platform';
-import {RawResponse} from '../../types/response/response';
-import {IConfigurationBase} from '../configuration/configuration';
-import {IHTTPClient} from '../http/http-client';
+import { UploadJob } from '../../public/platform/uploader/upload-job';
+import {
+  ACL,
+  DescriptorMimeType,
+  FileType,
+} from '../../types/media-platform/media-platform';
+import { RawResponse } from '../../types/response/response';
+import { IConfigurationBase } from '../configuration/configuration';
+import { IHTTPClient } from '../http/http-client';
 
-import {FileUploader, IFileUploader} from './file-uploader';
-import {FileImportSpecification} from './job/file-import-specification';
-import {IJob, Job} from './job/job';
-import {observeJobCreator} from './job/job-observable';
-import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
-import {FileMetadata, IFileMetadata} from './metadata/file-metadata';
-import {ImportFileRequest} from './requests/import-file-request';
-import {IListFilesRequest} from './requests/list-files-request';
-import {UploadFileRequest} from './requests/upload-file-request';
-import {IUploadUrlRequest} from './requests/upload-url-request';
-import {IListFilesResponse, ListFilesResponse} from './responses/list-files-response';
-import {UploadUrlResponse} from './responses/upload-url-response';
-
+import { FileUploader, IFileUploader } from './file-uploader';
+import { FileImportSpecification } from './job/file-import-specification';
+import { IJob, Job } from './job/job';
+import { observeJobCreator } from './job/job-observable';
+import { FileDescriptor, IFileDescriptor } from './metadata/file-descriptor';
+import { FileMetadata, IFileMetadata } from './metadata/file-metadata';
+import { ImportFileRequest } from './requests/import-file-request';
+import { IListFilesRequest } from './requests/list-files-request';
+import { UploadFileRequest } from './requests/upload-file-request';
+import { IUploadUrlRequest } from './requests/upload-url-request';
+import {
+  IListFilesResponse,
+  ListFilesResponse,
+} from './responses/list-files-response';
+import { UploadUrlResponse } from './responses/upload-url-response';
 
 export interface IUpdateFileACLById {
   acl: ACL;
@@ -47,9 +53,15 @@ export type UpdateFileACL = IUpdateFileACLById | IUpdateFileACLByPath;
 export class FileManager {
   public baseUrl: string;
   public apiUrl: string;
-  public queueFileUpload: ((uploadJob: UploadJob) => void) | undefined = undefined;
+  public queueFileUpload:
+    | ((uploadJob: UploadJob) => void)
+    | undefined = undefined;
 
-  constructor(public configuration: IConfigurationBase, public httpClient: IHTTPClient, public fileUploader: IFileUploader) {
+  constructor(
+    public configuration: IConfigurationBase,
+    public httpClient: IHTTPClient,
+    public fileUploader: IFileUploader,
+  ) {
     /**
      * @type {string}
      */
@@ -75,7 +87,9 @@ export class FileManager {
    *   console.log(response.uploadToken, response.uploadUrl);
    * });
    */
-  getUploadUrl(uploadUrlRequest?: IUploadUrlRequest): Promise<UploadUrlResponse> {
+  getUploadUrl(
+    uploadUrlRequest?: IUploadUrlRequest,
+  ): Promise<UploadUrlResponse> {
     return this.fileUploader.getUploadUrl(uploadUrlRequest);
   }
 
@@ -88,21 +102,27 @@ export class FileManager {
   uploadFile(
     path: string,
     file: string | Buffer | Stream,
-    uploadFileRequest?: UploadFileRequest
+    uploadFileRequest?: UploadFileRequest,
   ): Promise<FileDescriptor[]> | UploadJob {
-    const uploadFileResult = this.fileUploader.uploadFile(path, file, uploadFileRequest);
+    const uploadFileResult = this.fileUploader.uploadFile(
+      path,
+      file,
+      uploadFileRequest,
+    );
     // TODO: do it in a right way
     // Browser file uploader return `UploadJob` instead of promise
     if (!uploadFileResult.then) {
       return uploadFileResult;
     }
 
-    return uploadFileResult
-      .then(response => {
+    return uploadFileResult.then(
+      response => {
         return response;
-      }, error => {
+      },
+      error => {
         return Promise.reject(error);
-      });
+      },
+    );
   }
 
   /**
@@ -110,10 +130,13 @@ export class FileManager {
    * @param importFileRequest
    * @returns {Observable<Job<FileImportSpecification>>}
    */
-  importFileObservable(importFileRequest: ImportFileRequest): Observable<Job<FileImportSpecification>> {
-    return observeJobCreator<FileImportSpecification>(this.configuration, this.httpClient)(
-      () => this.importFile(importFileRequest)
-    );
+  importFileObservable(
+    importFileRequest: ImportFileRequest,
+  ): Observable<Job<FileImportSpecification>> {
+    return observeJobCreator<FileImportSpecification>(
+      this.configuration,
+      this.httpClient,
+    )(() => this.importFile(importFileRequest));
   }
 
   /**
@@ -121,14 +144,22 @@ export class FileManager {
    * @param {ImportFileRequest} importFileRequest
    * @returns {Promise<Job<FileImportSpecification>>}
    */
-  importFile(importFileRequest: ImportFileRequest): Promise<Job<FileImportSpecification>> {
+  importFile(
+    importFileRequest: ImportFileRequest,
+  ): Promise<Job<FileImportSpecification>> {
     return this.httpClient
-      .post<RawResponse<IJob<FileImportSpecification>>>(`${this.baseUrl}/_api/import/file`, importFileRequest)
-      .then((response) => {
-        return new Job<FileImportSpecification>(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+      .post<RawResponse<IJob<FileImportSpecification>>>(
+        `${this.baseUrl}/_api/import/file`,
+        importFileRequest,
+      )
+      .then(
+        response => {
+          return new Job<FileImportSpecification>(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -137,12 +168,16 @@ export class FileManager {
    * @returns {Promise<FileDescriptor>}
    */
   createFile(fileDescriptor: FileDescriptor): Promise<FileDescriptor> {
-    return this.httpClient.post<RawResponse<IFileDescriptor>>(this.apiUrl, fileDescriptor)
-      .then((response) => {
-        return new FileDescriptor(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .post<RawResponse<IFileDescriptor>>(this.apiUrl, fileDescriptor)
+      .then(
+        response => {
+          return new FileDescriptor(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -150,19 +185,23 @@ export class FileManager {
    * @param {FolderDescriptor} folderDescriptor
    * @returns {Promise<FileDescriptor>}
    */
-  createFolder({acl, path}: FolderDescriptor): Promise<FileDescriptor> {
-    return this.httpClient.post<RawResponse<IFileDescriptor>>(this.apiUrl, {
-      acl,
-      mimeType: DescriptorMimeType.Folder,
-      path,
-      size: 0,
-      type: FileType.FOLDER
-    })
-      .then((response) => {
-        return new FileDescriptor(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+  createFolder({ acl, path }: FolderDescriptor): Promise<FileDescriptor> {
+    return this.httpClient
+      .post<RawResponse<IFileDescriptor>>(this.apiUrl, {
+        acl,
+        mimeType: DescriptorMimeType.Folder,
+        path,
+        size: 0,
+        type: FileType.FOLDER,
+      })
+      .then(
+        response => {
+          return new FileDescriptor(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -170,15 +209,19 @@ export class FileManager {
    */
   getFile(path: string): Promise<FileDescriptor> {
     const params = {
-      path
+      path,
     };
 
-    return this.httpClient.get<RawResponse<FileDescriptor>>(this.apiUrl, params)
-      .then((response) => {
-        return new FileDescriptor(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .get<RawResponse<FileDescriptor>>(this.apiUrl, params)
+      .then(
+        response => {
+          return new FileDescriptor(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -186,30 +229,41 @@ export class FileManager {
    * @returns {Promise<FileMetadata>}
    */
   getFileMetadataById(fileId: string): Promise<FileMetadata> {
-    return this.httpClient.get<RawResponse<IFileMetadata>>(`${this.apiUrl}/${fileId}/metadata`)
-      .then((response) => {
-        return new FileMetadata(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .get<RawResponse<IFileMetadata>>(`${this.apiUrl}/${fileId}/metadata`)
+      .then(
+        response => {
+          return new FileMetadata(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
    * @param {string} path
    * @param {IListFilesRequest?} listFilesRequest
    */
-  listFiles(path: string, listFilesRequest?: IListFilesRequest): Promise<ListFilesResponse> {
+  listFiles(
+    path: string,
+    listFilesRequest?: IListFilesRequest,
+  ): Promise<ListFilesResponse> {
     const params = {
       path,
-      ...listFilesRequest
+      ...listFilesRequest,
     };
 
-    return this.httpClient.get<RawResponse<IListFilesResponse>>(`${this.apiUrl}/ls_dir`, params)
-      .then((response) => {
-        return new ListFilesResponse(response.payload);
-      }, error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient
+      .get<RawResponse<IListFilesResponse>>(`${this.apiUrl}/ls_dir`, params)
+      .then(
+        response => {
+          return new ListFilesResponse(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -217,24 +271,21 @@ export class FileManager {
    */
   deleteFileByPath(path: string): Promise<void> {
     const params = {
-      path
+      path,
     };
 
-    return this.httpClient.delete(this.apiUrl, params)
-      .catch(
-        error => {
-          return Promise.reject(error);
-        });
+    return this.httpClient.delete(this.apiUrl, params).catch(error => {
+      return Promise.reject(error);
+    });
   }
 
   /**
    * @param {string} id
    */
   deleteFileById(id: string): Promise<void> {
-    return this.httpClient.delete(`${this.apiUrl}/${id}`)
-      .catch(error => {
-        return Promise.reject(error);
-      });
+    return this.httpClient.delete(`${this.apiUrl}/${id}`).catch(error => {
+      return Promise.reject(error);
+    });
   }
 
   /**
@@ -242,11 +293,10 @@ export class FileManager {
    * @returns {Promise}
    */
   updateFileACL(params: UpdateFileACL): Promise<FileDescriptor> {
-    return this.httpClient.put<RawResponse<FileDescriptor>>(this.apiUrl, params)
-      .then(
-        response => {
-          return new FileDescriptor(response.payload);
-        }
-      );
+    return this.httpClient
+      .put<RawResponse<FileDescriptor>>(this.apiUrl, params)
+      .then(response => {
+        return new FileDescriptor(response.payload);
+      });
   }
 }

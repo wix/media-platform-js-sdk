@@ -1,6 +1,7 @@
-import {validator} from '../validation/validator';
-import {Image} from '../image';
-import {autobind} from 'core-decorators';
+import { autobind } from 'core-decorators';
+
+import { Image } from '../image';
+import { validator } from '../validation/validator';
 
 export interface ContrastSettings {
   contrast: number | null;
@@ -14,11 +15,10 @@ export interface ContrastSettings {
 class Contrast {
   public error: string | null = null;
   public settings: ContrastSettings = {
-    contrast: null
+    contrast: null,
   };
 
-  constructor(public image: Image) {
-  }
+  constructor(public image: Image) {}
 
   /**
    * @summary contrast of the image.
@@ -48,12 +48,12 @@ class Contrast {
     let out = '';
 
     if (this.settings.contrast) {
-      out += 'con_' + this.settings.contrast;
+      out += `con_${this.settings.contrast}`;
     }
 
     return {
       params: out,
-      error: this.error
+      error: this.error,
     };
   }
 }
@@ -61,5 +61,4 @@ class Contrast {
 /**
  * @type {Contrast}
  */
-export default Contrast;
-export {Contrast};
+export { Contrast };

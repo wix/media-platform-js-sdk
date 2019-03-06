@@ -22,7 +22,7 @@ export class Geo {
     if (coordinates) {
       this.coordinates = {
         latitude: coordinates.latitude,
-        longitude: coordinates.longitude
+        longitude: coordinates.longitude,
       };
     }
 

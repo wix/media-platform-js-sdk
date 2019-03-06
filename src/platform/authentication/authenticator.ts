@@ -1,8 +1,8 @@
 import * as jwt from 'jsonwebtoken';
-import {Token} from './token';
-import {NS} from './NS';
-import {Configuration} from '../configuration/configuration';
-import {AuthorizationHeader} from '../../types/media-platform/media-platform';
+import { Token } from './token';
+import { NS } from './NS';
+import { Configuration } from '../configuration/configuration';
+import { AuthorizationHeader } from '../../types/media-platform/media-platform';
 
 /**
  * A client that can authenticate against WixMP
@@ -25,7 +25,7 @@ export class Authenticator {
     }
 
     return {
-      Authorization: typeof t === 'string' ? t : this.encode(t)
+      Authorization: typeof t === 'string' ? t : this.encode(t),
     };
   }
 
@@ -47,7 +47,7 @@ export class Authenticator {
     try {
       return jwt.verify(signedToken, this.configuration.sharedSecret, {
         ignoreExpiration: true,
-        issuer: 'urn:app:' + this.configuration.appId
+        issuer: 'urn:app:' + this.configuration.appId,
       });
     } catch (error) {
       // tslint:disable-next-line

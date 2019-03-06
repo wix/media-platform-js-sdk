@@ -1,32 +1,31 @@
-import {Image} from '../../image/image';
-import {Destination} from '../../platform/management/job/destination';
-import {ExtractPosterSpecification} from '../../platform/management/job/extract-poster-specification';
-import {ExtractStoryboardSpecification} from '../../platform/management/job/extract-storyboard-specification';
-import {ImageOperationSpecification} from '../../platform/management/job/image-operation-specification';
-import {QualityRange} from '../../platform/management/job/quality-range';
-import {Source} from '../../platform/management/job/source';
-import {TranscodeSpecification} from '../../platform/management/job/transcode-specification';
-import {Flow} from '../../platform/management/metadata/flow';
-import {FlowComponent} from '../../platform/management/metadata/flow-component';
-import {Invocation} from '../../platform/management/metadata/invocation';
-import {LiveStream} from '../../platform/management/metadata/live-stream';
-import {CreateArchiveRequest} from '../../platform/management/requests/create-archive-request';
-import {CreateFlowRequest} from '../../platform/management/requests/create-flow-request';
-import {ExtractArchiveRequest} from '../../platform/management/requests/extract-archive-request';
-import {ExtractPosterRequest} from '../../platform/management/requests/extract-poster-request';
-import {ExtractStoryboardRequest} from '../../platform/management/requests/extract-storyboard-request';
-import {ImageOperationRequest} from '../../platform/management/requests/image-operation-request';
-import {ImportFileRequest} from '../../platform/management/requests/import-file-request';
-import {ListFilesRequest} from '../../platform/management/requests/list-files-request';
-import {LiveStreamRequest} from '../../platform/management/requests/live-stream-request';
-import {SearchJobsRequest} from '../../platform/management/requests/search-jobs-request';
-import {TranscodeRequest} from '../../platform/management/requests/transcode-request';
-import {UploadFileRequest} from '../../platform/management/requests/upload-file-request';
-import {UploadUrlRequest} from '../../platform/management/requests/upload-url-request';
-import {Configuration as PublicConfiguration} from '../../public/platform/configuration/configuration';
-import {MediaPlatform} from '../../public/platform/media-platform';
-import {UploadJob} from '../../public/platform/uploader/upload-job';
-
+import { Image } from '../../image/image';
+import { Destination } from '../../platform/management/job/destination';
+import { ExtractPosterSpecification } from '../../platform/management/job/extract-poster-specification';
+import { ExtractStoryboardSpecification } from '../../platform/management/job/extract-storyboard-specification';
+import { ImageOperationSpecification } from '../../platform/management/job/image-operation-specification';
+import { QualityRange } from '../../platform/management/job/quality-range';
+import { Source } from '../../platform/management/job/source';
+import { TranscodeSpecification } from '../../platform/management/job/transcode-specification';
+import { Flow } from '../../platform/management/metadata/flow';
+import { FlowComponent } from '../../platform/management/metadata/flow-component';
+import { Invocation } from '../../platform/management/metadata/invocation';
+import { LiveStream } from '../../platform/management/metadata/live-stream';
+import { CreateArchiveRequest } from '../../platform/management/requests/create-archive-request';
+import { CreateFlowRequest } from '../../platform/management/requests/create-flow-request';
+import { ExtractArchiveRequest } from '../../platform/management/requests/extract-archive-request';
+import { ExtractPosterRequest } from '../../platform/management/requests/extract-poster-request';
+import { ExtractStoryboardRequest } from '../../platform/management/requests/extract-storyboard-request';
+import { ImageOperationRequest } from '../../platform/management/requests/image-operation-request';
+import { ImportFileRequest } from '../../platform/management/requests/import-file-request';
+import { ListFilesRequest } from '../../platform/management/requests/list-files-request';
+import { LiveStreamRequest } from '../../platform/management/requests/live-stream-request';
+import { SearchJobsRequest } from '../../platform/management/requests/search-jobs-request';
+import { TranscodeRequest } from '../../platform/management/requests/transcode-request';
+import { UploadFileRequest } from '../../platform/management/requests/upload-file-request';
+import { UploadUrlRequest } from '../../platform/management/requests/upload-url-request';
+import { Configuration as PublicConfiguration } from '../../public/platform/configuration/configuration';
+import { MediaPlatform } from '../../public/platform/media-platform';
+import { UploadJob } from '../../public/platform/uploader/upload-job';
 
 export interface AuthorizationHeader {
   Authorization: string;
@@ -127,21 +126,21 @@ export interface ExportedPublicMediaPlatform {
 export enum OrderDirection {
   None,
   ASC = 'asc',
-  DES = 'des'
+  DES = 'des',
 }
 
 export enum ACL {
   PRIVATE = 'private',
-  PUBLIC = 'public'
+  PUBLIC = 'public',
 }
 
 export enum FileType {
   FILE = '-',
-  FOLDER = 'd'
+  FOLDER = 'd',
 }
 
 export enum DescriptorMimeType {
-  Folder = 'application/vnd.wix-media.dir'
+  Folder = 'application/vnd.wix-media.dir',
 }
 
 export enum LiveStreamState {
@@ -149,7 +148,7 @@ export enum LiveStreamState {
   STREAMING = 'streaming',
   PENDING_RECONNECT = 'pending_reconnect',
   DVR_PROCESSING = 'dvr_processing',
-  CLOSED = 'closed'
+  CLOSED = 'closed',
 }
 
 export enum Lifecycle {

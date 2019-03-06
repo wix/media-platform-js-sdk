@@ -1,4 +1,4 @@
-import {UploadEvent} from './upload-event';
+import { UploadEvent } from './upload-event';
 
 class UploadStartedEvent extends UploadEvent {
   constructor(target) {
@@ -14,4 +14,4 @@ class UploadStartedEvent extends UploadEvent {
 /***
  * @type {UploadStartedEvent}
  */
-export {UploadStartedEvent};
+export { UploadStartedEvent };

@@ -1,6 +1,7 @@
-import {validator} from '../validation/validator';
-import {Image} from '../image';
-import {autobind} from 'core-decorators';
+import { autobind } from 'core-decorators';
+
+import { Image } from '../image';
+import { validator } from '../validation/validator';
 
 export interface BlurSettings {
   percentage: number | null;
@@ -14,11 +15,10 @@ export interface BlurSettings {
 class Blur {
   public error: string | null = null;
   public settings: BlurSettings = {
-    percentage: null
+    percentage: null,
   };
 
-  constructor(public image: Image) {
-  }
+  constructor(public image: Image) {}
 
   /**
    * @summary Applies a blur effect to the image.
@@ -43,12 +43,12 @@ class Blur {
     let out = '';
 
     if (this.settings.percentage) {
-      out += 'blur_' + this.settings.percentage;
+      out += `blur_${this.settings.percentage}`;
     }
 
     return {
       params: out,
-      error: this.error
+      error: this.error,
     };
   }
 }
@@ -56,4 +56,4 @@ class Blur {
 /**
  * @type {Blur}
  */
-export {Blur};
+export { Blur };

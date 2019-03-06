@@ -1,26 +1,25 @@
-import {Dimension} from '../geometry/dimension';
-import {Rectangle} from '../geometry/rectangle';
-import {FileDescriptor} from '../platform/management/metadata/file-descriptor';
-import {FileMetadata} from '../platform/management/metadata/file-metadata';
+import { Dimension } from '../geometry/dimension';
+import { Rectangle } from '../geometry/rectangle';
+import { FileDescriptor } from '../platform/management/metadata/file-descriptor';
+import { FileMetadata } from '../platform/management/metadata/file-metadata';
 
-import {JPEG} from './encoder/jpeg';
-import {Blur} from './filter/blur';
-import {Brightness} from './filter/brightness';
-import {Contrast} from './filter/contrast';
-import {Hue} from './filter/hue';
-import {Saturation} from './filter/saturation';
-import {UnsharpMask, UnsharpNumber} from './filter/unsharp-mask';
-import {Crop} from './framing/crop';
-import {Fill} from './framing/fill';
-import {Fit} from './framing/fit';
-import {GeometryBase} from './framing/geometry-base';
-import {SmartCrop} from './framing/smartcrop';
-import {Metadata} from './metadata';
-import {parseFileDescriptor} from './parser/file-descriptor-parser';
-import {parseFileMetadata} from './parser/file-metadata-parser';
-import {parseUrl} from './parser/image-url-parser';
-import {Watermark} from './filter/watermark';
-
+import { JPEG } from './encoder/jpeg';
+import { Blur } from './filter/blur';
+import { Brightness } from './filter/brightness';
+import { Contrast } from './filter/contrast';
+import { Hue } from './filter/hue';
+import { Saturation } from './filter/saturation';
+import { UnsharpMask, UnsharpNumber } from './filter/unsharp-mask';
+import { Watermark } from './filter/watermark';
+import { Crop } from './framing/crop';
+import { Fill } from './framing/fill';
+import { Fit } from './framing/fit';
+import { GeometryBase } from './framing/geometry-base';
+import { SmartCrop } from './framing/smartcrop';
+import { Metadata } from './metadata';
+import { parseFileDescriptor } from './parser/file-descriptor-parser';
+import { parseFileMetadata } from './parser/file-metadata-parser';
+import { parseUrl } from './parser/image-url-parser';
 
 export interface ImageParams {
   params: string | null;
@@ -51,7 +50,11 @@ export class Image {
    * @description the selected geometry
    */
   public geometry: GeometryBase | null = null;
-  public unsharpMask: (radius: UnsharpNumber, amount: UnsharpNumber, threshold: UnsharpNumber) => Image;
+  public unsharpMask: (
+    radius: UnsharpNumber,
+    amount: UnsharpNumber,
+    threshold: UnsharpNumber,
+  ) => Image;
   public blur: (percentage?: number) => Image;
   public brightness: (brightness?: number) => Image;
   public contrast: (contrast?: number) => Image;
@@ -59,7 +62,16 @@ export class Image {
   public saturation: (saturation?: number) => Image;
   public jpeg: (quality?: number, baseline?: boolean) => Image;
   public watermark: (manifest: string) => Image;
-  public serializationOrder: [Blur, Brightness, Contrast, Hue, JPEG, Saturation, UnsharpMask, Watermark];
+  public serializationOrder: [
+    Blur,
+    Brightness,
+    Contrast,
+    Hue,
+    JPEG,
+    Saturation,
+    UnsharpMask,
+    Watermark
+  ];
 
   /**
    * @description a configurable object that supports all the operations, filters and adjustments supported by Wix Media Platform
@@ -132,7 +144,16 @@ export class Image {
       }
     }
 
-    this.serializationOrder = [blur, brightness, contrast, hue, jpeg, saturation, unsharpMask, watermark];
+    this.serializationOrder = [
+      blur,
+      brightness,
+      contrast,
+      hue,
+      jpeg,
+      saturation,
+      unsharpMask,
+      watermark,
+    ];
   }
 
   /**
@@ -165,12 +186,21 @@ export class Image {
     }
 
     if (regionOfInterest === undefined || regionOfInterest === null) {
-      regionOfInterest = new Rectangle(this.metadata.width, this.metadata.height, 0, 0);
+      regionOfInterest = new Rectangle(
+        this.metadata.width,
+        this.metadata.height,
+        0,
+        0,
+      );
     }
 
     const roiAspectRatio = regionOfInterest.width / regionOfInterest.height;
-    const containerWidth = Math.round(container.width ? container.width : container.height * roiAspectRatio);
-    const containerHeight = Math.round(container.height ? container.height : container.width / roiAspectRatio);
+    const containerWidth = Math.round(
+      container.width ? container.width : container.height * roiAspectRatio,
+    );
+    const containerHeight = Math.round(
+      container.height ? container.height : container.width / roiAspectRatio,
+    );
     const containerAspectRatio = container.width / container.height;
 
     let scale;
@@ -218,7 +248,13 @@ export class Image {
    * @param {number?} scale
    * @returns {Image}
    */
-  crop(width: number, height: number, x: number = 0, y: number = 0, scale: number = 1) {
+  crop(
+    width: number,
+    height: number,
+    x: number = 0,
+    y: number = 0,
+    scale: number = 1,
+  ) {
     this.geometry = new Crop(width, height, x, y, scale);
     return this;
   }
@@ -267,7 +303,7 @@ export class Image {
     if (command.error) {
       return {
         url: null,
-        error: command.error
+        error: command.error,
       };
     }
 
@@ -275,7 +311,11 @@ export class Image {
 
     let url = '';
 
-    if (baseUrl.length !== 0 && baseUrl.indexOf('http') !== 0 && baseUrl.indexOf('//') !== 0) {
+    if (
+      baseUrl.length !== 0 &&
+      baseUrl.indexOf('http') !== 0 &&
+      baseUrl.indexOf('//') !== 0
+    ) {
       url += '//';
     }
 
@@ -288,7 +328,7 @@ export class Image {
     if (path === null || this.fileName === null) {
       return {
         url: null,
-        error: new Error('path or filename is missing')
+        error: new Error('path or filename is missing'),
       };
     }
 
@@ -297,7 +337,13 @@ export class Image {
     }
 
     if (command.command) {
-      url += baseUrl + '/' + path + command.command + '/' + encodeURIComponent(this.fileName);
+      url +=
+        baseUrl +
+        '/' +
+        path +
+        command.command +
+        '/' +
+        encodeURIComponent(this.fileName);
     } else {
       url += baseUrl + '/' + path;
     }
@@ -308,7 +354,7 @@ export class Image {
 
     return {
       url,
-      error: null
+      error: null,
     };
   }
 
@@ -320,7 +366,7 @@ export class Image {
     if (!this.geometry) {
       return {
         url: '',
-        error: null
+        error: null,
       };
     }
 
@@ -328,7 +374,7 @@ export class Image {
     if (geometryParams.error) {
       return {
         url: null,
-        error: geometryParams.error
+        error: geometryParams.error,
       };
     }
 
@@ -336,14 +382,16 @@ export class Image {
     if (filtersAndEncoderParams.errors.length > 0) {
       return {
         url: null,
-        error: new Error(filtersAndEncoderParams.errors.join(','))
+        error: new Error(filtersAndEncoderParams.errors.join(',')),
       };
     }
-    const command = '/' + this.version + '/' + geometryParams.params + filtersAndEncoderParams.params;
+    const command = `/${this.version}/${geometryParams.params}${
+      filtersAndEncoderParams.params
+    }`;
 
     return {
       command,
-      error: null
+      error: null,
     };
   }
 
@@ -355,7 +403,7 @@ export class Image {
     let out = '';
     let part;
     const errors: (Error | string)[] = [];
-    this.serializationOrder.forEach((op) => {
+    this.serializationOrder.forEach(op => {
       part = op.serialize();
 
       if (part.error) {
@@ -375,7 +423,7 @@ export class Image {
 
     return {
       params: out,
-      errors
+      errors,
     };
   }
 }

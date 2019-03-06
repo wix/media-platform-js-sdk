@@ -1,6 +1,5 @@
-import {Destination, IDestination} from '../job/destination';
-import {ISource, Source} from '../job/source';
-
+import { Destination, IDestination } from '../job/destination';
+import { ISource, Source } from '../job/source';
 
 export interface ICreateArchiveRequest {
   archiveType: string | null;
@@ -23,7 +22,9 @@ export class CreateArchiveRequest implements ICreateArchiveRequest {
     }
 
     this.sources = data.sources.map(sourceData => new Source(sourceData));
-    this.destination = data.destination ? new Destination(data.destination) : null;
+    this.destination = data.destination
+      ? new Destination(data.destination)
+      : null;
     this.archiveType = data.archiveType;
   }
 }

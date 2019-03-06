@@ -1,26 +1,25 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as fauxJax from 'faux-jax';
 import * as FileAPI from 'file-api';
 import * as sinon from 'sinon';
 
-import {FileManager} from '../../../src/platform/management/file-manager';
-import {UploadFileRequest} from '../../../src/platform/management/requests/upload-file-request';
-import {HTTPClient} from '../../../src/public/platform/http/browser-http-client';
-import {FileUploader} from '../../../src/public/platform/uploader/browser-file-uploader';
-import {QueuedFileUploader} from '../../../src/public/platform/uploader/queued-file-uploader';
-import {UploadJob} from '../../../src/public/platform/uploader/upload-job';
-import {delay} from '../../helpers/delay';
+import { FileManager } from '../../../src/platform/management/file-manager';
+import { UploadFileRequest } from '../../../src/platform/management/requests/upload-file-request';
+import { HTTPClient } from '../../../src/public/platform/http/browser-http-client';
+import { FileUploader } from '../../../src/public/platform/uploader/browser-file-uploader';
+import { QueuedFileUploader } from '../../../src/public/platform/uploader/queued-file-uploader';
+import { UploadJob } from '../../../src/public/platform/uploader/upload-job';
+import { delay } from '../../helpers/delay';
 
 const UPLOAD_TIMEOUT = 100;
 
-
-describe('queued file uploader', function () {
+describe('queued file uploader', function() {
   // tslint:disable-next-line
   this.timeout(50000);
 
   const configuration = {
     domain: 'www.domain.com',
-    authenticationUrl: 'https://www.myapp.com/auth'
+    authenticationUrl: 'https://www.myapp.com/auth',
   };
 
   const uploadToken = 'token';
@@ -31,20 +30,22 @@ describe('queued file uploader', function () {
   const fileUploadResponse = {
     code: 0,
     message: 'OK',
-    payload: [{
-      mimeType: 'text/plain',
-      hash: 'd41d8cd98f00b204e9800998ecf8427e',
-      parent: '/',
-      dateCreated: '2017-02-20T14:23:42Z',
-      path: '/place-holder.txt',
-      id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
-      size: 0,
-      ancestors: ['/'],
-      acl: 'public',
-      dateUpdated: '2017-02-20T14:23:42Z',
-      type: '-',
-      lifecycle: null
-    }]
+    payload: [
+      {
+        mimeType: 'text/plain',
+        hash: 'd41d8cd98f00b204e9800998ecf8427e',
+        parent: '/',
+        dateCreated: '2017-02-20T14:23:42Z',
+        path: '/place-holder.txt',
+        id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+        size: 0,
+        ancestors: ['/'],
+        acl: 'public',
+        dateUpdated: '2017-02-20T14:23:42Z',
+        type: '-',
+        lifecycle: null,
+      },
+    ],
   };
   const sandbox = sinon.createSandbox();
   let fileManager: FileManager;
@@ -54,7 +55,11 @@ describe('queued file uploader', function () {
     browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
     fileUploader = new FileUploader(configuration, browserHTTPClient);
     queuedFileUploader = new QueuedFileUploader(fileUploader);
-    fileManager = new FileManager(configuration, browserHTTPClient, fileUploader);
+    fileManager = new FileManager(
+      configuration,
+      browserHTTPClient,
+      fileUploader,
+    );
   });
 
   afterEach(() => {
@@ -67,7 +72,7 @@ describe('queued file uploader', function () {
 
     let progress = false;
 
-    const endPromise = new Promise((resolve) => {
+    const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain = () => {
         resolve();
       };
@@ -76,7 +81,7 @@ describe('queued file uploader', function () {
     const file = new FileAPI.File('../../sources/image.jpg');
     const uploadJob = new UploadJob({
       file,
-      path: '/fish/file.mp3'
+      path: '/fish/file.mp3',
     });
 
     uploadJob.on('upload-started', () => {
@@ -103,7 +108,7 @@ describe('queued file uploader', function () {
   it('should only be able to queue a job once', async () => {
     const consoleWarn = sandbox.stub(console, 'warn');
     setResponse(fileUploadResponse);
-    const endPromise = new Promise((resolve) => {
+    const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain = () => {
         resolve();
       };
@@ -111,7 +116,7 @@ describe('queued file uploader', function () {
 
     const file = new FileAPI.File('../files/image.jpg');
     const uploadJob = new UploadJob({
-      file
+      file,
     });
 
     uploadJob.on('upload-error', () => {
@@ -131,7 +136,7 @@ describe('queued file uploader', function () {
 
   it('should abort when abort() called', async () => {
     setResponse(fileUploadResponse);
-    const endPromise = new Promise((resolve) => {
+    const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain = () => {
         resolve();
       };
@@ -140,7 +145,7 @@ describe('queued file uploader', function () {
     const file = new FileAPI.File('../../sources/image.jpg');
     const uploadJob = new UploadJob({
       file,
-      path: '/fish/file.mp3'
+      path: '/fish/file.mp3',
     });
 
     const abortedSpy = sinon.spy();
@@ -152,7 +157,7 @@ describe('queued file uploader', function () {
     expect(abortedSpy).to.have.been.called;
   });
 
-  it('should upload', (done) => {
+  it('should upload', done => {
     setResponse(fileUploadResponse);
     const file = new FileAPI.File('../files/image.jpg');
 
@@ -162,12 +167,18 @@ describe('queued file uploader', function () {
   });
 
   describe('lifecycle(age)', () => {
-    it('should upload file with default(none) lifecycle', (done) => {
+    it('should upload file with default(none) lifecycle', done => {
       setResponse(fileUploadResponse);
 
-      fauxJax.on('request', (request) => {
-        if (request.requestURL.indexOf('https://www.domain.com/_api/upload/url') === 0) {
-          expect(request.requestURL).to.equal('https://www.domain.com/_api/upload/url?acl=public&mimeType=image%2Fjpeg&path=upload%2Fto%2Fthere%2Fimage.jpg');
+      fauxJax.on('request', request => {
+        if (
+          request.requestURL.indexOf(
+            'https://www.domain.com/_api/upload/url',
+          ) === 0
+        ) {
+          expect(request.requestURL).to.equal(
+            'https://www.domain.com/_api/upload/url?acl=public&mimeType=image%2Fjpeg&path=upload%2Fto%2Fthere%2Fimage.jpg',
+          );
           return;
         }
 
@@ -175,7 +186,9 @@ describe('queued file uploader', function () {
           expect(request.requestBody.get('acl')).to.eq('public');
           expect(request.requestBody.get('lifecycle')).to.eq(null);
           expect(request.requestBody.get('mimeType')).to.eq(null);
-          expect(request.requestBody.get('path')).to.eql('upload/to/there/image.jpg');
+          expect(request.requestBody.get('path')).to.eql(
+            'upload/to/there/image.jpg',
+          );
           expect(request.requestBody.get('uploadToken')).to.eql(uploadToken);
 
           return;
@@ -189,63 +202,77 @@ describe('queued file uploader', function () {
         .on('upload-error', error => done(error));
     });
 
-    it('should upload file with delete lifecycle', (done) => {
+    it('should upload file with delete lifecycle', done => {
       const uploadFileResponse = {
         code: 0,
         message: 'OK',
-        payload: [{
+        payload: [
+          {
+            mimeType: 'text/plain',
+            hash: 'd41d8cd98f00b204e9800998ecf8427e',
+            parent: '/',
+            dateCreated: '2017-02-20T14:23:42Z',
+            path: '/place-holder.txt',
+            id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+            size: 0,
+            ancestors: ['/'],
+            acl: 'public',
+            dateUpdated: '2017-02-20T14:23:42Z',
+            type: '-',
+            lifecycle: {
+              action: 'delete',
+              age: 33,
+            },
+          },
+        ],
+      };
+
+      const fileDescriptors = [
+        {
           mimeType: 'text/plain',
           hash: 'd41d8cd98f00b204e9800998ecf8427e',
-          parent: '/',
           dateCreated: '2017-02-20T14:23:42Z',
+          dateExpired: '2017-02-20T14:24:15.000Z',
           path: '/place-holder.txt',
           id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
           size: 0,
-          ancestors: ['/'],
           acl: 'public',
           dateUpdated: '2017-02-20T14:23:42Z',
           type: '-',
           lifecycle: {
             action: 'delete',
-            age: 33
-          }
-        }]
-      };
-
-      const fileDescriptors = [{
-        mimeType: 'text/plain',
-        hash: 'd41d8cd98f00b204e9800998ecf8427e',
-        dateCreated: '2017-02-20T14:23:42Z',
-        dateExpired: '2017-02-20T14:24:15.000Z',
-        path: '/place-holder.txt',
-        id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
-        size: 0,
-        acl: 'public',
-        dateUpdated: '2017-02-20T14:23:42Z',
-        type: '-',
-        lifecycle: {
-          action: 'delete',
-          age: 33
+            age: 33,
+          },
+          bucket: null,
         },
-        bucket: null
-      }];
+      ];
 
       setResponse(uploadFileResponse);
 
-      fauxJax.on('request', (request) => {
-        if (request.requestURL.indexOf('https://www.domain.com/_api/upload/url') === 0) {
-          expect(request.requestURL).to.equal('https://www.domain.com/_api/upload/url?acl=public&mimeType=image%2Fjpeg&path=upload%2Fto%2Fthere%2Fimage.jpg');
+      fauxJax.on('request', request => {
+        if (
+          request.requestURL.indexOf(
+            'https://www.domain.com/_api/upload/url',
+          ) === 0
+        ) {
+          expect(request.requestURL).to.equal(
+            'https://www.domain.com/_api/upload/url?acl=public&mimeType=image%2Fjpeg&path=upload%2Fto%2Fthere%2Fimage.jpg',
+          );
           return;
         }
 
         if (request.requestURL === 'https://www.domain.com/_api/upload') {
           expect(request.requestBody.get('acl')).to.equal('public');
-          expect(request.requestBody.get('lifecycle')).to.eq(JSON.stringify({
-            action: 'delete',
-            age: 33
-          }));
+          expect(request.requestBody.get('lifecycle')).to.eq(
+            JSON.stringify({
+              action: 'delete',
+              age: 33,
+            }),
+          );
           expect(request.requestBody.get('mimeType')).to.eq(null);
-          expect(request.requestBody.get('path')).to.eql('upload/to/there/image.jpg');
+          expect(request.requestBody.get('path')).to.eql(
+            'upload/to/there/image.jpg',
+          );
           expect(request.requestBody.get('uploadToken')).to.eql(uploadToken);
 
           return;
@@ -254,10 +281,14 @@ describe('queued file uploader', function () {
 
       const file = new FileAPI.File('../files/image.jpg');
       const uploadFileRequest = new UploadFileRequest({
-        age: 33
+        age: 33,
       });
 
-      (fileManager.uploadFile('upload/to/there/image.jpg', file, uploadFileRequest) as UploadJob)
+      (fileManager.uploadFile(
+        'upload/to/there/image.jpg',
+        file,
+        uploadFileRequest,
+      ) as UploadJob)
         .on('upload-success', response => {
           expect(response.response.payload).to.eql(uploadFileResponse.payload);
           expect(response.fileDescriptors).to.eql(fileDescriptors);
@@ -274,15 +305,15 @@ describe('queued file uploader', function () {
     const file = new FileAPI.File('../../sources/image.jpg');
     const uploadJob = new UploadJob({
       file,
-      path: '/fish/file.mp3'
+      path: '/fish/file.mp3',
     });
 
     expect(() => uploadJob.abort()).to.throw('Job is not running');
   });
 
   it('handles errors', async () => {
-    setResponse({error: 'fish'}, 500);
-    const endPromise = new Promise((resolve) => {
+    setResponse({ error: 'fish' }, 500);
+    const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain = () => {
         resolve();
       };
@@ -291,7 +322,7 @@ describe('queued file uploader', function () {
     const file = new FileAPI.File('../files/file.json');
 
     const uploadJob = new UploadJob({
-      file
+      file,
     });
 
     uploadJob.on('upload-error', () => {
@@ -306,34 +337,44 @@ describe('queued file uploader', function () {
   });
 
   function setResponse(responseBody, responseStatus = 200) {
-
-    fauxJax.on('request', (request) => {
-
+    fauxJax.on('request', request => {
       if (request.requestURL === 'https://www.myapp.com/auth') {
-        request.respond(200, {'Content-Type': 'application/json'},
+        request.respond(
+          200,
+          { 'Content-Type': 'application/json' },
           JSON.stringify({
-            Authorization: 'auth'
-          })
+            Authorization: 'auth',
+          }),
         );
         return;
       }
 
-      if (request.requestURL.indexOf('https://www.domain.com/_api/upload/url') === 0) {
-        request.respond(200, {'Content-Type': 'application/json'},
+      if (
+        request.requestURL.indexOf('https://www.domain.com/_api/upload/url') ===
+        0
+      ) {
+        request.respond(
+          200,
+          { 'Content-Type': 'application/json' },
           JSON.stringify({
             code: 0,
             message: 'OK',
             payload: {
               uploadUrl: 'https://www.domain.com/_api/upload',
-              uploadToken
-            }
-          }));
+              uploadToken,
+            },
+          }),
+        );
         return;
       }
 
       if (request.requestURL === 'https://www.domain.com/_api/upload') {
         setTimeout(() => {
-          request.respond(responseStatus, {'Content-Type': 'application/json'}, JSON.stringify(responseBody));
+          request.respond(
+            responseStatus,
+            { 'Content-Type': 'application/json' },
+            JSON.stringify(responseBody),
+          );
         }, UPLOAD_TIMEOUT);
       }
     });

@@ -1,6 +1,6 @@
-import {validator} from '../validation/validator';
-import {Image} from '../image';
-import {autobind} from 'core-decorators';
+import { validator } from '../validation/validator';
+import { Image } from '../image';
+import { autobind } from 'core-decorators';
 
 export interface WatermarkSettings {
   manifest: string | null;
@@ -14,11 +14,10 @@ export interface WatermarkSettings {
 class Watermark {
   public error: string = '';
   public settings: WatermarkSettings = {
-    manifest: null
+    manifest: null,
   };
 
-  constructor(public image: Image) {
-  }
+  constructor(public image: Image) {}
 
   /**
    * @summary Applies a watermark from a premade watermark manifest.
@@ -44,7 +43,7 @@ class Watermark {
 
     return {
       params: out,
-      error: this.error
+      error: this.error,
     };
   }
 }
@@ -52,4 +51,4 @@ class Watermark {
 /**
  * @type {Watermark}
  */
-export {Watermark};
+export { Watermark };

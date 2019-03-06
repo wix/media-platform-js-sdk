@@ -5,10 +5,9 @@ export interface SerializedGeometry {
 
 export interface IGeometryBase {
   name: string;
-  serialize: () => SerializedGeometry;
+  serialize(): SerializedGeometry;
   width: number;
   height: number;
-  size?: (width: number, height: number) => this;
-  coordinates?: (x?: number, y?: number) => this;
+  size?(width: number, height: number): this;
+  coordinates?(x?: number, y?: number): this;
 }
-

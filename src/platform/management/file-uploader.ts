@@ -1,35 +1,45 @@
 import * as fs from 'fs';
 import * as Stream from 'stream';
 
-import {RawResponse} from '../../types/response/response';
-import {Configuration, IConfigurationBase} from '../configuration/configuration';
-import {HTTPClient, IHTTPClient} from '../http/http-client';
+import { RawResponse } from '../../types/response/response';
+import {
+  Configuration,
+  IConfigurationBase,
+} from '../configuration/configuration';
+import { HTTPClient, IHTTPClient } from '../http/http-client';
 
-import {FileDescriptor, IFileDescriptor} from './metadata/file-descriptor';
-import {UploadFileRequest} from './requests/upload-file-request';
-import {IUploadUrlRequest, UploadUrlRequest} from './requests/upload-url-request';
-import {IUploadUrlResponse, UploadUrlResponse} from './responses/upload-url-response';
+import { FileDescriptor, IFileDescriptor } from './metadata/file-descriptor';
+import { UploadFileRequest } from './requests/upload-file-request';
+import {
+  IUploadUrlRequest,
+  UploadUrlRequest,
+} from './requests/upload-url-request';
+import {
+  IUploadUrlResponse,
+  UploadUrlResponse,
+} from './responses/upload-url-response';
 
-
-export type UploadFileStream = Stream | {
-  value: Buffer;
-  options: {
-    filename: 'filename';
-  };
-};
+export type UploadFileStream =
+  | Stream
+  | {
+      value: Buffer;
+      options: {
+        filename: 'filename';
+      };
+    };
 
 export interface IFileUploader {
   configuration: IConfigurationBase;
   httpClient: IHTTPClient;
 
   getUploadUrl(
-    uploadUrlRequest?: IUploadUrlRequest
+    uploadUrlRequest?: IUploadUrlRequest,
   ): Promise<UploadUrlResponse>;
 
   uploadFile(
     path: string,
     file: string | Buffer | Stream | File,
-    uploadRequest?: UploadFileRequest
+    uploadRequest?: UploadFileRequest,
   );
 }
 
@@ -41,7 +51,10 @@ export interface IFileUploader {
 export class FileUploader implements IFileUploader {
   public apiUrl: string;
 
-  constructor(public configuration: Configuration, public httpClient: HTTPClient) {
+  constructor(
+    public configuration: Configuration,
+    public httpClient: HTTPClient,
+  ) {
     this.apiUrl = 'https://' + configuration.domain + '/_api/upload';
   }
 
@@ -49,14 +62,22 @@ export class FileUploader implements IFileUploader {
    * @description retrieve a signed URL to which the file is uploaded
    * @param uploadUrlRequest
    */
-  getUploadUrl(uploadUrlRequest?: IUploadUrlRequest): Promise<UploadUrlResponse> {
+  getUploadUrl(
+    uploadUrlRequest?: IUploadUrlRequest,
+  ): Promise<UploadUrlResponse> {
     return this.httpClient
-      .get<RawResponse<IUploadUrlResponse>>(this.apiUrl + '/url', uploadUrlRequest)
-      .then((response) => {
-        return new UploadUrlResponse(response.payload);
-      }, (error) => {
-        return Promise.reject(error);
-      });
+      .get<RawResponse<IUploadUrlResponse>>(
+        this.apiUrl + '/url',
+        uploadUrlRequest,
+      )
+      .then(
+        response => {
+          return new UploadUrlResponse(response.payload);
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
@@ -68,7 +89,7 @@ export class FileUploader implements IFileUploader {
   uploadFile(
     path: string,
     file: string | Buffer | Stream,
-    uploadFileRequest: UploadFileRequest
+    uploadFileRequest: UploadFileRequest,
   ): Promise<FileDescriptor[]> {
     let stream: UploadFileStream;
     let size: number | null = null;
@@ -80,7 +101,7 @@ export class FileUploader implements IFileUploader {
     if (file instanceof Stream && typeof file.pipe === 'function') {
       stream = file;
       streamErrorPromise = new Promise((resolve, reject) => {
-        (stream as Stream).once('error', (error) => {
+        (stream as Stream).once('error', error => {
           reject(error);
         });
       });
@@ -93,7 +114,7 @@ export class FileUploader implements IFileUploader {
 
       stream = fs.createReadStream(file);
       streamErrorPromise = new Promise((resolve, reject) => {
-        (stream as Stream).once('error', (error) => {
+        (stream as Stream).once('error', error => {
           reject(error);
         });
       });
@@ -103,55 +124,72 @@ export class FileUploader implements IFileUploader {
       stream = {
         value: file,
         options: {
-          filename: 'filename'
-        }
+          filename: 'filename',
+        },
       };
     } else {
       const error = new Error('unsupported source type: ' + typeof file);
       return Promise.reject(error);
     }
 
-    let uploadUrlRequest: UploadUrlRequest | undefined = undefined;
+    let uploadUrlRequest: UploadUrlRequest | undefined;
 
     if (uploadFileRequest) {
       uploadUrlRequest = new UploadUrlRequest({
         acl: uploadFileRequest.acl,
         mimeType: uploadFileRequest.mimeType,
         path,
-        size
+        size,
       });
     }
 
-    return Promise.race([this.getUploadUrl(uploadUrlRequest), streamErrorPromise])
-      .then((response: UploadUrlResponse | {}) => {
-          if (!(response as UploadUrlResponse).uploadToken || !(response as UploadUrlResponse).uploadUrl) {
+    return Promise.race([
+      this.getUploadUrl(uploadUrlRequest),
+      streamErrorPromise,
+    ])
+      .then(
+        (response: UploadUrlResponse | {}) => {
+          if (
+            !(response as UploadUrlResponse).uploadToken ||
+            !(response as UploadUrlResponse).uploadUrl
+          ) {
             return Promise.reject('No `getUploadUrl` response');
           }
 
           const uploadResponse = response as UploadUrlResponse;
 
-          let form: { file: UploadFileStream, path: string, uploadToken: string | null } & Partial<UploadFileRequest> = {
+          let form: {
+            file: UploadFileStream;
+            path: string;
+            uploadToken: string | null;
+          } & Partial<UploadFileRequest> = {
             file: stream,
             path,
-            uploadToken: uploadResponse.uploadToken
+            uploadToken: uploadResponse.uploadToken,
           };
 
           if (uploadFileRequest) {
             form = {
               ...form,
-              ...uploadFileRequest
+              ...uploadFileRequest,
             };
           }
 
-          return this.httpClient.postForm<RawResponse<IFileDescriptor[]>>(uploadResponse.uploadUrl, form);
-        }, error => {
+          return this.httpClient.postForm<RawResponse<IFileDescriptor[]>>(
+            uploadResponse.uploadUrl,
+            form,
+          );
+        },
+        error => {
           return Promise.reject(error);
-        }
+        },
       )
       .then(response => {
-        return response.payload.map((fileResponse: Partial<IFileDescriptor>) => {
-          return new FileDescriptor(fileResponse);
-        });
+        return response.payload.map(
+          (fileResponse: Partial<IFileDescriptor>) => {
+            return new FileDescriptor(fileResponse);
+          },
+        );
       });
   }
 }

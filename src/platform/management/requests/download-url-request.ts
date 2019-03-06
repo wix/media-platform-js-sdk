@@ -4,7 +4,6 @@ export interface IDownloadUrlRequest {
   saveAs?: string;
 }
 
-
 /**
  * Download Url Request
  * @doc DownloadUrlRequest

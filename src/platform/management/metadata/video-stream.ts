@@ -13,7 +13,6 @@ export interface IVideoStream {
   displayAspectRatio: string | null;
 }
 
-
 export class VideoStream implements IVideoStream {
   public codecLongName: string | null = null;
   public codecTag: string | null = null;

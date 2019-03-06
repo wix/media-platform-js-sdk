@@ -1,5 +1,4 @@
-import {Geo, IGeo} from './geo';
-
+import { Geo, IGeo } from './geo';
 
 export interface IPublishEndpoint {
   url: string;

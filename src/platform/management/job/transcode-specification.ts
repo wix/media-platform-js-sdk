@@ -1,8 +1,7 @@
-import {Audio, IAudio} from './audio';
-import {Destination, IDestination} from './destination';
-import {IQualityRange, QualityRange} from './quality-range';
-import {IVideo, Video} from './video';
-
+import { Audio, IAudio } from './audio';
+import { Destination, IDestination } from './destination';
+import { IQualityRange, QualityRange } from './quality-range';
+import { IVideo, Video } from './video';
 
 export interface ITranscodeSpecification {
   destination: IDestination;
@@ -22,10 +21,14 @@ export class TranscodeSpecification implements ITranscodeSpecification {
   constructor(data: ITranscodeSpecification) {
     this.destination = new Destination(data.destination);
     this.quality = data.quality ? data.quality : null;
-    this.qualityRange = new QualityRange(data.qualityRange ? data.qualityRange : {
-      maximum: null,
-      minimum: null
-    });
+    this.qualityRange = new QualityRange(
+      data.qualityRange
+        ? data.qualityRange
+        : {
+            maximum: null,
+            minimum: null,
+          },
+    );
 
     if (data.video) {
       this.video = new Video(data.video);

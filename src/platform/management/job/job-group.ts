@@ -1,4 +1,4 @@
-import {IJob, Job} from './job';
+import { IJob, Job } from './job';
 
 export interface IJobGroup<T = any> {
   groupId: string;

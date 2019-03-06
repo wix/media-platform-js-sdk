@@ -1,5 +1,4 @@
-import {IJob, Job} from '../job/job';
-
+import { IJob, Job } from '../job/job';
 
 /**
  * Search Jobs Response interface
@@ -21,7 +20,7 @@ export class SearchJobsResponse {
   constructor(data: ISearchJobsResponse) {
     this.nextPageToken = data.nextPageToken;
 
-    this.jobs = data.jobs.map((job) => {
+    this.jobs = data.jobs.map(job => {
       return new Job(job);
     });
   }

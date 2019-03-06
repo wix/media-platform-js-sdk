@@ -1,4 +1,4 @@
-import {UploadJob} from '../upload-job';
+import { UploadJob } from '../upload-job';
 
 export interface UploadEventResponse {
   [key: string]: any;
@@ -13,7 +13,8 @@ export class UploadEvent {
    * @constructor
    * @protected
    */
-  constructor(public target: UploadJob, public response: UploadEventResponse | null = null) {
-  }
+  constructor(
+    public target: UploadJob,
+    public response: UploadEventResponse | null = null,
+  ) {}
 }
-

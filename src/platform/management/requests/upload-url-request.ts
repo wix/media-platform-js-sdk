@@ -2,7 +2,7 @@
  * Upload URL request interface
  * @doc UploadUrlRequest
  */
-import {ACL} from '../../../types/media-platform/media-platform';
+import { ACL } from '../../../types/media-platform/media-platform';
 
 export interface IUploadUrlRequest {
   acl?: ACL | null;

@@ -1,8 +1,7 @@
-import {Dvr, IDvr} from './dvr';
-import {Geo, IGeo} from './geo';
-import {IPlaybackUrl, PlaybackUrl} from './playback-url';
-import {IPublishEndpoint, PublishEndpoint} from './publish-endpoint';
-
+import { Dvr, IDvr } from './dvr';
+import { Geo, IGeo } from './geo';
+import { IPlaybackUrl, PlaybackUrl } from './playback-url';
+import { IPublishEndpoint, PublishEndpoint } from './publish-endpoint';
 
 export interface ILiveStream {
   id: string;
@@ -45,7 +44,7 @@ export class LiveStream {
     this.publishEndpoint = new PublishEndpoint(data.publishEndpoint);
 
     this.playbackUrls = data.playbackUrls.map(
-      (playbackUrl: IPlaybackUrl) => new PlaybackUrl(playbackUrl)
+      (playbackUrl: IPlaybackUrl) => new PlaybackUrl(playbackUrl),
     );
 
     this.streamType = data.streamType;
@@ -57,7 +56,9 @@ export class LiveStream {
     this.maxPublishDuration = data.maxPublishDuration;
     this.state = data.state;
     this.dvr = data.dvr ? new Dvr(data.dvr) : undefined;
-    this.publisherGeo = data.publisherGeo ? new Geo(data.publisherGeo) : undefined;
+    this.publisherGeo = data.publisherGeo
+      ? new Geo(data.publisherGeo)
+      : undefined;
     this.dateCreated = data.dateCreated;
     this.dateUpdated = data.dateUpdated;
   }

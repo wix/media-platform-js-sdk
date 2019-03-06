@@ -1,7 +1,7 @@
-import {SerializedGeometry} from '../../types/image/geometry';
-import {validator} from '../validation/validator';
+import { SerializedGeometry } from '../../types/image/geometry';
+import { validator } from '../validation/validator';
 
-import {Geometry} from './geometry-base';
+import { Geometry } from './geometry-base';
 
 /**
  * @description Uses only part of the image that fills the given dimensions. Only part of the original image might be visible if the required proportions are different than the original ones.
@@ -51,20 +51,24 @@ export class Fit extends Geometry {
    */
   serialize(): SerializedGeometry {
     const badWidth = validator.numberIsNotGreaterThan('width', this.width, 1);
-    const badHeight = validator.numberIsNotGreaterThan('height', this.height, 1);
+    const badHeight = validator.numberIsNotGreaterThan(
+      'height',
+      this.height,
+      1,
+    );
 
     if (badWidth || badHeight) {
       return {
         params: null,
-        error: new Error([badWidth, badHeight].filter(msg => msg).join(','))
+        error: new Error([badWidth, badHeight].filter(msg => msg).join(',')),
       };
     }
 
-    const out = this.name + '/' + 'w_' + this.width + ',h_' + this.height;
+    const out = `${this.name}/w_${this.width},h_${this.height}`;
 
     return {
       params: out,
-      error: null
+      error: null,
     };
   }
 }

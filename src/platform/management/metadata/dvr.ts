@@ -1,5 +1,4 @@
-import {Destination} from '../job/destination';
-
+import { Destination } from '../job/destination';
 
 export interface IDvr {
   destination: Destination;
