@@ -1,8 +1,11 @@
 {
   "extends": [
-    "tslint-config-wix"
+    "tslint-config-yoshi"
   ],
   "rules": {
-    "no-consecutive-blank-lines": [true, 2]
+    "no-debugger": true,
+    "no-console": [true, "log", "trace"],
+    "no-shadowed-variable": false,
+    "no-floating-promises": false
   }
 }
