@@ -1,4 +1,5 @@
-import async, { AsyncQueue } from 'async';
+import { AsyncQueue } from 'async';
+import queue from 'async/queue';
 
 import { FileUploader } from './browser-file-uploader';
 import { UploadJob } from './upload-job';
@@ -18,7 +19,7 @@ export class QueuedFileUploader {
   ) {
     this.fileUploader = fileUploader;
 
-    this.queue = async.queue(uploadWorker, concurrency);
+    this.queue = queue(uploadWorker, concurrency);
 
     function uploadWorker(uploadJob: UploadJob, callback) {
       uploadJob.once('upload-end', callback);
