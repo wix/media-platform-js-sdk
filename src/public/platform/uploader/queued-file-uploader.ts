@@ -1,5 +1,5 @@
 import { AsyncQueue } from 'async';
-import queue from 'async/queue';
+import * as queue from 'async/queue';
 
 import { FileUploader } from './browser-file-uploader';
 import { UploadJob } from './upload-job';
