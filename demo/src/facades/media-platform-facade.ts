@@ -1,4 +1,4 @@
-import {MediaPlatform} from '../../../src/main';
+import {MediaPlatform} from '../../../src/server';
 
 let mediaPlatform;
 

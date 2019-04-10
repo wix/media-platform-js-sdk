@@ -139,6 +139,10 @@
   },
   "unpkg": true,
   "yoshi": {
+    "entry": {
+      "media-platform": "browser"
+    },
+    "exports": "MP",
     "specs": {
       "browser": "test/{mocha-setup.ts,browser/**/*.test.ts}"
     },
