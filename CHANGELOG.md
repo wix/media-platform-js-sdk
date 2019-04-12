@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.4"></a>
+## [6.0.4](https://github.com/wix/media-platform-js-sdk/compare/v6.0.1...v6.0.4) (2019-04-12)
+
+
+### Bug Fixes
+
+* **demo app:** fix imports ([b4b235f](https://github.com/wix/media-platform-js-sdk/commit/b4b235f))
+
+* add error handler to postForm ([fb87d6d](https://github.com/wix/media-platform-js-sdk/commit/fb87d6d))
+
+
 <a name="6.0.1"></a>
 ## 6.0.1 (2018-07-05)
 
