@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.4"></a>
+# [8.0.0-alpha.4](https://github.com/wix/media-platform-js-sdk/compare/v7.0.0...v8.0.0-alpha.4) (2019-04-15)
+
+
+### Bug Fixes
+
+* async/queue import ([bbcf4e5](https://github.com/wix/media-platform-js-sdk/commit/bbcf4e5))
+* demo app imports ([d48da22](https://github.com/wix/media-platform-js-sdk/commit/d48da22))
+* make TS typings working correctly ([bfd7825](https://github.com/wix/media-platform-js-sdk/commit/bfd7825))
+
+### Features
+* reduce bundle sizes ([bfd7825](https://github.com/wix/media-platform-js-sdk/commit/bfd7825))
+
+### BREAKING CHANGES
+* split browser and server code
+
+
 <a name="7.0.0"></a>
 # [7.0.0](https://github.com/wix/media-platform-js-sdk/compare/v6.0.4...v7.0.0) (2019-04-12)
 
