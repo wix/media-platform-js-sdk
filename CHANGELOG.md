@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/wix/media-platform-js-sdk/compare/v6.0.4...v7.0.0) (2019-04-12)
+
+
+### Bug Fixes
+
+* downloadUrlRequest ([1d4c0b5](https://github.com/wix/media-platform-js-sdk/commit/1d4c0b5))
+* fileDescriptor types ([468968b](https://github.com/wix/media-platform-js-sdk/commit/468968b))
+* new Image().toUrl() without geometry parameter ([94277b4](https://github.com/wix/media-platform-js-sdk/commit/94277b4))
+* remove callbacks in HTTPClient ([f83fba1](https://github.com/wix/media-platform-js-sdk/commit/f83fba1))
+* Use Blob type instead of File type in UploadJob ([da2cd4f](https://github.com/wix/media-platform-js-sdk/commit/da2cd4f))
+
+
+### Features
+
+* add `dateExpired` to `fileDescriptor` ([a6b62b5](https://github.com/wix/media-platform-js-sdk/commit/a6b62b5))
+* add `explicitContent` to `ImageFeatures` ([8cae0ee](https://github.com/wix/media-platform-js-sdk/commit/8cae0ee))
+* add bucket to FileDescriptor ([2a732f6](https://github.com/wix/media-platform-js-sdk/commit/2a732f6))
+* Add createFolder method to fileManagement service ([2c9402a](https://github.com/wix/media-platform-js-sdk/commit/2c9402a))
+* add delete lifecycle ([dcfcab0](https://github.com/wix/media-platform-js-sdk/commit/dcfcab0))
+* update Typescript to 3 major version ([8101e0a](https://github.com/wix/media-platform-js-sdk/commit/8101e0a))
+
+### BREAKING CHANGES
+
+* remove callbacks
+* pass data to constructor
+* use AVManager instead of TranscodeManager
+
 <a name="6.0.4"></a>
 ## [6.0.4](https://github.com/wix/media-platform-js-sdk/compare/v6.0.1...v6.0.4) (2019-04-12)
 
