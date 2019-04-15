@@ -54,7 +54,7 @@
     "documentation:site": "",
     "documentation:site:build": "npm run documentation",
     "documentation:deploy": "gh-pages -d ./sitedist",
-    "standard-release": "standard-version",
+    "standard-release": "standard-version --prerelease alpha",
     "standard-release:alpha": "standard-version --prerelease alpha",
     "standard-release:beta": "standard-version --prerelease beta",
     "standard-release:patch": "standard-version --release-as patch",
