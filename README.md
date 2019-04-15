@@ -45,10 +45,45 @@ and open http://localhost:3333/ in the browser
 Please use [the issue tracker](https://github.com/wix/media-platform-js-sdk/issues) to report issues related to this library, or to the Wix Media Platform API in general.
 
 ## Develop
-If you want to help make Media Platform JS SDK better - you are welcome and **you are awesome**!
+If you want to help make Media Platform JS SDK better - **you are awesome** and you are welcome!
+Please read the information below, it is very important to generate proper CHANGELOG and proper versioning.
 
-- Create an issue or make a Pull Request
-- Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/) for commits names.
+#### We are using [standard-version](https://github.com/conventional-changelog/standard-version) - the tool with automate versioning and CHANGELOG generation, with semver and conventional commit messages.
+
+So, you should name your commits via [conventional commits](https://www.conventionalcommits.org/en/).
+
+#### Examples:
+##### Why is `chore`, `style`, `refactor`, `docs`, `ci` or `build` entries not in my CHANGELOG?
+
+These entries shouldn't make any difference to your end-users, unless there's a BREAKING CHANGE, in which case the entry **will** be included in the CHANGELOG. [Reference](https://github.com/conventional-changelog/standard-version/pull/195)
+So in the [CHANGELOG.md](CHANGELOG.md) file you can see only commits with types `fix`, `feat` and text `BREAKING CHANGE`.
+
+##### How to use type `fix`:
+Commit with `fix` type will change the *patch* version: 1.0.**0** -> 1.0.**1**
+```
+fix: minor typos in code
+```
+
+##### How to use type `feat`:
+Commit with `feat` type will change the *minor* version: 1.**0**.0 -> 1.**1**.0
+```git
+feat: allow provided config object to extend other configs
+```
+
+##### How to use `BREAKING CHANGE`:
+A *BREAKING CHANGE* text can be part of commits of any(fix, feat, etc.) type and will change the *major* version: **1**.0.0 -> **2**.0.0
+You should use `BREAKING CHANGE` with another type. [Specification](https://www.conventionalcommits.org/en/v1.0.0-beta.3/#specification)
+```
+fix: change photo service color results
+BREAKING CHANGE: getPhotoColor returns array instead of object
+```
+
+#### Create an issue or make a Pull Request with proper commit names.
+
+#### More info and examples
+- [Git Commit Message Conventions](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit?usp=sharing)
+- [Semantic Commit Messages](https://seesparkbox.com/foundry/semantic_commit_messages)
+- [Semantic Commit Messages #2](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716#semantic-commit-messages)
 
 ## License
 
