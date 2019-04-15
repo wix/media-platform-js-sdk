@@ -18,6 +18,23 @@ All notable changes to this project will be documented in this file. See [standa
 ### BREAKING CHANGES
 * split browser and server code
 
+**old import, for browser and server imports are the same:**
+```
+import {  MediaPlatform } from 'media-platform-js-sdk/dist/src/index';
+```
+
+**new imports are different for browser and server**
+
+for browser only:
+```
+import { MediaPlatform } from 'media-platform-js-sdk/browser';
+```
+
+for server only:
+```
+import { MediaPlatform } from 'media-platform-js-sdk/server';
+```
+
 
 <a name="7.0.0"></a>
 # [7.0.0](https://github.com/wix/media-platform-js-sdk/compare/v6.0.4...v7.0.0) (2019-04-12)
