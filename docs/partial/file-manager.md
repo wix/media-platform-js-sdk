@@ -10,7 +10,7 @@
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -69,7 +69,7 @@ Get Upload URL
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -90,7 +90,7 @@ Get Upload URL
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -114,7 +114,7 @@ upload a file
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -153,7 +153,7 @@ upload a file
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -177,7 +177,7 @@ import a file from a source URL, returns a Job Observable
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -198,7 +198,7 @@ import a file from a source URL, returns a Job Observable
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -222,7 +222,7 @@ import a file from a source URL, returns a Job (see job manager)
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -243,7 +243,7 @@ import a file from a source URL, returns a Job (see job manager)
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -267,7 +267,7 @@ creates a file descriptor
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -288,7 +288,7 @@ creates a file descriptor
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -312,7 +312,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -333,7 +333,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -355,7 +355,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -376,7 +376,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -398,7 +398,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -419,7 +419,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -441,7 +441,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -470,7 +470,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -492,7 +492,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -513,7 +513,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -535,7 +535,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -556,7 +556,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -578,7 +578,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -599,7 +599,7 @@ creates a folder descriptor, use this to create an empty directory
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>

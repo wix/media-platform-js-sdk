@@ -12,7 +12,7 @@ A client that can authenticate against WixMP
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -35,7 +35,7 @@ A client that can authenticate against WixMP
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -56,7 +56,7 @@ A client that can authenticate against WixMP
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -79,7 +79,7 @@ A client that can authenticate against WixMP
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -100,7 +100,7 @@ A client that can authenticate against WixMP
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -123,7 +123,7 @@ A client that can authenticate against WixMP
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -144,7 +144,7 @@ A client that can authenticate against WixMP
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -205,7 +205,7 @@ sets the issuer of the token
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -234,7 +234,7 @@ sets the issuer of the token
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -258,7 +258,7 @@ sets the subject (actor) of the operation
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -287,7 +287,7 @@ sets the subject (actor) of the operation
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -311,7 +311,7 @@ sets the object, the entity on which the action is taken
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -332,7 +332,7 @@ sets the object, the entity on which the action is taken
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -356,7 +356,7 @@ sets the expiration in UNIX TIME
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -377,7 +377,7 @@ sets the expiration in UNIX TIME
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -401,7 +401,7 @@ add to the list of operations permitted by this token
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -422,7 +422,7 @@ add to the list of operations permitted by this token
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -446,7 +446,7 @@ set the list of operations permitted by this token
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -467,7 +467,7 @@ set the list of operations permitted by this token
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -491,7 +491,7 @@ set any arbitrary claims in the token (be careful not override any of the standa
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -512,7 +512,7 @@ set any arbitrary claims in the token (be careful not override any of the standa
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -536,7 +536,7 @@ return the JWT claims dictionary
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>

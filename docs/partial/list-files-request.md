@@ -12,7 +12,7 @@ List Files Request
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -45,7 +45,7 @@ List Files Request
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -104,7 +104,7 @@ List Files Request
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>

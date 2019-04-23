@@ -14,7 +14,7 @@ constructor
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -57,7 +57,7 @@ retrieve the auth header for the currently logged in user
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th><div class="type">Promise&#x3C;AuthorizationHeader></div></th>
       </tr>
     </thead>
@@ -86,7 +86,7 @@ get download url
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -115,7 +115,7 @@ get download url
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th><div class="type">Promise&#x3C;DownloadUrl></div></th>
       </tr>
     </thead>

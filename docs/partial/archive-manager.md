@@ -12,7 +12,7 @@ Archive Manager. Lets create and extract archives
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -45,7 +45,7 @@ Archive Manager. Lets create and extract archives
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -66,7 +66,7 @@ Archive Manager. Lets create and extract archives
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -104,7 +104,7 @@ archiveManager
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -125,7 +125,7 @@ archiveManager
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -147,7 +147,7 @@ archiveManager
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -168,7 +168,7 @@ archiveManager
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
@@ -190,7 +190,7 @@ archiveManager
   <table>
     <thead>
       <tr>
-        <th>ARGUMENTS</th>
+        <th class="title">ARGUMENTS</th>
         <th></th>
       </tr>
     </thead>
@@ -211,7 +211,7 @@ archiveManager
   <table>
     <thead>
       <tr>
-        <th>RETURN VALUE</th>
+        <th class="title">RETURN VALUE</th>
         <th></th>
       </tr>
     </thead>
