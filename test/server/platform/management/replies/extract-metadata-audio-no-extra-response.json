@@ -1,0 +1,42 @@
+{
+  "message": "OK",
+  "code": 0,
+  "payload": {
+    "basic": {
+      "audioStreams": [
+        {
+          "codecLongName": "MP3 (MPEG audio layer 3)",
+          "index": 0,
+          "channelLayout": "stereo",
+          "codecTag": "[0][0][0][0]",
+          "duration": 215361,
+          "codecName": "mp3",
+          "bitrate": 128000,
+          "sampleRate": 44100,
+          "channels": 2
+        }
+      ],
+      "format": {
+        "duration": 215361,
+        "bitrate": 131058,
+        "formatLongName": "MP2/3 (MPEG audio layer 2/3)",
+        "size": 3528120
+      }
+    },
+    "mediaType": "audio",
+    "fileDescriptor": {
+      "mimeType": "audio/mpeg",
+      "hash": "35df225c1634042f59e85aad37bae506",
+      "dateCreated": "2019-04-16T08:19:37Z",
+      "id": "90b78c19d79c439b86fb73ce5aa25a62",
+      "path": "/f.mp3",
+      "lifecycle": null,
+      "size": 3528120,
+      "urn": "urn:file:90b78c19d79c439b86fb73ce5aa25a62",
+      "bucket": null,
+      "acl": "public",
+      "dateUpdated": "2019-04-16T08:19:37Z",
+      "type": "-"
+    }
+  }
+}

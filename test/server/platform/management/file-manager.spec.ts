@@ -23,6 +23,7 @@ import {
   DescriptorMimeType,
   FileType,
   Lifecycle,
+  MediaType,
   OrderDirection,
 } from '../../../../src/types/media-platform/media-platform';
 
@@ -240,77 +241,84 @@ describe('File Manager', () => {
       .once()
       .replyWithFile(200, repliesDir + 'file-metadata-image-response.json');
 
-    fileManager.getFileMetadataById('file-id').then(data => {
-      expect(data).to.deep.equal(
-        new FileMetadata({
-          fileDescriptor: new FileDescriptor({
-            id: '2145ae56cd5c47c79c05d4cfef5f1078',
-            hash: null,
-            path: '/images/animals/cat.jpg',
-            mimeType: 'image/jpg',
-            type: '-',
-            size: 15431,
-            acl: 'private',
-            dateCreated: undefined,
-            dateUpdated: undefined,
-            bucket: null,
+    fileManager
+      .getFileMetadataById('file-id')
+      .then(data => {
+        expect(data).to.deep.equal(
+          new FileMetadata({
+            mediaType: MediaType.Image,
+            fileDescriptor: new FileDescriptor({
+              id: '2145ae56cd5c47c79c05d4cfef5f1078',
+              hash: null,
+              path: '/images/animals/cat.jpg',
+              mimeType: 'image/jpg',
+              type: '-',
+              size: 15431,
+              acl: 'private',
+              dateCreated: undefined,
+              dateUpdated: undefined,
+              bucket: null,
+            }),
+            extra: null,
+            basic: new ImageBasicMetadata({
+              height: 600,
+              width: 500,
+              colorspace: null,
+              format: 'jpeg',
+            }),
+            features: new ImageFeatures({
+              colors: [
+                {
+                  b: 244,
+                  g: 218,
+                  pixelFraction: 0.38548386,
+                  r: 138,
+                  score: 0.688166,
+                },
+              ],
+              explicitContent: [
+                {
+                  likelihood: Likelihood.UNLIKELY,
+                  name: 'medical',
+                },
+                {
+                  likelihood: Likelihood.VERY_UNLIKELY,
+                  name: 'adult',
+                },
+              ],
+              faces: [
+                {
+                  height: 180,
+                  width: 155,
+                  x: 383,
+                  y: 393,
+                },
+                {
+                  height: 173,
+                  width: 145,
+                  x: 460,
+                  y: 385,
+                },
+              ],
+              labels: [
+                {
+                  name: 'cat',
+                  score: 0.9,
+                },
+                {
+                  name: 'animal',
+                  score: 0.933,
+                },
+              ],
+            }),
           }),
-          basic: new ImageBasicMetadata({
-            height: 600,
-            width: 500,
-            colorspace: null,
-            format: 'jpeg',
-          }),
-          features: new ImageFeatures({
-            colors: [
-              {
-                b: 244,
-                g: 218,
-                pixelFraction: 0.38548386,
-                r: 138,
-                score: 0.688166,
-              },
-            ],
-            explicitContent: [
-              {
-                likelihood: Likelihood.UNLIKELY,
-                name: 'medical',
-              },
-              {
-                likelihood: Likelihood.VERY_UNLIKELY,
-                name: 'adult',
-              },
-            ],
-            faces: [
-              {
-                height: 180,
-                width: 155,
-                x: 383,
-                y: 393,
-              },
-              {
-                height: 173,
-                width: 145,
-                x: 460,
-                y: 385,
-              },
-            ],
-            labels: [
-              {
-                name: 'cat',
-                score: 0.9,
-              },
-              {
-                name: 'animal',
-                score: 0.933,
-              },
-            ],
-          }),
-        }),
-      );
+        );
 
-      done();
-    });
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
   });
 
   it('getFileMetadata - Video', done => {
@@ -319,62 +327,69 @@ describe('File Manager', () => {
       .once()
       .replyWithFile(200, repliesDir + 'file-metadata-video-response.json');
 
-    fileManager.getFileMetadataById('file-id').then(data => {
-      expect(data).to.deep.equal(
-        new FileMetadata({
-          basic: new VideoBasicMetadata({
-            audioStreams: [
-              {
-                bitrate: 128322,
-                codecLongName: 'AAC (Advanced Audio Coding)',
-                codecName: 'aac',
-                codecTag: 'mp4a',
+    fileManager
+      .getFileMetadataById('file-id')
+      .then(data => {
+        expect(data).to.deep.equal(
+          new FileMetadata({
+            mediaType: MediaType.Video,
+            extra: null,
+            basic: new VideoBasicMetadata({
+              audioStreams: [
+                {
+                  bitrate: 128322,
+                  codecLongName: 'AAC (Advanced Audio Coding)',
+                  codecName: 'aac',
+                  codecTag: 'mp4a',
+                  duration: 59351,
+                  index: 1,
+                },
+              ],
+              format: {
+                bitrate: 2085272,
                 duration: 59351,
-                index: 1,
+                formatLongName: 'QuickTime / MOV',
+                size: 15476893,
               },
-            ],
-            format: {
-              bitrate: 2085272,
-              duration: 59351,
-              formatLongName: 'QuickTime / MOV',
-              size: 15476893,
-            },
-            interlaced: false,
-            videoStreams: [
-              {
-                avgFrameRate: '2997/100',
-                bitrate: 1950467,
-                codecLongName: 'MPEG-4 part 2',
-                codecName: 'mpeg4',
-                codecTag: 'mp4v',
-                displayAspectRatio: '16:9',
-                duration: 59351,
-                height: 720,
-                index: 0,
-                rFrameRate: '3000/100',
-                sampleAspectRatio: '1:1',
-                width: 1280,
-              },
-            ],
+              interlaced: false,
+              videoStreams: [
+                {
+                  avgFrameRate: '2997/100',
+                  bitrate: 1950467,
+                  codecLongName: 'MPEG-4 part 2',
+                  codecName: 'mpeg4',
+                  codecTag: 'mp4v',
+                  displayAspectRatio: '16:9',
+                  duration: 59351,
+                  height: 720,
+                  index: 0,
+                  rFrameRate: '3000/100',
+                  sampleAspectRatio: '1:1',
+                  width: 1280,
+                },
+              ],
+            }),
+            features: null,
+            fileDescriptor: new FileDescriptor({
+              acl: 'private',
+              bucket: null,
+              dateCreated: undefined,
+              dateUpdated: undefined,
+              hash: null,
+              id: '2de4305552004e0b9076183651030646',
+              mimeType: 'video/mp4',
+              path: '/videos/animals/cat.mp4',
+              size: 15431333,
+              type: '-',
+            }),
           }),
-          features: null,
-          fileDescriptor: new FileDescriptor({
-            acl: 'private',
-            bucket: null,
-            dateCreated: undefined,
-            dateUpdated: undefined,
-            hash: null,
-            id: '2de4305552004e0b9076183651030646',
-            mimeType: 'video/mp4',
-            path: '/videos/animals/cat.mp4',
-            size: 15431333,
-            type: '-',
-          }),
-        }),
-      );
+        );
 
-      done();
-    });
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
   });
 
   describe('file upload', () => {

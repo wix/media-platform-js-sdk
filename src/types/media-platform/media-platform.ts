@@ -139,6 +139,13 @@ export enum FileType {
   FOLDER = 'd',
 }
 
+export enum MediaType {
+  Image = 'image',
+  Video = 'video',
+  Audio = 'audio',
+  Font = 'font',
+}
+
 export enum DescriptorMimeType {
   Folder = 'application/vnd.wix-media.dir',
 }

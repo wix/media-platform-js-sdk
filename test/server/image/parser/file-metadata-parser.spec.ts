@@ -3,11 +3,12 @@ import { expect } from 'chai';
 import { Image } from '../../../../src/image/image';
 import { Likelihood } from '../../../../src/platform/management/metadata/explicit-content';
 import { FileMetadata } from '../../../../src/platform/management/metadata/file-metadata';
+import { MediaType } from '../../../../src/types/media-platform/media-platform';
 
 describe('image file descriptor parsing', () => {
   it('creates a new Image from FileMetadata', () => {
     const fileMetadata = new FileMetadata({
-      // mediaType: 'image',
+      mediaType: MediaType.Image,
       fileDescriptor: {
         mimeType: 'image/jpg',
         hash: null,
