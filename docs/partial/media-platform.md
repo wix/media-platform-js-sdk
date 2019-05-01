@@ -35,6 +35,8 @@ constructor
 
 ### fileManager
 
+### audioManager
+
 ### avManager
 
 ### flowManager

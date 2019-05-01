@@ -17,6 +17,7 @@ import { HTTPClient } from './http/browser-http-client';
 import { FileUploader } from './uploader/browser-file-uploader';
 import { QueuedFileUploader } from './uploader/queued-file-uploader';
 import { UploadJob } from './uploader/upload-job';
+import { AudioManager } from '../../platform/management/audio-manager';
 
 /**
  * Media Platform Public
@@ -30,6 +31,7 @@ class MediaPlatform {
   public archiveManager: ArchiveManager;
   public fileManager: FileManager;
   public jobManager: JobManager;
+  public audioManager: AudioManager;
   public avManager: AVManager;
   public liveManager: LiveManager;
   public flowManager: FlowManager;
@@ -65,6 +67,7 @@ class MediaPlatform {
       queuedFileUploader.enqueue(uploadJob);
 
     this.jobManager = new JobManager(configuration, this.browserHTTPClient);
+    this.audioManager = new AudioManager(configuration, this.browserHTTPClient);
     this.avManager = new AVManager(configuration, this.browserHTTPClient);
     this.liveManager = new LiveManager(configuration, this.browserHTTPClient);
     this.flowManager = new FlowManager(configuration, this.browserHTTPClient);

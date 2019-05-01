@@ -1,3 +1,13 @@
+import { MediaType } from '../../../types/media-platform/media-platform';
+
+import {
+  AudioBasicMetadata,
+  IAudioBasicMetadata,
+} from './audio-basic-metadata';
+import {
+  AudioExtraMetadata,
+  IAudioExtraMetadata,
+} from './audio-extra-metadata';
 import { FileDescriptor, IFileDescriptor } from './file-descriptor';
 import {
   IImageBasicMetadata,
@@ -11,14 +21,22 @@ import {
 
 export interface IFileMetadata {
   fileDescriptor: IFileDescriptor | null;
-  basic: IImageBasicMetadata | IVideoBasicMetadata | null;
+  mediaType: MediaType | null;
+  basic: IImageBasicMetadata | IVideoBasicMetadata | IAudioBasicMetadata | null;
   features: IImageFeatures | null;
+  extra: IAudioExtraMetadata | null;
 }
 
 export class FileMetadata implements IFileMetadata {
   public fileDescriptor: FileDescriptor | null = null;
-  public basic: ImageBasicMetadata | VideoBasicMetadata | null = null;
+  public mediaType: MediaType | null = null;
+  public basic:
+    | ImageBasicMetadata
+    | VideoBasicMetadata
+    | AudioBasicMetadata
+    | null = null;
   public features: ImageFeatures | null = null;
+  public extra: AudioExtraMetadata | null = null;
 
   constructor(data: Partial<IFileMetadata>) {
     if (!data.fileDescriptor) {
@@ -26,26 +44,34 @@ export class FileMetadata implements IFileMetadata {
     }
 
     this.fileDescriptor = new FileDescriptor(data.fileDescriptor || undefined);
-
-    if (!this.fileDescriptor.mimeType) {
-      return;
-    }
-
-    const type = this.fileDescriptor.mimeType.split('/')[0].toLowerCase();
+    this.mediaType = data.mediaType || null;
 
     if (data.basic) {
-      switch (type) {
-        case 'image':
+      switch (this.mediaType) {
+        case MediaType.Image:
           this.basic = new ImageBasicMetadata(
             data.basic as IImageBasicMetadata,
           );
           break;
 
-        case 'video':
+        case MediaType.Video:
           this.basic = new VideoBasicMetadata(
             data.basic as IVideoBasicMetadata,
           );
           break;
+
+        case MediaType.Audio:
+          this.basic = new AudioBasicMetadata(
+            data.basic as IAudioBasicMetadata,
+          );
+          break;
+
+        // TODO
+        // case MediaType.Font:
+        //   this.basic = new FontBasicMetadata(
+        //       data.basic as IFontBasicMetadata,
+        //   );
+        //   break;
 
         default:
           return;
@@ -53,9 +79,20 @@ export class FileMetadata implements IFileMetadata {
     }
 
     if (data.features) {
-      switch (type) {
-        case 'image':
+      switch (this.mediaType) {
+        case MediaType.Image:
           this.features = new ImageFeatures(data.features);
+          break;
+
+        default:
+          return;
+      }
+    }
+
+    if (data.extra) {
+      switch (this.mediaType) {
+        case MediaType.Audio:
+          this.extra = new AudioExtraMetadata(data.extra);
           break;
 
         default:

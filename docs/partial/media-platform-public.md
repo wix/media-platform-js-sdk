@@ -37,6 +37,8 @@ constructor
 
 ### jobManager
 
+### audioManager
+
 ### avManager
 
 ### liveManager

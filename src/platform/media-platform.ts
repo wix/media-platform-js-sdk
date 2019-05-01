@@ -19,6 +19,7 @@ import { LiveManager } from './management/live-manager';
 import { DownloadUrlRequest } from './management/requests/download-url-request';
 import { WidgetInstanceManager } from './management/widgets/widget-instance-manager/widget-instance-manager';
 import { WebhookDeserializer } from './webhook/webhook-deserializer';
+import { AudioManager } from './management/audio-manager';
 
 /**
  * Media Platform
@@ -31,6 +32,7 @@ export class MediaPlatform {
 
   public archiveManager: ArchiveManager;
   public fileManager: FileManager;
+  public audioManager: AudioManager;
   public avManager: AVManager;
   public flowManager: FlowManager;
   public liveManager: LiveManager;
@@ -65,6 +67,11 @@ export class MediaPlatform {
      * @type {FileManager}
      */
     this.fileManager = new FileManager(configuration, httpClient, fileUploader);
+
+    /**
+     * @type {AudioManager}
+     */
+    this.audioManager = new AudioManager(configuration, httpClient);
 
     /**
      * @type {AVManager}
