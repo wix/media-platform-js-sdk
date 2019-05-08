@@ -44,7 +44,10 @@ class MediaPlatform {
    * @param {Configuration} configuration
    */
   constructor(configuration: Configuration) {
-    this.browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
+    this.browserHTTPClient = new HTTPClient(
+      configuration.authenticationUrl,
+      configuration.authenticationHeaders,
+    );
     const fileUploader = new FileUploader(
       configuration,
       this.browserHTTPClient,
