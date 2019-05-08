@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.9"></a>
+# [8.0.0-alpha.9](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.8...v8.0.0-alpha.9) (2019-05-08)
+
+
+### Features
+
+* **browser:** add support for authenticationUrlHeaders ([05dc1ff](https://github.com/wix/media-platform-js-sdk/commit/05dc1ff))
+
+
+
 <a name="8.0.0-alpha.8"></a>
 # [8.0.0-alpha.8](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.7...v8.0.0-alpha.8) (2019-05-01)
 
