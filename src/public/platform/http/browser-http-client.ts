@@ -36,8 +36,12 @@ const isAuthorizationHeaderValid = (
 export class HTTPClient implements IHTTPClient {
   public authorizationHeader: AuthorizationHeader | null = null;
 
-  constructor(public authenticationUrl: string) {
+  constructor(
+    public authenticationUrl: string,
+    public authenticationHeaders?: Map<string, string>,
+  ) {
     this.authenticationUrl = authenticationUrl;
+    this.authenticationHeaders = authenticationHeaders;
   }
 
   private _request(
@@ -132,6 +136,7 @@ export class HTTPClient implements IHTTPClient {
 
   getAuthorizationHeader(): Promise<AuthorizationHeader> {
     const authorizationHeader = this.authorizationHeader;
+
     if (isAuthorizationHeaderValid(authorizationHeader)) {
       return Promise.resolve(authorizationHeader);
     }
@@ -161,6 +166,11 @@ export class HTTPClient implements IHTTPClient {
       request.open('GET', this.authenticationUrl);
       request.withCredentials = true;
       request.setRequestHeader('Accept', 'application/json');
+      if (this.authenticationHeaders) {
+        this.authenticationHeaders.forEach((value, key) =>
+          request.setRequestHeader(key, value),
+        );
+      }
       request.send();
     });
   }

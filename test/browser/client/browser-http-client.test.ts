@@ -11,14 +11,20 @@ describe('browser http client', function() {
   const configuration = {
     domain: 'www.domain.com',
     authenticationUrl: 'https://www.myapp.com/auth',
+    authenticationUrlHeaders: new Map<string, string>(),
   };
+  configuration.authenticationUrlHeaders.set('MyHeader', 'MyHeaderValue');
+
   let browserHTTPClient;
   const sandbox = sinon.createSandbox();
   const authResponse = 'Authorization: auth';
 
   beforeEach(() => {
     fauxJax.install();
-    browserHTTPClient = new HTTPClient(configuration.authenticationUrl);
+    browserHTTPClient = new HTTPClient(
+      configuration.authenticationUrl,
+      configuration.authenticationUrlHeaders,
+    );
   });
 
   afterEach(() => {
@@ -34,7 +40,10 @@ describe('browser http client', function() {
 
   function setResponse(responseBody, responseStatus = 200) {
     fauxJax.on('request', request => {
-      if (request.requestURL === 'https://www.myapp.com/auth') {
+      if (
+        request.requestURL === 'https://www.myapp.com/auth' &&
+        request.requestHeaders.MyHeader === 'MyHeaderValue'
+      ) {
         request.respond(
           200,
           { 'Content-Type': 'application/json' },
