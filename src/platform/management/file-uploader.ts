@@ -148,7 +148,7 @@ export class FileUploader implements IFileUploader {
       streamErrorPromise,
     ])
       .then(
-        (response: UploadUrlResponse | {}) => {
+        response => {
           if (
             !(response as UploadUrlResponse).uploadToken ||
             !(response as UploadUrlResponse).uploadUrl
