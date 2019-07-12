@@ -67,7 +67,9 @@
     "karma": "yoshi test --karma",
     "travis-script": "npm run travis-test",
     "travis-test": "npm run travis-test:mocha",
-    "travis-test:mocha": "mocha --require ts-node/register test/mocha-setup.ts {test,src}/**/*.spec.ts --no-timeouts"
+    "travis-test:mocha": "mocha --require ts-node/register test/mocha-setup.ts {test,src}/**/*.spec.ts --no-timeouts",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@types/async": "^2.4.1",
@@ -81,7 +83,8 @@
     "jsonwebtoken": "^8.5.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "zen-observable": "^0.8.14"
+    "zen-observable": "^0.8.14",
+    "snyk": "^1.192.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
@@ -161,5 +164,6 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "yoshi lint"
     }
-  }
+  },
+  "snyk": true
 }
