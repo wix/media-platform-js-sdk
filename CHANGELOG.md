@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.11"></a>
+# [8.0.0-alpha.11](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.10...v8.0.0-alpha.11) (2019-07-12)
+
+
+### Bug Fixes
+
+* .snyk & package.json to reduce vulnerabilities ([d023f97](https://github.com/wix/media-platform-js-sdk/commit/d023f97))
+
+
+
 <a name="8.0.0-alpha.10"></a>
 # [8.0.0-alpha.10](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.9...v8.0.0-alpha.10) (2019-05-30)
 
