@@ -30,23 +30,22 @@ describe('queued file uploader', function() {
   const fileUploadResponse = {
     code: 0,
     message: 'OK',
-    payload: [
-      {
-        mimeType: 'text/plain',
-        hash: 'd41d8cd98f00b204e9800998ecf8427e',
-        parent: '/',
-        dateCreated: '2017-02-20T14:23:42Z',
-        path: '/place-holder.txt',
-        id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
-        size: 0,
-        ancestors: ['/'],
-        acl: 'public',
-        dateUpdated: '2017-02-20T14:23:42Z',
-        type: '-',
-        lifecycle: null,
-      },
-    ],
+    payload: {
+      mimeType: 'text/plain',
+      hash: 'd41d8cd98f00b204e9800998ecf8427e',
+      parent: '/',
+      dateCreated: '2017-02-20T14:23:42Z',
+      path: '/place-holder.txt',
+      id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+      size: 0,
+      ancestors: ['/'],
+      acl: 'public',
+      dateUpdated: '2017-02-20T14:23:42Z',
+      type: '-',
+      lifecycle: null,
+    },
   };
+
   const sandbox = sinon.createSandbox();
   let fileManager: FileManager;
 
@@ -173,11 +172,16 @@ describe('queued file uploader', function() {
       fauxJax.on('request', request => {
         if (
           request.requestURL.indexOf(
-            'https://www.domain.com/_api/upload/url',
-          ) === 0
+            'https://www.domain.com/_api/v2/upload/configuration',
+          ) === 0 &&
+          request.requestMethod === 'POST'
         ) {
           expect(request.requestURL).to.equal(
-            'https://www.domain.com/_api/upload/url?acl=public&mimeType=image%2Fjpeg&path=upload%2Fto%2Fthere%2Fimage.jpg',
+            'https://www.domain.com/_api/v2/upload/configuration',
+          );
+
+          expect(request.requestBody).to.equal(
+            '{"acl":"public","mimeType":"image/jpeg","path":"upload/to/there/image.jpg"}',
           );
           return;
         }
@@ -206,25 +210,23 @@ describe('queued file uploader', function() {
       const uploadFileResponse = {
         code: 0,
         message: 'OK',
-        payload: [
-          {
-            mimeType: 'text/plain',
-            hash: 'd41d8cd98f00b204e9800998ecf8427e',
-            parent: '/',
-            dateCreated: '2017-02-20T14:23:42Z',
-            path: '/place-holder.txt',
-            id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
-            size: 0,
-            ancestors: ['/'],
-            acl: 'public',
-            dateUpdated: '2017-02-20T14:23:42Z',
-            type: '-',
-            lifecycle: {
-              action: 'delete',
-              age: 33,
-            },
+        payload: {
+          mimeType: 'text/plain',
+          hash: 'd41d8cd98f00b204e9800998ecf8427e',
+          parent: '/',
+          dateCreated: '2017-02-20T14:23:42Z',
+          path: '/place-holder.txt',
+          id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+          size: 0,
+          ancestors: ['/'],
+          acl: 'public',
+          dateUpdated: '2017-02-20T14:23:42Z',
+          type: '-',
+          lifecycle: {
+            action: 'delete',
+            age: 33,
           },
-        ],
+        },
       };
 
       const fileDescriptors = [
@@ -252,16 +254,26 @@ describe('queued file uploader', function() {
       fauxJax.on('request', request => {
         if (
           request.requestURL.indexOf(
-            'https://www.domain.com/_api/upload/url',
-          ) === 0
+            'https://www.domain.com/_api/v2/upload/configuration',
+          ) === 0 &&
+          request.requestMethod === 'POST'
         ) {
           expect(request.requestURL).to.equal(
-            'https://www.domain.com/_api/upload/url?acl=public&mimeType=image%2Fjpeg&path=upload%2Fto%2Fthere%2Fimage.jpg',
+            'https://www.domain.com/_api/v2/upload/configuration',
+          );
+          expect(request.requestBody).to.equal(
+            JSON.stringify({
+              acl: 'public',
+              mimeType: 'image/jpeg',
+              path: 'upload/to/there/image.jpg',
+            }),
           );
           return;
         }
 
-        if (request.requestURL === 'https://www.domain.com/_api/upload') {
+        if (
+          request.requestURL === 'https://www.domain.com/_api/v2/upload/file'
+        ) {
           expect(request.requestBody.get('acl')).to.equal('public');
           expect(request.requestBody.get('lifecycle')).to.eq(
             JSON.stringify({
@@ -350,8 +362,10 @@ describe('queued file uploader', function() {
       }
 
       if (
-        request.requestURL.indexOf('https://www.domain.com/_api/upload/url') ===
-        0
+        request.requestURL.indexOf(
+          'https://www.domain.com/_api/v2/upload/configuration',
+        ) === 0 &&
+        request.requestMethod === 'POST'
       ) {
         request.respond(
           200,
@@ -360,7 +374,7 @@ describe('queued file uploader', function() {
             code: 0,
             message: 'OK',
             payload: {
-              uploadUrl: 'https://www.domain.com/_api/upload',
+              uploadUrl: 'https://www.domain.com/_api/v2/upload/file',
               uploadToken,
             },
           }),
@@ -368,7 +382,7 @@ describe('queued file uploader', function() {
         return;
       }
 
-      if (request.requestURL === 'https://www.domain.com/_api/upload') {
+      if (request.requestURL === 'https://www.domain.com/_api/v2/upload/file') {
         setTimeout(() => {
           request.respond(
             responseStatus,

@@ -53,7 +53,7 @@
 
 ```javascript
 fileManager.getUploadUrl({
-  mimeType: 'Content-Type: image/gif',
+  mimeType: 'image/gif',
   path: '/path/to',
   size: 12345, // in bytes
   acl: 'public'
@@ -100,6 +100,63 @@ Get Upload URL
         </td>
         <td>
             <div class="type">Promise&#x3C;UploadUrlResponse></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+### getUploadConfiguration()
+
+```javascript
+fileManager.getUploadConfiguration({
+  mimeType: 'image/gif',
+  path: '/path/to',
+  size: 12345, // in bytes
+  acl: 'public'
+})
+.then(response => {
+  console.log(response.uploadToken, response.uploadUrl);
+});
+```
+
+Get Upload Configuration
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th class="title">ARGUMENTS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+          <code>uploadConfigurationRequest</code>
+        </td>
+        <td>
+            <div class="type">IUploadConfigurationRequest</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="method-list">
+  <table>
+    <thead>
+      <tr>
+        <th class="title">RETURN VALUE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="param">
+        </td>
+        <td>
+            <div class="type">Promise&#x3C;UploadConfigurationResponse></div>
         </td>
       </tr>
     </tbody>

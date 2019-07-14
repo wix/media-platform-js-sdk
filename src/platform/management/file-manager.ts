@@ -26,6 +26,8 @@ import {
   ListFilesResponse,
 } from './responses/list-files-response';
 import { UploadUrlResponse } from './responses/upload-url-response';
+import { UploadConfigurationResponse } from './responses/upload-configuration-response';
+import { IUploadConfigurationRequest } from './requests/upload-configuration-request';
 
 export interface IUpdateFileACLById {
   acl: ACL;
@@ -78,7 +80,7 @@ export class FileManager {
    * @returns {Promise<UploadUrlResponse>}
    * @example
    * fileManager.getUploadUrl({
-   *   mimeType: 'Content-Type: image/gif',
+   *   mimeType: 'image/gif',
    *   path: '/path/to',
    *   size: 12345, // in bytes
    *   acl: 'public'
@@ -91,6 +93,27 @@ export class FileManager {
     uploadUrlRequest?: IUploadUrlRequest,
   ): Promise<UploadUrlResponse> {
     return this.fileUploader.getUploadUrl(uploadUrlRequest);
+  }
+
+  /**
+   * Get Upload Configuration
+   * @param {IUploadConfigurationRequest} uploadConfigurationRequest
+   * @returns {Promise<UploadConfigurationResponse>}
+   * @example
+   * fileManager.getUploadConfiguration({
+   *   mimeType: 'image/gif',
+   *   path: '/path/to',
+   *   size: 12345, // in bytes
+   *   acl: 'public'
+   * }).
+   * then(response => {
+   *   console.log(response.uploadToken, response.uploadUrl)
+   * });
+   */
+  getUploadConfiguration(
+    uploadConfigurationRequest?: IUploadConfigurationRequest,
+  ): Promise<UploadConfigurationResponse> {
+    return this.fileUploader.getUploadConfiguration(uploadConfigurationRequest);
   }
 
   /**

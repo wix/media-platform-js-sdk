@@ -7,9 +7,11 @@ import { Configuration } from '../configuration/configuration';
 import { HTTPClient } from '../http/browser-http-client';
 
 import { UploadJob } from './upload-job';
+import { IUploadConfigurationRequest } from '../../../platform/management/requests/upload-configuration-request';
 
 export class FileUploader implements IFileUploader {
   public uploadUrlEndpoint: string;
+  public uploadConfigurationEndpoint: string;
   public httpClient: HTTPClient;
 
   constructor(
@@ -18,11 +20,15 @@ export class FileUploader implements IFileUploader {
   ) {
     this.uploadUrlEndpoint =
       'https://' + configuration.domain + '/_api/upload/url';
+    this.uploadConfigurationEndpoint =
+      'https://' + configuration.domain + '/_api/v2/upload/configuration';
+
     // To match the implement
     this.httpClient = browserHTTPClient;
   }
 
   /**
+   * @deprecated
    * Retrieve a pre signed URL to which the file is uploaded
    */
   getUploadUrl(
@@ -32,6 +38,29 @@ export class FileUploader implements IFileUploader {
       .get<RawResponse<UploadUrlResponse>>(
         this.uploadUrlEndpoint,
         uploadUrlRequest,
+      )
+      .then(
+        body => {
+          return body.payload;
+        },
+        error => {
+          return Promise.reject(error);
+        },
+      );
+  }
+
+  /**
+   * @description get upload configuration
+   * @param uploadConfigurationRequest
+   * @returns Promise<UploadUrlResponse>
+   */
+  getUploadConfiguration(
+    uploadConfigurationRequest?: IUploadConfigurationRequest,
+  ): Promise<UploadUrlResponse> {
+    return this.browserHTTPClient
+      .post<RawResponse<UploadUrlResponse>>(
+        this.uploadConfigurationEndpoint,
+        uploadConfigurationRequest,
       )
       .then(
         body => {

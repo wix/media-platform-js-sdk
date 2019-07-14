@@ -1,7 +1,7 @@
 {
   "message": "OK",
   "code": 0,
-  "payload": {
+  "payload":     {
     "mimeType": "image/jpeg",
     "hash": "9eea21221c9abe895eac99a54f058d2a",
     "parent": "/demo",
@@ -15,9 +15,6 @@
     "acl": "public",
     "dateUpdated": "2017-03-08T12:57:38Z",
     "type": "-",
-    "lifecycle": {
-      "action": "delete",
-      "age": 50
-    }
+    "lifecycle": null
   }
 }
