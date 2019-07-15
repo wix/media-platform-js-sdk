@@ -5,7 +5,7 @@
 import { ACL } from '../../../types/media-platform/media-platform';
 
 export interface IUploadConfigurationRequest {
-  acl?: ACL;
+  acl: ACL | null;
   mimeType?: string | null;
   path?: string | null;
   size?: number | null;
@@ -16,7 +16,7 @@ export interface IUploadConfigurationRequest {
  * @doc UploadConfigurationRequest
  */
 export class UploadConfigurationRequest implements IUploadConfigurationRequest {
-  public acl: ACL;
+  public acl: ACL = ACL.PUBLIC;
   public mimeType?: string | null = null;
   public path?: string | null = null;
   public size?: number | null = null;
