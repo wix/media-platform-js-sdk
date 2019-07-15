@@ -2,7 +2,6 @@ import { EventEmitter } from 'eventemitter3';
 
 import { FileDescriptor } from '../../../platform/management/metadata/file-descriptor';
 import { UploadFileRequest } from '../../../platform/management/requests/upload-file-request';
-import { UploadUrlRequest } from '../../../platform/management/requests/upload-url-request';
 import { ACL } from '../../../types/media-platform/media-platform';
 
 import { FileUploader } from './browser-file-uploader';
@@ -11,6 +10,7 @@ import { UploadErrorEvent } from './events/upload-error-event';
 import { UploadProgressEvent } from './events/upload-progress-event';
 import { UploadStartedEvent } from './events/upload-started-event';
 import { UploadSuccessEvent } from './events/upload-success-event';
+import { UploadConfigurationRequest } from '../../../platform/management/requests/upload-configuration-request';
 
 export enum UploadJobState {
   STOPPED = 'stopped',
@@ -70,14 +70,14 @@ export class UploadJob extends EventEmitter {
     const uploadStartedEvent = new UploadStartedEvent(this);
     this.emit(uploadStartedEvent.name, uploadStartedEvent);
 
-    const uploadUrlRequest = new UploadUrlRequest({
+    const uploadConfigurationRequest = new UploadConfigurationRequest({
       acl,
       mimeType: this.file.type,
       path: this.path,
       size: this.file.size,
     });
 
-    fileUploader.getUploadUrl(uploadUrlRequest).then(
+    fileUploader.getUploadConfiguration(uploadConfigurationRequest).then(
       response => {
         const onProgress = (event: ProgressEvent) => {
           const e = new UploadProgressEvent(this, event.loaded, event.total);
@@ -93,9 +93,7 @@ export class UploadJob extends EventEmitter {
               typeof event.target.response === 'string'
                 ? JSON.parse(event.target.response).payload
                 : event.target.response.payload;
-            const fileDescriptors = payload.map(file => {
-              return new FileDescriptor(file);
-            });
+            const fileDescriptors = [new FileDescriptor(payload)];
 
             e = new UploadSuccessEvent(
               this,

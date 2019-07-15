@@ -395,14 +395,14 @@ describe('File Manager', () => {
   describe('file upload', () => {
     it('should accept path (string) as source', done => {
       apiServer
-        .get('/_api/upload/url')
+        .post('/_api/v2/upload/configuration')
         .once()
         .query(true)
         .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer
         .post('/_api/upload/file')
         .once()
-        .replyWithFile(200, repliesDir + 'file-upload-response.json');
+        .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
 
       //path, file, uploadRequest
       (fileManager.uploadFile(
@@ -432,14 +432,14 @@ describe('File Manager', () => {
 
     it('should accept stream as source', done => {
       apiServer
-        .get('/_api/upload/url')
+        .post('/_api/v2/upload/configuration')
         .once()
         .query(true)
         .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer
         .post('/_api/upload/file')
         .once()
-        .replyWithFile(200, repliesDir + 'file-upload-response.json');
+        .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
 
       const stream = fs.createReadStream(sourcesDir + 'audio.mp3');
 
@@ -452,14 +452,14 @@ describe('File Manager', () => {
 
     it('should accept buffer as source', done => {
       apiServer
-        .get('/_api/upload/url')
+        .post('/_api/v2/upload/configuration')
         .once()
         .query(true)
         .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
       apiServer
         .post('/_api/upload/file')
         .once()
-        .replyWithFile(200, repliesDir + 'file-upload-response.json');
+        .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
 
       const buffer = fs.readFileSync(sourcesDir + 'document.xlsx');
 
@@ -535,15 +535,18 @@ describe('File Manager', () => {
     describe('acl', () => {
       it('should upload file with default(public) ACL', done => {
         apiServer
-          .get('/_api/upload/url')
+          .post('/_api/v2/upload/configuration')
           .once()
           .query(true)
-          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
 
         apiServer
           .post('/_api/upload/file')
           .once()
-          .replyWithFile(200, repliesDir + 'file-upload-response.json');
+          .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
 
         (fileManager.uploadFile(
           'upload/to/there/image.jpg',
@@ -556,15 +559,18 @@ describe('File Manager', () => {
 
       it('should upload file with public ACL', done => {
         apiServer
-          .get('/_api/upload/url')
+          .post('/_api/v2/upload/configuration')
           .once()
           .query(true)
-          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
 
         apiServer
           .post('/_api/upload/file')
           .once()
-          .replyWithFile(200, repliesDir + 'file-upload-response.json');
+          .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
 
         const uploadFileRequest = new UploadFileRequest({
           acl: ACL.PUBLIC,
@@ -582,10 +588,13 @@ describe('File Manager', () => {
 
       it('should upload file with private ACL', done => {
         apiServer
-          .get('/_api/upload/url')
+          .post('/_api/v2/upload/configuration')
           .once()
           .query(true)
-          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
 
         apiServer
           .post('/_api/upload/file')
@@ -610,15 +619,18 @@ describe('File Manager', () => {
     describe('lifecycle(age)', () => {
       it('should upload file with default(none) lifecycle', done => {
         apiServer
-          .get('/_api/upload/url')
+          .post('/_api/v2/upload/configuration')
           .once()
           .query(true)
-          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
 
         apiServer
           .post('/_api/upload/file')
           .once()
-          .replyWithFile(200, repliesDir + 'file-upload-response.json');
+          .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
 
         (fileManager.uploadFile(
           'upload/to/there/image.jpg',
@@ -631,10 +643,13 @@ describe('File Manager', () => {
 
       it('should upload file with delete lifecycle', done => {
         apiServer
-          .get('/_api/upload/url')
+          .post('/_api/v2/upload/configuration')
           .once()
           .query(true)
-          .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
 
         apiServer
           .post('/_api/upload/file')
