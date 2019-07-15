@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.12"></a>
+# [8.0.0-alpha.12](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.11...v8.0.0-alpha.12) (2019-07-15)
+
+
+### Features
+
+* add support for uploadV2 ([#54](https://github.com/wix/media-platform-js-sdk/issues/54)) ([a81d7ac](https://github.com/wix/media-platform-js-sdk/commit/a81d7ac))
+
+
+
 <a name="8.0.0-alpha.11"></a>
 # [8.0.0-alpha.11](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.10...v8.0.0-alpha.11) (2019-07-12)
 
