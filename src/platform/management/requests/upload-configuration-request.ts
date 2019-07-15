@@ -5,7 +5,7 @@
 import { ACL } from '../../../types/media-platform/media-platform';
 
 export interface IUploadConfigurationRequest {
-  acl?: ACL | null;
+  acl?: ACL;
   mimeType?: string | null;
   path?: string | null;
   size?: number | null;
@@ -16,13 +16,13 @@ export interface IUploadConfigurationRequest {
  * @doc UploadConfigurationRequest
  */
 export class UploadConfigurationRequest implements IUploadConfigurationRequest {
-  public acl?: ACL | null = ACL.PUBLIC;
+  public acl: ACL;
   public mimeType?: string | null = null;
   public path?: string | null = null;
   public size?: number | null = null;
 
   constructor(data: IUploadConfigurationRequest) {
-    this.acl = data.acl;
+    this.acl = data.acl || ACL.PUBLIC;
     this.mimeType = data.mimeType;
     this.path = data.path;
     this.size = data.size;

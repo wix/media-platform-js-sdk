@@ -143,31 +143,23 @@ export class FileUploader implements IFileUploader {
       this.getUploadConfiguration(uploadConfigurationRequest),
       streamErrorPromise,
     ])
-      .then(
-        response => {
-          if (
-            !(response as UploadConfigurationResponse).uploadToken ||
-            !(response as UploadConfigurationResponse).uploadUrl
-          ) {
-            return Promise.reject('No `getUploadUrl` response');
-          }
+      .then((response: UploadConfigurationResponse) => {
+        if (!response.uploadToken || !response.uploadUrl) {
+          return Promise.reject('No `getUploadUrl` response');
+        }
 
-          const uploadConfigurationResponse = response as UploadConfigurationResponse;
+        const uploadConfigurationResponse = response as UploadConfigurationResponse;
 
-          const form = {
-            ...this.createUploadForm(stream, path, uploadConfigurationResponse),
-            ...uploadFileRequest,
-          };
+        const form = {
+          ...this.createUploadForm(stream, path, uploadConfigurationResponse),
+          ...uploadFileRequest,
+        };
 
-          return this.uploadFileWithPost(
-            uploadConfigurationResponse.uploadUrl,
-            form,
-          );
-        },
-        error => {
-          return Promise.reject(error);
-        },
-      )
+        return this.uploadFileWithPost(
+          uploadConfigurationResponse.uploadUrl,
+          form,
+        );
+      })
       .then(({ payload }) => {
         return [new FileDescriptor(payload)];
       });
