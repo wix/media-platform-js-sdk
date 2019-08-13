@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.14"></a>
+# [8.0.0-alpha.14](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.13...v8.0.0-alpha.14) (2019-08-13)
+
+
+### Features
+
+* add `uploadToken` and `uploadUrl` to fileManager.uploadFile() ([288fbe4](https://github.com/wix/media-platform-js-sdk/commit/288fbe4))
+
+
+
 <a name="8.0.0-alpha.13"></a>
 # [8.0.0-alpha.13](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.12...v8.0.0-alpha.13) (2019-08-12)
 
