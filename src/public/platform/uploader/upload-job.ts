@@ -21,6 +21,8 @@ export interface IUploadJob {
   path?: string;
   file?: Blob;
   uploadFileRequest?: UploadFileRequest;
+  uploadToken?: string;
+  uploadUrl?: string;
 }
 
 /**
@@ -36,13 +38,23 @@ export class UploadJob extends EventEmitter {
   private readonly file: Blob | undefined;
   private readonly path;
   private readonly uploadFileRequest?: UploadFileRequest;
+  private readonly uploadToken;
+  private readonly uploadUrl;
 
-  constructor({ file, path, uploadFileRequest }: IUploadJob) {
+  constructor({
+    file,
+    path,
+    uploadFileRequest,
+    uploadToken,
+    uploadUrl,
+  }: IUploadJob) {
     super();
 
     this.file = file;
     this.path = path;
     this.uploadFileRequest = uploadFileRequest;
+    this.uploadToken = uploadToken;
+    this.uploadUrl = uploadUrl;
   }
 
   /**
@@ -77,7 +89,20 @@ export class UploadJob extends EventEmitter {
       size: this.file.size,
     });
 
-    fileUploader.getUploadConfiguration(uploadConfigurationRequest).then(
+    let uploadConfiguration;
+
+    if (this.uploadToken && this.uploadUrl) {
+      uploadConfiguration = Promise.resolve({
+        uploadToken: this.uploadToken,
+        uploadUrl: this.uploadUrl,
+      });
+    } else {
+      uploadConfiguration = fileUploader.getUploadConfiguration(
+        uploadConfigurationRequest,
+      );
+    }
+
+    uploadConfiguration.then(
       response => {
         const onProgress = (event: ProgressEvent) => {
           const e = new UploadProgressEvent(this, event.loaded, event.total);

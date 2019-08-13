@@ -49,6 +49,8 @@ export interface IFileUploader {
     path: string,
     file: string | Buffer | Stream | File,
     uploadRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
   );
 }
 
@@ -119,11 +121,15 @@ export class FileUploader implements IFileUploader {
    * @param {string} path the destination to which the file will be uploaded
    * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
    * @param {UploadFileRequest?} uploadFileRequest
+   * @param {string?} uploadToken
+   * @param {string?} uploadUrl
    */
   uploadFile(
     path: string,
     file: string | Buffer | Stream,
     uploadFileRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
   ) {
     let stream, size, streamErrorPromise;
 
@@ -139,10 +145,20 @@ export class FileUploader implements IFileUploader {
       uploadFileRequest,
     );
 
-    return Promise.race([
-      this.getUploadConfiguration(uploadConfigurationRequest),
-      streamErrorPromise,
-    ])
+    let uploadConfiguration;
+
+    if (uploadToken && uploadUrl) {
+      uploadConfiguration = Promise.resolve({
+        uploadToken,
+        uploadUrl,
+      });
+    } else {
+      uploadConfiguration = this.getUploadConfiguration(
+        uploadConfigurationRequest,
+      );
+    }
+
+    return Promise.race([uploadConfiguration, streamErrorPromise])
       .then((response: UploadConfigurationResponse) => {
         if (!response.uploadToken || !response.uploadUrl) {
           return Promise.reject('No `getUploadUrl` response');

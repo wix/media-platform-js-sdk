@@ -33,6 +33,14 @@ browser configuration
             <div class="type">string</div>
         </td>
       </tr>
+      <tr>
+        <td class="param">
+          <code>authenticationHeaders</code>
+        </td>
+        <td>
+            <div class="type">Map&#x3C;string, string></div>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

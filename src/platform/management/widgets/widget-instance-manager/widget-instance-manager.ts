@@ -1,7 +1,6 @@
-import { IHTTPClient } from '../../../http/http-client';
 import { Configuration as BrowserConfiguration } from '../../../../public/platform/configuration/configuration';
 import { Configuration } from '../../../configuration/configuration';
-import { Token } from '../../../authentication/token';
+import { IHTTPClient } from '../../../http/http-client';
 
 export interface WidgetInstance {
   name: string;
@@ -32,9 +31,7 @@ export class WidgetInstanceManager {
 
   private getInstanceURL(widgetInstanceId: string) {
     const { configuration } = this;
-    return `https://${
-      configuration.domain
-    }/_api/widgetInstances/${widgetInstanceId}`;
+    return `https://${configuration.domain}/_api/widgetInstances/${widgetInstanceId}`;
   }
 
   private getAuthURL(widgetInstanceId: string) {
@@ -48,7 +45,7 @@ export class WidgetInstanceManager {
         response => response.payload.token,
         error => {
           // tslint:disable-next-line
-        console.error('Error while auth', error);
+          console.error('Error while auth', error);
           return '';
         },
       );

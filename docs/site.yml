@@ -14,7 +14,7 @@ navigation:
     path: /api-reference
   - title: File Management
     path: /file-management
-  - title: Create and Extract archive files
+  - title: Archive files
     path: /archive-files
   - title: Images
     path: /images
