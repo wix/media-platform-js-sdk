@@ -9,6 +9,10 @@ import { HTTPClient } from '../../../src/public/platform/http/browser-http-clien
 import { FileUploader } from '../../../src/public/platform/uploader/browser-file-uploader';
 import { QueuedFileUploader } from '../../../src/public/platform/uploader/queued-file-uploader';
 import { UploadJob } from '../../../src/public/platform/uploader/upload-job';
+import {
+  ACL,
+  Lifecycle,
+} from '../../../src/types/media-platform/media-platform';
 import { delay } from '../../helpers/delay';
 
 const UPLOAD_TIMEOUT = 100;
@@ -307,6 +311,89 @@ describe('queued file uploader', function() {
 
           return done();
         })
+        .on('upload-error', error => done(error));
+    });
+  });
+
+  describe('uploadToken and uploadUrl', () => {
+    it('should upload file with custom uploadToken and uploadUrl', done => {
+      fauxJax.on('request', request => {
+        if (request.requestURL === 'https://custom-upload-url.com/') {
+          expect(request.requestBody.get('acl')).to.eq('public');
+          expect(request.requestBody.get('lifecycle')).to.eq(null);
+          expect(request.requestBody.get('mimeType')).to.eq(null);
+          expect(request.requestBody.get('path')).to.eql(
+            'upload/to/there/image.jpg',
+          );
+          expect(request.requestBody.get('uploadToken')).to.eql(
+            'custom upload token',
+          );
+
+          setTimeout(() => {
+            request.respond(
+              200,
+              { 'Content-Type': 'application/json' },
+              JSON.stringify(fileUploadResponse),
+            );
+          }, UPLOAD_TIMEOUT);
+        }
+      });
+
+      const file = new FileAPI.File('../files/image.jpg');
+
+      (fileManager.uploadFile(
+        'upload/to/there/image.jpg',
+        file,
+        undefined,
+        'custom upload token',
+        'https://custom-upload-url.com/',
+      ) as UploadJob)
+        .on('upload-success', () => done())
+        .on('upload-error', error => done(error));
+    });
+
+    it('should upload file with custom uploadToken, uploadUrl and uploadFileRequest', done => {
+      fauxJax.on('request', request => {
+        if (request.requestURL === 'https://custom-upload-url-2.com/') {
+          expect(request.requestBody.get('acl')).to.eq('private');
+          expect(request.requestBody.get('lifecycle')).to.eq(
+            JSON.stringify({
+              action: Lifecycle.Delete,
+              age: 52,
+            }),
+          );
+          expect(request.requestBody.get('path')).to.eql(
+            'upload/to/there/image-2.jpg',
+          );
+          expect(request.requestBody.get('uploadToken')).to.eql(
+            'custom upload token 2',
+          );
+
+          setTimeout(() => {
+            request.respond(
+              200,
+              { 'Content-Type': 'application/json' },
+              JSON.stringify(fileUploadResponse),
+            );
+          }, UPLOAD_TIMEOUT);
+        }
+      });
+
+      const file = new FileAPI.File('../files/image.jpg');
+      const uploadFileRequest = new UploadFileRequest({
+        acl: ACL.PRIVATE,
+        age: 52,
+        mimeType: 'image/png',
+      });
+
+      (fileManager.uploadFile(
+        'upload/to/there/image-2.jpg',
+        file,
+        uploadFileRequest,
+        'custom upload token 2',
+        'https://custom-upload-url-2.com/',
+      ) as UploadJob)
+        .on('upload-success', () => done())
         .on('upload-error', error => done(error));
     });
   });

@@ -54,9 +54,7 @@ export class FileDownloader {
     const signedToken = this.authenticator.encode(token);
 
     return {
-      downloadUrl: `https://${
-        this.configuration.domain
-      }/_api/download/file?downloadToken=${signedToken}`,
+      downloadUrl: `https://${this.configuration.domain}/_api/download/file?downloadToken=${signedToken}`,
     };
   }
 }

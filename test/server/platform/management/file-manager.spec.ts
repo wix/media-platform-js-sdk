@@ -676,6 +676,66 @@ describe('File Manager', () => {
         });
       });
     });
+
+    describe('uploadToken and uploadUrl', () => {
+      it('should upload file with custom uploadToken and uploadUrl', done => {
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
+
+        (fileManager.uploadFile(
+          'upload/to/there/image.jpg',
+          sourcesDir + 'image.jpg',
+          undefined,
+          'custom upload token',
+          'https://manager.com/_api/upload/file',
+        ) as Promise<FileDescriptor[]>).then(() => {
+          done();
+        });
+      });
+
+      it('should upload file with custom uploadToken, uploadUrl and uploadFileRequest', done => {
+        // TODO: add form-data params checking with nock
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
+
+        const uploadFileRequest = new UploadFileRequest({
+          acl: ACL.PRIVATE,
+          age: 23,
+          mimeType: 'image/gif',
+        });
+
+        (fileManager.uploadFile(
+          'upload/to/there/image.jpg',
+          sourcesDir + 'image.jpg',
+          uploadFileRequest,
+          'custom upload token',
+          'https://manager.com/_api/upload/file',
+        ) as Promise<FileDescriptor[]>).then(() => {
+          done();
+        });
+      });
+
+      it('should not upload file without uploadToken and uploadUrl', done => {
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
+
+        (fileManager.uploadFile(
+          'upload/to/there/image.jpg',
+          sourcesDir + 'image.jpg',
+        ) as Promise<FileDescriptor[]>).catch(() => {
+          done();
+        });
+      });
+    });
   });
 
   it('file import', done => {

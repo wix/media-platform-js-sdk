@@ -114,9 +114,9 @@ fileManager.getUploadConfiguration({
   path: '/path/to',
   size: 12345, // in bytes
   acl: 'public'
-})
-.then(response => {
-  console.log(response.uploadToken, response.uploadUrl);
+}).
+then(response => {
+  console.log(response.uploadToken, response.uploadUrl)
 });
 ```
 
@@ -200,6 +200,22 @@ upload a file
         </td>
         <td>
             <div class="type">UploadFileRequest?</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="param">
+          <code>uploadToken</code>
+        </td>
+        <td>
+            <div class="type">string?</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="param">
+          <code>uploadUrl</code>
+        </td>
+        <td>
+            <div class="type">string?</div>
         </td>
       </tr>
     </tbody>

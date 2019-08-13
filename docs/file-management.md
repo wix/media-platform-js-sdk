@@ -51,13 +51,21 @@ You can provide the source file either by its path (string), or as a buffer or s
 
 To upload the file:
 ```typescript
-fileManager.uploadFile(path: string, file: string | Buffer | Stream, uploadRequest?: UploadFileRequest);
+fileManager.uploadFile(
+  path: string,
+  file: string | Buffer | Stream,
+  uploadRequest?: UploadFileRequest,
+  uploadToken?: string,
+  uploadUrl?: string
+);
 ```
 
 __Parameters__:
 - `path` (string): the destination path to which the file will be uploaded.
 - `file` (string || Buffer || Stream): the source file to be uploaded (either its path as a string or the file itself as a buffer/stream).
 - `uploadRequest` (UploadFileRequest): defines the uploaded file's mime type and ACL.
+- `uploadToken` (string): defines the custom token for file uploading.
+- `uploadUrl` (string): defines the custom url for file uploading.
 
 ### From Browser
 
@@ -68,28 +76,40 @@ __Parameters__:
 <button id="upload-button">Upload</button>
 
 <script>
-    var fileUploadButton = document.getElementById('upload-button');
-    var file = document.getElementById('file');
-    var path = file.value.split("\\").pop();
+  var fileUploadButton = document.getElementById('upload-button');
+  var file = document.getElementById('file');
+  var path = file.value.split("\\").pop();
 
-    // Optional:
-    var UploadFileRequest = require('media-platform-js-sdk').file.UploadFileRequest;
-    var uploadRequest = new UploadFileRequest({
-      acl: 'private',
-      mimeType: 'image/jpeg'
-    });
+// Optional:
+  var UploadFileRequest = require('media-platform-js-sdk').file.UploadFileRequest;
+  var uploadRequest = new UploadFileRequest({
+    acl: 'private',
+    mimeType: 'image/jpeg'
+  });
+  var uploadToken = 'custom-token';
+  var uploadUrl = 'https://custom-domain.com/upload';
 
-    fileUploadButton.addEventListener('click', function() {
-        mediaPlatform.fileManager.uploadFile(path, file, uploadRequest)
-            .on('upload-success', function(response) {
-                 // do something
-            })                
-            .on('upload-error', function(error) {
-                 // do something
-            });
+  fileUploadButton.addEventListener('click', function() {
+    mediaPlatform.fileManager.uploadFile(
+      path,
+      file,
+      uploadRequest,
+      uploadToken,
+      uploadUrl
+    )
+    .on('upload-success', function(response) {
+      // do something
+    })                
+    .on('upload-error', function(error) {
+      // do something
     });
+  });
 </script>
 ```
+
+__Parameters__:
+
+The same as from server
 
 ## File Import
 [File Import API documentation](https://support.wixmp.com/en/article/file-import)  
