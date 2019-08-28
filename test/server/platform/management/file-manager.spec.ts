@@ -749,6 +749,11 @@ describe('File Manager', () => {
         path: '/to/here/file.txt',
       },
       sourceUrl: 'http://from/here/file.txt',
+      jobCallback: {
+        attachment: { something: 'somewhere' },
+        headers: { just: 'a-header' },
+        url: 'https://www.example.com/callme',
+      },
     });
 
     fileManager.importFile(importFileRequest).then(data => {

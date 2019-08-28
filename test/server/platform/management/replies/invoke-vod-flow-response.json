@@ -1,0 +1,157 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "id": "flow_id",
+    "flow": {
+      "transcodeComponent": {
+        "specification": {
+          "destination": {
+            "directory": "/test/output/",
+            "acl": "public"
+          },
+          "qualityRange": {
+            "minimum": "144p",
+            "maximum": "2160p"
+          }
+        },
+        "successors": [],
+        "status": null,
+        "type": "av.transcode"
+      },
+      "storyboardComponent": {
+        "specification": {
+          "destination": {
+            "path": "/test/output-storyboard.mp4",
+            "acl": "public"
+          },
+          "quality": "144p",
+          "audio": null
+        },
+        "successors": [],
+        "status": null,
+        "type": "av.transcodeComponent"
+      },
+      "clipComponent": {
+        "specification": {
+          "destination": {
+            "directory": "/test/output-clip/",
+            "acl": "public"
+          },
+          "qualityRange": {
+            "minimum": "144p",
+            "maximum": "2160p"
+          },
+          "clipping": {
+            "start": 0,
+            "duration": 30,
+            "fadeInDuration": 5,
+            "fadeOutDuration": 5,
+            "fadeInOffset": 5,
+            "fadeOutOffset": 5
+          },
+          "audio": {
+            "skip": true
+          }
+        },
+        "successors": [],
+        "status": null,
+        "type": "av.transcodeComponent"
+      },
+      "postersComponent0": {
+        "specification": {
+          "destination": {
+            "directory": "/test/posters",
+            "acl": "public"
+          },
+          "percentage": 0,
+          "format": "jpg"
+        },
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "status": null,
+        "type": "av.posters"
+      },
+      "postersComponent25": {
+        "specification": {
+          "destination": {
+            "directory": "/test/posters",
+            "acl": "public"
+          },
+          "percentage": 25,
+          "format": "jpg"
+        },
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "status": null,
+        "type": "av.posters"
+      },
+      "postersComponent50": {
+        "specification": {
+          "destination": {
+            "directory": "/test/posters",
+            "acl": "public"
+          },
+          "percentage": 25,
+          "format": "jpg"
+        },
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "status": null,
+        "type": "av.posters"
+      },
+      "postersComponent75": {
+        "specification": {
+          "destination": {
+            "directory": "/test/posters",
+            "acl": "public"
+          },
+          "percentage": 25,
+          "format": "jpg"
+        },
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "status": null,
+        "type": "av.posters"
+      },
+      "allPostersCompleteComponent": {
+        "specification": {},
+        "successors": [],
+        "status": null,
+        "type": "flow.group_wait"
+      }
+    },
+    "invocation": {
+      "sources": [
+        {
+          "path": "/to/here/file.mp4",
+          "fileId": null
+        }
+      ],
+      "entryPoints": [
+        "transcodeComponent",
+        "storyboardComponent",
+        "clipComponent",
+        "postersComponent0",
+        "postersComponent25",
+        "postersComponent50",
+        "postersComponent75"
+      ],
+      "callback": {
+        "url": "https://www.example.com/flow-complete-handler",
+        "attachment": {
+          "hello": "world",
+          "key1": "value1"
+        },
+        "headers": {
+          "header-name": "header-value"
+        }
+      },
+      "errorStrategy": "stopOnError"
+    }
+  }
+}
