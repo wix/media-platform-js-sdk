@@ -248,7 +248,7 @@ describe('flow manager', () => {
         'postersComponent50',
         'postersComponent75',
       ],
-      errorStrategy: ErrorStrategy.STOP_ON_ERROR,
+      errorStrategy: ErrorStrategy.CONTINUE_ON_ERROR,
       callback,
     };
 

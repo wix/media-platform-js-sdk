@@ -151,7 +151,7 @@
           "header-name": "header-value"
         }
       },
-      "errorStrategy": "stopOnError"
+      "errorStrategy": "continueOnError"
     }
   }
 }
