@@ -19,7 +19,7 @@ export class Invocation implements IInvocation {
   public sources: Source[] = [];
   public entryPoints: EntryPoint[] = [];
   public callback?: ICallback;
-  public errorStrategy?: ErrorStrategy = ErrorStrategy.CONTINUE_ON_ERROR;
+  public errorStrategy?: ErrorStrategy = ErrorStrategy.STOP_ON_ERROR;
 
   constructor(data?: IInvocation) {
     if (data) {
