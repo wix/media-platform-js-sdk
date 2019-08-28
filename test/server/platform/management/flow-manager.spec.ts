@@ -258,7 +258,7 @@ describe('flow manager', () => {
     });
 
     const data: Flow = await flowManager.createFlow(createFlowRequest);
-    expect(data !== null).to.be.true;
+    expect(data).to.not.eql(null);
     expect(data.id).to.equal('flow_id');
     expect(data.invocation).to.deep.equal(invocation);
   });
