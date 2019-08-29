@@ -8,7 +8,7 @@
         "import"
       ]
     },
-    "flow": {
+    "operations": {
       "import": {
         "type": "file.import",
         "specification": {
