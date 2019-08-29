@@ -2,134 +2,661 @@
   "code": 0,
   "message": "OK",
   "payload": {
-    "id": "flow_id",
-    "flow": {
+    "operations": {
       "transcodeComponent": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "file_id"
+          }
+        ],
         "specification": {
-          "destination": {
-            "directory": "/test/output/",
-            "acl": "public"
-          },
+          "clipping": null,
           "qualityRange": {
             "minimum": "144p",
             "maximum": "2160p"
-          }
-        },
-        "successors": [],
-        "status": null,
-        "type": "av.transcode"
-      },
-      "storyboardComponent": {
-        "specification": {
+          },
           "destination": {
-            "path": "/test/output-storyboard.mp4",
+            "directory": "/test/js-sdk-test/output-transcode/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
             "acl": "public"
           },
-          "quality": "144p",
-          "audio": null
+          "video": null,
+          "audio": null,
+          "quality": null
         },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "transcodeComponent",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
         "successors": [],
-        "status": null,
-        "type": "av.transcodeComponent"
+        "type": "av.transcode",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "postersComponent50": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "second": null,
+          "destination": {
+            "directory": "/test/js-sdk-test/output-posters/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "percentage": 50,
+          "format": "jpg"
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "postersComponent50",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "type": "av.poster",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "postersComponent25": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "second": null,
+          "destination": {
+            "directory": "/test/js-sdk-test/output-posters/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "percentage": 25,
+          "format": "jpg"
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "postersComponent25",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "type": "av.poster",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
       },
       "clipComponent": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
         "specification": {
-          "destination": {
-            "directory": "/test/output-clip/",
-            "acl": "public"
+          "clipping": {
+            "fadeOutOffset": 5,
+            "fadeInDuration": 5,
+            "fadeOutDuration": 5,
+            "start": 0,
+            "duration": 30,
+            "fadeInOffset": 5
           },
           "qualityRange": {
             "minimum": "144p",
             "maximum": "2160p"
           },
-          "clipping": {
-            "start": 0,
-            "duration": 30,
-            "fadeInDuration": 5,
-            "fadeOutDuration": 5,
-            "fadeInOffset": 5,
-            "fadeOutOffset": 5
+          "destination": {
+            "directory": "/test/js-sdk-test/output-clip/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "video": null,
+          "audio": null,
+          "quality": null
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "clipComponent",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [],
+        "type": "av.transcode",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "postersComponent75": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "second": null,
+          "destination": {
+            "directory": "/test/js-sdk-test/output-posters/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "percentage": 75,
+          "format": "jpg"
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "postersComponent75",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "type": "av.poster",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "storyboardComponent": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "clipping": null,
+          "qualityRange": null,
+          "destination": {
+            "directory": null,
+            "path": "/test/js-sdk-test/output-storyboard.mp4",
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "video": {
+            "skip": false,
+            "specification": {
+              "frameRate": null,
+              "frameRateFraction": "40680/1357",
+              "codec": {
+                "profile": "main",
+                "name": "h264",
+                "level": "3.1",
+                "maxRate": 100000,
+                "crf": 25,
+                "gop": {
+                  "bAdapt": 0,
+                  "bFrames": 2,
+                  "bPyramid": 0,
+                  "sceneCut": 0,
+                  "keyInterval": 30,
+                  "refFrame": 3,
+                  "minKeyInterval": 30
+                },
+                "preset": "faster"
+              },
+              "resolution": {
+                "scaling": {
+                  "algorithm": "lanczos"
+                },
+                "width": 108,
+                "sampleAspectRatio": "1:1",
+                "height": 144
+              },
+              "filters": [
+                {
+                  "name": "unsharp",
+                  "settings": {
+                    "value": "5:5:0.5:3:3:0.0"
+                  }
+                }
+              ]
+            },
+            "copy": false,
+            "type": "video"
           },
           "audio": {
-            "skip": true
-          }
+            "skip": true,
+            "specification": null,
+            "copy": false,
+            "type": "audio"
+          },
+          "quality": null
         },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "storyboardComponent",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
         "successors": [],
-        "status": null,
-        "type": "av.transcodeComponent"
+        "type": "av.transcode",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "allPostersCompleteComponent": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [],
+        "specification": null,
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "allPostersCompleteComponent",
+        "deleteSources": false,
+        "callback": {
+          "url": "https://ent1stoh32c9r.x.pipedream.net/",
+          "headers": {
+            "posters": "complete"
+          },
+          "attachment": {
+            "posters": "complete"
+          },
+          "passthrough": false
+        },
+        "errorStrategy": "continueOnError",
+        "successors": [],
+        "type": "flow.group_wait",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
       },
       "postersComponent0": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
         "specification": {
+          "second": null,
           "destination": {
-            "directory": "/test/posters",
+            "directory": "/test/js-sdk-test/output-posters/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
             "acl": "public"
           },
           "percentage": 0,
           "format": "jpg"
         },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "postersComponent0",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
         "successors": [
           "allPostersCompleteComponent"
         ],
-        "status": null,
-        "type": "av.posters"
-      },
-      "postersComponent25": {
-        "specification": {
-          "destination": {
-            "directory": "/test/posters",
-            "acl": "public"
-          },
-          "percentage": 25,
-          "format": "jpg"
-        },
-        "successors": [
-          "allPostersCompleteComponent"
-        ],
-        "status": null,
-        "type": "av.posters"
-      },
-      "postersComponent50": {
-        "specification": {
-          "destination": {
-            "directory": "/test/posters",
-            "acl": "public"
-          },
-          "percentage": 25,
-          "format": "jpg"
-        },
-        "successors": [
-          "allPostersCompleteComponent"
-        ],
-        "status": null,
-        "type": "av.posters"
-      },
-      "postersComponent75": {
-        "specification": {
-          "destination": {
-            "directory": "/test/posters",
-            "acl": "public"
-          },
-          "percentage": 25,
-          "format": "jpg"
-        },
-        "successors": [
-          "allPostersCompleteComponent"
-        ],
-        "status": null,
-        "type": "av.posters"
-      },
-      "allPostersCompleteComponent": {
-        "specification": {},
-        "successors": [],
-        "status": null,
-        "type": "flow.group_wait"
+        "type": "av.poster",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
       }
     },
+    "status": "working",
+    "flow": {
+      "transcodeComponent": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "clipping": null,
+          "qualityRange": {
+            "minimum": "144p",
+            "maximum": "2160p"
+          },
+          "destination": {
+            "directory": "/test/js-sdk-test/output-transcode/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "video": null,
+          "audio": null,
+          "quality": null
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "transcodeComponent",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [],
+        "type": "av.transcode",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "postersComponent50": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "second": null,
+          "destination": {
+            "directory": "/test/js-sdk-test/output-posters/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "percentage": 50,
+          "format": "jpg"
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "postersComponent50",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "type": "av.poster",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "postersComponent25": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "second": null,
+          "destination": {
+            "directory": "/test/js-sdk-test/output-posters/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "percentage": 25,
+          "format": "jpg"
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "postersComponent25",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "type": "av.poster",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "clipComponent": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "clipping": {
+            "fadeOutOffset": 5,
+            "fadeInDuration": 5,
+            "fadeOutDuration": 5,
+            "start": 0,
+            "duration": 30,
+            "fadeInOffset": 5
+          },
+          "qualityRange": {
+            "minimum": "144p",
+            "maximum": "2160p"
+          },
+          "destination": {
+            "directory": "/test/js-sdk-test/output-clip/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "video": null,
+          "audio": null,
+          "quality": null
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "clipComponent",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [],
+        "type": "av.transcode",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "postersComponent75": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "second": null,
+          "destination": {
+            "directory": "/test/js-sdk-test/output-posters/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "percentage": 75,
+          "format": "jpg"
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "postersComponent75",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "type": "av.poster",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "storyboardComponent": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "clipping": null,
+          "qualityRange": null,
+          "destination": {
+            "directory": null,
+            "path": "/test/js-sdk-test/output-storyboard.mp4",
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "video": {
+            "skip": false,
+            "specification": {
+              "frameRate": null,
+              "frameRateFraction": "40680/1357",
+              "codec": {
+                "profile": "main",
+                "name": "h264",
+                "level": "3.1",
+                "maxRate": 100000,
+                "crf": 25,
+                "gop": {
+                  "bAdapt": 0,
+                  "bFrames": 2,
+                  "bPyramid": 0,
+                  "sceneCut": 0,
+                  "keyInterval": 30,
+                  "refFrame": 3,
+                  "minKeyInterval": 30
+                },
+                "preset": "faster"
+              },
+              "resolution": {
+                "scaling": {
+                  "algorithm": "lanczos"
+                },
+                "width": 108,
+                "sampleAspectRatio": "1:1",
+                "height": 144
+              },
+              "filters": [
+                {
+                  "name": "unsharp",
+                  "settings": {
+                    "value": "5:5:0.5:3:3:0.0"
+                  }
+                }
+              ]
+            },
+            "copy": false,
+            "type": "video"
+          },
+          "audio": {
+            "skip": true,
+            "specification": null,
+            "copy": false,
+            "type": "audio"
+          },
+          "quality": null
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "storyboardComponent",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [],
+        "type": "av.transcode",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "allPostersCompleteComponent": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [],
+        "specification": null,
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "allPostersCompleteComponent",
+        "deleteSources": false,
+        "callback": {
+          "url": "https://ent1stoh32c9r.x.pipedream.net/",
+          "headers": {
+            "posters": "complete"
+          },
+          "attachment": {
+            "posters": "complete"
+          },
+          "passthrough": false
+        },
+        "errorStrategy": "continueOnError",
+        "successors": [],
+        "type": "flow.group_wait",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      },
+      "postersComponent0": {
+        "status": "waiting",
+        "extraResults": {},
+        "jobs": [],
+        "sources": [
+          {
+            "path": "/demo/video.mp4",
+            "fileId": "1439d1c46346440c9967e1ad07c8a481"
+          }
+        ],
+        "specification": {
+          "second": null,
+          "destination": {
+            "directory": "/test/js-sdk-test/output-posters/",
+            "path": null,
+            "bucket": null,
+            "lifecycle": null,
+            "acl": "public"
+          },
+          "percentage": 0,
+          "format": "jpg"
+        },
+        "stateId": "a211b91eff984c8a8cf1085944421ab2",
+        "results": [],
+        "componentKey": "postersComponent0",
+        "deleteSources": false,
+        "callback": null,
+        "errorStrategy": "continueOnError",
+        "successors": [
+          "allPostersCompleteComponent"
+        ],
+        "type": "av.poster",
+        "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3"
+      }
+    },
+    "error": null,
     "invocation": {
+      "errorStrategy": "continueOnError",
       "sources": [
         {
-          "path": "/to/here/file.mp4",
-          "fileId": null
+          "path": "/demo/video.mp4"
         }
       ],
       "entryPoints": [
@@ -141,17 +668,19 @@
         "postersComponent50",
         "postersComponent75"
       ],
+      "issuer": "urn:app:48fa9aa3e9d342a3a33e66af08cd7fe3",
       "callback": {
-        "url": "https://www.example.com/flow-complete-handler",
-        "attachment": {
-          "hello": "world",
-          "key1": "value1"
-        },
+        "url": "https://endgl2d8dilgk.x.pipedream.net/",
         "headers": {
           "header-name": "header-value"
-        }
-      },
-      "errorStrategy": "continueOnError"
-    }
+        },
+        "attachment": {
+          "key1": "value1",
+          "hello": "world"
+        },
+        "passthrough": false
+      }
+    },
+    "id": "flow_id"
   }
 }
