@@ -118,7 +118,7 @@ describe('flow manager', () => {
     };
 
     const storyboardComponent = {
-      type: 'av.transcodeComponent',
+      type: 'av.transcode',
       specification: {
         destination: {
           path: '/test/output-storyboard.mp4',
@@ -132,7 +132,7 @@ describe('flow manager', () => {
     };
 
     const clipComponent = {
-      type: 'av.transcodeComponent',
+      type: 'av.transcode',
       specification: {
         destination: {
           directory: '/test/output-clip/',
