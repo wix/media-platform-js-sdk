@@ -25,7 +25,7 @@ describe('flow control e2e', function() {
   // tslint:disable-next-line
   this.timeout(60000);
 
-  it('VOD Flow', async () => {
+  xit('VOD Flow', async () => {
     const baseTestFolder = `/test/js-sdk/${guid()}`;
 
     const transcodeComponent = {
