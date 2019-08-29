@@ -155,7 +155,7 @@ describe('flow manager', () => {
     };
 
     const postersComponent0 = {
-      type: 'av.posters',
+      type: 'av.poster',
       specification: {
         destination: {
           directory: '/test/posters',
@@ -168,7 +168,7 @@ describe('flow manager', () => {
     };
 
     const postersComponent25 = {
-      type: 'av.posters',
+      type: 'av.poster',
       specification: {
         destination: {
           directory: '/test/posters',
@@ -181,7 +181,7 @@ describe('flow manager', () => {
     };
 
     const postersComponent50 = {
-      type: 'av.posters',
+      type: 'av.poster',
       specification: {
         destination: {
           directory: '/test/posters',
@@ -194,7 +194,7 @@ describe('flow manager', () => {
     };
 
     const postersComponent75 = {
-      type: 'av.posters',
+      type: 'av.poster',
       specification: {
         destination: {
           directory: '/test/posters',
