@@ -749,6 +749,32 @@ describe('File Manager', () => {
         path: '/to/here/file.txt',
       },
       sourceUrl: 'http://from/here/file.txt',
+    });
+
+    fileManager.importFile(importFileRequest).then(data => {
+      if (data === null) {
+        throw Error('something is wrong');
+      }
+
+      expect(data.id).to.equal(
+        '71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f',
+      );
+
+      done();
+    });
+  });
+
+  it('file import with jobCallback', done => {
+    apiServer
+      .post('/_api/import/file')
+      .once()
+      .replyWithFile(200, repliesDir + 'import-file-pending-response.json');
+
+    const importFileRequest = new ImportFileRequest({
+      destination: {
+        path: '/to/here/file.txt',
+      },
+      sourceUrl: 'http://from/here/file.txt',
       jobCallback: {
         attachment: { something: 'somewhere' },
         headers: { just: 'a-header' },
