@@ -1,109 +1,32 @@
-import { expect } from 'chai';
-import * as nock from 'nock';
-
-import { Authenticator } from '../../../../src/platform/authentication/authenticator';
-import { Configuration } from '../../../../src/platform/configuration/configuration';
-import { HTTPClient } from '../../../../src/platform/http/http-client';
-import { FlowManager } from '../../../../src/platform/management/flow-manager';
-import { Flow } from '../../../../src/platform/management/metadata/flow';
+import { ICallback } from '../../src/platform/management/job/callback';
 import {
   ErrorStrategy,
   IInvocation,
-  Invocation,
-} from '../../../../src/platform/management/metadata/invocation';
-import { CreateFlowRequest } from '../../../../src/platform/management/requests/create-flow-request';
-import { ICallback } from '../../../../src/platform/management/job/callback';
-import { Source } from '../../../../src/server';
+} from '../../src/platform/management/metadata/invocation';
+import { Source } from '../../src/platform/management/job/source';
+import { CreateFlowRequest } from '../../src/platform/management/requests/create-flow-request';
+import { Flow } from '../../src/platform/management/metadata/flow';
+import { expect } from 'chai';
+import * as guid from 'uuid/v4';
+import { MediaPlatform } from '../../src/server';
 
-const repliesDir = __dirname + '/replies/';
+describe('flow control e2e', function() {
+  // demo account credentials
+  const configuration = {
+    domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
+    appId: '48fa9aa3e9d342a3a33e66af08cd7fe3',
+    sharedSecret: 'fad475d88786ab720b04f059ac674b0e',
+  };
 
-describe('flow manager', () => {
-  const configuration = new Configuration('manager.com', 'secret', 'appId');
-  const authenticator = new Authenticator(configuration);
-  const httpClient = new HTTPClient(authenticator);
-  const flowManager = new FlowManager(configuration, httpClient);
+  const mediaPlatform = new MediaPlatform(configuration);
 
-  const apiServer = nock('https://manager.com/').defaultReplyHeaders({
-    'Content-Type': 'application/json',
-  });
+  const { flowManager } = mediaPlatform;
 
-  afterEach(() => {
-    nock.cleanAll();
-  });
+  // tslint:disable-next-line
+  this.timeout(60000);
 
-  it('Get flow request is parsing properly', done => {
-    apiServer
-      .get('/_api/flow_control/flow/flow_id')
-      .once()
-      .replyWithFile(200, repliesDir + 'get-flow-response.json');
-
-    flowManager.getFlow('flow_id').then(data => {
-      expect(data.invocation).to.be.an.instanceof(Invocation);
-      expect(data.invocation.entryPoints).to.be.an.instanceof(Array);
-      expect(data.invocation.entryPoints[0]).to.equal('import');
-      expect(data.operations.import.type).to.equal('file.import');
-
-      done();
-    });
-  });
-
-  it('Create Flow', done => {
-    apiServer
-      .post('/_api/flow_control/flow')
-      .once()
-      .replyWithFile(200, repliesDir + 'get-flow-response.json');
-
-    const createFlowRequest = new CreateFlowRequest({
-      flow: {
-        import: {
-          type: 'file.import',
-          specification: {
-            destination: {
-              path: '/to/here/file.mp4',
-            },
-            sourceUrl: 'http://from/here/file.mp4',
-          },
-          successors: ['transcode'],
-        },
-        transcode: {
-          type: 'av.transcode',
-          specification: {
-            destination: {
-              directory: '/test/output/',
-              acl: 'public',
-            },
-            qualityRange: {
-              minimum: '240p',
-              maximum: '1440p',
-            },
-          },
-        },
-      },
-      invocation: {
-        sources: [
-          {
-            path: '/to/here/file.mp4',
-          },
-        ],
-        entryPoints: ['import'],
-      },
-    });
-
-    flowManager.createFlow(createFlowRequest).then((data: Flow) => {
-      expect(data !== null).to.be.true;
-      expect(data.id).to.equal('flow_id');
-
-      done();
-    });
-  });
-
-  it('VOD Flow', async () => {
-    apiServer
-      .post('/_api/flow_control/flow')
-      .once()
-      .replyWithFile(200, repliesDir + 'invoke-vod-flow-response.json');
-
-    const baseTestFolder = `/test/js-sdk-test`;
+  xit('VOD Flow', async () => {
+    const baseTestFolder = `/test/js-sdk/${guid()}`;
 
     const transcodeComponent = {
       type: 'av.transcode',
@@ -291,19 +214,26 @@ describe('flow manager', () => {
       flow,
     });
 
-    const flowState: Flow = await flowManager.createFlow(createFlowRequest);
-
+    let flowState: Flow = await flowManager.createFlow(createFlowRequest);
     expect(flowState).to.not.eql(null);
-    expect(flowState.id).to.equal('flow_id');
-    expect(flowState.invocation).to.deep.equal(invocation);
-  });
 
-  it('Delete Flow', done => {
-    apiServer
-      .delete('/_api/flow_control/flow/flow_id')
-      .once()
-      .replyWithFile(200, repliesDir + 'flow-delete-response.json');
+    await new Promise(resolve =>
+      setInterval(async () => {
+        flowState = await flowManager.getFlow(flowState.id as string);
+        // tslint:disable-next-line:no-console
+        console.log(flowState.status);
+        if (flowState.status === 'success' || flowState.status === 'error') {
+          resolve();
+        }
+      }, 1000),
+    );
 
-    flowManager.deleteFlow('flow_id').then(() => done());
+    expect(flowState.status).to.equal('success');
+    expect(
+      flowState.operations.allPostersCompleteComponent.results,
+    ).to.have.lengthOf(4);
+    expect(
+      flowState.operations.allPostersCompleteComponent.sources,
+    ).to.have.lengthOf(4);
   });
 });

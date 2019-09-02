@@ -11,21 +11,27 @@ export interface IFlowIItems {
 
 export interface IFlow {
   id: string | null;
-  flow: IFlowIItems;
+  status?: string | null;
+  error?: any;
+  operations: IFlowIItems;
   invocation: IInvocation;
 }
 
 export class Flow implements IFlow {
   public id: string | null = null;
+  public status: string | null = null;
+  public error: any;
   public invocation: Invocation;
-  public flow: IFlowItems = {};
+  public operations: IFlowItems = {};
 
   constructor(data: IFlow) {
     this.id = data.id;
+    this.status = data.status || null;
+    this.error = data.error || null;
     this.invocation = new Invocation(data.invocation);
 
-    for (const i in data.flow) {
-      this.flow[i] = new FlowComponent(data.flow[i]);
-    }
+    Object.keys(data.operations).map(key => {
+      this.operations[key] = new FlowComponent(data.operations[key]);
+    });
   }
 }
