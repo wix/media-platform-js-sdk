@@ -18,6 +18,8 @@ import { VideoBasicMetadata } from '../../../../src/platform/management/metadata
 import { ImportFileRequest } from '../../../../src/platform/management/requests/import-file-request';
 import { UploadFileRequest } from '../../../../src/platform/management/requests/upload-file-request';
 import { ListFilesResponse } from '../../../../src/platform/management/responses/list-files-response';
+import { UploadConfigurationRequest } from '../../../../src/platform/management/requests/upload-configuration-request';
+import { UploadConfigurationResponse } from '../../../../src/platform/management/responses/upload-configuration-response';
 import {
   ACL,
   DescriptorMimeType,
@@ -611,6 +613,42 @@ describe('File Manager', () => {
           uploadFileRequest,
         ) as Promise<FileDescriptor[]>).then(response => {
           expect(response[0].acl).to.be.eql(ACL.PRIVATE);
+          done();
+        });
+      });
+    });
+
+    describe('upload callback', () => {
+      it('should upload file with callback', done => {
+        apiServer
+          .post('/_api/v2/upload/configuration')
+          .once()
+          .query(true)
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
+
+        const callback = {
+          url: 'www.google.com',
+          attachment: {
+            key: 'value',
+          },
+          headers: {
+            header: 'value',
+          },
+        };
+
+        const uploadConfigurationRequest = new UploadConfigurationRequest({
+          acl: ACL.PRIVATE,
+          callback,
+        });
+
+        (fileManager.getUploadConfiguration(
+          uploadConfigurationRequest,
+        ) as Promise<UploadConfigurationResponse>).then(response => {
+          expect(response.uploadToken).to.not.eql(null);
+          expect(response.uploadUrl).to.not.eql(null);
           done();
         });
       });
