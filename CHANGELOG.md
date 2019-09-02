@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.15"></a>
+# [8.0.0-alpha.15](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.14...v8.0.0-alpha.15) (2019-09-02)
+
+
+### Features
+
+* add more flow control objects ([#56](https://github.com/wix/media-platform-js-sdk/issues/56)) ([65f3cfc](https://github.com/wix/media-platform-js-sdk/commit/65f3cfc))
+
+
+
 <a name="8.0.0-alpha.14"></a>
 # [8.0.0-alpha.14](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.13...v8.0.0-alpha.14) (2019-08-13)
 
