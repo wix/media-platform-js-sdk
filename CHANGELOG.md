@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.16"></a>
+# [8.0.0-alpha.16](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.15...v8.0.0-alpha.16) (2019-09-03)
+
+
+### Features
+
+* added callback to upload configuration request payload ([#57](https://github.com/wix/media-platform-js-sdk/issues/57)) ([e1291ac](https://github.com/wix/media-platform-js-sdk/commit/e1291ac))
+
+
+
 <a name="8.0.0-alpha.15"></a>
 # [8.0.0-alpha.15](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.14...v8.0.0-alpha.15) (2019-09-02)
 
