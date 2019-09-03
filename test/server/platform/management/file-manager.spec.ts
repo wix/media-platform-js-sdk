@@ -618,17 +618,8 @@ describe('File Manager', () => {
       });
     });
 
-    describe('upload callback', () => {
-      it('should upload file with callback', done => {
-        apiServer
-          .post('/_api/v2/upload/configuration')
-          .once()
-          .query(true)
-          .replyWithFile(
-            200,
-            repliesDir + 'get-upload-configuration-response.json',
-          );
-
+    describe('upload configuration callback', () => {
+      it('should create upload configuration with a callback', done => {
         const callback = {
           url: 'www.google.com',
           attachment: {
@@ -639,6 +630,18 @@ describe('File Manager', () => {
           },
         };
 
+        const mockedRequest = apiServer
+          .post('/_api/v2/upload/configuration', {
+            acl: ACL.PRIVATE,
+            callback,
+          })
+          .once()
+          .query(true)
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
+
         const uploadConfigurationRequest = new UploadConfigurationRequest({
           acl: ACL.PRIVATE,
           callback,
@@ -646,9 +649,8 @@ describe('File Manager', () => {
 
         (fileManager.getUploadConfiguration(
           uploadConfigurationRequest,
-        ) as Promise<UploadConfigurationResponse>).then(response => {
-          expect(response.uploadToken).to.not.eql(null);
-          expect(response.uploadUrl).to.not.eql(null);
+        ) as Promise<UploadConfigurationResponse>).then(() => {
+          expect(mockedRequest.isDone()).to.be.eql(true);
           done();
         });
       });
