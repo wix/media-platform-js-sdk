@@ -20,7 +20,9 @@ describe('Deprecated', () => {
     const deprecatedFunc = deprecatedFn('Use something else instead.')(func);
     deprecatedFunc(1, 2);
     expect(consoleWarnSpy).to.have.been.calledWith(
-      `DEPRECATED: "${func.name}" function is deprecated with message "Use something else instead."`,
+      `DEPRECATED: "${
+        func.name
+      }" function is deprecated with message "Use something else instead."`,
     );
   });
 

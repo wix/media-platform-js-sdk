@@ -70,7 +70,7 @@ export class Image {
     JPEG,
     Saturation,
     UnsharpMask,
-    Watermark,
+    Watermark
   ];
 
   /**
@@ -385,7 +385,9 @@ export class Image {
         error: new Error(filtersAndEncoderParams.errors.join(',')),
       };
     }
-    const command = `/${this.version}/${geometryParams.params}${filtersAndEncoderParams.params}`;
+    const command = `/${this.version}/${geometryParams.params}${
+      filtersAndEncoderParams.params
+    }`;
 
     return {
       command,

@@ -197,7 +197,7 @@ export class FileUploader implements IFileUploader {
     } else {
       uploadConfiguration = this.getUploadConfiguration(
         uploadConfigurationRequest,
-        version
+        version,
       );
     }
 
