@@ -31,9 +31,7 @@ export class WidgetInstanceManager {
 
   private getInstanceURL(widgetInstanceId: string) {
     const { configuration } = this;
-    return `https://${
-      configuration.domain
-    }/_api/widgetInstances/${widgetInstanceId}`;
+    return `https://${configuration.domain}/_api/widgetInstances/${widgetInstanceId}`;
   }
 
   private getAuthURL(widgetInstanceId: string) {

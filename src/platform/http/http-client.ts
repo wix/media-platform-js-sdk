@@ -102,11 +102,11 @@ export class HTTPClient implements IHTTPClient {
     url: string,
     form:
       | FormData
-      | {
+      | ({
           file: UploadFileStream;
           path: string;
           uploadToken: string | null;
-        } & Partial<UploadFileRequest>,
+        } & Partial<UploadFileRequest>),
     token?: Token | undefined,
   ): Promise<T> {
     const header = this.authenticator.getHeader(token);

@@ -76,9 +76,10 @@ export class AVManager {
   public transcodeVideoObservable(
     transcodeRequest: TranscodeRequest,
   ): Observable<JobGroup<TranscodeSpecification>> {
-    return observeJobGroupCreator(this.configuration, this.httpClient)(() =>
-      this.transcodeVideo(transcodeRequest),
-    );
+    return observeJobGroupCreator(
+      this.configuration,
+      this.httpClient,
+    )(() => this.transcodeVideo(transcodeRequest));
   }
 
   /**

@@ -49,7 +49,10 @@ describe('image file descriptor parsing', () => {
           { x: 383, y: 393, width: 155, height: 180 },
           { x: 460, y: 385, width: 145, height: 173 },
         ],
-        labels: [{ name: 'cat', score: 0.9 }, { name: 'animal', score: 0.933 }],
+        labels: [
+          { name: 'cat', score: 0.9 },
+          { name: 'animal', score: 0.933 },
+        ],
       },
     });
 
