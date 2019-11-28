@@ -43,9 +43,19 @@ export interface IFileUploader {
 
   getUploadConfiguration(
     uploadConfigurationRequest?: IUploadConfigurationRequest,
+    version?: string,
   ): Promise<UploadUrlResponse>;
 
   uploadFile(
+    path: string,
+    file: string | Buffer | Stream | File,
+    uploadRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
+    version?: string,
+  );
+
+  uploadFileV3(
     path: string,
     file: string | Buffer | Stream | File,
     uploadRequest?: UploadFileRequest,
@@ -62,6 +72,7 @@ export interface IFileUploader {
 export class FileUploader implements IFileUploader {
   public apiUrl: string;
   public apiUrlV2: string;
+  public apiUrlV3: string;
 
   constructor(
     public configuration: Configuration,
@@ -69,6 +80,7 @@ export class FileUploader implements IFileUploader {
   ) {
     this.apiUrl = 'https://' + configuration.domain + '/_api/upload';
     this.apiUrlV2 = 'https://' + configuration.domain + '/_api/v2/upload';
+    this.apiUrlV3 = 'https://' + configuration.domain + '/_api/v3/upload';
   }
 
   /**
@@ -97,13 +109,16 @@ export class FileUploader implements IFileUploader {
   /**
    * @description retrieve upload configuration for uploading files
    * @param uploadConfigurationRequest
+   * @param version
    */
   getUploadConfiguration(
     uploadConfigurationRequest?: IUploadConfigurationRequest,
+    version: string = 'v2',
   ): Promise<UploadUrlResponse> {
+    const apiUrl = version === 'v3' ? this.apiUrlV3 : this.apiUrlV2;
     return this.httpClient
       .post<RawResponse<IUploadConfigurationResponse>>(
-        this.apiUrlV2 + '/configuration',
+        apiUrl + '/configuration',
         uploadConfigurationRequest,
       )
       .then(
@@ -117,12 +132,38 @@ export class FileUploader implements IFileUploader {
   }
 
   /**
+   * @description upload a file (v3)
+   * @param {string} path the destination to which the file will be uploaded
+   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
+   * @param {UploadFileRequest?} uploadFileRequest
+   * @param {string?} uploadToken
+   * @param {string?} uploadUrl
+   */
+  uploadFileV3(
+    path: string,
+    file: string | Buffer | Stream,
+    uploadFileRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
+  ) {
+    return this.uploadFile(
+      path,
+      file,
+      uploadFileRequest,
+      uploadToken,
+      uploadUrl,
+      'v3',
+    );
+  }
+
+  /**
    * @description upload a file
    * @param {string} path the destination to which the file will be uploaded
    * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
    * @param {UploadFileRequest?} uploadFileRequest
    * @param {string?} uploadToken
    * @param {string?} uploadUrl
+   * @param {version?} version - can be v2 or v3
    */
   uploadFile(
     path: string,
@@ -130,6 +171,7 @@ export class FileUploader implements IFileUploader {
     uploadFileRequest?: UploadFileRequest,
     uploadToken?: string,
     uploadUrl?: string,
+    version: string = 'v2',
   ) {
     let stream, size, streamErrorPromise;
 
@@ -155,12 +197,16 @@ export class FileUploader implements IFileUploader {
     } else {
       uploadConfiguration = this.getUploadConfiguration(
         uploadConfigurationRequest,
+        version
       );
     }
 
     return Promise.race([uploadConfiguration, streamErrorPromise])
       .then((response: UploadConfigurationResponse) => {
-        if (!response.uploadToken || !response.uploadUrl) {
+        if (
+          !response.uploadUrl ||
+          (version === 'v2' && !response.uploadToken)
+        ) {
           return Promise.reject('No `getUploadUrl` response');
         }
 

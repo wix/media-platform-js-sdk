@@ -778,6 +778,27 @@ describe('File Manager', () => {
     });
   });
 
+  describe('upload v3', () => {
+    it('should accept path (string) as source', async () => {
+      apiServer
+        .post('/_api/v3/upload/configuration')
+        .once()
+        .query(true)
+        .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
+      apiServer
+        .post('/_api/upload/file')
+        .once()
+        .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
+
+      //path, file, uploadRequest
+      const files = (await fileManager.uploadFileV3(
+        'upload/to/there/image.jpg',
+        sourcesDir + 'image.jpg',
+      )) as FileDescriptor[];
+      expect(files.length).to.equal(1);
+    });
+  });
+
   it('file import', done => {
     apiServer
       .post('/_api/import/file')

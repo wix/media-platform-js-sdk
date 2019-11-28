@@ -98,6 +98,7 @@ export class FileManager {
   /**
    * Get Upload Configuration
    * @param {IUploadConfigurationRequest} uploadConfigurationRequest
+   * @param version
    * @returns {Promise<UploadConfigurationResponse>}
    * @example
    * fileManager.getUploadConfiguration({
@@ -112,8 +113,12 @@ export class FileManager {
    */
   getUploadConfiguration(
     uploadConfigurationRequest?: IUploadConfigurationRequest,
+    version: string = 'v2',
   ): Promise<UploadConfigurationResponse> {
-    return this.fileUploader.getUploadConfiguration(uploadConfigurationRequest);
+    return this.fileUploader.getUploadConfiguration(
+      uploadConfigurationRequest,
+      version,
+    );
   }
 
   /**
@@ -123,6 +128,7 @@ export class FileManager {
    * @param {UploadFileRequest?} uploadFileRequest
    * @param {string?} uploadToken
    * @param {string?} uploadUrl
+   * @param {string?} version
    */
   uploadFile(
     path: string,
@@ -130,6 +136,7 @@ export class FileManager {
     uploadFileRequest?: UploadFileRequest,
     uploadToken?: string,
     uploadUrl?: string,
+    version: string = 'v2',
   ): Promise<FileDescriptor[]> | UploadJob {
     const uploadFileResult = this.fileUploader.uploadFile(
       path,
@@ -137,6 +144,7 @@ export class FileManager {
       uploadFileRequest,
       uploadToken,
       uploadUrl,
+      version,
     );
     // TODO: do it in a right way
     // Browser file uploader return `UploadJob` instead of promise
@@ -151,6 +159,31 @@ export class FileManager {
       error => {
         return Promise.reject(error);
       },
+    );
+  }
+
+  /**
+   * @description upload a file
+   * @param {string} path the destination to which the file will be uploaded
+   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
+   * @param {UploadFileRequest?} uploadFileRequest
+   * @param {string?} uploadToken
+   * @param {string?} uploadUrl
+   */
+  uploadFileV3(
+    path: string,
+    file: string | Buffer | Stream,
+    uploadFileRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
+  ): Promise<FileDescriptor[]> | UploadJob {
+    return this.uploadFile(
+      path,
+      file,
+      uploadFileRequest,
+      uploadToken,
+      uploadUrl,
+      'v3',
     );
   }
 
