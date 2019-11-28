@@ -169,6 +169,15 @@ describe('queued file uploader', function() {
       .on('upload-error', error => done(error));
   });
 
+  it('should upload v3', done => {
+    setResponse(fileUploadResponse);
+    const file = new FileAPI.File('../files/image.jpg');
+
+    (fileManager.uploadFileV3('upload/to/there/image.jpg', file) as UploadJob)
+      .on('upload-success', () => done())
+      .on('upload-error', error => done(error));
+  });
+
   describe('lifecycle(age)', () => {
     it('should upload file with default(none) lifecycle', done => {
       setResponse(fileUploadResponse);
