@@ -106,6 +106,7 @@ export class FileUploader implements IFileUploader {
    * @param {string} path the destination to which the file will be uploaded
    * @param {File} file
    * @param {UploadFileRequest?} uploadFileRequest
+   * @param {string?} uploadToken
    * @param {string?} uploadUrl
    * @returns {UploadJob}
    */
@@ -113,9 +114,11 @@ export class FileUploader implements IFileUploader {
     path: string,
     file: File,
     uploadFileRequest?: UploadFileRequest,
+    uploadToken?: string,
     uploadUrl?: string,
   ) {
-    return this.uploadFile(path, file, uploadFileRequest, undefined, uploadUrl, 'v3')
+    // unsupported
+    return null;
   }
 
 }
