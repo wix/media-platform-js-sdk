@@ -79,6 +79,7 @@ export class FileUploader implements IFileUploader {
    * @param {UploadFileRequest?} uploadFileRequest
    * @param {string?} uploadToken
    * @param {string?} uploadUrl
+   * @param {string?} version
    * @returns {UploadJob}
    */
   uploadFile(
@@ -87,6 +88,7 @@ export class FileUploader implements IFileUploader {
     uploadFileRequest?: UploadFileRequest,
     uploadToken?: string,
     uploadUrl?: string,
+    version: string = 'v2'
   ) {
     const uploadJob = new UploadJob({
       file,
@@ -98,4 +100,22 @@ export class FileUploader implements IFileUploader {
 
     return uploadJob.run(this);
   }
+
+  /**
+   * @description upload a file
+   * @param {string} path the destination to which the file will be uploaded
+   * @param {File} file
+   * @param {UploadFileRequest?} uploadFileRequest
+   * @param {string?} uploadUrl
+   * @returns {UploadJob}
+   */
+  uploadFileV3(
+    path: string,
+    file: File,
+    uploadFileRequest?: UploadFileRequest,
+    uploadUrl?: string,
+  ) {
+    return this.uploadFile(path, file, uploadFileRequest, undefined, uploadUrl, 'v3')
+  }
+
 }

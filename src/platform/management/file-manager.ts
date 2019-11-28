@@ -167,21 +167,19 @@ export class FileManager {
    * @param {string} path the destination to which the file will be uploaded
    * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
    * @param {UploadFileRequest?} uploadFileRequest
-   * @param {string?} uploadToken
    * @param {string?} uploadUrl
    */
   uploadFileV3(
     path: string,
     file: string | Buffer | Stream,
     uploadFileRequest?: UploadFileRequest,
-    uploadToken?: string,
     uploadUrl?: string,
   ): Promise<FileDescriptor[]> | UploadJob {
     return this.uploadFile(
       path,
       file,
       uploadFileRequest,
-      uploadToken,
+      undefined,
       uploadUrl,
       'v3',
     );

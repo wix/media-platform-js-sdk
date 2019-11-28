@@ -59,7 +59,6 @@ export interface IFileUploader {
     path: string,
     file: string | Buffer | Stream | File,
     uploadRequest?: UploadFileRequest,
-    uploadToken?: string,
     uploadUrl?: string,
   );
 }
@@ -143,14 +142,13 @@ export class FileUploader implements IFileUploader {
     path: string,
     file: string | Buffer | Stream,
     uploadFileRequest?: UploadFileRequest,
-    uploadToken?: string,
     uploadUrl?: string,
   ) {
     return this.uploadFile(
       path,
       file,
       uploadFileRequest,
-      uploadToken,
+      undefined,
       uploadUrl,
       'v3',
     );
