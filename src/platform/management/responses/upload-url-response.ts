@@ -3,7 +3,7 @@
  * @doc UploadUrlResponse
  */
 export interface IUploadUrlResponse {
-  uploadToken: string;
+  uploadToken?: string;
   uploadUrl: string;
 }
 
@@ -12,7 +12,7 @@ export interface IUploadUrlResponse {
  * @doc UploadUrlResponse
  */
 export class UploadUrlResponse implements IUploadUrlResponse {
-  public uploadToken: string;
+  public uploadToken?: string;
   public uploadUrl: string;
 
   constructor(data: IUploadUrlResponse) {

@@ -88,7 +88,7 @@ export class FileUploader implements IFileUploader {
     uploadFileRequest?: UploadFileRequest,
     uploadToken?: string,
     uploadUrl?: string,
-    version: string = 'v2'
+    version: string = 'v2',
   ) {
     const uploadJob = new UploadJob({
       file,
@@ -120,5 +120,4 @@ export class FileUploader implements IFileUploader {
     // unsupported
     return null;
   }
-
 }

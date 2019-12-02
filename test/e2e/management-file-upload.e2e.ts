@@ -69,10 +69,9 @@ describe('E2E > File Management > File Upload', function() {
 
     xit('should be uploaded correctly v3', async () => {
       const files = await fileManager.uploadFileV3(testPath, testBuffer);
-        expect(files).to.be.an('array');
-        expect(files[0].path).to.equal(testPath);
-        expect(files[0].size).to.equal(testBuffer.length);
-
+      expect(files).to.be.an('array');
+      expect(files[0].path).to.equal(testPath);
+      expect(files[0].size).to.equal(testBuffer.length);
     });
   });
 
