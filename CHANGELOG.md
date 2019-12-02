@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.20"></a>
+# [8.0.0-alpha.20](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.18...v8.0.0-alpha.20) (2019-12-02)
+
+
+### Bug Fixes
+
+* fixing the build ([ab0e013](https://github.com/wix/media-platform-js-sdk/commit/ab0e013))
+
+
+
 <a name="8.0.0-alpha.19"></a>
 # [8.0.0-alpha.19](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.18...v8.0.0-alpha.19) (2019-12-02)
 
