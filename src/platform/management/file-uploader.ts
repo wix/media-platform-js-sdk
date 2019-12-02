@@ -255,12 +255,15 @@ export class FileUploader implements IFileUploader {
     const form: {
       file: UploadFileStream;
       path: string;
-      uploadToken: string | null;
+      uploadToken?: string | null;
     } & Partial<UploadFileRequest> = {
       file: stream,
       path,
-      uploadToken: uploadResponse.uploadToken,
     };
+
+    if(uploadResponse.uploadToken) {
+      form.uploadToken = uploadResponse.uploadToken;
+    }
 
     return form;
   }
