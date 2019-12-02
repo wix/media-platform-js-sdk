@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.19"></a>
+# [8.0.0-alpha.19](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.18...v8.0.0-alpha.19) (2019-12-02)
+
+
+### Features
+
+* make uploadToken optional in UploadConfigurationResponse
+
 <a name="8.0.0-alpha.18"></a>
 # [8.0.0-alpha.18](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.16...v8.0.0-alpha.18) (2019-11-28)
 
