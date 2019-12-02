@@ -261,7 +261,7 @@ export class FileUploader implements IFileUploader {
       path,
     };
 
-    if (uploadResponse.uploadToken) {
+    if (typeof uploadResponse.uploadToken !== 'undefined') {
       form.uploadToken = uploadResponse.uploadToken;
     }
 
