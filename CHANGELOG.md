@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.22"></a>
+# [8.0.0-alpha.22](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.20...v8.0.0-alpha.22) (2019-12-02)
+
+
+### Bug Fixes
+
+* not undefined for real ([c55e382](https://github.com/wix/media-platform-js-sdk/commit/c55e382))
+* uploadV3 don't send undefined token in formData ([4d1dd84](https://github.com/wix/media-platform-js-sdk/commit/4d1dd84))
+
+
+
 <a name="8.0.0-alpha.20"></a>
 # [8.0.0-alpha.20](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.18...v8.0.0-alpha.20) (2019-12-02)
 
