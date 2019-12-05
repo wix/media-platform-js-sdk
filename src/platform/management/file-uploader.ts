@@ -30,6 +30,7 @@ export type UploadFileStream =
       value: Buffer;
       options: {
         filename: 'filename';
+        contentType: string;
       };
     };
 
@@ -174,7 +175,7 @@ export class FileUploader implements IFileUploader {
     let stream, size, streamErrorPromise;
 
     try {
-      ({ stream, size, streamErrorPromise } = this.normalizeStream(file));
+      ({ stream, size, streamErrorPromise } = this.normalizeStream(file, uploadFileRequest?.mimeType as string));
     } catch (error) {
       return Promise.reject(error);
     }
@@ -276,7 +277,7 @@ export class FileUploader implements IFileUploader {
     });
   }
 
-  private normalizeStream(file: string | Buffer | Stream) {
+  private normalizeStream(file: string | Buffer | Stream, mimeType: string = "application/octect-stream") {
     let stream: UploadFileStream;
     let size: number | null = null;
 
@@ -303,6 +304,7 @@ export class FileUploader implements IFileUploader {
         value: file,
         options: {
           filename: 'filename',
+          contentType: mimeType
         },
       };
     } else {
