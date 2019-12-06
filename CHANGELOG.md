@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0-alpha.25"></a>
+# [8.0.0-alpha.25](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.24...v8.0.0-alpha.25) (2019-12-06)
+
+
+### Bug Fixes
+
+* content-type of the file is now correctly passing in multipart u… ([#60](https://github.com/wix/media-platform-js-sdk/issues/60)) ([9324844](https://github.com/wix/media-platform-js-sdk/commit/9324844))
+
+
+
 <a name="8.0.0-alpha.24"></a>
 # [8.0.0-alpha.24](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.22...v8.0.0-alpha.24) (2019-12-03)
 
