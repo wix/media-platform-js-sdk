@@ -173,9 +173,13 @@ export class FileUploader implements IFileUploader {
     version: string = 'v2',
   ) {
     let stream, size, streamErrorPromise;
+    const mimeType = uploadFileRequest?.mimeType || undefined;
 
     try {
-      ({ stream, size, streamErrorPromise } = this.normalizeStream(file, uploadFileRequest?.mimeType as string));
+      ({ stream, size, streamErrorPromise } = this.normalizeStream(
+        file,
+        mimeType,
+      ));
     } catch (error) {
       return Promise.reject(error);
     }
@@ -304,7 +308,7 @@ export class FileUploader implements IFileUploader {
         value: file,
         options: {
           filename: 'filename',
-          contentType: mimeType
+          contentType: mimeType,
         },
       };
     } else {
