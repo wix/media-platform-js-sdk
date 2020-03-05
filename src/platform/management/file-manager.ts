@@ -8,10 +8,11 @@ import {
   FileType,
 } from '../../types/media-platform/media-platform';
 import { RawResponse } from '../../types/response/response';
+import { dummyLogger } from '../../utils/deprecated/logger';
 import { IConfigurationBase } from '../configuration/configuration';
 import { IHTTPClient } from '../http/http-client';
 
-import { FileUploader, IFileUploader } from './file-uploader';
+import { FileUploader, IFileUploader, UploadFileParams } from './file-uploader';
 import { FileImportSpecification } from './job/file-import-specification';
 import { IJob, Job } from './job/job';
 import { observeJobCreator } from './job/job-observable';
@@ -121,31 +122,24 @@ export class FileManager {
     );
   }
 
-  /**
-   * @description upload a file
-   * @param {string} path the destination to which the file will be uploaded
-   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
-   * @param {UploadFileRequest?} uploadFileRequest
-   * @param {string?} uploadToken
-   * @param {string?} uploadUrl
-   * @param {string?} version
-   */
-  uploadFile(
-    path: string,
-    file: string | Buffer | Stream,
-    uploadFileRequest?: UploadFileRequest,
-    uploadToken?: string,
-    uploadUrl?: string,
-    version: string = 'v2',
-  ): Promise<FileDescriptor[]> | UploadJob {
-    const uploadFileResult = this.fileUploader.uploadFile(
+  private doUploadFile({
+    path,
+    file,
+    uploadFileRequest,
+    uploadToken,
+    uploadUrl,
+    version,
+    logger = dummyLogger,
+  }: UploadFileParams): Promise<FileDescriptor[]> | UploadJob {
+    const uploadFileResult = this.fileUploader.uploadFile({
       path,
       file,
       uploadFileRequest,
       uploadToken,
       uploadUrl,
       version,
-    );
+      logger,
+    });
     // TODO: do it in a right way
     // Browser file uploader return `UploadJob` instead of promise
     if (!uploadFileResult.then) {
@@ -160,6 +154,48 @@ export class FileManager {
         return Promise.reject(error);
       },
     );
+  }
+
+  uploadFile(
+    uploadParams: UploadFileParams,
+  ): Promise<FileDescriptor[]> | UploadJob;
+  uploadFile(
+    path: string,
+    file: string | Buffer | Stream | File,
+    uploadFileRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
+    version?: string,
+  ): Promise<FileDescriptor[]> | UploadJob;
+
+  /**
+   * @description upload a file
+   * @param {string} path the destination to which the file will be uploaded
+   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
+   * @param {UploadFileRequest?} uploadFileRequest
+   * @param {string?} uploadToken
+   * @param {string?} uploadUrl
+   * @param {string?} version
+   */
+  uploadFile(
+    path: string | UploadFileParams,
+    file?: any,
+    uploadFileRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
+    version: string = 'v2',
+  ): Promise<FileDescriptor[]> | UploadJob {
+    if (typeof path === 'object') {
+      return this.doUploadFile(path);
+    }
+    return this.doUploadFile({
+      path,
+      file,
+      uploadFileRequest,
+      uploadToken,
+      uploadUrl,
+      version,
+    });
   }
 
   /**

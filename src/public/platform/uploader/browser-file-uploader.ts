@@ -1,13 +1,25 @@
+import * as Stream from 'stream';
 import { IFileUploader } from '../../../platform/management/file-uploader';
 import { UploadFileRequest } from '../../../platform/management/requests/upload-file-request';
 import { IUploadUrlRequest } from '../../../platform/management/requests/upload-url-request';
 import { UploadUrlResponse } from '../../../platform/management/responses/upload-url-response';
 import { RawResponse } from '../../../types/response/response';
+import { Logger } from '../../../utils/deprecated/logger';
 import { Configuration } from '../configuration/configuration';
 import { HTTPClient } from '../http/browser-http-client';
 
 import { UploadJob } from './upload-job';
 import { IUploadConfigurationRequest } from '../../../platform/management/requests/upload-configuration-request';
+
+interface UploadFileParams {
+  path: string;
+  file: File;
+  uploadFileRequest?: UploadFileRequest;
+  uploadToken?: string;
+  uploadUrl?: string;
+  version?: string;
+  logger?: Logger;
+}
 
 export class FileUploader implements IFileUploader {
   public uploadUrlEndpoint: string;
@@ -72,6 +84,35 @@ export class FileUploader implements IFileUploader {
       );
   }
 
+  private doUploadFile({
+    path,
+    file,
+    uploadToken,
+    version,
+    uploadFileRequest,
+    uploadUrl,
+  }: UploadFileParams): UploadJob {
+    const uploadJob = new UploadJob({
+      file,
+      path,
+      uploadFileRequest,
+      uploadToken,
+      uploadUrl,
+    });
+
+    return uploadJob.run(this);
+  }
+
+  uploadFile(uploadParams: UploadFileParams): UploadJob;
+  uploadFile(
+    path: string,
+    file: string | Buffer | Stream | File,
+    uploadRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
+    version?: string,
+  ): UploadJob;
+
   /**
    * @description upload a file
    * @param {string} path the destination to which the file will be uploaded
@@ -83,22 +124,24 @@ export class FileUploader implements IFileUploader {
    * @returns {UploadJob}
    */
   uploadFile(
-    path: string,
-    file: File,
+    path: string | UploadFileParams,
+    file?: any,
     uploadFileRequest?: UploadFileRequest,
     uploadToken?: string,
     uploadUrl?: string,
     version: string = 'v2',
   ) {
-    const uploadJob = new UploadJob({
-      file,
+    if (typeof path === 'object') {
+      return this.doUploadFile(path);
+    }
+    return this.doUploadFile({
       path,
+      file,
+      uploadUrl,
       uploadFileRequest,
       uploadToken,
-      uploadUrl,
+      version,
     });
-
-    return uploadJob.run(this);
   }
 
   /**
