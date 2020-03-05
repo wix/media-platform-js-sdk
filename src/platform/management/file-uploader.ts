@@ -193,7 +193,11 @@ export class FileUploader implements IFileUploader {
       size,
       uploadFileRequest,
     );
-    logger.debug(JSON.stringify(uploadConfigurationRequest));
+    logger.debug(
+      `uploadConfigurationRequest: ${JSON.stringify(
+        uploadConfigurationRequest,
+      )}`,
+    );
 
     let uploadConfiguration: Promise<UploadUrlResponse>;
 
@@ -210,7 +214,7 @@ export class FileUploader implements IFileUploader {
     }
 
     uploadConfiguration.then(response => {
-      logger.debug(JSON.stringify(response));
+      logger.debug(`uploadConfigurationResponse: ${JSON.stringify(response)}`);
     });
 
     return Promise.race([uploadConfiguration, streamErrorPromise])
