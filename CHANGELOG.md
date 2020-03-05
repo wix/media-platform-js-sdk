@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.1.0-alpha.0"></a>
+# [8.1.0-alpha.0](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.26...v8.1.0-alpha.0) (2020-03-05)
+
+
+### Features
+
+* add logger to file uploader ([74c8197](https://github.com/wix/media-platform-js-sdk/commit/74c8197))
+
+
+
 <a name="8.0.0-alpha.27"></a>
 # [8.0.0-alpha.27](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.25...v8.0.0-alpha.27) (2020-03-05)
 
