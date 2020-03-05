@@ -735,6 +735,27 @@ describe('File Manager', () => {
         });
       });
 
+      it('should upload file with passed object', done => {
+        apiServer
+          .post('/_api/upload/file')
+          .once()
+          .replyWithFile(200, repliesDir + 'file-upload-v2-response.json');
+        (fileManager.uploadFile({
+          path: 'upload/to/there/image.jpg',
+          file: sourcesDir + 'image.jpg',
+          uploadToken: 'custom upload token',
+          uploadUrl: 'https://manager.com/_api/upload/file',
+          logger: {
+            debug(message: string) {
+              // tslint:disable-next-line:no-console
+              console.log('asdf', message);
+            },
+          } as any,
+        }) as Promise<FileDescriptor[]>).then(() => {
+          done();
+        });
+      });
+
       it('should upload file with custom uploadToken, uploadUrl and uploadFileRequest', done => {
         // TODO: add form-data params checking with nock
         apiServer

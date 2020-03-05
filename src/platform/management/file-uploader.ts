@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as Stream from 'stream';
 
 import { RawResponse } from '../../types/response/response';
+import { dummyLogger, Logger } from '../../utils/deprecated/logger';
 import {
   Configuration,
   IConfigurationBase,
@@ -34,6 +35,16 @@ export type UploadFileStream =
       };
     };
 
+export interface UploadFileParams {
+  path: string;
+  file: string | Buffer | Stream;
+  uploadFileRequest?: UploadFileRequest;
+  uploadToken?: string;
+  uploadUrl?: string;
+  version?: string;
+  logger?: Logger;
+}
+
 export interface IFileUploader {
   configuration: IConfigurationBase;
   httpClient: IHTTPClient;
@@ -55,6 +66,7 @@ export interface IFileUploader {
     uploadUrl?: string,
     version?: string,
   );
+  uploadFile(uploadParams: UploadFileParams);
 
   uploadFileV3(
     path: string,
@@ -155,23 +167,15 @@ export class FileUploader implements IFileUploader {
     );
   }
 
-  /**
-   * @description upload a file
-   * @param {string} path the destination to which the file will be uploaded
-   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
-   * @param {UploadFileRequest?} uploadFileRequest
-   * @param {string?} uploadToken
-   * @param {string?} uploadUrl
-   * @param {version?} version - can be v2 or v3
-   */
-  uploadFile(
-    path: string,
-    file: string | Buffer | Stream,
-    uploadFileRequest?: UploadFileRequest,
-    uploadToken?: string,
-    uploadUrl?: string,
-    version: string = 'v2',
-  ) {
+  private doUploadFile({
+    path,
+    file,
+    uploadFileRequest,
+    uploadToken,
+    uploadUrl,
+    version = 'v2',
+    logger = dummyLogger,
+  }: UploadFileParams) {
     let stream, size, streamErrorPromise;
     const mimeType = uploadFileRequest?.mimeType || undefined;
 
@@ -189,8 +193,9 @@ export class FileUploader implements IFileUploader {
       size,
       uploadFileRequest,
     );
+    logger.debug(JSON.stringify(uploadConfigurationRequest));
 
-    let uploadConfiguration;
+    let uploadConfiguration: Promise<UploadUrlResponse>;
 
     if (uploadToken && uploadUrl) {
       uploadConfiguration = Promise.resolve({
@@ -203,6 +208,10 @@ export class FileUploader implements IFileUploader {
         version,
       );
     }
+
+    uploadConfiguration.then(response => {
+      logger.debug(JSON.stringify(response));
+    });
 
     return Promise.race([uploadConfiguration, streamErrorPromise])
       .then((response: UploadConfigurationResponse) => {
@@ -220,14 +229,57 @@ export class FileUploader implements IFileUploader {
           ...uploadFileRequest,
         };
 
+        logger.debug(
+          `Uploading file to ${uploadConfigurationResponse.uploadUrl}`,
+        );
         return this.uploadFileWithPost(
           uploadConfigurationResponse.uploadUrl,
           form,
         );
       })
       .then(({ payload }) => {
+        logger.debug('Upload complete');
         return [new FileDescriptor(payload)];
       });
+  }
+
+  uploadFile(uploadParams: UploadFileParams): Promise<FileDescriptor[]>;
+  uploadFile(
+    path: string,
+    file: string | Buffer | Stream | File,
+    uploadRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
+    version?: string,
+  ): Promise<FileDescriptor[]>;
+
+  /**
+   * @description upload a file
+   * @param {string} path the destination to which the file will be uploaded
+   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
+   * @param {UploadFileRequest?} uploadFileRequest
+   * @param {string?} uploadToken
+   * @param {string?} uploadUrl
+   * @param {version?} version - can be v2 or v3
+   */
+  uploadFile(
+    path: string | UploadFileParams,
+    file?: any, // it's defined in overload types
+    uploadFileRequest?: UploadFileRequest,
+    uploadToken?: string,
+    uploadUrl?: string,
+    version: string = 'v2',
+  ) {
+    if (typeof path === 'object') {
+      return this.doUploadFile(path);
+    }
+    return this.doUploadFile({
+      path,
+      file,
+      uploadFileRequest,
+      uploadToken,
+      version,
+    });
   }
 
   private createUploadConfigurationRequest(
@@ -281,7 +333,10 @@ export class FileUploader implements IFileUploader {
     });
   }
 
-  private normalizeStream(file: string | Buffer | Stream, mimeType: string = "application/octect-stream") {
+  private normalizeStream(
+    file: string | Buffer | Stream,
+    mimeType: string = 'application/octect-stream',
+  ) {
     let stream: UploadFileStream;
     let size: number | null = null;
 
