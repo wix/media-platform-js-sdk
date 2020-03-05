@@ -1,5 +1,7 @@
-import * as Stream from 'stream';
-import { IFileUploader } from '../../../platform/management/file-uploader';
+import {
+  IFileUploader,
+  UploadFileParams,
+} from '../../../platform/management/file-uploader';
 import { UploadFileRequest } from '../../../platform/management/requests/upload-file-request';
 import { IUploadUrlRequest } from '../../../platform/management/requests/upload-url-request';
 import { UploadUrlResponse } from '../../../platform/management/responses/upload-url-response';
@@ -11,15 +13,7 @@ import { HTTPClient } from '../http/browser-http-client';
 import { UploadJob } from './upload-job';
 import { IUploadConfigurationRequest } from '../../../platform/management/requests/upload-configuration-request';
 
-interface UploadFileParams {
-  path: string;
-  file: File;
-  uploadFileRequest?: UploadFileRequest;
-  uploadToken?: string;
-  uploadUrl?: string;
-  version?: string;
-  logger?: Logger;
-}
+interface BrowserUploadFileParams extends UploadFileParams<File> {}
 
 export class FileUploader implements IFileUploader {
   public uploadUrlEndpoint: string;
@@ -91,7 +85,7 @@ export class FileUploader implements IFileUploader {
     version,
     uploadFileRequest,
     uploadUrl,
-  }: UploadFileParams): UploadJob {
+  }: BrowserUploadFileParams): UploadJob {
     const uploadJob = new UploadJob({
       file,
       path,
@@ -103,10 +97,10 @@ export class FileUploader implements IFileUploader {
     return uploadJob.run(this);
   }
 
-  uploadFile(uploadParams: UploadFileParams): UploadJob;
+  uploadFile(uploadParams: BrowserUploadFileParams): UploadJob;
   uploadFile(
     path: string,
-    file: string | Buffer | Stream | File,
+    file: File,
     uploadRequest?: UploadFileRequest,
     uploadToken?: string,
     uploadUrl?: string,
@@ -124,7 +118,7 @@ export class FileUploader implements IFileUploader {
    * @returns {UploadJob}
    */
   uploadFile(
-    path: string | UploadFileParams,
+    path: string | BrowserUploadFileParams,
     file?: any,
     uploadFileRequest?: UploadFileRequest,
     uploadToken?: string,

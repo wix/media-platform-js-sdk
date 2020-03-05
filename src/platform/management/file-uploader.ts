@@ -35,15 +35,18 @@ export type UploadFileStream =
       };
     };
 
-export interface UploadFileParams {
+export interface UploadFileParams<T = any> {
   path: string;
-  file: string | Buffer | Stream;
+  file: T;
   uploadFileRequest?: UploadFileRequest;
   uploadToken?: string;
   uploadUrl?: string;
   version?: string;
   logger?: Logger;
 }
+
+interface NodeUploadFileParams
+  extends UploadFileParams<string | Buffer | Stream> {}
 
 export interface IFileUploader {
   configuration: IConfigurationBase;
@@ -60,7 +63,7 @@ export interface IFileUploader {
 
   uploadFile(
     path: string,
-    file: string | Buffer | Stream | File,
+    file: any,
     uploadRequest?: UploadFileRequest,
     uploadToken?: string,
     uploadUrl?: string,
@@ -175,7 +178,7 @@ export class FileUploader implements IFileUploader {
     uploadUrl,
     version = 'v2',
     logger = dummyLogger,
-  }: UploadFileParams) {
+  }: NodeUploadFileParams) {
     let stream, size, streamErrorPromise;
     const mimeType = uploadFileRequest?.mimeType || undefined;
 
@@ -247,7 +250,7 @@ export class FileUploader implements IFileUploader {
       });
   }
 
-  uploadFile(uploadParams: UploadFileParams): Promise<FileDescriptor[]>;
+  uploadFile(uploadParams: NodeUploadFileParams): Promise<FileDescriptor[]>;
   uploadFile(
     path: string,
     file: string | Buffer | Stream | File,
@@ -267,7 +270,7 @@ export class FileUploader implements IFileUploader {
    * @param {version?} version - can be v2 or v3
    */
   uploadFile(
-    path: string | UploadFileParams,
+    path: string | NodeUploadFileParams,
     file?: any, // it's defined in overload types
     uploadFileRequest?: UploadFileRequest,
     uploadToken?: string,
