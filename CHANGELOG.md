@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.1.2"></a>
+## [8.1.2](https://github.com/wix/media-platform-js-sdk/compare/v8.1.0-alpha.0...v8.1.2) (2020-03-06)
+
+
+
 <a name="8.1.0-alpha.0"></a>
 # [8.1.0-alpha.0](https://github.com/wix/media-platform-js-sdk/compare/v8.0.0-alpha.26...v8.1.0-alpha.0) (2020-03-05)
 
