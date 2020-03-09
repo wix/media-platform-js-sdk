@@ -96,7 +96,11 @@ export class MediaPlatform {
     /**
      * @type {ImageManager}
      */
-    this.imageManager = new ImageManager(configuration, httpClient);
+    this.imageManager = new ImageManager(
+      configuration,
+      httpClient,
+      this.authenticator,
+    );
 
     /**
      * @type {WidgetInstanceManager}
