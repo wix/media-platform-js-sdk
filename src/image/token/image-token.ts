@@ -12,11 +12,27 @@ export interface ImageTokenClaims extends TokenClaims {
   };
 }
 
+interface ImageTokenParams {
+  policy?: Policy;
+  watermark?: Watermark;
+}
+
 export class ImageToken extends Token {
   private static readonly VERB: string = 'urn:service:image.operations';
 
-  constructor(public policy?: Policy, public watermark?: Watermark) {
+  public policy?: Policy;
+
+  public watermark?: Watermark;
+
+  constructor(imageToken?: ImageTokenParams) {
     super();
+
+    if (typeof imageToken !== 'undefined') {
+      const { policy, watermark } = imageToken;
+      this.watermark = watermark;
+      this.policy = policy;
+    }
+
     this.addVerbs(ImageToken.VERB);
   }
 

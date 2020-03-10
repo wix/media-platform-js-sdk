@@ -146,7 +146,7 @@ describe('image manager', () => {
     const policy = new Policy(1000, 1500, '/path/to/image.jpg');
     const watermark = new Watermark('/path/to/mark.png', 30, 20, Gravity.SOUTH);
 
-    const imageToken = new ImageToken(policy, watermark);
+    const imageToken = new ImageToken({ policy, watermark });
 
     const signed = imageManager.signToken(imageToken);
     expect(signed).to.not.equal(null);
@@ -157,7 +157,7 @@ describe('image manager', () => {
     const policy = new Policy(1000, 1500, '/path/to/image.jpg');
     const watermark = new Watermark('/path/to/mark.png', 30, 20, Gravity.SOUTH);
 
-    const imageToken = new ImageToken(policy, watermark);
+    const imageToken = new ImageToken({ policy, watermark });
 
     try {
       const signed = imageManager.signToken(imageToken);
