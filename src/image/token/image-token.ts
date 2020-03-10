@@ -15,25 +15,9 @@ export interface ImageTokenClaims extends TokenClaims {
 export class ImageToken extends Token {
   private static readonly VERB: string = 'urn:service:image.operations';
 
-  constructor(private _policy?: Policy, private _watermark?: Watermark) {
+  constructor(public policy?: Policy, public watermark?: Watermark) {
     super();
     this.addVerbs(ImageToken.VERB);
-  }
-
-  get policy(): Policy | undefined {
-    return this._policy;
-  }
-
-  set policy(value: Policy | undefined) {
-    this._policy = value;
-  }
-
-  get watermark(): Watermark | undefined {
-    return this._watermark;
-  }
-
-  set watermark(value: Watermark | undefined) {
-    this._watermark = value;
   }
 
   toClaims(): ImageTokenClaims {

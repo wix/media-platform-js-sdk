@@ -24,7 +24,7 @@ describe('image token', () => {
   it('toClaims should properly return claims without watermark', () => {
     const policy = new Policy(1000, 1500, '/path/to/image.jpg');
 
-    const token = new ImageToken(policy, null);
+    const token = new ImageToken(policy);
 
     const claims = token.toClaims();
     expect(claims.aud).to.contain('urn:service:image.operations');
@@ -33,7 +33,8 @@ describe('image token', () => {
 
   it('toClaims should properly return claims without policy', () => {
     const watermark = new Watermark('/path/to/mark.png', 10, 20, Gravity.SOUTH);
-    const token = new ImageToken(null, watermark);
+    const token = new ImageToken();
+    token.watermark = watermark;
 
     const claims = token.toClaims();
     expect(claims.aud).to.contain('urn:service:image.operations');
