@@ -11,6 +11,9 @@ import { ImageOperationRequest } from '../../../../src/platform/management/reque
 import { ACL } from '../../../../src/types/media-platform/media-platform';
 import { ImageWatermarkPosition } from '../../../../src/platform/management/job/image-watermark-specification';
 import { WatermarkManifest } from '../../../../src/platform/management/metadata/watermark-manifest';
+import { Policy } from '../../../../src/image/token/policy';
+import { Gravity, Watermark } from '../../../../src/image/watermark';
+import { ImageToken } from '../../../../src/image/token/image-token';
 
 const repliesDir = __dirname + '/replies/';
 
@@ -18,7 +21,11 @@ describe('image manager', () => {
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
-  const imageManager = new ImageManager(configuration, httpClient);
+  const imageManager = new ImageManager(
+    configuration,
+    httpClient,
+    authenticator,
+  );
 
   const apiServer = nock('https://manager.com/').defaultReplyHeaders({
     'Content-Type': 'application/json',
@@ -103,6 +110,7 @@ describe('image manager', () => {
       },
     };
 
+    // tslint:disable-next-line
     imageManager.createWatermarkManifest(request).then(data => {
       expect(data).to.deep.equal(
         new WatermarkManifest({
@@ -111,5 +119,53 @@ describe('image manager', () => {
       );
       done();
     });
+  });
+
+  it('new image token', async () => {
+    const imageToken = imageManager.newImageToken();
+    const claims = imageToken.toClaims();
+    expect(claims.aud).to.deep.equal(['urn:service:image.operations']);
+    expect(claims.sub).to.equal('urn:app:appId');
+    expect(claims.iss).to.equal('urn:app:appId');
+  });
+
+  it('image token exception if authenticator is null (in browser)', async () => {
+    const imageManager = new ImageManager(configuration, httpClient);
+
+    try {
+      imageManager.newImageToken();
+      expect(false).to.equal(true);
+    } catch (e) {
+      expect(e.message).to.equal(
+        'image tokens are not supported in the browser',
+      );
+    }
+  });
+
+  it('sign token should sign an image token', async () => {
+    const policy = new Policy({ maxHeight: 1000, maxWidth: 1500, path: '/path/to/image.jpg' });
+    const watermark = new Watermark({ path: '/path/to/mark.png', opacity: 30, proportions: 20, gravity: Gravity.SOUTH });
+
+    const imageToken = new ImageToken({ policy, watermark });
+
+    const signed = imageManager.signToken(imageToken);
+    expect(signed).to.not.equal(null);
+  });
+
+  it('sign token exception if authenticator is null (in browser)', async () => {
+    const imageManager = new ImageManager(configuration, httpClient);
+    const policy = new Policy({ maxHeight: 1000, maxWidth: 1500, path: '/path/to/image.jpg' });
+    const watermark = new Watermark({ path: '/path/to/mark.png', opacity: 30, proportions: 20, gravity: Gravity.SOUTH });
+
+    const imageToken = new ImageToken({ policy, watermark });
+
+    try {
+      const signed = imageManager.signToken(imageToken);
+      expect(false).to.equal(true);
+    } catch (e) {
+      expect(e.message).to.equal(
+        'image tokens are not supported in the browser',
+      );
+    }
   });
 });

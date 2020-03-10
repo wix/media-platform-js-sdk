@@ -103,7 +103,7 @@ export class Token {
    * @returns {Token}
    */
   addVerbs(...verbs: string[]): this {
-    this.verbs.concat(verbs);
+    this.verbs = this.verbs.concat(verbs);
     return this;
   }
 
