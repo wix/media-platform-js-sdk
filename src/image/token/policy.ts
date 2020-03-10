@@ -5,7 +5,7 @@ export class Policy {
     public path: string | null = null,
   ) {}
 
-  toClaims(): { [key: string]: any } {
+  toClaims(): { obj: { [key: string]: string }[][] } {
     const policy: { [key: string]: string } = {};
 
     if (this.path !== null) {
