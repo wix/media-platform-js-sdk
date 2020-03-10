@@ -5,42 +5,39 @@ import { TokenClaims } from '../../types/media-platform/media-platform';
 
 export interface ImageTokenClaims extends TokenClaims {
   wmk?: {
-    path: string | null;
-    opacity: number | null;
-    proportions: number | null;
-    gravity: string | null;
+    path?: string;
+    opacity?: number;
+    proportions?: number;
+    gravity?: string;
   };
 }
 
 export class ImageToken extends Token {
   private static readonly VERB: string = 'urn:service:image.operations';
 
-  constructor(
-    private _policy: Policy | null = null,
-    private _watermark: Watermark | null = null,
-  ) {
+  constructor(private _policy?: Policy, private _watermark?: Watermark) {
     super();
     this.addVerbs(ImageToken.VERB);
   }
 
-  get policy(): Policy | null {
+  get policy(): Policy | undefined {
     return this._policy;
   }
 
-  set policy(value: Policy | null) {
+  set policy(value: Policy | undefined) {
     this._policy = value;
   }
 
-  get watermark(): Watermark | null {
+  get watermark(): Watermark | undefined {
     return this._watermark;
   }
 
-  set watermark(value: Watermark | null) {
+  set watermark(value: Watermark | undefined) {
     this._watermark = value;
   }
 
   toClaims(): ImageTokenClaims {
-    if (this.policy !== null) {
+    if (typeof this.policy !== 'undefined') {
       this.setObjects(this.policy.toClaims().obj);
     }
 
@@ -48,7 +45,7 @@ export class ImageToken extends Token {
       ...super.toClaims(),
     };
 
-    if (this.watermark !== null) {
+    if (typeof this.watermark !== 'undefined') {
       claims.wmk = this.watermark.toClaims().wmk;
     }
 
