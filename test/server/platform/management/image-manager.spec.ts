@@ -143,8 +143,8 @@ describe('image manager', () => {
   });
 
   it('sign token should sign an image token', async () => {
-    const policy = new Policy(1000, 1500, '/path/to/image.jpg');
-    const watermark = new Watermark('/path/to/mark.png', 30, 20, Gravity.SOUTH);
+    const policy = new Policy({ maxHeight: 1000, maxWidth: 1500, path: '/path/to/image.jpg' });
+    const watermark = new Watermark({ path: '/path/to/mark.png', opacity: 30, proportions: 20, gravity: Gravity.SOUTH });
 
     const imageToken = new ImageToken({ policy, watermark });
 
@@ -154,8 +154,8 @@ describe('image manager', () => {
 
   it('sign token exception if authenticator is null (in browser)', async () => {
     const imageManager = new ImageManager(configuration, httpClient);
-    const policy = new Policy(1000, 1500, '/path/to/image.jpg');
-    const watermark = new Watermark('/path/to/mark.png', 30, 20, Gravity.SOUTH);
+    const policy = new Policy({ maxHeight: 1000, maxWidth: 1500, path: '/path/to/image.jpg' });
+    const watermark = new Watermark({ path: '/path/to/mark.png', opacity: 30, proportions: 20, gravity: Gravity.SOUTH });
 
     const imageToken = new ImageToken({ policy, watermark });
 

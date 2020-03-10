@@ -14,20 +14,39 @@ enum Gravity {
   NORTH_EAST = 'north-east',
 }
 
+interface WatermarkParams {
+  path?: string;
+  opacity?: number;
+  proportions?: number;
+  gravity?: Gravity;
+}
+
 /**
  * @param image
  * @constructor
  */
 
 class Watermark {
-  constructor(
-    public path?: string,
-    public opacity?: number,
-    public proportions?: number,
-    public gravity?: Gravity,
-  ) {}
+  public path?: string;
 
-  toClaims(): any {
+  public opacity?: number;
+
+  public proportions?: number;
+
+  public gravity?: Gravity;
+
+  constructor(watermarkParams?: WatermarkParams) {
+    if (typeof watermarkParams !== 'undefined') {
+      const { path, opacity, proportions, gravity } = watermarkParams;
+
+      this.gravity = gravity;
+      this.proportions = proportions;
+      this.opacity = opacity;
+      this.path = path;
+    }
+  }
+
+  toClaims(): { wmk: WatermarkParams } {
     return {
       wmk: {
         path: this.path,
