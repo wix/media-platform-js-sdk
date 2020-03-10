@@ -9,7 +9,7 @@ enum Gravity {
   WEST = 'west',
   SOUTH_WEST = 'south-west',
   SOUTH = 'south',
-  SOUTH_EAST = 'south_east',
+  SOUTH_EAST = 'south-east',
   EAST = 'east',
   NORTH_EAST = 'north-east',
 }
