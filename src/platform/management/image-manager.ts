@@ -26,7 +26,7 @@ export class ImageManager {
   constructor(
     public configuration: IConfigurationBase,
     public httpClient: IHTTPClient,
-    private readonly authenticator: Authenticator | null = null,
+    private readonly authenticator?: Authenticator,
   ) {
     /**
      * @type {string}
@@ -83,7 +83,7 @@ export class ImageManager {
   }
 
   newImageToken(): ImageToken {
-    if (this.authenticator === null) {
+    if (typeof this.authenticator === 'undefined') {
       throw new Error('image tokens are not supported in the browser');
     }
     return new ImageToken()
@@ -92,7 +92,7 @@ export class ImageManager {
   }
 
   signToken(imageToken: ImageToken) {
-    if (this.authenticator === null) {
+    if (typeof this.authenticator === 'undefined') {
       throw new Error('image tokens are not supported in the browser');
     }
 
