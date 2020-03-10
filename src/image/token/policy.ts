@@ -1,22 +1,22 @@
 export class Policy {
   constructor(
-    public maxHeight: number | null = null,
-    public maxWidth: number | null = null,
-    public path: string | null = null,
+    public maxHeight?: number,
+    public maxWidth?: number,
+    public path?: string,
   ) {}
 
   toClaims(): { obj: { [key: string]: string }[][] } {
     const policy: { [key: string]: string } = {};
 
-    if (this.path !== null) {
+    if (typeof this.path !== 'undefined') {
       policy.path = this.path;
     }
 
-    if (this.maxHeight !== null) {
+    if (typeof this.maxHeight !== 'undefined') {
       policy.height = `<=${this.maxHeight}`;
     }
 
-    if (this.maxWidth !== null) {
+    if (typeof this.maxWidth !== 'undefined') {
       policy.width = `<=${this.maxWidth}`;
     }
 

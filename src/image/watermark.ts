@@ -21,43 +21,11 @@ enum Gravity {
 
 class Watermark {
   constructor(
-    private _path: string | null,
-    private _opacity: number | null,
-    private _proportions: number | null,
-    private _gravity: Gravity,
+    public path?: string,
+    public opacity?: number,
+    public proportions?: number,
+    public gravity?: Gravity,
   ) {}
-
-  get path(): string | null {
-    return this._path;
-  }
-
-  set path(value: string | null) {
-    this._path = value;
-  }
-
-  get opacity(): number | null {
-    return this._opacity;
-  }
-
-  set opacity(value: number | null) {
-    this._opacity = value;
-  }
-
-  get proportions(): number | null {
-    return this._proportions;
-  }
-
-  set proportions(value: number | null) {
-    this._proportions = value;
-  }
-
-  get gravity(): Gravity {
-    return this._gravity;
-  }
-
-  set gravity(value: Gravity) {
-    this._gravity = value;
-  }
 
   toClaims(): any {
     return {
