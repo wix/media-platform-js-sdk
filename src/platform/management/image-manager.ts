@@ -9,9 +9,6 @@ import {
   IWatermarkManifest,
   WatermarkManifest,
 } from './metadata/watermark-manifest';
-import { ImageToken } from '../../image/token/image-token';
-import { Authenticator } from '../authentication/authenticator';
-import { NS } from '../authentication/NS';
 
 /**
  * @param {Configuration} configuration
@@ -26,7 +23,6 @@ export class ImageManager {
   constructor(
     public configuration: IConfigurationBase,
     public httpClient: IHTTPClient,
-    private readonly authenticator?: Authenticator,
   ) {
     /**
      * @type {string}
@@ -80,22 +76,5 @@ export class ImageManager {
           return Promise.reject(error);
         },
       );
-  }
-
-  newImageToken(): ImageToken {
-    if (typeof this.authenticator === 'undefined') {
-      throw new Error('image tokens are not supported in the browser');
-    }
-    return new ImageToken()
-      .setIssuer(NS.APPLICATION, this.authenticator.configuration.appId)
-      .setSubject(NS.APPLICATION, this.authenticator.configuration.appId);
-  }
-
-  signToken(imageToken: ImageToken) {
-    if (typeof this.authenticator === 'undefined') {
-      throw new Error('image tokens are not supported in the browser');
-    }
-
-    return this.authenticator.encode(imageToken);
   }
 }

@@ -13,7 +13,7 @@ import { FileManager } from './management/file-manager';
 import { FileUploader } from './management/file-uploader';
 import { FlowManager } from './management/flow-manager';
 import { ImageExtractionManager } from './management/image-extraction-manager';
-import { ImageManager } from './management/image-manager';
+import { ServerImageManager } from './management/server-image-manager';
 import { JobManager } from './management/job-manager';
 import { LiveManager } from './management/live-manager';
 import { DownloadUrlRequest } from './management/requests/download-url-request';
@@ -37,7 +37,7 @@ export class MediaPlatform {
   public flowManager: FlowManager;
   public liveManager: LiveManager;
   public jobManager: JobManager;
-  public imageManager: ImageManager;
+  public imageManager: ServerImageManager;
   public widgetInstancesManager: WidgetInstanceManager;
   public webhookDeserializer: WebhookDeserializer;
   public imageExtractionManager: ImageExtractionManager;
@@ -94,9 +94,9 @@ export class MediaPlatform {
     this.jobManager = new JobManager(configuration, httpClient);
 
     /**
-     * @type {ImageManager}
+     * @type {ServerImageManager}
      */
-    this.imageManager = new ImageManager(
+    this.imageManager = new ServerImageManager(
       configuration,
       httpClient,
       this.authenticator,
