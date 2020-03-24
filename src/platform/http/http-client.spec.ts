@@ -30,7 +30,7 @@ describe('HTTP client', () => {
     nock.cleanAll();
   });
 
-  it('should send post request', done => {
+  it('should send post request', (done) => {
     const uri = '/_api/test-post';
     apiServer.post(uri, {}).reply(
       200,
@@ -39,7 +39,7 @@ describe('HTTP client', () => {
       }),
     );
 
-    httpClient.post(`${domain}${uri}`, {}).then(response => {
+    httpClient.post(`${domain}${uri}`, {}).then((response) => {
       expect(response).to.deep.equal({
         response: 'ok',
       });
@@ -48,7 +48,7 @@ describe('HTTP client', () => {
     });
   });
 
-  it('should send post request with body', done => {
+  it('should send post request with body', (done) => {
     const uri = '/_api/test-post';
     apiServer
       .post(uri, {
@@ -65,7 +65,7 @@ describe('HTTP client', () => {
       .post(`${domain}${uri}`, {
         testPost: 11,
       })
-      .then(response => {
+      .then((response) => {
         expect(response).to.deep.equal({
           response: 'ok-post-11',
         });
@@ -73,7 +73,7 @@ describe('HTTP client', () => {
       });
   });
 
-  it('should send get request', done => {
+  it('should send get request', (done) => {
     const uri = '/_api/test-get';
 
     apiServer.get(uri).reply(
@@ -83,7 +83,7 @@ describe('HTTP client', () => {
       }),
     );
 
-    httpClient.get(`${domain}${uri}`).then(response => {
+    httpClient.get(`${domain}${uri}`).then((response) => {
       expect(response).to.deep.equal({
         response: 'ok',
       });
@@ -92,7 +92,7 @@ describe('HTTP client', () => {
     });
   });
 
-  it('should send get request with query', done => {
+  it('should send get request with query', (done) => {
     const uri = '/_api/test-get';
     apiServer
       .get(uri)
@@ -108,7 +108,7 @@ describe('HTTP client', () => {
       .get(`${domain}${uri}`, {
         test: 11,
       })
-      .then(response => {
+      .then((response) => {
         expect(response).to.deep.equal({
           response: 'ok-get-11',
         });
@@ -116,7 +116,7 @@ describe('HTTP client', () => {
       });
   });
 
-  it('should send put request', done => {
+  it('should send put request', (done) => {
     const uri = '/_api/test-put';
 
     apiServer.put(uri, {}).reply(
@@ -126,7 +126,7 @@ describe('HTTP client', () => {
       }),
     );
 
-    httpClient.put(`${domain}${uri}`).then(response => {
+    httpClient.put(`${domain}${uri}`).then((response) => {
       expect(response).to.deep.equal({
         response: 'ok',
       });
@@ -135,7 +135,7 @@ describe('HTTP client', () => {
     });
   });
 
-  it('should send put request with body', done => {
+  it('should send put request with body', (done) => {
     const uri = '/_api/test-put';
 
     apiServer
@@ -153,7 +153,7 @@ describe('HTTP client', () => {
       .put(`${domain}${uri}`, {
         testPost: 11,
       })
-      .then(response => {
+      .then((response) => {
         expect(response).to.deep.equal({
           response: 'ok-put-11',
         });
@@ -181,7 +181,7 @@ describe('HTTP client', () => {
     });
   });
 
-  it('should resolve with what server replied', done => {
+  it('should resolve with what server replied', (done) => {
     const uri = '/_api/test-get';
     apiServer
       .get(uri)
@@ -197,7 +197,7 @@ describe('HTTP client', () => {
       .get(`${domain}${uri}`, {
         test: 11,
       })
-      .then(response => {
+      .then((response) => {
         expect(response).to.deep.equal({
           response: 'ok-get-11',
         });
@@ -205,7 +205,7 @@ describe('HTTP client', () => {
       });
   });
 
-  it('should reject with what server replied', done => {
+  it('should reject with what server replied', (done) => {
     const uri = '/_api/test-get';
     apiServer
       .get(uri)
@@ -221,7 +221,7 @@ describe('HTTP client', () => {
       .get(`${domain}${uri}`, {
         test: 11,
       })
-      .catch(error => {
+      .catch((error) => {
         expect(JSON.parse(error.message)).to.deep.equal({
           response: 'error-get-11',
         });
@@ -245,7 +245,7 @@ describe('HTTP client', () => {
     });
   });
 
-  it('should resolve for put with what server replied', done => {
+  it('should resolve for put with what server replied', (done) => {
     const uri = '/_api/test-put';
     apiServer.put(uri, { test: 11 }).reply(
       200,
@@ -258,7 +258,7 @@ describe('HTTP client', () => {
       .put(`${domain}${uri}`, {
         test: 11,
       })
-      .then(response => {
+      .then((response) => {
         expect(response).to.deep.equal({
           response: 'ok-put-11',
         });
@@ -266,7 +266,7 @@ describe('HTTP client', () => {
       });
   });
 
-  it('should reject for PUT with what server replied', done => {
+  it('should reject for PUT with what server replied', (done) => {
     const uri = '/_api/test-put';
     apiServer.put(uri, { test: 11 }).reply(
       500,
@@ -279,7 +279,7 @@ describe('HTTP client', () => {
       .put(`${domain}${uri}`, {
         test: 11,
       })
-      .catch(error => {
+      .catch((error) => {
         expect(JSON.parse(error.message)).to.deep.equal({
           response: 'error-put-112',
         });
@@ -304,7 +304,7 @@ describe('HTTP client', () => {
     });
   });
 
-  it('should resolve for post with what server replied', done => {
+  it('should resolve for post with what server replied', (done) => {
     const uri = '/_api/test-post';
     apiServer.post(uri, { test: 11 }).reply(
       200,
@@ -317,7 +317,7 @@ describe('HTTP client', () => {
       .post(`${domain}${uri}`, {
         test: 11,
       })
-      .then(response => {
+      .then((response) => {
         expect(response).to.deep.equal({
           response: 'ok-post-11',
         });
@@ -325,7 +325,7 @@ describe('HTTP client', () => {
       });
   });
 
-  it('should reject for POST with what server replied', done => {
+  it('should reject for POST with what server replied', (done) => {
     const uri = '/_api/test-post';
     apiServer.post(uri, { test: 11 }).reply(
       500,
@@ -338,7 +338,7 @@ describe('HTTP client', () => {
       .post(`${domain}${uri}`, {
         test: 11,
       })
-      .catch(error => {
+      .catch((error) => {
         expect(JSON.parse(error.message)).to.deep.equal({
           response: 'error-post-11',
         });
@@ -346,10 +346,10 @@ describe('HTTP client', () => {
       });
   });
 
-  it('should add auth header to URL', done => {
+  it('should add auth header to URL', (done) => {
     const uri = 'http://example.com/_api/test-post';
 
-    httpClient.addAuthToUrl(uri).then(response => {
+    httpClient.addAuthToUrl(uri).then((response) => {
       expect(response).to.include(
         'http://example.com/_api/test-post?Authorization=',
       );
@@ -357,10 +357,10 @@ describe('HTTP client', () => {
     });
   });
 
-  it('should add auth header to URL with existing query', done => {
+  it('should add auth header to URL with existing query', (done) => {
     const uri = 'http://example.com/_api/test-post?query=value';
 
-    httpClient.addAuthToUrl(uri).then(response => {
+    httpClient.addAuthToUrl(uri).then((response) => {
       expect(response).to.include(
         'http://example.com/_api/test-post?query=value&Authorization=',
       );
@@ -368,11 +368,11 @@ describe('HTTP client', () => {
     });
   });
 
-  it('should add auth header to URL will replace existing Authorization token', done => {
+  it('should add auth header to URL will replace existing Authorization token', (done) => {
     const uri =
       'http://example.com/_api/test-post?Authorization=shouldnotbehere';
 
-    httpClient.addAuthToUrl(uri).then(response => {
+    httpClient.addAuthToUrl(uri).then((response) => {
       expect(response).to.not.include('?Authorization=shouldnotbehere');
       expect(response).to.include(
         'http://example.com/_api/test-post?Authorization=',
@@ -382,7 +382,7 @@ describe('HTTP client', () => {
   });
 
   describe('DELETE', () => {
-    it('should get 200', done => {
+    it('should get 200', (done) => {
       const uri = '/_api/test-delete';
 
       apiServer.delete(uri).reply(
@@ -392,7 +392,7 @@ describe('HTTP client', () => {
         }),
       );
 
-      httpClient.delete(`${domain}${uri}`).then(response => {
+      httpClient.delete(`${domain}${uri}`).then((response) => {
         expect(response).to.deep.equal({
           response: 'ok',
         });
@@ -401,7 +401,7 @@ describe('HTTP client', () => {
       });
     });
 
-    it('should get 400', done => {
+    it('should get 400', (done) => {
       const uri = '/_api/test-delete';
 
       apiServer.delete(uri).reply(
@@ -411,7 +411,7 @@ describe('HTTP client', () => {
         }),
       );
 
-      httpClient.delete(`${domain}${uri}`).catch(error => {
+      httpClient.delete(`${domain}${uri}`).catch((error) => {
         expect(JSON.parse(error.message)).to.deep.equal({
           response: 'delete-error',
         });

@@ -31,10 +31,10 @@ export class FlowManager {
     return this.httpClient
       .get<RawResponse<IFlow>>(this.apiUrl + '/flow/' + flowId)
       .then(
-        response => {
+        (response) => {
           return new Flow(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -49,10 +49,10 @@ export class FlowManager {
     return this.httpClient
       .post<RawResponse<IFlow>>(this.apiUrl + '/flow', createFlowRequest)
       .then(
-        response => {
+        (response) => {
           return new Flow(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -66,7 +66,7 @@ export class FlowManager {
   deleteFlow(flowId: string): Promise<void> {
     return this.httpClient
       .delete(this.apiUrl + '/flow/' + flowId)
-      .catch(error => {
+      .catch((error) => {
         return Promise.reject(error);
       });
   }

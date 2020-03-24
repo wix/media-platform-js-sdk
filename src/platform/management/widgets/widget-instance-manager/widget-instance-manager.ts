@@ -42,8 +42,8 @@ export class WidgetInstanceManager {
     return this.httpClient
       .get<WidgetInstanceAuthResponse>(this.getAuthURL(widgetInstanceId))
       .then(
-        response => response.payload.token,
-        error => {
+        (response) => response.payload.token,
+        (error) => {
           // tslint:disable-next-line
           console.error('Error while auth', error);
           return '';
@@ -58,8 +58,8 @@ export class WidgetInstanceManager {
     const instanceURL = this.getInstanceURL(widgetInstanceId);
     return httpClient
       .get<WidgetInstanceResponse>(instanceURL)
-      .then(response => response.payload)
-      .catch(error => {
+      .then((response) => response.payload)
+      .catch((error) => {
         // tslint:disable-next-line
         console.error('error while fetching widget instance id', error);
         throw error;

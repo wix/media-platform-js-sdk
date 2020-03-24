@@ -39,7 +39,7 @@ describe('FileDownloader', () => {
       },
     });
 
-    fauxJax.on('request', request => {
+    fauxJax.on('request', (request) => {
       if (
         request.requestURL.indexOf(
           'https://www.domain.com/_api/download/secure_url',
@@ -65,7 +65,7 @@ describe('FileDownloader', () => {
       },
     });
 
-    fauxJax.on('request', request => {
+    fauxJax.on('request', (request) => {
       if (
         request.requestURL.indexOf(
           'https://www.domain.com/_api/download/secure_url',
@@ -92,7 +92,7 @@ describe('FileDownloader', () => {
   });
 
   function setResponses(response) {
-    fauxJax.on('request', request => {
+    fauxJax.on('request', (request) => {
       if (request.requestURL === 'https://www.myapp.com/auth') {
         request.respond(
           200,

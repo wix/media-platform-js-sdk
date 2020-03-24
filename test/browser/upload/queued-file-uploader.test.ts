@@ -17,7 +17,7 @@ import { delay } from '../../helpers/delay';
 
 const UPLOAD_TIMEOUT = 100;
 
-describe('queued file uploader', function() {
+describe('queued file uploader', function () {
   // tslint:disable-next-line
   this.timeout(50000);
 
@@ -75,7 +75,7 @@ describe('queued file uploader', function() {
 
     let progress = false;
 
-    const endPromise = new Promise(resolve => {
+    const endPromise = new Promise((resolve) => {
       queuedFileUploader.queue.drain = () => {
         resolve();
         return Promise.resolve();
@@ -112,7 +112,7 @@ describe('queued file uploader', function() {
   it('should only be able to queue a job once', async () => {
     const consoleWarn = sandbox.stub(console, 'warn');
     setResponse(fileUploadResponse);
-    const endPromise = new Promise(resolve => {
+    const endPromise = new Promise((resolve) => {
       queuedFileUploader.queue.drain = () => {
         resolve();
         return Promise.resolve();
@@ -141,7 +141,7 @@ describe('queued file uploader', function() {
 
   it('should abort when abort() called', async () => {
     setResponse(fileUploadResponse);
-    const endPromise = new Promise(resolve => {
+    const endPromise = new Promise((resolve) => {
       queuedFileUploader.queue.drain = () => {
         resolve();
         return Promise.resolve();
@@ -163,29 +163,29 @@ describe('queued file uploader', function() {
     expect(abortedSpy).to.have.been.called;
   });
 
-  it('should upload', done => {
+  it('should upload', (done) => {
     setResponse(fileUploadResponse);
     const file = new FileAPI.File('../files/image.jpg');
 
     (fileManager.uploadFile('upload/to/there/image.jpg', file) as UploadJob)
       .on('upload-success', () => done())
-      .on('upload-error', error => done(error));
+      .on('upload-error', (error) => done(error));
   });
 
-  it('should upload v3', done => {
+  it('should upload v3', (done) => {
     setResponse(fileUploadResponse);
     const file = new FileAPI.File('../files/image.jpg');
 
     (fileManager.uploadFileV3('upload/to/there/image.jpg', file) as UploadJob)
       .on('upload-success', () => done())
-      .on('upload-error', error => done(error));
+      .on('upload-error', (error) => done(error));
   });
 
   describe('lifecycle(age)', () => {
-    it('should upload file with default(none) lifecycle', done => {
+    it('should upload file with default(none) lifecycle', (done) => {
       setResponse(fileUploadResponse);
 
-      fauxJax.on('request', request => {
+      fauxJax.on('request', (request) => {
         if (
           request.requestURL.indexOf(
             'https://www.domain.com/_api/v2/upload/configuration',
@@ -219,10 +219,10 @@ describe('queued file uploader', function() {
 
       (fileManager.uploadFile('upload/to/there/image.jpg', file) as UploadJob)
         .on('upload-success', () => done())
-        .on('upload-error', error => done(error));
+        .on('upload-error', (error) => done(error));
     });
 
-    it('should upload file with delete lifecycle', done => {
+    it('should upload file with delete lifecycle', (done) => {
       const uploadFileResponse = {
         code: 0,
         message: 'OK',
@@ -267,7 +267,7 @@ describe('queued file uploader', function() {
 
       setResponse(uploadFileResponse);
 
-      fauxJax.on('request', request => {
+      fauxJax.on('request', (request) => {
         if (
           request.requestURL.indexOf(
             'https://www.domain.com/_api/v2/upload/configuration',
@@ -317,19 +317,19 @@ describe('queued file uploader', function() {
         file,
         uploadFileRequest,
       ) as UploadJob)
-        .on('upload-success', response => {
+        .on('upload-success', (response) => {
           expect(response.response.payload).to.eql(uploadFileResponse.payload);
           expect(response.fileDescriptors).to.eql(fileDescriptors);
 
           return done();
         })
-        .on('upload-error', error => done(error));
+        .on('upload-error', (error) => done(error));
     });
   });
 
   describe('uploadToken and uploadUrl', () => {
-    it('should upload file with custom uploadToken and uploadUrl', done => {
-      fauxJax.on('request', request => {
+    it('should upload file with custom uploadToken and uploadUrl', (done) => {
+      fauxJax.on('request', (request) => {
         if (request.requestURL === 'https://custom-upload-url.com/') {
           expect(request.requestBody.get('acl')).to.eq('public');
           expect(request.requestBody.get('lifecycle')).to.eq(null);
@@ -361,11 +361,11 @@ describe('queued file uploader', function() {
         'https://custom-upload-url.com/',
       ) as UploadJob)
         .on('upload-success', () => done())
-        .on('upload-error', error => done(error));
+        .on('upload-error', (error) => done(error));
     });
 
-    it('should upload file with custom uploadToken, uploadUrl and uploadFileRequest', done => {
-      fauxJax.on('request', request => {
+    it('should upload file with custom uploadToken, uploadUrl and uploadFileRequest', (done) => {
+      fauxJax.on('request', (request) => {
         if (request.requestURL === 'https://custom-upload-url-2.com/') {
           expect(request.requestBody.get('acl')).to.eq('private');
           expect(request.requestBody.get('lifecycle')).to.eq(
@@ -406,7 +406,7 @@ describe('queued file uploader', function() {
         'https://custom-upload-url-2.com/',
       ) as UploadJob)
         .on('upload-success', () => done())
-        .on('upload-error', error => done(error));
+        .on('upload-error', (error) => done(error));
     });
   });
 
@@ -424,7 +424,7 @@ describe('queued file uploader', function() {
 
   it('handles errors', async () => {
     setResponse({ error: 'fish' }, 500);
-    const endPromise = new Promise(resolve => {
+    const endPromise = new Promise((resolve) => {
       queuedFileUploader.queue.drain = () => {
         resolve();
         return Promise.resolve();
@@ -449,7 +449,7 @@ describe('queued file uploader', function() {
   });
 
   function setResponse(responseBody, responseStatus = 200) {
-    fauxJax.on('request', request => {
+    fauxJax.on('request', (request) => {
       if (request.requestURL === 'https://www.myapp.com/auth') {
         request.respond(
           200,

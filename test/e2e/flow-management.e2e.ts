@@ -10,7 +10,7 @@ import { expect } from 'chai';
 import * as guid from 'uuid/v4';
 import { MediaPlatform } from '../../src/server';
 
-describe('flow control e2e', function() {
+describe('flow control e2e', function () {
   // demo account credentials
   const configuration = {
     domain: 'wixmp-410a67650b2f46baa5d003c6.appspot.com',
@@ -217,7 +217,7 @@ describe('flow control e2e', function() {
     let flowState: Flow = await flowManager.createFlow(createFlowRequest);
     expect(flowState).to.not.eql(null);
 
-    await new Promise(resolve =>
+    await new Promise((resolve) =>
       setInterval(async () => {
         flowState = await flowManager.getFlow(flowState.id as string);
         // tslint:disable-next-line:no-console

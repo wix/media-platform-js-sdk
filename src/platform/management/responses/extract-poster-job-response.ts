@@ -12,6 +12,6 @@ export class ExtractPosterJobResponse {
 
   constructor(data: IExtractPosterJobResponse) {
     this.groupId = data.groupId;
-    this.jobs = data.jobs.map(job => new Job(job));
+    this.jobs = data.jobs.map((job) => new Job(job));
   }
 }

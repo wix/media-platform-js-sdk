@@ -32,7 +32,7 @@ describe('archive manager', () => {
     sandbox.verifyAndRestore();
   });
 
-  it('create archive', done => {
+  it('create archive', (done) => {
     apiServer
       .post('/_api/archive/create')
       .once()
@@ -62,7 +62,7 @@ describe('archive manager', () => {
       });
   });
 
-  it('should create archive observable', done => {
+  it('should create archive observable', (done) => {
     apiServer
       .post('/_api/archive/create')
       .once()
@@ -110,7 +110,7 @@ describe('archive manager', () => {
       });
   });
 
-  it('should create archive observable error', done => {
+  it('should create archive observable error', (done) => {
     apiServer
       .post('/_api/archive/create')
       .once()
@@ -146,7 +146,7 @@ describe('archive manager', () => {
       })
       .subscribe(
         progressSpy,
-        error => {
+        (error) => {
           expect(progressSpy).to.have.been.calledOnce;
           expect(progressSpy.firstCall.args[0].id).to.equal(
             '6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b',
@@ -162,7 +162,7 @@ describe('archive manager', () => {
       );
   });
 
-  it('extract archive', done => {
+  it('extract archive', (done) => {
     apiServer
       .post('/_api/archive/extract')
       .once()
@@ -189,7 +189,7 @@ describe('archive manager', () => {
       });
   });
 
-  it('should extract archive observable', done => {
+  it('should extract archive observable', (done) => {
     apiServer
       .post('/_api/archive/extract')
       .once()
@@ -230,7 +230,7 @@ describe('archive manager', () => {
         done();
       });
   });
-  it('should extract archive observable error', done => {
+  it('should extract archive observable error', (done) => {
     apiServer
       .post('/_api/archive/extract')
       .once()
@@ -260,7 +260,7 @@ describe('archive manager', () => {
       })
       .subscribe(
         progressSpy,
-        error => {
+        (error) => {
           expect(progressSpy).to.have.been.calledOnce;
           expect(progressSpy.firstCall.args[0].id).to.equal(
             '6b4da966844d4ae09417300f3811849b_dd0ecc5cbaba4f1b9aba08cc6fa7348b',

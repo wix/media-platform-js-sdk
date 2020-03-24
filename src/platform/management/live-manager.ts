@@ -51,10 +51,10 @@ export class LiveManager {
         liveStreamRequest,
       )
       .then(
-        response => {
+        (response) => {
           return new LiveStream(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -69,10 +69,10 @@ export class LiveManager {
     return this.httpClient
       .get<RawResponse<ILiveStream>>(this.apiUrl + '/stream/' + streamId)
       .then(
-        response => {
+        (response) => {
           return new LiveStream(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -89,10 +89,10 @@ export class LiveManager {
         this.apiUrl + '/stream/' + streamId + '/analytics',
       )
       .then(
-        response => {
+        (response) => {
           return new LiveStreamAnalytics(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -106,7 +106,7 @@ export class LiveManager {
   closeStream(streamId: string): Promise<void> {
     return this.httpClient
       .delete(this.apiUrl + '/stream/' + streamId)
-      .catch(error => {
+      .catch((error) => {
         return Promise.reject(error);
       });
   }
@@ -127,10 +127,10 @@ export class LiveManager {
         params,
       )
       .then(
-        response => {
+        (response) => {
           return new LiveStreamListResponse(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );

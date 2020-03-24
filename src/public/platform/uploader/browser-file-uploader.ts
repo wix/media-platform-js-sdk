@@ -46,10 +46,10 @@ export class FileUploader implements IFileUploader {
         uploadUrlRequest,
       )
       .then(
-        body => {
+        (body) => {
           return body.payload;
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -69,10 +69,10 @@ export class FileUploader implements IFileUploader {
         uploadConfigurationRequest,
       )
       .then(
-        body => {
+        (body) => {
           return body.payload;
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );

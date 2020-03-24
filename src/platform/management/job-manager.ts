@@ -40,10 +40,10 @@ export class JobManager {
     return this.httpClient
       .get<RawResponse<IJob<T>>>(`${this.apiUrl}/${jobId}`)
       .then(
-        response => {
+        (response) => {
           return new Job<T>(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -60,10 +60,10 @@ export class JobManager {
     return this.httpClient
       .get<RawResponse<IJob<any>[]>>(`${this.apiUrl}/groups/${groupId}`, {})
       .then(
-        response => {
-          return response.payload.map(data => new Job(data));
+        (response) => {
+          return response.payload.map((data) => new Job(data));
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -79,10 +79,10 @@ export class JobManager {
     return this.httpClient
       .get<RawResponse<ISearchJobsResponse>>(this.apiUrl, params)
       .then(
-        response => {
+        (response) => {
           return new SearchJobsResponse(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );

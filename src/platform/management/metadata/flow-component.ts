@@ -34,12 +34,12 @@ export class FlowComponent implements IFlowComponent {
     }
 
     if (data.sources) {
-      this.sources = data.sources.map(source => new Source(source));
+      this.sources = data.sources.map((source) => new Source(source));
     }
 
     if (data.results) {
       this.results = data.results.map(
-        fileDescriptor => new FileDescriptor(fileDescriptor),
+        (fileDescriptor) => new FileDescriptor(fileDescriptor),
       );
     }
 

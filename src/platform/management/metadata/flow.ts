@@ -30,7 +30,7 @@ export class Flow implements IFlow {
     this.error = data.error || null;
     this.invocation = new Invocation(data.invocation);
 
-    Object.keys(data.operations).map(key => {
+    Object.keys(data.operations).map((key) => {
       this.operations[key] = new FlowComponent(data.operations[key]);
     });
   }

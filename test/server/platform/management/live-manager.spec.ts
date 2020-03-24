@@ -32,13 +32,13 @@ describe('liveManager', () => {
     nock.cleanAll();
   });
 
-  it('Publish Endpoint is parsing properly', done => {
+  it('Publish Endpoint is parsing properly', (done) => {
     apiServer
       .get('/_api/live/stream/stream_id')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-response.json');
 
-    liveManager.getStream('stream_id').then(data => {
+    liveManager.getStream('stream_id').then((data) => {
       expect(data.publishEndpoint).to.be.an.instanceof(PublishEndpoint);
       expect(data.publishEndpoint && data.publishEndpoint.protocol).to.equal(
         'rtmp',
@@ -48,13 +48,13 @@ describe('liveManager', () => {
     });
   });
 
-  it('Analytics is parsing properly', done => {
+  it('Analytics is parsing properly', (done) => {
     apiServer
       .get('/_api/live/stream/stream_id/analytics')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-analytics-response.json');
 
-    liveManager.getStreamAnalytics('stream_id').then(data => {
+    liveManager.getStreamAnalytics('stream_id').then((data) => {
       expect(data.streamId).to.equal('stream_id');
       expect(data.stats).to.be.an.instanceof(Array);
 
@@ -62,13 +62,13 @@ describe('liveManager', () => {
     });
   });
 
-  it('Geo is parsing properly', done => {
+  it('Geo is parsing properly', (done) => {
     apiServer
       .get('/_api/live/stream/stream_id')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-response.json');
 
-    liveManager.getStream('stream_id').then(data => {
+    liveManager.getStream('stream_id').then((data) => {
       if (!data.publishEndpoint || !data.publishEndpoint.geo) {
         done('no geo in publishEndpoint');
         return;
@@ -81,13 +81,13 @@ describe('liveManager', () => {
     });
   });
 
-  it('DVR is parsing properly', done => {
+  it('DVR is parsing properly', (done) => {
     apiServer
       .get('/_api/live/stream/stream_id')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-response.json');
 
-    liveManager.getStream('stream_id').then(data => {
+    liveManager.getStream('stream_id').then((data) => {
       if (!data.dvr || !data.dvr.destination) {
         done('no destination in dvr');
         return;
@@ -101,13 +101,13 @@ describe('liveManager', () => {
     });
   });
 
-  it('Playback URL is parsing properly', done => {
+  it('Playback URL is parsing properly', (done) => {
     apiServer
       .get('/_api/live/stream/stream_id')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-response.json');
 
-    liveManager.getStream('stream_id').then(data => {
+    liveManager.getStream('stream_id').then((data) => {
       if (!data.playbackUrls) {
         done('no playbackUrls');
         return;
@@ -120,7 +120,7 @@ describe('liveManager', () => {
     });
   });
 
-  it('Create Live Stream', done => {
+  it('Create Live Stream', (done) => {
     apiServer
       .post('/_api/live/stream')
       .once()
@@ -142,7 +142,7 @@ describe('liveManager', () => {
       },
     });
 
-    liveManager.openStream(livestreamRequest).then(data => {
+    liveManager.openStream(livestreamRequest).then((data) => {
       expect(data.id).to.equal('stream_id');
 
       done();
@@ -150,13 +150,13 @@ describe('liveManager', () => {
   });
 
   describe('getStream', () => {
-    it('should resolve promise', done => {
+    it('should resolve promise', (done) => {
       apiServer
         .get('/_api/live/stream/stream_id')
         .once()
         .replyWithFile(200, repliesDir + 'livestream-response.json');
 
-      liveManager.getStream('stream_id').then(data => {
+      liveManager.getStream('stream_id').then((data) => {
         expect(data.streamType).to.equal('live');
 
         done();
@@ -165,7 +165,7 @@ describe('liveManager', () => {
   });
 
   describe('closeStream', () => {
-    it('should resolve promise', done => {
+    it('should resolve promise', (done) => {
       apiServer
         .delete('/_api/live/stream/stream_id')
         .once()
@@ -178,14 +178,14 @@ describe('liveManager', () => {
   });
 
   describe('listStreams', () => {
-    it('should return list of streams', done => {
+    it('should return list of streams', (done) => {
       apiServer
         .get('/_api/live/streams')
         .once()
         .replyWithFile(200, repliesDir + 'livestream-list-response.json');
 
       const liveStreamListRequest = new LiveStreamListRequest();
-      liveManager.listStreams(liveStreamListRequest).then(data => {
+      liveManager.listStreams(liveStreamListRequest).then((data) => {
         if (!data || !data.streams) {
           done('no streams');
           return;
@@ -198,7 +198,7 @@ describe('liveManager', () => {
       });
     });
 
-    it('should return list of closed streams', done => {
+    it('should return list of closed streams', (done) => {
       apiServer
         .get('/_api/live/streams?state=closed%2Cdvr_processing')
         .once()
@@ -211,7 +211,7 @@ describe('liveManager', () => {
         state: [LiveStreamState.CLOSED, LiveStreamState.DVR_PROCESSING],
       });
 
-      liveManager.listStreams(liveStreamListRequest).then(data => {
+      liveManager.listStreams(liveStreamListRequest).then((data) => {
         if (!data || !data.streams) {
           done('no streams');
           return;
@@ -224,15 +224,15 @@ describe('liveManager', () => {
     });
   });
 
-  it('Stream URL Generated successfully', done => {
+  it('Stream URL Generated successfully', (done) => {
     liveManager.getStreamCoverUrl('streamId').then(
-      response => {
+      (response) => {
         expect(response).to.match(
           /https:\/\/.*\/_api\/live\/stream\/streamId\/frame\?Authorization=.+/,
         );
         done();
       },
-      e => {
+      (e) => {
         expect(e).to.equal(null);
         done();
       },

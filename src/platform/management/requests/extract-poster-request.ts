@@ -15,12 +15,13 @@ export class ExtractPosterRequest implements IExtractPosterRequest {
 
   constructor({ sources, specifications }: IExtractPosterRequest = {}) {
     if (sources) {
-      this.sources = sources.map(sourceData => new Source(sourceData));
+      this.sources = sources.map((sourceData) => new Source(sourceData));
     }
 
     if (specifications) {
       this.specifications = specifications.map(
-        specificationData => new ExtractPosterSpecification(specificationData),
+        (specificationData) =>
+          new ExtractPosterSpecification(specificationData),
       );
     }
   }

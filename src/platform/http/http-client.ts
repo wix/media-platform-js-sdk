@@ -84,7 +84,7 @@ export class HTTPClient implements IHTTPClient {
         options.qs = params;
     }
 
-    return request(options).then(response => {
+    return request(options).then((response) => {
       if (response.statusCode < 200 || response.statusCode >= 300) {
         return Promise.reject(new Error(JSON.stringify(response.body)));
       }
@@ -120,14 +120,14 @@ export class HTTPClient implements IHTTPClient {
     };
 
     return request(options).then(
-      response => {
+      (response) => {
         if (response.statusCode < 200 || response.statusCode >= 300) {
           return Promise.reject(response.body);
         }
 
         return response;
       },
-      error => {
+      (error) => {
         return Promise.reject(error);
       },
     );

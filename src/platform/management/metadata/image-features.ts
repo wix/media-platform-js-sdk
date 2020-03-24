@@ -25,7 +25,7 @@ export class ImageFeatures implements IImageFeatures {
   public labels: Label[] = [];
 
   constructor(data: IImageFeatures) {
-    this.colors = data.colors.map(color => {
+    this.colors = data.colors.map((color) => {
       return new Color(color);
     });
 
@@ -35,11 +35,11 @@ export class ImageFeatures implements IImageFeatures {
       },
     );
 
-    this.faces = data.faces.map(face => {
+    this.faces = data.faces.map((face) => {
       return new Rectangle(face.width, face.height, face.x, face.y);
     });
 
-    this.labels = data.labels.map(label => {
+    this.labels = data.labels.map((label) => {
       return new Label(label);
     });
   }

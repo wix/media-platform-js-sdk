@@ -11,7 +11,7 @@ import { credentials } from '../server/credentials';
 const DEFAULT_FIXTURE_PATH = path.join(__dirname, '..', 'sources', 'image.jpg');
 const DEFAULT_PATH_PREFIX = '/test/';
 
-describe('E2E > File Management > File Upload', function() {
+describe('E2E > File Management > File Upload', function () {
   let fileManager;
   let testPath;
 
@@ -26,13 +26,13 @@ describe('E2E > File Management > File Upload', function() {
     testPath = `${DEFAULT_PATH_PREFIX}${uuid.v4()}.jpg`;
   });
 
-  afterEach('clean up after test', done => {
+  afterEach('clean up after test', (done) => {
     fileManager.deleteFileByPath(testPath).then(() => done());
   });
 
   describe('data as string path', () => {
-    it('should be uploaded correctly', done => {
-      fileManager.uploadFile(testPath, DEFAULT_FIXTURE_PATH).then(files => {
+    it('should be uploaded correctly', (done) => {
+      fileManager.uploadFile(testPath, DEFAULT_FIXTURE_PATH).then((files) => {
         expect(files).to.be.an('array');
         expect(files[0].path).to.equal(testPath);
 
@@ -40,8 +40,8 @@ describe('E2E > File Management > File Upload', function() {
       });
     });
 
-    it('should be uploaded correctly V3', done => {
-      fileManager.uploadFileV3(testPath, DEFAULT_FIXTURE_PATH).then(files => {
+    it('should be uploaded correctly V3', (done) => {
+      fileManager.uploadFileV3(testPath, DEFAULT_FIXTURE_PATH).then((files) => {
         expect(files).to.be.an('array');
         expect(files[0].path).to.equal(testPath);
 
@@ -57,8 +57,8 @@ describe('E2E > File Management > File Upload', function() {
       testBuffer = fs.readFileSync(DEFAULT_FIXTURE_PATH);
     });
 
-    it('should be uploaded correctly', done => {
-      fileManager.uploadFile(testPath, testBuffer).then(files => {
+    it('should be uploaded correctly', (done) => {
+      fileManager.uploadFile(testPath, testBuffer).then((files) => {
         expect(files).to.be.an('array');
         expect(files[0].path).to.equal(testPath);
         expect(files[0].size).to.equal(testBuffer.length);
@@ -82,8 +82,8 @@ describe('E2E > File Management > File Upload', function() {
       testStream = fs.createReadStream(DEFAULT_FIXTURE_PATH);
     });
 
-    it('should be uploaded correctly', done => {
-      fileManager.uploadFile(testPath, testStream).then(files => {
+    it('should be uploaded correctly', (done) => {
+      fileManager.uploadFile(testPath, testStream).then((files) => {
         expect(files).to.be.an('array');
         expect(files[0].path).to.equal(testPath);
 

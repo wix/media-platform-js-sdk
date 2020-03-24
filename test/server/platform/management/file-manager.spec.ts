@@ -49,14 +49,14 @@ describe('File Manager', () => {
     sandbox.verifyAndRestore();
   });
 
-  it('listFiles - default', done => {
+  it('listFiles - default', (done) => {
     apiServer
       .get('/_api/files/ls_dir')
       .once()
       .query(true)
       .replyWithFile(200, repliesDir + 'list-files-response.json');
 
-    fileManager.listFiles('path').then(data => {
+    fileManager.listFiles('path').then((data) => {
       expect(data).to.deep.equal(
         new ListFilesResponse({
           nextPageToken: 'next',
@@ -85,7 +85,7 @@ describe('File Manager', () => {
               dateCreated: '2017-02-20T14:22:51Z',
               dateUpdated: '2017-02-20T14:22:51Z',
             },
-          ].map(fileDescriptorData => new FileDescriptor(fileDescriptorData)),
+          ].map((fileDescriptorData) => new FileDescriptor(fileDescriptorData)),
         }),
       );
 
@@ -93,7 +93,7 @@ describe('File Manager', () => {
     });
   });
 
-  it('listFiles - page', done => {
+  it('listFiles - page', (done) => {
     apiServer
       .get('/_api/files/ls_dir')
       .once()
@@ -121,14 +121,14 @@ describe('File Manager', () => {
   });
 
   describe('createFolder', () => {
-    it('should return resolved promise with public folder(acl set with public by default)', done => {
+    it('should return resolved promise with public folder(acl set with public by default)', (done) => {
       apiServer
         .post('/_api/files')
         .once()
         .query(true)
         .replyWithFile(200, repliesDir + 'create-folder-success-response.json');
 
-      fileManager.createFolder({ path: 'bla' }).then(data => {
+      fileManager.createFolder({ path: 'bla' }).then((data) => {
         expect(data).to.deep.equal(
           new FileDescriptor({
             mimeType: DescriptorMimeType.Folder,
@@ -149,7 +149,7 @@ describe('File Manager', () => {
       });
     });
 
-    it('should return resolved promise with private folder', done => {
+    it('should return resolved promise with private folder', (done) => {
       apiServer
         .post('/_api/files')
         .once()
@@ -161,7 +161,7 @@ describe('File Manager', () => {
 
       fileManager
         .createFolder({ acl: ACL.PRIVATE, path: 'path/of/file' })
-        .then(data => {
+        .then((data) => {
           expect(data).to.deep.equal(
             new FileDescriptor({
               mimeType: DescriptorMimeType.Folder,
@@ -182,7 +182,7 @@ describe('File Manager', () => {
         });
     });
 
-    it('should return rejected promise when no `path` passed', done => {
+    it('should return rejected promise when no `path` passed', (done) => {
       apiServer
         .post('/_api/files')
         .once()
@@ -193,7 +193,7 @@ describe('File Manager', () => {
         );
 
       // use any for execute method with empty arguments
-      (fileManager as any).createFolder({}).catch(error => {
+      (fileManager as any).createFolder({}).catch((error) => {
         expect(error)
           .to.be.an.instanceOf(Error)
           .with.property(
@@ -210,14 +210,14 @@ describe('File Manager', () => {
     });
   });
 
-  it('getFile', done => {
+  it('getFile', (done) => {
     apiServer
       .get('/_api/files')
       .once()
       .query(true)
       .replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
-    fileManager.getFile('path/of/file').then(data => {
+    fileManager.getFile('path/of/file').then((data) => {
       expect(data).to.deep.equal(
         new FileDescriptor({
           id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
@@ -237,7 +237,7 @@ describe('File Manager', () => {
     });
   });
 
-  it('getFileMetadata - Image', done => {
+  it('getFileMetadata - Image', (done) => {
     apiServer
       .get('/_api/files/file-id/metadata')
       .once()
@@ -245,7 +245,7 @@ describe('File Manager', () => {
 
     fileManager
       .getFileMetadataById('file-id')
-      .then(data => {
+      .then((data) => {
         expect(data).to.deep.equal(
           new FileMetadata({
             mediaType: MediaType.Image,
@@ -318,12 +318,12 @@ describe('File Manager', () => {
 
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });
 
-  it('getFileMetadata - Video', done => {
+  it('getFileMetadata - Video', (done) => {
     apiServer
       .get('/_api/files/file-id/metadata')
       .once()
@@ -331,7 +331,7 @@ describe('File Manager', () => {
 
     fileManager
       .getFileMetadataById('file-id')
-      .then(data => {
+      .then((data) => {
         expect(data).to.deep.equal(
           new FileMetadata({
             mediaType: MediaType.Video,
@@ -389,13 +389,13 @@ describe('File Manager', () => {
 
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });
 
   describe('file upload', () => {
-    it('should accept path (string) as source', done => {
+    it('should accept path (string) as source', (done) => {
       apiServer
         .post('/_api/v2/upload/configuration')
         .once()
@@ -415,11 +415,11 @@ describe('File Manager', () => {
       });
     });
 
-    it('should handle path (string) errors', done => {
+    it('should handle path (string) errors', (done) => {
       (fileManager.uploadFile(
         'upload/to/there/image.jpg',
         'nothing here',
-      ) as Promise<FileDescriptor[]>).catch(error => {
+      ) as Promise<FileDescriptor[]>).catch((error) => {
         expect(error).to.be.an.instanceof(Error);
         expect(error)
           .to.be.an.instanceof(Error)
@@ -432,7 +432,7 @@ describe('File Manager', () => {
       });
     });
 
-    it('should accept stream as source', done => {
+    it('should accept stream as source', (done) => {
       apiServer
         .post('/_api/v2/upload/configuration')
         .once()
@@ -452,7 +452,7 @@ describe('File Manager', () => {
       });
     });
 
-    it('should accept buffer as source', done => {
+    it('should accept buffer as source', (done) => {
       apiServer
         .post('/_api/v2/upload/configuration')
         .once()
@@ -472,7 +472,7 @@ describe('File Manager', () => {
       });
     });
 
-    it('should reject unsupported source', done => {
+    it('should reject unsupported source', (done) => {
       apiServer
         .get('/_api/upload/url')
         .once()
@@ -487,7 +487,7 @@ describe('File Manager', () => {
         'upload/to/there/image.jpg',
         1111,
         null,
-      ) as Promise<FileDescriptor[]>).catch(error => {
+      ) as Promise<FileDescriptor[]>).catch((error) => {
         expect(error).to.be.an.instanceof(Error);
         expect(error)
           .to.be.an.instanceof(Error)
@@ -497,45 +497,38 @@ describe('File Manager', () => {
       });
     });
 
-    it('should handle auth errors', done => {
-      apiServer
-        .get('/_api/upload/url')
-        .once()
-        .query(true)
-        .reply(403, {});
+    it('should handle auth errors', (done) => {
+      apiServer.get('/_api/upload/url').once().query(true).reply(403, {});
 
       (fileManager.uploadFile(
         'upload/to/there/image.jpg',
         sourcesDir + 'image.jpg',
-      ) as Promise<FileDescriptor[]>).catch(error => {
+      ) as Promise<FileDescriptor[]>).catch((error) => {
         expect(error).to.be.an.instanceof(Error);
 
         done();
       });
     });
 
-    it('should handle upload errors', done => {
+    it('should handle upload errors', (done) => {
       apiServer
         .get('/_api/upload/url')
         .once()
         .query(true)
         .replyWithFile(200, repliesDir + 'get-upload-url-response.json');
-      apiServer
-        .post('/_api/upload/file')
-        .once()
-        .reply(500, {});
+      apiServer.post('/_api/upload/file').once().reply(500, {});
 
       (fileManager.uploadFile(
         'upload/to/there/image.jpg',
         sourcesDir + 'image.jpg',
-      ) as Promise<FileDescriptor[]>).catch(error => {
+      ) as Promise<FileDescriptor[]>).catch((error) => {
         expect(error).to.be.an.instanceof(Error);
         done();
       });
     });
 
     describe('acl', () => {
-      it('should upload file with default(public) ACL', done => {
+      it('should upload file with default(public) ACL', (done) => {
         apiServer
           .post('/_api/v2/upload/configuration')
           .once()
@@ -553,13 +546,13 @@ describe('File Manager', () => {
         (fileManager.uploadFile(
           'upload/to/there/image.jpg',
           sourcesDir + 'image.jpg',
-        ) as Promise<FileDescriptor[]>).then(response => {
+        ) as Promise<FileDescriptor[]>).then((response) => {
           expect(response[0].acl).to.be.eql(ACL.PUBLIC);
           done();
         });
       });
 
-      it('should upload file with public ACL', done => {
+      it('should upload file with public ACL', (done) => {
         apiServer
           .post('/_api/v2/upload/configuration')
           .once()
@@ -582,13 +575,13 @@ describe('File Manager', () => {
           'upload/to/there/image.jpg',
           sourcesDir + 'image.jpg',
           uploadFileRequest,
-        ) as Promise<FileDescriptor[]>).then(response => {
+        ) as Promise<FileDescriptor[]>).then((response) => {
           expect(response[0].acl).to.be.eql(ACL.PUBLIC);
           done();
         });
       });
 
-      it('should upload file with private ACL', done => {
+      it('should upload file with private ACL', (done) => {
         apiServer
           .post('/_api/v2/upload/configuration')
           .once()
@@ -611,7 +604,7 @@ describe('File Manager', () => {
           'upload/to/there/image.jpg',
           sourcesDir + 'image.jpg',
           uploadFileRequest,
-        ) as Promise<FileDescriptor[]>).then(response => {
+        ) as Promise<FileDescriptor[]>).then((response) => {
           expect(response[0].acl).to.be.eql(ACL.PRIVATE);
           done();
         });
@@ -619,7 +612,7 @@ describe('File Manager', () => {
     });
 
     describe('upload configuration callback', () => {
-      it('should create upload configuration with a callback', done => {
+      it('should create upload configuration with a callback', (done) => {
         const callback = {
           url: 'www.google.com',
           attachment: {
@@ -657,7 +650,7 @@ describe('File Manager', () => {
     });
 
     describe('lifecycle(age)', () => {
-      it('should upload file with default(none) lifecycle', done => {
+      it('should upload file with default(none) lifecycle', (done) => {
         apiServer
           .post('/_api/v2/upload/configuration')
           .once()
@@ -675,13 +668,13 @@ describe('File Manager', () => {
         (fileManager.uploadFile(
           'upload/to/there/image.jpg',
           sourcesDir + 'image.jpg',
-        ) as Promise<FileDescriptor[]>).then(response => {
+        ) as Promise<FileDescriptor[]>).then((response) => {
           expect(response[0].lifecycle).to.be.eql(null);
           done();
         });
       });
 
-      it('should upload file with delete lifecycle', done => {
+      it('should upload file with delete lifecycle', (done) => {
         apiServer
           .post('/_api/v2/upload/configuration')
           .once()
@@ -707,7 +700,7 @@ describe('File Manager', () => {
           'upload/to/there/image.jpg',
           sourcesDir + 'image.jpg',
           uploadFileRequest,
-        ) as Promise<FileDescriptor[]>).then(response => {
+        ) as Promise<FileDescriptor[]>).then((response) => {
           expect(response[0].lifecycle).to.be.eql({
             action: Lifecycle.Delete,
             age: 50,
@@ -718,7 +711,7 @@ describe('File Manager', () => {
     });
 
     describe('uploadToken and uploadUrl', () => {
-      it('should upload file with custom uploadToken and uploadUrl', done => {
+      it('should upload file with custom uploadToken and uploadUrl', (done) => {
         apiServer
           .post('/_api/upload/file')
           .once()
@@ -735,7 +728,7 @@ describe('File Manager', () => {
         });
       });
 
-      it('should upload file with passed object', done => {
+      it('should upload file with passed object', (done) => {
         apiServer
           .post('/_api/upload/file')
           .once()
@@ -756,7 +749,7 @@ describe('File Manager', () => {
         });
       });
 
-      it('should upload file with custom uploadToken, uploadUrl and uploadFileRequest', done => {
+      it('should upload file with custom uploadToken, uploadUrl and uploadFileRequest', (done) => {
         // TODO: add form-data params checking with nock
         apiServer
           .post('/_api/upload/file')
@@ -783,7 +776,7 @@ describe('File Manager', () => {
         });
       });
 
-      it('should not upload file without uploadToken and uploadUrl', done => {
+      it('should not upload file without uploadToken and uploadUrl', (done) => {
         apiServer
           .post('/_api/upload/file')
           .once()
@@ -820,7 +813,7 @@ describe('File Manager', () => {
     });
   });
 
-  it('file import', done => {
+  it('file import', (done) => {
     apiServer
       .post('/_api/import/file')
       .once()
@@ -833,7 +826,7 @@ describe('File Manager', () => {
       sourceUrl: 'http://from/here/file.txt',
     });
 
-    fileManager.importFile(importFileRequest).then(data => {
+    fileManager.importFile(importFileRequest).then((data) => {
       if (data === null) {
         throw Error('something is wrong');
       }
@@ -846,7 +839,7 @@ describe('File Manager', () => {
     });
   });
 
-  it('file import with jobCallback', done => {
+  it('file import with jobCallback', (done) => {
     apiServer
       .post('/_api/import/file')
       .once()
@@ -864,7 +857,7 @@ describe('File Manager', () => {
       },
     });
 
-    fileManager.importFile(importFileRequest).then(data => {
+    fileManager.importFile(importFileRequest).then((data) => {
       if (data === null) {
         throw Error('something is wrong');
       }
@@ -877,7 +870,7 @@ describe('File Manager', () => {
     });
   });
 
-  it('file import observable', done => {
+  it('file import observable', (done) => {
     apiServer
       .post('/_api/import/file')
       .once()
@@ -907,7 +900,7 @@ describe('File Manager', () => {
 
     fileManager.importFileObservable(importFileRequest).subscribe(
       progressSpy,
-      error => done(error),
+      (error) => done(error),
       () => {
         expect(progressSpy).to.have.been.calledTwice;
         expect(progressSpy.firstCall.args[0].id).to.equal(
@@ -923,7 +916,7 @@ describe('File Manager', () => {
     );
   });
 
-  it('file import observable error', done => {
+  it('file import observable error', (done) => {
     apiServer
       .post('/_api/import/file')
       .once()
@@ -953,7 +946,7 @@ describe('File Manager', () => {
 
     fileManager.importFileObservable(importFileRequest).subscribe(
       progressSpy,
-      error => {
+      (error) => {
         expect(progressSpy).to.have.been.calledOnce;
         expect(progressSpy.firstCall.args[0].id).to.equal(
           '71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f',
@@ -971,7 +964,7 @@ describe('File Manager', () => {
 
   describe('updateFileACL', () => {
     describe('by id', () => {
-      it('should return public file', done => {
+      it('should return public file', (done) => {
         apiServer
           .put('/_api/files')
           .once()
@@ -983,7 +976,7 @@ describe('File Manager', () => {
             acl: ACL.PUBLIC,
             id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
           })
-          .then(data => {
+          .then((data) => {
             expect(data).to.deep.equal(
               new FileDescriptor({
                 id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
@@ -1003,7 +996,7 @@ describe('File Manager', () => {
           });
       });
 
-      it('should return private file', done => {
+      it('should return private file', (done) => {
         apiServer
           .put('/_api/files')
           .once()
@@ -1018,7 +1011,7 @@ describe('File Manager', () => {
             acl: ACL.PRIVATE,
             id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
           })
-          .then(data => {
+          .then((data) => {
             expect(data).to.deep.equal(
               new FileDescriptor({
                 id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
@@ -1040,7 +1033,7 @@ describe('File Manager', () => {
     });
 
     describe('by path', () => {
-      it('should return public file', done => {
+      it('should return public file', (done) => {
         apiServer
           .put('/_api/files')
           .once()
@@ -1049,7 +1042,7 @@ describe('File Manager', () => {
 
         fileManager
           .updateFileACL({ acl: ACL.PUBLIC, path: '/place-holder.txt' })
-          .then(data => {
+          .then((data) => {
             expect(data).to.deep.equal(
               new FileDescriptor({
                 id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
@@ -1069,7 +1062,7 @@ describe('File Manager', () => {
           });
       });
 
-      it('should return private file', done => {
+      it('should return private file', (done) => {
         apiServer
           .put('/_api/files')
           .once()
@@ -1081,7 +1074,7 @@ describe('File Manager', () => {
 
         fileManager
           .updateFileACL({ acl: ACL.PRIVATE, path: '/place-holder.txt' })
-          .then(data => {
+          .then((data) => {
             expect(data).to.deep.equal(
               new FileDescriptor({
                 id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',

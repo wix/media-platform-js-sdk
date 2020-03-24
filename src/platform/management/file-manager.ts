@@ -147,10 +147,10 @@ export class FileManager {
     }
 
     return uploadFileResult.then(
-      response => {
+      (response) => {
         return response;
       },
-      error => {
+      (error) => {
         return Promise.reject(error);
       },
     );
@@ -249,10 +249,10 @@ export class FileManager {
         importFileRequest,
       )
       .then(
-        response => {
+        (response) => {
           return new Job<FileImportSpecification>(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -267,10 +267,10 @@ export class FileManager {
     return this.httpClient
       .post<RawResponse<IFileDescriptor>>(this.apiUrl, fileDescriptor)
       .then(
-        response => {
+        (response) => {
           return new FileDescriptor(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -291,10 +291,10 @@ export class FileManager {
         type: FileType.FOLDER,
       })
       .then(
-        response => {
+        (response) => {
           return new FileDescriptor(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -311,10 +311,10 @@ export class FileManager {
     return this.httpClient
       .get<RawResponse<FileDescriptor>>(this.apiUrl, params)
       .then(
-        response => {
+        (response) => {
           return new FileDescriptor(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -328,10 +328,10 @@ export class FileManager {
     return this.httpClient
       .get<RawResponse<IFileMetadata>>(`${this.apiUrl}/${fileId}/metadata`)
       .then(
-        response => {
+        (response) => {
           return new FileMetadata(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -353,10 +353,10 @@ export class FileManager {
     return this.httpClient
       .get<RawResponse<IListFilesResponse>>(`${this.apiUrl}/ls_dir`, params)
       .then(
-        response => {
+        (response) => {
           return new ListFilesResponse(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -370,7 +370,7 @@ export class FileManager {
       path,
     };
 
-    return this.httpClient.delete(this.apiUrl, params).catch(error => {
+    return this.httpClient.delete(this.apiUrl, params).catch((error) => {
       return Promise.reject(error);
     });
   }
@@ -379,7 +379,7 @@ export class FileManager {
    * @param {string} id
    */
   deleteFileById(id: string): Promise<void> {
-    return this.httpClient.delete(`${this.apiUrl}/${id}`).catch(error => {
+    return this.httpClient.delete(`${this.apiUrl}/${id}`).catch((error) => {
       return Promise.reject(error);
     });
   }
@@ -391,7 +391,7 @@ export class FileManager {
   updateFileACL(params: UpdateFileACL): Promise<FileDescriptor> {
     return this.httpClient
       .put<RawResponse<FileDescriptor>>(this.apiUrl, params)
-      .then(response => {
+      .then((response) => {
         return new FileDescriptor(response.payload);
       });
   }

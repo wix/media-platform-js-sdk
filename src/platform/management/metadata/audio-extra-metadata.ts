@@ -36,7 +36,7 @@ export class AudioExtraMetadata implements IAudioExtraMetadata {
     this.year = data.year;
 
     if (data.images) {
-      this.images = data.images.map(img => {
+      this.images = data.images.map((img) => {
         return new AttachedImage(img);
       });
     }

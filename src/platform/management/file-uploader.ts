@@ -112,10 +112,10 @@ export class FileUploader implements IFileUploader {
         uploadUrlRequest,
       )
       .then(
-        response => {
+        (response) => {
           return new UploadUrlResponse(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -145,10 +145,10 @@ export class FileUploader implements IFileUploader {
         uploadConfigurationRequest,
       )
       .then(
-        response => {
+        (response) => {
           return new UploadConfigurationResponse(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -224,7 +224,7 @@ export class FileUploader implements IFileUploader {
       );
     }
 
-    uploadConfiguration.then(response => {
+    uploadConfiguration.then((response) => {
       logger.debug(`uploadConfigurationResponse: ${JSON.stringify(response)}`);
     });
 
@@ -342,7 +342,7 @@ export class FileUploader implements IFileUploader {
 
   private getStreamErrorPromise(stream: UploadFileStream) {
     return new Promise((resolve, reject) => {
-      (stream as Stream).once('error', error => {
+      (stream as Stream).once('error', (error) => {
         reject(error);
       });
     });

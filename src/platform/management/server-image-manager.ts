@@ -17,7 +17,7 @@ export class ServerImageManager extends ImageManager {
     public httpClient: IHTTPClient,
     private readonly authenticator: Authenticator,
   ) {
-    super(configuration, httpClient)
+    super(configuration, httpClient);
   }
 
   newImageToken(): ImageToken {

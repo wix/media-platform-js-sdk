@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 
 import { HTTPClient } from '../../../src/public/platform/http/browser-http-client';
 
-describe('browser http client', function() {
+describe('browser http client', function () {
   // tslint:disable-next-line
   this.timeout(50000);
 
@@ -39,7 +39,7 @@ describe('browser http client', function() {
   });
 
   function setResponse(responseBody, responseStatus = 200) {
-    fauxJax.on('request', request => {
+    fauxJax.on('request', (request) => {
       if (
         request.requestURL === 'https://www.myapp.com/auth' &&
         request.requestHeaders.MyHeader === 'MyHeaderValue'

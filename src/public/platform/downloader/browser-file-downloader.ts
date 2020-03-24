@@ -36,10 +36,10 @@ export class FileDownloader {
         params,
       )
       .then(
-        response => {
+        (response) => {
           return response.payload;
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );

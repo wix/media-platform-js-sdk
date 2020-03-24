@@ -58,7 +58,7 @@ export class ImageExtractionManager {
    * @returns {(error) => Error}
    */
   private errorHandler(): (error) => Error {
-    return error => error as Error;
+    return (error) => error as Error;
   }
 
   /**

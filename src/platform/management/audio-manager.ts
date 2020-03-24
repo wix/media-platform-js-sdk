@@ -39,10 +39,10 @@ export class AudioManager {
     return this.httpClient
       .get<RawResponse<IFileMetadata>>(`${this.apiUrl}/metadata`, params)
       .then(
-        response => {
+        (response) => {
           return new FileMetadata(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
