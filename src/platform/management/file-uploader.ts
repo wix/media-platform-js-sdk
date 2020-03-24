@@ -121,6 +121,14 @@ export class FileUploader implements IFileUploader {
       );
   }
 
+  private getUploadConfigurationRaw({
+    uploadConfigurationRequest,
+    version = 'v2',
+  }: {
+    uploadConfigurationRequest?: IUploadConfigurationRequest;
+    version?: string;
+  }) {}
+
   /**
    * @description retrieve upload configuration for uploading files
    * @param uploadConfigurationRequest

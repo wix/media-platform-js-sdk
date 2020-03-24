@@ -23,8 +23,6 @@ import { SearchJobsRequest } from '../../platform/management/requests/search-job
 import { TranscodeRequest } from '../../platform/management/requests/transcode-request';
 import { UploadFileRequest } from '../../platform/management/requests/upload-file-request';
 import { UploadUrlRequest } from '../../platform/management/requests/upload-url-request';
-import { Configuration as PublicConfiguration } from '../../public/platform/configuration/configuration';
-import { MediaPlatform } from '../../public/platform/media-platform';
 import { UploadJob } from '../../public/platform/uploader/upload-job';
 
 export interface AuthorizationHeader {
@@ -106,22 +104,7 @@ export interface ExportedTranscode {
   QualityRange: typeof QualityRange;
 }
 
-export interface ExportedPublicMediaPlatform {
-  Configuration: typeof PublicConfiguration;
-  MediaPlatform: typeof MediaPlatform;
-  Image: typeof Image;
-  image: ExportedImage;
-  upload: ExportedUpload;
-  file: ExportedFile;
-  job: ExportedJob;
-  live: ExportedLive;
-  flow: ExportedFlow;
-  archive: ExportedArchive;
-  transcode: ExportedTranscode;
-  Source: typeof Source;
-  Destination: typeof Destination;
-  QualityRange: typeof QualityRange;
-}
+
 
 export enum OrderDirection {
   None,

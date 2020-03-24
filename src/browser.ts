@@ -27,7 +27,9 @@ import { UploadUrlRequest } from './platform/management/requests/upload-url-requ
 import { Configuration } from './public/platform/configuration/configuration';
 import { MediaPlatform } from './public/platform/media-platform';
 import { UploadJob } from './public/platform/uploader/upload-job';
-import { ExportedPublicMediaPlatform } from './types/media-platform/media-platform';
+import { ExportedPublicMediaPlatform } from './types/media-platform/public-media-platform';
+
+// export  { ExportedPublicMediaPlatform } from './types/media-platform/media-platform';
 
 export { Configuration };
 export { MediaPlatform };

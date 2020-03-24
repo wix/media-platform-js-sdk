@@ -78,6 +78,7 @@ describe('queued file uploader', function() {
     const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain = () => {
         resolve();
+        return Promise.resolve();
       };
     });
 
@@ -114,6 +115,7 @@ describe('queued file uploader', function() {
     const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain = () => {
         resolve();
+        return Promise.resolve();
       };
     });
 
@@ -142,6 +144,7 @@ describe('queued file uploader', function() {
     const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain = () => {
         resolve();
+        return Promise.resolve();
       };
     });
 
@@ -424,6 +427,7 @@ describe('queued file uploader', function() {
     const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain = () => {
         resolve();
+        return Promise.resolve();
       };
     });
 
