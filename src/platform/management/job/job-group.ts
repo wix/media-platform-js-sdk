@@ -13,18 +13,18 @@ export class JobGroup<T = any> implements IJobGroup<T> {
 
   constructor(data: IJobGroup) {
     this.groupId = data.groupId;
-    this.jobs = data.jobs.map(jobData => new Job<T>(jobData));
+    this.jobs = data.jobs.map((jobData) => new Job<T>(jobData));
   }
 
   public isWaiting(): boolean {
-    return this.jobs.some(job => job.isWaiting());
+    return this.jobs.some((job) => job.isWaiting());
   }
 
   public isError(): boolean {
-    return this.jobs.some(job => job.isError());
+    return this.jobs.some((job) => job.isError());
   }
 
   public isSuccess(): boolean {
-    return this.jobs.every(job => job.isSuccess());
+    return this.jobs.every((job) => job.isSuccess());
   }
 }

@@ -401,7 +401,7 @@ export class Image {
     let out = '';
     let part;
     const errors: (Error | string)[] = [];
-    this.serializationOrder.forEach(op => {
+    this.serializationOrder.forEach((op) => {
       part = op.serialize();
 
       if (part.error) {

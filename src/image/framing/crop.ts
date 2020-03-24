@@ -82,7 +82,7 @@ export class Crop implements GeometryBase {
         params: null,
         error: new Error(
           [badScale, badX, badY, badWidth, badHeight]
-            .filter(error => error)
+            .filter((error) => error)
             .join(','),
         ),
       };

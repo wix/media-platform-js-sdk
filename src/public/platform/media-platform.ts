@@ -92,7 +92,7 @@ class MediaPlatform {
   public getAuthorizationHeader(): Promise<AuthorizationHeader> {
     const authenticationHeaderPromise = this.browserHTTPClient.getAuthorizationHeader();
 
-    return authenticationHeaderPromise.catch(error => {
+    return authenticationHeaderPromise.catch((error) => {
       return Promise.reject(error);
     });
   }
@@ -115,10 +115,10 @@ class MediaPlatform {
     downloadUrlRequest?: DownloadUrlRequest,
   ): Promise<DownloadUrl> {
     return this.fileDownloader.getDownloadUrl(path, downloadUrlRequest).then(
-      response => {
+      (response) => {
         return response;
       },
-      error => {
+      (error) => {
         return Promise.reject(error);
       },
     );

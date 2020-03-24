@@ -62,14 +62,14 @@ describe('AV Manager', () => {
         ],
       });
 
-      await avManager.transcodeVideo(transcodeRequest).then(data => {
+      await avManager.transcodeVideo(transcodeRequest).then((data) => {
         expect(data.groupId).to.equal('fb79405a16434aab87ccbd1384563033');
       });
     });
   });
 
   describe('transcodeVideoObservable', () => {
-    it('should emit with pending and success statuses', done => {
+    it('should emit with pending and success statuses', (done) => {
       apiServer
         .post('/_api/av/transcode')
         .once()
@@ -128,7 +128,7 @@ describe('AV Manager', () => {
     });
   });
 
-  it('should transcode video observable error', done => {
+  it('should transcode video observable error', (done) => {
     apiServer
       .post('/_api/av/transcode')
       .once()
@@ -168,7 +168,7 @@ describe('AV Manager', () => {
     const progressSpy = sandbox.spy();
     avManager.transcodeVideoObservable(transcodeRequest).subscribe(
       progressSpy,
-      error => {
+      (error) => {
         expect(progressSpy).to.have.been.calledOnce;
         expect(progressSpy.firstCall.args[0].jobs[0].id).to.equal(
           'fb79405a16434aab87ccbd1384563033_ae7ae8a47b114f45b8a75f53723e53dc',
@@ -275,7 +275,7 @@ describe('AV Manager', () => {
         packageType: PackageType.HLS,
       };
 
-      await avManager.packageVideo(requestParams).then(data => {
+      await avManager.packageVideo(requestParams).then((data) => {
         expect(data).to.deep.equal(
           new PackagingJobResponse({
             jobs: [

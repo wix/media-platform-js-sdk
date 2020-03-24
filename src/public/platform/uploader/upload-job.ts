@@ -103,13 +103,13 @@ export class UploadJob extends EventEmitter {
     }
 
     uploadConfiguration.then(
-      response => {
+      (response) => {
         const onProgress = (event: ProgressEvent) => {
           const e = new UploadProgressEvent(this, event.loaded, event.total);
           this.emit(e.name, e);
         };
 
-        const onLoad = event => {
+        const onLoad = (event) => {
           let e;
           if (event.target.status >= 400) {
             e = new UploadErrorEvent(this, event.target.response);
@@ -135,7 +135,7 @@ export class UploadJob extends EventEmitter {
           this.emit(e.name, e);
         };
 
-        const onAbort = event => {
+        const onAbort = (event) => {
           const e = new UploadAbortedEvent(event.target);
           this.emit(e.name, e);
         };
@@ -194,7 +194,7 @@ export class UploadJob extends EventEmitter {
 
         request.send(formData);
       },
-      error => {
+      (error) => {
         const e = new UploadErrorEvent(this, error);
         this.emit(e.name, e);
       },

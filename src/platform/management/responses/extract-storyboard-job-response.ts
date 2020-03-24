@@ -12,6 +12,6 @@ export class ExtractStoryboardJobResponse {
 
   constructor(data: IExtractStoryboardJobResponse) {
     this.groupId = data.groupId;
-    this.jobs = data.jobs.map(job => new Job(job));
+    this.jobs = data.jobs.map((job) => new Job(job));
   }
 }

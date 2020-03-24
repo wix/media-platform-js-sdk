@@ -47,10 +47,10 @@ export class ImageManager {
         imageOperationRequest,
       )
       .then(
-        response => {
+        (response) => {
           return new FileDescriptor(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -69,10 +69,10 @@ export class ImageManager {
         watermarkManifestRequest,
       )
       .then(
-        response => {
+        (response) => {
           return new WatermarkManifest(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );

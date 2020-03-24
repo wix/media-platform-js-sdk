@@ -98,10 +98,10 @@ export class AVManager {
         params,
       )
       .then(
-        response => {
+        (response) => {
           return new TranscodeJobResponse(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -123,10 +123,10 @@ export class AVManager {
         params,
       )
       .then(
-        response => {
+        (response) => {
           return new ExtractPosterJobResponse(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -147,10 +147,10 @@ export class AVManager {
         `${this.apiUrl}/storyboard`,
         params,
       )
-      .then(response => {
+      .then((response) => {
         return new ExtractStoryboardJobResponse(response.payload);
       })
-      .catch(error => {
+      .catch((error) => {
         return Promise.reject(error);
       });
   }
@@ -184,6 +184,6 @@ export class AVManager {
         `${this.apiUrl}/package`,
         params,
       )
-      .then(response => new PackagingJobResponse(response.payload));
+      .then((response) => new PackagingJobResponse(response.payload));
   }
 }

@@ -45,10 +45,10 @@ export class ArchiveManager {
         createArchiveRequest,
       )
       .then(
-        response => {
+        (response) => {
           return new Job<CreateArchiveSpecification>(response.payload);
         },
-        error => {
+        (error) => {
           return Promise.reject(error);
         },
       );
@@ -109,10 +109,10 @@ export class ArchiveManager {
     extractArchiveRequest: IExtractArchiveRequest,
   ): Promise<Job<ExtractArchiveSpecification>> {
     return this.doExtractArchive(extractArchiveRequest).then(
-      response => {
+      (response) => {
         return new Job<ExtractArchiveSpecification>(response.payload);
       },
-      error => {
+      (error) => {
         return Promise.reject(error);
       },
     );

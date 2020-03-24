@@ -60,7 +60,7 @@ export class Fit extends Geometry {
     if (badWidth || badHeight) {
       return {
         params: null,
-        error: new Error([badWidth, badHeight].filter(msg => msg).join(',')),
+        error: new Error([badWidth, badHeight].filter((msg) => msg).join(',')),
       };
     }
 

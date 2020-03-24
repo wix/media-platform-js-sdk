@@ -31,13 +31,13 @@ describe('flow manager', () => {
     nock.cleanAll();
   });
 
-  it('Get flow request is parsing properly', done => {
+  it('Get flow request is parsing properly', (done) => {
     apiServer
       .get('/_api/flow_control/flow/flow_id')
       .once()
       .replyWithFile(200, repliesDir + 'get-flow-response.json');
 
-    flowManager.getFlow('flow_id').then(data => {
+    flowManager.getFlow('flow_id').then((data) => {
       expect(data.invocation).to.be.an.instanceof(Invocation);
       expect(data.invocation.entryPoints).to.be.an.instanceof(Array);
       expect(data.invocation.entryPoints[0]).to.equal('import');
@@ -47,7 +47,7 @@ describe('flow manager', () => {
     });
   });
 
-  it('Create Flow', done => {
+  it('Create Flow', (done) => {
     apiServer
       .post('/_api/flow_control/flow')
       .once()
@@ -298,7 +298,7 @@ describe('flow manager', () => {
     expect(flowState.invocation).to.deep.equal(invocation);
   });
 
-  it('Delete Flow', done => {
+  it('Delete Flow', (done) => {
     apiServer
       .delete('/_api/flow_control/flow/flow_id')
       .once()

@@ -100,7 +100,7 @@ function explodeUrl(url) {
 function explodeTransformations(transformations) {
   const parts = transformations.split(',');
   const exploded = {};
-  parts.forEach(transformation => {
+  parts.forEach((transformation) => {
     const params = transformation.split('_');
     exploded[params[0]] = params.slice(1);
   });
@@ -127,7 +127,7 @@ function parseFragment(fragment: string): Metadata | null {
   const parts = fragment.split(',');
   const exploded: Partial<ExplodedFragment> = {};
 
-  parts.forEach(part => {
+  parts.forEach((part) => {
     const params = part.split('_');
 
     if (params.length >= 2 && params[1] !== '') {

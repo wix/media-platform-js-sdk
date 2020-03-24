@@ -104,8 +104,6 @@ export interface ExportedTranscode {
   QualityRange: typeof QualityRange;
 }
 
-
-
 export enum OrderDirection {
   None,
   ASC = 'asc',

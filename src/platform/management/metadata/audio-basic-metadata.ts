@@ -11,7 +11,7 @@ export class AudioBasicMetadata implements IAudioBasicMetadata {
   public format: AudioFormat | null = null;
 
   constructor(data: IAudioBasicMetadata) {
-    this.audioStreams = data.audioStreams.map(audioStream => {
+    this.audioStreams = data.audioStreams.map((audioStream) => {
       return new AudioStream(audioStream);
     });
 

@@ -19,12 +19,12 @@ export class TranscodeRequest implements ITranscodeRequest {
 
   constructor({ sources, specifications }: ITranscodeRequest = {}) {
     if (sources) {
-      this.sources = sources.map(sourceData => new Source(sourceData));
+      this.sources = sources.map((sourceData) => new Source(sourceData));
     }
 
     if (specifications) {
       this.specifications = specifications.map(
-        specification => new TranscodeSpecification(specification),
+        (specification) => new TranscodeSpecification(specification),
       );
     }
   }

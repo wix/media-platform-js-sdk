@@ -30,7 +30,7 @@ describe('Audio Manager', () => {
     sandbox.verifyAndRestore();
   });
 
-  it('extracts audio metadata', done => {
+  it('extracts audio metadata', (done) => {
     apiServer
       .get('/_api/audio/metadata')
       .query(true)
@@ -39,7 +39,7 @@ describe('Audio Manager', () => {
 
     audioManager
       .extractMetadata('/f.mp3')
-      .then(data => {
+      .then((data) => {
         expect(data).to.deep.equal(
           new FileMetadata({
             basic: new AudioBasicMetadata({
@@ -99,12 +99,12 @@ describe('Audio Manager', () => {
 
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });
 
-  it('extracts audio metadata - without "extra"', done => {
+  it('extracts audio metadata - without "extra"', (done) => {
     apiServer
       .get('/_api/audio/metadata')
       .query(true)
@@ -116,7 +116,7 @@ describe('Audio Manager', () => {
 
     audioManager
       .extractMetadata('/f.mp3')
-      .then(data => {
+      .then((data) => {
         expect(data).to.deep.equal(
           new FileMetadata({
             basic: new AudioBasicMetadata({
@@ -155,7 +155,7 @@ describe('Audio Manager', () => {
 
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });

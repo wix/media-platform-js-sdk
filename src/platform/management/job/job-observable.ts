@@ -31,7 +31,7 @@ export function observeJobCreator<T>(
     createJob: CreateJob<K>,
     pollingInterval = 500,
   ): Observable<Job<K>> {
-    return new Observable<Job<K>>(observer => {
+    return new Observable<Job<K>>((observer) => {
       const pollJob = (updatedJob: Job<K>) => {
         if (updatedJob.isError()) {
           observer.error(updatedJob);
@@ -50,20 +50,15 @@ export function observeJobCreator<T>(
         }
       };
 
-      const onFailure = error => {
+      const onFailure = (error) => {
         observer.error(error);
       };
 
       function fetchJob(job: Job<K>) {
-        jobManager
-          .getJob<K>(job.id)
-          .then(pollJob)
-          .catch(onFailure);
+        jobManager.getJob<K>(job.id).then(pollJob).catch(onFailure);
       }
 
-      createJob()
-        .then(pollJob)
-        .catch(onFailure);
+      createJob().then(pollJob).catch(onFailure);
     });
   }
 
@@ -80,7 +75,7 @@ export const observeJobGroupCreator = (
     createJobGroup: CreateJobGroup,
     pollingInterval = 500,
   ): Observable<JobGroup> => {
-    return new Observable<JobGroup>(observer => {
+    return new Observable<JobGroup>((observer) => {
       const pollJobGroup = (updatedJobGroup: JobGroup) => {
         if (updatedJobGroup.isError()) {
           observer.error(updatedJobGroup);
@@ -99,7 +94,7 @@ export const observeJobGroupCreator = (
         }
       };
 
-      const onFailure = error => {
+      const onFailure = (error) => {
         observer.error(error);
       };
 
@@ -107,7 +102,7 @@ export const observeJobGroupCreator = (
         jobManager
           .getJobGroup(jobGroup.groupId)
           .then(
-            jobs =>
+            (jobs) =>
               new JobGroup({
                 groupId: jobGroup.groupId,
                 jobs,
@@ -117,9 +112,7 @@ export const observeJobGroupCreator = (
           .catch(onFailure);
       }
 
-      createJobGroup()
-        .then(pollJobGroup)
-        .catch(onFailure);
+      createJobGroup().then(pollJobGroup).catch(onFailure);
     });
   };
 };

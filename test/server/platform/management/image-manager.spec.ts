@@ -35,7 +35,7 @@ describe('image manager', () => {
     nock.cleanAll();
   });
 
-  it('perform image operation', done => {
+  it('perform image operation', (done) => {
     apiServer
       .post('/_api/images/operations')
       .once()
@@ -70,7 +70,7 @@ describe('image manager', () => {
       },
     });
 
-    imageManager.imageOperation(request).then(data => {
+    imageManager.imageOperation(request).then((data) => {
       expect(data).to.deep.equal(
         new FileDescriptor({
           id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
@@ -89,7 +89,7 @@ describe('image manager', () => {
     });
   });
 
-  it('perform watermark manifest request', done => {
+  it('perform watermark manifest request', (done) => {
     apiServer
       .post('/_api/images/watermark')
       .once()

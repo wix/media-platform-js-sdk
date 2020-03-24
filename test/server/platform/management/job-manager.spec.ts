@@ -37,14 +37,14 @@ describe('jobManager', () => {
   });
 
   describe('getJob', () => {
-    it('get job', done => {
+    it('get job', (done) => {
       apiServer
         .get('/_api/jobs/job-id')
         .once()
         .query(true)
         .replyWithFile(200, repliesDir + 'get-job-response.json');
 
-      jobManager.getJob('job-id').then(data => {
+      jobManager.getJob('job-id').then((data) => {
         expect(data).to.deep.equal(
           new Job({
             id:
@@ -85,14 +85,14 @@ describe('jobManager', () => {
     });
   });
 
-  it('get job group', done => {
+  it('get job group', (done) => {
     apiServer
       .get('/_api/jobs/groups/group-id')
       .once()
       .query(true)
       .replyWithFile(200, repliesDir + 'get-job-group-response.json');
 
-    jobManager.getJobGroup('group-id').then(data => {
+    jobManager.getJobGroup('group-id').then((data) => {
       expect(data).to.deep.equal([
         new Job({
           id:
@@ -266,7 +266,7 @@ describe('jobManager', () => {
               },
             },
           },
-        ].map(jobData => new Job(jobData as IJob<any>)),
+        ].map((jobData) => new Job(jobData as IJob<any>)),
       }),
     );
   });

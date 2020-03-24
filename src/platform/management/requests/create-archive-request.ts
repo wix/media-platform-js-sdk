@@ -21,7 +21,7 @@ export class CreateArchiveRequest implements ICreateArchiveRequest {
       throw new Error('No data passed to CreateArchiveRequest constructor');
     }
 
-    this.sources = data.sources.map(sourceData => new Source(sourceData));
+    this.sources = data.sources.map((sourceData) => new Source(sourceData));
     this.destination = data.destination
       ? new Destination(data.destination)
       : null;

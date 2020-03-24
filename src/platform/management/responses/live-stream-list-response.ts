@@ -20,7 +20,7 @@ export class LiveStreamListResponse {
   constructor(data: ILiveStreamListResponse) {
     this.nextPageToken = data.nextPageToken;
 
-    this.streams = data.streams.map(liveStream => {
+    this.streams = data.streams.map((liveStream) => {
       return new LiveStream(liveStream);
     });
   }

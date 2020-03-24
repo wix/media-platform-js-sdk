@@ -60,7 +60,7 @@ export class Job<T> implements IJob<T> {
     this.result = data.result;
 
     if (typeof data.sources !== 'undefined') {
-      this.sources = data.sources.map(source => {
+      this.sources = data.sources.map((source) => {
         return new Source(source);
       });
     }

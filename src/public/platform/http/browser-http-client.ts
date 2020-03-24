@@ -53,7 +53,7 @@ export class HTTPClient implements IHTTPClient {
     noRetry = false,
   ) {
     this.getAuthorizationHeader().then(
-      header => {
+      (header) => {
         const request = new XMLHttpRequest();
         let queryString: string = '';
         let body: string = '';
@@ -81,7 +81,7 @@ export class HTTPClient implements IHTTPClient {
             }
         }
 
-        request.addEventListener('load', event => {
+        request.addEventListener('load', (event) => {
           let payload = null;
           try {
             // TODO: fix, '{}' is temporary solution
@@ -103,7 +103,7 @@ export class HTTPClient implements IHTTPClient {
 
           callback(null, payload);
         });
-        request.addEventListener('error', event => {
+        request.addEventListener('error', (event) => {
           if (request.status === 403 || request.status === 401) {
             this.authorizationHeader = null;
             if (request.status === 401 && !noRetry) {
@@ -114,7 +114,7 @@ export class HTTPClient implements IHTTPClient {
 
           callback(new Error(request.statusText), null);
         });
-        request.addEventListener('abort', event => {
+        request.addEventListener('abort', (event) => {
           callback(new Error(request.statusText), null);
         });
 
@@ -125,7 +125,7 @@ export class HTTPClient implements IHTTPClient {
         request.setRequestHeader('Authorization', header.Authorization);
         request.send(body);
       },
-      error => {
+      (error) => {
         if (callback) {
           callback(error, null);
         }
@@ -239,11 +239,11 @@ export class HTTPClient implements IHTTPClient {
       try {
         const parsedUrl = new URL(url);
         this.getAuthorizationHeader().then(
-          header => {
+          (header) => {
             parsedUrl.searchParams.set('Authorization', header.Authorization);
             resolve(parsedUrl.toString());
           },
-          e => {
+          (e) => {
             reject(e);
           },
         );
