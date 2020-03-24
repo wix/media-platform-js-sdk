@@ -130,8 +130,17 @@ describe('image manager', () => {
   });
 
   it('sign token should sign an image token', async () => {
-    const policy = new Policy({ maxHeight: 1000, maxWidth: 1500, path: '/path/to/image.jpg' });
-    const watermark = new Watermark({ path: '/path/to/mark.png', opacity: 30, proportions: 20, gravity: Gravity.SOUTH });
+    const policy = new Policy({
+      maxHeight: 1000,
+      maxWidth: 1500,
+      path: '/path/to/image.jpg',
+    });
+    const watermark = new Watermark({
+      path: '/path/to/mark.png',
+      opacity: 30,
+      proportions: 20,
+      gravity: Gravity.SOUTH,
+    });
 
     const imageToken = new ImageToken({ policy, watermark });
 

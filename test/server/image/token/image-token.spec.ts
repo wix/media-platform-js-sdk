@@ -5,9 +5,18 @@ import { ImageToken } from '../../../../src/image/token/image-token';
 
 describe('image token', () => {
   it('toClaims should properly return claims', () => {
-    const policy = new Policy({ maxHeight: 1000, maxWidth: 1500, path: '/path/to/image.jpg' });
+    const policy = new Policy({
+      maxHeight: 1000,
+      maxWidth: 1500,
+      path: '/path/to/image.jpg',
+    });
 
-    const watermark = new Watermark({ path: '/path/to/mark.png', opacity: 10, proportions: 20, gravity: Gravity.SOUTH });
+    const watermark = new Watermark({
+      path: '/path/to/mark.png',
+      opacity: 10,
+      proportions: 20,
+      gravity: Gravity.SOUTH,
+    });
 
     const token = new ImageToken({ policy, watermark });
 
@@ -22,7 +31,11 @@ describe('image token', () => {
   });
 
   it('toClaims should properly return claims without watermark', () => {
-    const policy = new Policy({ maxHeight: 1000, maxWidth: 1500, path: '/path/to/image.jpg' });
+    const policy = new Policy({
+      maxHeight: 1000,
+      maxWidth: 1500,
+      path: '/path/to/image.jpg',
+    });
 
     const token = new ImageToken({ policy });
 
@@ -32,7 +45,12 @@ describe('image token', () => {
   });
 
   it('toClaims should properly return claims without policy', () => {
-    const watermark = new Watermark({ path: '/path/to/mark.png', opacity: 10, proportions: 20, gravity: Gravity.SOUTH });
+    const watermark = new Watermark({
+      path: '/path/to/mark.png',
+      opacity: 10,
+      proportions: 20,
+      gravity: Gravity.SOUTH,
+    });
     const token = new ImageToken({ watermark });
 
     const claims = token.toClaims();
