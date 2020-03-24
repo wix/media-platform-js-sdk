@@ -76,10 +76,7 @@ describe('queued file uploader', function () {
     let progress = false;
 
     const endPromise = new Promise((resolve) => {
-      queuedFileUploader.queue.drain = () => {
-        resolve();
-        return Promise.resolve();
-      };
+      queuedFileUploader.queue.drain(resolve);
     });
 
     const file = new FileAPI.File('../../sources/image.jpg');
@@ -113,10 +110,7 @@ describe('queued file uploader', function () {
     const consoleWarn = sandbox.stub(console, 'warn');
     setResponse(fileUploadResponse);
     const endPromise = new Promise((resolve) => {
-      queuedFileUploader.queue.drain = () => {
-        resolve();
-        return Promise.resolve();
-      };
+      queuedFileUploader.queue.drain(resolve);
     });
 
     const file = new FileAPI.File('../files/image.jpg');
@@ -142,10 +136,7 @@ describe('queued file uploader', function () {
   it('should abort when abort() called', async () => {
     setResponse(fileUploadResponse);
     const endPromise = new Promise((resolve) => {
-      queuedFileUploader.queue.drain = () => {
-        resolve();
-        return Promise.resolve();
-      };
+      queuedFileUploader.queue.drain(resolve);
     });
 
     const file = new FileAPI.File('../../sources/image.jpg');
@@ -425,10 +416,7 @@ describe('queued file uploader', function () {
   it('handles errors', async () => {
     setResponse({ error: 'fish' }, 500);
     const endPromise = new Promise((resolve) => {
-      queuedFileUploader.queue.drain = () => {
-        resolve();
-        return Promise.resolve();
-      };
+      queuedFileUploader.queue.drain(resolve);
     });
 
     const file = new FileAPI.File('../files/file.json');
