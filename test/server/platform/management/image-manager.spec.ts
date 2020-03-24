@@ -5,7 +5,7 @@ import { Image } from '../../../../src/image/image';
 import { Authenticator } from '../../../../src/platform/authentication/authenticator';
 import { Configuration } from '../../../../src/platform/configuration/configuration';
 import { HTTPClient } from '../../../../src/platform/http/http-client';
-import { ImageManager } from '../../../../src/platform/management/image-manager';
+import { ServerImageManager } from '../../../../src/platform/management/server-image-manager';
 import { FileDescriptor } from '../../../../src/platform/management/metadata/file-descriptor';
 import { ImageOperationRequest } from '../../../../src/platform/management/requests/image-operation-request';
 import { ACL } from '../../../../src/types/media-platform/media-platform';
@@ -21,7 +21,7 @@ describe('image manager', () => {
   const configuration = new Configuration('manager.com', 'secret', 'appId');
   const authenticator = new Authenticator(configuration);
   const httpClient = new HTTPClient(authenticator);
-  const imageManager = new ImageManager(
+  const imageManager = new ServerImageManager(
     configuration,
     httpClient,
     authenticator,
@@ -130,7 +130,7 @@ describe('image manager', () => {
   });
 
   it('image token exception if authenticator is null (in browser)', async () => {
-    const imageManager = new ImageManager(configuration, httpClient);
+    const imageManager = new ServerImageManager(configuration, httpClient);
 
     try {
       imageManager.newImageToken();
@@ -153,7 +153,7 @@ describe('image manager', () => {
   });
 
   it('sign token exception if authenticator is null (in browser)', async () => {
-    const imageManager = new ImageManager(configuration, httpClient);
+    const imageManager = new ServerImageManager(configuration, httpClient);
     const policy = new Policy({ maxHeight: 1000, maxWidth: 1500, path: '/path/to/image.jpg' });
     const watermark = new Watermark({ path: '/path/to/mark.png', opacity: 30, proportions: 20, gravity: Gravity.SOUTH });
 
