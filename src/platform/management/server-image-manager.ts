@@ -15,25 +15,18 @@ export class ServerImageManager extends ImageManager {
   constructor(
     public configuration: IConfigurationBase,
     public httpClient: IHTTPClient,
-    private readonly authenticator?: Authenticator,
+    private readonly authenticator: Authenticator,
   ) {
     super(configuration, httpClient)
   }
 
   newImageToken(): ImageToken {
-    if (typeof this.authenticator === 'undefined') {
-      throw new Error('image tokens are not supported in the browser');
-    }
     return new ImageToken()
       .setIssuer(NS.APPLICATION, this.authenticator.configuration.appId)
       .setSubject(NS.APPLICATION, this.authenticator.configuration.appId);
   }
 
   signToken(imageToken: ImageToken) {
-    if (typeof this.authenticator === 'undefined') {
-      throw new Error('image tokens are not supported in the browser');
-    }
-
     return this.authenticator.encode(imageToken);
   }
 }
