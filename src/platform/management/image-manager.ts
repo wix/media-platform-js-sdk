@@ -5,7 +5,10 @@ import { IHTTPClient } from '../http/http-client';
 import { FileDescriptor, IFileDescriptor } from './metadata/file-descriptor';
 import { ImageOperationRequest } from './requests/image-operation-request';
 import { IImageWatermarkRequest } from './requests/image-watermark-request';
-import { IWatermarkManifest, WatermarkManifest, } from './metadata/watermark-manifest';
+import {
+  IWatermarkManifest,
+  WatermarkManifest,
+} from './metadata/watermark-manifest';
 
 /**
  * @param {Configuration} configuration
