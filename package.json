@@ -68,8 +68,7 @@
     "travis-script": "npm run travis-test",
     "travis-test": "npm run travis-test:mocha",
     "travis-test:mocha": "mocha --require ts-node/register test/mocha-setup.ts {test,src}/**/*.spec.ts --no-timeouts",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "snyk-protect": "snyk protect"
   },
   "dependencies": {
     "@types/async": "^3.0.8",
