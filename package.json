@@ -54,6 +54,7 @@
     "documentation:site:develop": "okidoc-site develop ./docs/site.yml",
     "documentation:site:build": "npm run documentation && okidoc-site build ./docs/site.yml",
     "documentation:deploy": "gh-pages -d ./sitedist",
+    "release": "yoshi release",
     "standard-release": "standard-version",
     "standard-release:alpha": "standard-version --prerelease alpha",
     "standard-release:beta": "standard-version --prerelease beta",
