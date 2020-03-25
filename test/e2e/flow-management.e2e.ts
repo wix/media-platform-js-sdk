@@ -7,7 +7,7 @@ import { Source } from '../../src/platform/management/job/source';
 import { CreateFlowRequest } from '../../src/platform/management/requests/create-flow-request';
 import { Flow } from '../../src/platform/management/metadata/flow';
 import { expect } from 'chai';
-import * as guid from 'uuid/v4';
+import { v4 as guid } from 'uuid';
 import { MediaPlatform } from '../../src/server';
 
 describe('flow control e2e', function () {
