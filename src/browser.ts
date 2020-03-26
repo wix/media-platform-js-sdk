@@ -38,6 +38,7 @@ export { Image };
 export { Source };
 export { Destination };
 export { QualityRange };
+export { MediaType };
 
 export const image = {
   Image,
