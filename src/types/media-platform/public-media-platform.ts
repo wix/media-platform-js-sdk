@@ -13,6 +13,7 @@ import {
   ExportedLive,
   ExportedTranscode,
   ExportedUpload,
+  MediaType,
 } from './media-platform';
 
 export interface ExportedPublicMediaPlatform {
@@ -30,4 +31,5 @@ export interface ExportedPublicMediaPlatform {
   Source: typeof Source;
   Destination: typeof Destination;
   QualityRange: typeof QualityRange;
+  MediaType: typeof MediaType;
 }

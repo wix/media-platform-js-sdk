@@ -28,6 +28,7 @@ import { Configuration } from './public/platform/configuration/configuration';
 import { MediaPlatform } from './public/platform/media-platform';
 import { UploadJob } from './public/platform/uploader/upload-job';
 import { ExportedPublicMediaPlatform } from './types/media-platform/public-media-platform';
+import { MediaType } from './types/media-platform/media-platform';
 
 // export  { ExportedPublicMediaPlatform } from './types/media-platform/media-platform';
 
@@ -99,4 +100,5 @@ export const MP: ExportedPublicMediaPlatform = {
   Source,
   Destination,
   QualityRange,
+  MediaType,
 };

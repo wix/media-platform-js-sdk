@@ -25,6 +25,7 @@ import { TranscodeRequest } from './platform/management/requests/transcode-reque
 import { UploadFileRequest } from './platform/management/requests/upload-file-request';
 import { UploadUrlRequest } from './platform/management/requests/upload-url-request';
 import { MediaPlatform } from './platform/media-platform';
+import { MediaType } from './types/media-platform/media-platform';
 
 export {
   /**
@@ -47,6 +48,10 @@ export {
    * @type {QualityRange}
    */
   QualityRange,
+  /**
+   * @type {MediaType}
+   */
+  MediaType,
 };
 
 export const image = {
