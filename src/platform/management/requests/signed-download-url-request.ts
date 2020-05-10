@@ -1,26 +1,25 @@
-export interface IDownloadUrlRequest {
+export interface ISignedDownloadUrlRequest {
   expirationRedirectUrl?: string;
   expiry?: number;
   saveAs?: string;
 }
 
 /**
- * Download Url Request
- * @deprecated use SignedDownloadUrlRequest
- * @doc DownloadUrlRequest
+ * Signed Download Url Request
+ * @doc SignedDownloadUrlRequest
  */
-export class DownloadUrlRequest {
+export class SignedDownloadUrlRequest {
   /**
    * @description if the token expired, will redirect to this provided url
    * @type {string | null}
    */
-  public expirationRedirectUrl: string | undefined;
+  public red: string | null = null;
 
   /**
    * @description the token time to live in seconds
    * @type {number}
    */
-  public expiry: number | undefined;
+  public expiry: number | null = null;
 
   /**
    * @description the file name will save as
@@ -28,9 +27,9 @@ export class DownloadUrlRequest {
    */
   public saveAs: string = 'true';
 
-  constructor(data: IDownloadUrlRequest) {
+  constructor(data: ISignedDownloadUrlRequest) {
     if (data.expirationRedirectUrl) {
-      this.expirationRedirectUrl = data.expirationRedirectUrl;
+      this.red = data.expirationRedirectUrl;
     }
 
     if (data.expiry) {
