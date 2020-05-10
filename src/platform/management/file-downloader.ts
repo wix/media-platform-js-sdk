@@ -77,15 +77,15 @@ export class FileDownloader {
     path: string,
     signedDownloadUrlRequest: SignedDownloadUrlRequest | undefined,
   ) {
-    let payload: { path: string; red?: string | null } & Partial<
+    let additionalClaims: { path: string; red?: string | null } & Partial<
       SignedDownloadUrlRequest
     > = {
       path,
     };
 
     if (signedDownloadUrlRequest) {
-      payload = {
-        ...payload,
+      additionalClaims = {
+        ...additionalClaims,
         ...signedDownloadUrlRequest,
       };
     }
@@ -94,7 +94,7 @@ export class FileDownloader {
       .setSubject(NS.APPLICATION, this.configuration.appId)
       .setIssuer(NS.APPLICATION, this.configuration.appId)
       .setVerbs([VERB.FILE_DOWNLOAD])
-      .setAdditionalClaims({ payload });
+      .setAdditionalClaims(additionalClaims);
 
     if (signedDownloadUrlRequest && signedDownloadUrlRequest.expiry) {
       token.setExpiration(
