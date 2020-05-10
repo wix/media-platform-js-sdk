@@ -7,6 +7,7 @@ import { Configuration } from '../configuration/configuration';
 
 import { DownloadUrlRequest } from './requests/download-url-request';
 import { SignedDownloadUrlRequest } from './requests/signed-download-url-request';
+import { Policy } from '../../image/token/policy';
 
 // TODO: add tests
 export class FileDownloader {
@@ -77,23 +78,18 @@ export class FileDownloader {
     path: string,
     signedDownloadUrlRequest: SignedDownloadUrlRequest | undefined,
   ) {
-    let additionalClaims: { path: string; red?: string | null } & Partial<
-      SignedDownloadUrlRequest
-    > = {
-      path,
-    };
+    const additionalClaims: Partial<SignedDownloadUrlRequest> =
+      { ...signedDownloadUrlRequest } || {};
 
-    if (signedDownloadUrlRequest) {
-      additionalClaims = {
-        ...additionalClaims,
-        ...signedDownloadUrlRequest,
-      };
-    }
+    const { obj } = new Policy({
+      path,
+    }).toClaims();
 
     const token = new Token()
       .setSubject(NS.APPLICATION, this.configuration.appId)
       .setIssuer(NS.APPLICATION, this.configuration.appId)
       .setVerbs([VERB.FILE_DOWNLOAD])
+      .setObjects(obj)
       .setAdditionalClaims(additionalClaims);
 
     if (signedDownloadUrlRequest && signedDownloadUrlRequest.expiry) {

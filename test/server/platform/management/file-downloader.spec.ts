@@ -36,7 +36,7 @@ describe('File Downloader', () => {
     const token = url.searchParams.get('token');
     const tokenPayload = authenticator.decode(token);
     expect(tokenPayload.sub).to.equal('urn:app:appId');
-    expect(tokenPayload.path).to.equal(testPath);
+    expect(tokenPayload.obj[0][0].path).to.equal(testPath);
     expect(tokenPayload.aud[0]).to.equal('urn:service:file.download');
   });
 
@@ -70,7 +70,7 @@ describe('File Downloader', () => {
 
     expect(tokenPayload.sub).to.equal('urn:app:appId');
     expect(tokenPayload.aud[0]).to.equal('urn:service:file.download');
-    expect(tokenPayload.path).to.equal(testPath);
+    expect(tokenPayload.obj[0][0].path).to.equal(testPath);
     expect(tokenPayload.red).to.equal(expirationRedirectUrl);
   });
 });
