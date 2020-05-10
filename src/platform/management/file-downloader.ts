@@ -112,7 +112,7 @@ export class FileDownloader {
     signedToken: string,
   ) {
     const domain = this.configuration.domain
-      .replace(/\.appspot.com/, '.wixmp.com')
+      .replace(/\.appspot\.com/, '.wixmp.com')
       .replace(/\/_api/, '');
 
     const attachment =
