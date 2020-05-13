@@ -71,15 +71,20 @@ export class FileDownloader {
     signedDownloadUrlRequest?: SignedDownloadUrlRequest,
   ): DownloadURLObject {
     const signedToken = this.signToken(path, signedDownloadUrlRequest);
-    return this.buildSignedUrl(signedDownloadUrlRequest, path, signedToken);
+    return this.buildSignedUrl(path, signedToken, signedDownloadUrlRequest);
   }
 
   private signToken(
     path: string,
-    signedDownloadUrlRequest: SignedDownloadUrlRequest | undefined,
+    signedDownloadUrlRequest?: SignedDownloadUrlRequest,
   ) {
-    const additionalClaims: Partial<SignedDownloadUrlRequest> =
-      { ...signedDownloadUrlRequest } || {};
+    let additionalClaims = {};
+
+    if (signedDownloadUrlRequest) {
+      additionalClaims = {
+        red: signedDownloadUrlRequest?.expirationRedirectUrl,
+      };
+    }
 
     const { obj } = new Policy({
       path,
@@ -103,9 +108,9 @@ export class FileDownloader {
   }
 
   private buildSignedUrl(
-    signedDownloadUrlRequest: SignedDownloadUrlRequest | null = null,
     path: string,
     signedToken: string,
+    signedDownloadUrlRequest?: SignedDownloadUrlRequest,
   ) {
     const domain = this.configuration.domain
       .replace(/\.appspot\.com/, '.wixmp.com')

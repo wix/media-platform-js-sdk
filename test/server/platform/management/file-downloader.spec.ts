@@ -45,10 +45,10 @@ describe('File Downloader', () => {
     const expirationRedirectUrl = 'http://www.example.com';
     const saveAs = 'myfile.mp4';
 
-    const signedDownloadUrlRequest = new SignedDownloadUrlRequest({
+    const signedDownloadUrlRequest = {
       expirationRedirectUrl,
       saveAs,
-    });
+    };
 
     const { downloadUrl } = fileDownloader.getSignedUrl(
       testPath,
