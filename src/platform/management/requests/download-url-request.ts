@@ -6,7 +6,6 @@ export interface IDownloadUrlRequest {
 
 /**
  * Download Url Request
- * @deprecated use SignedDownloadUrlRequest
  * @doc DownloadUrlRequest
  */
 export class DownloadUrlRequest {
