@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as fauxJax from 'faux-jax';
-import * as FileAPI from 'file-api';
+import { File } from './File';
 import * as sinon from 'sinon';
 
 import { FileManager } from '../../../src/platform/management/file-manager';
@@ -79,9 +79,9 @@ describe('queued file uploader', function () {
       queuedFileUploader.queue.drain(resolve);
     });
 
-    const file = new FileAPI.File('../../sources/image.jpg');
+    const file = new File('../../sources/image.jpg');
     const uploadJob = new UploadJob({
-      file,
+      file: file as any,
       path: '/fish/file.mp3',
     });
 
@@ -113,9 +113,9 @@ describe('queued file uploader', function () {
       queuedFileUploader.queue.drain(resolve);
     });
 
-    const file = new FileAPI.File('../files/image.jpg');
+    const file = new File('../files/image.jpg');
     const uploadJob = new UploadJob({
-      file,
+      file: file as any,
     });
 
     uploadJob.on('upload-error', () => {
@@ -139,9 +139,9 @@ describe('queued file uploader', function () {
       queuedFileUploader.queue.drain(resolve);
     });
 
-    const file = new FileAPI.File('../../sources/image.jpg');
+    const file = new File('../../sources/image.jpg');
     const uploadJob = new UploadJob({
-      file,
+      file: file as any,
       path: '/fish/file.mp3',
     });
 
@@ -156,18 +156,24 @@ describe('queued file uploader', function () {
 
   it('should upload', (done) => {
     setResponse(fileUploadResponse);
-    const file = new FileAPI.File('../files/image.jpg');
+    const file = new File('../files/image.jpg');
 
-    (fileManager.uploadFile('upload/to/there/image.jpg', file) as UploadJob)
+    (fileManager.uploadFile(
+      'upload/to/there/image.jpg',
+      file as any,
+    ) as UploadJob)
       .on('upload-success', () => done())
       .on('upload-error', (error) => done(error));
   });
 
   it('should upload v3', (done) => {
     setResponse(fileUploadResponse);
-    const file = new FileAPI.File('../files/image.jpg');
+    const file = new File('../files/image.jpg');
 
-    (fileManager.uploadFileV3('upload/to/there/image.jpg', file) as UploadJob)
+    (fileManager.uploadFileV3(
+      'upload/to/there/image.jpg',
+      file as any,
+    ) as UploadJob)
       .on('upload-success', () => done())
       .on('upload-error', (error) => done(error));
   });
@@ -188,7 +194,7 @@ describe('queued file uploader', function () {
           );
 
           expect(request.requestBody).to.equal(
-            '{"acl":"public","mimeType":"image/jpeg","path":"upload/to/there/image.jpg"}',
+            '{"acl":"public","mimeType":"image/jpeg","path":"upload/to/there/image.jpg","size":0}',
           );
           return;
         }
@@ -206,9 +212,12 @@ describe('queued file uploader', function () {
         }
       });
 
-      const file = new FileAPI.File('../files/image.jpg');
+      const file = new File('../files/image.jpg');
 
-      (fileManager.uploadFile('upload/to/there/image.jpg', file) as UploadJob)
+      (fileManager.uploadFile(
+        'upload/to/there/image.jpg',
+        file as any,
+      ) as UploadJob)
         .on('upload-success', () => done())
         .on('upload-error', (error) => done(error));
     });
@@ -273,6 +282,7 @@ describe('queued file uploader', function () {
               acl: 'public',
               mimeType: 'image/jpeg',
               path: 'upload/to/there/image.jpg',
+              size: 0,
             }),
           );
           return;
@@ -298,14 +308,14 @@ describe('queued file uploader', function () {
         }
       });
 
-      const file = new FileAPI.File('../files/image.jpg');
+      const file = new File('../files/image.jpg');
       const uploadFileRequest = new UploadFileRequest({
         age: 33,
       });
 
       (fileManager.uploadFile(
         'upload/to/there/image.jpg',
-        file,
+        file as any,
         uploadFileRequest,
       ) as UploadJob)
         .on('upload-success', (response) => {
@@ -342,11 +352,11 @@ describe('queued file uploader', function () {
         }
       });
 
-      const file = new FileAPI.File('../files/image.jpg');
+      const file = new File('../files/image.jpg');
 
       (fileManager.uploadFile(
         'upload/to/there/image.jpg',
-        file,
+        file as any,
         undefined,
         'custom upload token',
         'https://custom-upload-url.com/',
@@ -382,7 +392,7 @@ describe('queued file uploader', function () {
         }
       });
 
-      const file = new FileAPI.File('../files/image.jpg');
+      const file = new File('../files/image.jpg');
       const uploadFileRequest = new UploadFileRequest({
         acl: ACL.PRIVATE,
         age: 52,
@@ -391,7 +401,7 @@ describe('queued file uploader', function () {
 
       (fileManager.uploadFile(
         'upload/to/there/image-2.jpg',
-        file,
+        file as any,
         uploadFileRequest,
         'custom upload token 2',
         'https://custom-upload-url-2.com/',
@@ -404,9 +414,9 @@ describe('queued file uploader', function () {
   it('should raise when abort() called, but not run yet', () => {
     setResponse(fileUploadResponse);
 
-    const file = new FileAPI.File('../../sources/image.jpg');
+    const file = new File('../../sources/image.jpg');
     const uploadJob = new UploadJob({
-      file,
+      file: file as any,
       path: '/fish/file.mp3',
     });
 
@@ -419,10 +429,10 @@ describe('queued file uploader', function () {
       queuedFileUploader.queue.drain(resolve);
     });
 
-    const file = new FileAPI.File('../files/file.json');
+    const file = new File('../files/file.json');
 
     const uploadJob = new UploadJob({
-      file,
+      file: file as any,
     });
 
     uploadJob.on('upload-error', () => {
