@@ -224,9 +224,15 @@ export class FileUploader implements IFileUploader {
       );
     }
 
-    uploadConfiguration.then((response) => {
-      logger.debug(`uploadConfigurationResponse: ${JSON.stringify(response)}`);
-    });
+    uploadConfiguration
+      .then((response) => {
+        logger.debug(
+          `uploadConfigurationResponse: ${JSON.stringify(response)}`,
+        );
+      })
+      .catch((error) => {
+        logger.error(`uploadConfigurationResponse: ${JSON.stringify(error)}`);
+      });
 
     return Promise.race([uploadConfiguration, streamErrorPromise])
       .then((response: UploadConfigurationResponse) => {
