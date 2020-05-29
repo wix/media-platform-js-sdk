@@ -24,7 +24,6 @@ export class FileDownloader {
   /**
    * @param {string} path
    * @param {DownloadUrlRequest?} downloadUrlRequest
-   * @deprecated use FileDownloader.getSignedUrl(...)
    * @returns {{downloadUrl: string}}
    */
   getDownloadUrl(
