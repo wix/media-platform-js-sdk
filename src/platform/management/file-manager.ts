@@ -2,17 +2,12 @@ import * as Stream from 'stream';
 import * as Observable from 'zen-observable';
 
 import { UploadJob } from '../../public/platform/uploader/upload-job';
-import {
-  ACL,
-  DescriptorMimeType,
-  FileType,
-} from '../../types/media-platform/media-platform';
+import { ACL, DescriptorMimeType, FileType, } from '../../types/media-platform/media-platform';
 import { RawResponse } from '../../types/response/response';
-import { dummyLogger } from '../../utils/deprecated/logger';
 import { IConfigurationBase } from '../configuration/configuration';
 import { IHTTPClient } from '../http/http-client';
 
-import { FileUploader, IFileUploader, UploadFileParams } from './file-uploader';
+import { FileUploader, IFileUploader } from './file-uploader';
 import { FileImportSpecification } from './job/file-import-specification';
 import { IJob, Job } from './job/job';
 import { observeJobCreator } from './job/job-observable';
@@ -21,12 +16,7 @@ import { FileMetadata, IFileMetadata } from './metadata/file-metadata';
 import { ImportFileRequest } from './requests/import-file-request';
 import { IListFilesRequest } from './requests/list-files-request';
 import { UploadFileRequest } from './requests/upload-file-request';
-import { IUploadUrlRequest } from './requests/upload-url-request';
-import {
-  IListFilesResponse,
-  ListFilesResponse,
-} from './responses/list-files-response';
-import { UploadUrlResponse } from './responses/upload-url-response';
+import { IListFilesResponse, ListFilesResponse, } from './responses/list-files-response';
 import { UploadConfigurationResponse } from './responses/upload-configuration-response';
 import { IUploadConfigurationRequest } from './requests/upload-configuration-request';
 
@@ -76,30 +66,8 @@ export class FileManager {
   }
 
   /**
-   * Get Upload URL
-   * @param {IUploadUrlRequest} uploadUrlRequest
-   * @returns {Promise<UploadUrlResponse>}
-   * @example
-   * fileManager.getUploadUrl({
-   *   mimeType: 'image/gif',
-   *   path: '/path/to',
-   *   size: 12345, // in bytes
-   *   acl: 'public'
-   * })
-   * .then(response => {
-   *   console.log(response.uploadToken, response.uploadUrl);
-   * });
-   */
-  getUploadUrl(
-    uploadUrlRequest?: IUploadUrlRequest,
-  ): Promise<UploadUrlResponse> {
-    return this.fileUploader.getUploadUrl(uploadUrlRequest);
-  }
-
-  /**
    * Get Upload Configuration
    * @param {IUploadConfigurationRequest} uploadConfigurationRequest
-   * @param version
    * @returns {Promise<UploadConfigurationResponse>}
    * @example
    * fileManager.getUploadConfiguration({
@@ -114,32 +82,30 @@ export class FileManager {
    */
   getUploadConfiguration(
     uploadConfigurationRequest?: IUploadConfigurationRequest,
-    version: string = 'v2',
   ): Promise<UploadConfigurationResponse> {
-    return this.fileUploader.getUploadConfiguration(
-      uploadConfigurationRequest,
-      version,
-    );
+    return this.fileUploader.getUploadConfiguration(uploadConfigurationRequest);
   }
 
-  private doUploadFile({
-    path,
-    file,
-    uploadFileRequest,
-    uploadToken,
-    uploadUrl,
-    version,
-    logger = dummyLogger,
-  }: UploadFileParams): Promise<FileDescriptor[]> | UploadJob {
-    const uploadFileResult = this.fileUploader.uploadFile({
+  /**
+   * @description upload a file
+   * @param {string} path the destination to which the file will be uploaded
+   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
+   * @param {UploadFileRequest?} uploadFileRequest
+   * @param {string?} uploadUrl
+   */
+  uploadFile(
+    path: string,
+    file: string | Buffer | Stream | File,
+    uploadFileRequest?: UploadFileRequest,
+    uploadUrl?: string,
+  ): Promise<FileDescriptor[]> | UploadJob {
+    const uploadFileResult = this.fileUploader.uploadFile(
       path,
       file,
       uploadFileRequest,
-      uploadToken,
       uploadUrl,
-      version,
-      logger,
-    });
+    );
+
     // TODO: do it in a right way
     // Browser file uploader return `UploadJob` instead of promise
     if (!uploadFileResult.then) {
@@ -147,77 +113,12 @@ export class FileManager {
     }
 
     return uploadFileResult.then(
-      (response) => {
+      response => {
         return response;
       },
-      (error) => {
+      error => {
         return Promise.reject(error);
       },
-    );
-  }
-
-  uploadFile(
-    uploadParams: UploadFileParams,
-  ): Promise<FileDescriptor[]> | UploadJob;
-  uploadFile(
-    path: string,
-    file: string | Buffer | Stream | File,
-    uploadFileRequest?: UploadFileRequest,
-    uploadToken?: string,
-    uploadUrl?: string,
-    version?: string,
-  ): Promise<FileDescriptor[]> | UploadJob;
-
-  /**
-   * @description upload a file
-   * @param {string} path the destination to which the file will be uploaded
-   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
-   * @param {UploadFileRequest?} uploadFileRequest
-   * @param {string?} uploadToken
-   * @param {string?} uploadUrl
-   * @param {string?} version
-   */
-  uploadFile(
-    path: string | UploadFileParams,
-    file?: any,
-    uploadFileRequest?: UploadFileRequest,
-    uploadToken?: string,
-    uploadUrl?: string,
-    version: string = 'v2',
-  ): Promise<FileDescriptor[]> | UploadJob {
-    if (typeof path === 'object') {
-      return this.doUploadFile(path);
-    }
-    return this.doUploadFile({
-      path,
-      file,
-      uploadFileRequest,
-      uploadToken,
-      uploadUrl,
-      version,
-    });
-  }
-
-  /**
-   * @description upload a file
-   * @param {string} path the destination to which the file will be uploaded
-   * @param {string|Buffer|Stream} file can be one of: string - path to file, memory buffer, stream
-   * @param {UploadFileRequest?} uploadFileRequest
-   * @param {string?} uploadUrl
-   */
-  uploadFileV3(
-    path: string,
-    file: string | Buffer | Stream,
-    uploadFileRequest?: UploadFileRequest,
-    uploadUrl?: string,
-  ): Promise<FileDescriptor[]> | UploadJob {
-    return this.uploadFile(
-      path,
-      file,
-      uploadFileRequest,
-      undefined,
-      uploadUrl,
-      'v3',
     );
   }
 

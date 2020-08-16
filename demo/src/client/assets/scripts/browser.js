@@ -220,19 +220,17 @@ const PATH_BASE = '/demo/';
 
     startLoading(downloadUrlButton);
 
-    mediaPlatform.getDownloadUrl(path)
-      .then((response) => {
-        stopLoading(downloadUrlButton);
+    const response = mediaPlatform.getSignedUrl(path)
+    stopLoading(downloadUrlButton);
 
-        downloadUrlPayload.innerHTML = Prism.highlight(
-          JSON.stringify(
-            response,
-            null,
-            2
-          ),
-          Prism.languages.js
-        );
-      });
+    downloadUrlPayload.innerHTML = Prism.highlight(
+      JSON.stringify(
+        response,
+        null,
+        2
+      ),
+      Prism.languages.js
+    );
   });
 })();
 

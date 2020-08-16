@@ -1,14 +1,13 @@
-import {auth} from '../../../src/server';
-import {mediaPlatform} from '../facades/media-platform-facade';
+import { auth } from '../../../src/server';
+import { mediaPlatform } from '../facades/media-platform-facade';
 
-const {Token, NS} = auth;
+const { Token, NS } = auth;
 
-export default function (app) {
-
+export default function(app) {
   /**
    * Your own authentication mechanism comes here
    */
-  app.get('/media-platform/auth-header', function (req, res, next) {
+  app.get('/media-platform/auth-header', function(req, res, next) {
     /**
      * @description by default, the header authorizes all the application verbs
      * @type {{Authorization}}
@@ -21,8 +20,7 @@ export default function (app) {
   /**
    * Your own authentication mechanism comes here
    */
-  app.get('/media-platform/limited-auth-header', function (req, res, next) {
-
+  app.get('/media-platform/limited-auth-header', function(req, res, next) {
     const token = new Token()
       .setIssuer(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
       .setSubject(NS.APPLICATION, '48fa9aa3e9d342a3a33e66af08cd7fe3')
@@ -36,4 +34,4 @@ export default function (app) {
 
     res.send(header);
   });
-};
+}

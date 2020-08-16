@@ -39,15 +39,6 @@ describe('E2E > File Management > File Upload', function () {
         done();
       });
     });
-
-    it('should be uploaded correctly V3', (done) => {
-      fileManager.uploadFileV3(testPath, DEFAULT_FIXTURE_PATH).then((files) => {
-        expect(files).to.be.an('array');
-        expect(files[0].path).to.equal(testPath);
-
-        done();
-      });
-    });
   });
 
   describe('data as Buffer', () => {
@@ -65,13 +56,6 @@ describe('E2E > File Management > File Upload', function () {
 
         done();
       });
-    });
-
-    it('should be uploaded correctly v3', async () => {
-      const files = await fileManager.uploadFileV3(testPath, testBuffer);
-      expect(files).to.be.an('array');
-      expect(files[0].path).to.equal(testPath);
-      expect(files[0].size).to.equal(testBuffer.length);
     });
   });
 

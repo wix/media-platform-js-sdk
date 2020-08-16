@@ -1,8 +1,9 @@
-import { DownloadUrlRequest } from '../../../platform/management/requests/download-url-request';
 import { DownloadUrl } from '../../../types/files/download-url';
 import { RawResponse } from '../../../types/response/response';
 import { Configuration } from '../configuration/configuration';
 import { HTTPClient } from '../http/browser-http-client';
+import { SignedDownloadUrlRequest } from '../../../platform/management/requests/signed-download-url-request';
+import { DownloadURLObject } from '../../../types/media-platform/media-platform';
 
 export class FileDownloader {
   constructor(
@@ -12,21 +13,21 @@ export class FileDownloader {
 
   /**
    * @param {string} path
-   * @param {DownloadUrlRequest?} downloadUrlRequest
+   * @param {SignedDownloadUrlRequest?} signedDownloadUrlRequest
    * @returns {Promise<DownloadUrl>>}
    */
-  getDownloadUrl(
+  getSignedUrl(
     path: string,
-    downloadUrlRequest?: DownloadUrlRequest,
-  ): Promise<DownloadUrl> {
+    signedDownloadUrlRequest?: SignedDownloadUrlRequest,
+  ): Promise<DownloadURLObject> {
     let params = {
       path,
     };
 
-    if (downloadUrlRequest) {
+    if (signedDownloadUrlRequest) {
       params = {
         ...params,
-        ...downloadUrlRequest,
+        ...signedDownloadUrlRequest,
       };
     }
 

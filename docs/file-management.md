@@ -147,13 +147,13 @@ returns Promise
 File access can be restricted by setting a file's ACL to "private". 
 In order to access these files, a secure URL must be generated.  
 
-First, create a `DownloadUrlRequest` object, that determines the URL's expiration behavior 
+First, create a `SignedDownloadUrlRequest` object, that determines the URL's expiration behavior 
 and content disposition header (for more information, see the [API documentation](https://support.wixmp.com/en/article/file-download).)  
 
 ```javascript
-var DownloadUrlRequest = require('media-platform-js-sdk').file.DownloadUrlRequest;
+var SignedDownloadUrlRequest = require('media-platform-js-sdk').file.SignedDownloadUrlRequest;
 
-var downloadUrlRequest = new DownloadUrlRequest({
+var signedDownloadUrlRequest = new SignedDownloadUrlRequest({
   expirationRedirectUrl,
   expriry,
   saveAs
@@ -166,11 +166,11 @@ __Parameters__:
 
 To get the download URL:
 ```typescript
-var downloadUrl = mediaPlatform.getDownloadUrl(path: string, downloadUrlRequest?: DownloadUrlRequest): Promise<DownloadUrl>
+var downloadUrl = mediaPlatform.getSignedUrl(path: string, signedDownloadUrlRequest?: SignedDownloadUrlRequest): Promise<DownloadURLObject>
 ```
 __Parameters__:
 - `path` (string) - the requested file's path in WixMP file manager (example: `"path/to/file.ext"`).
-- `downloadUrlRequest` (DownloadUrlRequest) - as described above.
+- `signedDownloadUrlRequest` (SignedDownloadUrlRequest) - as described above.
 
 ## List Files in a Directory
 Retrieves a list of the files in the specified directory.

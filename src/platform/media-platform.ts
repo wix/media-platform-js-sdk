@@ -1,7 +1,4 @@
-import {
-  AuthorizationHeader,
-  DownloadURLObject,
-} from '../types/media-platform/media-platform';
+import { AuthorizationHeader, DownloadURLObject, } from '../types/media-platform/media-platform';
 import { Authenticator } from './authentication/authenticator';
 import { Token } from './authentication/token';
 import { Configuration, IConfiguration } from './configuration/configuration';
@@ -16,10 +13,10 @@ import { ImageExtractionManager } from './management/image-extraction-manager';
 import { ServerImageManager } from './management/server-image-manager';
 import { JobManager } from './management/job-manager';
 import { LiveManager } from './management/live-manager';
-import { DownloadUrlRequest } from './management/requests/download-url-request';
 import { WidgetInstanceManager } from './management/widgets/widget-instance-manager/widget-instance-manager';
 import { WebhookDeserializer } from './webhook/webhook-deserializer';
 import { AudioManager } from './management/audio-manager';
+import { SignedDownloadUrlRequest } from './management/requests/signed-download-url-request';
 
 /**
  * Media Platform
@@ -128,10 +125,10 @@ export class MediaPlatform {
     return this.authenticator.getHeader(token);
   }
 
-  public getDownloadUrl(
+  public getSignedUrl(
     path: string,
-    downloadUrlRequest?: DownloadUrlRequest,
+    signedDownloadUrlRequest?: SignedDownloadUrlRequest,
   ): DownloadURLObject {
-    return this.fileDownloader.getDownloadUrl(path, downloadUrlRequest);
+    return this.fileDownloader.getSignedUrl(path, signedDownloadUrlRequest);
   }
 }

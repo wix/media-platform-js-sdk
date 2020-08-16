@@ -18,7 +18,7 @@
       var Source = MP.Source;
       var Destination = MP.Destination;
       var QualityRange = MP.QualityRange;
-      var UploadUrlRequest = MP.file.UploadUrlRequest;
+      var UploadConfigurationRequest = MP.file.UploadConfigurationRequest;
       var UploadFileRequest = MP.file.UploadFileRequest;
       var ImportFileRequest = MP.file.ImportFileRequest;
       var TranscodeRequest = MP.transcode.TranscodeRequest;
@@ -631,7 +631,7 @@ mediaPlatform.flowManager.createFlow(createFlowRequest)
             <h4>Get a signed URL that directs to a file, required for non-public file download</h4>
             <div id="download-url-code">
                 <div class="highlight">
-                    <pre><code class="language-javascript">mediaPlatform.getDownloadUrl(path)
+                    <pre><code class="language-javascript">mediaPlatform.getSignedUrl(path)
   .then(
     (response) => {
       // handle success

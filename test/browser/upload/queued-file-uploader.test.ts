@@ -17,7 +17,7 @@ import { delay } from '../../helpers/delay';
 
 const UPLOAD_TIMEOUT = 100;
 
-describe('queued file uploader', function () {
+describe('queued file uploader', function() {
   // tslint:disable-next-line
   this.timeout(50000);
 
@@ -75,7 +75,7 @@ describe('queued file uploader', function () {
 
     let progress = false;
 
-    const endPromise = new Promise((resolve) => {
+    const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain(resolve);
     });
 
@@ -109,7 +109,7 @@ describe('queued file uploader', function () {
   it('should only be able to queue a job once', async () => {
     const consoleWarn = sandbox.stub(console, 'warn');
     setResponse(fileUploadResponse);
-    const endPromise = new Promise((resolve) => {
+    const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain(resolve);
     });
 
@@ -135,7 +135,7 @@ describe('queued file uploader', function () {
 
   it('should abort when abort() called', async () => {
     setResponse(fileUploadResponse);
-    const endPromise = new Promise((resolve) => {
+    const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain(resolve);
     });
 
@@ -154,7 +154,7 @@ describe('queued file uploader', function () {
     expect(abortedSpy).to.have.been.called;
   });
 
-  it('should upload', (done) => {
+  it('should upload', done => {
     setResponse(fileUploadResponse);
     const file = new File('../files/image.jpg');
 
@@ -163,34 +163,22 @@ describe('queued file uploader', function () {
       file as any,
     ) as UploadJob)
       .on('upload-success', () => done())
-      .on('upload-error', (error) => done(error));
-  });
-
-  it('should upload v3', (done) => {
-    setResponse(fileUploadResponse);
-    const file = new File('../files/image.jpg');
-
-    (fileManager.uploadFileV3(
-      'upload/to/there/image.jpg',
-      file as any,
-    ) as UploadJob)
-      .on('upload-success', () => done())
-      .on('upload-error', (error) => done(error));
+      .on('upload-error', error => done(error));
   });
 
   describe('lifecycle(age)', () => {
-    it('should upload file with default(none) lifecycle', (done) => {
+    it('should upload file with default(none) lifecycle', done => {
       setResponse(fileUploadResponse);
 
-      fauxJax.on('request', (request) => {
+      fauxJax.on('request', request => {
         if (
           request.requestURL.indexOf(
-            'https://www.domain.com/_api/v2/upload/configuration',
+            'https://www.domain.com/_api/v3/upload/configuration',
           ) === 0 &&
           request.requestMethod === 'POST'
         ) {
           expect(request.requestURL).to.equal(
-            'https://www.domain.com/_api/v2/upload/configuration',
+            'https://www.domain.com/_api/v3/upload/configuration',
           );
 
           expect(request.requestBody).to.equal(
@@ -206,7 +194,6 @@ describe('queued file uploader', function () {
           expect(request.requestBody.get('path')).to.eql(
             'upload/to/there/image.jpg',
           );
-          expect(request.requestBody.get('uploadToken')).to.eql(uploadToken);
 
           return;
         }
@@ -219,10 +206,10 @@ describe('queued file uploader', function () {
         file as any,
       ) as UploadJob)
         .on('upload-success', () => done())
-        .on('upload-error', (error) => done(error));
+        .on('upload-error', error => done(error));
     });
 
-    it('should upload file with delete lifecycle', (done) => {
+    it('should upload file with delete lifecycle', done => {
       const uploadFileResponse = {
         code: 0,
         message: 'OK',
@@ -267,15 +254,15 @@ describe('queued file uploader', function () {
 
       setResponse(uploadFileResponse);
 
-      fauxJax.on('request', (request) => {
+      fauxJax.on('request', request => {
         if (
           request.requestURL.indexOf(
-            'https://www.domain.com/_api/v2/upload/configuration',
+            'https://www.domain.com/_api/v3/upload/configuration',
           ) === 0 &&
           request.requestMethod === 'POST'
         ) {
           expect(request.requestURL).to.equal(
-            'https://www.domain.com/_api/v2/upload/configuration',
+            'https://www.domain.com/_api/v3/upload/configuration',
           );
           expect(request.requestBody).to.equal(
             JSON.stringify({
@@ -289,7 +276,7 @@ describe('queued file uploader', function () {
         }
 
         if (
-          request.requestURL === 'https://www.domain.com/_api/v2/upload/file'
+          request.requestURL === 'https://www.domain.com/_api/v3/upload/file'
         ) {
           expect(request.requestBody.get('acl')).to.equal('public');
           expect(request.requestBody.get('lifecycle')).to.eq(
@@ -302,7 +289,6 @@ describe('queued file uploader', function () {
           expect(request.requestBody.get('path')).to.eql(
             'upload/to/there/image.jpg',
           );
-          expect(request.requestBody.get('uploadToken')).to.eql(uploadToken);
 
           return;
         }
@@ -318,28 +304,25 @@ describe('queued file uploader', function () {
         file as any,
         uploadFileRequest,
       ) as UploadJob)
-        .on('upload-success', (response) => {
+        .on('upload-success', response => {
           expect(response.response.payload).to.eql(uploadFileResponse.payload);
           expect(response.fileDescriptors).to.eql(fileDescriptors);
 
           return done();
         })
-        .on('upload-error', (error) => done(error));
+        .on('upload-error', error => done(error));
     });
   });
 
-  describe('uploadToken and uploadUrl', () => {
-    it('should upload file with custom uploadToken and uploadUrl', (done) => {
-      fauxJax.on('request', (request) => {
+  describe('uploadUrl', () => {
+    it('should upload file with custom uploadUrl', done => {
+      fauxJax.on('request', request => {
         if (request.requestURL === 'https://custom-upload-url.com/') {
           expect(request.requestBody.get('acl')).to.eq('public');
           expect(request.requestBody.get('lifecycle')).to.eq(null);
           expect(request.requestBody.get('mimeType')).to.eq(null);
           expect(request.requestBody.get('path')).to.eql(
             'upload/to/there/image.jpg',
-          );
-          expect(request.requestBody.get('uploadToken')).to.eql(
-            'custom upload token',
           );
 
           setTimeout(() => {
@@ -358,15 +341,14 @@ describe('queued file uploader', function () {
         'upload/to/there/image.jpg',
         file as any,
         undefined,
-        'custom upload token',
         'https://custom-upload-url.com/',
       ) as UploadJob)
         .on('upload-success', () => done())
-        .on('upload-error', (error) => done(error));
+        .on('upload-error', error => done(error));
     });
 
-    it('should upload file with custom uploadToken, uploadUrl and uploadFileRequest', (done) => {
-      fauxJax.on('request', (request) => {
+    it('should upload file with custom uploadUrl and uploadFileRequest', done => {
+      fauxJax.on('request', request => {
         if (request.requestURL === 'https://custom-upload-url-2.com/') {
           expect(request.requestBody.get('acl')).to.eq('private');
           expect(request.requestBody.get('lifecycle')).to.eq(
@@ -377,9 +359,6 @@ describe('queued file uploader', function () {
           );
           expect(request.requestBody.get('path')).to.eql(
             'upload/to/there/image-2.jpg',
-          );
-          expect(request.requestBody.get('uploadToken')).to.eql(
-            'custom upload token 2',
           );
 
           setTimeout(() => {
@@ -403,11 +382,10 @@ describe('queued file uploader', function () {
         'upload/to/there/image-2.jpg',
         file as any,
         uploadFileRequest,
-        'custom upload token 2',
         'https://custom-upload-url-2.com/',
       ) as UploadJob)
         .on('upload-success', () => done())
-        .on('upload-error', (error) => done(error));
+        .on('upload-error', error => done(error));
     });
   });
 
@@ -425,7 +403,7 @@ describe('queued file uploader', function () {
 
   it('handles errors', async () => {
     setResponse({ error: 'fish' }, 500);
-    const endPromise = new Promise((resolve) => {
+    const endPromise = new Promise(resolve => {
       queuedFileUploader.queue.drain(resolve);
     });
 
@@ -447,7 +425,7 @@ describe('queued file uploader', function () {
   });
 
   function setResponse(responseBody, responseStatus = 200) {
-    fauxJax.on('request', (request) => {
+    fauxJax.on('request', request => {
       if (request.requestURL === 'https://www.myapp.com/auth') {
         request.respond(
           200,
@@ -461,7 +439,7 @@ describe('queued file uploader', function () {
 
       if (
         request.requestURL.indexOf(
-          'https://www.domain.com/_api/v2/upload/configuration',
+          'https://www.domain.com/_api/v3/upload/configuration',
         ) === 0 &&
         request.requestMethod === 'POST'
       ) {
@@ -472,15 +450,14 @@ describe('queued file uploader', function () {
             code: 0,
             message: 'OK',
             payload: {
-              uploadUrl: 'https://www.domain.com/_api/v2/upload/file',
-              uploadToken,
+              uploadUrl: 'https://www.domain.com/_api/v3/upload/file',
             },
           }),
         );
         return;
       }
 
-      if (request.requestURL === 'https://www.domain.com/_api/v2/upload/file') {
+      if (request.requestURL === 'https://www.domain.com/_api/v3/upload/file') {
         setTimeout(() => {
           request.respond(
             responseStatus,
