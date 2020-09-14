@@ -1,6 +1,5 @@
 language: node_js
-before_install:
-  - npm i -g npm@v5
+
 install:
   - npm install --ignore-scripts
 
@@ -8,9 +7,7 @@ script:
   - npm run travis-script
 
 node_js:
-  - "11"
+  - "stable"
+  - "lts/*"
+  - "12"
   - "10"
-  - "9"
-  - "8"
-  - "7"
-  - "6"
