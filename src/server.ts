@@ -11,7 +11,6 @@ import { Source } from './platform/management/job/source';
 import { TranscodeSpecification } from './platform/management/job/transcode-specification';
 import { CreateArchiveRequest } from './platform/management/requests/create-archive-request';
 import { CreateFlowRequest } from './platform/management/requests/create-flow-request';
-import { DownloadUrlRequest } from './platform/management/requests/download-url-request';
 import { ExtractArchiveRequest } from './platform/management/requests/extract-archive-request';
 import { ExtractPosterRequest } from './platform/management/requests/extract-poster-request';
 import { ExtractStoryboardRequest } from './platform/management/requests/extract-storyboard-request';
@@ -22,8 +21,8 @@ import { LiveStreamListRequest } from './platform/management/requests/live-strea
 import { LiveStreamRequest } from './platform/management/requests/live-stream-request';
 import { SearchJobsRequest } from './platform/management/requests/search-jobs-request';
 import { TranscodeRequest } from './platform/management/requests/transcode-request';
+import { UploadConfigurationRequest } from './platform/management/requests/upload-configuration-request';
 import { UploadFileRequest } from './platform/management/requests/upload-file-request';
-import { UploadUrlRequest } from './platform/management/requests/upload-url-request';
 import { MediaPlatform } from './platform/media-platform';
 import { MediaType } from './types/media-platform/media-platform';
 
@@ -78,14 +77,9 @@ export const file = {
   UploadFileRequest,
 
   /**
-   * @type {UploadUrlRequest}
+   * @type {UploadConfigurationRequest}
    */
-  UploadUrlRequest,
-
-  /**
-   * @type {DownloadUrlRequest}
-   */
-  DownloadUrlRequest,
+  UploadConfigurationRequest,
 
   /**
    * @type {ListFilesRequest}

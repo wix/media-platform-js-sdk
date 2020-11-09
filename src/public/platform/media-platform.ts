@@ -6,7 +6,6 @@ import { ImageExtractionManager } from '../../platform/management/image-extracti
 import { ImageManager } from '../../platform/management/image-manager';
 import { JobManager } from '../../platform/management/job-manager';
 import { LiveManager } from '../../platform/management/live-manager';
-import { DownloadUrlRequest } from '../../platform/management/requests/download-url-request';
 import { WidgetInstanceManager } from '../../platform/management/widgets/widget-instance-manager/widget-instance-manager';
 import { DownloadUrl } from '../../types/files/download-url';
 import { AuthorizationHeader } from '../../types/media-platform/media-platform';
@@ -18,6 +17,7 @@ import { FileUploader } from './uploader/browser-file-uploader';
 import { QueuedFileUploader } from './uploader/queued-file-uploader';
 import { UploadJob } from './uploader/upload-job';
 import { AudioManager } from '../../platform/management/audio-manager';
+import { SignedDownloadUrlRequest } from '../../platform/management/requests/signed-download-url-request';
 
 /**
  * Media Platform Public
@@ -107,21 +107,23 @@ class MediaPlatform {
   /**
    * get download url
    * @param {string} path
-   * @param {DownloadUrlRequest?} downloadUrlRequest
+   * @param {SignedDownloadUrlRequest?} signedDownloadUrlRequest
    * @returns {Promise<DownloadUrl>}
    */
-  getDownloadUrl(
+  getSignedUrl(
     path: string,
-    downloadUrlRequest?: DownloadUrlRequest,
+    signedDownloadUrlRequest?: SignedDownloadUrlRequest,
   ): Promise<DownloadUrl> {
-    return this.fileDownloader.getDownloadUrl(path, downloadUrlRequest).then(
-      (response) => {
-        return response;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
+    return this.fileDownloader
+      .getSignedUrl(path, signedDownloadUrlRequest)
+      .then(
+        (response) => {
+          return response;
+        },
+        (error) => {
+          return Promise.reject(error);
+        },
+      );
   }
 }
 

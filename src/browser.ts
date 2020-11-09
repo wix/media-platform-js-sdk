@@ -23,14 +23,12 @@ import { LiveStreamRequest } from './platform/management/requests/live-stream-re
 import { SearchJobsRequest } from './platform/management/requests/search-jobs-request';
 import { TranscodeRequest } from './platform/management/requests/transcode-request';
 import { UploadFileRequest } from './platform/management/requests/upload-file-request';
-import { UploadUrlRequest } from './platform/management/requests/upload-url-request';
 import { Configuration } from './public/platform/configuration/configuration';
 import { MediaPlatform } from './public/platform/media-platform';
+import { UploadConfigurationRequest } from './platform/management/requests/upload-configuration-request';
 import { UploadJob } from './public/platform/uploader/upload-job';
 import { ExportedPublicMediaPlatform } from './types/media-platform/public-media-platform';
 import { MediaType } from './types/media-platform/media-platform';
-
-// export  { ExportedPublicMediaPlatform } from './types/media-platform/media-platform';
 
 export { Configuration };
 export { MediaPlatform };
@@ -49,7 +47,7 @@ export const upload = {
   UploadJob,
 };
 export const file = {
-  UploadUrlRequest,
+  UploadConfigurationRequest,
   UploadFileRequest,
   ImportFileRequest,
   ListFilesRequest,

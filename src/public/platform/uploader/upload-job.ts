@@ -21,7 +21,6 @@ export interface IUploadJob {
   path?: string;
   file?: Blob;
   uploadFileRequest?: UploadFileRequest;
-  uploadToken?: string;
   uploadUrl?: string;
 }
 
@@ -38,22 +37,14 @@ export class UploadJob extends EventEmitter {
   private readonly file: Blob | undefined;
   private readonly path;
   private readonly uploadFileRequest?: UploadFileRequest;
-  private readonly uploadToken;
   private readonly uploadUrl;
 
-  constructor({
-    file,
-    path,
-    uploadFileRequest,
-    uploadToken,
-    uploadUrl,
-  }: IUploadJob) {
+  constructor({ file, path, uploadFileRequest, uploadUrl }: IUploadJob) {
     super();
 
     this.file = file;
     this.path = path;
     this.uploadFileRequest = uploadFileRequest;
-    this.uploadToken = uploadToken;
     this.uploadUrl = uploadUrl;
   }
 
@@ -82,34 +73,33 @@ export class UploadJob extends EventEmitter {
     const uploadStartedEvent = new UploadStartedEvent(this);
     this.emit(uploadStartedEvent.name, uploadStartedEvent);
 
-    const uploadConfigurationRequest = new UploadConfigurationRequest({
-      acl,
-      mimeType: this.file.type,
-      path: this.path,
-      size: this.file.size,
-    });
-
     let uploadConfiguration;
 
-    if (this.uploadToken && this.uploadUrl) {
+    if (this.uploadUrl) {
       uploadConfiguration = Promise.resolve({
-        uploadToken: this.uploadToken,
         uploadUrl: this.uploadUrl,
       });
     } else {
+      const uploadConfigurationRequest = new UploadConfigurationRequest({
+        acl,
+        mimeType: this.file.type,
+        path: this.path,
+        size: this.file.size,
+      });
+
       uploadConfiguration = fileUploader.getUploadConfiguration(
         uploadConfigurationRequest,
       );
     }
 
     uploadConfiguration.then(
-      (response) => {
+      response => {
         const onProgress = (event: ProgressEvent) => {
           const e = new UploadProgressEvent(this, event.loaded, event.total);
           this.emit(e.name, e);
         };
 
-        const onLoad = (event) => {
+        const onLoad = event => {
           let e;
           if (event.target.status >= 400) {
             e = new UploadErrorEvent(this, event.target.response);
@@ -135,7 +125,7 @@ export class UploadJob extends EventEmitter {
           this.emit(e.name, e);
         };
 
-        const onAbort = (event) => {
+        const onAbort = event => {
           const e = new UploadAbortedEvent(event.target);
           this.emit(e.name, e);
         };
@@ -159,7 +149,6 @@ export class UploadJob extends EventEmitter {
         };
 
         const formData = new FormData();
-        formData.append('uploadToken', response.uploadToken);
 
         if (this.path !== undefined) {
           formData.append('path', this.path);
@@ -194,7 +183,7 @@ export class UploadJob extends EventEmitter {
 
         request.send(formData);
       },
-      (error) => {
+      error => {
         const e = new UploadErrorEvent(this, error);
         this.emit(e.name, e);
       },

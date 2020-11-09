@@ -19,6 +19,7 @@ constructor
       </tr>
     </thead>
     <tbody>
+    
       <tr>
         <td class="param">
           <code>configuration</code>

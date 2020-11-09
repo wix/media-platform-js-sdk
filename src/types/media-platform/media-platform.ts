@@ -21,8 +21,8 @@ import { ListFilesRequest } from '../../platform/management/requests/list-files-
 import { LiveStreamRequest } from '../../platform/management/requests/live-stream-request';
 import { SearchJobsRequest } from '../../platform/management/requests/search-jobs-request';
 import { TranscodeRequest } from '../../platform/management/requests/transcode-request';
+import { UploadConfigurationRequest } from '../../platform/management/requests/upload-configuration-request';
 import { UploadFileRequest } from '../../platform/management/requests/upload-file-request';
-import { UploadUrlRequest } from '../../platform/management/requests/upload-url-request';
 import { UploadJob } from '../../public/platform/uploader/upload-job';
 
 export interface AuthorizationHeader {
@@ -65,7 +65,7 @@ export interface ExportedUpload {
 }
 
 export interface ExportedFile {
-  UploadUrlRequest: typeof UploadUrlRequest;
+  UploadConfigurationRequest: typeof UploadConfigurationRequest;
   UploadFileRequest: typeof UploadFileRequest;
   ImportFileRequest: typeof ImportFileRequest;
   ListFilesRequest: typeof ListFilesRequest;

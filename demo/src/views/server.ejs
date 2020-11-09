@@ -200,7 +200,7 @@ fileManager.listFiles('/demo', listFilesRequest)
                 <h4>Get a signed URL that directs to a file, required for non-public file download</h4>
                 <div id="download-url-code">
                     <div class="highlight">
-                            <pre><code class="language-javascript">var url = mediaPlatform.getDownloadUrl(req.query.path);
+                            <pre><code class="language-javascript">var url = mediaPlatform.getSignedUrl(req.query.path);
 
 res.send({url: url});</code></pre>
                     </div>
