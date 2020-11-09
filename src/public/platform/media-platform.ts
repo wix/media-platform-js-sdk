@@ -105,7 +105,7 @@ class MediaPlatform {
   }
 
   /**
-   * get sugbed url
+   * get download url
    * @param {string} path
    * @param {SignedDownloadUrlRequest?} signedDownloadUrlRequest
    * @returns {Promise<DownloadUrl>}
