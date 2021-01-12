@@ -74,6 +74,7 @@
     "@types/request": "^2.48.4",
     "@types/request-promise-native": "^1.0.17",
     "@types/zen-observable": "^0.8.0",
+    "axios": "^0.21.1",
     "File": "^0.10.2",
     "async": "^3.2.0",
     "core-decorators": "^0.20.0",

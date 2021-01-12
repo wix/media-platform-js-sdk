@@ -22,13 +22,7 @@ import {
 
 export type UploadFileStream =
   | Stream
-  | {
-      value: Buffer;
-      options: {
-        filename: 'filename';
-        contentType: string;
-      };
-    };
+  | Buffer;
 
 export interface IFileUploader {
   configuration: IConfigurationBase;
@@ -249,14 +243,7 @@ export class FileUploader implements IFileUploader {
       streamErrorPromise = this.getStreamErrorPromise(stream);
     } else if (file instanceof Buffer) {
       // noinspection JSUnresolvedVariable
-      size = file.byteLength;
-      stream = {
-        value: file,
-        options: {
-          filename: 'filename',
-          contentType: mimeType,
-        },
-      };
+      stream = file;
     } else {
       throw new Error('unsupported source type: ' + typeof file);
     }

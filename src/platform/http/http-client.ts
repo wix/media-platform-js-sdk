@@ -1,5 +1,6 @@
 import * as request from 'request-promise-native';
 import { URL } from 'url';
+import axios from 'axios';
 
 import { AuthorizationHeader } from '../../types/media-platform/media-platform';
 import { Authenticator } from '../authentication/authenticator';
@@ -133,28 +134,18 @@ export class HTTPClient implements IHTTPClient {
     );
   }
 
-  putFile<T>(url: string, stream: any, params: any, headers: any): Promise<T> {
-    const options = {
-      method: 'PUT',
-      url,
-      qs: params,
-      body: stream,
+  async putFile<T>(
+    url: string,
+    stream: any,
+    params: any,
+    headers: any,
+  ): Promise<T> {
+    const { data } = await axios.put(url, stream, {
       headers,
-      json: true,
-    };
-
-    return request(options).then(
-      (response) => {
-        if (response.statusCode < 200 || response.statusCode >= 300) {
-          return Promise.reject(response.body);
-        }
-
-        return response;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
+      responseType: 'json',
+      params,
+    });
+    return data;
   }
 
   get<T>(
