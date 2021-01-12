@@ -405,7 +405,7 @@ describe('File Manager', () => {
           repliesDir + 'get-upload-configuration-response.json',
         );
       apiServer
-        .post('/_api/upload/file')
+        .put('/_api/upload/file')
         .once()
         .replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -445,7 +445,7 @@ describe('File Manager', () => {
           repliesDir + 'get-upload-configuration-response.json',
         );
       apiServer
-        .post('/_api/upload/file')
+        .put('/_api/upload/file')
         .once()
         .replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -468,7 +468,7 @@ describe('File Manager', () => {
           repliesDir + 'get-upload-configuration-response.json',
         );
       apiServer
-        .post('/_api/upload/file')
+        .put('/_api/upload/file')
         .once()
         .replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -483,7 +483,7 @@ describe('File Manager', () => {
 
     it('should reject unsupported source', done => {
       apiServer
-        .get('/_api/v3/upload/configuration')
+        .post('/_api/v3/upload/configuration')
         .once()
         .query(true)
         .replyWithFile(
@@ -491,7 +491,7 @@ describe('File Manager', () => {
           repliesDir + 'get-upload-configuration-response.json',
         );
       apiServer
-        .post('/_api/upload/file')
+        .put('/_api/upload/file')
         .once()
         .replyWithFile(200, repliesDir + 'file-descriptor-response.json');
 
@@ -511,7 +511,7 @@ describe('File Manager', () => {
 
     it('should handle auth errors', done => {
       apiServer
-        .get('/_api/v3/upload/configuration')
+        .post('/_api/v3/upload/configuration')
         .once()
         .query(true)
         .reply(403, {});
@@ -528,7 +528,7 @@ describe('File Manager', () => {
 
     it('should handle upload errors', done => {
       apiServer
-        .get('/_api/v3/upload/configuration')
+        .post('/_api/v3/upload/configuration')
         .once()
         .query(true)
         .replyWithFile(
@@ -536,7 +536,7 @@ describe('File Manager', () => {
           repliesDir + 'get-upload-configuration-response.json',
         );
       apiServer
-        .post('/_api/upload/file')
+        .put('/_api/upload/file')
         .once()
         .reply(500, {});
 
@@ -561,7 +561,7 @@ describe('File Manager', () => {
           );
 
         apiServer
-          .post('/_api/upload/file')
+          .put('/_api/upload/file')
           .once()
           .replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -585,7 +585,8 @@ describe('File Manager', () => {
           );
 
         apiServer
-          .post('/_api/upload/file')
+          .put('/_api/upload/file')
+          .query({ acl: ACL.PUBLIC })
           .once()
           .replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -614,12 +615,14 @@ describe('File Manager', () => {
           );
 
         apiServer
-          .post('/_api/upload/file')
+          .put('/_api/upload/file')
+          .query({ fileName: 'image.jpg', acl: ACL.PRIVATE })
           .once()
           .replyWithFile(200, repliesDir + 'file-upload-private-response.json');
 
         const uploadFileRequest = new UploadFileRequest({
           acl: ACL.PRIVATE,
+          fileName: 'image.jpg',
         });
 
         (fileManager.uploadFile(
@@ -683,7 +686,7 @@ describe('File Manager', () => {
           );
 
         apiServer
-          .post('/_api/upload/file')
+          .put('/_api/upload/file')
           .once()
           .replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -707,8 +710,15 @@ describe('File Manager', () => {
           );
 
         apiServer
-          .post('/_api/upload/file')
+          .put('/_api/upload/file')
           .once()
+          .query({
+            acl: ACL.PUBLIC,
+            lifecycle: JSON.stringify({
+              action: Lifecycle.Delete,
+              age: 50,
+            }),
+          })
           .replyWithFile(
             200,
             repliesDir + 'file-upload-lifecycle-delete-response.json',
@@ -735,7 +745,7 @@ describe('File Manager', () => {
     describe('uploadToken and uploadUrl', () => {
       it('should upload file with custom uploadUrl', done => {
         apiServer
-          .post('/_api/upload/file')
+          .put('/_api/upload/file')
           .once()
           .replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -752,7 +762,11 @@ describe('File Manager', () => {
       it('should upload file with custom uploadUrl and uploadFileRequest', done => {
         // TODO: add form-data params checking with nock
         apiServer
-          .post('/_api/upload/file')
+          .put('/_api/upload/file')
+          .query({
+            acl: ACL.PRIVATE,
+          })
+          .matchHeader('content-type', 'image/gif')
           .once()
           .replyWithFile(
             200,
@@ -761,7 +775,6 @@ describe('File Manager', () => {
 
         const uploadFileRequest = new UploadFileRequest({
           acl: ACL.PRIVATE,
-          age: 23,
           mimeType: 'image/gif',
         });
 
@@ -777,7 +790,7 @@ describe('File Manager', () => {
 
       it('should not upload file without uploadUrl', done => {
         apiServer
-          .post('/_api/upload/file')
+          .put('/_api/upload/file')
           .once()
           .replyWithFile(200, repliesDir + 'file-upload-response.json');
 
@@ -788,28 +801,6 @@ describe('File Manager', () => {
           done();
         });
       });
-    });
-
-    it('should accept path (string) as source', async () => {
-      apiServer
-        .post('/_api/v3/upload/configuration')
-        .once()
-        .query(true)
-        .replyWithFile(
-          200,
-          repliesDir + 'get-upload-configuration-response.json',
-        );
-      apiServer
-        .post('/_api/upload/file')
-        .once()
-        .replyWithFile(200, repliesDir + 'file-upload-response.json');
-
-      //path, file, uploadRequest
-      const files = (await fileManager.uploadFile(
-        'upload/to/there/image.jpg',
-        sourcesDir + 'image.jpg',
-      )) as FileDescriptor[];
-      expect(files.length).to.equal(1);
     });
   });
 

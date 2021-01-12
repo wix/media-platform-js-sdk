@@ -152,21 +152,14 @@ export class FileUploader implements IFileUploader {
 
         const uploadConfigurationResponse = response as UploadConfigurationResponse;
 
-        const form = {
-          ...FileUploader.createUploadForm(
-            stream,
-            path,
-            uploadConfigurationResponse,
-          ),
-          ...uploadFileRequest,
-        };
-
         this.logger.debug(
           `Uploading file to ${uploadConfigurationResponse.uploadUrl}`,
         );
-        return this.uploadFileWithPost(
+
+        return this.uploadFileWithPut(
           uploadConfigurationResponse.uploadUrl,
-          form,
+          stream,
+          uploadFileRequest,
         );
       })
       .then(({ payload }) => {
@@ -194,28 +187,33 @@ export class FileUploader implements IFileUploader {
     });
   }
 
-  private uploadFileWithPost(uploadUrl: string, form) {
-    return this.httpClient.postForm<RawResponse<IFileDescriptor>>(
-      uploadUrl,
-      form,
-    );
-  }
+  private uploadFileWithPut(
+    uploadUrl: string,
+    stream,
+    uploadFileRequest?: UploadFileRequest,
+  ) {
+    const contentType =
+      uploadFileRequest?.mimeType || 'application/octet-stream';
+    const params: { [key: string]: string } = {};
 
-  private static createUploadForm(stream, path: string, uploadResponse) {
-    const form: {
-      file: UploadFileStream;
-      path: string;
-      uploadToken?: string | null;
-    } & Partial<UploadFileRequest> = {
-      file: stream,
-      path,
-    };
-
-    if (typeof uploadResponse.uploadToken !== 'undefined') {
-      form.uploadToken = uploadResponse.uploadToken;
+    if (uploadFileRequest?.acl) {
+      params.acl = uploadFileRequest.acl;
     }
 
-    return form;
+    if (uploadFileRequest?.lifecycle) {
+      params.lifecycle = uploadFileRequest.lifecycle;
+    }
+
+    if (uploadFileRequest?.fileName) {
+      params.fileName = uploadFileRequest.fileName;
+    }
+
+    return this.httpClient.putFile<RawResponse<IFileDescriptor>>(
+      uploadUrl,
+      stream,
+      params,
+      { 'content-type': contentType },
+    );
   }
 
   private getStreamErrorPromise(stream: UploadFileStream) {

@@ -133,6 +133,30 @@ export class HTTPClient implements IHTTPClient {
     );
   }
 
+  putFile<T>(url: string, stream: any, params: any, headers: any): Promise<T> {
+    const options = {
+      method: 'PUT',
+      url,
+      qs: params,
+      body: stream,
+      headers,
+      json: true,
+    };
+
+    return request(options).then(
+      (response) => {
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          return Promise.reject(response.body);
+        }
+
+        return response;
+      },
+      (error) => {
+        return Promise.reject(error);
+      },
+    );
+  }
+
   get<T>(
     url: string,
     params: HTTPRequestParams = {},

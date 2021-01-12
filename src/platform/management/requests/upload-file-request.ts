@@ -4,6 +4,7 @@ export interface IUploadFileRequest {
   acl?: ACL | null;
   age?: number;
   mimeType?: string | null;
+  fileName?: string | null;
 }
 
 /**
@@ -14,6 +15,7 @@ export class UploadFileRequest {
   public acl?: ACL | null = ACL.PUBLIC;
   public lifecycle?: string;
   public mimeType?: string | null = 'application/octet-stream';
+  public fileName?: string | null = '';
 
   constructor(data: IUploadFileRequest) {
     if (data.acl) {
@@ -33,6 +35,10 @@ export class UploadFileRequest {
 
     if (data.mimeType) {
       this.mimeType = data.mimeType;
+    }
+
+    if (data.fileName) {
+      this.fileName = data.fileName;
     }
   }
 }
