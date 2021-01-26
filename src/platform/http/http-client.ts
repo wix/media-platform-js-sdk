@@ -8,13 +8,7 @@ import { Token } from '../authentication/token';
 import { Configuration, IConfiguration } from '../configuration/configuration';
 import { UploadFileStream } from '../management/file-uploader';
 import { UploadFileRequest } from '../management/requests/upload-file-request';
-
-export class RetriableError extends Error {
-  constructor(props: string) {
-    super(props);
-    Object.setPrototypeOf(this, RetriableError.prototype);
-  }
-}
+import { RetriableError } from './retry';
 
 interface HTTPRequest {
   method: string;

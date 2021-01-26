@@ -1,4 +1,9 @@
-import { RetriableError } from "./http-client";
+export class RetriableError extends Error {
+  constructor(props: string) {
+    super(props);
+    Object.setPrototypeOf(this, RetriableError.prototype);
+  }
+}
 
 export async function retry<T>(fn: Function, tries: number): Promise<T> {
   let lastError: any;
