@@ -549,6 +549,57 @@ describe('File Manager', () => {
       });
     });
 
+
+
+    describe('retries', () => {
+      it('should retry upload configuration request twice when it fails on 502', (done) => {
+        apiServer
+          .post('/_api/v3/upload/configuration')
+          .times(2)
+          .query(true)
+          .reply(502, { message: 'app engine fail' });
+
+        apiServer
+          .post('/_api/v3/upload/configuration')
+          .once()
+          .query(true)
+          .replyWithFile(
+            200,
+            repliesDir + 'get-upload-configuration-response.json',
+          );
+
+        fileManager
+          .getUploadConfiguration({
+            path: 'upload/to/there/image.jpg',
+            acl: ACL.PUBLIC,
+          })
+          .then((response) => {
+            expect(response.uploadUrl).to.equal(
+              'https://manager.com/_api/upload/file',
+            );
+            done();
+          });
+      });
+
+      it('should not retry upload configuration request twice when it fails on 409', (done) => {
+        apiServer
+          .post('/_api/v3/upload/configuration')
+          .once()
+          .query(true)
+          .reply(409, { message: 'conflict' });
+
+        fileManager
+          .getUploadConfiguration({
+            path: 'upload/to/there/image.jpg',
+            acl: ACL.PUBLIC,
+          })
+          .catch((error) => {
+            expect(error).to.be.an.instanceof(Error);
+            done();
+          });
+      });
+    })
+
     describe('acl', () => {
       it('should upload file with default(public) ACL', done => {
         apiServer

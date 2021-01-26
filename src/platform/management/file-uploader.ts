@@ -7,7 +7,7 @@ import {
   Configuration,
   IConfigurationBase,
 } from '../configuration/configuration';
-import { HTTPClient, IHTTPClient } from '../http/http-client';
+import { HTTPClient, IHTTPClient, RetriableError } from '../http/http-client';
 
 import { FileDescriptor, IFileDescriptor } from './metadata/file-descriptor';
 import { UploadFileRequest } from './requests/upload-file-request';
@@ -60,22 +60,26 @@ export class FileUploader implements IFileUploader {
    * @description retrieve upload configuration for uploading files
    * @param uploadConfigurationRequest
    */
-  getUploadConfiguration(
+  async getUploadConfiguration(
     uploadConfigurationRequest?: IUploadConfigurationRequest,
   ): Promise<UploadConfigurationResponse> {
-    return this.httpClient
-      .post<RawResponse<IUploadConfigurationResponse>>(
-        this.apiUrl + '/configuration',
-        uploadConfigurationRequest,
-      )
-      .then(
-        (response) => {
-          return new UploadConfigurationResponse(response.payload);
-        },
-        (error) => {
-          return Promise.reject(error);
-        },
-      );
+    let lastError: any;
+    for (let i = 0; i < 3; i++) {
+      try {
+        const response = await this.httpClient.post<
+          RawResponse<IUploadConfigurationResponse>
+        >(this.apiUrl + '/configuration', uploadConfigurationRequest);
+
+        return new UploadConfigurationResponse(response.payload);
+      } catch (e) {
+        lastError = e;
+        if (!(e instanceof RetriableError)) {
+          break;
+        }
+      }
+    }
+
+    throw lastError;
   }
 
   /**

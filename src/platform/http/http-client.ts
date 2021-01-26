@@ -9,6 +9,13 @@ import { Configuration, IConfiguration } from '../configuration/configuration';
 import { UploadFileStream } from '../management/file-uploader';
 import { UploadFileRequest } from '../management/requests/upload-file-request';
 
+export class RetriableError extends Error {
+  constructor(props: string) {
+    super(props);
+    Object.setPrototypeOf(this, RetriableError.prototype);
+  }
+}
+
 interface HTTPRequest {
   method: string;
   url: string;
@@ -56,7 +63,6 @@ export interface IHTTPClient {
 
   addAuthToUrl(url): Promise<string>;
 }
-
 export class HTTPClient implements IHTTPClient {
   constructor(public authenticator: Authenticator) {}
 
@@ -86,6 +92,11 @@ export class HTTPClient implements IHTTPClient {
     }
 
     return request(options).then((response) => {
+      if (response.statusCode === 502 || response.statusCode === 503) {
+        return Promise.reject(
+          new RetriableError(JSON.stringify(response.body)),
+        );
+      }
       if (response.statusCode < 200 || response.statusCode >= 300) {
         return Promise.reject(new Error(JSON.stringify(response.body)));
       }
