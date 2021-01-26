@@ -7,7 +7,7 @@ import {
   Configuration,
   IConfigurationBase,
 } from '../configuration/configuration';
-import { HTTPClient, IHTTPClient, RetriableError } from '../http/http-client';
+import { HTTPClient, IHTTPClient } from '../http/http-client';
 
 import { FileDescriptor, IFileDescriptor } from './metadata/file-descriptor';
 import { UploadFileRequest } from './requests/upload-file-request';
@@ -19,10 +19,9 @@ import {
   IUploadConfigurationResponse,
   UploadConfigurationResponse,
 } from './responses/upload-configuration-response';
+import { retry } from '../http/retry';
 
-export type UploadFileStream =
-  | Stream
-  | Buffer;
+export type UploadFileStream = Stream | Buffer;
 
 export interface IFileUploader {
   configuration: IConfigurationBase;
@@ -63,23 +62,13 @@ export class FileUploader implements IFileUploader {
   async getUploadConfiguration(
     uploadConfigurationRequest?: IUploadConfigurationRequest,
   ): Promise<UploadConfigurationResponse> {
-    let lastError: any;
-    for (let i = 0; i < 3; i++) {
-      try {
-        const response = await this.httpClient.post<
-          RawResponse<IUploadConfigurationResponse>
-        >(this.apiUrl + '/configuration', uploadConfigurationRequest);
+    return retry<UploadConfigurationResponse>(async () => {
+      const response = await this.httpClient.post<
+        RawResponse<IUploadConfigurationResponse>
+      >(this.apiUrl + '/configuration', uploadConfigurationRequest);
 
-        return new UploadConfigurationResponse(response.payload);
-      } catch (e) {
-        lastError = e;
-        if (!(e instanceof RetriableError)) {
-          break;
-        }
-      }
-    }
-
-    throw lastError;
+      return new UploadConfigurationResponse(response.payload);
+    }, 3);
   }
 
   /**
