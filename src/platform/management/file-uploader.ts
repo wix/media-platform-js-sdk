@@ -59,7 +59,7 @@ export class FileUploader implements IFileUploader {
    * @description retrieve upload configuration for uploading files
    * @param uploadConfigurationRequest
    */
-  async getUploadConfiguration(
+  getUploadConfiguration(
     uploadConfigurationRequest?: IUploadConfigurationRequest,
   ): Promise<UploadConfigurationResponse> {
     return retry<UploadConfigurationResponse>(async () => {
