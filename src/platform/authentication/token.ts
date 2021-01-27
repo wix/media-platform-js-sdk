@@ -36,7 +36,7 @@ export class Token {
    * @description the issuing time of the token in UNIX time
    * @type {number}
    */
-  public issuedAt: number = Math.floor(new Date().getTime() / 1000) - 10;
+  public issuedAt: number | null = Math.floor(new Date().getTime() / 1000) - 10;
 
   /**
    * @description the token expiration in UNIX time
@@ -48,7 +48,7 @@ export class Token {
    * @description a unique token id, can be used as nonce
    * @type {string}
    */
-  public tokenId: string = crypto.randomBytes(6).toString('hex');
+  public tokenId: string | null = crypto.randomBytes(6).toString('hex');
 
   /**
    * @description additional ad-hoc claims that are added to the token
@@ -64,6 +64,26 @@ export class Token {
    */
   setIssuer(ns: string, identifier: string): this {
     this.issuer = ns + identifier;
+    return this;
+  }
+
+  /**
+   * @description sets the issued at of the token
+   * @param {number} issuedAt
+   * @returns {Token}
+   */
+  setIssuedAt(issuedAt: number | null): this {
+    this.issuedAt = issuedAt;
+    return this;
+  }
+
+  /**
+   * @description sets the token id
+   * @param {string} tokenId
+   * @returns {Token}
+   */
+  setTokenId(tokenId: string | null): this {
+    this.tokenId = tokenId;
     return this;
   }
 
