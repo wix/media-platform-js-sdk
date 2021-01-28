@@ -57,4 +57,20 @@ describe('image token', () => {
     expect(claims.aud).to.contain('urn:service:image.operations');
     expect(claims.obj).to.equal(null);
   });
+
+  it('toClaims should properly return claims set for caching', () => {
+    const policy = new Policy({
+      maxHeight: 1000,
+      maxWidth: 1500,
+      path: '/path/to/image.jpg',
+    });
+
+    const token = new ImageToken({ policy }).cacheableUntil(1000);
+
+    const claims = token.toClaims();
+    expect(claims.aud).to.contain('urn:service:image.operations');
+    expect(claims.iat).to.equal(null);
+    expect(claims.jti).to.equal(String(1000));
+    expect(claims.exp).to.equal(1000);
+  });
 });

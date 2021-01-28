@@ -36,6 +36,14 @@ export class ImageToken extends Token {
     this.addVerbs(ImageToken.VERB);
   }
 
+  cacheableUntil(expiration: number): ImageToken {
+    this.setExpiration(expiration);
+    this.setIssuedAt(null);
+    this.setTokenId(String(expiration));
+
+    return this;
+  }
+
   toClaims(): ImageTokenClaims {
     if (typeof this.policy !== 'undefined') {
       this.setObjects(this.policy.toClaims().obj);
