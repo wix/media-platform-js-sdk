@@ -36,7 +36,7 @@ export class Token {
    * @description the issuing time of the token in UNIX time
    * @type {number}
    */
-  public issuedAt: number | null = Math.floor(new Date().getTime() / 1000) - 10;
+  public issuedAt: number = Math.floor(new Date().getTime() / 1000) - 10;
 
   /**
    * @description the token expiration in UNIX time
@@ -72,7 +72,7 @@ export class Token {
    * @param {number} issuedAt
    * @returns {Token}
    */
-  setIssuedAt(issuedAt: number | null): this {
+  setIssuedAt(issuedAt: number): this {
     this.issuedAt = issuedAt;
     return this;
   }

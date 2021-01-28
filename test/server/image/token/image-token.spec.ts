@@ -69,7 +69,7 @@ describe('image token', () => {
 
     const claims = token.toClaims();
     expect(claims.aud).to.contain('urn:service:image.operations');
-    expect(claims.iat).to.equal(null);
+    expect(claims.iat).to.equal(1000);
     expect(claims.jti).to.equal(String(1000));
     expect(claims.exp).to.equal(1000);
   });

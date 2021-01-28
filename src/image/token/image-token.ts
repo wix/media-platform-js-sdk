@@ -38,7 +38,7 @@ export class ImageToken extends Token {
 
   cacheableUntil(expiration: number): ImageToken {
     this.setExpiration(expiration);
-    this.setIssuedAt(null);
+    this.setIssuedAt(1000);
     this.setTokenId(String(expiration));
 
     return this;
