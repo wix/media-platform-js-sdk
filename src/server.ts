@@ -25,6 +25,8 @@ import { UploadConfigurationRequest } from './platform/management/requests/uploa
 import { UploadFileRequest } from './platform/management/requests/upload-file-request';
 import { MediaPlatform } from './platform/media-platform';
 import { MediaType } from './types/media-platform/media-platform';
+import { IndexImageRequest } from './platform/management/requests/index-image-request';
+import { FindSimilarImagesRequest } from './platform/management/requests/find-similar-images-request';
 
 export {
   /**
@@ -179,4 +181,16 @@ export const job = {
    * @type {SearchJobsRequest}
    */
   SearchJobsRequest,
+};
+
+export const visualSearch = {
+   /**
+   * @type {IndexImageRequest}
+   */
+  IndexImageRequest,
+
+   /**
+   * @type {FindSimilarImagesRequest}
+   */
+  FindSimilarImagesRequest
 };

@@ -1,0 +1,36 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": [
+    {
+      "mimeType": "image/png",
+      "hash": "d41d8cd98f00b204e9800998ecf8427e",
+      "parent": "/",
+      "dateCreated": "2017-02-20T14:23:42Z",
+      "path": "/image1.png",
+      "id": "d0e18fd468cd4e53bc2bbec3ca4a8676",
+      "size": 100,
+      "ancestors": [
+        "/"
+      ],
+      "acl": "public",
+      "dateUpdated": "2017-02-20T14:23:42Z",
+      "type": "-"
+    },
+    {
+      "mimeType": "image/png",
+      "hash": "35df225c1634042f59e85aad37bae506",
+      "parent": "/",
+      "dateCreated": "2017-02-20T14:23:42Z",
+      "path": "/image2.png",
+      "id": "90b78c19d79c439b86fb73ce5aa25a62",
+      "size": 100,
+      "ancestors": [
+        "/"
+      ],
+      "acl": "public",
+      "dateUpdated": "2017-02-20T14:23:42Z",
+      "type": "-"
+    }
+  ]
+}
