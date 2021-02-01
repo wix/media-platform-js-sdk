@@ -24,7 +24,7 @@ describe('visualSearchManager', () => {
     nock.cleanAll();
   });
 
-  it('Index image', (done) => {
+  it('Index image', async () => {
     const collectionId = 'testCollectionId';
     const source = {path: '/image_for_index.png', fileId: 'e75ce7b7c1b542edade3491675731793'};
 
@@ -35,14 +35,13 @@ describe('visualSearchManager', () => {
 
     const indexImageRequest = new IndexImageRequest({source, specification: {}});
 
-    visualSearchManager.indexImage(collectionId, indexImageRequest).then((job) => {
-      expect(job.id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
-      expect(job.status).to.equal('pending');
-      done();
-    });
+    const job = await visualSearchManager.indexImage(collectionId, indexImageRequest);
+
+    expect(job.id).to.equal('71f0d3fde7f348ea89aa1173299146f8_19e137e8221b4a709220280b432f947f');
+    expect(job.status).to.equal('pending');
   });
 
-  it('Find similar images', (done) => {
+  it('Find similar images', async () => {
     const collectionId = 'testCollectionId';
     const imageUrl = 'https://example.com/image.png';
 
@@ -53,9 +52,8 @@ describe('visualSearchManager', () => {
 
     const findSimilarImagesRequest = new FindSimilarImagesRequest({ imageUrl });
 
-    visualSearchManager.findSimilarImages(collectionId, findSimilarImagesRequest).then((images) => {
-      expect(images.length).to.equal(2);
-      done();
-    });
+    const images = await visualSearchManager.findSimilarImages(collectionId, findSimilarImagesRequest);
+
+    expect(images.length).to.equal(2);
   });
 });
