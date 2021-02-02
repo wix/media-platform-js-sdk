@@ -6,6 +6,7 @@ import { FileImportSpecification } from './file-import-specification';
 import { PackagingSpecification } from './packaging-specification';
 import { ISource, Source } from './source';
 import { TranscodeSpecification } from './transcode-specification';
+import { IndexImageSpecification } from './index-image-specification';
 
 export interface IJob<T> {
   id: string;
@@ -35,6 +36,7 @@ const specifications = {
   'urn:job:av.storyboard': ExtractStoryboardSpecification,
   'urn:job:import.file': FileImportSpecification,
   'urn:job:av.package': PackagingSpecification,
+  'urn:job:visual-search.index-image': IndexImageSpecification,
 };
 
 export class Job<T> implements IJob<T> {
