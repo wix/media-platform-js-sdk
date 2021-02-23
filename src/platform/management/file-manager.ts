@@ -2,7 +2,11 @@ import * as Stream from 'stream';
 import * as Observable from 'zen-observable';
 
 import { UploadJob } from '../../public/platform/uploader/upload-job';
-import { ACL, DescriptorMimeType, FileType, } from '../../types/media-platform/media-platform';
+import {
+  ACL,
+  DescriptorMimeType,
+  FileType,
+} from '../../types/media-platform/media-platform';
 import { RawResponse } from '../../types/response/response';
 import { IConfigurationBase } from '../configuration/configuration';
 import { IHTTPClient } from '../http/http-client';
@@ -11,7 +15,7 @@ import { FileUploader, IFileUploader } from './file-uploader';
 import { FileImportSpecification } from './job/file-import-specification';
 import { IJob, Job } from './job/job';
 import { observeJobCreator } from './job/job-observable';
-import { FileDescriptor, IFileDescriptor } from './metadata/file-descriptor';
+import { FileDescriptor, IFileDescriptor, ILifecycle } from './metadata/file-descriptor';
 import { FileMetadata, IFileMetadata } from './metadata/file-metadata';
 import { ImportFileRequest } from './requests/import-file-request';
 import { IListFilesRequest } from './requests/list-files-request';
@@ -287,7 +291,7 @@ export class FileManager {
 
   /**
    * @param {UpdateFileACL} params
-   * @returns {Promise}
+   * @returns {Promise<FileDescriptor>}
    */
   updateFileACL(params: UpdateFileACL): Promise<FileDescriptor> {
     return this.httpClient
@@ -295,5 +299,31 @@ export class FileManager {
       .then((response) => {
         return new FileDescriptor(response.payload);
       });
+  }
+
+  /**
+   * @param {FileDescriptor} file
+   * @param {ILifecycle} lifecycle
+   * @returns {Promise<FileDescriptor>}
+   */
+  addFileLifecycle(file: FileDescriptor, lifecycle: ILifecycle): Promise<FileDescriptor> {
+    return this.httpClient
+      .post<RawResponse<FileDescriptor>>(`${this.apiUrl}/lifecycle`, {
+        id: file.id,
+        path: file.path,
+        lifecycle,
+      })
+      .then((response) => new FileDescriptor(response.payload));
+  }
+
+  /**
+   * @param {string} fileId
+   * @param {string} lifecycleId
+   * @returns {Promise<FileDescriptor>}
+   */
+  deleteFileLifecycle(fileId: string, lifecycleId: string): Promise<FileDescriptor> {
+    return this.httpClient
+      .delete<RawResponse<FileDescriptor>>(`${this.apiUrl}/${fileId}/lifecycle/${lifecycleId}`)
+      .then((response) => new FileDescriptor(response.payload));
   }
 }

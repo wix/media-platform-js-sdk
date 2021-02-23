@@ -2,7 +2,13 @@
  * IFileDescriptor
  * @doc FileDescriptor
  */
-import { Lifecycle } from '../../../types/media-platform/media-platform';
+import { LifecycleAction } from '../../../types/media-platform/media-platform';
+
+export interface ILifecycle {
+  id?: string | null;
+  action: LifecycleAction;
+  age: number;
+}
 
 export interface IFileDescriptor {
   acl: string | null;
@@ -12,10 +18,7 @@ export interface IFileDescriptor {
   dateUpdated?: string | null;
   id: string;
   hash?: string | null;
-  lifecycle: {
-    action: Lifecycle;
-    age: number;
-  } | null;
+  lifecycle: ILifecycle | null;
   mimeType: string | null;
   path: string;
   size: number | undefined;
@@ -72,10 +75,7 @@ export class FileDescriptor implements IFileDescriptor {
   /**
    * @description lifecycle - delete action: how long the file should leave in seconds
    */
-  public lifecycle: {
-    action: Lifecycle;
-    age: number;
-  } | null = null;
+  public lifecycle: ILifecycle | null = null;
 
   public dateCreated: string | null = null;
 
