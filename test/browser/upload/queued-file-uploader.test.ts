@@ -11,7 +11,7 @@ import { QueuedFileUploader } from '../../../src/public/platform/uploader/queued
 import { UploadJob } from '../../../src/public/platform/uploader/upload-job';
 import {
   ACL,
-  Lifecycle,
+  LifecycleAction,
 } from '../../../src/types/media-platform/media-platform';
 import { delay } from '../../helpers/delay';
 
@@ -353,7 +353,7 @@ describe('queued file uploader', function () {
           expect(request.requestBody.get('acl')).to.eq('private');
           expect(request.requestBody.get('lifecycle')).to.eq(
             JSON.stringify({
-              action: Lifecycle.Delete,
+              action: LifecycleAction.Delete,
               age: 52,
             }),
           );

@@ -1,0 +1,20 @@
+{
+  "message": "OK",
+  "code": 0,
+  "payload": {
+    "mimeType": "text/plain",
+    "hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "parent": "/",
+    "dateCreated": "2017-03-08T12:57:38Z",
+    "path": "/test-file.txt",
+    "id": "d0e18fd468cd4e53bc2bbec3ca4a8676",
+    "size": 100,
+    "ancestors": [
+      "/"
+    ],
+    "acl": "public",
+    "dateUpdated": "2017-03-08T12:57:38Z",
+    "type": "-",
+    "lifecycle": null
+  }
+}

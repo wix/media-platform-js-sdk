@@ -24,7 +24,7 @@ import {
   ACL,
   DescriptorMimeType,
   FileType,
-  Lifecycle,
+  LifecycleAction,
   MediaType,
   OrderDirection,
 } from '../../../../src/types/media-platform/media-platform';
@@ -715,7 +715,7 @@ describe('File Manager', () => {
           .query({
             acl: ACL.PUBLIC,
             lifecycle: JSON.stringify({
-              action: Lifecycle.Delete,
+              action: LifecycleAction.Delete,
               age: 50,
             }),
           })
@@ -734,9 +734,84 @@ describe('File Manager', () => {
           uploadFileRequest,
         ) as Promise<FileDescriptor[]>).then(response => {
           expect(response[0].lifecycle).to.be.eql({
-            action: Lifecycle.Delete,
+            action: LifecycleAction.Delete,
             age: 50,
           });
+          done();
+        });
+      });
+
+      it('it should add a lifecycle rule to an existing file', done => {
+        apiServer
+          .post('/_api/files/lifecycle')
+          .once()
+          .query(true)
+          .replyWithFile(
+            200,
+            repliesDir + 'add-file-lifecycle-response.json',
+          );
+
+        const fileDescriptor = new FileDescriptor({
+          id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+          hash: 'd41d8cd98f00b204e9800998ecf8427e',
+          path: '/test-file.txt',
+          mimeType: 'text/plain',
+          type: '-',
+          size: 100,
+          acl: 'public',
+          bucket: null,
+          dateCreated: '2017-03-08T12:57:38Z',
+          dateUpdated: '2017-03-08T12:57:38Z',
+          lifecycle: null,
+        });
+
+        (fileManager.addFileLifecycle(
+          fileDescriptor,
+          { action: LifecycleAction.Delete, age: 60 }
+        ) as Promise<FileDescriptor>).then(response => {
+          expect(response.id).to.be.eql(fileDescriptor.id);
+          expect(response.lifecycle).to.be.eql({
+            action: LifecycleAction.Delete,
+            age: 60,
+          });
+          done();
+        });
+      });
+
+      it('it should delete an existing lifecycle rule', done => {
+        const fileDescriptor = new FileDescriptor({
+          id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
+          hash: 'd41d8cd98f00b204e9800998ecf8427e',
+          path: '/test-file.txt',
+          mimeType: 'text/plain',
+          type: '-',
+          size: 100,
+          acl: 'public',
+          bucket: null,
+          dateCreated: '2017-03-08T12:57:38Z',
+          dateUpdated: '2017-03-08T12:57:38Z',
+          lifecycle: {
+            action: LifecycleAction.Delete,
+            age: 60,
+            id: 'delete-60',
+          },
+        });
+
+        apiServer
+          .delete(`/_api/files/${fileDescriptor.id}/lifecycle/${fileDescriptor.lifecycle!.id}`)
+          .once()
+          .query(true)
+          .replyWithFile(
+            200,
+            repliesDir + 'delete-file-lifecycle-response.json',
+          );
+
+        (fileManager.deleteFileLifecycle(
+          fileDescriptor.id,
+          fileDescriptor.lifecycle!.id!,
+        ) as Promise<FileDescriptor>).then(response => {
+          expect(response.id).to.be.eql(fileDescriptor.id);
+          expect(response.lifecycle).to.be.eql(null);
           done();
         });
       });

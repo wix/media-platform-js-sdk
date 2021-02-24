@@ -139,6 +139,6 @@ export enum LiveStreamState {
   CLOSED = 'closed',
 }
 
-export enum Lifecycle {
+export enum LifecycleAction {
   Delete = 'delete',
 }

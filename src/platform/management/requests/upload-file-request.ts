@@ -1,4 +1,4 @@
-import { ACL, Lifecycle } from '../../../types/media-platform/media-platform';
+import { ACL, LifecycleAction } from '../../../types/media-platform/media-platform';
 
 export interface IUploadFileRequest {
   acl?: ACL | null;
@@ -28,7 +28,7 @@ export class UploadFileRequest {
         typeof data.age === 'string' ? parseInt(data.age, 10) : data.age;
 
       this.lifecycle = JSON.stringify({
-        action: Lifecycle.Delete,
+        action: LifecycleAction.Delete,
         age,
       });
     }
