@@ -779,6 +779,7 @@ describe('File Manager', () => {
       });
 
       it('it should delete an existing lifecycle rule', done => {
+        const lifecycleId = 'delete-60';
         const fileDescriptor = new FileDescriptor({
           id: 'd0e18fd468cd4e53bc2bbec3ca4a8676',
           hash: 'd41d8cd98f00b204e9800998ecf8427e',
@@ -793,12 +794,12 @@ describe('File Manager', () => {
           lifecycle: {
             action: LifecycleAction.Delete,
             age: 60,
-            id: 'delete-60',
+            id: lifecycleId,
           },
         });
 
         apiServer
-          .delete(`/_api/files/${fileDescriptor.id}/lifecycle/${fileDescriptor.lifecycle!.id}`)
+          .delete(`/_api/files/${fileDescriptor.id}/lifecycle/${lifecycleId}`)
           .once()
           .query(true)
           .replyWithFile(
@@ -808,7 +809,7 @@ describe('File Manager', () => {
 
         (fileManager.deleteFileLifecycle(
           fileDescriptor.id,
-          fileDescriptor.lifecycle!.id!,
+          lifecycleId,
         ) as Promise<FileDescriptor>).then(response => {
           expect(response.id).to.be.eql(fileDescriptor.id);
           expect(response.lifecycle).to.be.eql(null);
