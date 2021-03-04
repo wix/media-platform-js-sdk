@@ -1,6 +1,5 @@
-import * as request from 'request-promise-native';
 import { URL } from 'url';
-import axios from 'axios';
+import axios, { Method as HttpMethod } from 'axios';
 
 import { AuthorizationHeader } from '../../types/media-platform/media-platform';
 import { Authenticator } from '../authentication/authenticator';
@@ -10,14 +9,11 @@ import { UploadFileStream } from '../management/file-uploader';
 import { UploadFileRequest } from '../management/requests/upload-file-request';
 
 interface HTTPRequest {
-  method: string;
+  method: HttpMethod;
   url: string;
   headers: AuthorizationHeader;
-  resolveWithFullResponse?: boolean;
-  json: boolean;
-  body?: string;
-  qs?: string;
-  simple?: boolean;
+  data?: any;
+  params?: object;
 }
 
 export interface HTTPRequestParams {
@@ -60,10 +56,10 @@ export interface IHTTPClient {
 export class HTTPClient implements IHTTPClient {
   constructor(public authenticator: Authenticator) {}
 
-  private _request<T = any>(
-    httpMethod: string,
+  private async _request<T = any>(
+    httpMethod: HttpMethod,
     url: string,
-    params: any,
+    params: HTTPRequestParams,
     token: Token | string | undefined,
   ): Promise<T> {
     const header = this.authenticator.getHeader(token);
@@ -71,27 +67,22 @@ export class HTTPClient implements IHTTPClient {
       method: httpMethod,
       url,
       headers: header,
-      json: true,
-      resolveWithFullResponse: true,
-      simple: false,
     };
 
     switch (httpMethod) {
       case 'POST':
       case 'PUT':
-        options.body = params;
+        options.data = params;
         break;
       default:
-        options.qs = params;
+        options.params = params;
     }
 
-    return request(options).then((response) => {
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        return Promise.reject(new Error(JSON.stringify(response.body)));
-      }
-
-      return response.body;
-    });
+    return await axios(options)
+      .then(result => result.data)
+      .catch(err => {
+        throw new Error(JSON.stringify(err.response?.data));
+      });
   }
 
   /**
@@ -99,7 +90,7 @@ export class HTTPClient implements IHTTPClient {
    * @param {{}} form
    * @param {Token?} token
    */
-  postForm<T = any>(
+  async postForm<T = any>(
     url: string,
     form:
       | FormData
@@ -113,25 +104,14 @@ export class HTTPClient implements IHTTPClient {
     const header = this.authenticator.getHeader(token);
 
     const options = {
-      method: 'POST',
+      method: 'POST' as HttpMethod,
       url,
-      formData: form,
+      data: form,
       headers: header,
-      json: true,
     };
 
-    return request(options).then(
-      (response) => {
-        if (response.statusCode < 200 || response.statusCode >= 300) {
-          return Promise.reject(response.body);
-        }
-
-        return response;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
+    const result = await axios(options);
+    return result.data;
   }
 
   async putFile<T>(

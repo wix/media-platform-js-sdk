@@ -1,4 +1,4 @@
-import { AsyncQueue } from 'async';
+import { QueueObject } from 'async';
 import * as queue from 'async/queue';
 
 import { FileUploader } from './browser-file-uploader';
@@ -10,7 +10,7 @@ import { UploadJob } from './upload-job';
  * @constructor
  */
 export class QueuedFileUploader {
-  public queue: AsyncQueue<UploadJob>;
+  public queue: QueueObject<UploadJob>;
   public jobs: UploadJob[] = [];
 
   constructor(
