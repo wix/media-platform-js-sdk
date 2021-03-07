@@ -19,10 +19,9 @@ import {
   IUploadConfigurationResponse,
   UploadConfigurationResponse,
 } from './responses/upload-configuration-response';
+import { retry } from '../http/retry';
 
-export type UploadFileStream =
-  | Stream
-  | Buffer;
+export type UploadFileStream = Stream | Buffer;
 
 export interface IFileUploader {
   configuration: IConfigurationBase;
@@ -63,19 +62,13 @@ export class FileUploader implements IFileUploader {
   getUploadConfiguration(
     uploadConfigurationRequest?: IUploadConfigurationRequest,
   ): Promise<UploadConfigurationResponse> {
-    return this.httpClient
-      .post<RawResponse<IUploadConfigurationResponse>>(
-        this.apiUrl + '/configuration',
-        uploadConfigurationRequest,
-      )
-      .then(
-        (response) => {
-          return new UploadConfigurationResponse(response.payload);
-        },
-        (error) => {
-          return Promise.reject(error);
-        },
-      );
+    return retry<UploadConfigurationResponse>(async () => {
+      const response = await this.httpClient.post<
+        RawResponse<IUploadConfigurationResponse>
+      >(this.apiUrl + '/configuration', uploadConfigurationRequest);
+
+      return new UploadConfigurationResponse(response.payload);
+    }, 3);
   }
 
   /**
