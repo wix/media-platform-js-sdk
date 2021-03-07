@@ -140,7 +140,7 @@
     "typescript": "^3.8.3",
     "uuid": "^7.0.2",
     "wnpm-ci": "^8.0.116",
-    "@wix/yoshi": "^4.52.2"
+    "yoshi": "^4.52.2"
   },
   "prettier": {
     "singleQuote": true,
