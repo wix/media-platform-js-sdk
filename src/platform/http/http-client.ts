@@ -110,8 +110,11 @@ export class HTTPClient implements IHTTPClient {
       headers: header,
     };
 
-    const result = await axios(options);
-    return result.data;
+    return await axios(options)
+      .then(result => result.data)
+      .catch(err => {
+        throw new Error(JSON.stringify(err.response?.data));
+      });
   }
 
   async putFile<T>(
