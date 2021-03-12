@@ -78,7 +78,7 @@ export class HTTPClient implements IHTTPClient {
         options.params = params;
     }
 
-    return await axios(options)
+    return axios(options)
       .then(result => result.data)
       .catch(err => {
         throw new Error(JSON.stringify(err.response?.data));
@@ -110,7 +110,7 @@ export class HTTPClient implements IHTTPClient {
       headers: header,
     };
 
-    return await axios(options)
+    return axios(options)
       .then(result => result.data)
       .catch(err => {
         throw new Error(JSON.stringify(err.response?.data));
