@@ -208,6 +208,7 @@ describe('HTTP client', () => {
   it('should reject with what server replied', (done) => {
     const uri = '/_api/test-get';
     apiServer
+      .persist()
       .get(uri)
       .query({ test: 11 })
       .reply(
@@ -268,7 +269,9 @@ describe('HTTP client', () => {
 
   it('should reject for PUT with what server replied', (done) => {
     const uri = '/_api/test-put';
-    apiServer.put(uri, { test: 11 }).reply(
+    apiServer
+      .persist()
+      .put(uri, { test: 11 }).reply(
       500,
       JSON.stringify({
         response: 'error-put-112',
@@ -327,7 +330,9 @@ describe('HTTP client', () => {
 
   it('should reject for POST with what server replied', (done) => {
     const uri = '/_api/test-post';
-    apiServer.post(uri, { test: 11 }).reply(
+    apiServer
+      .persist()
+      .post(uri, { test: 11 }).reply(
       500,
       JSON.stringify({
         response: 'error-post-11',
