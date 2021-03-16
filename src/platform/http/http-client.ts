@@ -1,6 +1,9 @@
 import { URL } from 'url';
 import axios, { Method as HttpMethod } from 'axios';
 
+import AxiosRetry, { isRetryableError, isNetworkError} from 'axios-retry';
+const axiosRetry: typeof AxiosRetry = require('axios-retry');
+
 import { AuthorizationHeader } from '../../types/media-platform/media-platform';
 import { Authenticator } from '../authentication/authenticator';
 import { Token } from '../authentication/token';
@@ -54,7 +57,9 @@ export interface IHTTPClient {
 }
 
 export class HTTPClient implements IHTTPClient {
-  constructor(public authenticator: Authenticator) {}
+  constructor(public authenticator: Authenticator) {
+    axiosRetry(axios, { retryCondition: (e) => isNetworkError(e) || isRetryableError(e) });
+  }
 
   private async _request<T = any>(
     httpMethod: HttpMethod,
