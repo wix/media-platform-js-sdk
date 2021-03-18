@@ -17,6 +17,8 @@ interface HTTPRequest {
   headers: AuthorizationHeader;
   data?: any;
   params?: object;
+  maxContentLength: number;
+  maxBodyLenth: number;
 }
 
 export interface HTTPRequestParams {
@@ -72,6 +74,8 @@ export class HTTPClient implements IHTTPClient {
       method: httpMethod,
       url,
       headers: header,
+      maxContentLength: Infinity,
+      maxBodyLenth: Infinity,
     };
 
     switch (httpMethod) {
@@ -108,11 +112,13 @@ export class HTTPClient implements IHTTPClient {
   ): Promise<T> {
     const header = this.authenticator.getHeader(token);
 
-    const options = {
+    const options: HTTPRequest = {
       method: 'POST' as HttpMethod,
       url,
       data: form,
       headers: header,
+      maxContentLength: Infinity,
+      maxBodyLenth: Infinity,
     };
 
     return axios(options)

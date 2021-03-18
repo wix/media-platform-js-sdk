@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { createReadStream } from 'fs';
 import * as nock from 'nock';
 import * as sinon from 'sinon';
 
@@ -69,6 +70,22 @@ describe('HTTP client', () => {
         expect(response).to.deep.equal({
           response: 'ok-post-11',
         });
+        done();
+      });
+  });
+
+  it('should send post request with big body', (done) => {
+    const uri = '/_api/test-big-body';
+    apiServer
+      .get(uri)
+      .reply(200, () => createReadStream('/dev/urandom', { end: 50 * 1000 * 1000}));
+
+    httpClient
+      .get(
+        `${domain}${uri}`)
+      .then((response: any) => {
+        // random input is parsed as JSON, thus, becomes smaller
+        expect(response.length).to.gt(40 * 1000 * 1000);
         done();
       });
   });
