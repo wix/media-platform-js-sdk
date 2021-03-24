@@ -18,7 +18,7 @@ interface HTTPRequest {
   data?: any;
   params?: object;
   maxContentLength: number;
-  maxBodyLenth: number;
+  maxBodyLength: number;
 }
 
 export interface HTTPRequestParams {
@@ -75,7 +75,7 @@ export class HTTPClient implements IHTTPClient {
       url,
       headers: header,
       maxContentLength: Infinity,
-      maxBodyLenth: Infinity,
+      maxBodyLength: Infinity,
     };
 
     switch (httpMethod) {
@@ -118,7 +118,7 @@ export class HTTPClient implements IHTTPClient {
       data: form,
       headers: header,
       maxContentLength: Infinity,
-      maxBodyLenth: Infinity,
+      maxBodyLength: Infinity,
     };
 
     return axios(options)
