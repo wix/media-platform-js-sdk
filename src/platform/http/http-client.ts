@@ -138,6 +138,8 @@ export class HTTPClient implements IHTTPClient {
       headers,
       responseType: 'json',
       params,
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity,
     });
     return data;
   }
