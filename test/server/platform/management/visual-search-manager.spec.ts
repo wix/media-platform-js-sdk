@@ -33,7 +33,7 @@ describe('visualSearchManager', () => {
       .once()
       .replyWithFile(200, repliesDir + 'index-image-response.json');
 
-    const indexImageRequest = new IndexImageRequest({source, specification: {}});
+    const indexImageRequest = new IndexImageRequest({source, specification: { collectionId }});
 
     const job = await visualSearchManager.indexImage(collectionId, indexImageRequest);
 

@@ -1,5 +1,11 @@
-export interface IIndexImageSpecification {}
+export interface IIndexImageSpecification {
+  collectionId: string;
+}
 
 export class IndexImageSpecification implements IIndexImageSpecification {
-  constructor(_data: IIndexImageSpecification) {}
+  public collectionId: string;
+
+  constructor({ collectionId }: IIndexImageSpecification) {
+    this.collectionId = collectionId;
+  }
 }
