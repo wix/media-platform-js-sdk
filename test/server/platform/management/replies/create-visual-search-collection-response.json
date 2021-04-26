@@ -1,0 +1,10 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "id": "test-collection-id",
+    "name": "test-collection-name",
+    "projectId": "test-project-id",
+    "modelId": "test-model-id"
+  }
+}

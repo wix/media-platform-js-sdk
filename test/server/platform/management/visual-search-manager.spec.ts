@@ -24,6 +24,34 @@ describe('visualSearchManager', () => {
     nock.cleanAll();
   });
 
+  it('Create model', async () => {
+    const modelId = 'test-model-id';
+
+    apiServer
+      .post(`/_api/visual_search/models`)
+      .once()
+      .replyWithFile(200, repliesDir + 'create-visual-search-model-response.json');
+
+    const model = await visualSearchManager.createModel(modelId, 'test-model-name',
+      'test-model-description');
+
+    expect(model.id).to.equal(modelId);
+  });
+
+  it('Create collection', async () => {
+    const collectionId = 'test-collection-id';
+
+    apiServer
+      .post(`/_api/visual_search/collections`)
+      .once()
+      .replyWithFile(200, repliesDir + 'create-visual-search-collection-response.json');
+
+    const collection = await visualSearchManager.createCollection(collectionId, 'test-collection-name',
+      'test-project-id', 'test-model-id');
+
+    expect(collection.id).to.equal(collectionId);
+  });
+
   it('Index image', async () => {
     const collectionId = 'testCollectionId';
     const source = {path: '/image_for_index.png', fileId: 'e75ce7b7c1b542edade3491675731793'};

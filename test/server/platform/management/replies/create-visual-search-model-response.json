@@ -1,0 +1,9 @@
+{
+  "code": 0,
+  "message": "OK",
+  "payload": {
+    "id": "test-model-id",
+    "name": "test-model-name",
+    "description": "test-model-description"
+  }
+}
