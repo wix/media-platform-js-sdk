@@ -9,6 +9,8 @@ import {
 } from './responses/index-image-job-response';
 import { IndexImageRequest } from './requests/index-image-request';
 import { FindSimilarImagesRequest } from './requests/find-similar-images-request';
+import { CreateVisualSearchModelResponse } from './responses/create-visual-search-model-response';
+import { CreateVisualSearchCollectionResponse } from './responses/create-visual-search-collection-response';
 
 /**
  * @param {Configuration} configuration
@@ -33,6 +35,53 @@ export class VisualSearchManager {
      * @type {string}
      */
     this.apiUrl = this.baseUrl + '/_api/visual_search';
+  }
+
+  /**
+   * Create visual search model
+   * @param {string} id
+   * @param {string} name
+   * @param {string} description
+   * @returns {Promise<FileDescriptor[]>}
+   */
+  createModel(id: string, name: string, description: string): Promise<CreateVisualSearchModelResponse> {
+    return this.httpClient
+      .post<RawResponse<CreateVisualSearchModelResponse>>(
+        this.apiUrl + `/models`,
+        { id, name, description },
+      )
+      .then(
+        (response) => {
+          return response.payload;
+        },
+        (error) => {
+          return Promise.reject(error);
+        },
+      );
+  }
+
+  /**
+   * Create visual search collection
+   * @param {string} id
+   * @param {string} name
+   * @param {string} projectId
+   * @param {string} modelId
+   * @returns {Promise<FileDescriptor[]>}
+   */
+  createCollection(id: string, name: string, projectId: string, modelId: string): Promise<CreateVisualSearchCollectionResponse> {
+    return this.httpClient
+      .post<RawResponse<CreateVisualSearchCollectionResponse>>(
+        this.apiUrl + `/collections`,
+        { id, name, projectId, modelId },
+      )
+      .then(
+        (response) => {
+          return response.payload;
+        },
+        (error) => {
+          return Promise.reject(error);
+        },
+      );
   }
 
   /**
