@@ -86,7 +86,7 @@ export class LiveManager {
   getStreamAnalytics(streamId: string): Promise<LiveStreamAnalytics> {
     return this.httpClient
       .get<RawResponse<ILiveStreamAnalytics>>(
-        this.apiUrl + '/stream/' + streamId + '/analytics',
+        this.apiUrl + '/streams/' + streamId + '/analytics',
       )
       .then(
         (response) => {

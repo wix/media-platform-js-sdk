@@ -50,7 +50,7 @@ describe('liveManager', () => {
 
   it('Analytics is parsing properly', (done) => {
     apiServer
-      .get('/_api/live/stream/stream_id/analytics')
+      .get('/_api/live/streams/stream_id/analytics')
       .once()
       .replyWithFile(200, repliesDir + 'livestream-analytics-response.json');
 
