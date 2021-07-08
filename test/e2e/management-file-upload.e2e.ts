@@ -39,6 +39,27 @@ describe('E2E > File Management > File Upload', function () {
         done();
       });
     });
+
+    it('data should not be corrupted', async () => {
+      const srcPath = '.' + (testPath as string) + '_src';
+      await new Promise((resolve, reject) => {
+        const stream = fs.createReadStream('/dev/urandom', { end: 53 * 1000 * 1000 - 1}).pipe(fs.createWriteStream(srcPath));
+        stream.on('finish', () => {
+          resolve('success');
+        });
+        stream.on('error', (err) => {
+          reject(err);
+        });
+      });
+
+      await fileManager.uploadFile(testPath, srcPath).then((files) => {
+        expect(files).to.be.an('array');
+        expect(files[0].path).to.equal(testPath);
+        expect(files[0].size).to.equal(53 * 1000 * 1000);
+      });
+
+      fs.unlinkSync(srcPath);
+    });
   });
 
   describe('data as Buffer', () => {
